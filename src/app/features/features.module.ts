@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { FeaturesRoutingModule } from './features-routing.module';
 import { EventsModule } from './events/events.module';
+import { UsersModule } from './users/users.module';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import { EventsModule } from './events/events.module';
   imports: [
     CommonModule,
     FeaturesRoutingModule,
-    EventsModule
+    EventsModule,
+    UsersModule
   ]
 })
 export class FeaturesModule { }
