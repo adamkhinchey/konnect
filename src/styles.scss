@@ -1,1 +1,192 @@
-/* You can add global styles to this file, and also import other style files */
+@import "https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap";
+@import "~ng-wizard/themes/ng_wizard.min.css";
+@import "~ng-wizard/themes/ng_wizard_theme_arrows.min.css";
+
+@import '~igniteui-angular/lib/core/styles/themes/index';
+@include igx-core();
+@include igx-theme($default-palette, $legacy-support: true);
+
+a, a:hover {
+  color: #000;
+}
+
+.minheight100vh {
+  min-height: 100vh;
+}
+.minContainer { margin-top: 30px; }
+
+.stepMargin { margin-top: 0px !important; margin-bottom: 15px !important; }
+
+.ng-wizard-theme-arrows > ul.step-anchor > li.active > a::after {
+  border-left: 8px solid #f5f5fa !important;
+}
+.ng-wizard-theme-arrows > ul.step-anchor > li > a::after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 30px solid #f5f5f5;
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  left: 100%;
+  z-index: 2;
+}
+.nav-tabs .nav-item {
+  margin-bottom: -1px;
+  border-right: 1px solid #ddd !important;
+  flex: content;
+}
+.nav-tabs .nav-item:last-child { border: none !important; }
+.ng-wizard-theme-arrows > ul.step-anchor > li > a::before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 9px solid #ddd;
+  position: absolute;
+  top: 50%;
+  margin-top: -9px;
+  margin-left: 1px;
+  left: 100%;
+  z-index: 1;
+}
+
+.nav-item { position: relative; }
+.nav-item::before { content: "\f007"; font-size: 18px !important;
+  margin-right: 10px !important; display: inline-block;
+  opacity: 1;
+  margin: 0em 0.25rem 0em 0em;
+  width: 1.18em;
+  height: 1em;
+  font-family: 'Icons';
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  text-align: center;
+  speak: none;
+  font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute;
+  z-index: 9;
+  left: 15%;
+  top: 7px;
+}
+
+.ng-wizard-theme-arrows > ul.step-anchor > li.done > a::after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid #fff;
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  left: 100%;
+  z-index: 2;
+}
+.ng-wizard-theme-arrows > ul.step-anchor > li.done > a::before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 9px solid #ddd;
+  position: absolute;
+  top: 50%;
+  margin-top: -9px;
+  margin-left: 1px;
+  left: 100%;
+  z-index: 1;
+}
+
+.ng-wizard-theme-arrows > ul.step-anchor > li.done > a {
+  border-color: #ddd !important;
+  color: #000 !important;
+  background: #fff !important;
+}
+
+.nav-item:last-child:before { content: "\f1ad"; font-size: 18px !important;}
+.nav-item:before {
+  color: #3f4a59;
+  opacity: .5;
+}
+.nav-item.active:before, .nav-item.done:before {
+  color: #3f4a59;
+  opacity: 1;
+}
+.ng-wizard-theme-arrows > ul.step-anchor > li > a {
+  padding: 10px 40px !important;
+}
+.ng-wizard-theme-arrows > ul.step-anchor > li.active > a {
+  border-color: #f5f5fa !important;
+  color: rgba(0, 0, 0, 0.87) !important;
+  background: #f5f5fa !important;
+}
+.ng-wizard-main.ng-wizard-theme-arrows {
+  margin: 0 -14px;
+  border: none;
+}
+.ng-wizard-theme-arrows > ul.step-anchor > li > a, .ng-wizard-theme-arrows > ul.step-anchor > li > a:hover { background: #fff; }
+.ui.grid.stackable .row {
+  margin:0px !important;
+}
+.uploadImage { text-align: center; }
+.ng-wizard-theme-arrows > .ng-wizard-container {
+  margin-top: 14px;
+}
+.itemMenu a, .actionBar header .subMenu li a:hover { color: #fdd200; text-decoration: none; }
+.subMenu.show { display: block !important; }
+
+/** Calendar Dashboard UI **/
+.igx-calendar__label {
+  height: 2.5em;
+  color: rgba(255, 255, 255, 1);
+  border-radius: 0;
+  background: #0091e6;
+}
+.igx-calendar {
+  border: none;
+  margin-top: 0px;
+  box-shadow: none !important;
+}
+igx-days-view.igx-calendar {
+  border: 1px solid rgb(0, 145, 230);
+  margin-top: 0px;
+  border-radius: 0px;
+  margin: 0 2px 0 0 !important;
+}
+.igx-calendar__body-row:first-of-type, .igx-calendar__body-row--wrap:first-of-type { margin: 0px !important; }
+.igx-calendar__body { padding: 0px !important; }
+.igx-calendar-picker {
+  height: 2.5em;
+}
+.igx-calendar__date-content { border-radius: 0px !important; }
+.igx-calendar__date--selected, .igx-calendar__date--selected .igx-calendar__date-content { background: #eaeaf4 !important; }
+/****/
+
+.ui.form .field.disabled > label, .ui.form .fields.disabled > label, .ui.form .disabled.fields .field, .ui.form .disabled.field, .ui.form .field :disabled {
+  opacity: 1 !important;
+}
+.image {
+  width: auto;
+  max-height: none;
+}
+.menu.show { display: block !important; }
+.mainContent > .container {
+  padding: 0;
+}
+
+@media screen and (min-width:991px) {
+  .nav-item::before { left: 22%; }
+}
