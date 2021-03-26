@@ -37,7 +37,7 @@ a, a:hover {
 .nav-tabs .nav-item {
   margin-bottom: -1px;
   border-right: 1px solid #ddd !important;
-  flex: content;
+  flex: auto;
 }
 .nav-tabs .nav-item:last-child { border: none !important; }
 .ng-wizard-theme-arrows > ul.step-anchor > li > a::before {

@@ -17,10 +17,11 @@ import {
     HeaderComponent,
     FooterComponent,
     BodyComponent,
-   ],
+    LoginComponent
+  ],
   imports: [
     CommonModule,
-    CoreRoutingModule
+    CoreRoutingModule,
   ],
   providers: [
     httpInterceptorProviders
