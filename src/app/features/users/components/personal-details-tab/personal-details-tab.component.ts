@@ -2,6 +2,7 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {environment} from '../../../../../environments/environment';
 import {GetRegionAndCountriesService} from '../../../../shared/services/get-region-and-countries.service';
+import {CreateProfilePersonalDetails} from '../../../../shared/models';
 
 // const EMAIL_REGX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -11,12 +12,14 @@ import {GetRegionAndCountriesService} from '../../../../shared/services/get-regi
   styleUrls: ['./personal-details-tab.component.scss']
 })
 export class PersonalDetailsTabComponent implements OnInit {
-  @Output() moveToCompanyDetailsTab = new EventEmitter();
+  @Output() moveToCompanyDetailsTab = new EventEmitter<CreateProfilePersonalDetails>();
 
   // @ts-ignore
   personalDetailsForm: FormGroup;
   timeZones = environment.timeZones;
   countries$ = this.getRegionAndCountriesService.getAllCountriesOnly();
+  //personalDetails: CreateProfilePersonalDetails;
+
 
   constructor(
     private fb: FormBuilder,
@@ -36,9 +39,9 @@ export class PersonalDetailsTabComponent implements OnInit {
         Validators.minLength(6),
         Validators.maxLength(12)]],
       timeZone: [this.timeZones[0].val, [Validators.required]],
-      mobile: [''],
+      mobileNumber: [''],
       city: ['', [Validators.required]],
-      country: ['', [Validators.required]]
+      countryId: ['', [Validators.required]]
     });
   }
 

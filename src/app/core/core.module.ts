@@ -10,6 +10,7 @@ import {
   FooterComponent,
   BodyComponent,
 } from './components';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {
   ],
   imports: [
     CommonModule,
+    HttpClientModule,
     CoreRoutingModule,
   ],
   providers: [

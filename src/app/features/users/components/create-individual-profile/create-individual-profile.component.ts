@@ -1,15 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgWizardConfig, NgWizardService, STEP_STATE, StepChangedArgs, StepValidationArgs, THEME} from 'ng-wizard';
-import {Observable, of} from 'rxjs';
+import {Observable, of, Subscription} from 'rxjs';
+import {CreateProfilePersonalDetails} from '../../../../shared/models';
+import {AuthService} from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-create-individual-profile',
   templateUrl: './create-individual-profile.component.html',
   styleUrls: ['./create-individual-profile.component.scss']
 })
-export class CreateIndividualProfileComponent implements OnInit {
+export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
 
   isValidTypeBoolean = true;
+  isLoggedInSubscription = new Subscription();
 
   stepStates = {
     normal: STEP_STATE.normal,
@@ -18,31 +21,30 @@ export class CreateIndividualProfileComponent implements OnInit {
     hidden: STEP_STATE.hidden
   };
 
+  companyDetailsTabState = this.stepStates.normal;
+  personalDetailsTabState = this.stepStates.normal;
+
   config: NgWizardConfig = {
     selected: 0,
     theme: THEME.arrows,
     toolbarSettings: {
       showNextButton: false,
       showPreviousButton: false,
-      toolbarExtraButtons: [
-        {
-          text: 'Finish', class: 'btn btn-info', event: () => {
-            alert('Finished!!!');
-          }
-        }
-      ],
+    },
+    anchorSettings: {
+      anchorClickable: false,
     }
   };
 
-  constructor(private ngWizardService: NgWizardService) {
+  constructor(private ngWizardService: NgWizardService, private auth: AuthService) {
   }
 
   showPreviousStep(event?: Event): void {
     this.ngWizardService.previous();
   }
 
-  showNextStep(event?: Event): void {
-    this.ngWizardService.next();
+  showNextStep(personalDetails: CreateProfilePersonalDetails): void {
+    this.auth.signup(personalDetails);
   }
 
   resetWizard(event?: Event): void {
@@ -66,6 +68,15 @@ export class CreateIndividualProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe((value?: boolean) => {
+      if (value) {
+        this.ngWizardService.next();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.isLoggedInSubscription.unsubscribe();
   }
 
 }

@@ -5,7 +5,7 @@
     </h2>
     <ng-wizard [config]="config" (stepChanged)="stepChanged($event)">
       <ng-wizard-step [title]="'Personal Details'">
-        <app-personal-details-tab (moveToCompanyDetailsTab)="showNextStep()"></app-personal-details-tab>
+        <app-personal-details-tab (moveToCompanyDetailsTab)="showNextStep($event)"></app-personal-details-tab>
       </ng-wizard-step>
       <ng-wizard-step [title]="'Company Details'">
         <app-company-details-tab></app-company-details-tab>

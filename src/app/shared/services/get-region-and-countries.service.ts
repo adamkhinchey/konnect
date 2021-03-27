@@ -23,7 +23,6 @@ export class GetRegionAndCountriesService {
       catchError(this.httpErrRespHandler.handleError),
       pluck('data', 'countryList'),
       map(countryList => {
-        console.log(countryList);
         if (countryList && Array.isArray(countryList)) {
           countryList = countryList.map((country: { id: any; name: any; regionId: any; }) => ({
             val: country.id,

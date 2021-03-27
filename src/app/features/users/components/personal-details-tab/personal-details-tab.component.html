@@ -82,7 +82,7 @@
         <label>Time Zone</label>
         <select class="ui fluid dropdown"
                 formControlName="timeZone">
-          <option *ngFor="let timeZone of timeZones" [ngValue]="timeZone.val" [disabled]="!timeZone.val">
+          <option *ngFor="let timeZone of timeZones" [ngValue]="timeZone" [disabled]="!timeZone.val">
             {{ timeZone.name }}
           </option>
         </select>
@@ -98,7 +98,7 @@
     <div class="sixteen wide column left aligned">
       <div class="field">
         <label>Mobile</label>
-        <input type="text" placeholder="Mobile">
+        <input type="text" placeholder="Mobile" formControlName="mobileNumber">
       </div>
     </div>
     <div class="eight wide column left aligned">
@@ -119,15 +119,15 @@
         <label for="select-profile-country">Country</label>
         <select id="select-profile-country"
                 class="ui fluid dropdown selection"
-                formControlName="country" required>
+                formControlName="countryId" required>
           <option *ngFor="let cntr of countries$ | async" [ngValue]="cntr.val" [disabled]="!cntr.val">
             {{ cntr.name }}
           </option>
         </select>
         <span
-          *ngIf="personalDetailsForm!.get('country')?.touched
+          *ngIf="personalDetailsForm!.get('countryId')?.touched
           && (
-          personalDetailsForm!.get('country')?.hasError('required')
+          personalDetailsForm!.get('countryId')?.hasError('required')
           )"
           class="text-danger"
         >Country is required</span>
@@ -139,7 +139,7 @@
     </div>
     <div class="sixteen wide column right aligned saveButtons paddingT0">
       <div class="ui button"
-           (click)="checkValidation() && moveToCompanyDetailsTab.emit()">
+           (click)="checkValidation() && moveToCompanyDetailsTab.emit(personalDetailsForm.value)">
         Next
       </div>
     </div>
