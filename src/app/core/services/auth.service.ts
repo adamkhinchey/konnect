@@ -103,4 +103,14 @@ export class AuthService {
   private getToken(): string | null {
     return localStorage.getItem(this.jwtKey);
   }
+
+  requestPasswordResetLink(email: string): Observable<ApiResponseModelInterface> {
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseURL}/sendResetPasswordLink`,
+      {email}
+    ).pipe(
+      take(1),
+      catchError(this.httpErrRespHandler.handleError)
+    );
+  }
 }

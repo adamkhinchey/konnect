@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {SharedModule} from '../shared.module';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 
 @Injectable({
   providedIn: SharedModule
@@ -20,7 +20,7 @@ export class HttpErrRespHandlerService {
       // Server-side errors
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    return throwError(errorMessage);
+    return throwError(of([]));
   }
 
 }

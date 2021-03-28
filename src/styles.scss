@@ -6,6 +6,11 @@
 @include igx-core();
 @include igx-theme($default-palette, $legacy-support: true);
 
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+@import '~ngx-toastr/toastr';
+@import '~ngx-toastr/toastr-bs4-alert';
+
 a, a:hover {
   color: #000;
 }
@@ -57,7 +62,7 @@ a, a:hover {
 }
 
 .nav-item { position: relative; }
-.nav-item::before { content: "\f007"; font-size: 18px !important;
+ng-wizard .nav-item::before { content: "\f007"; font-size: 18px !important;
   margin-right: 10px !important; display: inline-block;
   opacity: 1;
   margin: 0em 0.25rem 0em 0em;
@@ -116,7 +121,7 @@ a, a:hover {
   background: #fff !important;
 }
 
-.nav-item:last-child:before { content: "\f1ad"; font-size: 18px !important;}
+ng-wizard .nav-item:last-child:before { content: "\f1ad"; font-size: 18px !important;}
 .nav-item:before {
   color: #3f4a59;
   opacity: .5;
@@ -186,6 +191,30 @@ igx-days-view.igx-calendar {
 .mainContent > .container {
   padding: 0;
 }
+
+/** tab Nav  **/
+ul.secondary.menu {
+  width: 100%;
+  padding: 0;
+}
+.secondary.menu li {
+  display: inline-block;
+  border-left: none !important;
+  border-right: none !important;
+  flex: none;
+  margin-bottom: 0px;
+}
+.infoBar .ui.container { padding: 0px !important; }
+.ui.divider {
+  margin: 1rem 0rem;
+}
+.actions.modal-footer {
+  background: #F9FAFB;
+  padding: 1rem 1rem;
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  text-align: right;
+}
+/****/
 
 @media screen and (min-width:991px) {
   .nav-item::before { left: 22%; }
