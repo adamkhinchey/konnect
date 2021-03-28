@@ -3,7 +3,7 @@ import {CoreModule} from '../core.module';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {HttpErrRespHandlerService} from '../../shared/services/http-err-resp-handler.service';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {Observable, Subject, Subscription, throwError} from 'rxjs';
 import {ApiResponseModelInterface, CreateProfilePersonalDetails} from '../../shared/models';
 import {catchError, map, pluck, take} from 'rxjs/operators';
 import {devLogger} from '../../shared/utils';
@@ -41,7 +41,7 @@ interface LoginResponse extends ApiResponseModelInterface {
 }
 
 @Injectable({
-  providedIn: CoreModule
+  providedIn: 'root'
 })
 export class AuthService {
   private apiBaseURL = environment.apiBaseURL;
@@ -55,6 +55,7 @@ export class AuthService {
       this.saveToken(user.authrizationToken);
     },
     error: (err: Error) => {
+      this.isLoggedIn.next(false);
       devLogger('error', err);
     },
     complete: () => {
@@ -65,7 +66,6 @@ export class AuthService {
   }
 
   signup(personalDetails: CreateProfilePersonalDetails): Observable<any> | void {
-    /*return*/
     this.signupSubscription = this.http.post<SignupResponse>(`${this.apiBaseURL}/signup`,
       {...personalDetails})
       .pipe(
@@ -85,7 +85,13 @@ export class AuthService {
       take(1),
       catchError(this.httpErrRespHandler.handleError),
       pluck('data', 'user'),
-      map(user => user as LoginUserProfile)
+      map(user => {
+        if (!user) {
+          throw new Error('Nondeterministic response');
+        } else {
+          return user as LoginUserProfile;
+        }
+      }),
     ).subscribe(this.signupAndLoginObserver);
   }
 

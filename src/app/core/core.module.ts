@@ -10,7 +10,8 @@ import {
   FooterComponent,
   BodyComponent,
 } from './components';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from '@angular/common/http';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {HttpClientModule} from "@angular/common/http";
     CommonModule,
     HttpClientModule,
     CoreRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [
     httpInterceptorProviders
