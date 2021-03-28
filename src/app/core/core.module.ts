@@ -12,6 +12,7 @@ import {
 } from './components';
 import {HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     BodyComponent,
-    LoginComponent
+    LoginComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,

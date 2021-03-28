@@ -113,4 +113,14 @@ export class AuthService {
       catchError(this.httpErrRespHandler.handleError)
     );
   }
+
+  resetPassword(param: { resetPasswordToken: string | null; password: string }): Observable<any> {
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseURL}/resetPassword`,
+      {...param}
+    ).pipe(
+      take(1),
+      catchError(this.httpErrRespHandler.handleError)
+    );
+  }
 }

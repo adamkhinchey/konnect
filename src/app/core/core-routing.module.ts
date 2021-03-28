@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import {ForgotPasswordComponent, LoginComponent} from './components';
+import {ForgotPasswordComponent, LoginComponent, ResetPasswordComponent} from './components';
 import ShouldLogin from './guards/shouldLogin';
 import IsAuthenticated from './guards/isAuthenticated';
 import UserToken from './guards/user-token.class';
@@ -11,7 +11,8 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent, pathMatch: 'full'},
   {
     path: 'forgot-password', children: [
-      {path: '', component: ForgotPasswordComponent}
+      {path: '', component: ForgotPasswordComponent},
+      {path: 'reset/:token', component: ResetPasswordComponent, pathMatch: 'full'}
     ]
   }
 ];
