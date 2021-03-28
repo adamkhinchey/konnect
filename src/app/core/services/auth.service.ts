@@ -70,7 +70,7 @@ export class AuthService {
       {...personalDetails})
       .pipe(
         take(1),
-        catchError(this.httpErrRespHandler.handleError),
+        catchError((err, caught) => this.httpErrRespHandler.handleError(err, caught)),
         pluck('data', 'user'),
         map(user => user as SignupUserProfile)
       )
@@ -83,7 +83,7 @@ export class AuthService {
       {email: payload.email, password: payload.password}
     ).pipe(
       take(1),
-      catchError(this.httpErrRespHandler.handleError),
+      catchError((err, caught) => this.httpErrRespHandler.handleError(err, caught)),
       pluck('data', 'user'),
       map(user => {
         if (!user) {
@@ -110,7 +110,7 @@ export class AuthService {
       {email}
     ).pipe(
       take(1),
-      catchError(this.httpErrRespHandler.handleError)
+      catchError((err, caught) => this.httpErrRespHandler.handleError(err, caught))
     );
   }
 
@@ -120,7 +120,7 @@ export class AuthService {
       {...param}
     ).pipe(
       take(1),
-      catchError(this.httpErrRespHandler.handleError)
+      catchError((err, caught) => this.httpErrRespHandler.handleError(err, caught))
     );
   }
 }

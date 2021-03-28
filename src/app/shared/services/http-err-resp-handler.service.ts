@@ -10,23 +10,13 @@ import {devLogger} from '../utils';
 })
 export class HttpErrRespHandlerService {
 
-  constructor(private toaster: ToastrService) {
+  constructor(public toaster: ToastrService) {
   }
 
-  handleError(error: HttpErrorResponse): Observable<never> {
+  handleError(error: HttpErrorResponse, caught: Observable<any>): Observable<never> {
     let errorMessage = 'Unknown error!';
-    devLogger('error', error);
-    if (error.error instanceof ErrorEvent) {
-      // Client-side errors
-      errorMessage = `Error: ${error.error.message}`;
-      this.toaster.error(errorMessage);
-    } else {
-      // Server-side errors
-      console.error(error.status);
-      errorMessage = `Error: ${error.message}`;
-      this.toaster.error(errorMessage);
-    }
-
+    errorMessage = `Error: ${error.error.message}`;
+    this.toaster.error(errorMessage);
     return throwError(of([]));
   }
 
