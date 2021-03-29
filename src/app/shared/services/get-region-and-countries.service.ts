@@ -20,7 +20,7 @@ export class GetRegionAndCountriesService {
     return this.http.get<any>(`${this.apiBaseURL}/getRegionAndCountryList`, {
       params: new HttpParams().set('regionId', '0')
     }).pipe(
-      catchError(this.httpErrRespHandler.handleError),
+      this.httpErrRespHandler.processError(false),
       pluck('data', 'countryList'),
       map(countryList => {
         if (countryList && Array.isArray(countryList)) {

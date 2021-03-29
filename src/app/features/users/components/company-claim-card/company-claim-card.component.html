@@ -1,0 +1,26 @@
+<div class="ui fluid card">
+  <div class="content left aligned">
+    <img class="right floated mini ui image" src="assets/img/elliot.jpg">
+    <div class="header">
+      {{company?.companyName | titlecase}}
+    </div>
+    <div class="meta">
+      <a target="_blank">
+        <i class="map marker alternate icon"></i>{{company?.city | titlecase}}
+      </a>
+      <span>|</span>
+      <i class="phone icon"></i>{{company?.phone}}
+    </div>
+    <div class="description">
+      {{company?.description}}
+    </div>
+  </div>
+  <div class="extra content">
+    <div class="ui grid">
+      <div class="sixteen wide column text-center">
+        <div *ngIf="company?.canClaim===1" class="ui button" (click)="claimCompany()" >Claim</div>
+        <div *ngIf="company?.canClaim===0" class="ui button" (click)="joinCompany()">Request To Join</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,32 +1,17 @@
 import {Injectable} from '@angular/core';
-import {CoreModule} from '../core.module';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {HttpErrRespHandlerService} from '../../shared/services/http-err-resp-handler.service';
 import {Observable, Subject, Subscription, throwError} from 'rxjs';
-import {ApiResponseModelInterface, CreateProfilePersonalDetails} from '../../shared/models';
+import {
+  ApiResponseModelInterface,
+  CreateProfilePersonalDetails,
+  LoginUserProfile,
+  SignupUserProfile
+} from '../../shared/models';
 import {catchError, map, pluck, take} from 'rxjs/operators';
 import {devLogger} from '../../shared/utils';
 
-interface SignupUserProfile extends CreateProfilePersonalDetails {
-  _user_date_time: string;
-  _tz: string;
-  id: number;
-  roleId: number;
-  authrizationToken: string;
-}
-
-interface LoginUserProfile extends CreateProfilePersonalDetails {
-  timeZone: string;
-  id: number;
-  roleId: number;
-  createdDate?: string | null;
-  headline?: string | null;
-  aboutMe?: string | null;
-  defaultCompanyId?: number | null;
-  msg?: string | null;
-  authrizationToken: string;
-}
 
 interface SignupResponse extends ApiResponseModelInterface {
   data: {
@@ -48,14 +33,14 @@ export class AuthService {
   private jwtKey = environment.jwtKey;
   private signupSubscription = new Subscription();
   private loginSubscription = new Subscription();
-  public isLoggedIn = new Subject<boolean>();
+  public isLoggedIn = new Subject<Partial<{ status: boolean, user: LoginUserProfile| SignupUserProfile }>>();
 
   signupAndLoginObserver = {
     next: (user: SignupUserProfile | LoginUserProfile) => {
-      this.saveToken(user.authrizationToken);
+      this.saveToken(user);
     },
     error: (err: Error) => {
-      this.isLoggedIn.next(false);
+      this.isLoggedIn.next({status: false});
       devLogger('error', err);
     },
     complete: () => {
@@ -70,7 +55,7 @@ export class AuthService {
       {...personalDetails})
       .pipe(
         take(1),
-        catchError((err, caught) => this.httpErrRespHandler.handleError(err, caught)),
+        this.httpErrRespHandler.processError(true),
         pluck('data', 'user'),
         map(user => user as SignupUserProfile)
       )
@@ -83,7 +68,7 @@ export class AuthService {
       {email: payload.email, password: payload.password}
     ).pipe(
       take(1),
-      catchError((err, caught) => this.httpErrRespHandler.handleError(err, caught)),
+      this.httpErrRespHandler.processError(true),
       pluck('data', 'user'),
       map(user => {
         if (!user) {
@@ -95,9 +80,9 @@ export class AuthService {
     ).subscribe(this.signupAndLoginObserver);
   }
 
-  private saveToken(token: string): void {
-    localStorage.setItem(this.jwtKey, token);
-    this.isLoggedIn.next(true);
+  private saveToken(user: SignupUserProfile | LoginUserProfile): void {
+    localStorage.setItem(this.jwtKey, user.authrizationToken);
+    this.isLoggedIn.next({status: true, user});
   }
 
   private getToken(): string | null {
@@ -110,7 +95,7 @@ export class AuthService {
       {email}
     ).pipe(
       take(1),
-      catchError((err, caught) => this.httpErrRespHandler.handleError(err, caught))
+      this.httpErrRespHandler.processError(false)
     );
   }
 
@@ -120,7 +105,7 @@ export class AuthService {
       {...param}
     ).pipe(
       take(1),
-      catchError((err, caught) => this.httpErrRespHandler.handleError(err, caught))
+      this.httpErrRespHandler.processError(true)
     );
   }
 }

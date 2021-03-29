@@ -8,7 +8,7 @@
         <app-personal-details-tab (moveToCompanyDetailsTab)="showNextStep($event)"></app-personal-details-tab>
       </ng-wizard-step>
       <ng-wizard-step [title]="'Company Details'">
-        <app-company-details-tab></app-company-details-tab>
+        <app-company-details-tab [personalDetails]="personalDetails" [user]="user" ></app-company-details-tab>
       </ng-wizard-step>
     </ng-wizard>
   </div>

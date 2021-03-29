@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgWizardConfig, NgWizardService, STEP_STATE, StepChangedArgs, StepValidationArgs, THEME} from 'ng-wizard';
 import {Observable, of, Subscription} from 'rxjs';
-import {CreateProfilePersonalDetails} from '../../../../shared/models';
+import {CreateProfilePersonalDetails, LoginUserProfile, SignupUserProfile} from '../../../../shared/models';
 import {AuthService} from '../../../../core/services/auth.service';
 
 @Component({
@@ -13,6 +13,8 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
 
   isValidTypeBoolean = true;
   isLoggedInSubscription = new Subscription();
+  personalDetails: CreateProfilePersonalDetails | undefined;
+  user: LoginUserProfile | SignupUserProfile | undefined;
 
   stepStates = {
     normal: STEP_STATE.normal,
@@ -45,6 +47,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
 
   showNextStep(personalDetails: CreateProfilePersonalDetails): void {
     this.auth.signup(personalDetails);
+    this.personalDetails = personalDetails;
   }
 
   resetWizard(event?: Event): void {
@@ -68,8 +71,9 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe((value?: boolean) => {
-      if (value) {
+    this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
+      if (value.status) {
+        this.user = value.user;
         this.ngWizardService.next();
       }
     });

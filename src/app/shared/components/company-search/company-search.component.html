@@ -1,0 +1,17 @@
+<div class="ui grid">
+  <div class="sixteen wide column limitWidthSearch paddingT0">
+    <div class="field">
+      <div class="ui search searchCompany">
+        <div class="ui fluid icon input">
+          <input class="prompt"
+                 type="text"
+                 placeholder="Search"
+                 autocomplete="off"
+                 [(ngModel)]="search" (ngModelChange)="onChange($event)">
+          <i class="search icon"></i>
+        </div>
+        <div class="results transition hidden"><div class="message empty"><div class="header">No Results</div><div class="description">Your search returned no results</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
