@@ -15,6 +15,10 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   isLoggedInSubscription = new Subscription();
   personalDetails: CreateProfilePersonalDetails | undefined;
   user: LoginUserProfile | SignupUserProfile | undefined;
+  createCompanyMode: { status: boolean, type: { soleTrader: boolean, inc: boolean } } = {
+    status: false,
+    type: {soleTrader: false, inc: false}
+  };
 
   stepStates = {
     normal: STEP_STATE.normal,
@@ -30,11 +34,13 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
     selected: 0,
     theme: THEME.arrows,
     toolbarSettings: {
-      showNextButton: false,
+      // TODO make false
+      showNextButton: true,
       showPreviousButton: false,
     },
     anchorSettings: {
-      anchorClickable: false,
+      // TODO make false
+      anchorClickable: true,
     }
   };
 

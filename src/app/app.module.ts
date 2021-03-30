@@ -7,6 +7,7 @@ import {CoreModule} from './core/core.module';
 import {FeaturesModule} from './features/features.module';
 import {SharedModule} from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     BrowserModule,
     NgbModule,
+    NgMultiSelectDropDownModule.forRoot(),
     AppRoutingModule,
     SharedModule,
     CoreModule,

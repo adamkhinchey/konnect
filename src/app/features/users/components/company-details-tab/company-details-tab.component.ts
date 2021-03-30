@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, EventEmitter, Output} from '@angular/core';
 import {CreateProfilePersonalDetails, LoginUserProfile, SignupUserProfile} from '../../../../shared/models';
 import {CompaniesService} from '../../services/companies.service';
 import {Subscription} from 'rxjs';
@@ -15,6 +15,7 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy 
 
   @Input() personalDetails: CreateProfilePersonalDetails | undefined;
   @Input() user: LoginUserProfile | SignupUserProfile | undefined;
+  @Output() createCompanyMode = new EventEmitter<{ status: boolean, type: { soleTrader: boolean, inc: boolean } }>()
 
   cmpSearchSubscription: Subscription | undefined;
   assignCmpToUserSubscription: Subscription | undefined;
@@ -102,5 +103,10 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy 
     if (this.assignCmpToUserSubscription) {
       this.assignCmpToUserSubscription.unsubscribe();
     }
+  }
+
+  setCreateCompany(event: MouseEvent, param2: { soleTrader: boolean; inc: boolean }): void {
+    event.preventDefault();
+    this.createCompanyMode.emit({status: true, type: {...param2}});
   }
 }

@@ -1,14 +1,11 @@
 import {Injectable} from '@angular/core';
-import {SharedModule} from '../shared.module';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Observable, of, OperatorFunction, throwError} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import {devLogger} from '../utils';
 import {catchError} from 'rxjs/operators';
 
-@Injectable({
-  providedIn: SharedModule
-})
+@Injectable()
 export class HttpErrRespHandlerService {
 
   constructor(public toaster: ToastrService) {

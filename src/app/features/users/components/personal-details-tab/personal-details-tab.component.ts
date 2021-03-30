@@ -1,7 +1,7 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {environment} from '../../../../../environments/environment';
-import {GetRegionAndCountriesService} from '../../../../shared/services/get-region-and-countries.service';
+import {GetRegionAndCountriesService} from '../../../../shared/services';
 import {CreateProfilePersonalDetails} from '../../../../shared/models';
 
 // const EMAIL_REGX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;

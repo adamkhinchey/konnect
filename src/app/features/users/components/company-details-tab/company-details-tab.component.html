@@ -57,8 +57,8 @@
       <div class="sixteen wide column text-center">
         <h3>Create a new company</h3>
         <div class="twoButtonsSet">
-          <a routerLink="/proprietor-details" class="ui button basic small blue">Sole Trader/Proprietor</a>
-          <a routerLink="/company-details" class="ui button basic small blue">Incorporated Company</a>
+          <a (click)="setCreateCompany($event,{soleTrader:true, inc:false})" class="ui button basic small blue">Sole Trader/Proprietor</a>
+          <a (click)="setCreateCompany($event, {soleTrader:false, inc:true})" class="ui button basic small blue">Incorporated Company</a>
         </div>
       </div>
       <div class="sixteen wide column paddingT0 paddingB0">

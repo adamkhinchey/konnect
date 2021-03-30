@@ -25,6 +25,7 @@
     "bootstrap": "^4.5.0",
     "igniteui-angular": "^11.1.4",
     "lodash": "^4.17.21",
+    "ng-multiselect-dropdown": "^0.3.4",
     "ng-wizard": "^1.3.0",
     "ngx-toastr": "^13.2.1",
     "rxjs": "~6.6.0",

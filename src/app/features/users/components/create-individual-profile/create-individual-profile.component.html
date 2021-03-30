@@ -8,7 +8,16 @@
         <app-personal-details-tab (moveToCompanyDetailsTab)="showNextStep($event)"></app-personal-details-tab>
       </ng-wizard-step>
       <ng-wizard-step [title]="'Company Details'">
-        <app-company-details-tab [personalDetails]="personalDetails" [user]="user" ></app-company-details-tab>
+        <app-company-details-tab
+          *ngIf="createCompanyMode.status===false"
+          [personalDetails]="personalDetails"
+          [user]="user"
+          (createCompanyMode)="createCompanyMode=$event"
+        ></app-company-details-tab>
+        <app-create-company
+          *ngIf="createCompanyMode.status===true"
+          [createCompanyMode]="createCompanyMode">
+        </app-create-company>
       </ng-wizard-step>
     </ng-wizard>
   </div>

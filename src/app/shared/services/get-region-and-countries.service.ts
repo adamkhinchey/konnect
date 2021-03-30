@@ -6,9 +6,7 @@ import {HttpErrRespHandlerService} from './http-err-resp-handler.service';
 import {catchError, map, pluck} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
-@Injectable({
-  providedIn: SharedModule
-})
+@Injectable()
 export class GetRegionAndCountriesService {
 
   private apiBaseURL = environment.apiBaseURL;
