@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {HttpErrRespHandlerService} from '../../shared/services/http-err-resp-handler.service';
+import {HttpErrRespHandlerService} from '../../shared/services';
 import {Observable, Subject, Subscription, throwError} from 'rxjs';
 import {
   ApiResponseModelInterface,
@@ -35,6 +35,7 @@ export class AuthService {
   private signupSubscription = new Subscription();
   private loginSubscription = new Subscription();
   public isLoggedIn = new Subject<Partial<{ status: boolean, user: LoginUserProfile | SignupUserProfile }>>();
+  public userInfo: any = null;
 
   signupAndLoginObserver = {
     next: (user: SignupUserProfile | LoginUserProfile) => {
@@ -111,6 +112,15 @@ export class AuthService {
       take(1),
       this.httpErrRespHandler.processError(true)
     );
+  }
+
+  getUserInfo(): any {
+    return this.userInfo;
+  }
+
+  setUserInfo(userInfo: any): void {
+    this.userInfo = userInfo;
+    this.isLoggedIn.next({status: true});
   }
 
   async redirectToLogin(): Promise<void> {

@@ -12,6 +12,7 @@ import {Observable, throwError} from 'rxjs';
 import {AuthService} from '../services/auth.service';
 import {catchError, map, tap} from "rxjs/operators";
 import {Router} from "@angular/router";
+import {devLogger} from "../../shared/utils";
 
 /** Pass untouched request through to the next request handler. */
 @Injectable()
@@ -24,7 +25,8 @@ export class BasicAuthInterceptor implements HttpInterceptor {
     const clonedRequest = req.clone({
       setHeaders: {Authorization: this.authService.getToken()}
     });
-    return next.handle(req)
+    
+    return next.handle(clonedRequest)
       .pipe(
         map((event: HttpEvent<any>) => {
           return event;
