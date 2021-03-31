@@ -8,7 +8,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {CompanySearchComponent} from './components/company-search/company-search.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CreateCompanyComponent} from './components/create-company/create-company.component';
-import {GetRegionAndCountriesService, HttpErrRespHandlerService} from "./services";
+import {CompanyCategoriesService, GetRegionAndCountriesService, HttpErrRespHandlerService} from "./services";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 
 
@@ -30,7 +30,8 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
   ],
   providers: [
     GetRegionAndCountriesService,
-    HttpErrRespHandlerService
+    HttpErrRespHandlerService,
+    CompanyCategoriesService
   ]
 })
 export class SharedModule {

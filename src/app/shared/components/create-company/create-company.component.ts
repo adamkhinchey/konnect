@@ -1,22 +1,32 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {GetRegionAndCountriesService} from '../../services';
+import {Component, Input, OnChanges, OnDestroy, OnInit, EventEmitter} from '@angular/core';
+import {CompanyCategoriesService, GetRegionAndCountriesService} from '../../services';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IDropdownSettings} from 'ng-multiselect-dropdown';
 import {environment} from '../../../../environments/environment';
-import {CompanyType} from '../../models';
-import {devLogger} from '../../utils';
+import {CompanyType, CreateCompanyInterface, LoginUserProfile, SignupUserProfile} from '../../models';
+import {checkRxFormValidation, devLogger} from '../../utils';
+import {CompaniesService} from '../../../features/users/services/companies.service';
+import {Subscription} from 'rxjs';
+import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+
+const WEBSITE_REGEX = /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/;
 
 @Component({
   selector: 'app-create-company',
   templateUrl: './create-company.component.html',
   styleUrls: ['./create-company.component.scss']
 })
-export class CreateCompanyComponent implements OnInit, OnChanges {
+export class CreateCompanyComponent implements OnInit, OnDestroy {
 
+  @Input() user: LoginUserProfile | SignupUserProfile | undefined;
   @Input() createCompanyMode: { status: boolean, type: { soleTrader: boolean, inc: boolean } } = {
     status: false,
     type: {soleTrader: false, inc: false}
   };
+  @Input() navigateToPostCreate = 'dashboard';
+  createCompanySubscription: Subscription | undefined;
+  categoryListSubscription: Subscription | undefined;
   countries$ = this.getRegionAndCountriesService.getAllCountriesOnly();
   // @ts-ignore
   createCompanyForm: FormGroup;
@@ -25,7 +35,7 @@ export class CreateCompanyComponent implements OnInit, OnChanges {
   dropdownSettings: IDropdownSettings = {
     singleSelection: false,
     idField: 'id',
-    textField: 'val',
+    textField: 'name',
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 3,
@@ -35,7 +45,11 @@ export class CreateCompanyComponent implements OnInit, OnChanges {
 
   constructor(
     private getRegionAndCountriesService: GetRegionAndCountriesService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private companiesService: CompaniesService,
+    private router: Router,
+    private toaster: ToastrService,
+    private companyCategoriesService: CompanyCategoriesService
   ) {
   }
 
@@ -46,29 +60,42 @@ export class CreateCompanyComponent implements OnInit, OnChanges {
       countryId: [null, [Validators.required]],
       city: [null, [Validators.required]],
       categoryIds: [null, [Validators.required]],
-      website: [null],
-      description: [''],
-      companyType: []
+      website: [null, [Validators.pattern(WEBSITE_REGEX)]],
+      description: [null],
+      companyType: [null, [Validators.required]]
     });
-    this.categoryList = environment.companyCategories;
+    this.setInitialFormControlStates();
+    this.fetchCategories();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.createCompanyMode?.currentValue?.inc === true) {
+  private setInitialFormControlStates(): void {
+    if (this.createCompanyMode?.type?.inc === true) {
       this.setWebSiteValidity();
       this.setCompanyType(CompanyType.INC);
-    } else if (changes.createCompanyMode?.currentValue?.soleTrader === true) {
+    } else if (this.createCompanyMode?.type?.soleTrader === true) {
       this.setCompanyType(CompanyType.PROPRIETOR);
     }
   }
+
 
   private setCompanyType(companyType: CompanyType): void {
     this.createCompanyForm.get('companyType')?.setValue(companyType);
   }
 
   private setWebSiteValidity(): void {
-    this.createCompanyForm.get('website')?.setValidators([Validators.required]);
+    this.createCompanyForm.get('website')?.setValidators([Validators.required, Validators.pattern(WEBSITE_REGEX)]);
     this.createCompanyForm.get('website')?.updateValueAndValidity();
+  }
+
+  private fetchCategories(): void {
+    this.categoryListSubscription = this.companyCategoriesService.get().subscribe((value) => {
+      if (value) {
+        this.categoryList = value;
+        devLogger('log', {categoryList: value});
+      }
+    }, err => {
+      devLogger('error', err);
+    });
   }
 
   onCategoryChange(event: { id: number, val: string }[]): void {
@@ -83,5 +110,35 @@ export class CreateCompanyComponent implements OnInit, OnChanges {
 
   markCategoryTouched(): void {
     this.createCompanyForm.get('categoryIds')?.markAsTouched({onlySelf: true});
+  }
+
+  checkValidation(): boolean {
+    return checkRxFormValidation(this.createCompanyForm);
+  }
+
+  createCompany(): void {
+    devLogger('log', this.createCompanyForm.value);
+    if (this.createCompanySubscription) {
+      this.createCompanySubscription.unsubscribe();
+    }
+    this.createCompanySubscription = this.companiesService
+      .createCompany({userId: this.user?.id, ...this.createCompanyForm.value})
+      .subscribe(async (value) => {
+        if (value) {
+          this.toaster.success('Company created successfully');
+          await this.router.navigate([this.navigateToPostCreate]);
+        }
+      }, err => {
+        devLogger('error', err);
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.createCompanySubscription) {
+      this.createCompanySubscription.unsubscribe();
+    }
+    if (this.categoryListSubscription) {
+      this.categoryListSubscription.unsubscribe();
+    }
   }
 }

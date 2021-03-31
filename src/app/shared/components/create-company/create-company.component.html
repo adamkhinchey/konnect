@@ -153,19 +153,27 @@
               </div>
             </div>
           </div>
-          <!--TODO Add Validation for website conditionally-->
           <div class="sixteen wide column left aligned">
             <div class="column">
               <div class="field" [ngClass]="{'required':createCompanyMode.type.inc}">
                 <label>Website</label>
-                <input type="text" placeholder="Website">
+                <input type="text" placeholder="Website" formControlName="website">
+                <span
+                  *ngIf="(
+                  createCompanyForm!.get('website')?.dirty || createCompanyMode.type.inc && createCompanyForm!.get('website')?.touched) &&
+                (
+                (createCompanyMode.type.inc && createCompanyForm!.get('website')?.hasError('required')) ||
+                (createCompanyForm!.get('website')?.hasError('pattern'))
+                )"
+                  class="text-danger"
+                >{{createCompanyMode.type.inc ? "A valid website for incorporated company is required" : "Please enter a valid website url"}}</span>
               </div>
             </div>
           </div>
           <div class="sixteen wide column left aligned">
             <div class="field">
               <label>Description</label>
-              <textarea placeholder="Description" rows="5"></textarea>
+              <textarea placeholder="Description" rows="5" formControlName="description"></textarea>
               <p class="textRight marginT10 smallText">*compulsory fields</p>
             </div>
           </div>
@@ -174,7 +182,7 @@
           </div>
           <div class="sixteen wide column right aligned saveButtons paddingT0">
             <div class="ui button">
-              <div class="visible content">Save</div>
+              <div class="visible content" (click)="checkValidation() && createCompany()">Save</div>
             </div>
           </div>
         </div>

@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {SharedModule} from '../shared.module';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {HttpErrRespHandlerService} from './http-err-resp-handler.service';
-import {catchError, map, pluck} from 'rxjs/operators';
+import {map, pluck} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
 @Injectable()

@@ -16,7 +16,9 @@
         ></app-company-details-tab>
         <app-create-company
           *ngIf="createCompanyMode.status===true"
-          [createCompanyMode]="createCompanyMode">
+          [user]="user"
+          [createCompanyMode]="createCompanyMode"
+        >
         </app-create-company>
       </ng-wizard-step>
     </ng-wizard>

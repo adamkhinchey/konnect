@@ -3,9 +3,9 @@ import {UsersModule} from '../users.module';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
-import {catchError, map} from "rxjs/operators";
+import {catchError, map, take} from "rxjs/operators";
 import {HttpErrRespHandlerService} from "../../../shared/services/http-err-resp-handler.service";
-import {ApiResponseModelInterface} from '../../../shared/models';
+import {ApiResponseModelInterface, CreateCompanyInterface} from '../../../shared/models';
 import {AssociateToCompany, Company} from '../models';
 import {camelCase, mapKeys} from 'lodash';
 
@@ -46,6 +46,16 @@ export class CompaniesService {
       `${this.apiBaseUrl}/assignCompanyToUser`,
       {...param}
     ).pipe(
+      this.httpErrorHandler.processError()
+    );
+  }
+
+  createCompany(param: CreateCompanyInterface): Observable<any> {
+    return this.http.post(
+      `${this.apiBaseUrl}/createCompany`,
+      {...param}
+    ).pipe(
+      take(1),
       this.httpErrorHandler.processError()
     );
   }

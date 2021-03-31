@@ -34,13 +34,11 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
     selected: 0,
     theme: THEME.arrows,
     toolbarSettings: {
-      // TODO make false
-      showNextButton: true,
+      showNextButton: false,
       showPreviousButton: false,
     },
     anchorSettings: {
-      // TODO make false
-      anchorClickable: true,
+      anchorClickable: false,
     }
   };
 
