@@ -11,6 +11,7 @@ import {
 } from '../../shared/models';
 import {catchError, map, pluck, take} from 'rxjs/operators';
 import {devLogger} from '../../shared/utils';
+import {Router} from "@angular/router";
 
 
 interface SignupResponse extends ApiResponseModelInterface {
@@ -33,7 +34,7 @@ export class AuthService {
   private jwtKey = environment.jwtKey;
   private signupSubscription = new Subscription();
   private loginSubscription = new Subscription();
-  public isLoggedIn = new Subject<Partial<{ status: boolean, user: LoginUserProfile| SignupUserProfile }>>();
+  public isLoggedIn = new Subject<Partial<{ status: boolean, user: LoginUserProfile | SignupUserProfile }>>();
 
   signupAndLoginObserver = {
     next: (user: SignupUserProfile | LoginUserProfile) => {
@@ -47,7 +48,10 @@ export class AuthService {
     }
   };
 
-  constructor(private http: HttpClient, private httpErrRespHandler: HttpErrRespHandlerService) {
+  constructor(
+    private http: HttpClient,
+    private httpErrRespHandler: HttpErrRespHandlerService,
+    private router: Router) {
   }
 
   signup(personalDetails: CreateProfilePersonalDetails): Observable<any> | void {
@@ -85,8 +89,8 @@ export class AuthService {
     this.isLoggedIn.next({status: true, user});
   }
 
-  private getToken(): string | null {
-    return localStorage.getItem(this.jwtKey);
+  public getToken(): string {
+    return localStorage.getItem(this.jwtKey) || '';
   }
 
   requestPasswordResetLink(email: string): Observable<ApiResponseModelInterface> {
@@ -107,5 +111,10 @@ export class AuthService {
       take(1),
       this.httpErrRespHandler.processError(true)
     );
+  }
+
+  async redirectToLogin(): Promise<void> {
+    localStorage.clear();
+    await this.router.navigate(['login']);
   }
 }
