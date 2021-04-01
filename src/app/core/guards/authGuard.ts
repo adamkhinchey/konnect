@@ -22,7 +22,7 @@ export default class AuthGuard implements CanActivate {
       const user = await this.userInfoService.getInfo().toPromise();
       if (user) {
         this.authService.setUserInfo(user);
-        alert(JSON.stringify(user));
+        devLogger('log', {me: user});
         return true;
       } else {
         await this.router.navigate(['login']);

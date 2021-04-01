@@ -8,8 +8,6 @@ const routes: Routes = [
     path: 'create-konnect-profile',
     component: CreateIndividualProfileComponent,
     pathMatch: 'full',
-    // TODO disable AUTH_GUARD
-    canActivate: [AuthGuard]
   }
 ];
 

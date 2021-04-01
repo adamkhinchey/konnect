@@ -7,7 +7,7 @@ import {catchError, map, take} from "rxjs/operators";
 import {HttpErrRespHandlerService} from "../../../shared/services/http-err-resp-handler.service";
 import {ApiResponseModelInterface, CreateCompanyInterface} from '../../../shared/models';
 import {AssociateToCompany, Company} from '../models';
-import {camelCase, mapKeys} from 'lodash';
+import {camelCase, mapKeys} from 'lodash-es';
 
 @Injectable()
 export class CompaniesService {
