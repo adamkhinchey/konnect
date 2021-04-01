@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {HttpErrRespHandlerService} from '../../shared/services';
+import {HttpErrRespHandlerService, UserInfoService} from '../../shared/services';
 import {Observable, Subject, Subscription, throwError} from 'rxjs';
 import {
   ApiResponseModelInterface,
@@ -35,11 +35,14 @@ export class AuthService {
   private signupSubscription = new Subscription();
   private loginSubscription = new Subscription();
   public isLoggedIn = new Subject<Partial<{ status: boolean, user: LoginUserProfile | SignupUserProfile }>>();
+  public loggedIn = false;
+  public user: any = null;
   public userInfo: any = null;
 
   signupAndLoginObserver = {
     next: (user: SignupUserProfile | LoginUserProfile) => {
       this.saveToken(user);
+      this.loggedIn = true;
     },
     error: (err: Error) => {
       this.isLoggedIn.next({status: false});
@@ -52,7 +55,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private httpErrRespHandler: HttpErrRespHandlerService,
-    private router: Router) {
+    private router: Router,
+    private userInfoService: UserInfoService) {
   }
 
   signup(personalDetails: CreateProfilePersonalDetails): Observable<any> | void {
@@ -125,6 +129,24 @@ export class AuthService {
 
   async redirectToLogin(): Promise<void> {
     localStorage.clear();
+    this.isLoggedIn.next({status: false});
+    this.userInfo = null;
+    this.user = null;
+    this.loggedIn = false;
     await this.router.navigate(['login']);
+  }
+
+  logout(): void {
+    this.redirectToLogin();
+  }
+
+  async checkSession(): Promise<boolean> {
+    try {
+      this.userInfo = await this.userInfoService.getInfo().toPromise();
+      return !!this.userInfo;
+    } catch (err) {
+      devLogger('error', {authServiceCheckSession: err});
+      return false;
+    }
   }
 }

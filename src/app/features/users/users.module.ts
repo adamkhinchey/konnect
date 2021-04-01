@@ -10,6 +10,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {CompaniesService} from './services/companies.service';
 import { CompanyClaimCardComponent } from './components/company-claim-card/company-claim-card.component';
 import {SharedModule} from "../../shared/shared.module";
+import { EditIndividualProfileComponent } from './components/edit-individual-profile/edit-individual-profile.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -18,6 +20,8 @@ import {SharedModule} from "../../shared/shared.module";
     PersonalDetailsTabComponent,
     CompanyDetailsTabComponent,
     CompanyClaimCardComponent,
+    EditIndividualProfileComponent,
+    DashboardComponent,
   ],
   imports: [
     CommonModule,
@@ -25,6 +29,9 @@ import {SharedModule} from "../../shared/shared.module";
     UsersRoutingModule,
     NgWizardModule,
     SharedModule,
+  ],
+  exports: [
+    DashboardComponent
   ],
   providers: [
     CompaniesService

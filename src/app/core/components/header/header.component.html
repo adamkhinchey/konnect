@@ -1,1 +1,72 @@
-<p>header works!</p>
+<ng-container *ngIf="showHeader; then headerTemplate"></ng-container>
+
+<ng-template #headerTemplate>
+<div class="actionBar">
+  <header class="hideMobile">
+    <div class="ui grid">
+      <div class="three wide column center aligned middle aligned">
+        <h1><a href="dashboard-events-01.html">konnect</a></h1>
+      </div>
+      <div class="ten wide column paddingL0 paddingR0">
+        <ul class="ui six column grid stackable mainMenu">
+          <li class="column center aligned middle aligned itemMenu">
+            <a href="dashboard-events-01.html"><i class="home icon"></i>Dashboard</a>
+          </li>
+          <li class="column center aligned middle aligned itemMenu">
+            <a href="CE-01.html"><i class="plus circle icon"></i>Create Event</a>
+          </li>
+          <li class="column center aligned middle aligned itemMenu">
+            <a href="SKP.html"><i class="search icon"></i>Platform Search</a>
+          </li>
+          <li class="column center aligned middle aligned itemMenu">
+            <a class="inviteByEmailBtn hasModal" data-modal="inviteByEmail"><i class="user plus icon"></i>Invite Colleagues</a>
+          </li>
+          <li class="column center aligned middle aligned itemMenu">
+            <a href="AB-01.html"><i class="address book icon"></i>Manage Connections</a>
+          </li>
+          <li class="column center aligned middle aligned itemMenu">
+            <span class="displaySubMenu"  (click)="clickEvent3()"><i class="building icon"></i>Manage Company</span>
+            <ul class="subMenu" [ngClass]="status3 ? 'show' : 'd-none'">
+              <li><a href="MC.html">Company Profile</a></li>
+              <li><a href="IC-01.html">Manage Colleagues</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="three wide column">
+        <div class="profileInfo">
+          <img src="../../assets/img/profile.png" alt="" class="ui fluid image circular">
+          <div class="headerCompanySelector">
+            <span class="userName">Name</span>
+            <div class="ui dropdown dropdownChangeCompany" (click)="clickEvent2()" tabindex="0">
+              <div class="text">Company ABC</div>
+              <i class="dropdown icon"></i>
+              <div class="menu transition"  [ngClass]="status2 ? 'show' : 'd-none'" tabindex="-1">
+                <div class="item">Company ABC</div>
+                <div class="item">Company CBA</div>
+              </div>
+            </div>
+          </div>
+          <div class="ui button mini circular compact icon displaySettings" (click)="clickEvent()">
+            <i class="cog icon"></i>
+          </div>
+        </div>
+        <ul class="subMenu" [ngClass]="status ? 'show' : 'd-none'">
+          <li (click)="navToEditProfile($event)"><a>Edit Profile</a></li>
+          <li (click)="logout($event)"><a>Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <div class="ui container visibleMobile">
+    <div class="ui grid">
+      <div class="sixteen wide column center aligned">
+        <div class="openMobileMenu visibleMobile"><i class="ui bars icon"></i></div>
+        <h1><a href="dashboard-events-01.html">konnect</a></h1>
+      </div>
+    </div>
+  </div>
+
+</div>
+</ng-template>

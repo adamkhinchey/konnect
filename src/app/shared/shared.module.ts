@@ -16,7 +16,6 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
   declarations: [CompanySearchComponent, CreateCompanyComponent],
   imports: [
     CommonModule,
-    BrowserAnimationsModule,
     ToastrModule.forRoot({timeOut: 3000}),
     NgMultiSelectDropDownModule,
     SharedRoutingModule,

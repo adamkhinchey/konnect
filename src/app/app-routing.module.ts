@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {CoreModule} from './core/core.module';
-import {FeaturesModule} from './features/features.module';
+import {UsersModule} from "./features/users/users.module";
 import AuthGuard from "./core/guards/authGuard";
 
 const routes: Routes = [
@@ -11,11 +11,29 @@ const routes: Routes = [
   },
   {
     path: 'create-konnect-profile',
-    loadChildren: () => import('./features/features.module').then(m => m.FeaturesModule),
+    loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule),
+  },
+  {
+    path: 'home',
+    pathMatch: 'full',
+    children: [{
+      path: 'edit-profile',
+      loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule),
+      pathMatch: 'full'
+    }]
+  },
+  {
+    path: 'home',
+    /* children: [
+     {
+       path: 'edit-profile',*/
+    loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule),
+    /* }
+   ]*/
   },
   {
     path: '**',
-    redirectTo: '/login'
+    redirectTo: '/home'
   }
 ];
 
@@ -23,7 +41,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}),
     CoreModule,
-    FeaturesModule
+    UsersModule
   ],
   exports: [RouterModule]
 })

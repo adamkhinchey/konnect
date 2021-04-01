@@ -1,7 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
+import {devLogger} from "../../../shared/utils";
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,8 @@ import {AuthService} from '../../services/auth.service';
 export class LoginComponent implements OnInit, OnDestroy {
   clickedLogin = false;
   isLoggedInSubscription = this.auth.isLoggedIn.subscribe(async (value) => {
-    if (value && value === true) {
-      //await this.router.navigate(['home']);
+    if (value && value.status === true) {
+      await this.router.navigate(['home']);
     } else {
       this.clickedLogin = false;
     }
@@ -27,10 +28,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly fb: FormBuilder,
-    private auth: AuthService) {
+    private auth: AuthService,
+    private route: ActivatedRoute,
+  ) {
+    devLogger('log', {route: this.route.parent})
   }
 
   ngOnInit(): void {
+    if (this.auth.getToken()) {
+      this.router.navigate(['home']);
+    }
+    ;
   }
 
   checkValidation(): boolean {

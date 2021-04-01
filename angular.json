@@ -140,7 +140,8 @@
               "scripts": true,
               "styles": true,
               "vendor": true
-            }
+            },
+            "proxyConfig": "./proxy.conf.json"
           },
           "configurations": {
             "production": {
