@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.auth.getToken()) {
       this.router.navigate(['home']);
     }
-    ;
   }
 
   checkValidation(): boolean {

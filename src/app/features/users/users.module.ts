@@ -12,6 +12,7 @@ import { CompanyClaimCardComponent } from './components/company-claim-card/compa
 import {SharedModule} from "../../shared/shared.module";
 import { EditIndividualProfileComponent } from './components/edit-individual-profile/edit-individual-profile.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import {UpdateUserProfileService} from "./services/update-user-profile.service";
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     DashboardComponent
   ],
   providers: [
-    CompaniesService
+    CompaniesService,
+    UpdateUserProfileService
   ]
 })
 export class UsersModule {

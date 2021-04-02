@@ -10,10 +10,11 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CreateCompanyComponent} from './components/create-company/create-company.component';
 import {CompanyCategoriesService, GetRegionAndCountriesService, HttpErrRespHandlerService} from "./services";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
+import { RemoveModalComponent } from './components/modals/remove-modal/remove-modal.component';
 
 
 @NgModule({
-  declarations: [CompanySearchComponent, CreateCompanyComponent],
+  declarations: [CompanySearchComponent, CreateCompanyComponent, RemoveModalComponent],
   imports: [
     CommonModule,
     ToastrModule.forRoot({timeOut: 3000}),
@@ -23,10 +24,11 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
     ReactiveFormsModule,
     FormsModule,
   ],
-  exports: [
-    CompanySearchComponent,
-    CreateCompanyComponent
-  ],
+    exports: [
+        CompanySearchComponent,
+        CreateCompanyComponent,
+        RemoveModalComponent
+    ],
   providers: [
     GetRegionAndCountriesService,
     HttpErrRespHandlerService,

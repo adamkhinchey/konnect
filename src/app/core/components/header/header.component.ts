@@ -43,9 +43,7 @@ export class HeaderComponent implements OnInit {
 
   navToEditProfile(event: MouseEvent): void {
     event.preventDefault();
-    this.router.navigate([{outlets: {dashboard: 'edit-profile'}}], {
-      relativeTo: this.actUsrMdlRouteService.userModuleRoute,
-    });
+    this.router.navigate(['home', 'edit-profile']);
   }
 
   logout(event: MouseEvent): void {

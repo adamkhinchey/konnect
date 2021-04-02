@@ -23,6 +23,9 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.auth.getToken()) {
+      this.router.navigate(['home']);
+    }
   }
 
   async sendResetPassLink(event: MouseEvent): Promise<void> {

@@ -59,4 +59,13 @@ export class CompaniesService {
       this.httpErrorHandler.processError()
     );
   }
+
+  dissociate(companyIdToDissociate: number | null): Observable<any> {
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/removeCompanyAssocaition`,
+      {companyId: companyIdToDissociate}
+    ).pipe(
+      this.httpErrorHandler.processError()
+    );
+  }
 }

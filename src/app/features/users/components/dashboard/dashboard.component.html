@@ -1,3 +1,5 @@
-<div class="mainContent">
-  <router-outlet name="dashboard"></router-outlet>
+<div class="mainContent" [ngSwitch]="contentToShow">
+  <ng-container *ngSwitchCase="'edit-profile'">
+    <app-edit-individual-profile></app-edit-individual-profile>
+  </ng-container>
 </div>

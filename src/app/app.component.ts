@@ -12,7 +12,9 @@ export class AppComponent {
   constructor(private zone: NgZone, private router: Router) {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
-        if (event.url === '/login') {
+        if (event.url === '/login' ||
+          event.url.includes('/forgot-password') ||
+          event.url.includes('/create-konnect-profile')) {
           this.onLogin = true;
         } else {
           this.onLogin = false;

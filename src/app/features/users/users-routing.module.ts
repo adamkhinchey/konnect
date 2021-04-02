@@ -15,7 +15,7 @@ const routes: Routes = [
     path: 'home',
     component: DashboardComponent,
     children: [
-      {path: 'edit-profile', component: EditIndividualProfileComponent, outlet: 'dashboard'}
+      {path: 'edit-profile', component: EditIndividualProfileComponent}
     ]
   },
 ];

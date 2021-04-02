@@ -149,4 +149,13 @@ export class AuthService {
       return false;
     }
   }
+
+  deleteUserProfile(param: { userId: number }): Observable<any> {
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseURL}/deleteProfile`,
+      {...param}
+    ).pipe(
+      this.httpErrRespHandler.processError()
+    );
+  }
 }

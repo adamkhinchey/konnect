@@ -3,6 +3,7 @@ import {NgWizardConfig, NgWizardService, STEP_STATE, StepChangedArgs, StepValida
 import {Observable, of, Subscription} from 'rxjs';
 import {CreateProfilePersonalDetails, LoginUserProfile, SignupUserProfile} from '../../../../shared/models';
 import {AuthService} from '../../../../core/services/auth.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-individual-profile',
@@ -42,7 +43,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(private ngWizardService: NgWizardService, private auth: AuthService) {
+  constructor(private ngWizardService: NgWizardService, private auth: AuthService, private router: Router) {
   }
 
   showPreviousStep(event?: Event): void {
@@ -75,6 +76,10 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (this.auth.getToken()) {
+      this.router.navigate(['home']);
+      return;
+    }
     this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
       if (value.status) {
         this.user = value.user;

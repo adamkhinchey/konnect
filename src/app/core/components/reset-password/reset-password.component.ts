@@ -38,6 +38,10 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.auth.getToken()) {
+      this.router.navigate(['home']);
+      return;
+    }
     this.password.valueChanges.subscribe(Value => {
       this.resetPasswordForm.get('repeatPassword')?.updateValueAndValidity({onlySelf: true});
     });
