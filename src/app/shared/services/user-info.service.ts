@@ -18,7 +18,7 @@ export class UserInfoService {
   getInfo(): Observable<any> {
     return this.http.get<ApiResponseModelInterface>(`${this.apiBaseURL}/me`).pipe(
       take(1),
-      this.httpErrorHandler.processError(true),
+      this.httpErrorHandler.processError(true, false),
       map(response => response.data?.user || null));
   }
 }

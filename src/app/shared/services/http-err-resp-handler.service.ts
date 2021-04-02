@@ -4,6 +4,7 @@ import {Observable, of, OperatorFunction, throwError} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import {devLogger} from '../utils';
 import {catchError} from 'rxjs/operators';
+import {AuthService} from "../../core/services/auth.service";
 
 @Injectable()
 export class HttpErrRespHandlerService {
@@ -11,14 +12,16 @@ export class HttpErrRespHandlerService {
   constructor(public toaster: ToastrService) {
   }
 
-  processError<T>(rethrow = false): OperatorFunction<T, T> {
-    return catchError((err, caught) => this.handleError(err, caught, rethrow));
+  processError<T>(rethrow = false, showAlert = true): OperatorFunction<T, T> {
+    return catchError((err, caught) => this.handleError(err, caught, rethrow, showAlert));
   }
 
-  handleError<T>(error: HttpErrorResponse, caught: Observable<T>, rethrow = false): Observable<never | any> {
+  handleError<T>(error: HttpErrorResponse, caught: Observable<T>, rethrow = false, showAlert = true): Observable<never | any> {
     devLogger('error', {error});
     const errorMessage = error.error.message ? error.error.message : 'Something Went wrong!';
-    this.toaster.error(errorMessage);
+    if (showAlert) {
+      this.toaster.error(errorMessage);
+    }
     if (rethrow) {
       return throwError(error);
     }

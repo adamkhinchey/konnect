@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs';
 import {devLogger} from '../../../../shared/utils';
 import {AssociateToCompany, AssociationType, Company} from '../../models';
 import {ToastrService} from 'ngx-toastr';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-company-details-tab',
@@ -24,7 +25,7 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy 
   companyList: Company[] = [];
   searchForCompany = false;
 
-  constructor(private companiesService: CompaniesService, private toaster: ToastrService) {
+  constructor(private companiesService: CompaniesService, private toaster: ToastrService, private router:Router) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -90,6 +91,7 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy 
         } else if (event.assignType === AssociationType.CLAIM) {
           this.toaster.success('Company claimed successfully. You are now Administrator of the Company');
         }
+        this.router.navigate(['home']);
       }
     }, err => {
       devLogger('error', err);

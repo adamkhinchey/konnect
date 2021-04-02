@@ -107,11 +107,14 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
 
     this.editProfileForm.get('countryId')?.setValue(this.countries[countryIndex].val);
     this.editProfileForm.get('id')?.setValue(this.userInfo?.id);
-
-    this.editProfileForm.get('defaultCompanyId')?.setValue(this.userInfo?.associatedCompanies
+    const defaultCompanyId = this.userInfo?.associatedCompanies
       // @ts-ignore
-      .filter(({isDefault}) => isDefault === 1)[0]?.id);
-
+      .filter(({isDefault}) => isDefault === 1)[0]?.id || null;
+    if (defaultCompanyId) {
+      this.editProfileForm.get('defaultCompanyId')?.setValue(defaultCompanyId);
+    }else{
+      this.editProfileForm.removeControl('defaultCompanyId');
+    }
     this.editProfileForm.get('headline')?.setValue(this.userInfo?.headline);
     this.editProfileForm.get('aboutMe')?.setValue(this.userInfo?.aboutMe);
   }
@@ -195,7 +198,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   confirmRemove(event: RemoveType | null | undefined): void {
-    if (!event){
+    if (!event) {
       return;
     }
     if (event === RemoveType.COMPANY) {

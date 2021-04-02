@@ -7,7 +7,7 @@ import {NavigationEnd, Router} from "@angular/router";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  onLogin = false;
+  showHeader = false;
 
   constructor(private zone: NgZone, private router: Router) {
     this.router.events.subscribe((event: any) => {
@@ -15,9 +15,9 @@ export class AppComponent {
         if (event.url === '/login' ||
           event.url.includes('/forgot-password') ||
           event.url.includes('/create-konnect-profile')) {
-          this.onLogin = true;
+          this.showHeader = false;
         } else {
-          this.onLogin = false;
+          this.showHeader = true;
         }
       }
     });

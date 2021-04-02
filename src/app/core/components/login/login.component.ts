@@ -12,9 +12,7 @@ import {devLogger} from "../../../shared/utils";
 export class LoginComponent implements OnInit, OnDestroy {
   clickedLogin = false;
   isLoggedInSubscription = this.auth.isLoggedIn.subscribe(async (value) => {
-    if (value && value.status === true) {
-      await this.router.navigate(['home']);
-    } else {
+    if (!value || value.status !== true) {
       this.clickedLogin = false;
     }
   });

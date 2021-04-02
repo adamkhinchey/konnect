@@ -15,6 +15,7 @@
           (createCompanyMode)="createCompanyMode=$event"
         ></app-company-details-tab>
         <app-create-company
+          [navigateToPostCreate]="'home'"
           *ngIf="createCompanyMode.status===true"
           [user]="user"
           [createCompanyMode]="createCompanyMode"

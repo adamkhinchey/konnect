@@ -16,7 +16,8 @@ const routes: Routes = [
     component: DashboardComponent,
     children: [
       {path: 'edit-profile', component: EditIndividualProfileComponent}
-    ]
+    ],
+    canActivate: [AuthGuard]
   },
 ];
 

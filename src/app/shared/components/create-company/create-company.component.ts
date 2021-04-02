@@ -24,7 +24,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     status: false,
     type: {soleTrader: false, inc: false}
   };
-  @Input() navigateToPostCreate = 'dashboard';
+  @Input() navigateToPostCreate = 'home';
   createCompanySubscription: Subscription | undefined;
   categoryListSubscription: Subscription | undefined;
   countries$ = this.getRegionAndCountriesService.getAllCountriesOnly();

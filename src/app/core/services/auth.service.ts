@@ -39,6 +39,20 @@ export class AuthService {
   public user: any = null;
   public userInfo: any = null;
 
+  loginObserver = {
+    next: (user: SignupUserProfile | LoginUserProfile) => {
+      this.saveToken(user);
+      this.loggedIn = true;
+      this.router.navigate(['home']);
+    },
+    error: (err: Error) => {
+      this.isLoggedIn.next({status: false});
+      devLogger('error', err);
+    },
+    complete: () => {
+    }
+  };
+
   signupAndLoginObserver = {
     next: (user: SignupUserProfile | LoginUserProfile) => {
       this.saveToken(user);
@@ -86,7 +100,7 @@ export class AuthService {
           return user as LoginUserProfile;
         }
       }),
-    ).subscribe(this.signupAndLoginObserver);
+    ).subscribe(this.loginObserver);
   }
 
   private saveToken(user: SignupUserProfile | LoginUserProfile): void {
@@ -95,7 +109,7 @@ export class AuthService {
   }
 
   public getToken(): string {
-    return localStorage.getItem(this.jwtKey) || '';
+    return localStorage.getItem(this.jwtKey) || '""' ;
   }
 
   requestPasswordResetLink(email: string): Observable<ApiResponseModelInterface> {

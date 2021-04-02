@@ -1,0 +1,15 @@
+import timeZones from './timeZones';
+import countries from './countries';
+import companyCategories from './company-categories';
+
+const APIURL = 'https://yxraels57k.execute-api.ap-southeast-2.amazonaws.com/dev';
+
+export const environment = {
+  production: false,
+  env: 'development',
+  timeZones,
+  countries,
+  companyCategories,
+  apiBaseURL: APIURL,
+  jwtKey: 'tkn'
+};
