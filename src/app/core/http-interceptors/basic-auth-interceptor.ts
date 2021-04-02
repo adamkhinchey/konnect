@@ -41,9 +41,10 @@ export class BasicAuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const clonedRequest = req.clone({
-      setHeaders: {Authorization: this.authService.getToken()}
-    });
+    const token = this.authService.getToken();
+    const clonedRequest = token ? req.clone({
+      setHeaders: {Authorization: token}
+    }) : req.clone();
 
     return next.handle(clonedRequest)
       .pipe(

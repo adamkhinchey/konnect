@@ -108,8 +108,8 @@ export class AuthService {
     this.isLoggedIn.next({status: true, user});
   }
 
-  public getToken(): string {
-    return localStorage.getItem(this.jwtKey) || '""' ;
+  public getToken(): string | null {
+    return localStorage.getItem(this.jwtKey);
   }
 
   requestPasswordResetLink(email: string): Observable<ApiResponseModelInterface> {
