@@ -1,8 +1,9 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, OnDestroy} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {environment} from '../../../../../environments/environment';
 import {GetRegionAndCountriesService} from '../../../../shared/services';
-import {CreateProfilePersonalDetails} from '../../../../shared/models';
+import {CreateProfilePersonalDetails, FileUploadConfigInterface} from '../../../../shared/models';
+import {devLogger} from "../../../../shared/utils";
 
 // const EMAIL_REGX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -11,14 +12,20 @@ import {CreateProfilePersonalDetails} from '../../../../shared/models';
   templateUrl: './personal-details-tab.component.html',
   styleUrls: ['./personal-details-tab.component.scss']
 })
-export class PersonalDetailsTabComponent implements OnInit {
+export class PersonalDetailsTabComponent implements OnInit, OnDestroy {
   @Output() moveToCompanyDetailsTab = new EventEmitter<CreateProfilePersonalDetails>();
-
+  @Output() profileImageChangeEvent = new EventEmitter<File>();
   // @ts-ignore
   personalDetailsForm: FormGroup;
   timeZones = environment.timeZones;
   countries$ = this.getRegionAndCountriesService.getAllCountriesOnly();
   //personalDetails: CreateProfilePersonalDetails;
+  profileImageConfig: FileUploadConfigInterface = {
+    fileTypes: environment.imageFileAllowedFormats,
+    size: environment.imageFileUploadSize
+  };
+  selectedProfileImage: File | undefined;
+  selectedImageSrc: string | undefined;
 
 
   constructor(
@@ -48,5 +55,18 @@ export class PersonalDetailsTabComponent implements OnInit {
   checkValidation(): boolean {
     this.personalDetailsForm.markAllAsTouched();
     return this.personalDetailsForm.valid;
+  }
+
+  setSelectedImage(event: File): void {
+    this.selectedImageSrc = URL.createObjectURL(event);
+    this.selectedProfileImage = event;
+    this.profileImageChangeEvent.emit(event);
+    devLogger('log', {FILEEEEE: event});
+  }
+
+  ngOnDestroy(): void {
+    if (this.selectedImageSrc) {
+      URL.revokeObjectURL(this.selectedImageSrc);
+    }
   }
 }

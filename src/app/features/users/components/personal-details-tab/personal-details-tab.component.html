@@ -3,12 +3,18 @@
     <div class="row">
       <div class="eight wide column text-center">
         <div class="uploadImage">
-          <i class="upload icon"></i>
+          <i *ngIf="!selectedImageSrc" class="upload icon"></i>
+          <img *ngIf="selectedImageSrc" [src]="selectedImageSrc | safeUrlPipe"
+               alt="profile-image" class="uploadImage"/>
         </div>
-        <div class="ui button basic small compact blue">
-          <label for="select-profile-image" [ngStyle]="{'marginBottom':0}">Choose profile image</label>
-          <input id="select-profile-image" type="file" hidden formControlName="profileImage"/>
+        <div class="ui button basic small compact blue" appFileUploadTrigger
+             [fileUploadComponentRef]="fileUploadComponent"
+        >Choose profile image
         </div>
+        <app-file-upload #fileUploadComponent
+                         [config]="profileImageConfig"
+                         (fileChange)="setSelectedImage($event)"
+        ></app-file-upload>
       </div>
     </div>
     <div class="eight wide column left aligned">

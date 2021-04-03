@@ -4,6 +4,7 @@ import {Observable, of, Subscription} from 'rxjs';
 import {CreateProfilePersonalDetails, LoginUserProfile, SignupUserProfile} from '../../../../shared/models';
 import {AuthService} from '../../../../core/services/auth.service';
 import {Router} from "@angular/router";
+import {UploadFileService} from "../../../../shared/services";
 
 @Component({
   selector: 'app-create-individual-profile',
@@ -43,7 +44,12 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(private ngWizardService: NgWizardService, private auth: AuthService, private router: Router) {
+  profileImage: File | null = null;
+
+  constructor(private ngWizardService: NgWizardService,
+              private auth: AuthService,
+              private router: Router,
+              private uploadFileService: UploadFileService) {
   }
 
   showPreviousStep(event?: Event): void {
@@ -51,8 +57,16 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   showNextStep(personalDetails: CreateProfilePersonalDetails): void {
-    this.auth.signup(personalDetails);
-    this.personalDetails = personalDetails;
+    if (this.profileImage) {
+      this.uploadFileService.uploadFile(this.profileImage, (url: string) => {
+        personalDetails.profileImage = url;
+        this.auth.signup(personalDetails);
+        this.personalDetails = personalDetails;
+      });
+    } else {
+      this.auth.signup(personalDetails);
+      this.personalDetails = personalDetails;
+    }
   }
 
   resetWizard(event?: Event): void {

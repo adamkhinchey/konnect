@@ -12,5 +12,7 @@ export const environment = {
   countries,
   companyCategories,
   apiBaseURL: localProxyURL,
-  jwtKey: 'tkn'
+  jwtKey: 'tkn',
+  imageFileUploadSize: 5 * 1024 * 1024, // 5MB
+  imageFileAllowedFormats: ['image/jpeg', 'image/png']
 };

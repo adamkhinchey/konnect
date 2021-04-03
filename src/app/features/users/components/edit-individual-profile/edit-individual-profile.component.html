@@ -15,7 +15,7 @@
                 <div class="field">
                   <div class="ui grid centered">
                     <div class="ten wide column marginB10 marginT10">
-                      <img src="../../assets/img/joe.jpg" alt="" class="ui medium fluid image marginB10">
+                      <img [src]="userInfo?.profileImage || '../../assets/img/joe.jpg'" alt="" class="ui medium fluid image marginB10">
                       <div class="ui button basic small compact blue fluid">Replace profile image</div>
                     </div>
                   </div>

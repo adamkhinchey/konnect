@@ -10,11 +10,20 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CreateCompanyComponent} from './components/create-company/create-company.component';
 import {CompanyCategoriesService, GetRegionAndCountriesService, HttpErrRespHandlerService} from "./services";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
-import { RemoveModalComponent } from './components/modals/remove-modal/remove-modal.component';
+import {RemoveModalComponent} from './components/modals/remove-modal/remove-modal.component';
+import {FileUploadComponent} from './components/file-upload/file-upload.component';
+import {FileUploadTriggerDirective} from "./directives/file-upload-trigger-directive";
+import { SafeUrlPipePipe } from './pipes/safe-url-pipe.pipe';
 
 
 @NgModule({
-  declarations: [CompanySearchComponent, CreateCompanyComponent, RemoveModalComponent],
+  declarations: [
+    CompanySearchComponent,
+    CreateCompanyComponent,
+    RemoveModalComponent,
+    FileUploadComponent,
+    FileUploadTriggerDirective,
+    SafeUrlPipePipe],
   imports: [
     CommonModule,
     ToastrModule.forRoot({timeOut: 3000}),
@@ -24,11 +33,14 @@ import { RemoveModalComponent } from './components/modals/remove-modal/remove-mo
     ReactiveFormsModule,
     FormsModule,
   ],
-    exports: [
-        CompanySearchComponent,
-        CreateCompanyComponent,
-        RemoveModalComponent
-    ],
+  exports: [
+    CompanySearchComponent,
+    CreateCompanyComponent,
+    RemoveModalComponent,
+    FileUploadComponent,
+    FileUploadTriggerDirective,
+    SafeUrlPipePipe
+  ],
   providers: [
     GetRegionAndCountriesService,
     HttpErrRespHandlerService,
