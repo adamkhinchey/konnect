@@ -4,6 +4,7 @@ import {CreateIndividualProfileComponent} from './components/create-individual-p
 import AuthGuard from "../../core/guards/authGuard";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {EditIndividualProfileComponent} from "./components/edit-individual-profile/edit-individual-profile.component";
+import {ManageColleaguesComponent} from "./components/manage-colleagues/manage-colleagues.component";
 
 const routes: Routes = [
   {
@@ -15,7 +16,12 @@ const routes: Routes = [
     path: 'home',
     component: DashboardComponent,
     children: [
-      {path: 'edit-profile', component: EditIndividualProfileComponent}
+      {path: 'edit-profile', component: EditIndividualProfileComponent},
+      {
+        path: 'company', children: [
+          {path: 'manage-colleagues', component: ManageColleaguesComponent}
+        ]
+      }
     ],
     canActivate: [AuthGuard]
   },

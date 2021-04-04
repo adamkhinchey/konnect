@@ -68,4 +68,47 @@ export class CompaniesService {
       this.httpErrorHandler.processError()
     );
   }
+
+  getCompanyColleagues(p: { companyId: number }): Observable<any> {
+    return this.http.get<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/getCompanyColleaguesWithSegregation?companyId=${p.companyId}`
+    ).pipe(
+      take(1),
+      this.httpErrorHandler.processError(),
+      map(response => {
+        console.log(response.data);
+        return response.data;
+      })
+    );
+  }
+
+  approveDeclineJoinRequest(param: { companyId: any; userId: number; status: number }): Observable<any> {
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/approveRejectCompanyJoinRequest`,
+      {...param}
+    ).pipe(
+      take(1),
+      this.httpErrorHandler.processError()
+    );
+  }
+
+  toggleAdmin(param: { companyId: any; isAdmin: number; userId: number }): Observable<any> {
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/makeCompanyAdmin`,
+      {...param}
+    ).pipe(
+      take(1),
+      this.httpErrorHandler.processError()
+    );
+  }
+
+  saveColleaguePosition(param: { companyID: any; positionArray: { colleagueID: number; value: string }[] }): Observable<any> {
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/saveColleaguePosition`,
+      {...param}
+    ).pipe(
+      take(1),
+      this.httpErrorHandler.processError()
+    );
+  }
 }

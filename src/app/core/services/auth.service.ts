@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {HttpErrRespHandlerService, UserInfoService} from '../../shared/services';
+import {HttpErrRespHandlerService, UserInfoService, UserSettingsService} from '../../shared/services';
 import {Observable, Subject, Subscription, throwError} from 'rxjs';
 import {
   ApiResponseModelInterface,
   CreateProfilePersonalDetails,
   LoginUserProfile,
-  SignupUserProfile
+  SignupUserProfile, UserSettingsInterface
 } from '../../shared/models';
 import {catchError, map, pluck, take} from 'rxjs/operators';
 import {devLogger} from '../../shared/utils';
@@ -70,7 +70,8 @@ export class AuthService {
     private http: HttpClient,
     private httpErrRespHandler: HttpErrRespHandlerService,
     private router: Router,
-    private userInfoService: UserInfoService) {
+    private userInfoService: UserInfoService,
+    private userSettingsService: UserSettingsService) {
   }
 
   signup(personalDetails: CreateProfilePersonalDetails): Observable<any> | void {
@@ -139,7 +140,9 @@ export class AuthService {
   setUserInfo(userInfo: any): void {
     this.userInfo = userInfo;
     this.isLoggedIn.next({status: true});
+    this.userSettingsService.populateSettings(this.userInfo);
   }
+
 
   async redirectToLogin(): Promise<void> {
     localStorage.clear();

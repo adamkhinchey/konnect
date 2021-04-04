@@ -13,6 +13,7 @@ import {
 import {HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     CommonModule,
     HttpClientModule,
     CoreRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers: [
     httpInterceptorProviders

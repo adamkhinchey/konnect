@@ -14,6 +14,7 @@ import {RemoveModalComponent} from './components/modals/remove-modal/remove-moda
 import {FileUploadComponent} from './components/file-upload/file-upload.component';
 import {FileUploadTriggerDirective} from "./directives/file-upload-trigger-directive";
 import { SafeUrlPipePipe } from './pipes/safe-url-pipe.pipe';
+import { SortPipe } from './pipes/sort.pipe';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { SafeUrlPipePipe } from './pipes/safe-url-pipe.pipe';
     RemoveModalComponent,
     FileUploadComponent,
     FileUploadTriggerDirective,
-    SafeUrlPipePipe],
+    SafeUrlPipePipe,
+    SortPipe],
   imports: [
     CommonModule,
     ToastrModule.forRoot({timeOut: 3000}),
@@ -33,14 +35,15 @@ import { SafeUrlPipePipe } from './pipes/safe-url-pipe.pipe';
     ReactiveFormsModule,
     FormsModule,
   ],
-  exports: [
-    CompanySearchComponent,
-    CreateCompanyComponent,
-    RemoveModalComponent,
-    FileUploadComponent,
-    FileUploadTriggerDirective,
-    SafeUrlPipePipe
-  ],
+    exports: [
+        CompanySearchComponent,
+        CreateCompanyComponent,
+        RemoveModalComponent,
+        FileUploadComponent,
+        FileUploadTriggerDirective,
+        SafeUrlPipePipe,
+        SortPipe
+    ],
   providers: [
     GetRegionAndCountriesService,
     HttpErrRespHandlerService,

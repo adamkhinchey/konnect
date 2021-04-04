@@ -1,0 +1,362 @@
+<div class="ui container">
+  <div class="ui grid">
+    <div class="sixteen wide column maxWidth">
+      <div class="ui grid stackable">
+        <div class="ten wide column left aligned">
+          <h2>Manage Colleagues</h2>
+        </div>
+        <div class="six wide column right aligned hideMobile">
+          <button class="ui button compact hasModal" (click)="openVerticallyCentered(content)">Invite Colleagues
+          </button>
+        </div>
+        <div class="sixteen wide column right aligned visibleMobile paddingT0">
+          <button class="ui button compact fluid hasModal" (click)="openVerticallyCentered(content)">Invite Colleagues
+          </button>
+        </div>
+      </div>
+      <div class="ui segment">
+        <form class="ui form">
+          <div class="ui grid stackable">
+            <div class="sixteen wide column left aligned">
+              <h3 class="ui dividing header">Administrators</h3>
+              <div class="kipCardContainer">
+                <div class="ui three column grid stackable">
+                  <div *ngFor="let admin of companyColleaguesData!.admins;index as i; trackBy: trackAdminsFn"
+                       class="column">
+                    <div class="ui mini form">
+                      <div class="field">
+                        <input
+                          [disabled]="!isUserAdmin"
+                          [placeholder]="admin.position || 'Position'"
+                          type="text"
+                          [ngModelOptions]="{standalone:true}"
+                          [(ngModel)]="colleaguePositionsModelMap.get(admin.userId)!.value">
+                      </div>
+                    </div>
+                    <div class="ui fluid card">
+                      <div class="content">
+                        <img class="right floated mini ui image circular"
+                             [src]="admin.profileImage ||'../../assets/img/elliot.jpg'">
+                        <div class="header">
+                          <a target="_blank">{{admin.firstName + ' ' + admin.lastName}}</a>
+                        </div>
+                        <div class="meta">
+
+                        </div>
+                        <div class="description">
+                          {{admin.email}}<br>
+                          {{admin.mobile || ''}}
+                        </div>
+                      </div>
+                      <div class="extra content" *ngIf="isUserAdmin">
+                        <div class="ui grid">
+                          <div class="ten wide column middle aligned">
+                            <div class="field">
+                              <div class="ui toggle checkbox checked">
+                                <input type="checkbox" class="hidden" [id]="'admin-'+admin.userId"
+                                       [checked]="admin.isCompanyAdmin"
+                                       [tabindex]="i" (change)="toggleAdmin($event, admin.userId)">
+                                <label [for]="'admin-'+admin.userId">Administrator</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="six wide column right aligned">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide column">
+              <h3 class="ui dividing header">Company Colleagues</h3>
+              <div class="kipCardContainer">
+                <div class="ui three column grid stackable">
+                  <div class="column" *ngFor="let colleague of companyColleaguesData.colleagues">
+                    <div class="ui mini form">
+                      <div class="field">
+                        <input
+                          [disabled]="!isUserAdmin"
+                          [placeholder]="colleague.position || 'Position'"
+                          type="text"
+                          [ngModelOptions]="{standalone:true}"
+                          [(ngModel)]="colleaguePositionsModelMap.get(colleague.userId)!.value">
+                      </div>
+                    </div>
+                    <div class="ui fluid card">
+                      <div class="content">
+                        <img class="right floated mini ui image circular"
+                             [src]="colleague.profileImage || '../../assets/img/elliot.jpg'">
+                        <div class="header">
+                          <a>{{colleague.firstName + ' ' + colleague.lastName}}</a>
+                        </div>
+                        <div class="meta">
+                        </div>
+                        <div class="description">
+                          {{colleague.email}}<br>
+                          {{colleague.mobile}}
+                        </div>
+                      </div>
+                      <div class="extra content" *ngIf="isUserAdmin">
+                        <div class="ui grid">
+                          <div class="ten wide column middle aligned">
+                            <div class="field">
+                              <div class="ui toggle checkbox">
+                                <input type="checkbox" class="hidden" id="admin" tabindex="0"
+                                       (change)="toggleAdmin($event, colleague.userId)">
+                                <label for="admin">Administrator</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="six wide column right aligned">
+                            <div class="ui circular compact mini basic icon button confirmRemove hasModal"
+                                 data-modal="removeModal"><i class="trash icon"></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--<div class="column">
+                    <div class="ui mini form">
+                      <div class="field">
+                        <input placeholder="Position" type="text">
+                      </div>
+                    </div>
+                    <div class="ui fluid card">
+                      <div class="content">
+                        <img class="right floated mini ui image circular" src="../../assets/img/elliot.jpg">
+                        <div class="header">
+                          <a href="/VPP.html" target="_blank">Elliot Fu</a>
+                        </div>
+                        <div class="meta">
+
+                        </div>
+                        <div class="description">
+                          mail@mail.com<br>
+                          1234 5678
+                        </div>
+                      </div>
+                      <div class="extra content">
+                        <div class="ui grid">
+                          <div class="ten wide column middle aligned">
+                            <div class="field">
+                              <div class="ui toggle checkbox">
+                                <input type="checkbox" id="admin-2" class="hidden" tabindex="0">
+                                <label for="admin-2">Administrator</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="six wide column right aligned">
+                            <div class="ui circular compact mini basic icon button confirmRemove hasModal"
+                                 data-modal="removeModal"><i class="trash icon"></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="column">
+                    <div class="ui mini form">
+                      <div class="field">
+                        <input placeholder="Position" type="text">
+                      </div>
+                    </div>
+                    <div class="ui fluid card">
+                      <div class="content">
+                        <img class="right floated mini ui image circular" src="../../assets/img/elliot.jpg">
+                        <div class="header">
+                          <a href="/VPP.html" target="_blank">Elliot Fu</a>
+                        </div>
+                        <div class="meta">
+
+                        </div>
+                        <div class="description">
+                          mail@mail.com<br>
+                          1234 5678
+                        </div>
+                      </div>
+                      <div class="extra content">
+                        <div class="ui grid">
+                          <div class="ten wide column middle aligned">
+                            <div class="field">
+                              <div class="ui toggle checkbox">
+                                <input type="checkbox" id="admin-3" class="hidden" tabindex="0">
+                                <label for="admin-3">Administrator</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="six wide column right aligned">
+                            <div class="ui circular compact mini basic icon button confirmRemove hasModal"
+                                 data-modal="removeModal"><i class="trash icon"></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>-->
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide column" *ngIf="isUserAdmin">
+              <h3 class="ui dividing header">Join Requests Pending Approval</h3>
+              <div class="kipCardContainer">
+                <div class="ui three column grid stackable">
+                  <div class="column" *ngFor="let request of companyColleaguesData.joinRequests">
+                    <div class="ui fluid card">
+                      <div class="content">
+                        <img class="right floated mini ui image circular"
+                             [src]="request.profileImage || ' ../../assets/img/elliot.jpg'">
+                        <div class="header">
+                          <a>{{request.firstName + ' ' + request.lastName}}</a>
+                        </div>
+                        <div class="meta">
+                        </div>
+                        <div class="description">
+                          {{request.email}}<br>
+                          {{request.mobile}}
+                        </div>
+                      </div>
+                      <div class="extra content" *ngIf="isUserAdmin">
+                        <div class="ui two buttons">
+                          <div class="ui basic green button compact" (click)="approveJoinRequest(request.userId)">
+                            Approve
+                          </div>
+                          <div class="ui basic red button compact" (click)="declineJoinRequest(request.userId)">
+                            Decline
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide column">
+              <h3 class="ui dividing header">Invites Pending Activation</h3>
+              <div class="kipCardContainer">
+                <div class="ui three column grid inactive stackable">
+                  <div class="column" *ngFor="let pendingInvite of companyColleaguesData.invitesPending">
+                    <div class="ui fluid card">
+                      <div class="content">
+                        <img class="right floated mini ui image circular"
+                             [src]="pendingInvite.profileImage || '../../assets/img/elliot.jpg'">
+                        <div class="header">
+                          <a>{{pendingInvite.firstName + ' ' + pendingInvite.lastName}}</a>
+                        </div>
+                        <div class="meta">
+                        </div>
+                        <div class="description">
+                          {{pendingInvite.email}}<br>
+                          {{pendingInvite.mobile}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--<div class="column">
+                    <div class="ui fluid card">
+                      <div class="content">
+                        <img class="right floated mini ui image circular" src="../../assets/img/elliot.jpg">
+                        <div class="header">
+                          <a href="/VPP.html" target="_blank">Elliot Fu</a>
+                        </div>
+                        <div class="meta">
+
+                        </div>
+                        <div class="description">
+                          mail@mail.com<br>
+                          1234 5678
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="column">
+                    <div class="ui fluid card">
+                      <div class="content">
+                        <img class="right floated mini ui image circular" src="../../assets/img/elliot.jpg">
+                        <div class="header">
+                          <a href="/VPP.html" target="_blank">Elliot Fu</a>
+                        </div>
+                        <div class="meta">
+
+                        </div>
+                        <div class="description">
+                          mail@mail.com<br>
+                          1234 5678
+                        </div>
+                      </div>
+                    </div>
+                  </div>-->
+                </div>
+              </div>
+            </div>
+            <div class="sixteen wide column saveButtons paddingT0">
+              <div class="ui divider"></div>
+              <div class="ui grid">
+                <div class="sixteen wide column right aligned" *ngIf="isUserAdmin">
+                  <div class="ui button" (click)="saveColleaguePositions()">Save</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Invite Colleague</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="content">
+        <form class="ui form">
+          <div class="ui grid">
+            <div class="sixteen wide column">
+              <div class="two fields">
+                <div class="field">
+                  <label>Name</label>
+                  <input type="text" placeholder="Name">
+                </div>
+                <div class="field">
+                  <label>Email</label>
+                  <input type="text" placeholder="Email">
+                </div>
+              </div>
+              <div class="field">
+                <label>Position</label>
+                <input type="text" placeholder="Position">
+              </div>
+              <div class="field">
+                <label>Message</label>
+                <div class="editableArea" contenteditable="true">
+                  <p>Hi Name,</p>
+                  <p>AdminName would like to invite you to join the company, CompanyName on the Konnect Platform to
+                    assist manage and deliver events.</p>
+                  <p>To accept the invite and create a profile use the URL below:</p>
+                  <p><a href="#">https://www.konnect.com/hjgdfa6tr4wqnu9mfuiwd87wi</a>
+                  </p>
+                  <p>Regards<br>Konnect</p>
+                </div>
+              </div>
+              <div class="field">
+                <p>People that you invite as colleagues will be able to see, access and edit any
+                  event related to this company.</p>
+                <p>If you want to add an external person to assist with a specific event you can
+                  do so by adding them as crew during the event set up process.</p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="sixteen wide column right aligned hideMobile">
+        <div class="ui button basic blue negative">Cancel</div>
+        <div class="ui button positive ml-2">Send</div>
+      </div>
+    </div>
+  </ng-template>
+
+</div>
