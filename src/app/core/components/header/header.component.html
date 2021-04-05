@@ -36,10 +36,10 @@
         </div>
         <div class="three wide column">
           <div class="profileInfo">
-              <img [src]="this.userProfileImage || '../../assets/img/profile.png'" alt=""
+              <img [src]="(userSettingsService.settings | async)!.profileImage! || '../../assets/img/profile.png'" alt=""
                    class="ui fluid image circular">
             <div class="headerCompanySelector">
-              <span class="userName">{{userName}}</span>
+              <span class="userName">{{(userSettingsService.settings | async)!.firstName!}}</span>
               <div class="ui dropdown dropdownChangeCompany" (click)="clickEvent2()" tabindex="0">
                 <div class="text">{{(userSettingsService.settings | async)!.defaultCompany.companyName}}</div>
                 <i class="dropdown icon"></i>

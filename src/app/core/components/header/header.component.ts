@@ -14,8 +14,6 @@ import {take} from "rxjs/operators";
 })
 export class HeaderComponent implements OnInit {
     @Input() showHeader = false;
-    userName: string | undefined;
-    userProfileImage: string | undefined;
     status: boolean = false;
     status2: boolean = false;
     status3: boolean = false;
@@ -45,10 +43,7 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.authService.isLoggedIn.asObservable().pipe(take(1)).subscribe(value => {
-            this.userName = this.authService.userInfo.firstName;
-            this.userProfileImage = this.authService.userInfo.profileImage;
-        });
+
     }
 
     trackByDefCmpFn(index: any, item: any): any {

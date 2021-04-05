@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
-import {UserSettingsInterface} from "../models";
+import {BehaviorSubject} from 'rxjs';
+import {UserSettingsInterface} from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,10 @@ export class UserSettingsService {
     this.settings.next({
       ...this.settings.getValue(),
       defaultCompany: currentDefaultCompany ? currentDefaultCompany : userSettings.defaultCompany,
-      associatedCompanies: userInfo.associatedCompanies
+      associatedCompanies: userInfo.associatedCompanies,
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      profileImage: userInfo.profileImage
     });
   }
 }
