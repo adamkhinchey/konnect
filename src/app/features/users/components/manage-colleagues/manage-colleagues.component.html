@@ -110,7 +110,7 @@
                             </div>
                           </div>
                           <div class="six wide column right aligned">
-                            <div class="ui circular compact mini basic icon button confirmRemove hasModal"
+                            <div (click)="openRemoveColleagueModal($event, colleague.userId)" class="ui circular compact mini basic icon button confirmRemove hasModal"
                                  data-modal="removeModal"><i class="trash icon"></i></div>
                           </div>
                         </div>
@@ -310,5 +310,12 @@
     [inviterName]="usersFirstName"
     [inviteUID]="inviteUID"
   ></app-invite-colleagues>
+
+  <app-remove-modal
+    [toRemove]="removalType"
+    (cancel)="cancelColleagueRemove()"
+    (confirm)="confirmColleagueRemove()"
+    [modalInfoContent]="'Are you sure you want to remove this colleague from this company'"
+  ></app-remove-modal>
 
 </div>

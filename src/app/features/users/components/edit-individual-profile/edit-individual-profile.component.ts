@@ -112,7 +112,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
       .filter(({isDefault}) => isDefault === 1)[0]?.id || null;
     if (defaultCompanyId) {
       this.editProfileForm.get('defaultCompanyId')?.setValue(defaultCompanyId);
-    }else{
+    } else {
       this.editProfileForm.removeControl('defaultCompanyId');
     }
     this.editProfileForm.get('headline')?.setValue(this.userInfo?.headline);
@@ -164,7 +164,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   private removeCompany(): void {
-    this.companyService.dissociate(this.companyIdToDissociate).subscribe(
+    this.companyService.dissociate({companyId: this.companyIdToDissociate}).subscribe(
       value => {
         this.toaster.success('Company Dissociated Successfully');
         this.companyIdToDissociate = null;

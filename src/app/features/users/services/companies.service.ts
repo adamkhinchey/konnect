@@ -60,10 +60,10 @@ export class CompaniesService {
     );
   }
 
-  dissociate(companyIdToDissociate: number | null): Observable<any> {
+  dissociate(param: Partial<{companyId: number | null, userId: number | null}>): Observable<any> {
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/removeCompanyAssocaition`,
-      {companyId: companyIdToDissociate}
+      {...param}
     ).pipe(
       this.httpErrorHandler.processError()
     );

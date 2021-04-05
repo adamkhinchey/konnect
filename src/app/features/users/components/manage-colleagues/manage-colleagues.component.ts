@@ -9,7 +9,10 @@ import {Subscription} from 'rxjs';
 import {AuthService} from '../../../../core/services/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {AbstractControl, FormArray, FormBuilder, FormGroup} from '@angular/forms';
-import {InviteColleaguesComponent} from "../../../../shared/components/modals/invite-colleagues/invite-colleagues.component";
+import {InviteColleaguesComponent} from '../../../../shared/components/modals/invite-colleagues/invite-colleagues.component';
+import {RemoveType} from '../../../../shared/models';
+import {RemoveModalComponent} from '../../../../shared/components/modals/remove-modal/remove-modal.component';
+
 
 @Component({
   selector: 'app-manage-colleagues',
@@ -19,6 +22,7 @@ import {InviteColleaguesComponent} from "../../../../shared/components/modals/in
 export class ManageColleaguesComponent implements OnInit, OnDestroy {
 
   @ViewChild(InviteColleaguesComponent) inviteColleaguesModal: InviteColleaguesComponent | undefined;
+  @ViewChild(RemoveModalComponent) removeColleagueModal: RemoveModalComponent | undefined;
 
   public modalReference: NgbModalRef | undefined;
   public defaultCompany: any;
@@ -37,6 +41,9 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
   private saveColleaguePosSub: Subscription | undefined;
   private inviteColleagueReqSub: Subscription | undefined;
   inviteUID: string | null = null;
+  removalType = RemoveType.COMPANY;
+  private colleagueIdToRemove: undefined | number;
+  private colleagueRemoveReqSub: Subscription | undefined;
 
 
   constructor(
@@ -68,6 +75,15 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
   openInviteColleagueModal(event: MouseEvent): void {
     this.inviteUID = uuidV4();
     this.modalReference = this.modalService.open(this.inviteColleaguesModal?.content, {
+      centered: true,
+      size: 'lg',
+    });
+
+  }
+
+  openRemoveColleagueModal(event: MouseEvent, colleagueId: number): void {
+    this.colleagueIdToRemove = colleagueId;
+    this.modalReference = this.modalService.open(this.removeColleagueModal?.content, {
       centered: true,
       size: 'lg',
     });
@@ -223,7 +239,35 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
 
   }
 
+  confirmColleagueRemove(): void {
+    if (this.colleagueIdToRemove) {
+      this.colleagueRemoveReqSub = this.companiesService.dissociate({
+        userId: this.colleagueIdToRemove,
+        companyId: this.defaultCompany.id
+      }).subscribe(
+        value => {
+          this.toaster.success('Colleague removed from Company Successfully');
+          this.colleagueIdToRemove = undefined;
+          this.modalReference?.close('Colleague removed');
+        },
+        err => {
+          devLogger('error', err);
+          this.colleagueIdToRemove = undefined;
+          this.modalReference?.dismiss('Colleague removal failed');
+        },
+        () => {
+          this.getCompanyColleagues();
+          this.colleagueIdToRemove = undefined;
+        }
+      );
+    }
+  }
+
   cancelAndCloseColleagueInvite(event: any): void {
+    this.modalReference?.dismiss('Cancelled by user');
+  }
+
+  cancelColleagueRemove(): void {
     this.modalReference?.dismiss('Cancelled by user');
   }
 
@@ -235,7 +279,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
     this.toggleAdminSub?.unsubscribe();
     this.saveColleaguePosSub?.unsubscribe();
     this.inviteColleagueReqSub?.unsubscribe();
+    this.colleagueRemoveReqSub?.unsubscribe();
   }
-
 
 }
