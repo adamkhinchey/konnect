@@ -5,3 +5,4 @@ export * from './signup-user-profile.interface';
 export * from './create-company.interface';
 export * from './file-upload-config.interface';
 export * from './user-settings.interface';
+export * from './colleague-invite.interface';

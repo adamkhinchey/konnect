@@ -1,6 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {UserSettingsInterface} from '../../../../shared/models';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {v4 as uuidV4} from 'uuid';
+import {ColleagueInviteInterface, UserSettingsInterface} from '../../../../shared/models';
 import {UserSettingsService} from '../../../../shared/services';
 import {devLogger} from '../../../../shared/utils';
 import {CompaniesService} from '../../services/companies.service';
@@ -8,6 +9,7 @@ import {Subscription} from 'rxjs';
 import {AuthService} from '../../../../core/services/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {AbstractControl, FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {InviteColleaguesComponent} from "../../../../shared/components/modals/invite-colleagues/invite-colleagues.component";
 
 @Component({
   selector: 'app-manage-colleagues',
@@ -16,8 +18,11 @@ import {AbstractControl, FormArray, FormBuilder, FormGroup} from '@angular/forms
 })
 export class ManageColleaguesComponent implements OnInit, OnDestroy {
 
-  public modalReference: any;
+  @ViewChild(InviteColleaguesComponent) inviteColleaguesModal: InviteColleaguesComponent | undefined;
+
+  public modalReference: NgbModalRef | undefined;
   public defaultCompany: any;
+  public usersFirstName: any;
   private userSettingsSubscription: Subscription | undefined;
   public companyColleaguesData: { invitesPending: any[], admins: any[], colleagues: any[], joinRequests: any[] } =
     {invitesPending: [], admins: [], colleagues: [], joinRequests: []};
@@ -30,6 +35,8 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
   private positionInpCtlArray: FormArray | undefined;
   colleaguePositionsModelMap = new Map<number, { colleagueID: number, value: string }>();
   private saveColleaguePosSub: Subscription | undefined;
+  private inviteColleagueReqSub: Subscription | undefined;
+  inviteUID: string | null = null;
 
 
   constructor(
@@ -49,6 +56,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
 
     this.userSettingsSubscription = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
       this.defaultCompany = value.defaultCompany;
+      this.usersFirstName = value.firstName;
       this.getCompanyColleagues();
     }, err => {
       devLogger('error', err);
@@ -57,8 +65,9 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
   }
 
 
-  openVerticallyCentered(content: any): void {
-    this.modalReference = this.modalService.open(content, {
+  openInviteColleagueModal(event: MouseEvent): void {
+    this.inviteUID = uuidV4();
+    this.modalReference = this.modalService.open(this.inviteColleaguesModal?.content, {
       centered: true,
       size: 'lg',
     });
@@ -197,6 +206,27 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
 
   }
 
+  sendInviteToColleague(event: ColleagueInviteInterface): void {
+
+    this.inviteColleagueReqSub = this.companiesService.inviteColleague(event)
+      .subscribe((value) => {
+        if (value) {
+          this.toaster.success('Invitation for colleague sent');
+          this.modalReference?.close('Colleague invite sent');
+        }
+      }, err => {
+        devLogger('error', err);
+        this.modalReference?.dismiss('Colleague invite failed');
+      }, () => {
+
+      });
+
+  }
+
+  cancelAndCloseColleagueInvite(event: any): void {
+    this.modalReference?.dismiss('Cancelled by user');
+  }
+
   ngOnDestroy(): void {
     this.userSettingsSubscription?.unsubscribe();
     this.approveReqSub?.unsubscribe();
@@ -204,6 +234,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
     this.getCmpColleaguesSub?.unsubscribe();
     this.toggleAdminSub?.unsubscribe();
     this.saveColleaguePosSub?.unsubscribe();
+    this.inviteColleagueReqSub?.unsubscribe();
   }
 
 

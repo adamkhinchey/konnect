@@ -5,7 +5,7 @@ import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
 import {catchError, map, take} from "rxjs/operators";
 import {HttpErrRespHandlerService} from "../../../shared/services/http-err-resp-handler.service";
-import {ApiResponseModelInterface, CreateCompanyInterface} from '../../../shared/models';
+import {ApiResponseModelInterface, ColleagueInviteInterface, CreateCompanyInterface} from '../../../shared/models';
 import {AssociateToCompany, Company} from '../models';
 import {camelCase, mapKeys} from 'lodash-es';
 
@@ -105,6 +105,16 @@ export class CompaniesService {
   saveColleaguePosition(param: { companyID: any; positionArray: { colleagueID: number; value: string }[] }): Observable<any> {
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/saveColleaguePosition`,
+      {...param}
+    ).pipe(
+      take(1),
+      this.httpErrorHandler.processError()
+    );
+  }
+
+  inviteColleague(param: ColleagueInviteInterface): Observable<ApiResponseModelInterface> {
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/inviteCompanyColleague`,
       {...param}
     ).pipe(
       take(1),

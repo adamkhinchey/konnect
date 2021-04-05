@@ -4,6 +4,7 @@ import companyCategories from './company-categories';
 
 const APIURL = 'https://yxraels57k.execute-api.ap-southeast-2.amazonaws.com/dev';
 const localProxyURL = 'http://localhost:4200/api';
+const siteURL = 'http://localhost:4200';
 
 export const environment = {
   production: false,
@@ -14,5 +15,6 @@ export const environment = {
   apiBaseURL: localProxyURL,
   jwtKey: 'tkn',
   imageFileUploadSize: 5 * 1024 * 1024, // 5MB
-  imageFileAllowedFormats: ['image/jpeg', 'image/png']
+  imageFileAllowedFormats: ['image/jpeg', 'image/png'],
+  siteURL
 };
