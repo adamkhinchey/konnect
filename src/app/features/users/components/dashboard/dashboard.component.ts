@@ -12,7 +12,7 @@ export class DashboardComponent implements OnInit {
   createCompanyMode: { status: boolean; type: { soleTrader: boolean; inc: boolean } } = {
     status: false, type: {soleTrader: false, inc: false}
   };
-  contentToShow = contentSwitchMapper[this.router.url] || '';  // contentSwitchMapper['/home/edit-profile'];
+  contentToShow = contentSwitchMapper['/home/edit-profile'];
 
   constructor(
     private route: ActivatedRoute,
