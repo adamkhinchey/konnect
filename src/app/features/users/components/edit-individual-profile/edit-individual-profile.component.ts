@@ -13,14 +13,14 @@ import {CompaniesService} from '../../services/companies.service';
 import {AuthService} from '../../../../core/services/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
-const MOBILE_REGEX = new RegExp(/^(?!0+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/, 'g');
-
 @Component({
   selector: 'app-edit-individual-profile',
   templateUrl: './edit-individual-profile.component.html',
   styleUrls: ['./edit-individual-profile.component.scss']
 })
 export class EditIndividualProfileComponent implements OnInit, OnDestroy {
+
+  MOBILE_REGEX = new RegExp(/^(?!(\d)\1+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{9}$/, 'gm');
 
   @ViewChild(RemoveModalComponent) removeModal: RemoveModalComponent | undefined;
 
@@ -34,7 +34,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     email: ['', [Validators.required, Validators.email]],
     recoveryEmail: ['', [Validators.email]],
     timeZone: [null, [Validators.required]],
-    mobileNumber: ['', [Validators.pattern(MOBILE_REGEX)]],
+    mobileNumber: ['', [Validators.pattern(this.MOBILE_REGEX)]],
     city: ['', [Validators.required]],
     countryId: ['', [Validators.required]],
     id: [null, [Validators.required]],

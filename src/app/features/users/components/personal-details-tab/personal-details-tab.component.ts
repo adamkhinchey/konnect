@@ -5,8 +5,6 @@ import {GetRegionAndCountriesService} from '../../../../shared/services';
 import {CreateProfilePersonalDetails, FileUploadConfigInterface} from '../../../../shared/models';
 import {devLogger} from "../../../../shared/utils";
 
-// const EMAIL_REGX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-const MOBILE_REGEX = new RegExp(/^(?!0+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/, 'g');
 
 @Component({
   selector: 'app-personal-details-tab',
@@ -14,6 +12,9 @@ const MOBILE_REGEX = new RegExp(/^(?!0+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/, 'g
   styleUrls: ['./personal-details-tab.component.scss']
 })
 export class PersonalDetailsTabComponent implements OnInit, OnDestroy {
+
+  MOBILE_REGEX = new RegExp(/^(?!(\d)\1+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{9}$/, 'gm');
+
   @Output() moveToCompanyDetailsTab = new EventEmitter<CreateProfilePersonalDetails>();
   @Output() profileImageChangeEvent = new EventEmitter<File>();
   // @ts-ignore
@@ -47,7 +48,7 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy {
         Validators.minLength(6),
         Validators.maxLength(12)]],
       timeZone: [this.timeZones[0].val, [Validators.required]],
-      mobileNumber: ['', [Validators.pattern(MOBILE_REGEX)]],
+      mobileNumber: ['', [Validators.pattern(this.MOBILE_REGEX)]],
       city: ['', [Validators.required]],
       countryId: ['', [Validators.required]]
     });

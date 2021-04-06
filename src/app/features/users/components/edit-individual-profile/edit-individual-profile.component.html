@@ -105,10 +105,10 @@
                   <label>Mobile</label>
                   <input type="email" placeholder="+611234567890" formControlName="mobileNumber">
                   <span
-                    *ngIf="editProfileForm!.get('mobileNumber')?.dirty &&
+                    *ngIf="(editProfileForm!.get('mobileNumber')?.dirty || editProfileForm!.get('mobileNumber')?.touched) &&
                     (editProfileForm!.get('mobileNumber')?.hasError('pattern'))"
                     class="text-danger"
-                  >Please provide mobile number in format: +[country-code][mobile-number]</span>
+                  >Please provide mobile number in format: +611234567890</span>
                 </div>
               </div>
               <div class="two fields">
