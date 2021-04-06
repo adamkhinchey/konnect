@@ -27,7 +27,7 @@
             </li>
             <li class="column center aligned middle aligned itemMenu">
               <span class="displaySubMenu" (click)="clickEvent3()"><i class="building icon"></i>Manage Company</span>
-              <ul class="subMenu" [ngClass]="status3 ? 'show' : 'd-none'">
+              <ul class="subMenu" [ngClass]="status3 ? 'show' : 'd-none'" [@fade]="activeMenu==='manageCompany'">
                 <li><a href="MC.html">Company Profile</a></li>
                 <li><a routerLink="/home/company/manage-colleagues">Manage Colleagues</a></li>
               </ul>

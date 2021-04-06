@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -10,6 +10,7 @@ import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {EventsModule} from "./features/events/events.module";
 import {UsersModule} from "./features/users/users.module";
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {UsersModule} from "./features/users/users.module";
     BrowserAnimationsModule,
     NgbModule,
     NgMultiSelectDropDownModule.forRoot(),
+    NgxSpinnerModule,
     SharedModule,
     CoreModule,
     EventsModule,
@@ -28,7 +30,8 @@ import {UsersModule} from "./features/users/users.module";
   ],
   providers: [
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
 }
