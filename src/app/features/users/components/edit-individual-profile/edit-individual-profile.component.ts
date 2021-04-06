@@ -5,12 +5,13 @@ import {environment} from '../../../../../environments/environment';
 import {GetRegionAndCountriesService, UserInfoService} from '../../../../shared/services';
 import {Subscription} from 'rxjs';
 import {checkRxFormValidation, devLogger} from '../../../../shared/utils';
-import {ToastrService} from "ngx-toastr";
-import {UpdateUserProfileService} from "../../services/update-user-profile.service";
-import {RemoveModalComponent} from "../../../../shared/components/modals/remove-modal/remove-modal.component";
-import {RemoveType} from "../../../../shared/models";
-import {CompaniesService} from "../../services/companies.service";
-import {AuthService} from "../../../../core/services/auth.service";
+import {ToastrService} from 'ngx-toastr';
+import {UpdateUserProfileService} from '../../services/update-user-profile.service';
+import {RemoveModalComponent} from '../../../../shared/components/modals/remove-modal/remove-modal.component';
+import {LoginUserProfile, RemoveType} from '../../../../shared/models';
+import {CompaniesService} from '../../services/companies.service';
+import {AuthService} from '../../../../core/services/auth.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-edit-individual-profile',
@@ -55,7 +56,9 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     private toaster: ToastrService,
     private updateUserProfileService: UpdateUserProfileService,
     private companyService: CompaniesService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -216,6 +219,13 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     this.removalType = null;
     this.removeMessage = null;
     this.modalReference?.dismiss('Confirmed');
+  }
+
+  navigateToJoinCreateCompany(event: MouseEvent): void {
+    event.preventDefault();
+    this.router.navigate(['home', 'join-company'], {
+      state: {navigateToPostCreate: this.router.url}
+    });
   }
 
   ngOnDestroy(): void {

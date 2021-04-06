@@ -25,7 +25,7 @@
               <label>{{createCompanyMode.type.soleTrader ? 'Trading Name' : 'Company Name'}}</label>
               <input type="text" name="first-name"
                      placeholder="Trading/Company Name"
-                     required formControlName="companyName">
+                     formControlName="companyName">
             </div>
             <span
               *ngIf="createCompanyForm!.get('companyName')?.touched
@@ -38,7 +38,7 @@
               <label for="select-company-country">Country</label>
               <select id="select-company-country"
                       class="ui fluid dropdown selection"
-                      formControlName="countryId" required>
+                      formControlName="countryId">
                 <option *ngFor="let cntr of countries$ | async" [ngValue]="cntr.val" [disabled]="!cntr.val">
                   {{ cntr.name }}
                 </option>
@@ -52,7 +52,7 @@
           <div class="eight wide column left aligned">
             <div class="field required">
               <label>City</label>
-              <input type="text" placeholder="City" required formControlName="city">
+              <input type="text" placeholder="City" formControlName="city">
               <span
                 *ngIf="createCompanyForm!.get('city')?.touched &&
                 (createCompanyForm!.get('city')?.hasError('required'))"

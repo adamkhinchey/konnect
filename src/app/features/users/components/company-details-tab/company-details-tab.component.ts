@@ -6,6 +6,7 @@ import {devLogger} from '../../../../shared/utils';
 import {AssociateToCompany, AssociationType, Company} from '../../models';
 import {ToastrService} from 'ngx-toastr';
 import {Router} from "@angular/router";
+import {AuthService} from "../../../../core/services/auth.service";
 
 @Component({
   selector: 'app-company-details-tab',
@@ -16,16 +17,18 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy 
 
   @Input() personalDetails: CreateProfilePersonalDetails | undefined;
   @Input() user: LoginUserProfile | SignupUserProfile | undefined;
-  @Output() createCompanyMode = new EventEmitter<{ status: boolean, type: { soleTrader: boolean, inc: boolean } }>()
+  @Output() createCompanyMode = new EventEmitter<{ status: boolean, type: { soleTrader: boolean, inc: boolean } }>();
+  @Input() searchForCompany = false;
+  @Input() navigateTo='home';
 
   cmpSearchSubscription: Subscription | undefined;
   assignCmpToUserSubscription: Subscription | undefined;
 
   company: Company | null = null;
   companyList: Company[] = [];
-  searchForCompany = false;
 
-  constructor(private companiesService: CompaniesService, private toaster: ToastrService, private router:Router) {
+  constructor(private companiesService: CompaniesService,
+              private toaster: ToastrService, private router: Router, private authService: AuthService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -81,8 +84,9 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy 
 
 
   claimOrJoinCompany(event: Partial<AssociateToCompany>): void {
+    const userId = this.user?.id || this.authService.getUserInfo().id;
     this.assignCmpToUserSubscription = this.companiesService.assignCompanyToUser({
-      ...event, userId: this.user?.id, positions: null
+      ...event, userId, positions: null
     }).subscribe(value => {
       devLogger('log', value);
       if (value) {
@@ -91,7 +95,7 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy 
         } else if (event.assignType === AssociationType.CLAIM) {
           this.toaster.success('Company claimed successfully. You are now Administrator of the Company');
         }
-        this.router.navigate(['home']);
+        this.router.navigate([this.navigateTo]);
       }
     }, err => {
       devLogger('error', err);

@@ -7,8 +7,10 @@ import {CompanyType, CreateCompanyInterface, LoginUserProfile, SignupUserProfile
 import {checkRxFormValidation, devLogger} from '../../utils';
 import {CompaniesService} from '../../../features/users/services/companies.service';
 import {Subscription} from 'rxjs';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {AuthService} from "../../../core/services/auth.service";
+import {map} from "rxjs/operators";
 
 const WEBSITE_REGEX = /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/;
 
@@ -49,11 +51,16 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     private companiesService: CompaniesService,
     private router: Router,
     private toaster: ToastrService,
-    private companyCategoriesService: CompanyCategoriesService
+    private companyCategoriesService: CompanyCategoriesService,
+    private authService: AuthService,
   ) {
   }
 
   ngOnInit(): void {
+    devLogger('log',{createCompanyMode: this.createCompanyMode});
+    if (!this.createCompanyMode.status) {
+      this.router.navigate(['home']);
+    }
     this.createCompanyForm = this.fb.group({
       companyProfileImage: [null],
       companyName: [null, [Validators.required]],
@@ -113,16 +120,18 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   }
 
   checkValidation(): boolean {
+    devLogger('log', this.createCompanyForm);
     return checkRxFormValidation(this.createCompanyForm);
   }
 
   createCompany(): void {
     devLogger('log', this.createCompanyForm.value);
+    const userId = this.user?.id || this.authService.getUserInfo().id;
     if (this.createCompanySubscription) {
       this.createCompanySubscription.unsubscribe();
     }
     this.createCompanySubscription = this.companiesService
-      .createCompany({userId: this.user?.id, ...this.createCompanyForm.value})
+      .createCompany({userId, ...this.createCompanyForm.value})
       .subscribe(async (value) => {
         if (value) {
           this.toaster.success('Company created successfully');

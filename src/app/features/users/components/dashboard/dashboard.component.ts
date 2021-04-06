@@ -9,6 +9,9 @@ import {ActivatedUserModuleRouteService} from "../../../../shared/services";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  createCompanyMode: { status: boolean; type: { soleTrader: boolean; inc: boolean } } = {
+    status: false, type: {soleTrader: false, inc: false}
+  };
   contentToShow = contentSwitchMapper[this.router.url] || '';  // contentSwitchMapper['/home/edit-profile'];
 
   constructor(
@@ -31,4 +34,10 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  switchToCreateCompany(event: { status: boolean; type: { soleTrader: boolean; inc: boolean } }): void {
+    if (event && event.status) {
+      this.createCompanyMode = {...event};
+      this.router.navigate(['home', 'create-company']);
+    }
+  }
 }
