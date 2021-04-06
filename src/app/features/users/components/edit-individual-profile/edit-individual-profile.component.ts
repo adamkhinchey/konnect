@@ -2,13 +2,13 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, Validators} from '@angular/forms';
 import {environment} from '../../../../../environments/environment';
-import {GetRegionAndCountriesService, UserInfoService} from '../../../../shared/services';
+import {GetRegionAndCountriesService, UploadFileService, UserInfoService} from '../../../../shared/services';
 import {Subscription} from 'rxjs';
 import {checkRxFormValidation, devLogger} from '../../../../shared/utils';
 import {ToastrService} from 'ngx-toastr';
 import {UpdateUserProfileService} from '../../services/update-user-profile.service';
 import {RemoveModalComponent} from '../../../../shared/components/modals/remove-modal/remove-modal.component';
-import {LoginUserProfile, RemoveType} from '../../../../shared/models';
+import {FileUploadConfigInterface, LoginUserProfile, RemoveType} from '../../../../shared/models';
 import {CompaniesService} from '../../services/companies.service';
 import {AuthService} from '../../../../core/services/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -47,6 +47,12 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   companyIdToDissociate: number | null = null;
   removeMessage: any;
   removalType: RemoveType | null | undefined;
+  profileImageConfig: FileUploadConfigInterface = {
+    fileTypes: environment.imageFileAllowedFormats,
+    size: environment.imageFileUploadSize
+  };
+  selectedImageSrc: string | undefined;
+  private selectedProfileImage: File | undefined;
 
   constructor(
     private modalService: NgbModal,
@@ -58,7 +64,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     private companyService: CompaniesService,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private fileUploadService: UploadFileService) {
   }
 
   ngOnInit(): void {
@@ -85,6 +91,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   private populateFormValues(): void {
+    this.editProfileForm.get('profileImage')?.setValue(this.userInfo.profileImage);
     this.editProfileForm.get('firstName')?.setValue(this.userInfo?.firstName);
     this.editProfileForm.get('lastName')?.setValue(this.userInfo?.lastName);
     this.editProfileForm.get('email')?.setValue(this.userInfo?.email);
@@ -147,8 +154,19 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateProfile(event: MouseEvent): void {
+  uploadImageAndUpdateProfile(event: MouseEvent): void {
     event.preventDefault();
+    if (this.selectedProfileImage) {
+      this.fileUploadService.uploadFile(this.selectedProfileImage, (url) => {
+        this.editProfileForm.get('profileImage')?.setValue(url);
+        this.updateProfile();
+      });
+    } else {
+      this.updateProfile();
+    }
+  }
+
+  updateProfile(): void {
     this.updateUserProfileService.update(this.editProfileForm.value)
       .subscribe((data) => {
         if (data) {
@@ -232,4 +250,9 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     this.userInfoSubscription.unsubscribe();
   }
 
+  setSelectedImage(event: File): void {
+    this.selectedImageSrc = URL.createObjectURL(event);
+    this.selectedProfileImage = event;
+    devLogger('log', {FILEEEEE: event});
+  }
 }

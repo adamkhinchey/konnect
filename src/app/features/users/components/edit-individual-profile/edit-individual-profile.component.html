@@ -15,8 +15,14 @@
                 <div class="field">
                   <div class="ui grid centered">
                     <div class="ten wide column marginB10 marginT10">
-                      <img [src]="userInfo?.profileImage || '../../assets/img/joe.jpg'" alt="" class="ui medium fluid image marginB10">
-                      <div class="ui button basic small compact blue fluid">Replace profile image</div>
+                      <img [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): userInfo?.profileImage || '../../assets/img/joe.jpg'" alt="" class="ui medium fluid image marginB10">
+                      <div class="ui button basic small compact blue fluid"
+                           appFileUploadTrigger
+                           [fileUploadComponentRef]="fileUploadComponent">Replace profile image</div>
+                      <app-file-upload #fileUploadComponent
+                                       [config]="profileImageConfig"
+                                       (fileChange)="setSelectedImage($event)"
+                      ></app-file-upload>
                     </div>
                   </div>
                 </div>
@@ -142,12 +148,12 @@
                 </div>
                 <div class="eight wide column right aligned">
                   <a disabled class="ui button basic blue hideMobile">Change Password</a>
-                  <button (click)="checkValidityOfForm($event) && updateProfile($event)"
+                  <button (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)"
                           class="ui button hideMobile ml-2">Save
                   </button>
                   <div disabled class="marginB10 visibleMobile"><a href="RP-01.html" class="ui button basic blue fluid">Change
                     Password</a></div>
-                  <button (click)="checkValidityOfForm($event) && updateProfile($event)"
+                  <button (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)"
                           class="ui button fluid visibleMobile ml-2">Save
                   </button>
                 </div>

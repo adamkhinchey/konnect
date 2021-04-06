@@ -19,7 +19,7 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy 
   @Input() user: LoginUserProfile | SignupUserProfile | undefined;
   @Output() createCompanyMode = new EventEmitter<{ status: boolean, type: { soleTrader: boolean, inc: boolean } }>();
   @Input() searchForCompany = false;
-  @Input() navigateTo='home';
+  @Input() navigateTo = 'home';
 
   cmpSearchSubscription: Subscription | undefined;
   assignCmpToUserSubscription: Subscription | undefined;
