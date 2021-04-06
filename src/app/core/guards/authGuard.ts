@@ -18,6 +18,10 @@ export default class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): /*Observable<boolean | UrlTree> | */Promise<boolean> /*| UrlTree> | boolean | UrlTree*/ {
+    if (!this.authService.getToken()) {
+      this.router.navigate(['login']);
+      return false;
+    }
     try {
       const user = await this.userInfoService.getInfo().toPromise();
       if (user) {
