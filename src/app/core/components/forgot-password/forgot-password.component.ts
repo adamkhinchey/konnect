@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {checkRxFormValidation} from "../../../shared/utils";
 
 @Component({
   selector: 'app-forgot-password',
@@ -26,6 +27,10 @@ export class ForgotPasswordComponent implements OnInit {
     if (this.auth.getToken()) {
       this.router.navigate(['home']);
     }
+  }
+
+  checkValidity(): boolean {
+    return checkRxFormValidation(this.forgotPasswordForm);
   }
 
   async sendResetPassLink(event: MouseEvent): Promise<void> {
