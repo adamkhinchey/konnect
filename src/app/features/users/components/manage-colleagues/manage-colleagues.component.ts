@@ -73,11 +73,15 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
 
 
   openInviteColleagueModal(event: MouseEvent): void {
-    this.inviteUID = uuidV4();
-    this.modalReference = this.modalService.open(this.inviteColleaguesModal?.content, {
-      centered: true,
-      size: 'lg',
-    });
+    if(this.defaultCompany && this.defaultCompany.id) {
+      this.inviteUID = uuidV4();
+      this.modalReference = this.modalService.open(this.inviteColleaguesModal?.content, {
+        centered: true,
+        size: 'lg',
+      });
+    }else{
+      this.toaster.error('No Company is associated or selected');
+    }
 
   }
 

@@ -305,8 +305,8 @@
   <app-invite-colleagues
     (confirm)="sendInviteToColleague($event)"
     (cancel)="cancelAndCloseColleagueInvite($event)"
-    [companyId]="defaultCompany.id"
-    [companyName]="defaultCompany.companyName"
+    [companyId]="defaultCompany?.id"
+    [companyName]="defaultCompany?.companyName"
     [inviterName]="usersFirstName"
     [inviteUID]="inviteUID"
   ></app-invite-colleagues>
