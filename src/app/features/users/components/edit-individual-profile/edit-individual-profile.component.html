@@ -65,7 +65,7 @@
                        type="email"
                        placeholder="Email Address"
                        formControlName="email"
-                       required>
+                       [attr.disabled]="true">
                 <span
                   *ngIf="editProfileForm!.get('email')?.touched
           && (
