@@ -5,9 +5,10 @@ import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {ApiResponseModelInterface} from "../models";
 import {v4 as uuidv4} from 'uuid';
-import {map} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {ToastrService} from "ngx-toastr";
 import {devLogger} from "../utils";
+import {NgxSpinnerService} from "ngx-spinner";
 
 interface SignedURLApiResponseModel extends ApiResponseModelInterface {
   data: {
@@ -26,14 +27,22 @@ interface SignedURLApiResponseModel extends ApiResponseModelInterface {
 export class UploadFileService {
   private apiBaseUrl = environment.apiBaseURL;
 
-  constructor(private http: HttpClient, private httpErrHandler: HttpErrRespHandlerService, private toaster: ToastrService) {
+  constructor(
+    private http: HttpClient,
+    private httpErrHandler: HttpErrRespHandlerService,
+    private toaster: ToastrService,
+    private spinner: NgxSpinnerService) {
   }
 
   private fetchSignedUrl(fileName: string, fileType: string): Observable<{ signedRequest: string, url: string }> {
+    this.spinner.show();
     return this.http.get<SignedURLApiResponseModel>(
       `${this.apiBaseUrl}/getS3BucketSignedURL`,
       {params: {fileName, fileType}}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       this.httpErrHandler.processError(true),
       map(response => {
         return {
@@ -48,7 +57,11 @@ export class UploadFileService {
     const name = uuidv4() + '__' + file.name;
     let signedUploadUrl: string | null = null;
     let url: string | null = null;
+    this.spinner.show();
     this.fetchSignedUrl(name, file.type)
+      .pipe(tap(() => {
+        this.spinner.hide();
+      }))
       .subscribe(value => {
         if (value) {
           signedUploadUrl = value.signedRequest;
@@ -67,6 +80,7 @@ export class UploadFileService {
   }
 
   private doUpload(signedUploadUrl: string, url: string, file: File, cb: (url: string) => void): void {
+    this.spinner.show()
     this.http.put(
       signedUploadUrl,
       file,
@@ -74,6 +88,9 @@ export class UploadFileService {
         headers: {'Content-Type': file.type, 'NO-AUTH': 'true'}
       })
       .pipe(
+        tap(() => {
+          this.spinner.hide();
+        }),
         this.httpErrHandler.processError(true)
       )
       .subscribe(value => {

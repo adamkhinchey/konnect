@@ -3,18 +3,19 @@ import {UsersModule} from '../users.module';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
-import {catchError, map, take} from "rxjs/operators";
+import {catchError, map, take, tap} from "rxjs/operators";
 import {HttpErrRespHandlerService} from "../../../shared/services/http-err-resp-handler.service";
 import {ApiResponseModelInterface, ColleagueInviteInterface, CreateCompanyInterface} from '../../../shared/models';
 import {AssociateToCompany, Company} from '../models';
 import {camelCase, mapKeys} from 'lodash-es';
+import {NgxSpinnerService} from "ngx-spinner";
 
 @Injectable()
 export class CompaniesService {
 
   apiBaseUrl = environment.apiBaseURL;
 
-  constructor(private http: HttpClient, private httpErrorHandler: HttpErrRespHandlerService) {
+  constructor(private spinner: NgxSpinnerService, private http: HttpClient, private httpErrorHandler: HttpErrRespHandlerService) {
   }
 
   transformToCompanyModel(data: any): Company | null {
@@ -22,10 +23,14 @@ export class CompaniesService {
   }
 
   search(param: { domain: string | null; searchKeyword: string | null }): Observable<any> {
+    this.spinner.show()
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/searchCompany`,
       {...param}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       this.httpErrorHandler.processError(),
       map((response: ApiResponseModelInterface) => (
         response ? {
@@ -42,37 +47,53 @@ export class CompaniesService {
   }
 
   assignCompanyToUser(param: Partial<AssociateToCompany>): Observable<any> {
+    this.spinner.show();
     return this.http.post(
       `${this.apiBaseUrl}/assignCompanyToUser`,
       {...param}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       this.httpErrorHandler.processError()
     );
   }
 
   createCompany(param: CreateCompanyInterface): Observable<any> {
+    this.spinner.show();
     return this.http.post(
       `${this.apiBaseUrl}/createCompany`,
       {...param}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       take(1),
       this.httpErrorHandler.processError()
     );
   }
 
-  dissociate(param: Partial<{companyId: number | null, userId: number | null}>): Observable<any> {
+  dissociate(param: Partial<{ companyId: number | null, userId: number | null }>): Observable<any> {
+    this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/removeCompanyAssocaition`,
       {...param}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       this.httpErrorHandler.processError()
     );
   }
 
   getCompanyColleagues(p: { companyId: number }): Observable<any> {
+    this.spinner.show();
     return this.http.get<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/getCompanyColleaguesWithSegregation?companyId=${p.companyId}`
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       take(1),
       this.httpErrorHandler.processError(),
       map(response => {
@@ -83,40 +104,56 @@ export class CompaniesService {
   }
 
   approveDeclineJoinRequest(param: { companyId: any; userId: number; status: number }): Observable<any> {
+    this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/approveRejectCompanyJoinRequest`,
       {...param}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       take(1),
       this.httpErrorHandler.processError()
     );
   }
 
   toggleAdmin(param: { companyId: any; isAdmin: number; userId: number }): Observable<any> {
+    this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/makeCompanyAdmin`,
       {...param}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       take(1),
       this.httpErrorHandler.processError()
     );
   }
 
   saveColleaguePosition(param: { companyID: any; positionArray: { colleagueID: number; value: string }[] }): Observable<any> {
+    this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/saveColleaguePosition`,
       {...param}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       take(1),
       this.httpErrorHandler.processError()
     );
   }
 
   inviteColleague(param: ColleagueInviteInterface): Observable<ApiResponseModelInterface> {
+    this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/inviteCompanyColleague`,
       {...param}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       take(1),
       this.httpErrorHandler.processError()
     );

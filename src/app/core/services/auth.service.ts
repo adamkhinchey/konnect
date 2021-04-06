@@ -9,9 +9,10 @@ import {
   LoginUserProfile,
   SignupUserProfile, UserSettingsInterface
 } from '../../shared/models';
-import {catchError, map, pluck, take} from 'rxjs/operators';
+import {catchError, map, pluck, take, tap} from 'rxjs/operators';
 import {devLogger} from '../../shared/utils';
 import {Router} from "@angular/router";
+import {NgxSpinnerService} from "ngx-spinner";
 
 
 interface SignupResponse extends ApiResponseModelInterface {
@@ -71,13 +72,18 @@ export class AuthService {
     private httpErrRespHandler: HttpErrRespHandlerService,
     private router: Router,
     private userInfoService: UserInfoService,
-    private userSettingsService: UserSettingsService) {
+    private userSettingsService: UserSettingsService,
+    private spinner: NgxSpinnerService) {
   }
 
   signup(personalDetails: CreateProfilePersonalDetails): Observable<any> | void {
+    this.spinner.show();
     this.signupSubscription = this.http.post<SignupResponse>(`${this.apiBaseURL}/signup`,
       {...personalDetails})
       .pipe(
+        tap(() => {
+          this.spinner.hide();
+        }),
         take(1),
         this.httpErrRespHandler.processError(true),
         pluck('data', 'user'),
@@ -87,10 +93,14 @@ export class AuthService {
   }
 
   login(payload: { email: string, password: string }): Observable<any> | void {
+    this.spinner.show();
     this.loginSubscription = this.http.post<LoginResponse>(
       `${this.apiBaseURL}/login`,
       {email: payload.email, password: payload.password}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       take(1),
       this.httpErrRespHandler.processError(true),
       pluck('data', 'user'),
@@ -114,20 +124,28 @@ export class AuthService {
   }
 
   requestPasswordResetLink(email: string): Observable<ApiResponseModelInterface> {
+    this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseURL}/sendResetPasswordLink`,
       {email}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       take(1),
       this.httpErrRespHandler.processError(false)
     );
   }
 
   resetPassword(param: { resetPasswordToken: string | null; password: string }): Observable<any> {
+    this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseURL}/resetPassword`,
       {...param}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       take(1),
       this.httpErrRespHandler.processError(true)
     );
@@ -168,10 +186,14 @@ export class AuthService {
   }
 
   deleteUserProfile(param: { userId: number }): Observable<any> {
+    this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseURL}/deleteProfile`,
       {...param}
     ).pipe(
+      tap(() => {
+        this.spinner.hide();
+      }),
       this.httpErrRespHandler.processError()
     );
   }
