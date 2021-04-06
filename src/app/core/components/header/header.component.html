@@ -28,8 +28,8 @@
             <li class="column center aligned middle aligned itemMenu">
               <span class="displaySubMenu" (click)="clickEvent3()"><i class="building icon"></i>Manage Company</span>
               <ul class="subMenu" [ngClass]="status3 ? 'show' : 'd-none'" [@fade]="activeMenu==='manageCompany'">
-                <li><a href="MC.html">Company Profile</a></li>
-                <li><a routerLink="/home/company/manage-colleagues">Manage Colleagues</a></li>
+                <li><a href="MC.html" (click)="hideAllMenus()">Company Profile</a></li>
+                <li><a routerLink="/home/company/manage-colleagues" (click)="hideAllMenus()">Manage Colleagues</a></li>
               </ul>
             </li>
           </ul>
@@ -56,7 +56,7 @@
             </div>
           </div>
           <ul class="subMenu" [ngClass]="status ? 'show' : 'd-none'">
-            <li (click)="navToEditProfile($event)"><a>Edit Profile</a></li>
+            <li (click)="navToEditProfile($event) && hideAllMenus()"><a>Edit Profile</a></li>
             <li (click)="logout($event)"><a>Logout</a></li>
           </ul>
         </div>

@@ -70,14 +70,19 @@ export class HeaderComponent implements OnInit {
     return item.isDefault;
   }
 
-  navToEditProfile(event: MouseEvent): void {
+  navToEditProfile(event: MouseEvent): boolean {
     event.preventDefault();
     this.router.navigate(['home', 'edit-profile']);
+    return true;
   }
 
   logout(event: MouseEvent): void {
     this.authService.logout();
     this.showHeader = false;
+    this.hideAllMenus();
+  }
+
+  hideAllMenus(): void {
     this.status = false;
     this.status2 = false;
     this.status3 = false;
