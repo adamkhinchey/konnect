@@ -6,6 +6,7 @@ import {CreateProfilePersonalDetails, FileUploadConfigInterface} from '../../../
 import {devLogger} from "../../../../shared/utils";
 
 // const EMAIL_REGX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const MOBILE_REGEX = new RegExp(/^(?!0+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/, 'g');
 
 @Component({
   selector: 'app-personal-details-tab',
@@ -46,7 +47,7 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy {
         Validators.minLength(6),
         Validators.maxLength(12)]],
       timeZone: [this.timeZones[0].val, [Validators.required]],
-      mobileNumber: [''],
+      mobileNumber: ['', [Validators.pattern(MOBILE_REGEX)]],
       city: ['', [Validators.required]],
       countryId: ['', [Validators.required]]
     });

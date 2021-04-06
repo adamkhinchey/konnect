@@ -13,6 +13,8 @@ import {CompaniesService} from '../../services/companies.service';
 import {AuthService} from '../../../../core/services/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
+const MOBILE_REGEX = new RegExp(/^(?!0+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/, 'g');
+
 @Component({
   selector: 'app-edit-individual-profile',
   templateUrl: './edit-individual-profile.component.html',
@@ -32,7 +34,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     email: ['', [Validators.required, Validators.email]],
     recoveryEmail: ['', [Validators.email]],
     timeZone: [null, [Validators.required]],
-    mobileNumber: [''],
+    mobileNumber: ['', [Validators.pattern(MOBILE_REGEX)]],
     city: ['', [Validators.required]],
     countryId: ['', [Validators.required]],
     id: [null, [Validators.required]],
@@ -95,6 +97,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     this.editProfileForm.get('firstName')?.setValue(this.userInfo?.firstName);
     this.editProfileForm.get('lastName')?.setValue(this.userInfo?.lastName);
     this.editProfileForm.get('email')?.setValue(this.userInfo?.email);
+    this.editProfileForm.get('mobileNumber')?.setValue(this.userInfo?.mobile?.trim());
     this.editProfileForm.get('recoveryEmail')?.setValue(this.userInfo?.recoveryEmail);
     let timeZoneIndex = this.timeZones.findIndex(timeZone => {
       const receivedTz = typeof this.userInfo?.timeZone === 'string' ?
