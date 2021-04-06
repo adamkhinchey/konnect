@@ -71,7 +71,7 @@ export class UploadFileService {
       signedUploadUrl,
       file,
       {
-        headers: {'Content-Type': file.type}
+        headers: {'Content-Type': file.type, 'NO-AUTH': 'true'}
       })
       .pipe(
         this.httpErrHandler.processError(true)

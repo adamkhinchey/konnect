@@ -1,9 +1,15 @@
 import {Component, Input, OnChanges, OnDestroy, OnInit, EventEmitter} from '@angular/core';
-import {CompanyCategoriesService, GetRegionAndCountriesService} from '../../services';
+import {CompanyCategoriesService, GetRegionAndCountriesService, UploadFileService} from '../../services';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IDropdownSettings} from 'ng-multiselect-dropdown';
 import {environment} from '../../../../environments/environment';
-import {CompanyType, CreateCompanyInterface, LoginUserProfile, SignupUserProfile} from '../../models';
+import {
+  CompanyType,
+  CreateCompanyInterface,
+  FileUploadConfigInterface,
+  LoginUserProfile,
+  SignupUserProfile
+} from '../../models';
 import {checkRxFormValidation, devLogger} from '../../utils';
 import {CompaniesService} from '../../../features/users/services/companies.service';
 import {Subscription} from 'rxjs';
@@ -44,6 +50,12 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     allowSearchFilter: true,
   };
   selectedCategory: any;
+  profileImageConfig: FileUploadConfigInterface = {
+    fileTypes: environment.imageFileAllowedFormats,
+    size: environment.imageFileUploadSize
+  };
+  selectedImageSrc: string | undefined;
+  private selectedProfileImage: File | undefined;
 
   constructor(
     private getRegionAndCountriesService: GetRegionAndCountriesService,
@@ -53,11 +65,12 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     private toaster: ToastrService,
     private companyCategoriesService: CompanyCategoriesService,
     private authService: AuthService,
+    private uploadFileService: UploadFileService
   ) {
   }
 
   ngOnInit(): void {
-    devLogger('log',{createCompanyMode: this.createCompanyMode});
+    devLogger('log', {createCompanyMode: this.createCompanyMode});
     if (!this.createCompanyMode.status) {
       this.router.navigate(['home']);
     }
@@ -124,6 +137,17 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     return checkRxFormValidation(this.createCompanyForm);
   }
 
+  saveImageAndCreateCompany(): void {
+    if (this.selectedProfileImage) {
+      this.uploadFileService.uploadFile(this.selectedProfileImage, (url: string) => {
+        this.createCompanyForm.get('companyProfileImage')?.setValue(url);
+        this.createCompany();
+      });
+    } else {
+      this.createCompany();
+    }
+  }
+
   createCompany(): void {
     devLogger('log', this.createCompanyForm.value);
     const userId = this.user?.id || this.authService.getUserInfo().id;
@@ -149,5 +173,11 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     if (this.categoryListSubscription) {
       this.categoryListSubscription.unsubscribe();
     }
+  }
+
+  setSelectedImage(event: File): void {
+    this.selectedImageSrc = URL.createObjectURL(event);
+    this.selectedProfileImage = event;
+    devLogger('log', {FILEEEEE: event});
   }
 }
