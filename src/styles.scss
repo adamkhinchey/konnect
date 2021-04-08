@@ -225,3 +225,30 @@ ul.secondary.menu {
 .mainContent .container {
   margin-top: 2rem;
 }
+
+
+.actionBar header .profileInfo img {
+  display: inline-block !important;
+  width: 65px !important;
+  margin-right: 5px;
+  vertical-align: bottom;
+  height: 65px !important;
+  object-fit: cover;
+}
+.actionBar header .profileInfo .headerCompanySelector {
+  position: relative;
+  display: inline-block !important;
+  width: calc(100% - 90px);
+}
+.actionBar header .profileInfo .headerCompanySelector .dropdownChangeCompany {
+  width: 100%;
+}
+.headerCompanySelector  .dropdownChangeCompany .text  {
+  max-width: 60%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+.userleftImgUpdate { height: 168px !important; object-fit: cover; }
+img.ui.image.mini { height: 70px; object-fit: cover; }
