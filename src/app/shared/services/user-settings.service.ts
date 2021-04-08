@@ -13,7 +13,7 @@ export class UserSettingsService {
 
   public populateSettings(userInfo: any): void {
     const userSettings: UserSettingsInterface = this.settings.getValue();
-    const currentDefaultCompany = (userInfo.associatedCompanies as Array<any>).find((cmp: any) => cmp.id = userInfo.defaultCompanyId);
+    const currentDefaultCompany = (userInfo.associatedCompanies as Array<any>).find((cmp: any) => cmp.id === userInfo.defaultCompanyId);
     this.settings.next({
       ...this.settings.getValue(),
       defaultCompany: currentDefaultCompany ? currentDefaultCompany : userSettings.defaultCompany,
