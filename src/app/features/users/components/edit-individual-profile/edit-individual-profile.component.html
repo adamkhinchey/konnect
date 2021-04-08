@@ -17,7 +17,7 @@
                     <div class="ten wide column marginB10 marginT10">
                       <img
                         [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): userInfo?.profileImage || '../../assets/img/joe.jpg'"
-                        alt="" class="ui medium fluid image marginB10">
+                        alt="" class="ui medium fluid image marginB10 userleftImgUpdate">
                       <div class="ui button basic small compact blue fluid"
                            appFileUploadTrigger
                            [fileUploadComponentRef]="fileUploadComponent">Replace profile image
