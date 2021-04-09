@@ -7,6 +7,7 @@ import {EditIndividualProfileComponent} from "./components/edit-individual-profi
 import {ManageColleaguesComponent} from "./components/manage-colleagues/manage-colleagues.component";
 import {CreateCompanyComponent} from "../../shared/components";
 import {CompanyDetailsTabComponent} from "./components/company-details-tab/company-details-tab.component";
+import {ManageConnectionsComponent} from "./components/manage-connections/manage-connections.component";
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
       },
       {path: 'join-company', component: CompanyDetailsTabComponent},
       {path: 'create-company', component: CreateCompanyComponent},
+      {path: 'manage-connections', component: ManageConnectionsComponent}
     ],
     canActivate: [AuthGuard]
   },

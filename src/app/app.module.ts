@@ -11,6 +11,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {EventsModule} from "./features/events/events.module";
 import {UsersModule} from "./features/users/users.module";
 import {NgxSpinnerModule} from "ngx-spinner";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {NgxSpinnerModule} from "ngx-spinner";
     EventsModule,
     UsersModule,
     AppRoutingModule,
+    FontAwesomeModule,
   ],
   providers: [
   ],

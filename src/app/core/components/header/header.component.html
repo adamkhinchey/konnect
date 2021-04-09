@@ -29,7 +29,7 @@
                 Colleagues</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
-              <a [attr.href]="isApproved ? 'AB-01.html' : ''"
+              <a  routerLink="/home/manage-connections" (click)="hideAllMenus()"
                  [class.disabled]="!isApproved"><i class="address book icon"></i>Manage Connections</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">

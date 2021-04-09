@@ -17,6 +17,7 @@ import { SafeUrlPipePipe } from './pipes/safe-url-pipe.pipe';
 import { SortPipe } from './pipes/sort.pipe';
 import { InviteColleaguesComponent } from './components/modals/invite-colleagues/invite-colleagues.component';
 import { WaitingForApprovalComponent } from './components/waiting-for-approval/waiting-for-approval.component';
+import { ImageFallbackDirective } from './directives/image-fallback.directive';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { WaitingForApprovalComponent } from './components/waiting-for-approval/w
     SortPipe,
     InviteColleaguesComponent,
     WaitingForApprovalComponent,
+    ImageFallbackDirective,
    ],
   imports: [
     CommonModule,
@@ -39,17 +41,18 @@ import { WaitingForApprovalComponent } from './components/waiting-for-approval/w
     ReactiveFormsModule,
     FormsModule,
   ],
-    exports: [
-        CompanySearchComponent,
-        CreateCompanyComponent,
-        RemoveModalComponent,
-        FileUploadComponent,
-        FileUploadTriggerDirective,
-        SafeUrlPipePipe,
-        SortPipe,
-        InviteColleaguesComponent,
-        WaitingForApprovalComponent
-    ],
+  exports: [
+    CompanySearchComponent,
+    CreateCompanyComponent,
+    RemoveModalComponent,
+    FileUploadComponent,
+    FileUploadTriggerDirective,
+    SafeUrlPipePipe,
+    SortPipe,
+    InviteColleaguesComponent,
+    WaitingForApprovalComponent,
+    ImageFallbackDirective
+  ],
   providers: [
     GetRegionAndCountriesService,
     HttpErrRespHandlerService,

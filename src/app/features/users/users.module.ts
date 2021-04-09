@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {UsersRoutingModule} from './users-routing.module';
@@ -14,6 +14,9 @@ import { EditIndividualProfileComponent } from './components/edit-individual-pro
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {UpdateUserProfileService} from "./services/update-user-profile.service";
 import { ManageColleaguesComponent } from './components/manage-colleagues/manage-colleagues.component';
+import { ManageConnectionsComponent } from './components/manage-connections/manage-connections.component';
+import {NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 
 @NgModule({
@@ -25,22 +28,26 @@ import { ManageColleaguesComponent } from './components/manage-colleagues/manage
     EditIndividualProfileComponent,
     DashboardComponent,
     ManageColleaguesComponent,
+    ManageConnectionsComponent,
   ],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        UsersRoutingModule,
-        NgWizardModule,
-        SharedModule,
-        FormsModule,
-    ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    UsersRoutingModule,
+    NgWizardModule,
+    SharedModule,
+    FormsModule,
+    NgbNavModule,
+    FontAwesomeModule,
+  ],
   exports: [
     DashboardComponent
   ],
   providers: [
     CompaniesService,
     UpdateUserProfileService
-  ]
+  ],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class UsersModule {
 }

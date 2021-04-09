@@ -1,14 +1,19 @@
 import {Injectable} from '@angular/core';
-import {UsersModule} from '../users.module';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
 import {environment} from "../../../../environments/environment";
-import {catchError, map, take, tap} from "rxjs/operators";
+import {map, take, tap} from "rxjs/operators";
 import {HttpErrRespHandlerService} from "../../../shared/services/http-err-resp-handler.service";
-import {ApiResponseModelInterface, ColleagueInviteInterface, CreateCompanyInterface} from '../../../shared/models';
+import {
+  ApiResponseModelInterface,
+  ColleagueInviteInterface,
+  ConnectionType,
+  CreateCompanyInterface
+} from '../../../shared/models';
 import {AssociateToCompany, Company} from '../models';
 import {camelCase, mapKeys} from 'lodash-es';
 import {NgxSpinnerService} from "ngx-spinner";
+import {hideSpinnerPostApiCall} from "../../../shared/utils";
 
 @Injectable()
 export class CompaniesService {
@@ -21,6 +26,7 @@ export class CompaniesService {
   transformToCompanyModel(data: any): Company | null {
     return data ? mapKeys(data, (v, k) => camelCase(k)) as Company : null;
   }
+
 
   search(param: { domain: string | null; searchKeyword: string | null }): Observable<any> {
     this.spinner.show()
@@ -175,5 +181,25 @@ export class CompaniesService {
       take(1),
       this.httpErrorHandler.processError()
     );
+  }
+
+  getConnections(param: { companyId: any; entityType: ConnectionType; pageNo: number; pageSize: number }): Observable<any> {
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/listConnection`,
+      {...param},
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      take(1),
+      this.httpErrorHandler.processError(),
+      map(response => {
+        switch (param.entityType) {
+          case ConnectionType.USER:
+            return response.data?.userConnection || [];
+          case ConnectionType.Company:
+            return response.data?.companyConnection || [];
+          default:
+            return response.data || [];
+        }
+      }));
   }
 }
