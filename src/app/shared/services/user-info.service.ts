@@ -24,6 +24,8 @@ export class UserInfoService {
     return this.http.get<ApiResponseModelInterface>(`${this.apiBaseURL}/me`).pipe(
       tap(() => {
         this.spinner.hide();
+      }, () => {
+        this.spinner.hide();
       }),
       take(1),
       this.httpErrorHandler.processError(true, false),

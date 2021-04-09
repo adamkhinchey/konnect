@@ -30,6 +30,8 @@ export class CompaniesService {
     ).pipe(
       tap(() => {
         this.spinner.hide();
+      }, () => {
+        this.spinner.hide();
       }),
       this.httpErrorHandler.processError(),
       map((response: ApiResponseModelInterface) => (
@@ -54,6 +56,8 @@ export class CompaniesService {
     ).pipe(
       tap(() => {
         this.spinner.hide();
+      }, () => {
+        this.spinner.hide();
       }),
       this.httpErrorHandler.processError()
     );
@@ -66,6 +70,8 @@ export class CompaniesService {
       {...param}
     ).pipe(
       tap(() => {
+        this.spinner.hide();
+      }, () => {
         this.spinner.hide();
       }),
       take(1),
@@ -81,6 +87,8 @@ export class CompaniesService {
     ).pipe(
       tap(() => {
         this.spinner.hide();
+      }, () => {
+        this.spinner.hide();
       }),
       this.httpErrorHandler.processError()
     );
@@ -92,6 +100,8 @@ export class CompaniesService {
       `${this.apiBaseUrl}/getCompanyColleaguesWithSegregation?companyId=${p.companyId}`
     ).pipe(
       tap(() => {
+        this.spinner.hide();
+      }, () => {
         this.spinner.hide();
       }),
       take(1),
@@ -111,6 +121,8 @@ export class CompaniesService {
     ).pipe(
       tap(() => {
         this.spinner.hide();
+      }, () => {
+        this.spinner.hide();
       }),
       take(1),
       this.httpErrorHandler.processError()
@@ -124,6 +136,8 @@ export class CompaniesService {
       {...param}
     ).pipe(
       tap(() => {
+        this.spinner.hide();
+      }, () => {
         this.spinner.hide();
       }),
       take(1),
@@ -139,6 +153,8 @@ export class CompaniesService {
     ).pipe(
       tap(() => {
         this.spinner.hide();
+      }, () => {
+        this.spinner.hide();
       }),
       take(1),
       this.httpErrorHandler.processError()
@@ -152,6 +168,8 @@ export class CompaniesService {
       {...param}
     ).pipe(
       tap(() => {
+        this.spinner.hide();
+      }, () => {
         this.spinner.hide();
       }),
       take(1),

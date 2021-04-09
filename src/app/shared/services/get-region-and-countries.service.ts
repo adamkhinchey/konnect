@@ -24,6 +24,8 @@ export class GetRegionAndCountriesService {
     }).pipe(
       tap(() => {
         this.spinner.hide();
+      }, () => {
+        this.spinner.hide();
       }),
       this.httpErrRespHandler.processError(false),
       pluck('data', 'countryList'),

@@ -42,6 +42,8 @@ export class UploadFileService {
     ).pipe(
       tap(() => {
         this.spinner.hide();
+      }, () => {
+        this.spinner.hide();
       }),
       this.httpErrHandler.processError(true),
       map(response => {
@@ -60,6 +62,8 @@ export class UploadFileService {
     this.spinner.show();
     this.fetchSignedUrl(name, file.type)
       .pipe(tap(() => {
+        this.spinner.hide();
+      }, () => {
         this.spinner.hide();
       }))
       .subscribe(value => {
@@ -80,7 +84,7 @@ export class UploadFileService {
   }
 
   private doUpload(signedUploadUrl: string, url: string, file: File, cb: (url: string) => void): void {
-    this.spinner.show()
+    this.spinner.show();
     this.http.put(
       signedUploadUrl,
       file,
@@ -89,6 +93,8 @@ export class UploadFileService {
       })
       .pipe(
         tap(() => {
+          this.spinner.hide();
+        }, () => {
           this.spinner.hide();
         }),
         this.httpErrHandler.processError(true)

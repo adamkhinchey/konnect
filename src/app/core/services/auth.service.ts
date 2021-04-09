@@ -49,6 +49,7 @@ export class AuthService {
     error: (err: Error) => {
       this.isLoggedIn.next({status: false});
       devLogger('error', err);
+      this.spinner.hide();
     },
     complete: () => {
     }
@@ -62,6 +63,7 @@ export class AuthService {
     error: (err: Error) => {
       this.isLoggedIn.next({status: false});
       devLogger('error', err);
+      this.spinner.hide();
     },
     complete: () => {
     }
@@ -83,6 +85,8 @@ export class AuthService {
       .pipe(
         tap(() => {
           this.spinner.hide();
+        }, () => {
+          this.spinner.hide();
         }),
         take(1),
         this.httpErrRespHandler.processError(true),
@@ -99,6 +103,8 @@ export class AuthService {
       {email: payload.email, password: payload.password}
     ).pipe(
       tap(() => {
+        this.spinner.hide();
+      }, () => {
         this.spinner.hide();
       }),
       take(1),
@@ -131,6 +137,8 @@ export class AuthService {
     ).pipe(
       tap(() => {
         this.spinner.hide();
+      }, () => {
+        this.spinner.hide();
       }),
       take(1),
       this.httpErrRespHandler.processError(false)
@@ -144,6 +152,8 @@ export class AuthService {
       {...param}
     ).pipe(
       tap(() => {
+        this.spinner.hide();
+      }, () => {
         this.spinner.hide();
       }),
       take(1),
@@ -192,6 +202,8 @@ export class AuthService {
       {...param}
     ).pipe(
       tap(() => {
+        this.spinner.hide();
+      }, () => {
         this.spinner.hide();
       }),
       this.httpErrRespHandler.processError()

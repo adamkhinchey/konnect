@@ -24,6 +24,8 @@ export class CompanyCategoriesService {
       .pipe(
         tap(() => {
           this.spinner.hide();
+        }, () => {
+          this.spinner.hide();
         }),
         this.httpErrorHandler.processError(),
         map(response => {

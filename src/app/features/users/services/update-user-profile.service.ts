@@ -23,6 +23,8 @@ export class UpdateUserProfileService {
     ).pipe(
       tap(() => {
         this.spinner.hide();
+      }, () => {
+        this.spinner.hide();
       }),
       take(1),
       this.httpErrorHandler.processError(false),
