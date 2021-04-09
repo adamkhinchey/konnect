@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   createCompanyMode: { status: boolean; type: { soleTrader: boolean; inc: boolean } } = {
     status: false, type: {soleTrader: false, inc: false}
   };
-  contentToShow = '';
+  contentToShow: string | null = null;
   private userSettingsSub: Subscription | undefined;
 
   constructor(
@@ -29,7 +29,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.switchContentAsPerRoute();
     this.userSettingsSub = this.userSettingsService.settings.subscribe((value) => {
       if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany) {
-        this.contentToShow = contentSwitchMapper['/home/edit-profile'];
+        if (this.contentToShow === null) {
+          this.contentToShow = contentSwitchMapper['/home/edit-profile'];
+        }
       } else {
         this.contentToShow = contentSwitchMapper['/home/unapproved'];
       }
