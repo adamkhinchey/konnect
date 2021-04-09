@@ -16,6 +16,7 @@ import {FileUploadTriggerDirective} from "./directives/file-upload-trigger-direc
 import { SafeUrlPipePipe } from './pipes/safe-url-pipe.pipe';
 import { SortPipe } from './pipes/sort.pipe';
 import { InviteColleaguesComponent } from './components/modals/invite-colleagues/invite-colleagues.component';
+import { WaitingForApprovalComponent } from './components/waiting-for-approval/waiting-for-approval.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { InviteColleaguesComponent } from './components/modals/invite-colleagues
     SafeUrlPipePipe,
     SortPipe,
     InviteColleaguesComponent,
+    WaitingForApprovalComponent,
    ],
   imports: [
     CommonModule,
@@ -37,16 +39,17 @@ import { InviteColleaguesComponent } from './components/modals/invite-colleagues
     ReactiveFormsModule,
     FormsModule,
   ],
-  exports: [
-    CompanySearchComponent,
-    CreateCompanyComponent,
-    RemoveModalComponent,
-    FileUploadComponent,
-    FileUploadTriggerDirective,
-    SafeUrlPipePipe,
-    SortPipe,
-    InviteColleaguesComponent
-  ],
+    exports: [
+        CompanySearchComponent,
+        CreateCompanyComponent,
+        RemoveModalComponent,
+        FileUploadComponent,
+        FileUploadTriggerDirective,
+        SafeUrlPipePipe,
+        SortPipe,
+        InviteColleaguesComponent,
+        WaitingForApprovalComponent
+    ],
   providers: [
     GetRegionAndCountriesService,
     HttpErrRespHandlerService,

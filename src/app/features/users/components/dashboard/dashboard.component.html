@@ -7,19 +7,24 @@
   </ng-container>
   <ng-container *ngSwitchCase="'join-company'">
     <div class="ui middle aligned center aligned">
-    <div class="ui middle aligned center aligned grid">
-      <div class="column minContainer marginT50 marginB30">
-        <app-company-details-tab
-          [searchForCompany]="true"
-          [navigateTo]="'home/edit-profile'"
-          (createCompanyMode)="switchToCreateCompany($event)"></app-company-details-tab>
+      <div class="ui middle aligned center aligned grid">
+        <div class="column minContainer marginT50 marginB30">
+          <app-company-details-tab
+            [searchForCompany]="true"
+            [navigateTo]="'home/edit-profile'"
+            (createCompanyMode)="switchToCreateCompany($event)"></app-company-details-tab>
+        </div>
       </div>
-    </div>
     </div>
   </ng-container>
   <ng-container *ngSwitchCase="'create-company'">
     <app-create-company
       [createCompanyMode]="createCompanyMode"
       [navigateToPostCreate]="'home/edit-profile'"></app-create-company>
+  </ng-container>
+  <ng-container *ngSwitchCase="'un-approved'">
+    <div class="ui middle aligned center aligned">
+      <app-waiting-for-approval></app-waiting-for-approval>
+    </div>
   </ng-container>
 </div>

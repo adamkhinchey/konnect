@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -7,6 +7,7 @@ import {devLogger} from "../../../shared/utils";
 import {WINDOW} from 'ngx-window-token';
 import {UserSettingsInterface} from "../../../shared/models";
 import {take} from "rxjs/operators";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-header',
@@ -24,7 +25,7 @@ import {take} from "rxjs/operators";
     ])
   ]
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   @Input() showHeader = false;
   status: boolean = false;
   status2: boolean = false;
@@ -32,6 +33,7 @@ export class HeaderComponent implements OnInit {
   isApproved = false;
 
   activeMenu = '';
+  private userSettingsSub: Subscription | undefined;
 
 
   clickEvent() {
@@ -65,7 +67,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.userSettingsService.settings.subscribe((value) => {
+    this.userSettingsSub=this.userSettingsService.settings.subscribe((value) => {
       devLogger('log', {settingssss: value});
       if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany) {
         this.isApproved = true;
@@ -106,5 +108,9 @@ export class HeaderComponent implements OnInit {
         defaultCompany: company
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.userSettingsSub?.unsubscribe();
   }
 }
