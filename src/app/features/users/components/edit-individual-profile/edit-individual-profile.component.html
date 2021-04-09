@@ -186,6 +186,10 @@
                             </div>
                             <div class="meta">
                               <b>{{company.position}}</b>
+                              <a *ngIf="company?.website" target="_blank" [href]="company?.website">
+                                {{company?.website}}
+                              </a>
+                              <span *ngIf="company?.website">|</span>
                               <a><i
                                 class="map marker alternate icon"></i>
                                 {{company.city}}
