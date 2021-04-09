@@ -6,6 +6,7 @@
     <app-manage-colleagues></app-manage-colleagues>
   </ng-container>
   <ng-container *ngSwitchCase="'join-company'">
+    <div class="ui middle aligned center aligned">
     <div class="ui middle aligned center aligned grid">
       <div class="column minContainer marginT50 marginB30">
         <app-company-details-tab
@@ -13,6 +14,7 @@
           [navigateTo]="'home/edit-profile'"
           (createCompanyMode)="switchToCreateCompany($event)"></app-company-details-tab>
       </div>
+    </div>
     </div>
   </ng-container>
   <ng-container *ngSwitchCase="'create-company'">

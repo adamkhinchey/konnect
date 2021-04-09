@@ -5,6 +5,8 @@
       {{company?.companyName | titlecase}}
     </div>
     <div class="meta">
+      <a *ngIf="company?.website" target="_blank" [href]="company?.website">{{company?.website}}</a>
+      <span>|</span>
       <a target="_blank">
         <i class="map marker alternate icon"></i>{{company?.city | titlecase}}
       </a>
