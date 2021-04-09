@@ -10,38 +10,49 @@
         <div class="ten wide column paddingL0 paddingR0">
           <ul class="ui six column grid stackable mainMenu">
             <li class="column center aligned middle aligned itemMenu">
-              <a href="dashboard-events-01.html"><i class="home icon"></i>Dashboard</a>
+              <a
+                [attr.href]="isApproved ? 'dashboard-events-01.html' : null"
+                [class.disabled]="!isApproved"
+              ><i class="home icon"></i>Dashboard</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
-              <a href="CE-01.html"><i class="plus circle icon"></i>Create Event</a>
+              <a [attr.href]="isApproved ? 'CE-01.html' : null"
+                 [class.disabled]="!isApproved"><i class="plus circle icon"></i>Create Event</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
-              <a href="SKP.html"><i class="search icon"></i>Platform Search</a>
+              <a [attr.href]="isApproved ? 'SKP.html' : null"
+                 [class.disabled]="!isApproved"><i class="search icon"></i>Platform Search</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
-              <a class="inviteByEmailBtn hasModal" data-modal="inviteByEmail"><i class="user plus icon"></i>Invite
+              <a class="inviteByEmailBtn hasModal" data-modal="inviteByEmail"
+                 [class.disabled]="!isApproved"><i class="user plus icon"></i>Invite
                 Colleagues</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
-              <a href="AB-01.html"><i class="address book icon"></i>Manage Connections</a>
+              <a [attr.href]="isApproved ? 'AB-01.html' : ''"
+                 [class.disabled]="!isApproved"><i class="address book icon"></i>Manage Connections</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
-              <span class="displaySubMenu" (click)="clickEvent3()"><i class="building icon"></i>Manage Company</span>
+              <span class="displaySubMenu" (click)="isApproved && clickEvent3()"
+                    [ngStyle]="{'color':isApproved?'#fdd200':'gray', 'cursor':isApproved?'pointer':'not-allowed'}"><i class="building icon"></i>Manage Company</span>
               <ul class="subMenu" [ngClass]="status3 ? 'show' : 'd-none'" [@fade]="activeMenu==='manageCompany'">
-                <li><a href="MC.html" (click)="hideAllMenus()">Company Profile</a></li>
-                <li><a routerLink="/home/company/manage-colleagues" (click)="hideAllMenus()">Manage Colleagues</a></li>
+                <li><a (click)="hideAllMenus()" [attr.href]="isApproved ? 'MC.html' : ''"
+                       [class.disabled]="!isApproved">Company Profile</a></li>
+                <li><a routerLink="/home/company/manage-colleagues" (click)="hideAllMenus()"
+                       [class.disabled]="!isApproved">Manage Colleagues</a></li>
               </ul>
             </li>
           </ul>
         </div>
         <div class="three wide column">
           <div class="profileInfo">
-              <img [src]="(userSettingsService.settings | async)!.profileImage! || '../../assets/img/profile.png'" alt=""
-                   class="ui fluid image circular">
+            <img [src]="(userSettingsService.settings | async)!.profileImage! || '../../assets/img/profile.png'" alt=""
+                 class="ui fluid image circular">
             <div class="headerCompanySelector">
               <span class="userName">{{(userSettingsService.settings | async)!.firstName!}}</span>
               <div class="ui dropdown dropdownChangeCompany" (click)="clickEvent2()" tabindex="0">
-                <div class="text">{{(userSettingsService.settings | async)!.defaultCompany?.companyName || 'NO ASSOCIATED COMPANY!' }}</div>
+                <div
+                  class="text">{{(userSettingsService.settings | async)!.defaultCompany?.companyName || 'NO ASSOCIATED COMPANY!' }}</div>
                 <i class="dropdown icon"></i>
                 <div class="menu transition" [ngClass]="status2 ? 'show' : 'd-none'" tabindex="-1">
                   <div class="item"
@@ -56,7 +67,9 @@
             </div>
           </div>
           <ul class="subMenu" [ngClass]="status ? 'show' : 'd-none'">
-            <li (click)="navToEditProfile($event) && hideAllMenus()"><a>Edit Profile</a></li>
+            <li (click)="isApproved && navToEditProfile($event) && hideAllMenus()">
+              <a [class.disabled]="!isApproved" >Edit Profile</a>
+            </li>
             <li (click)="logout($event)"><a>Logout</a></li>
           </ul>
         </div>

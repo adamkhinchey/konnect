@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
   status: boolean = false;
   status2: boolean = false;
   status3: boolean = false;
+  isApproved = false;
 
   activeMenu = '';
 
@@ -64,6 +65,13 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.userSettingsService.settings.subscribe((value) => {
+      devLogger('log', {settingssss: value});
+      if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany) {
+        this.isApproved = true;
+      }
+    });
+
   }
 
   trackByDefCmpFn(index: any, item: any): any {
@@ -79,6 +87,8 @@ export class HeaderComponent implements OnInit {
   logout(event: MouseEvent): void {
     this.authService.logout();
     this.showHeader = false;
+    this.userSettingsService.reset();
+    this.isApproved = false;
     this.hideAllMenus();
   }
 

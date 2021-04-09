@@ -23,4 +23,9 @@ export class UserSettingsService {
       profileImage: userInfo.profileImage
     });
   }
+
+  reset(): void {
+    this.settings.next({});
+    this.settings.next({});
+  }
 }
