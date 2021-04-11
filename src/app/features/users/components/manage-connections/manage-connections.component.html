@@ -289,7 +289,7 @@
                                 <div class="ten wide column">
                                   <div *ngIf="!cmpConn.isConnected && isUserAdmin && isExternal===1"
                                        class="ui circular compact mini basic button confirmRemove hasModal active"
-                                       data-modal="removeModal"><i class="star icon"></i>Add to connections
+                                       data-modal="removeModal" (click)="addToConnections(cmpConn?.companyId)"><i class="star icon"></i>Add to connections
                                   </div>
                                   <div *ngIf="cmpConn.isConnected && isUserAdmin && isExternal===0"
                                        class="ui circular compact mini basic button confirmRemove hasModal active"

@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NgbNavChangeEvent} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModalRef, NgbNavChangeEvent} from "@ng-bootstrap/ng-bootstrap";
 import {faAddressCard} from '@fortawesome/free-regular-svg-icons';
 import {ConnectionType, UserSettingsInterface} from "../../../../shared/models";
 import {devLogger} from "../../../../shared/utils";
 import {UserSettingsService} from "../../../../shared/services";
 import {Subscription} from "rxjs";
 import {CompaniesService} from "../../services/companies.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-manage-connections',
@@ -17,7 +18,7 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
   active = 1;
   disabled = true;
   addressCardIcon = faAddressCard;
-  modalReference: any;
+  modalReference: NgbModalRef | undefined;
   private userSettingsSubscription: Subscription | undefined;
   defaultCompany: any;
   usersFirstName: string | undefined;
@@ -33,9 +34,29 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
   keyword = '';
   private searchOnPlatformSub: Subscription | undefined;
   isUserAdmin: boolean | undefined = false;
+  private addConnSub: Subscription | undefined;
 
 
-  constructor(private userSettings: UserSettingsService, private companiesService: CompaniesService) {
+  constructor(
+    private userSettings: UserSettingsService,
+    private companiesService: CompaniesService,
+    private toaster: ToastrService) {
+  }
+
+
+  ngOnInit(): void {
+
+    this.userSettingsSubscription = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
+      this.defaultCompany = value.defaultCompany;
+      this.usersFirstName = value.firstName;
+      this.isUserAdmin = value.isAdmin;
+      this.keyword = '';
+      this.clearSearchResults();
+      this.getCompanyConnections();
+    }, err => {
+      devLogger('error', err);
+    }, () => {
+    });
   }
 
   onNavChange(changeEvent: NgbNavChangeEvent): void {
@@ -47,6 +68,8 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     this.keyword = '';
     if (this.isExternal === 0) {
       this.doConnectionSearch(this.keyword);
+    } else if (this.isExternal === 1) {
+      this.clearSearchResults();
     }
   }
 
@@ -57,21 +80,9 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit(): void {
-
-    this.userSettingsSubscription = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
-      this.defaultCompany = value.defaultCompany;
-      this.usersFirstName = value.firstName;
-      this.isUserAdmin = value.isAdmin;
-      this.getCompanyConnections();
-    }, err => {
-      devLogger('error', err);
-    }, () => {
-    });
-  }
-
   private getCompanyConnections(): void {
-    if (this.defaultCompany && this.defaultCompany.id) {
+    if (this.defaultCompany && this.defaultCompany.id && this.isExternal === 0) {
+      this.clearSearchResults();
       this.getCompanyConnSub = this.companiesService.getConnections({
         entityType: this.connectionType,
         companyId: this.defaultCompany.id,
@@ -118,22 +129,22 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
   }
 
   doConnectionSearch(event: string): void {
-    if (this.isExternal === 0 && this.allIntrUserConnections.length > 0) {
-      const filterText = event.trim().toLocaleLowerCase();
-      if (this.connectionType === ConnectionType.USER) {
-        this.userConnections = this.allIntrUserConnections.filter(val => {
-          return val.firstName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
-            val.lastName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
-            val.email?.trim().toLocaleLowerCase().indexOf(filterText) !== -1;
-        });
-      }
-      if (this.connectionType === ConnectionType.COMPANY) {
-        this.userConnections = this.allIntrCmpConnections.filter(val => {
-          return val.companyName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
-            val.website?.trim().toLocaleLowerCase().indexOf(filterText) !== -1;
-        });
-      }
-    } else if (this.isExternal === 0 && this.allIntrUserConnections.length === 0) {
+    const filterText = event.trim().toLocaleLowerCase();
+    if (this.isExternal === 0 &&
+      (this.connectionType === ConnectionType.USER && this.allIntrUserConnections.length > 0)) {
+
+      this.userConnections = this.allIntrUserConnections.filter(val => {
+        return val.firstName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
+          val.lastName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
+          val.email?.trim().toLocaleLowerCase().indexOf(filterText) !== -1;
+      });
+    } else if (this.isExternal === 0 &&
+      (this.connectionType === ConnectionType.COMPANY && this.allIntrCmpConnections.length > 0)) {
+      this.companyConnections = this.allIntrCmpConnections.filter(val => {
+        return val.companyName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
+          val.website?.trim().toLocaleLowerCase().indexOf(filterText) !== -1;
+      });
+    } else if (this.isExternal === 0 && (this.allIntrUserConnections.length === 0 || this.allIntrCmpConnections.length === 0)) {
       this.getCompanyConnections();
     } else if (this.isExternal === 1) {
       this.userConnections = [];
@@ -143,25 +154,48 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
   }
 
 
-  ngOnDestroy(): void {
-    this.userSettingsSubscription?.unsubscribe();
-    this.getCompanyConnSub?.unsubscribe();
-    this.searchOnPlatformSub?.unsubscribe();
-  }
-
   onSearchScopeChange(searchScope: number): void {
     // searchScope is isExternal=0 OR 1
     this.keyword = '';
-    this.userConnections = [];
-    this.allIntrUserConnections = [];
-    this.companyConnections = [];
-    this.allIntrCmpConnections = [];
+    this.clearSearchResults();
     if (searchScope === 0) {
       this.getCompanyConnections();
     }
   }
 
-  openRemoveConfirmationBox($event: MouseEvent) {
+  private clearSearchResults(): void {
+    this.userConnections = [];
+    this.allIntrUserConnections = [];
+    this.companyConnections = [];
+    this.allIntrCmpConnections = [];
+  }
 
+  openRemoveConfirmationBox($event: MouseEvent): void {
+
+  }
+
+
+  addToConnections(id: number): void {
+    if (this.defaultCompany && this.defaultCompany.id) {
+      this.addConnSub = this.companiesService.addToConnection({
+        companyId: this.defaultCompany.id,
+        connectionId: id,
+        connectionType: this.connectionType
+      })
+        .subscribe((value) => {
+          this.toaster.success('New connection added successfully');
+        }, err => {
+          this.toaster.error('Failed to add new connection');
+        });
+    } else {
+      this.toaster.error('Please make sure that a company is selected from top right', 'Can\'t to connection')
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.userSettingsSubscription?.unsubscribe();
+    this.getCompanyConnSub?.unsubscribe();
+    this.searchOnPlatformSub?.unsubscribe();
+    this.addConnSub?.unsubscribe();
   }
 }

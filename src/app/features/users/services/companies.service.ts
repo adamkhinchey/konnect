@@ -242,4 +242,17 @@ export class CompaniesService {
       })
     );
   }
+
+  addToConnection(param: { companyId: number; connectionId: number; connectionType: ConnectionType }): Observable<any> {
+    alert(JSON.stringify(param));
+    this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/addConnection`,
+      {...param}
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      take(1),
+      this.httpErrorHandler.processError(true)
+    );
+  }
 }
