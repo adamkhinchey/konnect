@@ -14,13 +14,15 @@ export class UserSettingsService {
   public populateSettings(userInfo: any): void {
     const userSettings: UserSettingsInterface = this.settings.getValue();
     const currentDefaultCompany = (userInfo.associatedCompanies as Array<any>).find((cmp: any) => cmp.id === userInfo.defaultCompanyId);
+    const isAdmin = currentDefaultCompany ? currentDefaultCompany.roleId === 4 : false;
     this.settings.next({
       ...this.settings.getValue(),
       defaultCompany: currentDefaultCompany ? currentDefaultCompany : userSettings.defaultCompany,
       associatedCompanies: userInfo.associatedCompanies,
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
-      profileImage: userInfo.profileImage
+      profileImage: userInfo.profileImage,
+      isAdmin
     });
   }
 

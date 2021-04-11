@@ -8,12 +8,12 @@ import {
   ApiResponseModelInterface,
   ColleagueInviteInterface,
   ConnectionType,
-  CreateCompanyInterface
+  CreateCompanyInterface, SearchGlobalPayload
 } from '../../../shared/models';
 import {AssociateToCompany, Company} from '../models';
 import {camelCase, mapKeys} from 'lodash-es';
 import {NgxSpinnerService} from "ngx-spinner";
-import {hideSpinnerPostApiCall} from "../../../shared/utils";
+import {devLogger, hideSpinnerPostApiCall} from "../../../shared/utils";
 
 @Injectable()
 export class CompaniesService {
@@ -184,6 +184,7 @@ export class CompaniesService {
   }
 
   getConnections(param: { companyId: any; entityType: ConnectionType; pageNo: number; pageSize: number }): Observable<any> {
+    this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/listConnection`,
       {...param},
@@ -195,11 +196,50 @@ export class CompaniesService {
         switch (param.entityType) {
           case ConnectionType.USER:
             return response.data?.userConnection || [];
-          case ConnectionType.Company:
+          case ConnectionType.COMPANY:
             return response.data?.companyConnection || [];
           default:
             return response.data || [];
         }
+      }),
+      map(connections => {
+        return (connections as Array<any>).map(conn => {
+          if (!Array.isArray(conn)) {
+            conn.isConnected = true;
+          }
+          return conn;
+        });
       }));
+  }
+
+
+  searchOnPlatform(param: SearchGlobalPayload): Observable<any> {
+    this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/searchGlobalConnection`,
+      {...param}
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      take(1),
+      this.httpErrorHandler.processError(),
+      map(response => {
+        switch (param.entityType) {
+          case ConnectionType.USER:
+            return response.data?.userConnection || [];
+          case ConnectionType.COMPANY:
+            return response.data?.companyConnection || [];
+          default:
+            return response.data || [];
+        }
+      }),
+      map(connections => {
+        return (connections as Array<any>).map(conn => {
+          if (!Array.isArray(conn)) {
+            conn.isConnected = false;
+          }
+          return conn;
+        });
+      })
+    );
   }
 }

@@ -4,4 +4,5 @@ export interface UserSettingsInterface {
   firstName?: string;
   lastName?: string;
   profileImage?: string;
+  isAdmin?: boolean;
 }

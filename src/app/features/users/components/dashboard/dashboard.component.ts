@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.userSettingsSub = this.userSettingsService.settings.subscribe((value) => {
       if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany) {
         if (this.contentToShow === null) {
-          this.contentToShow = contentSwitchMapper['/home/edit-profile'];
+          this.contentToShow = contentSwitchMapper[this.router.url]  //contentSwitchMapper['/home/edit-profile'];
         }
       } else {
         this.contentToShow = contentSwitchMapper['/home/unapproved'];
