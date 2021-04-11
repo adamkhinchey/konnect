@@ -184,6 +184,7 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
       })
         .subscribe((value) => {
           this.toaster.success('New connection added successfully');
+          this.searchGlobally();
         }, err => {
           this.toaster.error('Failed to add new connection');
         });
