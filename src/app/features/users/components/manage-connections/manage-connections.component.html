@@ -83,7 +83,7 @@
                                   <div *ngIf="!userConn.isConnected && isUserAdmin && isExternal===1"
                                        class="ui circular compact mini basic button confirmRemove hasModal active"
                                        data-modal="removeModal"
-                                       (click)="openRemoveConfirmationBox($event)"><i class="star icon"></i>Add to
+                                       (click)="addToConnections(userConn?.userId)"><i class="star icon"></i>Add to
                                     connections
                                   </div>
                                   <div *ngIf="userConn.isConnected && isUserAdmin && isExternal===0"
