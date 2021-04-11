@@ -1,12 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NgbModalRef, NgbNavChangeEvent} from "@ng-bootstrap/ng-bootstrap";
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {NgbModal, NgbModalRef, NgbNavChangeEvent} from "@ng-bootstrap/ng-bootstrap";
 import {faAddressCard} from '@fortawesome/free-regular-svg-icons';
-import {ConnectionType, UserSettingsInterface} from "../../../../shared/models";
+import {ConnectionType, RemoveType, UserSettingsInterface} from "../../../../shared/models";
 import {devLogger} from "../../../../shared/utils";
 import {UserSettingsService} from "../../../../shared/services";
 import {Subscription} from "rxjs";
 import {CompaniesService} from "../../services/companies.service";
 import {ToastrService} from "ngx-toastr";
+import {RemoveModalComponent} from "../../../../shared/components/modals/remove-modal/remove-modal.component";
+import {v4 as uuidV4} from "uuid";
 
 @Component({
   selector: 'app-manage-connections',
@@ -14,6 +16,7 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./manage-connections.component.scss']
 })
 export class ManageConnectionsComponent implements OnInit, OnDestroy {
+  @ViewChild(RemoveModalComponent) removeConnectionModal: RemoveModalComponent | undefined;
 
   active = 1;
   disabled = true;
@@ -35,12 +38,16 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
   private searchOnPlatformSub: Subscription | undefined;
   isUserAdmin: boolean | undefined = false;
   private addConnSub: Subscription | undefined;
+  removalType: RemoveType | undefined;
+  private connectionToRemoveId: null | number = null;
+  private deleteConnSub: Subscription | undefined;
 
 
   constructor(
     private userSettings: UserSettingsService,
     private companiesService: CompaniesService,
-    private toaster: ToastrService) {
+    private toaster: ToastrService,
+    private modalService: NgbModal) {
   }
 
 
@@ -170,10 +177,6 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     this.allIntrCmpConnections = [];
   }
 
-  openRemoveConfirmationBox($event: MouseEvent): void {
-
-  }
-
 
   addToConnections(id: number): void {
     if (this.defaultCompany && this.defaultCompany.id) {
@@ -193,10 +196,46 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     }
   }
 
+  openRemoveConfirmationBox(connectionId: number): void {
+    if (this.defaultCompany && this.defaultCompany.id) {
+      this.connectionToRemoveId = connectionId;
+      this.modalReference = this.modalService.open(this.removeConnectionModal?.content, {
+        centered: true,
+        size: 'lg',
+      });
+    } else {
+      this.toaster.error('No Company is associated or selected');
+    }
+  }
+
+  cancelRemove(): void {
+    this.connectionToRemoveId = null;
+    this.modalReference?.close('Cancelled by user');
+  }
+
+  confirmRemove(): void {
+    this.deleteConnSub = this.companiesService.deleteConnection({
+      companyId: this.defaultCompany.id,
+      connectionId: this.connectionToRemoveId,
+      connectionType: this.connectionType
+    }).subscribe((value: any) => {
+      this.toaster.success('Connection removed successfully');
+      this.modalReference?.close('connection removed');
+      this.connectionToRemoveId = null;
+      this.getCompanyConnections();
+    }, (err: any) => {
+      devLogger('error', err);
+      this.modalReference?.dismiss('connection removal failed');
+      this.connectionToRemoveId = null;
+    });
+  }
+
   ngOnDestroy(): void {
     this.userSettingsSubscription?.unsubscribe();
     this.getCompanyConnSub?.unsubscribe();
     this.searchOnPlatformSub?.unsubscribe();
     this.addConnSub?.unsubscribe();
+    this.deleteConnSub?.unsubscribe();
   }
+
 }

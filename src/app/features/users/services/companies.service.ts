@@ -244,7 +244,6 @@ export class CompaniesService {
   }
 
   addToConnection(param: { companyId: number; connectionId: number; connectionType: ConnectionType }): Observable<any> {
-    alert(JSON.stringify(param));
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/addConnection`,
@@ -252,7 +251,20 @@ export class CompaniesService {
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),
-      this.httpErrorHandler.processError(true)
+      this.httpErrorHandler.processError()
     );
+  }
+
+  deleteConnection(param: { companyId: number; connectionId: number | null; connectionType: ConnectionType }): Observable<any> {
+    this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/deleteConnection`,
+      {...param}
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      take(1),
+      this.httpErrorHandler.processError()
+    );
+
   }
 }

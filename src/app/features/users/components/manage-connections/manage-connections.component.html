@@ -89,7 +89,7 @@
                                   <div *ngIf="userConn.isConnected && isUserAdmin && isExternal===0"
                                        class="ui circular compact mini basic button confirmRemove hasModal active"
                                        data-modal="removeModal"
-                                       (click)="openRemoveConfirmationBox($event)"><i class="star icon"></i>Remove from
+                                       (click)="openRemoveConfirmationBox(userConn?.userId)"><i class="star icon"></i>Remove from
                                     connections
                                   </div>
                                 </div>
@@ -293,7 +293,8 @@
                                   </div>
                                   <div *ngIf="cmpConn.isConnected && isUserAdmin && isExternal===0"
                                        class="ui circular compact mini basic button confirmRemove hasModal active"
-                                       data-modal="removeModal"><i class="star icon"></i>Remove from connections
+                                       data-modal="removeModal" (click)="openRemoveConfirmationBox(cmpConn?.id)">
+                                    <i class="star icon"></i>Remove from connections
                                   </div>
                                 </div>
                                 <div class="six wide column right aligned"
@@ -370,4 +371,11 @@
       </div>
     </div>
   </div>
+
+  <app-remove-modal
+    [toRemove]="removalType"
+    (cancel)="cancelRemove()"
+    (confirm)="confirmRemove()"
+    [modalInfoContent]="'Are you sure you want to remove the connection from this company'"
+  ></app-remove-modal>
 </div>
