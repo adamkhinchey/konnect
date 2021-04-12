@@ -34,7 +34,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.auth.getToken()) {
-      this.router.navigate(['home']);
+      // TODO make navigation back to home or /home/events-dashboard
+      this.router.navigate(['home', 'edit-profile']);
     }
   }
 
