@@ -131,7 +131,7 @@ export class CompaniesService {
         this.spinner.hide();
       }),
       take(1),
-      this.httpErrorHandler.processError()
+      this.httpErrorHandler.processError(true)
     );
   }
 
