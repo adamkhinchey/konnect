@@ -103,9 +103,9 @@
                           <div class="ten wide column middle aligned">
                             <div class="field">
                               <div class="ui toggle checkbox">
-                                <input type="checkbox" class="hidden" id="admin" tabindex="0"
+                                <input type="checkbox" class="hidden" [id]="'colleagueToAdmin-'+colleague.userId"
                                        (change)="toggleAdmin($event, colleague.userId)">
-                                <label for="admin">Administrator</label>
+                                <label [for]="'colleagueToAdmin-'+colleague.userId">Administrator</label>
                               </div>
                             </div>
                           </div>
