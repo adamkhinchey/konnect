@@ -29,7 +29,7 @@
           loginForm!.get('password')?.errors?.required
           )"
           class="text-danger"
-        >Password provide a password</span>
+        >Please provide a password</span>
       </div>
       <div class="field" (click)="!clickedLogin && checkValidation() && login()">
         <div [ngClass]="clickedLogin?'ui submit button fluid loading disabled':'ui submit button fluid'">Login</div>

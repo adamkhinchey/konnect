@@ -3,8 +3,8 @@ import countries from './countries';
 import companyCategories from './company-categories';
 
 const APIURL = 'https://yxraels57k.execute-api.ap-southeast-2.amazonaws.com/dev';
-const localProxyURL = 'http://localhost:4200/api';
-const siteURL = 'http://localhost:4200';
+const localProxyURL = 'http://localhost:4202/api';
+const siteURL = 'http://localhost:4202';
 
 export const environment = {
   production: false,
