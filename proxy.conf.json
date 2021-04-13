@@ -1,0 +1,10 @@
+{
+  "/api": {
+    "target": "https://yxraels57k.execute-api.ap-southeast-2.amazonaws.com/dev",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}

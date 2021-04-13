@@ -1,0 +1,56 @@
+<div class="ui grid middle aligned center aligned minheight100vh">
+  <div class="column minContainer minContainerLogin">
+    <h2 class="segmentTitle segmentTitleLogo">
+      <span class="loginLogo">konnect</span>
+    </h2>
+    <form class="ui form loginForm" [formGroup]="loginForm">
+      <div class="field">
+        <div class="ui left icon input">
+          <i class="user icon"></i>
+          <input type="email" name="email" placeholder="E-mail address" formControlName="email">
+        </div>
+        <span
+          *ngIf="loginForm!.get('email')?.touched
+          && (
+          loginForm!.get('email')?.errors?.required ||
+          loginForm!.get('email')?.errors?.email
+          )"
+          class="text-danger"
+        >Please provide a valid email address</span>
+      </div>
+      <div class="field">
+        <div class="ui left icon input">
+          <i class="lock icon"></i>
+          <input type="password" name="password" placeholder="Password" formControlName="password">
+        </div>
+        <span
+          *ngIf="loginForm!.get('password')?.touched
+          && (
+          loginForm!.get('password')?.errors?.required
+          )"
+          class="text-danger"
+        >Password provide a password</span>
+      </div>
+      <div class="field" (click)="!clickedLogin && checkValidation() && login()">
+        <div [ngClass]="clickedLogin?'ui submit button fluid loading disabled':'ui submit button fluid'">Login</div>
+      </div>
+      <div class="field">
+        <a (click)="checkIfLoggingIn($event)"
+           routerLink="/create-konnect-profile"
+           routerLinkActive="active"
+           class="ui button basic fluid blue"
+           [class.disabled]="clickedLogin ? true: null"
+        >Create profile</a>
+      </div>
+
+      <div class="ui error message"></div>
+
+    </form>
+    <hr class="marginB10">
+    <a (click)="checkIfLoggingIn($event)"
+       routerLink='/forgot-password'
+       class="ui button basic fluid"
+       [class.disabled]="clickedLogin ? true: null"
+    >Forgot password?</a>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<form class="ui form">
+  <div class="ui stacked">
+    <div class="ui grid">
+      <div class="sixteen wide column text-center">
+        <p>To complete your profile, you need to be associated with a company.</p>
+        <p *ngIf="company && !searchForCompany" class="limitWidth">Good news! A company profile already exists for a company with your email
+          domain. You can
+          claim it below.</p>
+        <h3 *ngIf="!company || searchForCompany ">Search for a company to join or create a new one below</h3>
+      </div>
+    </div>
+    <div *ngIf="company && !searchForCompany" class="marginB20"></div>
+    <app-company-search *ngIf="!company || searchForCompany" (searchChange)="searchCompany(null, $event)"></app-company-search>
+    <div class="kcpCardContainer">
+      <div class="ui  grid">
+        <div class="column">
+          <ng-container *ngIf="company && !searchForCompany; then singleCompanyCard else multipleCompaniesCard"></ng-container>
+
+          <ng-template #singleCompanyCard>
+            <app-company-claim-card
+              (claimOrJoinCompany)="claimOrJoinCompany($event)"
+              [company]="company">
+            </app-company-claim-card>
+          </ng-template>
+
+          <ng-template #multipleCompaniesCard>
+            <app-company-claim-card
+              *ngFor="let company of companyList"
+              (claimOrJoinCompany)="claimOrJoinCompany($event)"
+              [company]="company">
+            </app-company-claim-card>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+    <div class="ui grid stackable" *ngIf="!searchForCompany">
+      <div class="eleven wide column left aligned">
+        <p class="marginB20 limitWidth">If this is not the company you wish to associate with you can search for an
+          alternative or create a new company.</p>
+      </div>
+      <div class="five wide column marginB10 middle aligned right aligned paddingB0 mobileCenterAligned">
+        <a (click)="searchForCompany=true" class="ui basic button small blue">Search/create</a>
+      </div>
+      <div class="sixteen wide column paddingT0 paddingB0">
+        <div class="ui divider"></div>
+      </div>
+      <div class="sixteen wide column left aligned">
+        <p class="smallText">An associated company acts as an account holder for your profile. Your profile can be
+          associated with multiple companies, but each personal profile must always be associated with at least one
+          company.</p>
+        <p class="smallText">This is because events are "owned" by companies not individuals and access to events is
+          controlled through company permissions.</p>
+      </div>
+    </div>
+    <div class="ui grid" *ngIf="searchForCompany">
+      <div class="sixteen wide column text-center">
+        <h3>Create a new company</h3>
+        <div class="twoButtonsSet">
+          <a (click)="setCreateCompany($event,{soleTrader:true, inc:false})" class="ui button basic small blue">Sole Trader/Proprietor</a>
+          <a (click)="setCreateCompany($event, {soleTrader:false, inc:true})" class="ui button basic small blue">Incorporated Company</a>
+        </div>
+      </div>
+      <div class="sixteen wide column paddingT0 paddingB0">
+        <div class="ui divider"></div>
+      </div>
+      <div class="sixteen wide column left aligned">
+        <p class="smallText">An associated company acts as an account holder for your profile. Your profile can be associated with multiple companies, but each personal profile must always be associated with at least one company.</p>
+        <p class="smallText">This is because events are "owned" by companies not individuals and access to events is controlled through company permissions.</p>
+      </div>
+    </div>
+  </div>
+</form>
