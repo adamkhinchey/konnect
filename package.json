@@ -2,6 +2,7 @@
   "name": "konnectapp-user-frontend",
   "version": "0.0.0",
   "scripts": {
+    "start:dev": "ng serve --port 4202",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
