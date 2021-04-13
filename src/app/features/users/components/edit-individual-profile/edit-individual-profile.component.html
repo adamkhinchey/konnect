@@ -70,7 +70,7 @@
                   *ngIf="editProfileForm!.get('email')?.touched
           && (
           editProfileForm!.get('email')?.errors?.required ||
-          editProfileForm!.get('email')?.errors?.email
+          editProfileForm!.get('email')?.errors?.pattern
           )"
                   class="text-danger"
                 >A valid email is required</span>
@@ -80,7 +80,7 @@
                 <input type="email" formControlName="recoveryEmail">
                 <span
                   *ngIf="editProfileForm!.get('recoveryEmail')?.touched
-          && (editProfileForm!.get('recoveryEmail')?.errors?.email)"
+          && (editProfileForm!.get('recoveryEmail')?.errors?.pattern)"
                   class="text-danger"
                 >A valid email is required</span>
               </div>
