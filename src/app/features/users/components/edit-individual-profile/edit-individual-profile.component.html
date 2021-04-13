@@ -70,7 +70,7 @@
                   *ngIf="editProfileForm!.get('email')?.touched
           && (
           editProfileForm!.get('email')?.errors?.required ||
-          editProfileForm!.get('email')?.errors?.pattern
+          editProfileForm!.get('email')?.errors?.email
           )"
                   class="text-danger"
                 >A valid email is required</span>
@@ -80,7 +80,7 @@
                 <input type="email" formControlName="recoveryEmail">
                 <span
                   *ngIf="editProfileForm!.get('recoveryEmail')?.touched
-          && (editProfileForm!.get('recoveryEmail')?.errors?.pattern)"
+          && (editProfileForm!.get('recoveryEmail')?.errors?.email)"
                   class="text-danger"
                 >A valid email is required</span>
               </div>
@@ -181,7 +181,7 @@
                           <div class="content">
                             <img class="right floated mini ui image circular"
                                  [src]="company.companyProfileImage || '../../assets/img/default_konnect_img.png'"
-                            appImageFallback="./assets/img/default_konnect_img.png">
+                            appImageFallback="../../assets/img/default_konnect_img.png">
                             <div class="header">
                               <a>{{company.companyName}}</a>
                             </div>

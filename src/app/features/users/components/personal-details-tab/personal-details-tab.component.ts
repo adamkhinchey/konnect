@@ -43,7 +43,7 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy {
       profileImage: [],
       firstName: ['', [Validators.required]],
       lastName: [''],
-      email: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEX)]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [
         Validators.required,
         Validators.minLength(6),

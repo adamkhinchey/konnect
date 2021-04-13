@@ -13,7 +13,7 @@
           *ngIf="loginForm!.get('email')?.touched
           && (
           loginForm!.get('email')?.errors?.required ||
-          loginForm!.get('email')?.errors?.pattern
+          loginForm!.get('email')?.errors?.email
           )"
           class="text-danger"
         >Please provide a valid email address</span>

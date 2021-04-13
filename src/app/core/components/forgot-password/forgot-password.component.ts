@@ -19,7 +19,7 @@ export class ForgotPasswordComponent implements OnInit {
     private router: Router,
     private toaster: ToastrService) {
     this.forgotPasswordForm = this.fb.group({
-      email: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEX)]]
+      email: ['', [Validators.required, Validators.email]]
     });
   }
 

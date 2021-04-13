@@ -62,7 +62,7 @@
           *ngIf="personalDetailsForm!.get('email')?.touched
           && (
           personalDetailsForm!.get('email')?.errors?.required ||
-          personalDetailsForm!.get('email')?.errors?.pattern
+          personalDetailsForm!.get('email')?.errors?.email
           )"
           class="text-danger"
         >A valid email is required</span>
@@ -80,7 +80,7 @@
           personalDetailsForm!.get('password')?.hasError('minlength')
           )"
           class="text-danger"
-        >Password of length 6 to 12 characters is required</span>
+        >Password length must be 6 to 12 characters, password is required</span>
       </div>
     </div>
     <div class="sixteen wide column left aligned">
