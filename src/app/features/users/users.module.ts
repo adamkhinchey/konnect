@@ -17,7 +17,6 @@ import { ManageColleaguesComponent } from './components/manage-colleagues/manage
 import { ManageConnectionsComponent } from './components/manage-connections/manage-connections.component';
 import {NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import { CreateEventComponent } from './components/create-event/create-event.component';
 
 
 @NgModule({
@@ -30,7 +29,6 @@ import { CreateEventComponent } from './components/create-event/create-event.com
     DashboardComponent,
     ManageColleaguesComponent,
     ManageConnectionsComponent,
-    CreateEventComponent,
   ],
   imports: [
     CommonModule,
