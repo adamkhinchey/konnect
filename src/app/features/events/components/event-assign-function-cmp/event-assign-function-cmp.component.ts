@@ -1,5 +1,6 @@
-import {Component, Input, OnInit, TemplateRef} from '@angular/core';
+import {Component, Input, OnInit, Output, TemplateRef, EventEmitter} from '@angular/core';
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {Company} from "../../../users/models";
 
 @Component({
   selector: 'app-event-assign-function-cmp',
@@ -7,7 +8,9 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./event-assign-function-cmp.component.scss']
 })
 export class EventAssignFunctionCmpComponent implements OnInit {
+  @Input() selectedCompany: Company | undefined;
   @Input() content: TemplateRef<any> | undefined;
+  @Output() modalOpen = new EventEmitter<NgbModalRef>();
   modalReference: NgbModalRef | undefined;
 
 
@@ -23,5 +26,6 @@ export class EventAssignFunctionCmpComponent implements OnInit {
       size: 'lg',
     });
 
+    this.modalOpen.emit(this.modalReference);
   }
 }

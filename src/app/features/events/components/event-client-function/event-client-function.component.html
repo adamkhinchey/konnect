@@ -12,9 +12,45 @@
               <label>My company</label>
             </div>
           </div>
-          <div class="kcpCardContainer"></div>
+          <div class="kcpCardContainer">
+            <div *ngIf="selectedCompany" class="ui one column grid">
+              <div class="column">
+                <div class="ui fluid card">
+                  <div class="content">
+                    <img class="right floated mini ui image" [src]="selectedCompany.companyProfileImage"
+                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
+                    <div class="header">
+                      <a>{{selectedCompany.companyName}}</a>
+                    </div>
+                    <div class="meta">
+                      <a [href]="selectedCompany.website" target="_blank"> {{selectedCompany.website}}</a>>
+                      <span *ngIf="selectedCompany.website">|</span>
+                      <a>
+                        <i class="map marker alternate icon"></i>{{selectedCompany.city}}</a>
+                      <span>|</span>
+                      <i class="phone icon"></i>{{selectedCompany.phone}}
+                    </div>
+                  </div>
+                  <div class="extra content" [ngClass]="{'editableObject':false}">
+                    <div class="ui grid">
+                      <div class="ten wide column">
+
+                      </div>
+                      <div class="six wide column right aligned">
+                        <div (click)="removeSelectedCompany.emit()" class="ui circular compact mini basic button confirmRemove hasModal"
+                             data-modal="removeModal"><i class="trash alternate icon"></i>Remove
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-          <ng-content select="[assignFunctionCmp]"></ng-content>
+
+        <ng-content select="[assignFunctionCmp]"></ng-content>
+
 
         <!--</div>-->
 

@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {NgbModal, NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {NgbModal, NgbModalRef, NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import {EventPanelNavComponent} from "../event-panel-nav/event-panel-nav.component";
 import {Company} from "../../../users/models";
 import {EventFunctionTypes} from "../../models/types";
@@ -13,7 +13,7 @@ export class CreateEventComponent implements OnInit {
   @ViewChild('app-event-panel-nav') eventPanelNav: EventPanelNavComponent | undefined;
   active = 1;
   disabled = true;
-  modalReference: any;
+  modalReference: NgbModalRef | undefined;
   clientCompany: Company | undefined;
   selectedFunction: EventFunctionTypes = this.active;
 
@@ -29,7 +29,7 @@ export class CreateEventComponent implements OnInit {
   }
 
 
-  constructor(private modalService: NgbModal,) {
+  constructor(private modalService: NgbModal) {
   }
 
   openVerticallyCentered(content: any): void {
@@ -61,12 +61,17 @@ export class CreateEventComponent implements OnInit {
   }
 
   searchInviteCompanyClosed(): void {
-
+    this.modalReference?.close();
   }
 
   setSelectedCompany(company: Company): void {
     if (this.selectedFunction === EventFunctionTypes.CLIENT) {
       this.clientCompany = company;
     }
+    this.searchInviteCompanyClosed();
+  }
+
+  setOpenedModalRef(event: NgbModalRef): void {
+    this.modalReference = event;
   }
 }

@@ -1,11 +1,15 @@
 <div class="ui container">
   <div class="ui grid">
     <div class="sixteen wide column maxWidth">
-      <app-event-panel-nav [active]="active">
+      <app-event-panel-nav [active]="active" [navChange]="onNavChange">
         <ng-container client>
-          <app-event-client-function [selectedCompany]="clientCompany">
+          <app-event-client-function [selectedCompany]="clientCompany" (removeSelectedCompany)="clientCompany=undefined">
             <ng-container assignFunctionCmp>
-              <app-event-assign-function-cmp [content]="searchInviteCmpModal"></app-event-assign-function-cmp>
+              <app-event-assign-function-cmp
+                [selectedCompany]="clientCompany"
+                [content]="searchInviteCmpModal"
+                (modalOpen)="setOpenedModalRef($event)"
+              ></app-event-assign-function-cmp>
             </ng-container>
           </app-event-client-function>
         </ng-container>

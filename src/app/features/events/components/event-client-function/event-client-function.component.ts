@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, EventEmitter, Output} from '@angular/core';
 import {NgbNav} from "@ng-bootstrap/ng-bootstrap";
 import {Company} from "../../../users/models";
 
@@ -10,6 +10,7 @@ import {Company} from "../../../users/models";
 export class EventClientFunctionComponent implements OnInit {
   @Input() selectedCompany: Company | undefined;
   @Input() content: any;
+  @Output() removeSelectedCompany = new EventEmitter<any>();
 
   constructor() {
   }

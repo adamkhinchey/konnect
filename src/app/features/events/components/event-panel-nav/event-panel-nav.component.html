@@ -1,4 +1,4 @@
-<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui">
+<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui" (navChange)="navChange($event)">
   <li [ngbNavItem]="1">
     <a ngbNavLink class="item tabAdmin"><i class="cog icon"></i><span
       class="hideMobile">CLIENT</span></a>
