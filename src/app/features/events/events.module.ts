@@ -14,6 +14,7 @@ import { EventSuppliersFunctionComponent } from './components/event-suppliers-fu
 import { EventExhibitorsFunctionComponent } from './components/event-exhibitors-function/event-exhibitors-function.component';
 import { EventFilesFunctionComponent } from './components/event-files-function/event-files-function.component';
 import { EventTimelineFunctionComponent } from './components/event-timeline-function/event-timeline-function.component';
+import { EventAssignFunctionCmpComponent } from './components/event-assign-function-cmp/event-assign-function-cmp.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { EventTimelineFunctionComponent } from './components/event-timeline-func
   EventExhibitorsFunctionComponent,
   EventFilesFunctionComponent,
   EventTimelineFunctionComponent,
+  EventAssignFunctionCmpComponent,
   ],
   imports: [
     CommonModule,

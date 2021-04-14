@@ -3,7 +3,11 @@
     <div class="sixteen wide column maxWidth">
       <app-event-panel-nav [active]="active">
         <ng-container client>
-          <app-event-client-function></app-event-client-function>
+          <app-event-client-function>
+            <ng-container assignFunctionCmp>
+              <app-event-assign-function-cmp></app-event-assign-function-cmp>
+            </ng-container>
+          </app-event-client-function>
         </ng-container>
         <!--<app-event-manager-function></app-event-manager-function>
         <app-event-venue-function></app-event-venue-function>
