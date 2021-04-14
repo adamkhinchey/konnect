@@ -16,8 +16,8 @@
                   <div class="ui grid centered">
                     <div class="ten wide column marginB10 marginT10">
                       <img
-                        [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): userInfo?.profileImage || '../../assets/img/joe.jpg'"
-                        alt="" class="ui medium fluid image marginB10 userleftImgUpdate">
+                        [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): userInfo?.profileImage"
+                        alt="" class="ui medium fluid image marginB10 userleftImgUpdate" appImageFallback fallbackImage="../../assets/img/profile.png">
                       <div class="ui button basic small compact blue fluid"
                            appFileUploadTrigger
                            [fileUploadComponentRef]="fileUploadComponent">Replace profile image
@@ -70,7 +70,7 @@
                   *ngIf="editProfileForm!.get('email')?.touched
           && (
           editProfileForm!.get('email')?.errors?.required ||
-          editProfileForm!.get('email')?.errors?.email
+          editProfileForm!.get('email')?.errors?.pattern
           )"
                   class="text-danger"
                 >A valid email is required</span>
@@ -80,7 +80,7 @@
                 <input type="email" formControlName="recoveryEmail">
                 <span
                   *ngIf="editProfileForm!.get('recoveryEmail')?.touched
-          && (editProfileForm!.get('recoveryEmail')?.errors?.email)"
+          && (editProfileForm!.get('recoveryEmail')?.errors?.pattern)"
                   class="text-danger"
                 >A valid email is required</span>
               </div>

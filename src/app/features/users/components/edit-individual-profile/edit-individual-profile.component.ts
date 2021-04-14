@@ -20,8 +20,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class EditIndividualProfileComponent implements OnInit, OnDestroy {
 
-  MOBILE_REGEX = new RegExp(/^(?!(\d)\1+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/, 'gm');
-  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'gm');
+  MOBILE_REGEX = new RegExp(/^(?!(\d)\1+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/);
+  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/);
 
   @ViewChild(RemoveModalComponent) removeModal: RemoveModalComponent | undefined;
 
@@ -32,8 +32,8 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     profileImage: [],
     firstName: ['', [Validators.required]],
     lastName: [''],
-    email: ['', [Validators.required, Validators.email]],
-    recoveryEmail: ['', [Validators.email]],
+    email: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEX)]],
+    recoveryEmail: ['', [Validators.pattern(this.EMAIL_REGEX)]],
     timeZone: [null, [Validators.required]],
     mobileNumber: ['', [Validators.pattern(this.MOBILE_REGEX)]],
     city: ['', [Validators.required]],

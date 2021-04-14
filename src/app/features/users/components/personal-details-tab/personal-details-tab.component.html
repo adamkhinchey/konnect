@@ -62,7 +62,7 @@
           *ngIf="personalDetailsForm!.get('email')?.touched
           && (
           personalDetailsForm!.get('email')?.errors?.required ||
-          personalDetailsForm!.get('email')?.errors?.email
+          personalDetailsForm!.get('email')?.errors?.pattern
           )"
           class="text-danger"
         >A valid email is required</span>

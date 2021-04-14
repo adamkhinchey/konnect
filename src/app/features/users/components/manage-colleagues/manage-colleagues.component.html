@@ -48,7 +48,7 @@
                           {{admin.mobile || ''}}
                         </div>
                       </div>
-                      <div class="extra content" *ngIf="isUserAdmin">
+                      <div class="extra content" *ngIf="isUserAdmin && companyColleaguesData!.admins!.length>1 ">
                         <div class="ui grid">
                           <div class="ten wide column middle aligned">
                             <div class="field">

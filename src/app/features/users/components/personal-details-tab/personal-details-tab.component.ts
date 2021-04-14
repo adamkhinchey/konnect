@@ -13,8 +13,8 @@ import { devLogger } from "../../../../shared/utils";
 })
 export class PersonalDetailsTabComponent implements OnInit, OnDestroy {
 
-  MOBILE_REGEX = new RegExp(/^(?!(\d)\1+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/, 'gm');
-  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'gm');
+  MOBILE_REGEX = new RegExp(/^(?!(\d)\1+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/);
+  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/);
 
   @Output() moveToCompanyDetailsTab = new EventEmitter<CreateProfilePersonalDetails>();
   @Output() profileImageChangeEvent = new EventEmitter<File>();
@@ -43,7 +43,7 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy {
       profileImage: [],
       firstName: ['', [Validators.required]],
       lastName: [''],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEX)]],
       password: ['', [
         Validators.required,
         Validators.minLength(6),
