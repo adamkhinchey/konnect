@@ -1,64 +1,58 @@
-<li [ngbNavItem]="2">
-  <a ngbNavLink class="item tabAdmin"><i class="sitemap icon"></i><span class="hideMobile">EVENT
-                                MANAGER</span></a>
-  <ng-template ngbNavContent>
-    <div class="ui segment">
-      <form class="ui form">
-        <div class="ui grid stackable">
-          <div class="seven wide column">
-            <div class="companyContainer marginB20">
-              <div class="field checkboxOnHeader">
-                <div class="ui dividing header">
-                  <h3>Event Management Company <i class="icon globe"></i></h3>
-                </div>
-                <div class="ui checkbox">
-                  <input type="checkbox" class="hidden" tabindex="0">
-                  <label>My company</label>
-                </div>
-              </div>
-              <div class="ui grid center aligned">
-                <div class="sixteen wide column">
-                  <div class="ui button basic blue fluid addClient hasModal"
-                       (click)="openVerticallyCentered(content)">
-                    <i class="plus circle icon"></i>Add Management Company
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="contactsContainer">
-              <div class="ui dividing header">
-                <h3>Event Management Contacts <i class="icon globe"></i></h3>
-              </div>
-              <div class="kipCardContainer"></div>
-              <div class="ui grid center aligned">
-                <div class="sixteen wide column">
-                  <div class="ui basic button blue fluid addContacts hasModal disabled"
-                       data-modal="contacts">
-                    <i class="plus circle icon"></i>Add Contact
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="nine wide column">
+<div class="ui segment">
+  <form class="ui form">
+    <div class="ui grid stackable">
+      <div class="seven wide column">
+        <div class="companyContainer marginB20">
+          <div class="field checkboxOnHeader">
             <div class="ui dividing header">
-              <h3>Event Management Requirements <i class="icon globe"></i></h3>
+              <h3>Event Management Company <i class="icon globe"></i></h3>
             </div>
-            <div class="field">
-              <div class="textarea" contenteditable=""></div>
+            <div class="ui checkbox">
+              <input type="checkbox" class="hidden" tabindex="0">
+              <label>My company</label>
             </div>
           </div>
-          <div class="sixteen wide column saveButtons paddingT0">
-            <div class="ui divider"></div>
-            <div class="ui grid stackable">
-              <div class="sixteen wide column right aligned">
-                <div class="ui button hasModal" (click)="openVerticallyCentered2(content)">Save &amp; Invite
-                </div>
+          <div class="ui grid center aligned">
+            <div class="sixteen wide column">
+              <div class="ui button basic blue fluid addClient hasModal"
+                   (click)="openVerticallyCentered(content)">
+                <i class="plus circle icon"></i>Add Management Company
               </div>
             </div>
           </div>
         </div>
-      </form>
+        <div class="contactsContainer">
+          <div class="ui dividing header">
+            <h3>Event Management Contacts <i class="icon globe"></i></h3>
+          </div>
+          <div class="kipCardContainer"></div>
+          <div class="ui grid center aligned">
+            <div class="sixteen wide column">
+              <div class="ui basic button blue fluid addContacts hasModal disabled"
+                   data-modal="contacts">
+                <i class="plus circle icon"></i>Add Contact
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nine wide column">
+        <div class="ui dividing header">
+          <h3>Event Management Requirements <i class="icon globe"></i></h3>
+        </div>
+        <div class="field">
+          <div class="textarea" contenteditable=""></div>
+        </div>
+      </div>
+      <div class="sixteen wide column saveButtons paddingT0">
+        <div class="ui divider"></div>
+        <div class="ui grid stackable">
+          <div class="sixteen wide column right aligned">
+            <div class="ui button hasModal" (click)="openVerticallyCentered2(content)">Save &amp; Invite
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </ng-template>
-</li>
+  </form>
+</div>

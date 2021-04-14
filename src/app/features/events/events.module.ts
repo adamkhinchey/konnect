@@ -15,6 +15,9 @@ import { EventExhibitorsFunctionComponent } from './components/event-exhibitors-
 import { EventFilesFunctionComponent } from './components/event-files-function/event-files-function.component';
 import { EventTimelineFunctionComponent } from './components/event-timeline-function/event-timeline-function.component';
 import { EventAssignFunctionCmpComponent } from './components/event-assign-function-cmp/event-assign-function-cmp.component';
+import { SearchOrInviteFunctionCmpComponent } from './components/search-or-invite-function-cmp/search-or-invite-function-cmp.component';
+import {FormsModule} from "@angular/forms";
+import {SharedModule} from "../../shared/shared.module";
 
 
 @NgModule({
@@ -31,12 +34,15 @@ import { EventAssignFunctionCmpComponent } from './components/event-assign-funct
   EventFilesFunctionComponent,
   EventTimelineFunctionComponent,
   EventAssignFunctionCmpComponent,
+  SearchOrInviteFunctionCmpComponent,
   ],
   imports: [
     CommonModule,
     EventsRoutingModule,
     NgbNavModule,
-    NgbAccordionModule
+    NgbAccordionModule,
+    FormsModule,
+    SharedModule
   ],
 })
 export class EventsModule { }

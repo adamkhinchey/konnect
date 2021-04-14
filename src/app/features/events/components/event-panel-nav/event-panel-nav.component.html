@@ -1,10 +1,17 @@
-<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui ">
+<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui">
   <li [ngbNavItem]="1">
+    <a ngbNavLink class="item tabAdmin"><i class="cog icon"></i><span
+      class="hideMobile">CLIENT</span></a>
     <ng-template ngbNavContent>
-      <a ngbNavLink class="item tabAdmin"><i class="cog icon"></i><span
-        class="hideMobile">CLIENT</span></a>
       <ng-content select="[client]"></ng-content>
     </ng-template>
   </li>
+  <!--<li [ngbNavItem]="2">
+    <a ngbNavLink class="item tabAdmin"><i class="sitemap icon"></i><span class="hideMobile">EVENT
+                                MANAGER</span></a>
+    <ng-template ngbNavContent>
+      <ng-content select="[eventManager]"></ng-content>
+    </ng-template>
+  </li>-->
 </ul>
 <div [ngbNavOutlet]="nav" class="mt-2"></div>

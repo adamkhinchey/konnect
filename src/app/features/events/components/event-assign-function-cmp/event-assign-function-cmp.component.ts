@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, TemplateRef} from '@angular/core';
+import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-event-assign-function-cmp',
@@ -6,16 +7,21 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./event-assign-function-cmp.component.scss']
 })
 export class EventAssignFunctionCmpComponent implements OnInit {
+  @Input() content: TemplateRef<any> | undefined;
+  modalReference: NgbModalRef | undefined;
 
-  @Input() content: any;
 
-  constructor() {
+  constructor(private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
   }
 
-  openVerticallyCentered(content: any) {
+  openVerticallyCentered(content: any): void {
+    this.modalReference = this.modalService.open(content, {
+      centered: true,
+      size: 'lg',
+    });
 
   }
 }

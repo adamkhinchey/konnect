@@ -1,6 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgbModal, NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import {EventPanelNavComponent} from "../event-panel-nav/event-panel-nav.component";
+import {Company} from "../../../users/models";
+import {EventFunctionTypes} from "../../models/types";
 
 @Component({
   selector: 'app-create-event',
@@ -12,11 +14,11 @@ export class CreateEventComponent implements OnInit {
   active = 1;
   disabled = true;
   modalReference: any;
+  clientCompany: Company | undefined;
+  selectedFunction: EventFunctionTypes = this.active;
 
   onNavChange(changeEvent: NgbNavChangeEvent): void {
-    if (changeEvent.nextId === 3) {
-      changeEvent.preventDefault();
-    }
+    this.selectedFunction = changeEvent.nextId;
   }
 
   toggleDisabled(): void {
@@ -56,5 +58,15 @@ export class CreateEventComponent implements OnInit {
 
 
   ngOnInit(): void {
+  }
+
+  searchInviteCompanyClosed(): void {
+
+  }
+
+  setSelectedCompany(company: Company): void {
+    if (this.selectedFunction === EventFunctionTypes.CLIENT) {
+      this.clientCompany = company;
+    }
   }
 }
