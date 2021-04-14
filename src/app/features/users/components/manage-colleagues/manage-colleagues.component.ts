@@ -238,7 +238,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
         devLogger('error', err);
         this.modalReference?.dismiss('Colleague invite failed');
       }, () => {
-
+        this.getCompanyColleagues();
       });
 
   }
