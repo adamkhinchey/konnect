@@ -14,6 +14,11 @@ const routes: Routes = [
     loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule),
   },
   {
+    path: 'home/event',
+    pathMatch: 'full',
+    loadChildren: () => import('./features/events/events.module').then(m => m.EventsModule),
+  },
+  {
     path: 'home',
     pathMatch: 'full',
     children: [{

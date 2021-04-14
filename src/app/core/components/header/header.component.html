@@ -14,7 +14,7 @@
                   class="home icon"></i>Dashboard</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
-              <a [attr.href]="isApproved ? 'CE-01.html' : null"
+              <a   routerLink="/home/event/create" (click)="hideAllMenus()"
                 [class.disabled]="!isApproved"><i class="plus circle icon"></i>Create Event</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">

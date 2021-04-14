@@ -1,0 +1,185 @@
+<div class="ui container">
+  <div class="ui grid">
+    <div class="sixteen wide column maxWidth">
+      <app-event-panel-nav [active]="active">
+        <ng-container client>
+          <app-event-client-function></app-event-client-function>
+        </ng-container>
+        <!--<app-event-manager-function></app-event-manager-function>
+        <app-event-venue-function></app-event-venue-function>
+        <app-event-suppliers-function></app-event-suppliers-function>
+        <app-event-exhibitors-function></app-event-exhibitors-function>
+        <app-event-files-function></app-event-files-function>
+        <app-event-timeline-function></app-event-timeline-function>-->
+      </app-event-panel-nav>
+
+      <!--<div [ngbNavOutlet]="eventPanelNav.navRef" class="mt-2"></div>-->
+    </div>
+  </div>
+
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Search for Company</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="content">
+
+        <div class="ui grid">
+          <div class="sixteen wide column">
+            <div class="field">
+              <div class="ui search searchCompany">
+                <div class="ui fluid icon input">
+                  <input class="prompt" type="text" placeholder="Search" autocomplete="off">
+                  <i class="search icon"></i>
+                </div>
+                <div class="results"></div>
+              </div>
+            </div>
+          </div>
+          <div class="sixteen wide column center aligned">
+            <div class="field">
+              <button class="ui button">Add Selected</button>
+            </div>
+          </div>
+          <div class="sixteen wide column">
+            <p>If you cannot find the company you are searching for they probably do not have a company
+              profile in
+              Konnect. You can create an address book card with details you can use in the event now,
+              and invite them
+              to create a profile by filling out the details below.</p>
+          </div>
+          <div class="sixteen wide column">
+            <h3>Invite New Company</h3>
+            <form class="ui form">
+              <div class="field required">
+                <label>Name</label>
+                <input type="text" placeholder="Name">
+              </div>
+              <div class="two fields">
+                <div class="field required">
+                  <label>Country</label>
+                  <div class="ui fluid dropdown selection" tabindex="0"><select class="">
+                    <option value="">Select Country</option>
+                    <option value="AF">Afghanistan</option>
+                    <option value="AX">Åland Islands</option>
+                    <option value="AL">Albania</option>
+                    <option value="DZ">Algeria</option>
+                    <option value="AS">American Samoa</option>
+                    <option value="AD">Andorra</option>
+                    <option value="AO">Angola</option>
+                    <option value="AI">Anguilla</option>
+                    <option value="AQ">Antarctica</option>
+                    <option value="AG">Antigua and Barbuda</option>
+                    <option value="AR">Argentina</option>
+                    <option value="AM">Armenia</option>
+                    <option value="AW">Aruba</option>
+                    <option value="AU">Australia</option>
+                    <option value="AT">...</option>
+                  </select><i class="dropdown icon"></i>
+                    <div class="text">Antarctica</div>
+                    <div class="menu transition hidden" tabindex="-1">
+                      <div class="item" data-value="AF">Afghanistan</div>
+                      <div class="item" data-value="AX">Åland Islands</div>
+                      <div class="item" data-value="AL">Albania</div>
+                      <div class="item" data-value="DZ">Algeria</div>
+                      <div class="item" data-value="AS">American Samoa</div>
+                      <div class="item" data-value="AD">Andorra</div>
+                      <div class="item" data-value="AO">Angola</div>
+                      <div class="item" data-value="AI">Anguilla</div>
+                      <div class="item active selected" data-value="AQ">Antarctica</div>
+                      <div class="item" data-value="AG">Antigua and Barbuda</div>
+                      <div class="item" data-value="AR">Argentina</div>
+                      <div class="item" data-value="AM">Armenia</div>
+                      <div class="item" data-value="AW">Aruba</div>
+                      <div class="item" data-value="AU">Australia</div>
+                      <div class="item" data-value="AT">...</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field required">
+                  <label>City</label>
+                  <input type="text" placeholder="City">
+                </div>
+              </div>
+              <div class="two fields">
+                <div class="field required">
+                  <label>Contact Name</label>
+                  <input type="text" placeholder="Name">
+                </div>
+                <div class="field required">
+                  <label>Contact email</label>
+                  <input type="email" placeholder="Email">
+                </div>
+              </div>
+              <div class="ui grid">
+                <div class="sixteen wide column right aligned">
+                  <span class="smallText">*compulsory fields</span>
+                </div>
+                <div class="sixteen wide column center aligned paddingT0">
+                  <div class="ui button">Add Comapny and invite</div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+  </ng-template>
+
+
+  <ng-template #contentNew let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Upload Files</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="content uploadDocuments">
+        <form class="ui form">
+          <div class="ui grid">
+            <div class="sixteen wide column">
+              <div class="field">
+                <p>ADocument.pfd</p>
+                <input type="text" placeholder="Display Name">
+                <a href="#" class="removeDocument"><i class="trash alternate icon"></i>Remove</a>
+              </div>
+              <div class="field">
+                <p>ADocument.docx</p>
+                <input type="text" placeholder="Display Name">
+                <a href="#" class="removeDocument"><i class="trash alternate icon"></i>Remove</a>
+              </div>
+              <div class="field">
+                <p>AnImage.jpg</p>
+                <input type="text" placeholder="Display Name">
+                <a href="#" class="removeDocument"><i class="trash alternate icon"></i>Remove</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="newFooter">
+      <div class="actions">
+        <div class="ui grid">
+          <div class="eight wide column left aligned">
+            <div class="ui button positive">Browse and Add</div>
+          </div>
+          <div class="eight wide column right aligned">
+            <div class="ui button positive">Save and Upload</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+</div>

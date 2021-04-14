@@ -8,7 +8,6 @@ import { ManageColleaguesComponent } from "./components/manage-colleagues/manage
 import { CreateCompanyComponent } from "../../shared/components";
 import { CompanyDetailsTabComponent } from "./components/company-details-tab/company-details-tab.component";
 import { ManageConnectionsComponent } from "./components/manage-connections/manage-connections.component";
-import { CreateEventComponent } from '../events/create-event/create-event.component';
 
 const routes: Routes = [
   {
