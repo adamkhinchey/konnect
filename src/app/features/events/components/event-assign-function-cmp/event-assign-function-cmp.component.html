@@ -1,7 +1,7 @@
 <div class="ui grid center aligned" *ngIf="!selectedCompany">
   <div class="sixteen wide column">
     <div class="ui button basic blue fluid addClient hasModal"
-         (click)="openVerticallyCentered(content)">
+         (click)="openVerticallyCentered(clientCompanyModal)">
       <i class="plus circle icon"></i>Add Client
     </div>
   </div>
@@ -14,6 +14,7 @@
   <div class="ui grid center aligned">
     <div class="sixteen wide column">
       <div class="ui basic button blue fluid addContacts hasModal"
+           (click)="openVerticallyCentered(contactModal)"
            [ngClass]="{disabled: disableAddContacts }"
            data-modal="contacts">
         <i class="plus circle icon"></i>Add Contact

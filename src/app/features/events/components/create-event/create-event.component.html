@@ -3,11 +3,13 @@
     <div class="sixteen wide column maxWidth">
       <app-event-panel-nav [active]="active" [navChange]="onNavChange">
         <ng-container client>
-          <app-event-client-function [selectedCompany]="clientCompany" (removeSelectedCompany)="clientCompany=undefined">
+          <app-event-client-function [selectedCompany]="clientCompany"
+                                     (removeSelectedCompany)="clientCompany=undefined">
             <ng-container assignFunctionCmp>
               <app-event-assign-function-cmp
                 [selectedCompany]="clientCompany"
-                [content]="searchInviteCmpModal"
+                [clientCompanyModal]="searchInviteCmpModal"
+                [contactModal]="searchInviteFnCmpCntModal"
                 (modalOpen)="setOpenedModalRef($event)"
               ></app-event-assign-function-cmp>
             </ng-container>
@@ -39,6 +41,14 @@
     </app-search-or-invite-function-cmp>
   </ng-template>
 
+  <ng-template #searchInviteFnCmpCntModal let-modal>
+    <app-search-or-invite-fn-cmp-cnt
+      (closed)="searchInviteContactModalClosed()"
+      [companyId]="getCompanyId()"
+      (addedContactList)="setSelectedFnCompanyContacts($event)"
+    >
+    </app-search-or-invite-fn-cmp-cnt>
+  </ng-template>
 
   <ng-template #contentNew let-modal>
     <div class="modal-header">

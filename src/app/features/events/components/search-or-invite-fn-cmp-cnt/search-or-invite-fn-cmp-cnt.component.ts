@@ -1,15 +1,127 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {InviteFnCmpCntInterface} from "../../models/interfaces/invite-fn-cmp-cnt.interface";
+import {Company} from "../../../users/models";
+import {FormBuilder, Validators} from "@angular/forms";
+import {CompaniesService} from "../../../users/services/companies.service";
+import {checkRxFormValidation, devLogger} from "../../../../shared/utils";
+import {environment} from "../../../../../environments/environment";
+import {ToastrService} from "ngx-toastr";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-search-or-invite-fn-cmp-cnt',
   templateUrl: './search-or-invite-fn-cmp-cnt.component.html',
   styleUrls: ['./search-or-invite-fn-cmp-cnt.component.scss']
 })
-export class SearchOrInviteFnCmpCntComponent implements OnInit {
+export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
+  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/);
 
-  constructor() { }
+  @Input() companyId: number | null = null;
+  @Output() closed = new EventEmitter();
+  @Output() addedContactList = new EventEmitter<InviteFnCmpCntInterface[]>();
+  searchKeyWord = '';
+  listDisplayCss = '';
+  listDisplayOverFlow = '';
+  contactLabelId: number | null = null;
+  contactList: InviteFnCmpCntInterface[] = [];
+  cntSearchList: any[] = [];
+  selectedContact: any;
+  inviteCmpCntForm = this.fb.group({
+    firstName: [null, [Validators.required]],
+    email: [null, [Validators.required, Validators.pattern(this.EMAIL_REGEX)]]
+  });
+  contactLabels = environment.eventContactLabels;
+  private cmpCntSearchSub: Subscription | undefined;
+
+  constructor(
+    private fb: FormBuilder,
+    private companiesService: CompaniesService,
+    private toaster: ToastrService) {
+  }
+
 
   ngOnInit(): void {
   }
 
+  searchForCompCnt(): void {
+    if (this.companyId) {
+      if (this.searchKeyWord.trim().length > 0) {
+        this.cmpCntSearchSub = this.companiesService.searchCmpContacts({
+          companyId: this.companyId, keyword: this.searchKeyWord
+        }).subscribe(
+          value => {
+            if (value && value.data) {
+              devLogger('log', value);
+              this.cntSearchList = value.data?.user || [];
+              this.listDisplayCss = 'block !important';
+              this.listDisplayOverFlow = 'auto';
+            }
+          },
+          error => {
+            devLogger('error', error);
+            this.cntSearchList = [];
+            this.listDisplayCss = '';
+            this.listDisplayOverFlow = '';
+          }
+        );
+      } else {
+        this.cntSearchList = [];
+        this.listDisplayCss = '';
+        this.listDisplayOverFlow = '';
+      }
+    } else {
+      this.toaster.error('Please make sure client company is selected');
+    }
+  }
+
+  selectCnt(contact: any): void {
+    this.selectedContact = contact;
+    this.searchKeyWord = this.selectedContact?.firstName + ' ' + this.selectedContact?.lastName || '';
+    this.cntSearchList = [];
+  }
+
+  addCmpCntToList(inviteType = false): void {
+    if (this.selectedContact && !this.contactLabelId) {
+      this.toaster.error('Please also select a contact label');
+      return;
+    }
+    if (this.selectedContact && !inviteType) {
+      this.contactList.push({
+        email: this.selectedContact.email,
+        // @ts-ignore
+        contactLabelId: parseInt(this.contactLabelId, 10),
+        firstName: this.selectedContact.firstName,
+        id: this.selectedContact.userId
+      });
+    } else if (!this.selectedContact && inviteType) {
+      this.contactList.push({
+        email: this.inviteCmpCntForm.get('email')?.value,
+        firstName: this.inviteCmpCntForm.get('firstName')?.value,
+        id: null,
+        contactLabelId: null
+      });
+    }else{
+      this.toaster.error('Please search and select a contact');
+    }
+    this.inviteCmpCntForm.reset();
+    this.selectedContact = null;
+    this.contactLabelId = null;
+    this.searchKeyWord = '';
+  }
+
+  validateFields(): boolean {
+    return checkRxFormValidation(this.inviteCmpCntForm);
+  }
+
+  removeContactFromList(i: number): void {
+    this.contactList.splice(i, 1);
+  }
+
+  emitContactListAndClose(): void {
+    this.addedContactList.emit(this.contactList);
+  }
+
+  ngOnDestroy(): void {
+    this.cmpCntSearchSub?.unsubscribe();
+  }
 }

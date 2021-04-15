@@ -3,6 +3,7 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {Company} from "../../../users/models";
 import {InviteFnCmpInterface} from "../../models/interfaces";
 import {InviteFnCmpClass} from "../../models/classes";
+import {devLogger} from "../../../../shared/utils";
 
 @Component({
   selector: 'app-event-assign-function-cmp',
@@ -10,8 +11,9 @@ import {InviteFnCmpClass} from "../../models/classes";
   styleUrls: ['./event-assign-function-cmp.component.scss']
 })
 export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
-  @Input() selectedCompany: Company | InviteFnCmpClass | undefined;
-  @Input() content: TemplateRef<any> | undefined;
+  @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
+  @Input() clientCompanyModal: TemplateRef<any> | undefined;
+  @Input() contactModal: TemplateRef<any> | undefined;
   @Output() modalOpen = new EventEmitter<NgbModalRef>();
   modalReference: NgbModalRef | undefined;
   disableAddContacts = true;
@@ -21,8 +23,10 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes && changes.selectedCompnay) {
+    if (changes && changes.selectedCompany && changes.selectedCompany.currentValue) {
       this.disableAddContacts = changes.selectedCompany.currentValue instanceof InviteFnCmpClass;
+    } else if (changes && changes.selectedCompany && !changes.selectedCompany.currentValue) {
+      this.disableAddContacts = true;
     }
   }
 
