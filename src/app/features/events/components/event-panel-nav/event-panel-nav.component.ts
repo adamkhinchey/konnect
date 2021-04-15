@@ -7,7 +7,7 @@ import {NgbNav, NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./event-panel-nav.component.scss']
 })
 export class EventPanelNavComponent implements OnInit {
-  @Input() navChange: ((changeEvent: NgbNavChangeEvent) => void | undefined) | undefined ;
+  @Input() navChange!: ((changeEvent: NgbNavChangeEvent) => void | undefined) ;
   @Input() active = 1;
   @Input() content: any;
 

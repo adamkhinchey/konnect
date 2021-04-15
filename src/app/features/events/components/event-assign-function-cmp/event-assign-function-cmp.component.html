@@ -13,7 +13,8 @@
   <div class="kipCardContainer"></div>
   <div class="ui grid center aligned">
     <div class="sixteen wide column">
-      <div class="ui basic button blue fluid addContacts hasModal disabled"
+      <div class="ui basic button blue fluid addContacts hasModal"
+           [ngClass]="{disabled: !selectedCompany}"
            data-modal="contacts">
         <i class="plus circle icon"></i>Add Contact
       </div>

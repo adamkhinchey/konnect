@@ -18,6 +18,7 @@ import { EventAssignFunctionCmpComponent } from './components/event-assign-funct
 import { SearchOrInviteFunctionCmpComponent } from './components/search-or-invite-function-cmp/search-or-invite-function-cmp.component';
 import {FormsModule} from "@angular/forms";
 import {SharedModule} from "../../shared/shared.module";
+import { SearchOrInviteFnCmpCntComponent } from './components/search-or-invite-fn-cmp-cnt/search-or-invite-fn-cmp-cnt.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import {SharedModule} from "../../shared/shared.module";
   EventTimelineFunctionComponent,
   EventAssignFunctionCmpComponent,
   SearchOrInviteFunctionCmpComponent,
+  SearchOrInviteFnCmpCntComponent,
   ],
   imports: [
     CommonModule,
