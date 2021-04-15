@@ -3,6 +3,8 @@ import {NgbModal, NgbModalRef, NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstr
 import {EventPanelNavComponent} from "../event-panel-nav/event-panel-nav.component";
 import {Company} from "../../../users/models";
 import {EventFunctionTypes} from "../../models/types";
+import {InviteFnCmpInterface} from "../../models/interfaces";
+import {InviteFnCmpClass} from "../../models/classes";
 
 @Component({
   selector: 'app-create-event',
@@ -14,8 +16,9 @@ export class CreateEventComponent implements OnInit {
   active = 1;
   disabled = true;
   modalReference: NgbModalRef | undefined;
-  clientCompany: Company | undefined;
+  clientCompany: Company | InviteFnCmpInterface | undefined;
   selectedFunction: EventFunctionTypes = this.active;
+  isFnCmpInvited: boolean | undefined;
 
   onNavChange(changeEvent: NgbNavChangeEvent): void {
     this.selectedFunction = changeEvent.nextId;
@@ -64,9 +67,10 @@ export class CreateEventComponent implements OnInit {
     this.modalReference?.close();
   }
 
-  setSelectedCompany(company: Company): void {
+  setSelectedCompany(company: Company | InviteFnCmpClass): void {
     if (this.selectedFunction === EventFunctionTypes.CLIENT) {
       this.clientCompany = company;
+      this.isFnCmpInvited = company instanceof InviteFnCmpClass;
     }
     this.searchInviteCompanyClosed();
   }

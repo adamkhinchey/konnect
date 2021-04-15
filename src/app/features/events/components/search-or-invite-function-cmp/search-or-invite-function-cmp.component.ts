@@ -1,9 +1,13 @@
 import {Component, OnInit, Output, EventEmitter, OnDestroy} from '@angular/core';
 import {CompaniesService} from '../../../users/services/companies.service';
 import {Company} from '../../../users/models';
-import {devLogger} from '../../../../shared/utils';
+import {checkRxFormValidation, devLogger} from '../../../../shared/utils';
 import {Subscription} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {GetRegionAndCountriesService} from "../../../../shared/services";
+import {InviteFnCmpInterface} from "../../models/interfaces";
+import {InviteFnCmpClass} from "../../models/classes";
 
 @Component({
   selector: 'app-search-or-invite-function-cmp',
@@ -11,8 +15,10 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./search-or-invite-function-cmp.component.scss']
 })
 export class SearchOrInviteFunctionCmpComponent implements OnInit, OnDestroy {
+  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/);
+
   @Output() closed = new EventEmitter();
-  @Output() newCompanyInvited = new EventEmitter<any>();
+  @Output() newCompanyInvited = new EventEmitter<InviteFnCmpClass>();
   @Output() existingCompanySelected = new EventEmitter<Company>();
   searchKeyWord = '';
   companyList: any[] = [];
@@ -20,8 +26,20 @@ export class SearchOrInviteFunctionCmpComponent implements OnInit, OnDestroy {
   listDisplayOverFlow = '';
   private cmpSearchSubscription: Subscription | undefined;
   selectedCompany: Company | null = null;
+  inviteFnCmpForm: FormGroup = this.fb.group({
+    companyName: ['', [Validators.required]],
+    countryId: [null, [Validators.required]],
+    city: ['', [Validators.required]],
+    contactName: ['', [Validators.required]],
+    contactEmail: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEX)]]
+  });
+  countries$ = this.getRegionAndCountriesService.getAllCountriesOnly();
 
-  constructor(private companiesService: CompaniesService, private toaster: ToastrService) {
+  constructor(
+    private companiesService: CompaniesService,
+    private toaster: ToastrService,
+    private getRegionAndCountriesService: GetRegionAndCountriesService,
+    private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -76,5 +94,13 @@ export class SearchOrInviteFunctionCmpComponent implements OnInit, OnDestroy {
     } else {
       this.toaster.error('Please Select a company first');
     }
+  }
+
+  validateForm(): boolean {
+    return checkRxFormValidation(this.inviteFnCmpForm);
+  }
+
+  emitInvitedAndClose(): void {
+    this.newCompanyInvited.emit(this.inviteFnCmpForm.value);
   }
 }

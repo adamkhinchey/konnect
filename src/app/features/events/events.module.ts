@@ -16,7 +16,7 @@ import { EventFilesFunctionComponent } from './components/event-files-function/e
 import { EventTimelineFunctionComponent } from './components/event-timeline-function/event-timeline-function.component';
 import { EventAssignFunctionCmpComponent } from './components/event-assign-function-cmp/event-assign-function-cmp.component';
 import { SearchOrInviteFunctionCmpComponent } from './components/search-or-invite-function-cmp/search-or-invite-function-cmp.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../../shared/shared.module";
 import { SearchOrInviteFnCmpCntComponent } from './components/search-or-invite-fn-cmp-cnt/search-or-invite-fn-cmp-cnt.component';
 
@@ -38,13 +38,14 @@ import { SearchOrInviteFnCmpCntComponent } from './components/search-or-invite-f
   SearchOrInviteFunctionCmpComponent,
   SearchOrInviteFnCmpCntComponent,
   ],
-  imports: [
-    CommonModule,
-    EventsRoutingModule,
-    NgbNavModule,
-    NgbAccordionModule,
-    FormsModule,
-    SharedModule
-  ],
+    imports: [
+        CommonModule,
+        EventsRoutingModule,
+        NgbNavModule,
+        NgbAccordionModule,
+        FormsModule,
+        SharedModule,
+        ReactiveFormsModule
+    ],
 })
 export class EventsModule { }

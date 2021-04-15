@@ -34,7 +34,7 @@
       </div>
       <div class="sixteen wide column center aligned">
         <div class="field">
-          <button class="ui button"(click)="emitSelectedAndClose()">Add Selected</button>
+          <button class="ui button" (click)="emitSelectedAndClose()">Add Selected</button>
         </div>
       </div>
       <div class="sixteen wide column">
@@ -46,65 +46,74 @@
       </div>
       <div class="sixteen wide column">
         <h3>Invite New Company</h3>
-        <form class="ui form">
+        <form class="ui form" [formGroup]="inviteFnCmpForm">
           <div class="field required">
             <label>Name</label>
-            <input type="text" placeholder="Name">
+            <input
+                   type="text"
+                   placeholder="Company Name"
+                   formControlName="companyName"
+                   required>
+            <span
+              *ngIf="inviteFnCmpForm!.get('companyName')?.touched
+          && inviteFnCmpForm!.get('companyName')?.errors?.required"
+              class="text-danger"
+            >Company Name is Required</span>
           </div>
           <div class="two fields">
             <div class="field required">
               <label>Country</label>
-              <div class="ui fluid dropdown selection" tabindex="0"><select class="">
-                <option value="">Select Country</option>
-                <option value="AF">Afghanistan</option>
-                <option value="AX">Åland Islands</option>
-                <option value="AL">Albania</option>
-                <option value="DZ">Algeria</option>
-                <option value="AS">American Samoa</option>
-                <option value="AD">Andorra</option>
-                <option value="AO">Angola</option>
-                <option value="AI">Anguilla</option>
-                <option value="AQ">Antarctica</option>
-                <option value="AG">Antigua and Barbuda</option>
-                <option value="AR">Argentina</option>
-                <option value="AM">Armenia</option>
-                <option value="AW">Aruba</option>
-                <option value="AU">Australia</option>
-                <option value="AT">...</option>
-              </select><i class="dropdown icon"></i>
-                <div class="text">Antarctica</div>
-                <div class="menu transition hidden" tabindex="-1">
-                  <div class="item" data-value="AF">Afghanistan</div>
-                  <div class="item" data-value="AX">Åland Islands</div>
-                  <div class="item" data-value="AL">Albania</div>
-                  <div class="item" data-value="DZ">Algeria</div>
-                  <div class="item" data-value="AS">American Samoa</div>
-                  <div class="item" data-value="AD">Andorra</div>
-                  <div class="item" data-value="AO">Angola</div>
-                  <div class="item" data-value="AI">Anguilla</div>
-                  <div class="item active selected" data-value="AQ">Antarctica</div>
-                  <div class="item" data-value="AG">Antigua and Barbuda</div>
-                  <div class="item" data-value="AR">Argentina</div>
-                  <div class="item" data-value="AM">Armenia</div>
-                  <div class="item" data-value="AW">Aruba</div>
-                  <div class="item" data-value="AU">Australia</div>
-                  <div class="item" data-value="AT">...</div>
-                </div>
-              </div>
+              <select id="select-profile-country"
+                      formControlName="countryId" required>
+                <option *ngFor="let cntr of countries$ | async" [ngValue]="cntr.val" [disabled]="!cntr.val">
+                  {{ cntr.name }}
+                </option>
+              </select>
+              <span
+                *ngIf="inviteFnCmpForm!.get('countryId')?.touched
+          && (
+          inviteFnCmpForm!.get('countryId')?.hasError('required')
+          )"
+                class="text-danger"
+              >Country is required</span>
             </div>
             <div class="field required">
               <label>City</label>
-              <input type="text" placeholder="City">
+              <input type="text" placeholder="City" formControlName="city">
+              <span
+                *ngIf="inviteFnCmpForm!.get('city')?.touched && (
+          inviteFnCmpForm!.get('city')?.hasError('required')
+          )" class="text-danger">City is required</span>
             </div>
           </div>
           <div class="two fields">
             <div class="field required">
               <label>Contact Name</label>
-              <input type="text" placeholder="Name">
+              <input
+                     type="text"
+                     placeholder="Contact Name"
+                     formControlName="contactName"
+                     required>
+              <span
+                *ngIf="inviteFnCmpForm!.get('contactName')?.touched
+          && inviteFnCmpForm!.get('contactName')?.errors?.required"
+                class="text-danger"
+              >Contact Name is Required</span>
             </div>
             <div class="field required">
               <label>Contact email</label>
-              <input type="email" placeholder="Email">
+              <input
+                     type="email"
+                     placeholder="Contact Email "
+                     formControlName="contactEmail"
+                     required>
+              <span
+                *ngIf="inviteFnCmpForm!.get('contactEmail')?.touched && (
+          inviteFnCmpForm!.get('contactEmail')?.errors?.required ||
+          inviteFnCmpForm!.get('contactEmail')?.errors?.pattern
+          )"
+                class="text-danger"
+              >A valid contact email is required</span>
             </div>
           </div>
           <div class="ui grid">
@@ -112,7 +121,7 @@
               <span class="smallText">*compulsory fields</span>
             </div>
             <div class="sixteen wide column center aligned paddingT0">
-              <div class="ui button">Add Comapny and invite</div>
+              <div class="ui button" (click)="validateForm() && emitInvitedAndClose()">Add Comapny and invite</div>
             </div>
           </div>
         </form>

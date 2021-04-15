@@ -17,18 +17,20 @@
               <div class="column">
                 <div class="ui fluid card">
                   <div class="content">
-                    <img class="right floated mini ui image" [src]="selectedCompany.companyProfileImage"
+                    <img class="right floated mini ui image"
+                         [src]="getCompanyProfileImage() || 'assets/img/default_konnect_img.png'"
                          appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                     <div class="header">
                       <a>{{selectedCompany.companyName}}</a>
                     </div>
                     <div class="meta">
-                      <a [href]="selectedCompany.website" target="_blank"> {{selectedCompany.website}}</a>>
-                      <span *ngIf="selectedCompany.website">|</span>
+                      <a *ngIf="getCompanyWebsite()" [href]="getCompanyWebsite()"
+                         target="_blank"> {{getCompanyWebsite()}}</a>
+                      <span *ngIf="getCompanyWebsite()">|</span>
                       <a>
                         <i class="map marker alternate icon"></i>{{selectedCompany.city}}</a>
                       <span>|</span>
-                      <i class="phone icon"></i>{{selectedCompany.phone}}
+                      <i class="phone icon"></i>{{getCompanyPhone() || ''}}
                     </div>
                   </div>
                   <div class="extra content" [ngClass]="{'editableObject':false}">
@@ -37,7 +39,8 @@
 
                       </div>
                       <div class="six wide column right aligned">
-                        <div (click)="removeSelectedCompany.emit()" class="ui circular compact mini basic button confirmRemove hasModal"
+                        <div (click)="removeSelectedCompany.emit()"
+                             class="ui circular compact mini basic button confirmRemove hasModal"
                              data-modal="removeModal"><i class="trash alternate icon"></i>Remove
                         </div>
                       </div>

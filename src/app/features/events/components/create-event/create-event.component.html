@@ -34,6 +34,7 @@
   <ng-template #searchInviteCmpModal let-modal>
     <app-search-or-invite-function-cmp
       (existingCompanySelected)="setSelectedCompany($event)"
+      (newCompanyInvited)="setSelectedCompany($event)"
       (closed)="searchInviteCompanyClosed()">
     </app-search-or-invite-function-cmp>
   </ng-template>
