@@ -8,8 +8,8 @@
             (removeSelectedCompany)="unsetClientCompany()"
             [eventToBeSaved]="eventToBeSaved"
             (saveAndInvite)="saveClient($event)"
-             (toggleOwnCompany)="toggleOwnCompany($event)"
-             [clientCmpToSelfSub]="updateClientCmpToSelf">
+            (toggleOwnCompany)="toggleOwnCompany($event)"
+            [clientCmpToSelfSub]="updateClientCmpToSelf">
             <ng-container assignFunctionCmp>
               <app-event-assign-function-cmp
                 [selectedCompany]="clientCompany"
@@ -23,16 +23,17 @@
           </app-event-client-function>
         </ng-container>
 
-        <!--
         <ng-container eventManager>
-          <app-event-manager-function></app-event-manager-function>
-        </ng-container>
+          <app-event-manager-function>
 
-        <app-event-venue-function></app-event-venue-function>
-        <app-event-suppliers-function></app-event-suppliers-function>
-        <app-event-exhibitors-function></app-event-exhibitors-function>
-        <app-event-files-function></app-event-files-function>
-        <app-event-timeline-function></app-event-timeline-function>-->
+          </app-event-manager-function>
+        </ng-container>
+        <!--
+                <app-event-venue-function></app-event-venue-function>
+                <app-event-suppliers-function></app-event-suppliers-function>
+                <app-event-exhibitors-function></app-event-exhibitors-function>
+                <app-event-files-function></app-event-files-function>
+                <app-event-timeline-function></app-event-timeline-function>-->
       </app-event-panel-nav>
 
       <!--<div [ngbNavOutlet]="eventPanelNav.navRef" class="mt-2"></div>-->
