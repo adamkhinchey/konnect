@@ -3,14 +3,19 @@
     <div class="sixteen wide column maxWidth">
       <app-event-panel-nav [active]="active" [navChange]="onNavChange">
         <ng-container client>
-          <app-event-client-function [selectedCompany]="clientCompany"
-                                     (removeSelectedCompany)="clientCompany=undefined">
+          <app-event-client-function
+            [selectedCompany]="clientCompany"
+            (removeSelectedCompany)="unsetClientCompany()"
+            [eventToBeSaved]="eventToBeSaved"
+            (saveAndInvite)="saveClient($event)">
             <ng-container assignFunctionCmp>
               <app-event-assign-function-cmp
                 [selectedCompany]="clientCompany"
                 [clientCompanyModal]="searchInviteCmpModal"
                 [contactModal]="searchInviteFnCmpCntModal"
                 (modalOpen)="setOpenedModalRef($event)"
+                (contactRemove)="removeContact($event)"
+                [contactList]="clientContactList"
               ></app-event-assign-function-cmp>
             </ng-container>
           </app-event-client-function>

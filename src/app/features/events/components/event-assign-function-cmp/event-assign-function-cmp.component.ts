@@ -1,9 +1,10 @@
 import {Component, Input, OnInit, Output, TemplateRef, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
-import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
-import {Company} from "../../../users/models";
-import {InviteFnCmpInterface} from "../../models/interfaces";
-import {InviteFnCmpClass} from "../../models/classes";
-import {devLogger} from "../../../../shared/utils";
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {Company} from '../../../users/models';
+import {FnCmpCntInterface, InviteFnCmpInterface} from '../../models/interfaces';
+import {InviteFnCmpClass} from '../../models/classes';
+import {devLogger} from '../../../../shared/utils';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-event-assign-function-cmp',
@@ -15,8 +16,11 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() clientCompanyModal: TemplateRef<any> | undefined;
   @Input() contactModal: TemplateRef<any> | undefined;
   @Output() modalOpen = new EventEmitter<NgbModalRef>();
+  @Output() contactRemove = new EventEmitter<number>();
   modalReference: NgbModalRef | undefined;
   disableAddContacts = true;
+  contactLabels = environment.eventContactLabels;
+  @Input() contactList: FnCmpCntInterface[] = [];
 
 
   constructor(private modalService: NgbModal) {
@@ -40,5 +44,9 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     });
 
     this.modalOpen.emit(this.modalReference);
+  }
+
+  removeContactFromList(i: number): void {
+    this.contactRemove.emit(i);
   }
 }

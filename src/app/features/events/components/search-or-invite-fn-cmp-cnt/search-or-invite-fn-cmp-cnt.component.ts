@@ -1,12 +1,13 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {InviteFnCmpCntInterface} from "../../models/interfaces/invite-fn-cmp-cnt.interface";
-import {Company} from "../../../users/models";
-import {FormBuilder, Validators} from "@angular/forms";
-import {CompaniesService} from "../../../users/services/companies.service";
-import {checkRxFormValidation, devLogger} from "../../../../shared/utils";
-import {environment} from "../../../../../environments/environment";
-import {ToastrService} from "ngx-toastr";
-import {Subscription} from "rxjs";
+import {InviteFnCmpCntInterface} from '../../models/interfaces/invite-fn-cmp-cnt.interface';
+import {Company} from '../../../users/models';
+import {FormBuilder, Validators} from '@angular/forms';
+import {CompaniesService} from '../../../users/services/companies.service';
+import {checkRxFormValidation, devLogger} from '../../../../shared/utils';
+import {environment} from '../../../../../environments/environment';
+import {ToastrService} from 'ngx-toastr';
+import {Subscription} from 'rxjs';
+import {FnCmpCntInterface} from '../../models/interfaces';
 
 @Component({
   selector: 'app-search-or-invite-fn-cmp-cnt',
@@ -18,12 +19,12 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   @Input() companyId: number | null = null;
   @Output() closed = new EventEmitter();
-  @Output() addedContactList = new EventEmitter<InviteFnCmpCntInterface[]>();
+  @Output() addedContactList = new EventEmitter<FnCmpCntInterface[]>();
   searchKeyWord = '';
   listDisplayCss = '';
   listDisplayOverFlow = '';
   contactLabelId: number | null = null;
-  contactList: InviteFnCmpCntInterface[] = [];
+  contactList: FnCmpCntInterface[] = [];
   cntSearchList: any[] = [];
   selectedContact: any;
   inviteCmpCntForm = this.fb.group({
@@ -87,7 +88,11 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
     }
     if (this.selectedContact && !inviteType) {
       this.contactList.push({
+        lastName: this.selectedContact.lastName,
+        mobile: this.selectedContact.mobile,
+        position: this.selectedContact.position,
         email: this.selectedContact.email,
+        profileImage: this.selectedContact.profileImage,
         // @ts-ignore
         contactLabelId: parseInt(this.contactLabelId, 10),
         firstName: this.selectedContact.firstName,
@@ -95,12 +100,16 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
       });
     } else if (!this.selectedContact && inviteType) {
       this.contactList.push({
+        lastName: '',
+        position: '(Invited)',
+        mobile: '',
         email: this.inviteCmpCntForm.get('email')?.value,
+        profileImage: undefined,
         firstName: this.inviteCmpCntForm.get('firstName')?.value,
         id: null,
         contactLabelId: null
       });
-    }else{
+    } else {
       this.toaster.error('Please search and select a contact');
     }
     this.inviteCmpCntForm.reset();

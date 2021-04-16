@@ -3,6 +3,7 @@ import {NgbNav} from "@ng-bootstrap/ng-bootstrap";
 import {Company} from "../../../users/models";
 import {InviteFnCmpInterface} from "../../models/interfaces";
 import {InviteFnCmpClass} from "../../models/classes";
+import {SaveEventClass} from "../../models/classes/saveEvent.class";
 
 @Component({
   selector: 'app-event-client-function',
@@ -13,6 +14,8 @@ export class EventClientFunctionComponent implements OnInit {
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
   @Input() content: any;
   @Output() removeSelectedCompany = new EventEmitter<any>();
+  @Input() eventToBeSaved = new SaveEventClass();
+  @Output() saveAndInvite = new EventEmitter<boolean>();
 
   constructor() {
   }
@@ -40,7 +43,7 @@ export class EventClientFunctionComponent implements OnInit {
     }
   }
 
-  getCompanyPhone(): string | null | undefined  {
+  getCompanyPhone(): string | null | undefined {
     if (this.selectedCompany instanceof InviteFnCmpClass) {
       return null;
     } else {

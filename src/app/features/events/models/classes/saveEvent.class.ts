@@ -1,4 +1,5 @@
 import {InviteFnCmpCntInterface} from "../interfaces/invite-fn-cmp-cnt.interface";
+import {InviteFnCmpInterface} from "../interfaces";
 
 export class SaveEventClass {
   title = '';
@@ -9,18 +10,12 @@ export class SaveEventClass {
   // @ts-ignore
   creatorFromCompanyId: number;
   // @ts-ignore
-  client: {
+  client: null |  {
     id: null | number,
     contacts: null | InviteFnCmpCntInterface[],
     isOwnCompany: boolean,
     shouldInvite: null | number,
-    invited: null | {
-      companyName: string,
-      countryId: number,
-      city: string,
-      contactName: string,
-      contactEmail: string
-    }
+    invited: null | InviteFnCmpInterface
   };
 
   constructor(param?: Partial<SaveEventClass>) {

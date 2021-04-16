@@ -10,7 +10,45 @@
   <div class="ui dividing header">
     <h3>Client Contacts <i class="globe icon"></i></h3>
   </div>
-  <div class="kipCardContainer"></div>
+  <div class="kipCardContainer">
+    <div  *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
+      <div class="column" *ngFor="let contact of contactList; let i=index">
+        <div class="contactRole">{{contactLabels.get(contact.contactLabelId) || ''}}
+          <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal" data-modal="editProfile">
+            <i class="pencil alternate icon"></i>
+          </div>
+        </div>
+        <div class="ui fluid card">
+          <div class="content">
+            <img class="right floated mini ui image" [src]="contact.profileImage || 'assets/img/profile.png'"
+                 appImageFallback fallbackImage="assets/img/profile.png">
+            <div class="header">
+              <a>{{contact.firstName + ' '+ (contact.lastName || '')}}</a>
+            </div>
+            <div class="meta">
+              {{contact.position}}
+            </div>
+            <div class="description">
+              {{contact.email}}<br>
+              {{contact.mobile}}
+            </div>
+          </div>
+          <div class="extra content">
+            <div class="ui grid">
+              <div class="eight wide column">
+
+              </div>
+              <div class="eight wide column right aligned">
+                <div class="ui circular compact mini basic button confirmRemove hasModal"
+                     (click)="removeContactFromList(i)"
+                     data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="ui grid center aligned">
     <div class="sixteen wide column">
       <div class="ui basic button blue fluid addContacts hasModal"
