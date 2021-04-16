@@ -7,8 +7,9 @@
             <div class="ui dividing header">
               <h3>Client Company <i class="globe icon"></i></h3>
             </div>
-            <div class="ui checkbox">
-              <input type="checkbox" class="hidden" tabindex="0">
+            <div class="ui checkbox" (click)="toggleOwnCompany.emit(!isOwnCompany)">
+              <input type="checkbox" class="hidden" tabindex="0" [(ngModel)]="isOwnCompany"
+                     [ngModelOptions]="{standalone:true}">
               <label>My company</label>
             </div>
           </div>
@@ -66,15 +67,17 @@
           <label>Event Title</label>
           <div class="field">
             <input type="text" placeholder="Event Title" [(ngModel)]="eventToBeSaved.title"
-                   [ngModelOptions]="{standalone:true}" >
+                   [ngModelOptions]="{standalone:true}">
           </div>
         </div>
         <div class="field">
           <label>Event Description</label>
-          <textarea class="textarea" [(ngModel)]="eventToBeSaved.description" [ngModelOptions]="{standalone:true}"></textarea>
+          <textarea class="textarea" [(ngModel)]="eventToBeSaved.description"
+                    [ngModelOptions]="{standalone:true}"></textarea>
         </div>
         <div class="field">
-          <div class="ui toggle checkbox toggleOnColumn" (click)="eventToBeSaved.hasExhibitors=!eventToBeSaved.hasExhibitors">
+          <div class="ui toggle checkbox toggleOnColumn"
+               (click)="eventToBeSaved.hasExhibitors=!eventToBeSaved.hasExhibitors">
             <input type="checkbox" name="exhibitors" class="hidden"
                    tabindex="0" [(ngModel)]="eventToBeSaved.hasExhibitors" [ngModelOptions]="{standalone:true}">
             <label>Event has exhibitors</label>

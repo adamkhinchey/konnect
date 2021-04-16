@@ -7,7 +7,9 @@
             [selectedCompany]="clientCompany"
             (removeSelectedCompany)="unsetClientCompany()"
             [eventToBeSaved]="eventToBeSaved"
-            (saveAndInvite)="saveClient($event)">
+            (saveAndInvite)="saveClient($event)"
+             (toggleOwnCompany)="toggleOwnCompany($event)"
+             [clientCmpToSelfSub]="updateClientCmpToSelf">
             <ng-container assignFunctionCmp>
               <app-event-assign-function-cmp
                 [selectedCompany]="clientCompany"

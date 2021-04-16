@@ -1,21 +1,23 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgbModal, NgbModalRef, NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import {EventPanelNavComponent} from '../event-panel-nav/event-panel-nav.component';
 import {Company} from '../../../users/models';
 import {EventFunctionTypes} from '../../models/types';
-import {FnCmpCntInterface, InviteFnCmpInterface} from '../../models/interfaces';
+import {FnCmpCntInterface, InviteFnCmpCntInterface, InviteFnCmpInterface} from '../../models/interfaces';
 import {InviteFnCmpClass} from '../../models/classes';
-import {InviteFnCmpCntInterface} from '../../models/interfaces';
 import {SaveEventClass} from '../../models/classes/saveEvent.class';
 import {ToastrService} from 'ngx-toastr';
 import {devLogger} from '../../../../shared/utils';
+import {UserSettingsService} from '../../../../shared/services';
+import {UserSettingsInterface} from '../../../../shared/models';
+import {BehaviorSubject, Subject, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-create-event',
   templateUrl: './create-event.component.html',
   styleUrls: ['./create-event.component.scss']
 })
-export class CreateEventComponent implements OnInit {
+export class CreateEventComponent implements OnInit, OnDestroy {
   @ViewChild('app-event-panel-nav') eventPanelNav: EventPanelNavComponent | undefined;
   eventToBeSaved = new SaveEventClass();
   active = 1;
@@ -25,6 +27,10 @@ export class CreateEventComponent implements OnInit {
   clientContactList: FnCmpCntInterface[] = [];
   selectedFunction: EventFunctionTypes = this.active;
   isFnCmpInvited: boolean | undefined;
+  private userSettingsSub: Subscription | undefined;
+  defaultCompany: any;
+  updateClientCmpToSelf = new BehaviorSubject<boolean | null>(null);
+  updateFnCmpToSelf = true;
 
   onNavChange(changeEvent: NgbNavChangeEvent): void {
     this.selectedFunction = changeEvent.nextId;
@@ -38,8 +44,12 @@ export class CreateEventComponent implements OnInit {
   }
 
 
-  constructor(private modalService: NgbModal, private toaster: ToastrService) {
+  constructor(
+    private modalService: NgbModal,
+    private toaster: ToastrService,
+    private userSettings: UserSettingsService) {
   }
+
 
   openVerticallyCentered(content: any): void {
     this.modalReference = this.modalService.open(content, {
@@ -67,6 +77,33 @@ export class CreateEventComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.userSettingsSub = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
+      this.defaultCompany = value.defaultCompany;
+      this.setFnCompanyToSelf(value);
+    });
+  }
+
+  private setFnCompanyToSelf(value: UserSettingsInterface): void {
+    if (value.defaultCompany && value.defaultCompany.id) {
+      switch (this.selectedFunction) {
+        case EventFunctionTypes.CLIENT:
+          if (this.updateFnCmpToSelf) {
+            this.clientCompany = value.defaultCompany;
+            this.eventToBeSaved.client = {
+              id: (this.clientCompany as Company).id,
+              isOwnCompany: true,
+              invited: null,
+              shouldInvite: 1,
+              contacts: null
+            };
+
+            this.updateClientCmpToSelf.next(true);
+          }
+          return;
+        default:
+          return;
+      }
+    }
   }
 
   searchInviteContactModalClosed(): void {
@@ -168,5 +205,39 @@ export class CreateEventComponent implements OnInit {
       default:
         return;
     }
+  }
+
+
+  toggleOwnCompany(status: boolean): void {
+    this.updateFnCmpToSelf = status;
+    switch (this.selectedFunction) {
+      case EventFunctionTypes.CLIENT:
+        this.clientContactList = [];
+        if (this.eventToBeSaved && this.eventToBeSaved.client) {
+          this.eventToBeSaved.client.isOwnCompany = status;
+          if (status) {
+            this.eventToBeSaved.client = {
+              id: (this.defaultCompany as Company).id,
+              isOwnCompany: true,
+              invited: null,
+              shouldInvite: 1,
+              contacts: null
+            };
+            this.clientCompany = this.defaultCompany;
+            this.updateClientCmpToSelf.next(true);
+          } else if (!status) {
+            this.clientCompany = null;
+            this.updateClientCmpToSelf.next(false);
+          }
+        }
+        return;
+      default:
+        return;
+    }
+
+  }
+
+  ngOnDestroy(): void {
+    this.userSettingsSub?.unsubscribe();
   }
 }
