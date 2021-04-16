@@ -118,6 +118,12 @@ export class CreateEventComponent implements OnInit {
     }
     devLogger('log', {clientComapny: this.clientCompany, contactList: this.clientContactList});
 
+    if (this.eventToBeSaved.title.trim().length === 0) {
+      this.toaster.error('Event title is required');
+      return;
+    }
+
+
     if (!(this.clientCompany instanceof InviteFnCmpClass) && (this.clientCompany as Company).id) {
       const contactList = this.clientContactList?.map(cnt => {
         return {
