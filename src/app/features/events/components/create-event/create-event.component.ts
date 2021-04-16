@@ -11,6 +11,7 @@ import {devLogger} from '../../../../shared/utils';
 import {UserSettingsService} from '../../../../shared/services';
 import {UserSettingsInterface} from '../../../../shared/models';
 import {BehaviorSubject, Subject, Subscription} from 'rxjs';
+import {AuthService} from "../../../../core/services/auth.service";
 
 @Component({
   selector: 'app-create-event',
@@ -19,7 +20,6 @@ import {BehaviorSubject, Subject, Subscription} from 'rxjs';
 })
 export class CreateEventComponent implements OnInit, OnDestroy {
   @ViewChild('app-event-panel-nav') eventPanelNav: EventPanelNavComponent | undefined;
-  eventToBeSaved = new SaveEventClass();
   active = 1;
   disabled = true;
   modalReference: NgbModalRef | undefined;
@@ -31,6 +31,7 @@ export class CreateEventComponent implements OnInit, OnDestroy {
   defaultCompany: any;
   updateClientCmpToSelf = new BehaviorSubject<boolean | null>(null);
   updateFnCmpToSelf = true;
+  eventToBeSaved = new SaveEventClass();
 
   onNavChange(changeEvent: NgbNavChangeEvent): void {
     this.selectedFunction = changeEvent.nextId;
@@ -47,7 +48,8 @@ export class CreateEventComponent implements OnInit, OnDestroy {
   constructor(
     private modalService: NgbModal,
     private toaster: ToastrService,
-    private userSettings: UserSettingsService) {
+    private userSettings: UserSettingsService,
+    private authService: AuthService) {
   }
 
 
@@ -79,6 +81,8 @@ export class CreateEventComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userSettingsSub = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
       this.defaultCompany = value.defaultCompany;
+      this.eventToBeSaved.createrUserId = this.authService.getUserInfo().id;
+      this.eventToBeSaved.creatorFromCompanyId = this.defaultCompany.id;
       this.setFnCompanyToSelf(value);
     });
   }
