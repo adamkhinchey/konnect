@@ -24,8 +24,23 @@
         </ng-container>
 
         <ng-container eventManager>
-          <app-event-manager-function>
-
+          <app-event-manager-function
+            [selectedCompany]="eventMgrCmp"
+            (removeSelectedCompany)="unsetEvMgrCmp()"
+            [eventToBeSaved]="eventToBeSaved"
+            (saveAndInvite)="saveEvMgr()"
+            (toggleOwnCompany)="toggleOwnCompany($event)"
+            [EvMgrCmpToSelfSub]="updateEvMgrCmpToSelf">
+            <ng-container assignFunctionCmp>
+            <app-event-assign-function-cmp
+              [selectedCompany]="eventMgrCmp"
+              [clientCompanyModal]="searchInviteCmpModal"
+              [contactModal]="searchInviteFnCmpCntModal"
+              (modalOpen)="setOpenedModalRef($event)"
+              (contactRemove)="removeContact($event)"
+              [contactList]="EvMgrContactList"
+            ></app-event-assign-function-cmp>
+            </ng-container>
           </app-event-manager-function>
         </ng-container>
         <!--

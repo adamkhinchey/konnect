@@ -23,15 +23,21 @@ export class CreateEventComponent implements OnInit, OnDestroy {
   active = 1;
   disabled = true;
   modalReference: NgbModalRef | undefined;
-  clientCompany: Company | InviteFnCmpInterface | undefined | null;
-  clientContactList: FnCmpCntInterface[] = [];
+  eventToBeSaved = new SaveEventClass();
+  updateFnCmpToSelf = true;
   selectedFunction: EventFunctionTypes = this.active;
   isFnCmpInvited: boolean | undefined;
   private userSettingsSub: Subscription | undefined;
   defaultCompany: any;
+
+
+  clientCompany: Company | InviteFnCmpInterface | undefined | null;
+  clientContactList: FnCmpCntInterface[] = [];
   updateClientCmpToSelf = new BehaviorSubject<boolean | null>(null);
-  updateFnCmpToSelf = true;
-  eventToBeSaved = new SaveEventClass();
+
+  eventMgrCmp: Company | InviteFnCmpInterface | undefined | null;
+  updateEvMgrCmpToSelf = new BehaviorSubject<boolean | null>(null);
+  EvMgrContactList: FnCmpCntInterface[] = [];
 
   onNavChange(changeEvent: NgbNavChangeEvent): void {
     this.selectedFunction = changeEvent.nextId;
@@ -243,5 +249,13 @@ export class CreateEventComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userSettingsSub?.unsubscribe();
+  }
+
+  unsetEvMgrCmp() {
+
+  }
+
+  saveEvMgr() {
+
   }
 }
