@@ -1,15 +1,14 @@
 <div class="ui container">
   <div class="ui grid">
     <div class="sixteen wide column maxWidth">
-      <app-event-panel-nav [active]="active" [navChange]="onNavChange">
+      <app-event-panel-nav [active]="active" [navChange]="onNavChange.bind(this)">
         <ng-container client>
           <app-event-client-function
             [selectedCompany]="clientCompany"
             (removeSelectedCompany)="unsetClientCompany()"
             [eventToBeSaved]="eventToBeSaved"
             (saveAndInvite)="saveClient($event)"
-            (toggleOwnCompany)="toggleOwnCompany($event)"
-            [clientCmpToSelfSub]="updateClientCmpToSelf">
+            >
             <ng-container assignFunctionCmp>
               <app-event-assign-function-cmp
                 [selectedCompany]="clientCompany"
@@ -29,8 +28,7 @@
             (removeSelectedCompany)="unsetEvMgrCmp()"
             [eventToBeSaved]="eventToBeSaved"
             (saveAndInvite)="saveEvMgr()"
-            (toggleOwnCompany)="toggleOwnCompany($event)"
-            [EvMgrCmpToSelfSub]="updateEvMgrCmpToSelf">
+            >
             <ng-container assignFunctionCmp>
             <app-event-assign-function-cmp
               [selectedCompany]="eventMgrCmp"
@@ -38,7 +36,7 @@
               [contactModal]="searchInviteFnCmpCntModal"
               (modalOpen)="setOpenedModalRef($event)"
               (contactRemove)="removeContact($event)"
-              [contactList]="EvMgrContactList"
+              [contactList]="eventMgrContactList"
             ></app-event-assign-function-cmp>
             </ng-container>
           </app-event-manager-function>

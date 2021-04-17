@@ -10,11 +10,20 @@ export class SaveEventClass {
   // @ts-ignore
   creatorFromCompanyId: number;
   // @ts-ignore
-  client: null |  {
+  client: null | {
     id: null | number,
     contacts: null | InviteFnCmpCntInterface[],
     isOwnCompany: boolean,
     shouldInvite: null | number,
+    invited: null | InviteFnCmpInterface
+  };
+  // @ts-ignore
+  eventManager: null | {
+    id: null | number;
+    contacts: null | InviteFnCmpCntInterface[],
+    isOwnCompany: boolean,
+    shouldInvite: null | number,
+    requirements: string,
     invited: null | InviteFnCmpInterface
   };
 

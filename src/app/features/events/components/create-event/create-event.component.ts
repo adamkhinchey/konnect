@@ -10,8 +10,9 @@ import {ToastrService} from 'ngx-toastr';
 import {devLogger} from '../../../../shared/utils';
 import {UserSettingsService} from '../../../../shared/services';
 import {UserSettingsInterface} from '../../../../shared/models';
-import {BehaviorSubject, Subject, Subscription} from 'rxjs';
-import {AuthService} from "../../../../core/services/auth.service";
+import {Subscription} from 'rxjs';
+import {AuthService} from '../../../../core/services/auth.service';
+import {SaveEventService} from '../../services/save-event.service';
 
 @Component({
   selector: 'app-create-event',
@@ -24,23 +25,52 @@ export class CreateEventComponent implements OnInit, OnDestroy {
   disabled = true;
   modalReference: NgbModalRef | undefined;
   eventToBeSaved = new SaveEventClass();
-  updateFnCmpToSelf = true;
+  updateFnCmpToSelf: Map<EventFunctionTypes, boolean | boolean[] | null> = this.saveEventService.setIsFnOwnCompany.getValue();
   selectedFunction: EventFunctionTypes = this.active;
   isFnCmpInvited: boolean | undefined;
   private userSettingsSub: Subscription | undefined;
   defaultCompany: any;
+  private isOwnCompanySub: Subscription | undefined;
 
 
   clientCompany: Company | InviteFnCmpInterface | undefined | null;
   clientContactList: FnCmpCntInterface[] = [];
-  updateClientCmpToSelf = new BehaviorSubject<boolean | null>(null);
 
   eventMgrCmp: Company | InviteFnCmpInterface | undefined | null;
-  updateEvMgrCmpToSelf = new BehaviorSubject<boolean | null>(null);
-  EvMgrContactList: FnCmpCntInterface[] = [];
+  eventMgrContactList: FnCmpCntInterface[] = [];
+
+  constructor(
+    private modalService: NgbModal,
+    private toaster: ToastrService,
+    private userSettings: UserSettingsService,
+    private authService: AuthService,
+    private saveEventService: SaveEventService) {
+  }
+
+  ngOnInit(): void {
+    this.userSettingsSub = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
+      this.defaultCompany = value.defaultCompany;
+      this.eventToBeSaved.createrUserId = this.authService.getUserInfo().id;
+      this.eventToBeSaved.creatorFromCompanyId = this.defaultCompany.id;
+      this.setFnCompanyToSelf(this.defaultCompany);
+    });
+    this.isOwnCompanySub = this.saveEventService.setIsFnOwnCompany.subscribe(status => {
+      this.updateFnCmpToSelf = status;
+      if (this.defaultCompany) {
+        this.setFnCompanyToSelf(this.defaultCompany);
+      }
+    });
+  }
+
 
   onNavChange(changeEvent: NgbNavChangeEvent): void {
     this.selectedFunction = changeEvent.nextId;
+    // null means navigated to first time
+    if (this.updateFnCmpToSelf.get(this.selectedFunction) === null) {
+      const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
+      tempMap.set(this.selectedFunction, true);
+      this.saveEventService.setIsFnOwnCompany.next(tempMap);
+    }
   }
 
   toggleDisabled(): void {
@@ -48,14 +78,6 @@ export class CreateEventComponent implements OnInit, OnDestroy {
     if (this.disabled) {
       this.active = 1;
     }
-  }
-
-
-  constructor(
-    private modalService: NgbModal,
-    private toaster: ToastrService,
-    private userSettings: UserSettingsService,
-    private authService: AuthService) {
   }
 
 
@@ -67,38 +89,14 @@ export class CreateEventComponent implements OnInit, OnDestroy {
 
   }
 
-  openVerticallyCentered2(content: any): void {
-    this.modalReference = this.modalService.open(content, {
-      centered: true,
-      size: 'lg',
-    });
 
-  }
-
-  contentUpload(contentNew: any): void {
-    this.modalReference = this.modalService.open(contentNew, {
-      centered: true,
-      size: 'md',
-    });
-
-  }
-
-
-  ngOnInit(): void {
-    this.userSettingsSub = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
-      this.defaultCompany = value.defaultCompany;
-      this.eventToBeSaved.createrUserId = this.authService.getUserInfo().id;
-      this.eventToBeSaved.creatorFromCompanyId = this.defaultCompany.id;
-      this.setFnCompanyToSelf(value);
-    });
-  }
-
-  private setFnCompanyToSelf(value: UserSettingsInterface): void {
-    if (value.defaultCompany && value.defaultCompany.id) {
+  private setFnCompanyToSelf(defaultCompany: any): void {
+    if (defaultCompany && defaultCompany.id) {
       switch (this.selectedFunction) {
         case EventFunctionTypes.CLIENT:
-          if (this.updateFnCmpToSelf) {
-            this.clientCompany = value.defaultCompany;
+          if (this.updateFnCmpToSelf.get(EventFunctionTypes.CLIENT)) {
+            this.clientContactList = [];
+            this.clientCompany = defaultCompany;
             this.eventToBeSaved.client = {
               id: (this.clientCompany as Company).id,
               isOwnCompany: true,
@@ -106,13 +104,42 @@ export class CreateEventComponent implements OnInit, OnDestroy {
               shouldInvite: 1,
               contacts: null
             };
-
-            this.updateClientCmpToSelf.next(true);
+          } else if (!this.updateFnCmpToSelf.get(EventFunctionTypes.CLIENT)) {
+            this.unsetFnCompanyToSelf();
+          }
+          return;
+        case EventFunctionTypes.EVENT_MANAGER:
+          if (this.updateFnCmpToSelf.get(EventFunctionTypes.EVENT_MANAGER)) {
+            this.eventMgrContactList = [];
+            this.eventMgrCmp = defaultCompany;
+            this.eventToBeSaved.eventManager = {
+              id: (this.clientCompany as Company).id,
+              isOwnCompany: true,
+              invited: null,
+              shouldInvite: 1,
+              contacts: null,
+              requirements: ''
+            };
+          } else {
+            this.unsetFnCompanyToSelf();
           }
           return;
         default:
           return;
       }
+    }
+  }
+
+  private unsetFnCompanyToSelf(): void {
+    switch (this.selectedFunction) {
+      case EventFunctionTypes.CLIENT:
+        this.clientContactList = [];
+        this.clientCompany = null;
+        return;
+      case EventFunctionTypes.EVENT_MANAGER:
+        this.eventMgrCmp = null;
+        this.eventMgrContactList = [];
+        return;
     }
   }
 
@@ -218,7 +245,7 @@ export class CreateEventComponent implements OnInit, OnDestroy {
   }
 
 
-  toggleOwnCompany(status: boolean): void {
+  /*toggleOwnCompany(status: boolean): void {
     this.updateFnCmpToSelf = status;
     switch (this.selectedFunction) {
       case EventFunctionTypes.CLIENT:
@@ -245,10 +272,11 @@ export class CreateEventComponent implements OnInit, OnDestroy {
         return;
     }
 
-  }
+  }*/
 
   ngOnDestroy(): void {
     this.userSettingsSub?.unsubscribe();
+    this.isOwnCompanySub?.unsubscribe();
   }
 
   unsetEvMgrCmp() {
@@ -258,4 +286,6 @@ export class CreateEventComponent implements OnInit, OnDestroy {
   saveEvMgr() {
 
   }
+
+
 }

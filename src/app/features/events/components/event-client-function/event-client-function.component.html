@@ -7,7 +7,7 @@
             <div class="ui dividing header">
               <h3>Client Company <i class="globe icon"></i></h3>
             </div>
-            <div class="ui checkbox" (click)="toggleOwnCompany.emit(!isOwnCompany)">
+            <div class="ui checkbox" (click)="toggleClientOwnCompany()">
               <input type="checkbox" class="hidden" tabindex="0" [(ngModel)]="isOwnCompany"
                      [ngModelOptions]="{standalone:true}">
               <label>My company</label>

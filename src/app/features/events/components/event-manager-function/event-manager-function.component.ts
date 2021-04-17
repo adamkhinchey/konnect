@@ -1,32 +1,35 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Company} from "../../../users/models";
 import {InviteFnCmpClass} from "../../models/classes";
 import {SaveEventClass} from "../../models/classes/saveEvent.class";
-import {BehaviorSubject, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
+import {SaveEventService} from "../../services/save-event.service";
+import {EventFunctionTypes} from "../../models/types";
 
 @Component({
   selector: 'app-event-manager-function',
   templateUrl: './event-manager-function.component.html',
   styleUrls: ['./event-manager-function.component.scss']
 })
-export class EventManagerFunctionComponent implements OnInit {
+export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
   @Input() content: any;
   @Output() removeSelectedCompany = new EventEmitter<any>();
   @Input() eventToBeSaved = new SaveEventClass();
   @Output() saveAndInvite = new EventEmitter<boolean>();
-  @Output() toggleOwnCompany = new EventEmitter<boolean>();
-  @Input() EvMgrCmpToSelfSub: BehaviorSubject<boolean | null> | undefined;
   isOwnCompany = false;
   private subs1: Subscription | undefined;
 
-  constructor() {
+  constructor(public saveEventService: SaveEventService) {
   }
 
   ngOnInit(): void {
+    this.subs1 = this.saveEventService.setIsFnOwnCompany.subscribe(status => {
+      this.isOwnCompany = !!status.get(EventFunctionTypes.EVENT_MANAGER);
+    });
   }
 
-  openVerticallyCentered(content: any):void {
+  openVerticallyCentered(content: any): void {
 
   }
 
@@ -52,6 +55,12 @@ export class EventManagerFunctionComponent implements OnInit {
     } else {
       return this.selectedCompany?.phone;
     }
+  }
+
+  toggleEvMgrOwnCompany(): void {
+    const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
+    tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
+    this.saveEventService.setIsFnOwnCompany.next(tempMap);
   }
 
   ngOnDestroy(): void {

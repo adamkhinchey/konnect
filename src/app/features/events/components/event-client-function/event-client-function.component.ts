@@ -1,10 +1,10 @@
-import {Component, Input, OnInit, EventEmitter, Output, OnChanges, SimpleChanges, OnDestroy} from '@angular/core';
-import {NgbNav} from "@ng-bootstrap/ng-bootstrap";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Company} from "../../../users/models";
-import {InviteFnCmpInterface} from "../../models/interfaces";
 import {InviteFnCmpClass} from "../../models/classes";
 import {SaveEventClass} from "../../models/classes/saveEvent.class";
-import {BehaviorSubject, Subject, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
+import {SaveEventService} from "../../services/save-event.service";
+import {EventFunctionTypes} from "../../models/types";
 
 @Component({
   selector: 'app-event-client-function',
@@ -17,12 +17,11 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   @Output() removeSelectedCompany = new EventEmitter<any>();
   @Input() eventToBeSaved = new SaveEventClass();
   @Output() saveAndInvite = new EventEmitter<boolean>();
-  @Output() toggleOwnCompany = new EventEmitter<boolean>();
-  @Input() clientCmpToSelfSub: BehaviorSubject<boolean | null> | undefined;
   isOwnCompany = false;
   private subs1: Subscription | undefined;
+  private subs2: Subscription | undefined;
 
-  constructor() {
+  constructor(private saveEventService: SaveEventService) {
   }
 
 
@@ -36,10 +35,14 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   }*/
 
   ngOnInit(): void {
-    this.subs1 = this.clientCmpToSelfSub?.subscribe(value => {
+    /*this.subs1 = this.clientCmpToSelfSub?.subscribe(value => {
       if (value !== null) {
         this.isOwnCompany = value;
       }
+    });*/
+
+    this.subs2 = this.saveEventService.setIsFnOwnCompany.subscribe(status => {
+      this.isOwnCompany = !!status.get(EventFunctionTypes.CLIENT);
     });
   }
 
@@ -71,8 +74,14 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.subs1?.unsubscribe();
+  toggleClientOwnCompany(): void {
+    const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
+    tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
+    this.saveEventService.setIsFnOwnCompany.next(tempMap);
   }
 
+  ngOnDestroy(): void {
+    this.subs1?.unsubscribe();
+    this.subs2?.unsubscribe();
+  }
 }
