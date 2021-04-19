@@ -29,6 +29,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     UsersModule,
     AppRoutingModule,
     FontAwesomeModule,
+    EventsModule
   ],
   providers: [
   ],

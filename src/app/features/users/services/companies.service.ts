@@ -267,4 +267,16 @@ export class CompaniesService {
     );
 
   }
+
+  searchCmpContacts(param: { companyId: number, keyword: string }): Observable<any> {
+    this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/searchCompanyContactsByKeyword`,
+      {...param}
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      take(1),
+      this.httpErrorHandler.processError()
+    );
+  }
 }
