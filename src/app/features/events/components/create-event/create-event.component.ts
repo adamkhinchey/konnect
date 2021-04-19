@@ -152,9 +152,14 @@ export class CreateEventComponent implements OnInit, OnDestroy {
   }
 
   setSelectedCompany(company: Company | InviteFnCmpClass): void {
-    if (this.selectedFunction === EventFunctionTypes.CLIENT) {
-      this.clientCompany = company;
-      this.isFnCmpInvited = company instanceof InviteFnCmpClass;
+    switch (this.selectedFunction) {
+      case EventFunctionTypes.CLIENT:
+        this.clientCompany = company;
+        // this.isFnCmpInvited = company instanceof InviteFnCmpClass;
+        break;
+      case EventFunctionTypes.EVENT_MANAGER:
+        this.eventMgrCmp = company;
+        break;
     }
     this.searchInviteCompanyClosed();
   }
@@ -167,71 +172,68 @@ export class CreateEventComponent implements OnInit, OnDestroy {
     switch (this.selectedFunction) {
       case EventFunctionTypes.CLIENT:
         return (this.clientCompany as Company)?.id;
+      case EventFunctionTypes.EVENT_MANAGER:
+        return (this.eventMgrCmp as Company)?.id;
       default:
         return null;
     }
   }
 
   setSelectedFnCompanyContacts(contactList: InviteFnCmpCntInterface[]): void {
-    if (this.selectedFunction === EventFunctionTypes.CLIENT) {
-      this.clientContactList = [...this.clientContactList, ...contactList];
+    switch (this.selectedFunction) {
+      case EventFunctionTypes.CLIENT:
+        this.clientContactList = [...this.clientContactList, ...contactList];
+        break;
+      case EventFunctionTypes.EVENT_MANAGER:
+        this.eventMgrContactList = [...this.eventMgrContactList, ...contactList];
+        break;
+      default:
+        break;
     }
     this.searchInviteContactModalClosed();
   }
 
   saveClient(shouldInvite: boolean): void {
-    if (!this.clientCompany) {
-      this.toaster.error('Please select a client company');
-      return;
-    }
-    if (this.clientCompany &&
-      !(this.clientCompany instanceof InviteFnCmpClass) &&
-      this.clientContactList?.length === 0) {
-      this.toaster.error('Please select or invite at-least one contact');
-      return;
-    }
-    devLogger('log', {clientComapny: this.clientCompany, contactList: this.clientContactList});
-
-    if (this.eventToBeSaved.title.trim().length === 0) {
-      this.toaster.error('Event title is required');
-      return;
-    }
-
-
-    if (!(this.clientCompany instanceof InviteFnCmpClass) && (this.clientCompany as Company).id) {
-      const contactList = this.clientContactList?.map(cnt => {
-        return {
-          id: cnt.id,
-          email: cnt.email,
-          firstName: cnt.firstName,
-          contactLabelId: cnt.contactLabelId
+    if (this.isEventClientValid()) {
+      if (!(this.clientCompany instanceof InviteFnCmpClass) && (this.clientCompany as Company).id) {
+        const contactList = this.clientContactList?.map(cnt => {
+          return {
+            id: cnt.id,
+            email: cnt.email,
+            firstName: cnt.firstName,
+            contactLabelId: cnt.contactLabelId
+          };
+        }) || null;
+        this.eventToBeSaved.client = {
+          id: (this.clientCompany as Company).id,
+          contacts: contactList,
+          shouldInvite: shouldInvite ? 1 : 0,
+          isOwnCompany: false,
+          invited: null,
         };
-      }) || null;
-      this.eventToBeSaved.client = {
-        id: (this.clientCompany as Company).id,
-        contacts: contactList,
-        shouldInvite: shouldInvite ? 1 : 0,
-        isOwnCompany: false,
-        invited: null,
-      };
 
-    } else {
-      this.eventToBeSaved.client = {
-        id: null,
-        contacts: null,
-        shouldInvite: shouldInvite ? 1 : 0,
-        isOwnCompany: false,
-        invited: (this.clientCompany as InviteFnCmpClass),
-      };
+      } else {
+        this.eventToBeSaved.client = {
+          id: null,
+          contacts: null,
+          shouldInvite: shouldInvite ? 1 : 0,
+          isOwnCompany: false,
+          invited: (this.clientCompany as InviteFnCmpClass),
+        };
 
+      }
+      devLogger('log', {event: this.eventToBeSaved});
+      this.saveToDb();
     }
-    devLogger('log', {event: this.eventToBeSaved});
   }
 
   unsetClientCompany(): void {
     this.clientCompany = null;
     this.clientContactList = [];
     this.eventToBeSaved.client = null;
+    const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
+    tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
+    this.saveEventService.setIsFnOwnCompany.next(tempMap);
   }
 
   removeContact(index: number): void {
@@ -244,47 +246,108 @@ export class CreateEventComponent implements OnInit, OnDestroy {
     }
   }
 
+  unsetEvMgrCmp(): void {
+    this.eventMgrCmp = null;
+    this.eventMgrContactList = [];
+    this.eventToBeSaved.eventManager = null;
+    const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
+    tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
+    this.saveEventService.setIsFnOwnCompany.next(tempMap);
+  }
 
-  /*toggleOwnCompany(status: boolean): void {
-    this.updateFnCmpToSelf = status;
-    switch (this.selectedFunction) {
-      case EventFunctionTypes.CLIENT:
-        this.clientContactList = [];
-        if (this.eventToBeSaved && this.eventToBeSaved.client) {
-          this.eventToBeSaved.client.isOwnCompany = status;
-          if (status) {
-            this.eventToBeSaved.client = {
-              id: (this.defaultCompany as Company).id,
-              isOwnCompany: true,
-              invited: null,
-              shouldInvite: 1,
-              contacts: null
-            };
-            this.clientCompany = this.defaultCompany;
-            this.updateClientCmpToSelf.next(true);
-          } else if (!status) {
-            this.clientCompany = null;
-            this.updateClientCmpToSelf.next(false);
-          }
-        }
-        return;
-      default:
-        return;
+  saveEvMgr(shouldInvite: boolean): void {
+    if (this.isEventMangerValid()) {
+      if (!(this.eventMgrCmp instanceof InviteFnCmpClass) && (this.eventMgrCmp as Company).id) {
+        const contactList = this.eventMgrContactList?.map(cnt => {
+          return {
+            id: cnt.id,
+            email: cnt.email,
+            firstName: cnt.firstName,
+            contactLabelId: cnt.contactLabelId
+          };
+        }) || null;
+        this.eventToBeSaved.eventManager = {
+          id: (this.clientCompany as Company).id,
+          contacts: contactList,
+          shouldInvite: shouldInvite ? 1 : 0,
+          isOwnCompany: false,
+          invited: null,
+          requirements: this.eventToBeSaved.eventManager?.requirements || ''
+        };
+
+      } else {
+        this.eventToBeSaved.eventManager = {
+          id: null,
+          contacts: null,
+          shouldInvite: shouldInvite ? 1 : 0,
+          isOwnCompany: false,
+          invited: (this.clientCompany as InviteFnCmpClass),
+          requirements: this.eventToBeSaved.eventManager?.requirements || ''
+        };
+
+      }
+      devLogger('log', {event: this.eventToBeSaved});
+      this.saveToDb();
     }
+  }
 
-  }*/
+
+  private saveToDb(): void {
+    if (this.isEventClientValid() && this.isEventClientValid()) {
+
+      this.saveEventService.saveToDb(this.eventToBeSaved).subscribe(
+        value => {
+          if (value) {
+            this.toaster.success('Event saved successfully');
+          }
+        },
+        error => {
+          devLogger('error', {saveEventError: error});
+          this.toaster.error('Failed to save event');
+        }, () => {
+        }
+      );
+    }
+  }
+
+  private isEventClientValid(): boolean {
+    if (!this.clientCompany) {
+      this.toaster.error('Please select a client company');
+      return false;
+    }
+    if (this.clientCompany &&
+      !(this.clientCompany instanceof InviteFnCmpClass) &&
+      this.clientContactList?.length === 0) {
+      this.toaster.error('Please select or invite at-least one contact for the client company');
+      return false;
+    }
+    devLogger('log', {clientComapny: this.clientCompany, contactList: this.clientContactList});
+
+    if (this.eventToBeSaved.title.trim().length === 0) {
+      this.toaster.error('Event title is required');
+      return false;
+    }
+    return true;
+  }
+
+  private isEventMangerValid(): boolean {
+    if (!this.eventMgrCmp) {
+      this.toaster.error('Please select event manager company');
+      return false;
+    }
+    if (this.eventMgrCmp &&
+      !(this.eventMgrCmp instanceof InviteFnCmpClass) &&
+      this.eventMgrContactList?.length === 0) {
+      this.toaster.error('Please select or invite at-least one contact for the event manager company');
+      return false;
+    }
+    devLogger('log', {eventMgrCmp: this.eventMgrCmp, contactList: this.eventMgrContactList});
+    return true;
+  }
 
   ngOnDestroy(): void {
     this.userSettingsSub?.unsubscribe();
     this.isOwnCompanySub?.unsubscribe();
-  }
-
-  unsetEvMgrCmp() {
-
-  }
-
-  saveEvMgr() {
-
   }
 
 

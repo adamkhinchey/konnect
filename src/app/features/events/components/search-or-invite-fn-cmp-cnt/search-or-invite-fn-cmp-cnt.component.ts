@@ -71,7 +71,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
         this.listDisplayOverFlow = '';
       }
     } else {
-      this.toaster.error('Please make sure client company is selected');
+      this.toaster.error('Please make sure the function company is chosen');
     }
   }
 

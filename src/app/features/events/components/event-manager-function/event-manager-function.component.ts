@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Company} from "../../../users/models";
-import {InviteFnCmpClass} from "../../models/classes";
-import {SaveEventClass} from "../../models/classes/saveEvent.class";
-import {Subscription} from "rxjs";
-import {SaveEventService} from "../../services/save-event.service";
-import {EventFunctionTypes} from "../../models/types";
+import {Company} from '../../../users/models';
+import {InviteFnCmpClass} from '../../models/classes';
+import {SaveEventClass} from '../../models/classes/saveEvent.class';
+import {Subscription} from 'rxjs';
+import {SaveEventService} from '../../services/save-event.service';
+import {EventFunctionTypes} from '../../models/types';
 
 @Component({
   selector: 'app-event-manager-function',

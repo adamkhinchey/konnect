@@ -27,7 +27,7 @@
             [selectedCompany]="eventMgrCmp"
             (removeSelectedCompany)="unsetEvMgrCmp()"
             [eventToBeSaved]="eventToBeSaved"
-            (saveAndInvite)="saveEvMgr()"
+            (saveAndInvite)="saveEvMgr($event)"
             >
             <ng-container assignFunctionCmp>
             <app-event-assign-function-cmp
