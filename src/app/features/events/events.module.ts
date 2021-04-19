@@ -19,6 +19,7 @@ import { SearchOrInviteFunctionCmpComponent } from './components/search-or-invit
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../../shared/shared.module";
 import { SearchOrInviteFnCmpCntComponent } from './components/search-or-invite-fn-cmp-cnt/search-or-invite-fn-cmp-cnt.component';
+import { TimeWindowsComponent } from './components/time-windows/time-windows.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { SearchOrInviteFnCmpCntComponent } from './components/search-or-invite-f
   EventAssignFunctionCmpComponent,
   SearchOrInviteFunctionCmpComponent,
   SearchOrInviteFnCmpCntComponent,
+  TimeWindowsComponent,
   ],
     imports: [
         CommonModule,

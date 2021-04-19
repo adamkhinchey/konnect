@@ -8,7 +8,7 @@
             (removeSelectedCompany)="unsetClientCompany()"
             [eventToBeSaved]="eventToBeSaved"
             (saveAndInvite)="saveClient($event)"
-            >
+          >
             <ng-container assignFunctionCmp>
               <app-event-assign-function-cmp
                 [selectedCompany]="clientCompany"
@@ -28,25 +28,43 @@
             (removeSelectedCompany)="unsetEvMgrCmp()"
             [eventToBeSaved]="eventToBeSaved"
             (saveAndInvite)="saveEvMgr($event)"
-            >
+          >
             <ng-container assignFunctionCmp>
-            <app-event-assign-function-cmp
-              [selectedCompany]="eventMgrCmp"
-              [clientCompanyModal]="searchInviteCmpModal"
-              [contactModal]="searchInviteFnCmpCntModal"
-              (modalOpen)="setOpenedModalRef($event)"
-              (contactRemove)="removeContact($event)"
-              [contactList]="eventMgrContactList"
-            ></app-event-assign-function-cmp>
+              <app-event-assign-function-cmp
+                [selectedCompany]="eventMgrCmp"
+                [clientCompanyModal]="searchInviteCmpModal"
+                [contactModal]="searchInviteFnCmpCntModal"
+                (modalOpen)="setOpenedModalRef($event)"
+                (contactRemove)="removeContact($event)"
+                [contactList]="eventMgrContactList"
+              ></app-event-assign-function-cmp>
             </ng-container>
           </app-event-manager-function>
         </ng-container>
-        <!--
-                <app-event-venue-function></app-event-venue-function>
-                <app-event-suppliers-function></app-event-suppliers-function>
-                <app-event-exhibitors-function></app-event-exhibitors-function>
-                <app-event-files-function></app-event-files-function>
-                <app-event-timeline-function></app-event-timeline-function>-->
+
+        <ng-container venues>
+          <app-event-venue-function
+            [selectedCompanies]="venueCompanies"
+            (removeSelectedCompany)="unsetVenueCmp($event)"
+            [eventToBeSaved]="eventToBeSaved"
+            (saveAndInvite)="saveVenueCmp($event)">
+            <ng-container assignFunctionCmp>
+              <app-event-assign-function-cmp
+                [selectedCompany]="eventMgrCmp"
+                [clientCompanyModal]="searchInviteCmpModal"
+                [contactModal]="searchInviteFnCmpCntModal"
+                (modalOpen)="setOpenedModalRef($event)"
+                (contactRemove)="removeContact($event)"
+                [contactList]="eventMgrContactList"
+              >
+              </app-event-assign-function-cmp>
+            </ng-container>
+          </app-event-venue-function>
+        </ng-container>
+        <!--<app-event-suppliers-function></app-event-suppliers-function>
+        <app-event-exhibitors-function></app-event-exhibitors-function>
+        <app-event-files-function></app-event-files-function>
+        <app-event-timeline-function></app-event-timeline-function>-->
       </app-event-panel-nav>
 
       <!--<div [ngbNavOutlet]="eventPanelNav.navRef" class="mt-2"></div>-->

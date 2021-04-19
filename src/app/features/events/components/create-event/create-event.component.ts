@@ -39,6 +39,9 @@ export class CreateEventComponent implements OnInit, OnDestroy {
   eventMgrCmp: Company | InviteFnCmpInterface | undefined | null;
   eventMgrContactList: FnCmpCntInterface[] = [];
 
+  venueCompanies: Company [] | InviteFnCmpInterface[] | undefined | null;
+  venueContactLists: Array<Array<FnCmpCntInterface>> = [[]];
+
   constructor(
     private modalService: NgbModal,
     private toaster: ToastrService,
@@ -292,6 +295,16 @@ export class CreateEventComponent implements OnInit, OnDestroy {
   }
 
 
+  unsetVenueCmp(index: number): void {
+    this.venueCompanies = this.venueCompanies?.splice(index, 1).slice(0);
+    this.venueContactLists = this.venueContactLists.splice(index, 1).slice(0);
+  }
+
+  saveVenueCmp(event: { index: number; shouldInvite: boolean }): void {
+
+  }
+
+
   private saveToDb(): void {
     if (this.isEventClientValid() && this.isEventClientValid()) {
 
@@ -349,6 +362,5 @@ export class CreateEventComponent implements OnInit, OnDestroy {
     this.userSettingsSub?.unsubscribe();
     this.isOwnCompanySub?.unsubscribe();
   }
-
 
 }
