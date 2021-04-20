@@ -49,4 +49,22 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   removeContactFromList(i: number): void {
     this.contactRemove.emit(i);
   }
+
+  setSelectedCompany(company: Company | InviteFnCmpClass): void {
+    this.selectedCompany = company;
+    this.disableAddContacts = false;
+  }
+
+  removeSelectedCompany(): void {
+    this.selectedCompany = null;
+    this.disableAddContacts = true;
+  }
+
+  setContactList(contactList: FnCmpCntInterface[]): void {
+    this.contactList = contactList;
+  }
+
+  removeContactList(): void {
+    this.contactList = [];
+  }
 }

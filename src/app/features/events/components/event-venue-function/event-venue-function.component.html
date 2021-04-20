@@ -25,11 +25,12 @@
       <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
 
-        <ngb-accordion [closeOthers]="true" [activeIds]="'venueListIndex-'+activeVenuePanel">
+        <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)"
+                       [activeIds]="'venueListIndex-'+activeVenuePanel" [destroyOnHide]="false">
 
 
           <ngb-panel *ngFor="let panel of eventToBeSaved.venues?.list; let i=index"
-                     [id]="'venueListIndex-'+i">
+                     [id]="'venueListIndex-'+i" (shown)="panelActivated(i)">
             <ng-template ngbPanelTitle>
               <i class="dropdown icon"></i>Venue {{i+1}}
             </ng-template>
@@ -46,9 +47,51 @@
                         </div>
 
                         <div class="kcpCardContainer">
+                          <div *ngIf="selectedCompanies && selectedCompanies[i]" class="ui one column grid">
+                            <div class="column">
+                              <div class="ui fluid card">
+                                <div class="content">
+                                  <img class="right floated mini ui image"
+                                       [src]="getCompanyProfileImage(i) || 'assets/img/default_konnect_img.png'"
+                                       appImageFallback fallbackImage="assets/img/default_konnect_img.png">
+                                  <div class="header">
+                                    <a>{{selectedCompanies[i].companyName}}</a>
+                                  </div>
+                                  <div class="meta">
+                                    <a *ngIf="getCompanyWebsite(i)" [href]="getCompanyWebsite(i)"
+                                       target="_blank"> {{getCompanyWebsite(i)}}</a>
+                                    <span *ngIf="getCompanyWebsite(i)">|</span>
+                                    <a>
+                                      <i class="map marker alternate icon"></i>{{selectedCompanies[i].city}}</a>
+                                    <span>|</span>
+                                    <i class="phone icon"></i>{{getCompanyPhone(i) || ''}}
+                                  </div>
+                                </div>
+                                <div class="extra content" [ngClass]="{'editableObject':false}">
+                                  <div class="ui grid">
+                                    <div class="ten wide column">
+
+                                    </div>
+                                    <div class="six wide column right aligned">
+                                      <div (click)="removeSelectedCompany.emit(i)"
+                                           class="ui circular compact mini basic button confirmRemove hasModal"
+                                           data-modal="removeModal"><i class="trash alternate icon"></i>Remove
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <ng-content select="[assignFunctionCmp]"></ng-content>
+                      <app-event-assign-function-cmp #venueAssignCmp
+                                                     [clientCompanyModal]="searchInviteCmpModal"
+                                                     [contactModal]="searchInviteFnCmpCntModal"
+                                                     (modalOpen)="setOpenedModalRef($event)"
+                                                     (contactRemove)="removeContact($event)"
+                      ></app-event-assign-function-cmp>
+                      <!--<ng-content select="[assignFunctionCmp]"></ng-content>-->
                         <!--<div class="ui grid center aligned">
                           <div class="sixteen wide column">
                             <div class="ui button basic blue fluid addClient hasModal"

@@ -43,22 +43,25 @@
         </ng-container>
 
         <ng-container venues>
-          <app-event-venue-function
+          <app-event-venue-function #venueFn
             [selectedCompanies]="venueCompanies"
             (removeSelectedCompany)="unsetVenueCmp($event)"
             [eventToBeSaved]="eventToBeSaved"
-            (saveAndInvite)="saveVenueCmp($event)">
-            <ng-container assignFunctionCmp>
-              <app-event-assign-function-cmp
-                [selectedCompany]="eventMgrCmp"
+            (saveAndInvite)="saveVenueCmp($event)"
+            [searchInviteCmpModal]="searchInviteCmpModal"
+            [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+            [setOpenedModalRef]="setOpenedModalRef.bind(this)"
+            [removeContact]="removeContact.bind(this)"
+          >
+            <!--<ng-container assignFunctionCmp>
+              <app-event-assign-function-cmp #venueAssignCmp
                 [clientCompanyModal]="searchInviteCmpModal"
                 [contactModal]="searchInviteFnCmpCntModal"
                 (modalOpen)="setOpenedModalRef($event)"
                 (contactRemove)="removeContact($event)"
-                [contactList]="eventMgrContactList"
               >
               </app-event-assign-function-cmp>
-            </ng-container>
+            </ng-container>-->
           </app-event-venue-function>
         </ng-container>
         <!--<app-event-suppliers-function></app-event-suppliers-function>

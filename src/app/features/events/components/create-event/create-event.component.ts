@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {NgbModal, NgbModalRef, NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import {EventPanelNavComponent} from '../event-panel-nav/event-panel-nav.component';
 import {Company} from '../../../users/models';
@@ -13,14 +13,17 @@ import {UserSettingsInterface} from '../../../../shared/models';
 import {Subscription} from 'rxjs';
 import {AuthService} from '../../../../core/services/auth.service';
 import {SaveEventService} from '../../services/save-event.service';
+import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/event-assign-function-cmp.component';
+import {EventVenueFunctionComponent} from "../event-venue-function/event-venue-function.component";
 
 @Component({
   selector: 'app-create-event',
   templateUrl: './create-event.component.html',
   styleUrls: ['./create-event.component.scss']
 })
-export class CreateEventComponent implements OnInit, OnDestroy {
+export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('app-event-panel-nav') eventPanelNav: EventPanelNavComponent | undefined;
+  @ViewChild('venueFn') venueFn: EventVenueFunctionComponent | undefined;
   active = 1;
   disabled = true;
   modalReference: NgbModalRef | undefined;
@@ -39,8 +42,8 @@ export class CreateEventComponent implements OnInit, OnDestroy {
   eventMgrCmp: Company | InviteFnCmpInterface | undefined | null;
   eventMgrContactList: FnCmpCntInterface[] = [];
 
-  venueCompanies: Company [] | InviteFnCmpInterface[] | undefined | null;
-  venueContactLists: Array<Array<FnCmpCntInterface>> = [[]];
+  venueCompanies: Array<Company | InviteFnCmpInterface> | undefined | null = [];
+  venueContactLists: Array<Array<FnCmpCntInterface>> = [];
 
   constructor(
     private modalService: NgbModal,
@@ -63,6 +66,14 @@ export class CreateEventComponent implements OnInit, OnDestroy {
         this.setFnCompanyToSelf(this.defaultCompany);
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    /*this.venueAssignCmp?.forEach((component, index) => {
+      if (this.venueCompanies && this.venueCompanies.length > 0) {
+        component.selectedCompany = this.venueCompanies[index];
+      }
+    });*/
   }
 
 
@@ -163,6 +174,24 @@ export class CreateEventComponent implements OnInit, OnDestroy {
       case EventFunctionTypes.EVENT_MANAGER:
         this.eventMgrCmp = company;
         break;
+      case EventFunctionTypes.VENUE:
+        this.venueCompanies?.push(company);
+        const activatedVenuePanelIndex = this.saveEventService.activeVenuePanelIndex;
+        if (activatedVenuePanelIndex !== null && this.venueCompanies) {
+          // @ts-ignore
+          this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex).setSelectedCompany(company);
+        }
+        break;
+      case EventFunctionTypes.SUPPLIERS:
+        break;
+      case EventFunctionTypes.EXHIBITORS:
+        break;
+      case EventFunctionTypes.FILES:
+        break;
+      case EventFunctionTypes.TIMELINE:
+        break;
+      default:
+        break;
     }
     this.searchInviteCompanyClosed();
   }
@@ -177,6 +206,13 @@ export class CreateEventComponent implements OnInit, OnDestroy {
         return (this.clientCompany as Company)?.id;
       case EventFunctionTypes.EVENT_MANAGER:
         return (this.eventMgrCmp as Company)?.id;
+      case EventFunctionTypes.VENUE:
+        const activatedVenuePanelIndex = this.saveEventService.activeVenuePanelIndex;
+        if (activatedVenuePanelIndex !== null && this.venueCompanies) {
+          return (this.venueCompanies[activatedVenuePanelIndex] as Company)?.id;
+        } else {
+          return null;
+        }
       default:
         return null;
     }
@@ -189,6 +225,18 @@ export class CreateEventComponent implements OnInit, OnDestroy {
         break;
       case EventFunctionTypes.EVENT_MANAGER:
         this.eventMgrContactList = [...this.eventMgrContactList, ...contactList];
+        break;
+      case EventFunctionTypes.VENUE:
+        this.venueContactLists.push(contactList);
+        this.venueContactLists = [...this.venueContactLists];
+        const activatedVenuePanelIndex = this.saveEventService.activeVenuePanelIndex;
+        let venueAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
+        if (activatedVenuePanelIndex !== null && this.venueFn?.venueAssignCmp) {
+          venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex);
+          if (venueAssignCmpCnt) {
+            venueAssignCmpCnt.setContactList(this.venueContactLists[activatedVenuePanelIndex]);
+          }
+        }
         break;
       default:
         break;
@@ -296,8 +344,15 @@ export class CreateEventComponent implements OnInit, OnDestroy {
 
 
   unsetVenueCmp(index: number): void {
-    this.venueCompanies = this.venueCompanies?.splice(index, 1).slice(0);
-    this.venueContactLists = this.venueContactLists.splice(index, 1).slice(0);
+    this.venueCompanies?.splice(index, 1);
+    this.venueCompanies = this.venueCompanies?.slice(0);
+    this.venueContactLists = this.venueContactLists.splice(index, 1);
+    this.venueContactLists = this.venueContactLists.slice(0);
+    if (this.venueFn?.venueAssignCmp && this.venueFn?.venueAssignCmp.get(index)) {
+      // @ts-ignore
+      this.venueFn?.venueAssignCmp.get(index)?.removeSelectedCompany();
+      this.venueFn?.venueAssignCmp.get(index)?.removeContactList();
+    }
   }
 
   saveVenueCmp(event: { index: number; shouldInvite: boolean }): void {

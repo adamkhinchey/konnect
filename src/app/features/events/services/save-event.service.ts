@@ -22,12 +22,15 @@ export class SaveEventService {
     [EventFunctionTypes.EVENT_MANAGER, null]
   ]);
 
+  public activeVenuePanelIndex: number | null = null;
+
   setIsFnOwnCompany = new BehaviorSubject<Map<EventFunctionTypes, null | boolean | boolean[]>>(this.ownCompanyStatusMap);
 
   constructor(
     private spinner: NgxSpinnerService,
     private http: HttpClient,
-    private httpErrorHandler: HttpErrRespHandlerService) {
+    private httpErrorHandler: HttpErrRespHandlerService,
+  ) {
   }
 
   saveToDb(event: SaveEventClass): Observable<any> {
