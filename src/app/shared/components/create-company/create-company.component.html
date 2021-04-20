@@ -42,13 +42,15 @@
           <div class="eight wide column left aligned">
             <div class="field required">
               <label for="select-company-country">Country</label>
-              <select id="select-company-country"
-                      class="ui fluid dropdown selection"
-                      formControlName="countryId">
-                <option *ngFor="let cntr of countries$ | async" [ngValue]="cntr.val" [disabled]="!cntr.val">
-                  {{ cntr.name }}
-                </option>
-              </select>
+              <div class="CusSelectArrow" >
+                <select id="select-company-country"
+                        class="ui fluid dropdown selection"
+                        formControlName="countryId">
+                  <option *ngFor="let cntr of countries$ | async" [ngValue]="cntr.val" [disabled]="!cntr.val">
+                    {{ cntr.name }}
+                  </option>
+                </select>
+              </div>
               <span class="text-danger"
                     *ngIf="createCompanyForm!.get('countryId')?.touched &&
                 (createCompanyForm!.get('countryId')?.hasError('required'))">

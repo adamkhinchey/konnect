@@ -86,12 +86,14 @@
     <div class="sixteen wide column left aligned">
       <div class="field required">
         <label>Time Zone</label>
-        <select class="ui fluid dropdown"
-                formControlName="timeZone">
-          <option *ngFor="let timeZone of timeZones" [ngValue]="timeZone" [disabled]="!timeZone.val">
-            {{ timeZone.name }}
-          </option>
-        </select>
+        <div class="CusSelectArrow" >
+          <select class="ui fluid dropdown"
+                  formControlName="timeZone">
+            <option *ngFor="let timeZone of timeZones" [ngValue]="timeZone" [disabled]="!timeZone.val">
+              {{ timeZone.name }}
+            </option>
+          </select>
+        </div>
         <span
           *ngIf="personalDetailsForm!.get('timeZone')?.touched
           && (
@@ -130,13 +132,15 @@
     <div class="eight wide column left aligned">
       <div class="field required">
         <label for="select-profile-country">Country</label>
-        <select id="select-profile-country"
-                class="ui fluid dropdown selection"
-                formControlName="countryId" required>
-          <option *ngFor="let cntr of countries$ | async" [ngValue]="cntr.val" [disabled]="!cntr.val">
-            {{ cntr.name }}
-          </option>
-        </select>
+        <div class="CusSelectArrow" >
+          <select id="select-profile-country"
+                  class="ui fluid dropdown selection"
+                  formControlName="countryId" required>
+            <option *ngFor="let cntr of countries$ | async" [ngValue]="cntr.val" [disabled]="!cntr.val">
+              {{ cntr.name }}
+            </option>
+          </select>
+        </div>
         <span
           *ngIf="personalDetailsForm!.get('countryId')?.touched
           && (
