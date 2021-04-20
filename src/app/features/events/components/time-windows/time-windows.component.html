@@ -5,7 +5,7 @@
         class="globe icon"></i></h3>
     </div>
 
-    <ngb-accordion [closeOthers]="true" activeIds="static-3">
+    <ngb-accordion [closeOthers]="true" activeIds="static-3" [destroyOnHide]="false">
 
       <ngb-panel id="static-3">
         <ng-template ngbPanelTitle>
@@ -13,13 +13,14 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="item">
-            <div class="ui three column grid">
+            <div class="ui two column grid"
+                 *ngFor="let preventEventTimeCount of Arr(preEventTimesCount).fill(1); let i=index">
               <div class="column">
-                <span>Date</span>
+                <span>Start Date &amp; Time</span>
                 <div class="ui calendar datePicker">
                   <div class="ui input left icon">
                     <div class="ui popup calendar">
-                      <table class="ui celled center aligned unstackable table seven column day">
+                      <!--<table class="ui celled center aligned unstackable table seven column day">
                         <thead>
                         <tr>
                           <th colspan="7"><span class="link">April 2021</span><span
@@ -92,14 +93,105 @@
                           <td class="link adjacent disabled">8</td>
                         </tr>
                         </tbody>
-                      </table>
+                      </table>-->
                     </div>
                     <i class="calendar icon"></i>
-                    <input type="text" placeholder="Date">
+                    <!-- <input type="text" placeholder="Date">-->
+                    <app-date-time-picker
+                      [index]="index"
+                      (addNewDateTime)="pushPreEventStartDateTime($event,i)"></app-date-time-picker>
                   </div>
                 </div>
               </div>
               <div class="column">
+                <span>End Date &amp; Time</span>
+                <div class="ui calendar datePicker">
+                  <div class="ui input left icon">
+                    <div class="ui popup calendar">
+                      <!--<table class="ui celled center aligned unstackable table seven column day">
+                        <thead>
+                        <tr>
+                          <th colspan="7"><span class="link">April 2021</span><span
+                            class="prev link"><i class="chevron left icon"></i></span><span
+                            class="next link"><i class="chevron right icon"></i></span></th>
+                        </tr>
+                        <tr>
+                          <th>S</th>
+                          <th>M</th>
+                          <th>T</th>
+                          <th>W</th>
+                          <th>T</th>
+                          <th>F</th>
+                          <th>S</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td class="link adjacent disabled">28</td>
+                          <td class="link adjacent disabled">29</td>
+                          <td class="link adjacent disabled">30</td>
+                          <td class="link adjacent disabled">31</td>
+                          <td class="link">1</td>
+                          <td class="link">2</td>
+                          <td class="link">3</td>
+                        </tr>
+                        <tr>
+                          <td class="link">4</td>
+                          <td class="link">5</td>
+                          <td class="link">6</td>
+                          <td class="link">7</td>
+                          <td class="link today focus">8</td>
+                          <td class="link">9</td>
+                          <td class="link">10</td>
+                        </tr>
+                        <tr>
+                          <td class="link">11</td>
+                          <td class="link">12</td>
+                          <td class="link">13</td>
+                          <td class="link">14</td>
+                          <td class="link">15</td>
+                          <td class="link">16</td>
+                          <td class="link">17</td>
+                        </tr>
+                        <tr>
+                          <td class="link">18</td>
+                          <td class="link">19</td>
+                          <td class="link">20</td>
+                          <td class="link">21</td>
+                          <td class="link">22</td>
+                          <td class="link">23</td>
+                          <td class="link">24</td>
+                        </tr>
+                        <tr>
+                          <td class="link">25</td>
+                          <td class="link">26</td>
+                          <td class="link">27</td>
+                          <td class="link">28</td>
+                          <td class="link">29</td>
+                          <td class="link">30</td>
+                          <td class="link adjacent disabled">1</td>
+                        </tr>
+                        <tr>
+                          <td class="link adjacent disabled">2</td>
+                          <td class="link adjacent disabled">3</td>
+                          <td class="link adjacent disabled">4</td>
+                          <td class="link adjacent disabled">5</td>
+                          <td class="link adjacent disabled">6</td>
+                          <td class="link adjacent disabled">7</td>
+                          <td class="link adjacent disabled">8</td>
+                        </tr>
+                        </tbody>
+                      </table>-->
+                    </div>
+                    <i class="calendar icon"></i>
+                    <!-- <input type="text" placeholder="Date">-->
+                    <app-date-time-picker
+                      [index]="index"
+                      (addNewDateTime)="pushPreEventEndDateTime($event,i)"></app-date-time-picker>
+                  </div>
+                </div>
+              </div>
+              <!--<div class="column">
                 <span>Start</span>
                 <div class="ui calendar startTime">
                   <div class="ui input left icon">
@@ -200,13 +292,17 @@
                     <input type="text" placeholder="End">
                   </div>
                 </div>
-              </div>
+              </div>-->
             </div>
             <div class="ui grid">
               <div class="sixteen wide column">
                 <span>Notes</span>
-                <div class="textarea notes" contenteditable=""></div>
-                <div class="ui circular compact mini basic button">
+                <textarea class="textarea notes" [(ngModel)]="preEventNotes"
+                          ngDefaultControl
+                          [ngModelOptions]="{standalone:true}"
+                          (ngModelChange)="populatePreEventNotes($event)">
+                </textarea>
+                <div class="ui circular compact mini basic button" (click)="addMorePreEventDateTime()">
                   <i class="plus circle icon"></i>Add Pre Event Access date
                 </div>
               </div>
@@ -220,13 +316,14 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="item">
-            <div class="ui three column grid">
+            <div class="ui two column grid"
+                 *ngFor="let preventEventTimeCount of Arr(eventTimesCount).fill(1); let i=index">
               <div class="column">
-                <span>Date</span>
+                <span>Start Date &amp; Time</span>
                 <div class="ui calendar datePicker">
                   <div class="ui input left icon">
                     <div class="ui popup calendar">
-                      <table class="ui celled center aligned unstackable table seven column day">
+                      <!--<table class="ui celled center aligned unstackable table seven column day">
                         <thead>
                         <tr>
                           <th colspan="7"><span class="link">April 2021</span><span
@@ -299,14 +396,107 @@
                           <td class="link adjacent disabled">8</td>
                         </tr>
                         </tbody>
-                      </table>
+                      </table>-->
                     </div>
                     <i class="calendar icon"></i>
-                    <input type="text" placeholder="Date">
+                    <!--<input type="text" placeholder="Date">-->
+                    <app-date-time-picker
+                      [index]="index"
+                      (addNewDateTime)="pushEventStartDateTime($event,i)">
+                    </app-date-time-picker>
                   </div>
                 </div>
               </div>
               <div class="column">
+                <span>End Date &amp; Time</span>
+                <div class="ui calendar datePicker">
+                  <div class="ui input left icon">
+                    <div class="ui popup calendar">
+                      <!--<table class="ui celled center aligned unstackable table seven column day">
+                        <thead>
+                        <tr>
+                          <th colspan="7"><span class="link">April 2021</span><span
+                            class="prev link"><i class="chevron left icon"></i></span><span
+                            class="next link"><i class="chevron right icon"></i></span></th>
+                        </tr>
+                        <tr>
+                          <th>S</th>
+                          <th>M</th>
+                          <th>T</th>
+                          <th>W</th>
+                          <th>T</th>
+                          <th>F</th>
+                          <th>S</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td class="link adjacent disabled">28</td>
+                          <td class="link adjacent disabled">29</td>
+                          <td class="link adjacent disabled">30</td>
+                          <td class="link adjacent disabled">31</td>
+                          <td class="link">1</td>
+                          <td class="link">2</td>
+                          <td class="link">3</td>
+                        </tr>
+                        <tr>
+                          <td class="link">4</td>
+                          <td class="link">5</td>
+                          <td class="link">6</td>
+                          <td class="link">7</td>
+                          <td class="link today focus">8</td>
+                          <td class="link">9</td>
+                          <td class="link">10</td>
+                        </tr>
+                        <tr>
+                          <td class="link">11</td>
+                          <td class="link">12</td>
+                          <td class="link">13</td>
+                          <td class="link">14</td>
+                          <td class="link">15</td>
+                          <td class="link">16</td>
+                          <td class="link">17</td>
+                        </tr>
+                        <tr>
+                          <td class="link">18</td>
+                          <td class="link">19</td>
+                          <td class="link">20</td>
+                          <td class="link">21</td>
+                          <td class="link">22</td>
+                          <td class="link">23</td>
+                          <td class="link">24</td>
+                        </tr>
+                        <tr>
+                          <td class="link">25</td>
+                          <td class="link">26</td>
+                          <td class="link">27</td>
+                          <td class="link">28</td>
+                          <td class="link">29</td>
+                          <td class="link">30</td>
+                          <td class="link adjacent disabled">1</td>
+                        </tr>
+                        <tr>
+                          <td class="link adjacent disabled">2</td>
+                          <td class="link adjacent disabled">3</td>
+                          <td class="link adjacent disabled">4</td>
+                          <td class="link adjacent disabled">5</td>
+                          <td class="link adjacent disabled">6</td>
+                          <td class="link adjacent disabled">7</td>
+                          <td class="link adjacent disabled">8</td>
+                        </tr>
+                        </tbody>
+                      </table>-->
+                    </div>
+                    <i class="calendar icon"></i>
+                    <!--<input type="text" placeholder="Date">-->
+                    <app-date-time-picker
+                      [index]="index"
+                      (addNewDateTime)="pushEventEndDateTime($event,i)"
+                    ></app-date-time-picker>
+                  </div>
+                </div>
+              </div>
+              <!--<div class="column">
                 <span>Start</span>
                 <div class="ui calendar startTime">
                   <div class="ui input left icon">
@@ -407,13 +597,16 @@
                     <input type="text" placeholder="End">
                   </div>
                 </div>
-              </div>
+              </div>-->
             </div>
             <div class="ui grid">
               <div class="sixteen wide column">
                 <span>Notes</span>
-                <div class="textarea notes" contenteditable=""></div>
-                <div class="ui circular compact mini basic button">
+                <textarea class="textarea notes" [(ngModel)]="eventNotes"
+                          ngDefaultControl
+                          [ngModelOptions]="{standalone:true}"
+                          (ngModelChange)="populateEventNotes($event)"></textarea>
+                <div class="ui circular compact mini basic button" (click)="addMoreEventDateTime()">
                   <i class="plus circle icon"></i>Add Event Time date
                 </div>
               </div>
@@ -427,13 +620,14 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="item">
-            <div class="ui three column grid">
+            <div class="ui two column grid"
+                 *ngFor="let preventEventTimeCount of Arr(postEventTimesCount).fill(1); let i=index">
               <div class="column">
-                <span>Date</span>
+                <span> Start Date &amp; Time</span>
                 <div class="ui calendar datePicker">
                   <div class="ui input left icon">
                     <div class="ui popup calendar">
-                      <table class="ui celled center aligned unstackable table seven column day">
+                      <!--<table class="ui celled center aligned unstackable table seven column day">
                         <thead>
                         <tr>
                           <th colspan="7"><span class="link">April 2021</span><span
@@ -506,14 +700,107 @@
                           <td class="link adjacent disabled">8</td>
                         </tr>
                         </tbody>
-                      </table>
+                      </table>-->
                     </div>
                     <i class="calendar icon"></i>
-                    <input type="text" placeholder="Date">
+                    <!--<input type="text" placeholder="Date">-->
+                    <app-date-time-picker
+                      [index]="index"
+                      (addNewDateTime)="pushPostEventStartDateTime($event,i)"
+                    ></app-date-time-picker>
                   </div>
                 </div>
               </div>
               <div class="column">
+                <span>End Date &amp; Time</span>
+                <div class="ui calendar datePicker">
+                  <div class="ui input left icon">
+                    <div class="ui popup calendar">
+                      <!--<table class="ui celled center aligned unstackable table seven column day">
+                        <thead>
+                        <tr>
+                          <th colspan="7"><span class="link">April 2021</span><span
+                            class="prev link"><i class="chevron left icon"></i></span><span
+                            class="next link"><i class="chevron right icon"></i></span></th>
+                        </tr>
+                        <tr>
+                          <th>S</th>
+                          <th>M</th>
+                          <th>T</th>
+                          <th>W</th>
+                          <th>T</th>
+                          <th>F</th>
+                          <th>S</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td class="link adjacent disabled">28</td>
+                          <td class="link adjacent disabled">29</td>
+                          <td class="link adjacent disabled">30</td>
+                          <td class="link adjacent disabled">31</td>
+                          <td class="link">1</td>
+                          <td class="link">2</td>
+                          <td class="link">3</td>
+                        </tr>
+                        <tr>
+                          <td class="link">4</td>
+                          <td class="link">5</td>
+                          <td class="link">6</td>
+                          <td class="link">7</td>
+                          <td class="link today focus">8</td>
+                          <td class="link">9</td>
+                          <td class="link">10</td>
+                        </tr>
+                        <tr>
+                          <td class="link">11</td>
+                          <td class="link">12</td>
+                          <td class="link">13</td>
+                          <td class="link">14</td>
+                          <td class="link">15</td>
+                          <td class="link">16</td>
+                          <td class="link">17</td>
+                        </tr>
+                        <tr>
+                          <td class="link">18</td>
+                          <td class="link">19</td>
+                          <td class="link">20</td>
+                          <td class="link">21</td>
+                          <td class="link">22</td>
+                          <td class="link">23</td>
+                          <td class="link">24</td>
+                        </tr>
+                        <tr>
+                          <td class="link">25</td>
+                          <td class="link">26</td>
+                          <td class="link">27</td>
+                          <td class="link">28</td>
+                          <td class="link">29</td>
+                          <td class="link">30</td>
+                          <td class="link adjacent disabled">1</td>
+                        </tr>
+                        <tr>
+                          <td class="link adjacent disabled">2</td>
+                          <td class="link adjacent disabled">3</td>
+                          <td class="link adjacent disabled">4</td>
+                          <td class="link adjacent disabled">5</td>
+                          <td class="link adjacent disabled">6</td>
+                          <td class="link adjacent disabled">7</td>
+                          <td class="link adjacent disabled">8</td>
+                        </tr>
+                        </tbody>
+                      </table>-->
+                    </div>
+                    <i class="calendar icon"></i>
+                    <!--<input type="text" placeholder="Date">-->
+                    <app-date-time-picker
+                      [index]="index"
+                      (addNewDateTime)="pushPostEventEndDateTime($event,i)">
+                    </app-date-time-picker>
+                  </div>
+                </div>
+              </div>
+              <!--<div class="column">
                 <span>Start</span>
                 <div class="ui calendar startTime">
                   <div class="ui input left icon">
@@ -614,13 +901,16 @@
                     <input type="text" placeholder="End">
                   </div>
                 </div>
-              </div>
+              </div>-->
             </div>
             <div class="ui grid">
               <div class="sixteen wide column">
                 <span>Notes</span>
-                <div class="textarea notes" contenteditable=""></div>
-                <div class="ui circular compact mini basic button">
+                <textarea class="textarea notes" [(ngModel)]="postEventNotes"
+                          ngDefaultControl
+                          [ngModelOptions]="{standalone:true}"
+                          (ngModelChange)="populatePostEventNotes($event)"></textarea>
+                <div class="ui circular compact mini basic button" (click)="addMorePostEventDateTime()">
                   <i class="plus circle icon"></i>Add Post Event Access date
                 </div>
               </div>

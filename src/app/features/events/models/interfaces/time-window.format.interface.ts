@@ -1,5 +1,5 @@
 export interface TimeWindowFormatInterface{
   startDateTime: null | Date;
-  notes: '';
+  notes?: string;
   endDateTime: null | Date;
 }

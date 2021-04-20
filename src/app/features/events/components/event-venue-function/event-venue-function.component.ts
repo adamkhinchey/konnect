@@ -45,9 +45,6 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.venueAssignCmp?.changes.subscribe((value) => {
-      devLogger('log', {Changessssss: value});
-    });
   }
 
   ngOnInit(): void {
@@ -128,5 +125,9 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
 
   removeVenueContact(rowIndex: number, columnIndex: number): any {
     this.removeContact(rowIndex, columnIndex);
+  }
+
+  testLogVenue(): void {
+    devLogger('log', {EVENT_TO_BE_SAVE_VENUE: this.eventToBeSaved});
   }
 }
