@@ -25,7 +25,7 @@
       <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
 
-        <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)"
+        <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
                        [activeIds]="'venueListIndex-'+activeVenuePanel" [destroyOnHide]="false">
 
 
@@ -89,7 +89,7 @@
                                                      [clientCompanyModal]="searchInviteCmpModal"
                                                      [contactModal]="searchInviteFnCmpCntModal"
                                                      (modalOpen)="setOpenedModalRef($event)"
-                                                     (contactRemove)="removeContact($event)"
+                                                     (contactRemove)="removeVenueContact(i,$event)"
                       ></app-event-assign-function-cmp>
                       <!--<ng-content select="[assignFunctionCmp]"></ng-content>-->
                         <!--<div class="ui grid center aligned">

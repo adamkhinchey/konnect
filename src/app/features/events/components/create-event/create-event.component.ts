@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgbModal, NgbModalRef, NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import {EventPanelNavComponent} from '../event-panel-nav/event-panel-nav.component';
 import {Company} from '../../../users/models';
@@ -227,11 +227,14 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.eventMgrContactList = [...this.eventMgrContactList, ...contactList];
         break;
       case EventFunctionTypes.VENUE:
-        this.venueContactLists.push(contactList);
-        this.venueContactLists = [...this.venueContactLists];
         const activatedVenuePanelIndex = this.saveEventService.activeVenuePanelIndex;
-        let venueAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
         if (activatedVenuePanelIndex !== null && this.venueFn?.venueAssignCmp) {
+          if (!this.venueContactLists[activatedVenuePanelIndex]) {
+            this.venueContactLists[activatedVenuePanelIndex] = [];
+          }
+          this.venueContactLists[activatedVenuePanelIndex].push(...contactList);
+          this.venueContactLists = [...this.venueContactLists];
+          let venueAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
           venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex);
           if (venueAssignCmpCnt) {
             venueAssignCmpCnt.setContactList(this.venueContactLists[activatedVenuePanelIndex]);
@@ -287,10 +290,23 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.saveEventService.setIsFnOwnCompany.next(tempMap);
   }
 
-  removeContact(index: number): void {
+  removeContact(index: number, jIndex: number | null = null): void {
     switch (this.selectedFunction) {
       case EventFunctionTypes.CLIENT:
         this.clientContactList?.splice(index, 1);
+        return;
+      case EventFunctionTypes.EVENT_MANAGER:
+        this.eventMgrContactList.splice(index, 1);
+        return;
+      case EventFunctionTypes.VENUE:
+        if (typeof jIndex === 'number') {
+          this.venueContactLists[index].splice(jIndex, 1);
+          // @ts-ignore
+          const venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(index);
+          if (venueAssignCmpCnt) {
+            venueAssignCmpCnt.setContactList(this.venueContactLists[index]);
+          }
+        }
         return;
       default:
         return;

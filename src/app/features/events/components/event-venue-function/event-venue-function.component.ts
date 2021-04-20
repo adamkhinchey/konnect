@@ -6,14 +6,14 @@ import {
   Input,
   OnInit,
   Output,
-  QueryList, ViewChildren
+  QueryList, ViewChild, ViewChildren
 } from '@angular/core';
 import {Company} from "../../../users/models";
 import {InviteFnCmpClass} from "../../models/classes";
 import {SaveEventClass} from "../../models/classes/saveEvent.class";
 import {Subscription} from "rxjs";
 import {EventAssignFunctionCmpComponent} from "../event-assign-function-cmp/event-assign-function-cmp.component";
-import {NgbPanelChangeEvent} from "@ng-bootstrap/ng-bootstrap";
+import {NgbAccordion, NgbPanelChangeEvent} from "@ng-bootstrap/ng-bootstrap";
 import {SaveEventService} from "../../services/save-event.service";
 import {devLogger} from "../../../../shared/utils";
 
@@ -25,6 +25,8 @@ import {devLogger} from "../../../../shared/utils";
 export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
 
   @ViewChildren('venueAssignCmp') venueAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
+  // @ts-ignore
+  @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
   @Input() selectedCompanies: (Company | InviteFnCmpClass)[] | undefined | null;
   @Input() content: any;
   @Output() removeSelectedCompany = new EventEmitter<number>();
@@ -75,6 +77,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
         contacts: null
       });
     }
+    this.ngbAccordion.collapseAll();
     this.activeVenuePanel = this.eventToBeSaved.venues.list.length - 1;
     this.saveEventService.activeVenuePanelIndex = this.activeVenuePanel;
     devLogger('log', {selectedCompanies: this.selectedCompanies});
@@ -123,4 +126,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
     this.saveEventService.activeVenuePanelIndex = i;
   }
 
+  removeVenueContact(rowIndex: number, columnIndex: number): any {
+    this.removeContact(rowIndex, columnIndex);
+  }
 }
