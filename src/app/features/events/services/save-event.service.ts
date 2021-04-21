@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {EventFunctionTypes} from "../models/types";
 import {environment} from "../../../../environments/environment";
 import {SaveEventClass} from "../models/classes/saveEvent.class";
@@ -25,6 +25,7 @@ export class SaveEventService {
   public activeVenuePanelIndex: number | null = null;
 
   setIsFnOwnCompany = new BehaviorSubject<Map<EventFunctionTypes, null | boolean | boolean[]>>(this.ownCompanyStatusMap);
+  triggerSaveOnly= new Subject();
 
   constructor(
     private spinner: NgxSpinnerService,

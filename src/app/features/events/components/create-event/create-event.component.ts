@@ -36,7 +36,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   defaultCompany: any;
   private isOwnCompanySub: Subscription | undefined;
   private saveEventSub: Subscription | undefined;
-
+  private saveOnlySub: Subscription | undefined;
 
   clientCompany: Company | InviteFnCmpInterface | undefined | null;
   clientContactList: FnCmpCntInterface[] = [];
@@ -49,6 +49,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   venueCompanies: Array<Company | InviteFnCmpInterface> | undefined | null = [];
   venueContactLists: Array<Array<FnCmpCntInterface>> = [];
   isEventVenuesInvalid = true;
+
 
   constructor(
     private modalService: NgbModal,
@@ -70,6 +71,17 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       this.updateFnCmpToSelf = status;
       if (this.defaultCompany) {
         this.setFnCompanyToSelf(this.defaultCompany);
+      }
+    });
+
+    this.saveOnlySub = this.saveEventService.triggerSaveOnly.subscribe(() => {
+      switch (this.selectedFunction) {
+        case EventFunctionTypes.CLIENT:
+        case EventFunctionTypes.EVENT_MANAGER:
+          this.saveToDb(false);
+          break;
+        case EventFunctionTypes.VENUE:
+          this.saveToDb({index: null, shouldInvite: false});
       }
     });
   }
@@ -527,6 +539,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userSettingsSub?.unsubscribe();
     this.isOwnCompanySub?.unsubscribe();
     this.saveEventSub?.unsubscribe();
+    this.saveOnlySub?.unsubscribe();
   }
 
 }
