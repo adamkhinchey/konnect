@@ -15,6 +15,7 @@ import {AuthService} from '../../../../core/services/auth.service';
 import {SaveEventService} from '../../services/save-event.service';
 import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/event-assign-function-cmp.component';
 import {EventVenueFunctionComponent} from '../event-venue-function/event-venue-function.component';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-event',
@@ -50,7 +51,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     private toaster: ToastrService,
     private userSettings: UserSettingsService,
     private authService: AuthService,
-    private saveEventService: SaveEventService) {
+    private saveEventService: SaveEventService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -282,9 +284,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
 
-      this.saveEvMgr(false);
-      this.saveVenueCmp({index: null, shouldInvite: false});
-      this.saveToDb();
     }
   }
 
@@ -366,9 +365,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
 
-      this.saveClient(false);
-      this.saveVenueCmp({index: null, shouldInvite: false});
-      this.saveToDb();
+
     }
   }
 
@@ -415,19 +412,43 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.isEventMangerValid() || !this.isEventClientValid()) {
       return;
     }
-    this.saveClient(false);
-    this.saveEvMgr(false);
-    this.saveToDb();
+
   }
 
+  saveToDb(param: { index: number | null, shouldInvite: boolean } | boolean = {
+    index: null,
+    shouldInvite: false
+  }): void {
 
-  private saveToDb(): void {
+    switch (this.selectedFunction) {
+      case EventFunctionTypes.CLIENT:
+        this.saveClient(typeof param === 'boolean' ? param : false);
+        this.saveEvMgr(false);
+        this.saveVenueCmp({index: null, shouldInvite: false});
+        break;
+      case EventFunctionTypes.EVENT_MANAGER:
+        this.saveClient(false);
+        this.saveEvMgr(typeof param === 'boolean' ? param : false);
+        this.saveVenueCmp({index: null, shouldInvite: false});
+        break;
+      case EventFunctionTypes.VENUE:
+        this.saveClient(false);
+        this.saveEvMgr(false);
+        if (typeof param !== 'boolean') {
+          this.saveVenueCmp({index: param.index, shouldInvite: param.shouldInvite});
+        }
+        break;
+    }
+
     if (this.isEventClientValid() && this.isEventClientValid() && this.isVenuesValid()) {
 
       this.saveEventService.saveToDb(this.eventToBeSaved).subscribe(
         value => {
           if (value) {
             this.toaster.success('Event saved successfully');
+            this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() => {
+              this.router.navigate(['/home/event/create-event']);
+            });
           }
         },
         error => {

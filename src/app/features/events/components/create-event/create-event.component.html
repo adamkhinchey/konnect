@@ -7,7 +7,7 @@
             [selectedCompany]="clientCompany"
             (removeSelectedCompany)="unsetClientCompany()"
             [eventToBeSaved]="eventToBeSaved"
-            (saveAndInvite)="saveClient($event)"
+            (saveAndInvite)="saveToDb($event)"
           >
             <ng-container assignFunctionCmp>
               <app-event-assign-function-cmp
@@ -27,7 +27,7 @@
             [selectedCompany]="eventMgrCmp"
             (removeSelectedCompany)="unsetEvMgrCmp()"
             [eventToBeSaved]="eventToBeSaved"
-            (saveAndInvite)="saveEvMgr($event)"
+            (saveAndInvite)="saveToDb($event)"
           >
             <ng-container assignFunctionCmp>
               <app-event-assign-function-cmp
@@ -47,7 +47,7 @@
             [selectedCompanies]="venueCompanies"
             (removeSelectedCompany)="unsetVenueCmp($event)"
             [eventToBeSaved]="eventToBeSaved"
-            (saveAndInvite)="saveVenueCmp($event)"
+            (saveAndInvite)="saveToDb($event)"
             [searchInviteCmpModal]="searchInviteCmpModal"
             [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
             [setOpenedModalRef]="setOpenedModalRef.bind(this)"
