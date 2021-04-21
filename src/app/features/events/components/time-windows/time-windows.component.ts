@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {devLogger} from "../../../../shared/utils";
 import {TimeWindowFormatInterface} from "../../models/interfaces";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-time-windows',
@@ -22,7 +23,7 @@ export class TimeWindowsComponent implements OnInit {
 
   @Output() test = new EventEmitter();
 
-  constructor() {
+  constructor(private toaster: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -53,6 +54,20 @@ export class TimeWindowsComponent implements OnInit {
   }
 
   addMorePreEventDateTime(): void {
+    const len = this.preEventTimes.length;
+    const timeSlot = this.preEventTimes[len - 1];
+    if (!timeSlot) {
+      this.toaster.error('Please select start and end date-time for current', 'Pre-event Access');
+      return;
+    }
+    if (!timeSlot.startDateTime) {
+      this.toaster.error('Please select start date and time for current', 'Pre-event Access');
+      return;
+    }
+    if (!timeSlot.endDateTime) {
+      this.toaster.error('Please select end date and time for current', 'Pre-event Access');
+      return;
+    }
     this.preEventTimesCount++;
     this.preEventTimes.push({});
     this.test.emit();
@@ -90,6 +105,20 @@ export class TimeWindowsComponent implements OnInit {
   }
 
   addMoreEventDateTime(): void {
+    const len = this.eventTimes.length;
+    const timeSlot = this.eventTimes[len - 1];
+    if (!timeSlot) {
+      this.toaster.error('Please select start and end date-time for current', 'Event Access');
+      return;
+    }
+    if (!timeSlot.startDateTime) {
+      this.toaster.error('Please select start date and time for current', 'Event Access');
+      return;
+    }
+    if (!timeSlot.endDateTime) {
+      this.toaster.error('Please select end date and time for current', 'Event Access');
+      return;
+    }
     this.eventTimesCount++;
     this.eventTimes.push({});
     this.test.emit();
@@ -127,6 +156,20 @@ export class TimeWindowsComponent implements OnInit {
   }
 
   addMorePostEventDateTime(): void {
+    const len = this.postEventTimes.length;
+    const timeSlot = this.postEventTimes[len - 1];
+    if (!timeSlot) {
+      this.toaster.error('Please select start and end date-time for current', 'Post-Event Access');
+      return;
+    }
+    if (!timeSlot.startDateTime) {
+      this.toaster.error('Please select start date and time for current', 'Post-event Access');
+      return;
+    }
+    if (!timeSlot.endDateTime) {
+      this.toaster.error('Please select end date and time for current', 'Post-event Access');
+      return;
+    }
     this.postEventTimesCount++;
     this.postEventTimes.push({});
     this.test.emit();
