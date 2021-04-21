@@ -127,9 +127,9 @@
                       <app-time-windows
                         (test)="testLogVenue()"
                         [index]="i"
-                        [preEventTimes]="eventToBeSaved.venues.list[i].preEventAccessDateTimes"
-                        [postEventTimes]="eventToBeSaved.venues.list[i].postEventAccessDateTimes"
-                        [eventTimes]="eventToBeSaved.venues.list[i].eventAccessDateTimes"
+                        [preEventTimes]="eventToBeSaved.venues!.list[i].preEventAccessDateTimes"
+                        [postEventTimes]="eventToBeSaved.venues!.list[i].postEventAccessDateTimes"
+                        [eventTimes]="eventToBeSaved.venues!.list[i].eventAccessDateTimes"
                       ></app-time-windows>
                       <div class="ui dividing header">
                         <h3>Venue Requirements <i
@@ -139,7 +139,7 @@
                         </h3>
                       </div>
                       <div class="field">
-                        <textarea class="textarea" [(ngModel)]="eventToBeSaved.venues.list[i].requirements"
+                        <textarea class="textarea" [(ngModel)]="eventToBeSaved.venues!.list[i].requirements"
                                   [ngModelOptions]="{standalone:true}">
                         </textarea>
                       </div>
