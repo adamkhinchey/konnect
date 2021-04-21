@@ -2,7 +2,7 @@
   <div class="content left aligned">
     <img class="right floated mini ui image" src="./assets/img/default_konnect_img.png">
     <div class="header">
-      {{company?.companyName | titlecase}}
+      {{company?.companyName}}
     </div>
     <div class="meta">
       <a *ngIf="company?.website" target="_blank" [href]="company?.website">{{company?.website}}</a>
