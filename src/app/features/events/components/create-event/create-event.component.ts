@@ -35,16 +35,20 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   private userSettingsSub: Subscription | undefined;
   defaultCompany: any;
   private isOwnCompanySub: Subscription | undefined;
+  private saveEventSub: Subscription | undefined;
 
 
   clientCompany: Company | InviteFnCmpInterface | undefined | null;
   clientContactList: FnCmpCntInterface[] = [];
+  isEventClientInvalid = true;
 
   eventMgrCmp: Company | InviteFnCmpInterface | undefined | null;
   eventMgrContactList: FnCmpCntInterface[] = [];
+  isEventMgrInvalid = true;
 
   venueCompanies: Array<Company | InviteFnCmpInterface> | undefined | null = [];
   venueContactLists: Array<Array<FnCmpCntInterface>> = [];
+  isEventVenuesInvalid = true;
 
   constructor(
     private modalService: NgbModal,
@@ -280,9 +284,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       devLogger('log', {event: this.eventToBeSaved});
 
-      if (!this.isEventMangerValid() || !this.isVenuesValid()) {
-        return;
-      }
 
     }
   }
@@ -361,11 +362,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       devLogger('log', {event: this.eventToBeSaved});
 
-      if (!this.isEventClientValid() || !this.isVenuesValid()) {
-        return;
-      }
-
-
     }
   }
 
@@ -383,34 +379,44 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   saveVenueCmp(event: { index: number | null; shouldInvite: boolean }): void {
-    // @ts-ignore
-    for (let i = 0; i < this.venueCompanies?.length; i++) {
-      // @ts-ignore
-      if (!(this.venueCompanies[i] instanceof InviteFnCmpClass) && (this.venueCompanies[i] as Company).id) {
-        const contactList = this.venueContactLists[i]?.map(cnt => {
-          return {
-            id: cnt.id,
-            email: cnt.email,
-            firstName: cnt.firstName,
-            contactLabelId: cnt.contactLabelId
-          };
-        }) || null;
+    if (this.isVenuesValid()) {
+      if (this.venueCompanies && this.venueCompanies.length > 0) {
         // @ts-ignore
-        this.eventToBeSaved.venues.list[i].companyId = (this.venueCompanies[i] as Company).id;
-        this.eventToBeSaved.venues.list[i].shouldInvite = event.index === i && event.shouldInvite ? 1 : 0;
-        this.eventToBeSaved.venues.list[i].invited = null;
-        this.eventToBeSaved.venues.list[i].contacts = contactList;
+        for (let i = 0; i < this.venueCompanies?.length; i++) {
+          // @ts-ignore
+          if (!(this.venueCompanies[i] instanceof InviteFnCmpClass) && (this.venueCompanies[i] as Company).id) {
+            const contactList = this.venueContactLists[i]?.map(cnt => {
+              return {
+                id: cnt.id,
+                email: cnt.email,
+                firstName: cnt.firstName,
+                contactLabelId: cnt.contactLabelId
+              };
+            }) || null;
+            // @ts-ignore
+            this.eventToBeSaved.venues.list[i].companyId = (this.venueCompanies[i] as Company).id;
+            // tslint:disable-next-line:no-non-null-assertion
+            this.eventToBeSaved.venues!.list[i].shouldInvite = event.index === i && event.shouldInvite ? 1 : 0;
+            // tslint:disable-next-line:no-non-null-assertion
+            this.eventToBeSaved.venues!.list[i].invited = null;
+            // tslint:disable-next-line:no-non-null-assertion
+            this.eventToBeSaved.venues!.list[i].contacts = contactList;
 
+          } else {
+            // tslint:disable-next-line:no-non-null-assertion
+            this.eventToBeSaved.venues!.list[i].companyId = null;
+            // tslint:disable-next-line:no-non-null-assertion
+            this.eventToBeSaved.venues!.list[i].contacts = null;
+            // tslint:disable-next-line:no-non-null-assertion
+            this.eventToBeSaved.venues!.list[i].shouldInvite = event.index === i && event.shouldInvite ? 1 : 0;
+            // tslint:disable-next-line:no-non-null-assertion
+            this.eventToBeSaved.venues!.list[i].invited = (this.clientCompany as InviteFnCmpClass);
+          }
+        }
       } else {
-        this.eventToBeSaved.venues.list[i].companyId = null;
-        this.eventToBeSaved.venues.list[i].contacts = null;
-        this.eventToBeSaved.venues.list[i].shouldInvite = event.index === i && event.shouldInvite ? 1 : 0;
-        this.eventToBeSaved.venues.list[i].invited = (this.clientCompany as InviteFnCmpClass);
+        this.eventToBeSaved.venues = null;
       }
-    }
-    devLogger('log', {event: this.eventToBeSaved});
-    if (!this.isEventMangerValid() || !this.isEventClientValid()) {
-      return;
+      devLogger('log', {event: this.eventToBeSaved});
     }
 
   }
@@ -440,14 +446,13 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
     }
 
-    if (this.isEventClientValid() && this.isEventClientValid() && this.isVenuesValid()) {
-
-      this.saveEventService.saveToDb(this.eventToBeSaved).subscribe(
+    if (!this.isEventClientInvalid && !this.isEventMgrInvalid && !this.isEventVenuesInvalid) {
+      this.saveEventSub = this.saveEventService.saveToDb(this.eventToBeSaved).subscribe(
         value => {
           if (value) {
             this.toaster.success('Event saved successfully');
             this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() => {
-              this.router.navigate(['/home/event/create-event']);
+              this.router.navigate(['/home/event/create']);
             });
           }
         },
@@ -458,40 +463,48 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       );
     }
+
   }
 
   private isEventClientValid(): boolean {
     if (!this.clientCompany) {
       this.toaster.error('Please select a client company');
+      this.isEventClientInvalid = true;
       return false;
     }
     if (this.clientCompany &&
       !(this.clientCompany instanceof InviteFnCmpClass) &&
       this.clientContactList?.length === 0) {
       this.toaster.error('Please select or invite at-least one contact for the client company');
+      this.isEventClientInvalid = true;
       return false;
     }
     devLogger('log', {clientComapny: this.clientCompany, contactList: this.clientContactList});
 
     if (this.eventToBeSaved.title.trim().length === 0) {
       this.toaster.error('Event title is required');
+      this.isEventClientInvalid = true;
       return false;
     }
+    this.isEventClientInvalid = false;
     return true;
   }
 
   private isEventMangerValid(): boolean {
     if (!this.eventMgrCmp) {
       this.toaster.error('Please select event manager company');
+      this.isEventMgrInvalid = true;
       return false;
     }
     if (this.eventMgrCmp &&
       !(this.eventMgrCmp instanceof InviteFnCmpClass) &&
-      this.eventMgrContactList?.length === 0) {
+      this.eventMgrContactList.length === 0) {
       this.toaster.error('Please select or invite at-least one contact for the event manager company');
+      this.isEventMgrInvalid = true;
       return false;
     }
     devLogger('log', {eventMgrCmp: this.eventMgrCmp, contactList: this.eventMgrContactList});
+    this.isEventMgrInvalid = false;
     return true;
   }
 
@@ -499,17 +512,21 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.venueCompanies && this.venueCompanies.length > 0) {
       if (this.venueCompanies?.length !== this.venueContactLists.length) {
         this.toaster.error('Please select contacts for assigned venue companies');
+        this.isEventVenuesInvalid = true;
         return false;
       }
     } else {
+      this.isEventVenuesInvalid = false;
       return true;
     }
+    this.isEventVenuesInvalid = false;
     return true;
   }
 
   ngOnDestroy(): void {
     this.userSettingsSub?.unsubscribe();
     this.isOwnCompanySub?.unsubscribe();
+    this.saveEventSub?.unsubscribe();
   }
 
 }

@@ -28,7 +28,7 @@ export class SaveEventClass {
   };
 
   // @ts-ignore
-  venues: {
+  venues: null | {
     notesToAll: '',
     list: {
       companyId: null | number;
