@@ -229,6 +229,36 @@ ul.secondary.menu {
   margin-top: 2rem;
 }
 
+.manageMenuOuter li { width: 50%; }
+.manageMenuOuter li a { width: 100%; display: inline-block !important; text-align: center; }
+
+.ui.styled.accordion, .ui.styled.accordion .accordion { box-shadow: none !important; }
+.parentAccordionVenue .card-header { padding: 0px; background: #fff; }
+.parentAccordionVenue .card-header .btn { padding: 1rem; color: #000; width: 100%; text-align: left; font-weight: 600; }
+.parentAccordionVenue .card-header .btn:hover, .parentAccordionVenue .card-header .btn:focus { box-shadow: none !important; outline: none; text-decoration: none; }
+.btn.btn-link i.icon {
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  width: auto;
+  height: auto;
+  margin-right: 5px;
+}
+.collapsed.btn.btn-link i.icon  {
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+.parentAccordion .content {
+  border-top: none;
+  padding: 0em !important;
+}
+.timeWindowsContainer .card-header .btn { padding: 0.6rem; color: #000; width: 100%; text-align: left; font-weight: 600; }
+
+.ui.checkbox input[type="radio"] + label::before { border-radius: 50px; }
+.ui.checkbox input[type="radio"]:checked ~ .box::after, .ui.checkbox input[type="radio"]:checked ~ label::after {
+  font-size: 10px;
+}
+
+
 
 .actionBar header .profileInfo img {
   display: inline-block !important;
