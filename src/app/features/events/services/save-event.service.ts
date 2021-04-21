@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {EventFunctionTypes} from "../models/types";
 import {environment} from "../../../../environments/environment";
 import {SaveEventClass} from "../models/classes/saveEvent.class";
@@ -22,12 +22,16 @@ export class SaveEventService {
     [EventFunctionTypes.EVENT_MANAGER, null]
   ]);
 
+  public activeVenuePanelIndex: number | null = null;
+
   setIsFnOwnCompany = new BehaviorSubject<Map<EventFunctionTypes, null | boolean | boolean[]>>(this.ownCompanyStatusMap);
+  triggerSaveOnly= new Subject();
 
   constructor(
     private spinner: NgxSpinnerService,
     private http: HttpClient,
-    private httpErrorHandler: HttpErrRespHandlerService) {
+    private httpErrorHandler: HttpErrRespHandlerService,
+  ) {
   }
 
   saveToDb(event: SaveEventClass): Observable<any> {
@@ -38,7 +42,7 @@ export class SaveEventService {
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),
-        this.httpErrorHandler.processError(true, false)
+        this.httpErrorHandler.processError(true)
       );
   }
 }

@@ -5,10 +5,10 @@
 
       </div>
       <div class="five wide column right aligned saveButtons hideMobile">
-        <a href="CE-08.html" class="ui button">Save</a>
+        <a (click)="eventSaveService.triggerSaveOnly.next()" class="ui button">Save</a>
       </div>
       <div class="five wide column right aligned saveButtons visibleMobile">
-        <a href="CE-08.html" class="ui button icon"><i class="save icon"></i></a>
+        <a (click)="eventSaveService.triggerSaveOnly.next()" class="ui button icon"><i class="save icon"></i></a>
       </div>
     </div>
   </div>
