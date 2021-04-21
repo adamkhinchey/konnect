@@ -5,7 +5,6 @@ export function matchControlValues(compareToControl: FormControl): ValidatorFn {
     const val = compareToControl?.value;
     const repeatedVal = control.value;
     const isEqual = val === repeatedVal;
-    console.log(`${isEqual}=${val}===${repeatedVal}`);
     return !isEqual ? {notMatching: {value: control.value}} : null;
   };
 }

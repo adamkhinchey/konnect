@@ -78,7 +78,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   stepChanged(args: StepChangedArgs): void {
-    console.log(args.step);
+
   }
 
   isValidFunctionReturnsBoolean(args: StepValidationArgs): boolean {

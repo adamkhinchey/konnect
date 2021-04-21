@@ -113,7 +113,6 @@ export class CompaniesService {
       take(1),
       this.httpErrorHandler.processError(),
       map(response => {
-        console.log(response.data);
         return response.data;
       })
     );
