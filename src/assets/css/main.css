@@ -30,3 +30,12 @@
 	border-color: #999 transparent;
 	content: "";
 }
+.ui.form .field .CusSelectArrow .selection.dropdown {
+	padding: 0 5px !important;
+}
+.owl-dt-container-disabled, .owl-dt-trigger-disabled {
+	padding-left: 35px !important;
+}
+.cdk-global-scrollblock { top: 0 !important; }
+app-date-time-picker { width: 100%; }
+app-date-time-picker input { width: 100% !important; }

@@ -86,12 +86,14 @@
               </div>
               <div class="field">
                 <label>Time Zone</label>
-                <select class="ui fluid dropdown"
-                        formControlName="timeZone">
-                  <option *ngFor="let timeZone of timeZones" [ngValue]="timeZone" [disabled]="!timeZone.val">
-                    {{ timeZone.name }}
-                  </option>
-                </select>
+                <div class="CusSelectArrow" >
+                  <select class="ui fluid dropdown"
+                          formControlName="timeZone">
+                    <option *ngFor="let timeZone of timeZones" [ngValue]="timeZone" [disabled]="!timeZone.val">
+                      {{ timeZone.name }}
+                    </option>
+                  </select>
+                </div>
                 <span
                   *ngIf="editProfileForm!.get('timeZone')?.touched
           && (
@@ -125,12 +127,14 @@
                 </div>
                 <div class="field required">
                   <label>Country</label>
-                  <select class="ui fluid dropdown selection"
-                          formControlName="countryId" required>
-                    <option *ngFor="let cntr of countries" [ngValue]="cntr.val" [disabled]="!cntr.val">
-                      {{ cntr.name }}
-                    </option>
-                  </select>
+                  <div class="CusSelectArrow" >
+                    <select class="ui fluid dropdown selection"
+                            formControlName="countryId" required>
+                      <option *ngFor="let cntr of countries" [ngValue]="cntr.val" [disabled]="!cntr.val">
+                        {{ cntr.name }}
+                      </option>
+                    </select>
+                  </div>
                   <span
                     *ngIf="editProfileForm!.get('countryId')?.touched
           && (
