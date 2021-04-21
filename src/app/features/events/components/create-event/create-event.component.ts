@@ -14,7 +14,7 @@ import {Subscription} from 'rxjs';
 import {AuthService} from '../../../../core/services/auth.service';
 import {SaveEventService} from '../../services/save-event.service';
 import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/event-assign-function-cmp.component';
-import {EventVenueFunctionComponent} from "../event-venue-function/event-venue-function.component";
+import {EventVenueFunctionComponent} from '../event-venue-function/event-venue-function.component';
 
 @Component({
   selector: 'app-create-event',
@@ -277,6 +277,13 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
       }
       devLogger('log', {event: this.eventToBeSaved});
+
+      if (!this.isEventMangerValid() || !this.isVenuesValid()) {
+        return;
+      }
+
+      this.saveEvMgr(false);
+      this.saveVenueCmp({index: null, shouldInvite: false});
       this.saveToDb();
     }
   }
@@ -354,6 +361,13 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
       }
       devLogger('log', {event: this.eventToBeSaved});
+
+      if (!this.isEventClientValid() || !this.isVenuesValid()) {
+        return;
+      }
+
+      this.saveClient(false);
+      this.saveVenueCmp({index: null, shouldInvite: false});
       this.saveToDb();
     }
   }
@@ -371,13 +385,44 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  saveVenueCmp(event: { index: number; shouldInvite: boolean }): void {
+  saveVenueCmp(event: { index: number | null; shouldInvite: boolean }): void {
+    // @ts-ignore
+    for (let i = 0; i < this.venueCompanies?.length; i++) {
+      // @ts-ignore
+      if (!(this.venueCompanies[i] instanceof InviteFnCmpClass) && (this.venueCompanies[i] as Company).id) {
+        const contactList = this.venueContactLists[i]?.map(cnt => {
+          return {
+            id: cnt.id,
+            email: cnt.email,
+            firstName: cnt.firstName,
+            contactLabelId: cnt.contactLabelId
+          };
+        }) || null;
+        // @ts-ignore
+        this.eventToBeSaved.venues.list[i].companyId = (this.venueCompanies[i] as Company).id;
+        this.eventToBeSaved.venues.list[i].shouldInvite = event.index === i && event.shouldInvite ? 1 : 0;
+        this.eventToBeSaved.venues.list[i].invited = null;
+        this.eventToBeSaved.venues.list[i].contacts = contactList;
 
+      } else {
+        this.eventToBeSaved.venues.list[i].companyId = null;
+        this.eventToBeSaved.venues.list[i].contacts = null;
+        this.eventToBeSaved.venues.list[i].shouldInvite = event.index === i && event.shouldInvite ? 1 : 0;
+        this.eventToBeSaved.venues.list[i].invited = (this.clientCompany as InviteFnCmpClass);
+      }
+    }
+    devLogger('log', {event: this.eventToBeSaved});
+    if (!this.isEventMangerValid() || !this.isEventClientValid()) {
+      return;
+    }
+    this.saveClient(false);
+    this.saveEvMgr(false);
+    this.saveToDb();
   }
 
 
   private saveToDb(): void {
-    if (this.isEventClientValid() && this.isEventClientValid()) {
+    if (this.isEventClientValid() && this.isEventClientValid() && this.isVenuesValid()) {
 
       this.saveEventService.saveToDb(this.eventToBeSaved).subscribe(
         value => {
@@ -426,6 +471,18 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       return false;
     }
     devLogger('log', {eventMgrCmp: this.eventMgrCmp, contactList: this.eventMgrContactList});
+    return true;
+  }
+
+  private isVenuesValid(): boolean {
+    if (this.venueCompanies && this.venueCompanies.length > 0) {
+      if (this.venueCompanies?.length !== this.venueContactLists.length) {
+        this.toaster.error('Please select contacts for assigned venue companies');
+        return false;
+      }
+    } else {
+      return true;
+    }
     return true;
   }
 

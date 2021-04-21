@@ -41,7 +41,7 @@ export class SaveEventService {
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),
-        this.httpErrorHandler.processError(true, false)
+        this.httpErrorHandler.processError(true)
       );
   }
 }

@@ -8,8 +8,9 @@
               class="sitemap icon"></i><i
               class="map marker alternate icon"></i></h3>
           </div>
-          <div class="field">
-            <div class="textarea" contenteditable=""></div>
+          <div class="field" *ngIf="eventToBeSaved.venues">
+            <textarea class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
+            [ngModelOptions]="{standalone:true}"></textarea>
           </div>
         </div>
       </div>
@@ -32,7 +33,7 @@
           <ngb-panel *ngFor="let panel of eventToBeSaved.venues?.list; let i=index"
                      [id]="'venueListIndex-'+i" (shown)="panelActivated(i)">
             <ng-template ngbPanelTitle>
-              <i class="dropdown icon"></i>Venue {{i+1}}
+              <i class="dropdown icon"></i>Venue {{i + 1}}
             </ng-template>
             <ng-template ngbPanelContent>
               <div class="content active">
@@ -92,15 +93,15 @@
                                                      (contactRemove)="removeVenueContact(i,$event)"
                       ></app-event-assign-function-cmp>
                       <!--<ng-content select="[assignFunctionCmp]"></ng-content>-->
-                        <!--<div class="ui grid center aligned">
-                          <div class="sixteen wide column">
-                            <div class="ui button basic blue fluid addClient hasModal"
-                                 data-modal="client"><i
-                              class="plus circle icon"></i>Add
-                              Venue
-                            </div>
+                      <!--<div class="ui grid center aligned">
+                        <div class="sixteen wide column">
+                          <div class="ui button basic blue fluid addClient hasModal"
+                               data-modal="client"><i
+                            class="plus circle icon"></i>Add
+                            Venue
                           </div>
-                        </div>-->
+                        </div>
+                      </div>-->
                       <!--</div>-->
                       <!--<div class="contactsContainer">
                         <div class="ui dividing header">
@@ -138,7 +139,8 @@
                         </h3>
                       </div>
                       <div class="field">
-                        <textarea class="textarea" [(ngModel)]="eventToBeSaved.venues.list[i].requirements" [ngModelOptions]="{standalone:true}" >
+                        <textarea class="textarea" [(ngModel)]="eventToBeSaved.venues.list[i].requirements"
+                                  [ngModelOptions]="{standalone:true}">
                         </textarea>
                       </div>
 
@@ -150,6 +152,7 @@
                         <div
                           class="sixteen wide column right aligned">
                           <div class="ui button hasModal"
+                               (click)="saveAndInvite.emit({index: activeVenuePanel, shouldInvite:true})"
                                data-modal="inviteModal">Save &amp;
                             Invite
                           </div>

@@ -60,7 +60,9 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
           eventAccessDateTimes: [],
           preEventAccessDateTimes: [],
           postEventAccessDateTimes: [],
-          contacts: null
+          contacts: null,
+          shouldInvite: 0,
+          invited: null
         }],
         notesToAll: ''
       };
@@ -71,7 +73,9 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
         eventAccessDateTimes: [],
         preEventAccessDateTimes: [],
         postEventAccessDateTimes: [],
-        contacts: null
+        contacts: null,
+        shouldInvite: 0,
+        invited: null
       });
     }
     this.ngbAccordion.collapseAll();

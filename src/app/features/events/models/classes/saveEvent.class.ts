@@ -30,16 +30,16 @@ export class SaveEventClass {
   // @ts-ignore
   venues: {
     notesToAll: '',
-    list: [
-      {
-        companyId: null | number,
-        contacts: null | InviteFnCmpCntInterface[],
-        preEventAccessDateTimes: TimeWindowFormatInterface[],
-        eventAccessDateTimes: TimeWindowFormatInterface[],
-        postEventAccessDateTimes: TimeWindowFormatInterface[],
-        requirements: ''
-      }
-    ]
+    list: {
+      companyId: null | number;
+      contacts: null | InviteFnCmpCntInterface[];
+      preEventAccessDateTimes: TimeWindowFormatInterface[];
+      eventAccessDateTimes: TimeWindowFormatInterface[];
+      postEventAccessDateTimes: TimeWindowFormatInterface[];
+      requirements: '';
+      shouldInvite: null | number;
+      invited: null | InviteFnCmpInterface
+    }[]
   };
 
   constructor(param?: Partial<SaveEventClass>) {
