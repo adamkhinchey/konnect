@@ -2,7 +2,12 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, Validators} from '@angular/forms';
 import {environment} from '../../../../../environments/environment';
-import {GetRegionAndCountriesService, UploadFileService, UserInfoService} from '../../../../shared/services';
+import {
+  GetRegionAndCountriesService,
+  UploadFileService,
+  UserInfoService,
+  UserSettingsService
+} from '../../../../shared/services';
 import {Subscription} from 'rxjs';
 import {checkRxFormValidation, devLogger} from '../../../../shared/utils';
 import {ToastrService} from 'ngx-toastr';
@@ -67,7 +72,8 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     private companyService: CompaniesService,
     private authService: AuthService,
     private router: Router,
-    private fileUploadService: UploadFileService) {
+    private fileUploadService: UploadFileService,
+    private userSettingsService: UserSettingsService) {
   }
 
   ngOnInit(): void {
@@ -88,6 +94,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     this.userInfoSubscription = this.userInfoService.getInfo().subscribe((value) => {
       this.userInfo = value;
       this.populateFormValues();
+      this.userSettingsService.populateSettings(value);
     }, err => {
       devLogger('error', {err});
     });
