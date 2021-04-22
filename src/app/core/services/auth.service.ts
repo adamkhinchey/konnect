@@ -142,7 +142,7 @@ export class AuthService {
         this.spinner.hide();
       }),
       take(1),
-      this.httpErrRespHandler.processError(false)
+      this.httpErrRespHandler.processError(false, false)
     );
   }
 
