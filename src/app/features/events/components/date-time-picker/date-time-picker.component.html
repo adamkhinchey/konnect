@@ -1,4 +1,5 @@
 <input [owlDateTime]="dt1"
+       [min]="minimumDate"
        [owlDateTimeTrigger]="dt1"
        [disabled]="true" placeholder="Date Time" (dateTimeChange)="setDateTime($event)">
 <owl-date-time #dt1></owl-date-time>

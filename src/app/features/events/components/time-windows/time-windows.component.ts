@@ -2,6 +2,7 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {devLogger} from "../../../../shared/utils";
 import {TimeWindowFormatInterface} from "../../models/interfaces";
 import {ToastrService} from "ngx-toastr";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-time-windows',
@@ -27,6 +28,14 @@ export class TimeWindowsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  getMinimumPreEventStartDateTime(i: number): Date {
+    return moment().add('1', 'minutes').toDate();
+  }
+
+  getMinimumPreEventEndDateTime(i: number): Date {
+    return this.preEventTimes[i]?.startDateTime || moment().add('1', 'minutes').toDate();
   }
 
   pushPreEventStartDateTime(event: Date, i: number): void {
@@ -80,6 +89,15 @@ export class TimeWindowsComponent implements OnInit {
     });
   }
 
+
+  getMinimumEventStartDateTime(i: number): Date {
+    return moment().add('1', 'minutes').toDate();
+  }
+
+  getMinimumEventEndDateTime(i: number): Date {
+    return this.eventTimes[i]?.startDateTime || moment().add('1', 'minutes').toDate();
+  }
+
   pushEventStartDateTime(event: Date, i: number): void {
     if (this.eventTimes.length === 0) {
       this.eventTimes.push({startDateTime: event, notes: this.eventNotes});
@@ -129,6 +147,15 @@ export class TimeWindowsComponent implements OnInit {
       // @ts-ignore
       obj.notes = this.eventNotes;
     });
+  }
+
+
+  getMinimumPostEventStartDateTime(i: number): Date {
+    return moment().add('1', 'minutes').toDate();
+  }
+
+  getMinimumPostEventEndDateTime(i: number): Date {
+    return this.postEventTimes[i]?.startDateTime || moment().add('1', 'minutes').toDate();
   }
 
   pushPostEventStartDateTime(event: Date, i: number): void {
@@ -181,5 +208,4 @@ export class TimeWindowsComponent implements OnInit {
       obj.notes = this.postEventNotes;
     });
   }
-
 }
