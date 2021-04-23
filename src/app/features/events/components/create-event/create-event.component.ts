@@ -145,7 +145,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.eventMgrContactList = [];
             this.eventMgrCmp = defaultCompany;
             this.eventToBeSaved.eventManager = {
-              id: (this.clientCompany as Company).id,
+              id: (this.eventMgrCmp as Company).id,
               isOwnCompany: true,
               invited: null,
               shouldInvite: 1,
@@ -184,13 +184,31 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setSelectedCompany(company: Company | InviteFnCmpClass): void {
+    let isInvitedCompany = false;
+    devLogger('log', {status: company instanceof InviteFnCmpClass, [this.selectedFunction]: company})
     switch (this.selectedFunction) {
       case EventFunctionTypes.CLIENT:
         this.clientCompany = company;
-        // this.isFnCmpInvited = company instanceof InviteFnCmpClass;
+        isInvitedCompany = company instanceof InviteFnCmpClass;
+        this.eventToBeSaved.client = {
+          id: !isInvitedCompany ? (this.clientCompany as Company).id : null,
+          isOwnCompany: isInvitedCompany ? false : (this.clientCompany as Company).id === this.defaultCompany.id,
+          invited: isInvitedCompany ? (company as InviteFnCmpClass) : null,
+          shouldInvite: isInvitedCompany ? null : 1,
+          contacts: null,
+        };
         break;
       case EventFunctionTypes.EVENT_MANAGER:
         this.eventMgrCmp = company;
+        isInvitedCompany = company instanceof InviteFnCmpClass;
+        this.eventToBeSaved.eventManager = {
+          id: !isInvitedCompany ? (this.eventMgrCmp as Company).id : null,
+          isOwnCompany: isInvitedCompany ? false : (this.eventMgrCmp as Company).id === this.defaultCompany.id,
+          invited: isInvitedCompany ? (company as InviteFnCmpClass) : null,
+          shouldInvite: isInvitedCompany ? null : 1,
+          contacts: null,
+          requirements: ''
+        };
         break;
       case EventFunctionTypes.VENUE:
         this.venueCompanies?.push(company);
@@ -198,6 +216,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         if (activatedVenuePanelIndex !== null && this.venueCompanies) {
           // @ts-ignore
           this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex).setSelectedCompany(company);
+          this.setSelectedFnCompanyContacts([]);
         }
         break;
       case EventFunctionTypes.SUPPLIERS:
@@ -301,12 +320,16 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   unsetClientCompany(): void {
+    const clientCompanyInstOfInviteFnCmp = this.clientCompany instanceof InviteFnCmpClass;
+    const wasOwnCompany = !clientCompanyInstOfInviteFnCmp && (this.clientCompany as Company).id === this.defaultCompany.id;
     this.clientCompany = null;
     this.clientContactList = [];
     this.eventToBeSaved.client = null;
-    const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
-    tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
-    this.saveEventService.setIsFnOwnCompany.next(tempMap);
+    if (wasOwnCompany) {
+      const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
+      tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
+      this.saveEventService.setIsFnOwnCompany.next(tempMap);
+    }
   }
 
   removeContact(index: number, jIndex: number | null = null): void {
@@ -333,12 +356,16 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   unsetEvMgrCmp(): void {
+    const eventMgrCmpInstOfInviteCmpCls = this.eventMgrCmp instanceof InviteFnCmpClass;
+    const wasOwnCompany = !eventMgrCmpInstOfInviteCmpCls && (this.eventMgrCmp as Company).id === this.defaultCompany.id;
     this.eventMgrCmp = null;
     this.eventMgrContactList = [];
     this.eventToBeSaved.eventManager = null;
-    const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
-    tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
-    this.saveEventService.setIsFnOwnCompany.next(tempMap);
+    if (wasOwnCompany) {
+      const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
+      tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
+      this.saveEventService.setIsFnOwnCompany.next(tempMap);
+    }
   }
 
   saveEvMgr(shouldInvite: boolean): void {
@@ -424,6 +451,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             // tslint:disable-next-line:no-non-null-assertion
             this.eventToBeSaved.venues!.list[i].invited = (this.clientCompany as InviteFnCmpClass);
           }
+        }
+        if (this.eventToBeSaved.venues) {
+          this.eventToBeSaved.venues.list = this.eventToBeSaved.venues.list
+            .filter(venueCmp => venueCmp.companyId !== null || venueCmp.invited !== null);
         }
       } else {
         this.eventToBeSaved.venues = null;
@@ -522,10 +553,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private isVenuesValid(): boolean {
     if (this.venueCompanies && this.venueCompanies.length > 0) {
-      if (this.venueCompanies?.length !== this.venueContactLists.length) {
-        this.toaster.error('Please select contacts for assigned venue companies');
-        this.isEventVenuesInvalid = true;
-        return false;
+      for (let i = 0; i < this.venueCompanies.length; i++) {
+        if (this.venueCompanies[i] instanceof InviteFnCmpClass) {
+          continue;
+        }
+        if (!this.venueContactLists[i] || (this.venueContactLists[i] && this.venueContactLists[i].length === 0)) {
+          this.toaster.error('Please select contacts for assigned selected venue companies');
+          this.isEventVenuesInvalid = true;
+          return false;
+        }
       }
     } else {
       this.isEventVenuesInvalid = false;

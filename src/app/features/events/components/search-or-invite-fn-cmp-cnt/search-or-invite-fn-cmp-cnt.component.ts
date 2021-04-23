@@ -83,7 +83,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   addCmpCntToList(inviteType = false): void {
     if (this.selectedContact && !this.contactLabelId) {
-      this.toaster.error('Please also select a contact label');
+      this.toaster.error('Please select a contact label');
       return;
     }
     if (this.selectedContact && !inviteType) {

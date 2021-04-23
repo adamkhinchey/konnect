@@ -101,6 +101,6 @@ export class SearchOrInviteFunctionCmpComponent implements OnInit, OnDestroy {
   }
 
   emitInvitedAndClose(): void {
-    this.newCompanyInvited.emit(this.inviteFnCmpForm.value);
+    this.newCompanyInvited.emit(new InviteFnCmpClass(this.inviteFnCmpForm.value));
   }
 }

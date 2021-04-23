@@ -53,7 +53,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
 
   setSelectedCompany(company: Company | InviteFnCmpClass): void {
     this.selectedCompany = company;
-    this.disableAddContacts = false;
+    this.disableAddContacts = company instanceof InviteFnCmpClass;
   }
 
   removeSelectedCompany(): void {
