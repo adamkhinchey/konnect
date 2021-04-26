@@ -98,6 +98,7 @@
                     <i class="calendar icon"></i>
                     <!-- <input type="text" placeholder="Date">-->
                     <app-date-time-picker
+                      #preEventStartDateTimes
                       [minimumDate]="getMinimumPreEventStartDateTime(i)"
                       [index]="index"
                       (addNewDateTime)="pushPreEventStartDateTime($event,i)"></app-date-time-picker>
@@ -187,6 +188,7 @@
                     <i class="calendar icon"></i>
                     <!-- <input type="text" placeholder="Date">-->
                     <app-date-time-picker
+                      #preEventEndDateTimes
                       [minimumDate]="getMinimumPreEventEndDateTime(i)"
                       [index]="index"
                       (addNewDateTime)="pushPreEventEndDateTime($event,i)"></app-date-time-picker>
@@ -403,6 +405,7 @@
                     <i class="calendar icon"></i>
                     <!--<input type="text" placeholder="Date">-->
                     <app-date-time-picker
+                      #eventStartDateTimes
                       [minimumDate]="getMinimumEventStartDateTime(i)"
                       [index]="index"
                       (addNewDateTime)="pushEventStartDateTime($event,i)">
@@ -493,6 +496,7 @@
                     <i class="calendar icon"></i>
                     <!--<input type="text" placeholder="Date">-->
                     <app-date-time-picker
+                      #eventEndDateTimes
                       [minimumDate]="getMinimumEventEndDateTime(i)"
                       [index]="index"
                       (addNewDateTime)="pushEventEndDateTime($event,i)"
@@ -709,6 +713,7 @@
                     <i class="calendar icon"></i>
                     <!--<input type="text" placeholder="Date">-->
                     <app-date-time-picker
+                      #postEventStartDateTimes
                       [minimumDate]="getMinimumPostEventStartDateTime(i)"
                       [index]="index"
                       (addNewDateTime)="pushPostEventStartDateTime($event,i)"
@@ -799,6 +804,7 @@
                     <i class="calendar icon"></i>
                     <!--<input type="text" placeholder="Date">-->
                     <app-date-time-picker
+                      #postEventEndDateTimes
                       [minimumDate]="getMinimumPostEventEndDateTime(i)"
                       [index]="index"
                       (addNewDateTime)="pushPostEventEndDateTime($event,i)">

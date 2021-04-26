@@ -1,6 +1,7 @@
-import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input, ViewChild} from '@angular/core';
 import {devLogger} from "../../../../shared/utils";
 import {Moment} from 'moment';
+import {OwlDateTimeComponent} from "@danielmoncada/angular-datetime-picker";
 
 @Component({
   selector: 'app-date-time-picker',
@@ -9,6 +10,7 @@ import {Moment} from 'moment';
 })
 export class DateTimePickerComponent implements OnInit {
 
+  @ViewChild('dt1') owlDateTime: OwlDateTimeComponent<any> | undefined;
   @Input() minimumDate: Date | undefined;
   @Input() index: any;
   @Output() addNewDateTime = new EventEmitter<Date>();

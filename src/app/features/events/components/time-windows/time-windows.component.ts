@@ -1,8 +1,9 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter, ViewChildren, QueryList} from '@angular/core';
 import {devLogger} from "../../../../shared/utils";
 import {TimeWindowFormatInterface} from "../../models/interfaces";
 import {ToastrService} from "ngx-toastr";
 import * as moment from "moment";
+import {DateTimePickerComponent} from "../date-time-picker/date-time-picker.component";
 
 @Component({
   selector: 'app-time-windows',
@@ -10,6 +11,15 @@ import * as moment from "moment";
   styleUrls: ['./time-windows.component.scss']
 })
 export class TimeWindowsComponent implements OnInit {
+
+  @ViewChildren('preEventStartDateTimes') preEventStartDateTimes: QueryList<DateTimePickerComponent> | undefined;
+  @ViewChildren('preEventEndDateTimes') preEventEndDateTimes: QueryList<DateTimePickerComponent> | undefined;
+  @ViewChildren('eventStartDateTimes') eventStartDateTimes: QueryList<DateTimePickerComponent> | undefined;
+  @ViewChildren('eventEndDateTimes') eventEndDateTimes: QueryList<DateTimePickerComponent> | undefined;
+  @ViewChildren('postEventStartDateTimes') postEventStartDateTimes: QueryList<DateTimePickerComponent> | undefined;
+  @ViewChildren('postEventEndDateTimes') postEventEndDateTimes: QueryList<DateTimePickerComponent> | undefined;
+
+
   Arr = Array;
   preEventTimesCount = 1;
   preEventNotes = '';
@@ -41,6 +51,9 @@ export class TimeWindowsComponent implements OnInit {
   pushPreEventStartDateTime(event: Date, i: number): void {
     if (this.preEventTimes.length === 0) {
       this.preEventTimes.push({startDateTime: event, notes: this.preEventNotes});
+      this.preEventEndDateTimes?.get(0)?.owlDateTime?.confirmSelectedChange.next(
+        this.preEventTimes[0].startDateTime
+      );
       return;
     }
     this.preEventTimes[i] = {
@@ -48,6 +61,12 @@ export class TimeWindowsComponent implements OnInit {
       startDateTime: event,
       notes: this.preEventNotes
     };
+
+    if (moment(this.preEventTimes[i].startDateTime).isAfter(this.preEventTimes[i].endDateTime)) {
+      this.preEventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
+        this.preEventTimes[i].startDateTime
+      );
+    }
   }
 
   pushPreEventEndDateTime(event: Date, i: number): void {
@@ -101,6 +120,9 @@ export class TimeWindowsComponent implements OnInit {
   pushEventStartDateTime(event: Date, i: number): void {
     if (this.eventTimes.length === 0) {
       this.eventTimes.push({startDateTime: event, notes: this.eventNotes});
+      this.eventEndDateTimes?.get(0)?.owlDateTime?.confirmSelectedChange.next(
+        this.eventTimes[0].startDateTime
+      );
       return;
     }
     this.eventTimes[i] = {
@@ -108,6 +130,12 @@ export class TimeWindowsComponent implements OnInit {
       startDateTime: event,
       notes: this.eventNotes
     };
+
+    if (moment(this.eventTimes[i].startDateTime).isAfter(this.eventTimes[i].endDateTime)) {
+      this.eventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
+        this.eventTimes[i].startDateTime
+      );
+    }
   }
 
   pushEventEndDateTime(event: Date, i: number): void {
@@ -161,6 +189,9 @@ export class TimeWindowsComponent implements OnInit {
   pushPostEventStartDateTime(event: Date, i: number): void {
     if (this.postEventTimes.length === 0) {
       this.postEventTimes.push({startDateTime: event, notes: this.postEventNotes});
+      this.postEventEndDateTimes?.get(0)?.owlDateTime?.confirmSelectedChange.next(
+        this.postEventTimes[0].startDateTime
+      );
       return;
     }
     this.postEventTimes[i] = {
@@ -168,6 +199,12 @@ export class TimeWindowsComponent implements OnInit {
       startDateTime: event,
       notes: this.postEventNotes
     };
+
+    if (moment(this.postEventTimes[i].startDateTime).isAfter(this.postEventTimes[i].endDateTime)) {
+      this.postEventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
+        this.postEventTimes[i].startDateTime
+      );
+    }
   }
 
   pushPostEventEndDateTime(event: Date, i: number): void {
