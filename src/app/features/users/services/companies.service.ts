@@ -28,8 +28,10 @@ export class CompaniesService {
   }
 
 
-  search(param: { domain: string | null; searchKeyword: string | null }): Observable<any> {
-    this.spinner.show()
+  search(param: { domain: string | null; searchKeyword: string | null }, showSpinner=true): Observable<any> {
+    if(showSpinner) {
+      this.spinner.show();
+    }
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/searchCompany`,
       {...param}
@@ -267,8 +269,10 @@ export class CompaniesService {
 
   }
 
-  searchCmpContacts(param: { companyId: number, keyword: string }): Observable<any> {
-    this.spinner.show();
+  searchCmpContacts(param: { companyId: number, keyword: string }, showSpinner = true): Observable<any> {
+    if (showSpinner) {
+      this.spinner.show();
+    }
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/searchCompanyContactsByKeyword`,
       {...param}
