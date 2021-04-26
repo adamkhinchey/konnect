@@ -284,6 +284,27 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.searchInviteContactModalClosed();
   }
 
+  getFnContactList(): FnCmpCntInterface[] {
+    switch (this.selectedFunction) {
+      case EventFunctionTypes.CLIENT:
+        return this.clientContactList.slice(0);
+      case EventFunctionTypes.EVENT_MANAGER:
+        return this.eventMgrContactList.slice(0);
+      case EventFunctionTypes.VENUE:
+        const activatedVenuePanelIndex = this.saveEventService.activeVenuePanelIndex;
+        if (activatedVenuePanelIndex !== null && this.venueFn?.venueAssignCmp) {
+          let venueAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
+          venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex);
+          if (venueAssignCmpCnt) {
+            return this.venueContactLists[activatedVenuePanelIndex].slice(0);
+          }
+        }
+        return [];
+      default:
+        return [];
+    }
+  }
+
   saveClient(shouldInvite: boolean): void {
     if (this.isEventClientValid()) {
       if (!(this.clientCompany instanceof InviteFnCmpClass) && (this.clientCompany as Company).id) {

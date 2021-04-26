@@ -92,6 +92,7 @@
       (closed)="searchInviteContactModalClosed()"
       [companyId]="getCompanyId()"
       (addedContactList)="setSelectedFnCompanyContacts($event)"
+      [alreadyInContactList]="getFnContactList()"
     >
     </app-search-or-invite-fn-cmp-cnt>
   </ng-template>

@@ -17,6 +17,7 @@ import {FnCmpCntInterface} from '../../models/interfaces';
 export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/);
 
+  @Input() alreadyInContactList: FnCmpCntInterface[] = [];
   @Input() companyId: number | null = null;
   @Output() closed = new EventEmitter();
   @Output() addedContactList = new EventEmitter<FnCmpCntInterface[]>();
@@ -33,6 +34,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   });
   contactLabels = environment.eventContactLabels;
   private cmpCntSearchSub: Subscription | undefined;
+  private emittedContactList = false;
 
   constructor(
     private fb: FormBuilder,
@@ -53,7 +55,10 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
           value => {
             if (value && value.data) {
               devLogger('log', value);
-              this.cntSearchList = value.data?.user || [];
+              this.cntSearchList = value.data?.user.filter((u: any) => {
+                return this.contactList.findIndex(cnt => cnt.id === u.userId) === -1
+                  && this.alreadyInContactList.findIndex(cnt => cnt.id === u.userId) === -1;
+              }) || [];
               this.listDisplayCss = 'block !important';
               this.listDisplayOverFlow = 'auto';
             }
@@ -127,7 +132,11 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   }
 
   emitContactListAndClose(): void {
-    this.addedContactList.emit(this.contactList);
+    if (!this.emittedContactList) {
+      devLogger('log', {cntList: this.contactList});
+      this.addedContactList.emit(this.contactList);
+      this.emittedContactList = true;
+    }
   }
 
   ngOnDestroy(): void {
