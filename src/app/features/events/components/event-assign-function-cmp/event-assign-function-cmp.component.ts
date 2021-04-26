@@ -12,6 +12,7 @@ import {environment} from '../../../../../environments/environment';
   styleUrls: ['./event-assign-function-cmp.component.scss']
 })
 export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
+  @Input() clientCmpBtnLabel = '';
   @Input() contactListLabel = '';
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
   @Input() clientCompanyModal: TemplateRef<any> | undefined;
