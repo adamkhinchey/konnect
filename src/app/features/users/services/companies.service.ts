@@ -37,11 +37,7 @@ export class CompaniesService {
       `${this.apiBaseUrl}/searchCompany`,
       {...param}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       this.httpErrorHandler.processError(),
       map((response: ApiResponseModelInterface) => (
         response ? {
@@ -63,11 +59,7 @@ export class CompaniesService {
       `${this.apiBaseUrl}/assignCompanyToUser`,
       {...param}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       this.httpErrorHandler.processError()
     );
   }
@@ -78,11 +70,7 @@ export class CompaniesService {
       `${this.apiBaseUrl}/createCompany`,
       {...param}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrorHandler.processError()
     );
@@ -94,11 +82,7 @@ export class CompaniesService {
       `${this.apiBaseUrl}/removeCompanyAssocaition`,
       {...param}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       this.httpErrorHandler.processError()
     );
   }
@@ -108,11 +92,7 @@ export class CompaniesService {
     return this.http.get<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/getCompanyColleaguesWithSegregation?companyId=${p.companyId}`
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrorHandler.processError(),
       map(response => {
@@ -127,11 +107,7 @@ export class CompaniesService {
       `${this.apiBaseUrl}/approveRejectCompanyJoinRequest`,
       {...param}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrorHandler.processError(true)
     );
@@ -143,11 +119,7 @@ export class CompaniesService {
       `${this.apiBaseUrl}/makeCompanyAdmin`,
       {...param}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrorHandler.processError()
     );
@@ -159,11 +131,7 @@ export class CompaniesService {
       `${this.apiBaseUrl}/saveColleaguePosition`,
       {...param}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrorHandler.processError()
     );
@@ -175,11 +143,7 @@ export class CompaniesService {
       `${this.apiBaseUrl}/inviteCompanyColleague`,
       {...param}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrorHandler.processError()
     );

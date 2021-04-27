@@ -10,7 +10,7 @@ import {
   SignupUserProfile, UserSettingsInterface
 } from '../../shared/models';
 import {catchError, map, pluck, take, tap} from 'rxjs/operators';
-import {devLogger} from '../../shared/utils';
+import {devLogger, hideSpinnerPostApiCall} from '../../shared/utils';
 import {Router} from "@angular/router";
 import {NgxSpinnerService} from "ngx-spinner";
 
@@ -84,11 +84,7 @@ export class AuthService {
     this.signupSubscription = this.http.post<SignupResponse>(`${this.apiBaseURL}/signup`,
       {...personalDetails})
       .pipe(
-        tap(() => {
-          this.spinner.hide();
-        }, () => {
-          this.spinner.hide();
-        }),
+        hideSpinnerPostApiCall(this.spinner),
         take(1),
         this.httpErrRespHandler.processError(true),
         pluck('data', 'user'),
@@ -103,11 +99,7 @@ export class AuthService {
       `${this.apiBaseURL}/login`,
       {email: payload.email, password: payload.password}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrRespHandler.processError(true),
       pluck('data', 'user'),
@@ -136,11 +128,7 @@ export class AuthService {
       `${this.apiBaseURL}/sendResetPasswordLink`,
       {email}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrRespHandler.processError(false, false)
     );
@@ -152,11 +140,7 @@ export class AuthService {
       `${this.apiBaseURL}/resetPassword`,
       {...param}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrRespHandler.processError(true)
     );
@@ -202,11 +186,7 @@ export class AuthService {
       `${this.apiBaseURL}/deleteProfile`,
       {...param}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       this.httpErrRespHandler.processError()
     );
   }

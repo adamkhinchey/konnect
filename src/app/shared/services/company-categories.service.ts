@@ -5,7 +5,7 @@ import {HttpErrRespHandlerService} from './http-err-resp-handler.service';
 import {Observable} from "rxjs";
 import {ApiResponseModelInterface} from "../models";
 import {map, tap} from "rxjs/operators";
-import {devLogger} from "../utils";
+import {devLogger, hideSpinnerPostApiCall} from "../utils";
 import {NgxSpinnerService} from "ngx-spinner";
 
 @Injectable()
@@ -22,11 +22,7 @@ export class CompanyCategoriesService {
     this.spinner.show();
     return this.http.get<ApiResponseModelInterface>(`${this.apiBaseUrl}/getCategoryList`)
       .pipe(
-        tap(() => {
-          this.spinner.hide();
-        }, () => {
-          this.spinner.hide();
-        }),
+        hideSpinnerPostApiCall(this.spinner),
         this.httpErrorHandler.processError(),
         map(response => {
           return response.data?.categoryList || [];

@@ -7,7 +7,7 @@ import {ApiResponseModelInterface} from "../models";
 import {v4 as uuidv4} from 'uuid';
 import {map, tap} from "rxjs/operators";
 import {ToastrService} from "ngx-toastr";
-import {devLogger} from "../utils";
+import {devLogger, hideSpinnerPostApiCall} from "../utils";
 import {NgxSpinnerService} from "ngx-spinner";
 
 interface SignedURLApiResponseModel extends ApiResponseModelInterface {
@@ -40,11 +40,7 @@ export class UploadFileService {
       `${this.apiBaseUrl}/getS3BucketSignedURL`,
       {params: {fileName, fileType}}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       this.httpErrHandler.processError(true),
       map(response => {
         return {
@@ -61,11 +57,7 @@ export class UploadFileService {
     let url: string | null = null;
     this.spinner.show();
     this.fetchSignedUrl(name, file.type)
-      .pipe(tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }))
+      .pipe(hideSpinnerPostApiCall(this.spinner))
       .subscribe(value => {
         if (value) {
           signedUploadUrl = value.signedRequest;
@@ -92,11 +84,7 @@ export class UploadFileService {
         headers: {'Content-Type': file.type, 'NO-AUTH': 'true'}
       })
       .pipe(
-        tap(() => {
-          this.spinner.hide();
-        }, () => {
-          this.spinner.hide();
-        }),
+        hideSpinnerPostApiCall(this.spinner),
         this.httpErrHandler.processError(true)
       )
       .subscribe(value => {

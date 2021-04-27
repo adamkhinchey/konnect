@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {map, take, tap} from "rxjs/operators";
 import {ApiResponseModelInterface} from "../../../shared/models";
 import {NgxSpinnerService} from "ngx-spinner";
+import {hideSpinnerPostApiCall} from "../../../shared/utils";
 
 @Injectable()
 export class UpdateUserProfileService {
@@ -21,11 +22,7 @@ export class UpdateUserProfileService {
       `${this.apiBaseUrl}/updateUserProfile`,
       {...param}
     ).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrorHandler.processError(false),
       map(response => response?.data || null)

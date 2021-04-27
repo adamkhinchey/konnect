@@ -5,6 +5,7 @@ import {HttpErrRespHandlerService} from './http-err-resp-handler.service';
 import {map, pluck, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {NgxSpinnerService} from "ngx-spinner";
+import {hideSpinnerPostApiCall} from "../utils";
 
 @Injectable()
 export class GetRegionAndCountriesService {
@@ -22,11 +23,7 @@ export class GetRegionAndCountriesService {
     return this.http.get<any>(`${this.apiBaseURL}/getRegionAndCountryList`, {
       params: new HttpParams().set('regionId', '0')
     }).pipe(
-      tap(() => {
-        this.spinner.hide();
-      }, () => {
-        this.spinner.hide();
-      }),
+      hideSpinnerPostApiCall(this.spinner),
       this.httpErrRespHandler.processError(false),
       pluck('data', 'countryList'),
       map(countryList => {
