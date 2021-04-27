@@ -219,7 +219,7 @@
                                 </div>
                               </div>
                               <div class="six wide column right aligned middle aligned">
-                                <div class="ui circular compact mini basic icon button confirmRemove hasModal"
+                                <div *ngIf="!(company.isDefault===1)" class="ui circular compact mini basic icon button confirmRemove hasModal"
                                      (click)="confirmRemoveCompany(company.id,i,company.isDefault===1)"><i
                                   class="trash icon"></i></div>
                               </div>
