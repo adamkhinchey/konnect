@@ -110,7 +110,8 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     let timeZoneIndex = this.timeZones.findIndex(timeZone => {
       const receivedTz = typeof this.userInfo?.timeZone === 'string' ?
         JSON.parse(this.userInfo?.timeZone) : this.userInfo?.timeZone;
-      return timeZone.val === receivedTz?.val;
+      return timeZone.val === receivedTz?.val &&
+        timeZone.name.trim().toLocaleLowerCase() === receivedTz?.name.trim().toLocaleLowerCase();
     });
     if (timeZoneIndex === -1) {
       timeZoneIndex = 0;
