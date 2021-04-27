@@ -34,6 +34,14 @@ export class SaveEventService {
   ) {
   }
 
+  resetOwnCompanyStatusMap(): void {
+    this.ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([
+      [EventFunctionTypes.CLIENT, true],
+      [EventFunctionTypes.EVENT_MANAGER, null]
+    ]);
+    this.setIsFnOwnCompany.next(this.ownCompanyStatusMap);
+  }
+
   saveToDb(event: SaveEventClass): Observable<any> {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(

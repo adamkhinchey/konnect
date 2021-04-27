@@ -61,6 +61,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.saveEventService.resetOwnCompanyStatusMap();
     this.userSettingsSub = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
       this.defaultCompany = value.defaultCompany;
       this.eventToBeSaved.createrUserId = this.authService.getUserInfo().id;
@@ -69,6 +70,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     this.isOwnCompanySub = this.saveEventService.setIsFnOwnCompany.subscribe(status => {
       this.updateFnCmpToSelf = status;
+      devLogger('log', {createEvent: status});
       if (this.defaultCompany) {
         this.setFnCompanyToSelf(this.defaultCompany);
       }
