@@ -28,8 +28,9 @@ export class CompaniesService {
   }
 
 
-  search(param: { domain: string | null; searchKeyword: string | null }, showSpinner=true): Observable<any> {
-    if(showSpinner) {
+  search(
+    param: { domain: string | null; searchKeyword: string | null; includeMyCompanies?: boolean; }, showSpinner = true): Observable<any> {
+    if (showSpinner) {
       this.spinner.show();
     }
     return this.http.post<ApiResponseModelInterface>(
