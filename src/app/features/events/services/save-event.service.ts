@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {EventFunctionTypes} from "../models/types";
-import {environment} from "../../../../environments/environment";
-import {SaveEventClass} from "../models/classes/saveEvent.class";
-import {NgxSpinnerService} from "ngx-spinner";
-import {HttpClient} from "@angular/common/http";
-import {HttpErrRespHandlerService} from "../../../shared/services";
-import {ApiResponseModelInterface} from "../../../shared/models";
-import {take, tap} from "rxjs/operators";
-import {hideSpinnerPostApiCall} from "../../../shared/utils";
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {EventFunctionTypes} from '../models/types';
+import {environment} from '../../../../environments/environment';
+import {SaveEventClass} from '../models/classes/saveEvent.class';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {HttpClient} from '@angular/common/http';
+import {HttpErrRespHandlerService} from '../../../shared/services';
+import {ApiResponseModelInterface} from '../../../shared/models';
+import {take, tap} from 'rxjs/operators';
+import {hideSpinnerPostApiCall} from '../../../shared/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class SaveEventService {
   public activeVenuePanelIndex: number | null = null;
 
   setIsFnOwnCompany = new BehaviorSubject<Map<EventFunctionTypes, null | boolean | boolean[]>>(this.ownCompanyStatusMap);
-  triggerSaveOnly= new Subject();
+  triggerSaveOnly = new Subject();
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -42,7 +42,7 @@ export class SaveEventService {
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),
-        this.httpErrorHandler.processError(true, false)
+        this.httpErrorHandler.processError(true, true)
       );
   }
 }

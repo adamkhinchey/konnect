@@ -522,7 +522,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         },
         error => {
           devLogger('error', {saveEventError: error});
-          this.toaster.error('Failed to save event');
         }, () => {
         }
       );
