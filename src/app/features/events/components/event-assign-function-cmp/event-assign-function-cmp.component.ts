@@ -48,6 +48,17 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     this.modalOpen.emit(this.modalReference);
   }
 
+  editContactModal(editContactDetail: any) {
+    this.modalReference = this.modalService.open(editContactDetail, {
+      centered: true,
+      size: "md",
+    });
+    
+  }
+  
+
+
+
   removeContactFromList(i: number): void {
     this.contactRemove.emit(i);
   }
