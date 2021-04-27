@@ -43,6 +43,8 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     this.modalReference = this.modalService.open(content, {
       centered: true,
       size: 'lg',
+      backdrop : 'static',
+      keyboard : false
     });
 
     this.modalOpen.emit(this.modalReference);
@@ -53,9 +55,9 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
       centered: true,
       size: "md",
     });
-    
+
   }
-  
+
 
 
 
