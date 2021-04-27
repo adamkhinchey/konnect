@@ -17,7 +17,7 @@
               <i class="search icon"></i>
             </div>
             <div [ngClass]="companyList.length>0?'results transition visible':'results transition hidden'"
-                 [style.display]="listDisplayCss" [style.overflowY]="listDisplayOverFlow" [style.maxHeight]="'1400%'">
+                 [style.display]="listDisplayCss" [style.overflowY]="listDisplayOverFlow" [style.maxHeight]="'1300%'">
               <a class="result" *ngFor="let company of companyList" (click)="selectCompany(company)">
                 <div class="image">
                   <img alt="company profile pic" [src]="company.companyProfileImage"

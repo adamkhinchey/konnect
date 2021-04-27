@@ -19,7 +19,7 @@
                 <i class="search icon"></i>
               </div>
               <div [ngClass]="cntSearchList.length>0?'results transition visible':'results transition hidden'"
-                   [style.display]="listDisplayCss" [style.overflowY]="listDisplayOverFlow" [style.maxHeight]="'1400%'">
+                   [style.display]="listDisplayCss" [style.overflowY]="listDisplayOverFlow" [style.maxHeight]="'1290%'">
                 <a class="result" *ngFor="let contact of cntSearchList" (click)="selectCnt(contact)">
                   <div class="image">
                     <img alt="user profile pic" [src]="contact.profileImage"
