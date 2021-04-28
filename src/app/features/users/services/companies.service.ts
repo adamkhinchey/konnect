@@ -29,7 +29,8 @@ export class CompaniesService {
 
 
   search(
-    param: { domain: string | null; searchKeyword: string | null; includeMyCompanies?: boolean; }, showSpinner = true): Observable<any> {
+    param: { domain: string | null; searchKeyword: string | null; includeMyCompanies?: boolean; includePrivate?: number },
+    showSpinner = true): Observable<any> {
     if (showSpinner) {
       this.spinner.show();
     }
