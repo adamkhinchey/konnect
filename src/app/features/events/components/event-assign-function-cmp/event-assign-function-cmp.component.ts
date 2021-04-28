@@ -20,9 +20,12 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Output() modalOpen = new EventEmitter<NgbModalRef>();
   @Output() contactRemove = new EventEmitter<number>();
   modalReference: NgbModalRef | undefined;
+  editContactLabelModalReference: NgbModalRef | undefined;
   disableAddContacts = true;
   contactLabels = environment.eventContactLabels;
   @Input() contactList: FnCmpCntInterface[] = [];
+  editingContactLabelIndex = -1;
+  currentContactLabelIdSelected: number | null = null;
 
 
   constructor(private modalService: NgbModal) {
@@ -43,22 +46,25 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     this.modalReference = this.modalService.open(content, {
       centered: true,
       size: 'lg',
-      backdrop : 'static',
-      keyboard : false
+      backdrop: 'static',
+      keyboard: false
     });
 
     this.modalOpen.emit(this.modalReference);
   }
 
-  editContactModal(editContactDetail: any) {
-    this.modalReference = this.modalService.open(editContactDetail, {
+  editContactLabelModal(editContactDetail: any, i: number): void {
+    this.editContactLabelModalReference = this.modalService.open(editContactDetail, {
       centered: true,
-      size: "md",
+      size: 'md',
+      backdrop: 'static',
+      keyboard: false
     });
 
+
+    this.editingContactLabelIndex = i;
+    this.currentContactLabelIdSelected = this.contactList[i].contactLabelId;
   }
-
-
 
 
   removeContactFromList(i: number): void {
@@ -81,5 +87,18 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
 
   removeContactList(): void {
     this.contactList = [];
+  }
+
+  onContactLabelSelected(event: any): void {
+    this.currentContactLabelIdSelected = parseInt(event, 10);
+  }
+
+  closeAndChangeContactLabelId(shouldChange: boolean = true): void {
+    if (this.editingContactLabelIndex !== -1 && shouldChange) {
+      this.contactList[this.editingContactLabelIndex].contactLabelId = this.currentContactLabelIdSelected;
+    }
+    this.editContactLabelModalReference?.close();
+    this.editingContactLabelIndex = -1;
+    this.currentContactLabelIdSelected = null;
   }
 }

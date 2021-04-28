@@ -13,8 +13,8 @@
   <div class="kipCardContainer">
     <div  *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
       <div class="column" *ngFor="let contact of contactList; let i=index">
-        <div class="contactRole">{{contactLabels.get(contact.contactLabelId) || ''}}
-          <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal" (click)="editContactModal(editContactDetail)">
+        <div class="contactRole" [ngClass]="{'lightText':!contactLabels.has(contact.contactLabelId)}">{{contactLabels.get(contact.contactLabelId) || '(Contact Label Not Assigned)'}}
+          <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal" (click)="editContactLabelModal(editContactDetail,i)">
             <i class="pencil alternate icon"></i>
           </div>
         </div>
@@ -60,16 +60,16 @@
     </div>
   </div>
 
-  
+
   <ng-template #editContactDetail let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Search for Contact</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <button type="button" class="close" aria-label="Close" (click)="closeAndChangeContactLabelId(false)">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-       
+
       <div class="content">
         <div class="ui grid stackable">
             <div class="sixteen wide column">
@@ -77,16 +77,19 @@
                     <div class="field">
                         <label>Contact Label</label>
                         <div class="field">
-                            <div class="CusSelectArrow" tabindex="0"><select>
-                                <option value="1">Primary Contact</option>
-                                <option value="2">Secondary Contact</option>
-                                <option value="3">Technical Director</option>
-                                <option value="4">Technical Contact</option>
-                                <option value="5">Onsite Contact</option>
-                                <option value="6">IT Contact</option>
-                                <option value="7">Access Contact</option>
-                                <option value="8">Legal Contact</option>
-                                <option value="9">Finance Contact</option>
+                            <div class="CusSelectArrow" tabindex="0">
+                              <select *ngIf="editingContactLabelIndex!==-1" [ngModel]="contactList[editingContactLabelIndex]?.contactLabelId || 5"
+                                      (ngModelChange)="onContactLabelSelected($event)"
+                              [ngModelOptions]="{standalone:true}">
+                                <option class="item" [value]="5">Primary Contact</option>
+                                <option class="item" [value]="6">Secondary Contact</option>
+                                <option class="item" [value]="7">Technical Director</option>
+                                <option class="item" [value]="8">Technical Contact</option>
+                                <option class="item" [value]="9">Onsite Contact</option>
+                                <option class="item" [value]="10">IT Contact</option>
+                                <option class="item" [value]="11">Access Contact</option>
+                                <option class="item" [value]="12">Legal Contact</option>
+                                <option class="item" [value]="13">Finance Contact</option>
                             </select>
                           </div>
                         </div>
@@ -95,13 +98,13 @@
             </div>
         </div>
     </div>
-        
+
     </div>
     <div class="newFooter">
         <div class="actions">
             <div class="ui grid">
                 <div class="sixteen wide column right aligned">
-                    <div class="ui button fluid positive">save</div>
+                    <div class="ui button fluid positive" (click)="closeAndChangeContactLabelId()">Save</div>
                 </div>
             </div>
         </div>
