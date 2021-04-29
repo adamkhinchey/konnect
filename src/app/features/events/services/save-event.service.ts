@@ -8,7 +8,9 @@ import {HttpClient} from '@angular/common/http';
 import {HttpErrRespHandlerService} from '../../../shared/services';
 import {ApiResponseModelInterface} from '../../../shared/models';
 import {take, tap} from 'rxjs/operators';
-import {hideSpinnerPostApiCall} from '../../../shared/utils';
+import {devLogger, hideSpinnerPostApiCall} from '../../../shared/utils';
+import {Company} from "../../users/models";
+import {InviteFnCmpInterface} from "../models/interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +25,18 @@ export class SaveEventService {
   ]);
 
   public activeVenuePanelIndex: number | null = null;
+  public activeServicePanel: { venueIndex: number, serviceIndex: number } | null = null;
 
   setIsFnOwnCompany = new BehaviorSubject<Map<EventFunctionTypes, null | boolean | boolean[]>>(this.ownCompanyStatusMap);
+
+  supplierCompanyAddSubject = new Subject<{
+    venueIndex: number;
+    serviceIndex: number;
+    supplierCompany: Company | InviteFnCmpInterface
+  }>();
+
   triggerSaveOnly = new Subject();
+
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -40,6 +51,16 @@ export class SaveEventService {
       [EventFunctionTypes.EVENT_MANAGER, null]
     ]);
     this.setIsFnOwnCompany.next(this.ownCompanyStatusMap);
+  }
+
+  supplierCompanyAdded(company: Company | InviteFnCmpInterface): void {
+    if (this.activeServicePanel?.venueIndex !== undefined && this.activeServicePanel?.serviceIndex !== undefined) {
+      this.supplierCompanyAddSubject.next({
+        venueIndex: this.activeServicePanel.venueIndex,
+        serviceIndex: this.activeServicePanel.serviceIndex,
+        supplierCompany: company
+      });
+    }
   }
 
   saveToDb(event: SaveEventClass): Observable<any> {

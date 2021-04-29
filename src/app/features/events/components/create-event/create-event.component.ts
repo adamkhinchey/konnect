@@ -222,6 +222,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         break;
       case EventFunctionTypes.SUPPLIERS:
+        this.saveEventService.supplierCompanyAdded(company);
         break;
       case EventFunctionTypes.EXHIBITORS:
         break;

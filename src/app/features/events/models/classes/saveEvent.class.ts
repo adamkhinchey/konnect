@@ -1,5 +1,10 @@
 import {InviteFnCmpCntInterface} from "../interfaces/invite-fn-cmp-cnt.interface";
-import {InviteFnCmpInterface, TimeWindowFormatInterface} from "../interfaces";
+import {
+  EventSuppliersInterface,
+  InviteFnCmpInterface,
+  TimeWindowFormatInterface,
+  VenueListItemInterface
+} from "../interfaces";
 
 export class SaveEventClass {
   title = '';
@@ -30,16 +35,7 @@ export class SaveEventClass {
   // @ts-ignore
   venues: null | {
     notesToAll: '',
-    list: {
-      companyId: null | number;
-      contacts: null | InviteFnCmpCntInterface[];
-      preEventAccessDateTimes: TimeWindowFormatInterface[];
-      eventAccessDateTimes: TimeWindowFormatInterface[];
-      postEventAccessDateTimes: TimeWindowFormatInterface[];
-      requirements: '';
-      shouldInvite: null | number;
-      invited: null | InviteFnCmpInterface
-    }[]
+    list: VenueListItemInterface[]
   };
 
   constructor(param?: Partial<SaveEventClass>) {

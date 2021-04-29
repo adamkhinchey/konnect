@@ -68,8 +68,17 @@
             </ng-container>-->
           </app-event-venue-function>
         </ng-container>
-        <!--<app-event-suppliers-function></app-event-suppliers-function>
-        <app-event-exhibitors-function></app-event-exhibitors-function>
+        <ng-container suppliers>
+        <app-event-suppliers-function
+          [eventToBeSaved]="eventToBeSaved"
+          (saveAndInvite)="saveToDb($event)"
+          [searchInviteCmpModal]="searchInviteCmpModal"
+          [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+          [setOpenedModalRef]="setOpenedModalRef.bind(this)"
+        >
+        </app-event-suppliers-function>
+        </ng-container>
+        <!--<app-event-exhibitors-function></app-event-exhibitors-function>
         <app-event-files-function></app-event-files-function>
         <app-event-timeline-function></app-event-timeline-function>-->
       </app-event-panel-nav>
