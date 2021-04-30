@@ -21,7 +21,6 @@ import {Company} from "../../../users/models";
 export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   // @ts-ignore
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
-  /*@ViewChild('venueNav') venueNav: NgbNav | undefined;*/
   @Input() eventToBeSaved = new SaveEventClass();
   @Output() saveAndInvite = new EventEmitter<{ index: number, shouldInvite: boolean }>();
   @Input() searchInviteCmpModal: any;
@@ -133,13 +132,14 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     this.saveEventService.activeServicePanel = {venueIndex, serviceIndex};
   }
 
-  removeServiceContact(serviceIndex: number, $event: number): void {
-
+  removeServiceContact(venueIndex: number, serviceIndex: number, event: number): void {
+    const service = this.eventToBeSaved.venues?.list[venueIndex]
+      .suppliers[0]?.services[serviceIndex];
+    if (service && service.contacts) {
+      service.contacts.splice(event, 1);
+    }
   }
 
-  ngOnDestroy(): void {
-    this.supplierCompanyAddedSub?.unsubscribe();
-  }
 
   getCompanyProfileImage(company: Company | InviteFnCmpClass | undefined): string | null | undefined {
     if (!company) {
@@ -172,6 +172,11 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     } else {
       return (company as Company)?.phone;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.supplierCompanyAddedSub?.unsubscribe();
+    this.supplierCmpCntAddedSub?.unsubscribe();
   }
 
 }

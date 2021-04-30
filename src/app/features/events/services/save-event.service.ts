@@ -51,12 +51,14 @@ export class SaveEventService {
   ) {
   }
 
-  resetOwnCompanyStatusMap(): void {
+  reset(): void {
     this.ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([
       [EventFunctionTypes.CLIENT, true],
       [EventFunctionTypes.EVENT_MANAGER, null]
     ]);
     this.setIsFnOwnCompany.next(this.ownCompanyStatusMap);
+    this.activeVenuePanelIndex = null;
+    this.activeServicePanel = null;
   }
 
   supplierCompanyAdded(company: Company | InviteFnCmpInterface): void {

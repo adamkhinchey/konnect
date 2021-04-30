@@ -127,7 +127,7 @@
                                                        [contactModal]="searchInviteFnCmpCntModal"
                                                        (modalOpen)="setOpenedModalRef($event)"
                                                        [contactList]="service.contacts?service.contacts:[]"
-                                                       (contactRemove)="removeServiceContact(serviceIndex,$event)"
+                                                       (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)"
                         ></app-event-assign-function-cmp>
                        <!-- </div>-->
                       </div>
