@@ -15,8 +15,8 @@ import {AuthService} from '../../../../core/services/auth.service';
 import {SaveEventService} from '../../services/save-event.service';
 import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/event-assign-function-cmp.component';
 import {EventVenueFunctionComponent} from '../event-venue-function/event-venue-function.component';
-import {Router} from "@angular/router";
-import {EventSuppliersFunctionComponent} from "../event-suppliers-function/event-suppliers-function.component";
+import {Router} from '@angular/router';
+import {EventSuppliersFunctionComponent} from '../event-suppliers-function/event-suppliers-function.component';
 
 @Component({
   selector: 'app-create-event',
@@ -52,6 +52,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   venueContactLists: Array<Array<FnCmpCntInterface>> = [];
   isEventVenuesInvalid = true;
 
+  isVenuesSuppliersInvalid = true;
+
 
   constructor(
     private modalService: NgbModal,
@@ -85,7 +87,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           this.saveToDb(false);
           break;
         case EventFunctionTypes.VENUE:
-          this.saveToDb({index: null, shouldInvite: false});
+          this.saveToDb({venueIndex: null, serviceIndex: null, shouldInvite: false});
+          break;
+        case EventFunctionTypes.SUPPLIERS:
+          this.saveToDb({venueIndex: null, serviceIndex: null, shouldInvite: false});
+          break;
       }
     });
   }
@@ -189,7 +195,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   setSelectedCompany(company: Company | InviteFnCmpClass): void {
     let isInvitedCompany = false;
-    devLogger('log', {status: company instanceof InviteFnCmpClass, [this.selectedFunction]: company})
     switch (this.selectedFunction) {
       case EventFunctionTypes.CLIENT:
         this.clientCompany = company;
@@ -514,8 +519,44 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  saveToDb(param: { index: number | null, shouldInvite: boolean } | boolean = {
-    index: null,
+  saveVenuesSuppliers(param: { venueIndex: number | null, serviceIndex: number | null | undefined, shouldInvite: boolean }): void {
+    if (this.isVenuesSuppliersValid()) {
+      if (this.eventToBeSaved.venues?.list) {
+        let i = 0;
+        for (const venuesList of this.eventToBeSaved.venues?.list) {
+          const services = venuesList.suppliers[0]?.services;
+          let j = 0;
+          for (const service of services) {
+            if (param.venueIndex === i && param.serviceIndex === j && param.shouldInvite) {
+              service.shouldInvite = 1;
+            } else {
+              service.shouldInvite = 0;
+            }
+            j++;
+          }
+          i++;
+        }
+        devLogger('log',{beforeFilterVenSupp: this.eventToBeSaved.venues?.list})
+        for (const venuesList of this.eventToBeSaved.venues?.list) {
+          const services = venuesList.suppliers[0]?.services;
+          if (services) {
+            venuesList.suppliers[0].services = venuesList.suppliers[0]?.services
+              .filter(supplierCmp => supplierCmp.companyId !== null || supplierCmp.invited !== null);
+          }
+          if (venuesList.suppliers[0] &&
+            (!venuesList.suppliers[0].services || venuesList.suppliers[0].services.length === 0)) {
+            venuesList.suppliers = [];
+          }
+        }
+      }
+
+      devLogger('log', {eventAfterVenuesSupplier: this.eventToBeSaved});
+    }
+  }
+
+  saveToDb(param: { venueIndex: number | null, serviceIndex?: number | null, shouldInvite: boolean } | boolean = {
+    venueIndex: null,
+    serviceIndex: null,
     shouldInvite: false
   }): void {
 
@@ -524,22 +565,41 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.saveClient(typeof param === 'boolean' ? param : false);
         this.saveEvMgr(false);
         this.saveVenueCmp({index: null, shouldInvite: false});
+        this.saveVenuesSuppliers({
+          venueIndex: null, serviceIndex: null, shouldInvite: false
+        });
         break;
       case EventFunctionTypes.EVENT_MANAGER:
         this.saveClient(false);
         this.saveEvMgr(typeof param === 'boolean' ? param : false);
         this.saveVenueCmp({index: null, shouldInvite: false});
+        this.saveVenuesSuppliers({
+          venueIndex: null, serviceIndex: null, shouldInvite: false
+        });
         break;
       case EventFunctionTypes.VENUE:
         this.saveClient(false);
         this.saveEvMgr(false);
         if (typeof param !== 'boolean') {
-          this.saveVenueCmp({index: param.index, shouldInvite: param.shouldInvite});
+          this.saveVenueCmp({index: param.venueIndex, shouldInvite: param.shouldInvite});
         }
+        this.saveVenuesSuppliers({
+          venueIndex: null, serviceIndex: null, shouldInvite: false
+        });
         break;
+      case EventFunctionTypes.SUPPLIERS:
+        this.saveClient(false);
+        this.saveEvMgr(false);
+        this.saveVenueCmp({index: null, shouldInvite: false});
+        if (typeof param !== 'boolean') {
+          this.saveVenuesSuppliers({
+            venueIndex: param.venueIndex, serviceIndex: param.serviceIndex, shouldInvite: param.shouldInvite
+          });
+        }
     }
 
-    if (!this.isEventClientInvalid && !this.isEventMgrInvalid && !this.isEventVenuesInvalid) {
+    if (!this.isEventClientInvalid && !this.isEventMgrInvalid && !this.isEventVenuesInvalid &&
+      !this.isVenuesSuppliersInvalid) {
       this.saveEventSub = this.saveEventService.saveToDb(this.eventToBeSaved).subscribe(
         value => {
           if (value) {
@@ -617,6 +677,35 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       return true;
     }
     this.isEventVenuesInvalid = false;
+    return true;
+  }
+
+  private isVenuesSuppliersValid(): boolean {
+    if (this.eventToBeSaved.venues && this.eventToBeSaved.venues.list.length > 0) {
+      const venuesList = this.eventToBeSaved.venues.list;
+      for (let i = 0; i < venuesList.length; i++) {
+        const venueServices = venuesList[i].suppliers[0]?.services || null;
+        if (venueServices && venueServices.length > 0) {
+          let j = 0;
+          for (const venueService of venueServices) {
+            if (venueService.companyId === null) {
+              continue;
+            }
+            if (!venueService.contacts || (venueService.contacts && venueService.contacts.length <= 0)) {
+              this.toaster.error('Please select contacts for assigned selected supplier company',
+                `Venue ${i + 1}, Service ${j + 1}: ${venueService.name}`);
+              this.isVenuesSuppliersInvalid = true;
+              return false;
+            }
+            j++;
+          }
+        }
+      }
+    } else {
+      this.isVenuesSuppliersInvalid = false;
+      return true;
+    }
+    this.isVenuesSuppliersInvalid = false;
     return true;
   }
 

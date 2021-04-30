@@ -31,7 +31,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   @Input() content: any;
   @Output() removeSelectedCompany = new EventEmitter<number>();
   @Input() eventToBeSaved = new SaveEventClass();
-  @Output() saveAndInvite = new EventEmitter<{ index: number, shouldInvite: boolean }>();
+  @Output() saveAndInvite = new EventEmitter<{ venueIndex: number, shouldInvite: boolean }>();
   isOwnCompany = false;
   private subs1: Subscription | undefined;
   private subs2: Subscription | undefined;
