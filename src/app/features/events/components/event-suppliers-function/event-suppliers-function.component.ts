@@ -31,7 +31,6 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   private supplierCompanyAddedSub: Subscription | undefined;
   private supplierCmpCntAddedSub: Subscription | undefined;
   venuesSuppCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
-  removeSelectedCompany = new EventEmitter();
 
   constructor(private saveEventService: SaveEventService) {
   }
@@ -179,4 +178,16 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     this.supplierCmpCntAddedSub?.unsubscribe();
   }
 
+  removeSelectedCompany(venueIndex: number, serviceIndex: number): void {
+    const service = this.eventToBeSaved.venues?.list[venueIndex]
+      .suppliers[0].services[serviceIndex];
+
+    if (service) {
+      service.companyId = null;
+      service.contacts = null;
+      service.shouldInvite = null;
+      service.invited = null;
+      this.venuesSuppCmpsMap.get(venueIndex)?.delete(serviceIndex);
+    }
+  }
 }
