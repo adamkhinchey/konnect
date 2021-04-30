@@ -30,7 +30,8 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   @Input() content: any;
   activeServicePanel = 0;
   private supplierCompanyAddedSub: Subscription | undefined;
-  private venuesSuppCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
+  venuesSuppCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
+  removeSelectedCompany = new EventEmitter();
 
   constructor(private saveEventService: SaveEventService) {
   }
@@ -122,4 +123,38 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.supplierCompanyAddedSub?.unsubscribe();
   }
+
+  getCompanyProfileImage(company: Company | InviteFnCmpClass | undefined): string | null | undefined {
+    if (!company) {
+      return null;
+    }
+    if (company instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return (company as Company)?.companyProfileImage;
+    }
+  }
+
+  getCompanyWebsite(company: Company | InviteFnCmpClass | undefined): string | null | undefined {
+    if (!company) {
+      return null;
+    }
+    if (company instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return (company as Company)?.companyProfileImage;
+    }
+  }
+
+  getCompanyPhone(company: Company | InviteFnCmpClass | undefined): string | null | undefined {
+    if (!company) {
+      return null;
+    }
+    if (company instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return (company as Company)?.phone;
+    }
+  }
+
 }

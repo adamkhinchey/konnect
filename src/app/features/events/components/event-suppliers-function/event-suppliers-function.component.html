@@ -77,24 +77,27 @@
 
 
                           <div class="kcpCardContainer">
-                            <!--<div *ngIf="selectedCompanies && selectedCompanies[i]" class="ui one column grid">
+                            <div *ngIf="venuesSuppCmpsMap.has(venueIndex) && venuesSuppCmpsMap.get(venueIndex)!.has(serviceIndex)"
+                                 class="ui one column grid">
                               <div class="column">
                                 <div class="ui fluid card">
                                   <div class="content">
                                     <img class="right floated mini ui image"
-                                         [src]="getCompanyProfileImage(i) || 'assets/img/default_konnect_img.png'"
+                                         [src]="getCompanyProfileImage(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || 'assets/img/default_konnect_img.png'"
                                          appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                     <div class="header">
-                                      <a>{{selectedCompanies[i].companyName}}</a>
+                                      <a>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
                                     </div>
                                     <div class="meta">
-                                      <a *ngIf="getCompanyWebsite(i)" [href]="getCompanyWebsite(i)"
-                                         target="_blank"> {{getCompanyWebsite(i)}}</a>
-                                      <span *ngIf="getCompanyWebsite(i)">|</span>
+                                      <a *ngIf="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))"
+                                         [href]="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))"
+                                         target="_blank"> {{getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))}}</a>
+                                      <span *ngIf="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))">|</span>
                                       <a>
-                                        <i class="map marker alternate icon"></i>{{selectedCompanies[i].city}}</a>
+                                        <i class="map marker alternate icon"></i>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.city}}</a>
                                       <span>|</span>
-                                      <i class="phone icon"></i>{{getCompanyPhone(i) || ''}}
+                                      <i class="phone icon"></i>{{ (venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex) &&
+                                    getCompanyPhone(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))) || ''}}
                                     </div>
                                   </div>
                                   <div class="extra content" [ngClass]="{'editableObject':false}">
@@ -103,7 +106,7 @@
 
                                       </div>
                                       <div class="six wide column right aligned">
-                                        <div (click)="removeSelectedCompany.emit(i)"
+                                        <div (click)="removeSelectedCompany.emit(serviceIndex)"
                                              class="ui circular compact mini basic button confirmRemove hasModal"
                                              data-modal="removeModal"><i class="trash alternate icon"></i>Remove
                                         </div>
@@ -112,11 +115,12 @@
                                   </div>
                                 </div>
                               </div>
-                            </div>-->
+                            </div>
 
                           </div>
                         </div>
                         <app-event-assign-function-cmp #suppliersAssignCmp
+                                                       [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"
                                                        [clientCmpBtnLabel]="'Add Supplier'"
                                                        [contactListLabel]="'Supplier Contacts'"
                                                        [clientCompanyModal]="searchInviteCmpModal"
