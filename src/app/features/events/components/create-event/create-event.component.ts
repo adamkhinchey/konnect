@@ -16,6 +16,7 @@ import {SaveEventService} from '../../services/save-event.service';
 import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/event-assign-function-cmp.component';
 import {EventVenueFunctionComponent} from '../event-venue-function/event-venue-function.component';
 import {Router} from "@angular/router";
+import {EventSuppliersFunctionComponent} from "../event-suppliers-function/event-suppliers-function.component";
 
 @Component({
   selector: 'app-create-event',
@@ -25,6 +26,7 @@ import {Router} from "@angular/router";
 export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('app-event-panel-nav') eventPanelNav: EventPanelNavComponent | undefined;
   @ViewChild('venueFn') venueFn: EventVenueFunctionComponent | undefined;
+  @ViewChild('suppliersFn') suppliersFn: EventSuppliersFunctionComponent | undefined;
   active = 1;
   disabled = true;
   modalReference: NgbModalRef | undefined;
@@ -253,6 +255,16 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           return null;
         }
+      case EventFunctionTypes.SUPPLIERS:
+        const activateVenueIndex = this.saveEventService.activeServicePanel?.venueIndex;
+        const activeServiceIndex = this.saveEventService.activeServicePanel?.serviceIndex;
+        if (typeof activateVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
+          const company = this.suppliersFn?.venuesSuppCmpsMap.get(activateVenueIndex)?.get(activeServiceIndex);
+          if (company) {
+            return (company as Company)?.id;
+          }
+        }
+        return null;
       default:
         return null;
     }

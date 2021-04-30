@@ -50,10 +50,10 @@
             [destroyOnHide]="false">
 
             <ng-container *ngIf="venue.suppliers[0]">
-            <ngb-panel  *ngFor="let service of venue.suppliers[0].services; let serviceIndex=index"
-              [id]="'serviceListIndex-'+activeServicePanel" (shown)="servicePanelActivated(venueIndex,serviceIndex)">
+            <ngb-panel *ngFor="let service of venue.suppliers[0].services; let serviceIndex=index"
+              [id]="'serviceListIndex-'+serviceIndex" (shown)="servicePanelActivated(venueIndex,serviceIndex)">
               <ng-template ngbPanelTitle>
-                <i class="dropdown icon"></i>Service {{serviceIndex+1}}
+                <i class="dropdown icon"></i>Service {{serviceIndex+1 +(service.name.trim().length>0?': '+service.name: '')}}
               </ng-template>
               <ng-template ngbPanelContent>
                 <div class="content active">
