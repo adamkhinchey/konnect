@@ -10,7 +10,7 @@ import {ApiResponseModelInterface} from '../../../shared/models';
 import {take, tap} from 'rxjs/operators';
 import {devLogger, hideSpinnerPostApiCall} from '../../../shared/utils';
 import {Company} from "../../users/models";
-import {InviteFnCmpInterface} from "../models/interfaces";
+import {InviteFnCmpCntInterface, InviteFnCmpInterface} from "../models/interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +33,12 @@ export class SaveEventService {
     venueIndex: number;
     serviceIndex: number;
     supplierCompany: Company | InviteFnCmpInterface
+  }>();
+
+  supplierCmpCntAddSubject = new Subject<{
+    venueIndex: number;
+    serviceIndex: number;
+    contactList: InviteFnCmpCntInterface[]
   }>();
 
   triggerSaveOnly = new Subject();
@@ -63,6 +69,16 @@ export class SaveEventService {
     }
   }
 
+  supplierContactsAdded(contactList: InviteFnCmpCntInterface[]): void {
+    if (this.activeServicePanel?.venueIndex !== undefined && this.activeServicePanel?.serviceIndex !== undefined) {
+      this.supplierCmpCntAddSubject.next({
+        venueIndex: this.activeServicePanel.venueIndex,
+        serviceIndex: this.activeServicePanel.serviceIndex,
+        contactList
+      });
+    }
+  }
+
   saveToDb(event: SaveEventClass): Observable<any> {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
@@ -74,4 +90,6 @@ export class SaveEventService {
         this.httpErrorHandler.processError(true, true)
       );
   }
+
+
 }

@@ -256,10 +256,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           return null;
         }
       case EventFunctionTypes.SUPPLIERS:
-        const activateVenueIndex = this.saveEventService.activeServicePanel?.venueIndex;
+        const activeVenueIndex = this.saveEventService.activeServicePanel?.venueIndex;
         const activeServiceIndex = this.saveEventService.activeServicePanel?.serviceIndex;
-        if (typeof activateVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
-          const company = this.suppliersFn?.venuesSuppCmpsMap.get(activateVenueIndex)?.get(activeServiceIndex);
+        if (typeof activeVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
+          const company = this.suppliersFn?.venuesSuppCmpsMap.get(activeVenueIndex)?.get(activeServiceIndex);
           if (company) {
             return (company as Company)?.id;
           }
@@ -293,6 +293,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
         break;
+      case EventFunctionTypes.SUPPLIERS:
+        this.saveEventService.supplierContactsAdded(contactList);
+        break;
       default:
         break;
     }
@@ -312,6 +315,17 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex);
           if (venueAssignCmpCnt) {
             return this.venueContactLists[activatedVenuePanelIndex].slice(0);
+          }
+        }
+        return [];
+      case EventFunctionTypes.SUPPLIERS:
+        const activeVenueIndex = this.saveEventService.activeServicePanel?.venueIndex;
+        const activeServiceIndex = this.saveEventService.activeServicePanel?.serviceIndex;
+        if (typeof activeVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
+          const service = this.eventToBeSaved.venues?.list[activeVenueIndex]
+            .suppliers[0].services[activeServiceIndex];
+          if (service && service.contacts) {
+            return service.contacts;
           }
         }
         return [];

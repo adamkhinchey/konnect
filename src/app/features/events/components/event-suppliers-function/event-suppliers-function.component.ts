@@ -30,6 +30,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   @Input() content: any;
   activeServicePanel = 0;
   private supplierCompanyAddedSub: Subscription | undefined;
+  private supplierCmpCntAddedSub: Subscription | undefined;
   venuesSuppCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
   removeSelectedCompany = new EventEmitter();
 
@@ -59,6 +60,22 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
           devLogger('log', this.venuesSuppCmpsMap);
         }
       });
+
+    this.supplierCmpCntAddedSub = this.saveEventService.supplierCmpCntAddSubject.subscribe(value => {
+      this.setContacts(value);
+    });
+  }
+
+  private setContacts(value: { venueIndex: number; serviceIndex: number; contactList: InviteFnCmpCntInterface[] }): void {
+    const service = this.eventToBeSaved.venues?.list[value.venueIndex]
+      .suppliers[0].services[value.serviceIndex];
+    if (service) {
+      if (service.contacts) {
+        service.contacts = service.contacts.concat([...value.contactList]);
+      } else {
+        service.contacts = [...value.contactList];
+      }
+    }
   }
 
   openVerticallyCentered(content: any): void {
