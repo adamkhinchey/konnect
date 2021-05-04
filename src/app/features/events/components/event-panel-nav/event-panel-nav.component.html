@@ -30,5 +30,12 @@
       <ng-content select="[suppliers]"></ng-content>
     </ng-template>
   </li>
+  <li [ngbNavItem]="5">
+    <a ngbNavLink class="item tabAdmin"><i class="exhibitor icon"></i><span
+      class="hideMobile">EXHIBITORS</span></a>
+    <ng-template ngbNavContent>
+    <ng-content select="[exhibitors]"></ng-content>
+    </ng-template>
+  </li>
 </ul>
 <div [ngbNavOutlet]="nav" class="mt-2"></div>

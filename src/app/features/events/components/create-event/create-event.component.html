@@ -48,14 +48,14 @@
 
         <ng-container venues>
           <app-event-venue-function #venueFn
-            [selectedCompanies]="venueCompanies"
-            (removeSelectedCompany)="unsetVenueCmp($event)"
-            [eventToBeSaved]="eventToBeSaved"
-            (saveAndInvite)="saveToDb($event)"
-            [searchInviteCmpModal]="searchInviteCmpModal"
-            [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
-            [setOpenedModalRef]="setOpenedModalRef.bind(this)"
-            [removeContact]="removeContact.bind(this)"
+                                    [selectedCompanies]="venueCompanies"
+                                    (removeSelectedCompany)="unsetVenueCmp($event)"
+                                    [eventToBeSaved]="eventToBeSaved"
+                                    (saveAndInvite)="saveToDb($event)"
+                                    [searchInviteCmpModal]="searchInviteCmpModal"
+                                    [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+                                    [setOpenedModalRef]="setOpenedModalRef.bind(this)"
+                                    [removeContact]="removeContact.bind(this)"
           >
             <!--<ng-container assignFunctionCmp>
               <app-event-assign-function-cmp #venueAssignCmp
@@ -69,17 +69,26 @@
           </app-event-venue-function>
         </ng-container>
         <ng-container suppliers>
-        <app-event-suppliers-function #suppliersFn
-          [eventToBeSaved]="eventToBeSaved"
-          (saveAndInvite)="saveToDb($event)"
-          [searchInviteCmpModal]="searchInviteCmpModal"
-          [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
-          [setOpenedModalRef]="setOpenedModalRef.bind(this)"
-        >
-        </app-event-suppliers-function>
+          <app-event-suppliers-function #suppliersFn
+                                        [eventToBeSaved]="eventToBeSaved"
+                                        (saveAndInvite)="saveToDb($event)"
+                                        [searchInviteCmpModal]="searchInviteCmpModal"
+                                        [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+                                        [setOpenedModalRef]="setOpenedModalRef.bind(this)"
+          >
+          </app-event-suppliers-function>
         </ng-container>
-        <!--<app-event-exhibitors-function></app-event-exhibitors-function>
-        <app-event-files-function></app-event-files-function>
+        <ng-container exhibitors>
+          <app-event-exhibitors-function #exhibitorsFn
+            [eventToBeSaved]="eventToBeSaved"
+            (saveAndInvite)="saveToDb($event)"
+            [searchInviteCmpModal]="searchInviteCmpModal"
+            [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+            [setOpenedModalRef]="setOpenedModalRef.bind(this)">
+
+          </app-event-exhibitors-function>
+        </ng-container>
+        <!--<app-event-files-function></app-event-files-function>
         <app-event-timeline-function></app-event-timeline-function>-->
       </app-event-panel-nav>
 

@@ -10,7 +10,7 @@
           </div>
           <div class="field" *ngIf="eventToBeSaved.venues">
             <textarea class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
-            [ngModelOptions]="{standalone:true}"></textarea>
+                      [ngModelOptions]="{standalone:true}"></textarea>
           </div>
         </div>
       </div>
@@ -126,13 +126,22 @@
                       </div>-->
                     </div>
                     <div class="nine wide column">
-                      <app-time-windows
-                        (test)="testLogVenue()"
-                        [index]="i"
-                        [preEventTimes]="eventToBeSaved.venues!.list[i].preEventAccessDateTimes"
-                        [postEventTimes]="eventToBeSaved.venues!.list[i].postEventAccessDateTimes"
-                        [eventTimes]="eventToBeSaved.venues!.list[i].eventAccessDateTimes"
-                      ></app-time-windows>
+                      <div class="field">
+                        <div class="timeWindowsContainer">
+                          <div class="ui dividing header">
+                            <h3>Venue Time Windows <i
+                              class="globe icon"></i></h3>
+                          </div>
+                          <app-time-windows
+                            [windowLabels]="['Pre Event Access', 'Event Time', 'Post Event Access']"
+                            (test)="testLogVenue()"
+                            [index]="i"
+                            [preEventTimes]="eventToBeSaved.venues!.list[i].preEventAccessDateTimes"
+                            [postEventTimes]="eventToBeSaved.venues!.list[i].postEventAccessDateTimes"
+                            [eventTimes]="eventToBeSaved.venues!.list[i].eventAccessDateTimes"
+                          ></app-time-windows>
+                        </div>
+                      </div>
                       <div class="ui dividing header">
                         <h3>Venue Requirements <i
                           class="cog icon"></i><i

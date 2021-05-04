@@ -158,6 +158,8 @@
                               </div>
 
                               <app-time-windows
+                                [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
+                                [isVenueDependent]="true"
                                 [index]="serviceIndex"
                                 [preEventTimes]="service.timeWindows.bumpIn.timings"
                                 [postEventTimes]="service.timeWindows.bumpOut.timings"
@@ -202,6 +204,6 @@
 </div>
 <ng-template #noVenues>
   <div class="ui segment">
-    <h2>At least one venue with assigned company is required to add suppliers!</h2>
+    <h2>At least one venue is required to add suppliers!</h2>
   </div>
 </ng-template>

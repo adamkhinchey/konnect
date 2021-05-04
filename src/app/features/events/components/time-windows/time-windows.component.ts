@@ -19,6 +19,8 @@ export class TimeWindowsComponent implements OnInit {
   @ViewChildren('postEventStartDateTimes') postEventStartDateTimes: QueryList<DateTimePickerComponent> | undefined;
   @ViewChildren('postEventEndDateTimes') postEventEndDateTimes: QueryList<DateTimePickerComponent> | undefined;
 
+  @Input() isVenueDependent = false;
+  @Input() windowLabels: string[]| undefined;
 
   Arr = Array;
   preEventTimesCount = 1;

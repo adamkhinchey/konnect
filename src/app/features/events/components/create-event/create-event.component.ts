@@ -17,6 +17,7 @@ import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/even
 import {EventVenueFunctionComponent} from '../event-venue-function/event-venue-function.component';
 import {Router} from '@angular/router';
 import {EventSuppliersFunctionComponent} from '../event-suppliers-function/event-suppliers-function.component';
+import {EventExhibitorsFunctionComponent} from "../event-exhibitors-function/event-exhibitors-function.component";
 
 @Component({
   selector: 'app-create-event',
@@ -27,6 +28,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('app-event-panel-nav') eventPanelNav: EventPanelNavComponent | undefined;
   @ViewChild('venueFn') venueFn: EventVenueFunctionComponent | undefined;
   @ViewChild('suppliersFn') suppliersFn: EventSuppliersFunctionComponent | undefined;
+  @ViewChild('exhibitorsFn') exhibitorsFn: EventExhibitorsFunctionComponent | undefined;
   active = 1;
   disabled = true;
   modalReference: NgbModalRef | undefined;
@@ -53,6 +55,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   isEventVenuesInvalid = true;
 
   isVenuesSuppliersInvalid = true;
+  isVenuesExhibitorsInvalid = true;
 
 
   constructor(
@@ -91,6 +94,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           break;
         case EventFunctionTypes.SUPPLIERS:
           this.saveToDb({venueIndex: null, serviceIndex: null, shouldInvite: false});
+          break;
+        case EventFunctionTypes.EXHIBITORS:
+          this.saveToDb({venueIndex: null, exhibitorIndex: null, shouldInvite: false});
           break;
       }
     });
@@ -232,6 +238,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.saveEventService.supplierCompanyAdded(company);
         break;
       case EventFunctionTypes.EXHIBITORS:
+        this.saveEventService.exhibitorCompanyAdded(company);
         break;
       case EventFunctionTypes.FILES:
         break;
@@ -260,7 +267,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           return null;
         }
-      case EventFunctionTypes.SUPPLIERS:
+      case EventFunctionTypes.SUPPLIERS: {
         const activeVenueIndex = this.saveEventService.activeServicePanel?.venueIndex;
         const activeServiceIndex = this.saveEventService.activeServicePanel?.serviceIndex;
         if (typeof activeVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
@@ -270,6 +277,18 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
         return null;
+      }
+      case EventFunctionTypes.EXHIBITORS: {
+        const activeVenueIndex = this.saveEventService.activeExhibitorPanel?.venueIndex;
+        const activeExhibitorIndex = this.saveEventService.activeExhibitorPanel?.exhibitorIndex;
+        if (typeof activeVenueIndex === 'number' && typeof activeExhibitorIndex === 'number') {
+          const company = this.exhibitorsFn?.venuesExhCmpsMap.get(activeVenueIndex)?.get(activeExhibitorIndex);
+          if (company) {
+            return (company as Company)?.id;
+          }
+        }
+        return null;
+      }
       default:
         return null;
     }
@@ -301,6 +320,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       case EventFunctionTypes.SUPPLIERS:
         this.saveEventService.supplierContactsAdded(contactList);
         break;
+      case EventFunctionTypes.EXHIBITORS:
+        this.saveEventService.exhibitorContactsAdded(contactList);
+        break;
       default:
         break;
     }
@@ -323,7 +345,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
         return [];
-      case EventFunctionTypes.SUPPLIERS:
+      case EventFunctionTypes.SUPPLIERS: {
         const activeVenueIndex = this.saveEventService.activeServicePanel?.venueIndex;
         const activeServiceIndex = this.saveEventService.activeServicePanel?.serviceIndex;
         if (typeof activeVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
@@ -334,6 +356,19 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
         return [];
+      }
+      case EventFunctionTypes.EXHIBITORS: {
+        const activeVenueIndex = this.saveEventService.activeExhibitorPanel?.venueIndex;
+        const activeServiceIndex = this.saveEventService.activeExhibitorPanel?.exhibitorIndex;
+        if (typeof activeVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
+          const exhibitor = this.eventToBeSaved.venues?.list[activeVenueIndex]
+            .exhibitorList[0].exhibitors[activeServiceIndex];
+          if (exhibitor && exhibitor.contacts) {
+            return exhibitor.contacts;
+          }
+        }
+        return [];
+      }
       default:
         return [];
     }
@@ -536,7 +571,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
           i++;
         }
-        devLogger('log',{beforeFilterVenSupp: this.eventToBeSaved.venues?.list})
+        devLogger('log', {beforeFilterVenSupp: this.eventToBeSaved.venues?.list})
         for (const venuesList of this.eventToBeSaved.venues?.list) {
           const services = venuesList.suppliers[0]?.services;
           if (services) {
@@ -554,9 +589,50 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  saveToDb(param: { venueIndex: number | null, serviceIndex?: number | null, shouldInvite: boolean } | boolean = {
+  saveVenuesExhibitors(param: { venueIndex: number | null, exhibitorIndex: number | null | undefined, shouldInvite: boolean }): void {
+    if (this.isVenuesExhibitorsValid()) {
+      if (this.eventToBeSaved.venues?.list) {
+        let i = 0;
+        for (const venuesList of this.eventToBeSaved.venues?.list) {
+          const exhibitors = venuesList.exhibitorList[0]?.exhibitors;
+          let j = 0;
+          for (const exhibitor of exhibitors) {
+            if (param.venueIndex === i && param.exhibitorIndex === j && param.shouldInvite) {
+              exhibitor.shouldInvite = 1;
+            } else {
+              exhibitor.shouldInvite = 0;
+            }
+            j++;
+          }
+          i++;
+        }
+        devLogger('log', {beforeFilterVenExh: this.eventToBeSaved.venues?.list});
+        for (const venuesList of this.eventToBeSaved.venues?.list) {
+          const exhibitors = venuesList.exhibitorList[0]?.exhibitors;
+          if (exhibitors) {
+            venuesList.exhibitorList[0].exhibitors = venuesList.exhibitorList[0]?.exhibitors
+              .filter(exhibitorCmp => exhibitorCmp.companyId !== null || exhibitorCmp.invited !== null);
+          }
+          if (venuesList.exhibitorList[0] &&
+            (!venuesList.exhibitorList[0].exhibitors || venuesList.exhibitorList[0].exhibitors.length === 0)) {
+            venuesList.exhibitorList = [];
+          }
+        }
+      }
+
+      devLogger('log', {eventAfterVenuesExh: this.eventToBeSaved});
+    }
+  }
+
+  saveToDb(param: {
+    venueIndex: number | null,
+    serviceIndex?: number | null,
+    exhibitorIndex?: number | null,
+    shouldInvite: boolean
+  } | boolean = {
     venueIndex: null,
     serviceIndex: null,
+    exhibitorIndex: null,
     shouldInvite: false
   }): void {
 
@@ -568,6 +644,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.saveVenuesSuppliers({
           venueIndex: null, serviceIndex: null, shouldInvite: false
         });
+        this.saveVenuesExhibitors({
+          venueIndex: null, exhibitorIndex: null, shouldInvite: false
+        });
         break;
       case EventFunctionTypes.EVENT_MANAGER:
         this.saveClient(false);
@@ -575,6 +654,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.saveVenueCmp({index: null, shouldInvite: false});
         this.saveVenuesSuppliers({
           venueIndex: null, serviceIndex: null, shouldInvite: false
+        });
+        this.saveVenuesExhibitors({
+          venueIndex: null, exhibitorIndex: null, shouldInvite: false
         });
         break;
       case EventFunctionTypes.VENUE:
@@ -586,6 +668,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.saveVenuesSuppliers({
           venueIndex: null, serviceIndex: null, shouldInvite: false
         });
+        this.saveVenuesExhibitors({
+          venueIndex: null, exhibitorIndex: null, shouldInvite: false
+        });
         break;
       case EventFunctionTypes.SUPPLIERS:
         this.saveClient(false);
@@ -596,10 +681,26 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             venueIndex: param.venueIndex, serviceIndex: param.serviceIndex, shouldInvite: param.shouldInvite
           });
         }
+        this.saveVenuesExhibitors({
+          venueIndex: null, exhibitorIndex: null, shouldInvite: false
+        });
+        break;
+      case EventFunctionTypes.EXHIBITORS:
+        this.saveClient(false);
+        this.saveEvMgr(false);
+        this.saveVenueCmp({index: null, shouldInvite: false});
+        this.saveVenuesSuppliers({
+          venueIndex: null, serviceIndex: null, shouldInvite: false
+        });
+        if (typeof param !== 'boolean') {
+          this.saveVenuesExhibitors({
+            venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex, shouldInvite: param.shouldInvite
+          });
+        }
     }
 
     if (!this.isEventClientInvalid && !this.isEventMgrInvalid && !this.isEventVenuesInvalid &&
-      !this.isVenuesSuppliersInvalid) {
+      !this.isVenuesSuppliersInvalid && !this.isVenuesExhibitorsInvalid) {
       this.saveEventSub = this.saveEventService.saveToDb(this.eventToBeSaved).subscribe(
         value => {
           if (value) {
@@ -706,6 +807,35 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       return true;
     }
     this.isVenuesSuppliersInvalid = false;
+    return true;
+  }
+
+  private isVenuesExhibitorsValid(): boolean {
+    if (this.eventToBeSaved.venues && this.eventToBeSaved.venues.list.length > 0) {
+      const venuesList = this.eventToBeSaved.venues.list;
+      for (let i = 0; i < venuesList.length; i++) {
+        const venueExhibitors = venuesList[i].exhibitorList[0]?.exhibitors || null;
+        if (venueExhibitors && venueExhibitors.length > 0) {
+          let j = 0;
+          for (const venueExhibitor of venueExhibitors) {
+            if (venueExhibitor.companyId === null) {
+              continue;
+            }
+            if (!venueExhibitor.contacts || (venueExhibitor.contacts && venueExhibitor.contacts.length <= 0)) {
+              this.toaster.error('Please select contacts for assigned selected exhibitor company',
+                `Venue ${i + 1}, Exhibitor ${j + 1}: ${venueExhibitor.name}`);
+              this.isVenuesExhibitorsInvalid = true;
+              return false;
+            }
+            j++;
+          }
+        }
+      }
+    } else {
+      this.isVenuesExhibitorsInvalid = false;
+      return true;
+    }
+    this.isVenuesExhibitorsInvalid = false;
     return true;
   }
 

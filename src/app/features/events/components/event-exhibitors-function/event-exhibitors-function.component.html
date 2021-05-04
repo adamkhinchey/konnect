@@ -1,491 +1,242 @@
-<li [ngbNavItem]="5">
-  <a ngbNavLink class="item tabAdmin"><i class="exhibitor icon"></i><span
-    class="hideMobile">EXHIBITORS</span></a>
-  <ng-template ngbNavContent>
-    <div class="ui segment">
-      <ul ngbNav #nav="ngbNav" class="nav-tabs supplierInnerCont">
-        <li ngbNavItem>
-          <a ngbNavLink><i class="map marker alternate icon"></i> Venue Name, City</a>
-          <ng-template ngbNavContent>
+<div *ngIf="eventToBeSaved.venues &&
+    eventToBeSaved.venues.list &&
+    eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
+  <ul ngbNav #venueNav="ngbNav" class="nav-tabs supplierInnerCont"
+      [destroyOnHide]="false">
+    <li ngbNavItem *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
+      <a ngbNavLink><i class="map marker alternate icon"></i>Venue-{{venueIndex + 1}}</a>
+      <ng-template ngbNavContent>
 
-            <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
+        <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
 
-              <form class="ui form visible"
-                    style="display: block !important;">
-                <div class="ui grid stackable">
+          <form class="ui form visible"
+                style="display: block !important;">
+            <div class="ui grid stackable">
 
-                  <div class="seven wide column">
-                    <div class="ui dividing header">
-                      <h3>Notes to All Exhibitors <i class="cog icon"></i><i class="sitemap icon"></i><i class="exhibitor icon"></i></h3>
-                    </div>
-                    <div class="field">
-                      <div class="textarea" contenteditable=""></div>
-                    </div>
-                  </div>
-
-                  <div class="nine wide column">
-
-                    <div class="field">
-                      <div class="timeWindowsContainer">
-                        <div class="ui dividing header">
-                          <h3>Exhibition Time windows <i class="cog icon"></i><i class="sitemap icon"></i><i class="exhibitor icon"></i></h3>
-                        </div>
-
-                        <ngb-accordion [closeOthers]="true" activeIds="static-3">
-
-                          <ngb-panel id="static-3">
-                            <ng-template ngbPanelTitle>
-                              <i class="dropdown icon"></i> Bump In
-                            </ng-template>
-                            <ng-template ngbPanelContent>
-
-                              <div class="content active">
-                                <div class="field visible" style="display: block !important;">
-                                  <div class="ui checkbox">
-                                    <input type="checkbox" id="sav" tabindex="0" class="hidden">
-                                    <label for="sav" >Same as venue</label>
-                                  </div>
-                                </div>
-                                <div class="visible" style="display: block !important;">
-                                  <div class="item">
-                                    <div class="ui three column grid">
-                                      <div class="column">
-                                        <span>Date</span>
-                                        <div class="ui calendar datePicker">
-                                          <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table seven column day"><thead><tr><th colspan="7"><span class="link">April 2021</span><span class="prev link"><i class="chevron left icon"></i></span><span class="next link"><i class="chevron right icon"></i></span></th></tr><tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr></thead><tbody><tr><td class="link adjacent disabled">28</td><td class="link adjacent disabled">29</td><td class="link adjacent disabled">30</td><td class="link adjacent disabled">31</td><td class="link">1</td><td class="link">2</td><td class="link">3</td></tr><tr><td class="link">4</td><td class="link">5</td><td class="link">6</td><td class="link">7</td><td class="link today focus">8</td><td class="link">9</td><td class="link">10</td></tr><tr><td class="link">11</td><td class="link">12</td><td class="link">13</td><td class="link">14</td><td class="link">15</td><td class="link">16</td><td class="link">17</td></tr><tr><td class="link">18</td><td class="link">19</td><td class="link">20</td><td class="link">21</td><td class="link">22</td><td class="link">23</td><td class="link">24</td></tr><tr><td class="link">25</td><td class="link">26</td><td class="link">27</td><td class="link">28</td><td class="link">29</td><td class="link">30</td><td class="link adjacent disabled">1</td></tr><tr><td class="link adjacent disabled">2</td><td class="link adjacent disabled">3</td><td class="link adjacent disabled">4</td><td class="link adjacent disabled">5</td><td class="link adjacent disabled">6</td><td class="link adjacent disabled">7</td><td class="link adjacent disabled">8</td></tr></tbody></table></div>
-                                            <i class="calendar icon"></i>
-                                            <input type="text" placeholder="Date">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="column">
-                                        <span>Start</span>
-                                        <div class="ui calendar startTime">
-                                          <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table four column hour"><tbody><tr><td class="link">12:00 AM</td><td class="link">1:00 AM</td><td class="link">2:00 AM</td><td class="link">3:00 AM</td></tr><tr><td class="link">4:00 AM</td><td class="link">5:00 AM</td><td class="link">6:00 AM</td><td class="link">7:00 AM</td></tr><tr><td class="link">8:00 AM</td><td class="link">9:00 AM</td><td class="link">10:00 AM</td><td class="link">11:00 AM</td></tr><tr><td class="link">12:00 PM</td><td class="link">1:00 PM</td><td class="link">2:00 PM</td><td class="link">3:00 PM</td></tr><tr><td class="link">4:00 PM</td><td class="link focus">5:00 PM</td><td class="link">6:00 PM</td><td class="link">7:00 PM</td></tr><tr><td class="link">8:00 PM</td><td class="link">9:00 PM</td><td class="link">10:00 PM</td><td class="link">11:00 PM</td></tr></tbody></table></div>
-                                            <i class="time icon"></i>
-                                            <input type="text" placeholder="Start">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="column">
-                                        <span>End</span>
-                                        <div class="ui calendar endTime">
-                                          <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table four column hour"><tbody><tr><td class="link">12:00 AM</td><td class="link">1:00 AM</td><td class="link">2:00 AM</td><td class="link">3:00 AM</td></tr><tr><td class="link">4:00 AM</td><td class="link">5:00 AM</td><td class="link">6:00 AM</td><td class="link">7:00 AM</td></tr><tr><td class="link">8:00 AM</td><td class="link">9:00 AM</td><td class="link">10:00 AM</td><td class="link">11:00 AM</td></tr><tr><td class="link">12:00 PM</td><td class="link">1:00 PM</td><td class="link">2:00 PM</td><td class="link">3:00 PM</td></tr><tr><td class="link">4:00 PM</td><td class="link focus">5:00 PM</td><td class="link">6:00 PM</td><td class="link">7:00 PM</td></tr><tr><td class="link">8:00 PM</td><td class="link">9:00 PM</td><td class="link">10:00 PM</td><td class="link">11:00 PM</td></tr></tbody></table></div>
-                                            <i class="time icon"></i>
-                                            <input type="text" placeholder="End">
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="ui grid">
-                                      <div class="sixteen wide column">
-                                        <span>Notes</span>
-                                        <div class="textarea notes" contenteditable=""></div>
-                                        <div class="ui circular compact mini basic button">
-                                          <i class="plus circle icon"></i>Add bump-in date
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                            </ng-template>
-                          </ngb-panel>
-                          <ngb-panel id="static-4">
-                            <ng-template ngbPanelTitle>
-                              <span><i class="dropdown icon"></i> Event Time</span>
-                            </ng-template>
-                            <ng-template ngbPanelContent>
-
-                              <div class="content active">
-                                <div class="field visible" style="display: block !important;">
-                                  <div class="ui checkbox">
-                                    <input type="checkbox" id="sav2" tabindex="0" class="hidden">
-                                    <label for="sav2" >Same as venue</label>
-                                  </div>
-                                </div>
-                                <div class="visible" style="display: block !important;">
-                                  <div class="item">
-                                    <div class="ui three column grid">
-                                      <div class="column">
-                                        <span>Date</span>
-                                        <div class="ui calendar datePicker">
-                                          <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table seven column day"><thead><tr><th colspan="7"><span class="link">April 2021</span><span class="prev link"><i class="chevron left icon"></i></span><span class="next link"><i class="chevron right icon"></i></span></th></tr><tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr></thead><tbody><tr><td class="link adjacent disabled">28</td><td class="link adjacent disabled">29</td><td class="link adjacent disabled">30</td><td class="link adjacent disabled">31</td><td class="link">1</td><td class="link">2</td><td class="link">3</td></tr><tr><td class="link">4</td><td class="link">5</td><td class="link">6</td><td class="link">7</td><td class="link today focus">8</td><td class="link">9</td><td class="link">10</td></tr><tr><td class="link">11</td><td class="link">12</td><td class="link">13</td><td class="link">14</td><td class="link">15</td><td class="link">16</td><td class="link">17</td></tr><tr><td class="link">18</td><td class="link">19</td><td class="link">20</td><td class="link">21</td><td class="link">22</td><td class="link">23</td><td class="link">24</td></tr><tr><td class="link">25</td><td class="link">26</td><td class="link">27</td><td class="link">28</td><td class="link">29</td><td class="link">30</td><td class="link adjacent disabled">1</td></tr><tr><td class="link adjacent disabled">2</td><td class="link adjacent disabled">3</td><td class="link adjacent disabled">4</td><td class="link adjacent disabled">5</td><td class="link adjacent disabled">6</td><td class="link adjacent disabled">7</td><td class="link adjacent disabled">8</td></tr></tbody></table></div>
-                                            <i class="calendar icon"></i>
-                                            <input type="text" placeholder="Date">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="column">
-                                        <span>Start</span>
-                                        <div class="ui calendar startTime">
-                                          <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table four column hour"><tbody><tr><td class="link">12:00 AM</td><td class="link">1:00 AM</td><td class="link">2:00 AM</td><td class="link">3:00 AM</td></tr><tr><td class="link">4:00 AM</td><td class="link">5:00 AM</td><td class="link">6:00 AM</td><td class="link">7:00 AM</td></tr><tr><td class="link">8:00 AM</td><td class="link">9:00 AM</td><td class="link">10:00 AM</td><td class="link">11:00 AM</td></tr><tr><td class="link">12:00 PM</td><td class="link">1:00 PM</td><td class="link">2:00 PM</td><td class="link">3:00 PM</td></tr><tr><td class="link">4:00 PM</td><td class="link focus">5:00 PM</td><td class="link">6:00 PM</td><td class="link">7:00 PM</td></tr><tr><td class="link">8:00 PM</td><td class="link">9:00 PM</td><td class="link">10:00 PM</td><td class="link">11:00 PM</td></tr></tbody></table></div>
-                                            <i class="time icon"></i>
-                                            <input type="text" placeholder="Start">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="column">
-                                        <span>End</span>
-                                        <div class="ui calendar endTime">
-                                          <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table four column hour"><tbody><tr><td class="link">12:00 AM</td><td class="link">1:00 AM</td><td class="link">2:00 AM</td><td class="link">3:00 AM</td></tr><tr><td class="link">4:00 AM</td><td class="link">5:00 AM</td><td class="link">6:00 AM</td><td class="link">7:00 AM</td></tr><tr><td class="link">8:00 AM</td><td class="link">9:00 AM</td><td class="link">10:00 AM</td><td class="link">11:00 AM</td></tr><tr><td class="link">12:00 PM</td><td class="link">1:00 PM</td><td class="link">2:00 PM</td><td class="link">3:00 PM</td></tr><tr><td class="link">4:00 PM</td><td class="link focus">5:00 PM</td><td class="link">6:00 PM</td><td class="link">7:00 PM</td></tr><tr><td class="link">8:00 PM</td><td class="link">9:00 PM</td><td class="link">10:00 PM</td><td class="link">11:00 PM</td></tr></tbody></table></div>
-                                            <i class="time icon"></i>
-                                            <input type="text" placeholder="End">
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="ui grid">
-                                      <div class="sixteen wide column">
-                                        <span>Notes</span>
-                                        <div class="textarea notes" contenteditable=""></div>
-                                        <div class="ui circular compact mini basic button">
-                                          <i class="plus circle icon"></i>Add Event Time date
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                            </ng-template>
-                          </ngb-panel>
-                          <ngb-panel id="static-5">
-                            <ng-template ngbPanelTitle>
-                              <span><i class="dropdown icon"></i> Bump Out</span>
-                            </ng-template>
-                            <ng-template ngbPanelContent>
-
-                              <div class="content active">
-                                <div class="field visible" style="display: block !important;">
-                                  <div class="ui checkbox">
-                                    <input type="checkbox" id="sav3" tabindex="0" class="hidden">
-                                    <label for="sav3" >Same as venue</label>
-                                  </div>
-                                </div>
-                                <div class="visible" style="display: block !important;">
-                                  <div class="item">
-                                    <div class="ui three column grid">
-                                      <div class="column">
-                                        <span>Date</span>
-                                        <div class="ui calendar datePicker">
-                                          <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table seven column day"><thead><tr><th colspan="7"><span class="link">April 2021</span><span class="prev link"><i class="chevron left icon"></i></span><span class="next link"><i class="chevron right icon"></i></span></th></tr><tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr></thead><tbody><tr><td class="link adjacent disabled">28</td><td class="link adjacent disabled">29</td><td class="link adjacent disabled">30</td><td class="link adjacent disabled">31</td><td class="link">1</td><td class="link">2</td><td class="link">3</td></tr><tr><td class="link">4</td><td class="link">5</td><td class="link">6</td><td class="link">7</td><td class="link today focus">8</td><td class="link">9</td><td class="link">10</td></tr><tr><td class="link">11</td><td class="link">12</td><td class="link">13</td><td class="link">14</td><td class="link">15</td><td class="link">16</td><td class="link">17</td></tr><tr><td class="link">18</td><td class="link">19</td><td class="link">20</td><td class="link">21</td><td class="link">22</td><td class="link">23</td><td class="link">24</td></tr><tr><td class="link">25</td><td class="link">26</td><td class="link">27</td><td class="link">28</td><td class="link">29</td><td class="link">30</td><td class="link adjacent disabled">1</td></tr><tr><td class="link adjacent disabled">2</td><td class="link adjacent disabled">3</td><td class="link adjacent disabled">4</td><td class="link adjacent disabled">5</td><td class="link adjacent disabled">6</td><td class="link adjacent disabled">7</td><td class="link adjacent disabled">8</td></tr></tbody></table></div>
-                                            <i class="calendar icon"></i>
-                                            <input type="text" placeholder="Date">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="column">
-                                        <span>Start</span>
-                                        <div class="ui calendar startTime">
-                                          <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table four column hour"><tbody><tr><td class="link">12:00 AM</td><td class="link">1:00 AM</td><td class="link">2:00 AM</td><td class="link">3:00 AM</td></tr><tr><td class="link">4:00 AM</td><td class="link">5:00 AM</td><td class="link">6:00 AM</td><td class="link">7:00 AM</td></tr><tr><td class="link">8:00 AM</td><td class="link">9:00 AM</td><td class="link">10:00 AM</td><td class="link">11:00 AM</td></tr><tr><td class="link">12:00 PM</td><td class="link">1:00 PM</td><td class="link">2:00 PM</td><td class="link">3:00 PM</td></tr><tr><td class="link">4:00 PM</td><td class="link focus">5:00 PM</td><td class="link">6:00 PM</td><td class="link">7:00 PM</td></tr><tr><td class="link">8:00 PM</td><td class="link">9:00 PM</td><td class="link">10:00 PM</td><td class="link">11:00 PM</td></tr></tbody></table></div>
-                                            <i class="time icon"></i>
-                                            <input type="text" placeholder="Start">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="column">
-                                        <span>End</span>
-                                        <div class="ui calendar endTime">
-                                          <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table four column hour"><tbody><tr><td class="link">12:00 AM</td><td class="link">1:00 AM</td><td class="link">2:00 AM</td><td class="link">3:00 AM</td></tr><tr><td class="link">4:00 AM</td><td class="link">5:00 AM</td><td class="link">6:00 AM</td><td class="link">7:00 AM</td></tr><tr><td class="link">8:00 AM</td><td class="link">9:00 AM</td><td class="link">10:00 AM</td><td class="link">11:00 AM</td></tr><tr><td class="link">12:00 PM</td><td class="link">1:00 PM</td><td class="link">2:00 PM</td><td class="link">3:00 PM</td></tr><tr><td class="link">4:00 PM</td><td class="link focus">5:00 PM</td><td class="link">6:00 PM</td><td class="link">7:00 PM</td></tr><tr><td class="link">8:00 PM</td><td class="link">9:00 PM</td><td class="link">10:00 PM</td><td class="link">11:00 PM</td></tr></tbody></table></div>
-                                            <i class="time icon"></i>
-                                            <input type="text" placeholder="End">
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="ui grid">
-                                      <div class="sixteen wide column">
-                                        <span>Notes</span>
-                                        <div class="textarea notes" contenteditable=""></div>
-                                        <div class="ui circular compact mini basic button">
-                                          <i class="plus circle icon"></i>Add Bump Out date
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                            </ng-template>
-                          </ngb-panel>
-
-                        </ngb-accordion>
-
-                      </div>
-                    </div>
-
-                  </div>
-
+              <div class="seven wide column" *ngIf="venue.exhibitorList[0]">
+                <div class="ui dividing header">
+                  <h3>Notes to All Exhibitors <i class="cog icon"></i><i class="sitemap icon"></i><i
+                    class="exhibitor icon"></i></h3>
                 </div>
-
-                <div class="sixteen wide column">
-                  <div class="ui dividing header">
-                    <h3>Request to Join as Exhibitor URL</h3>
-                  </div>
-                  <div class="field">
-                    <p>
-                      Use this URL on your event website or email to exhibitor prospects to allow them to join the event as exhibitors. <br>
-                      <a href="">https://www.konnect.events.com?exhjoin=eventID</a>
-                    </p>
-                  </div>
-                </div>
-              </form>
-              <div class="ui grid">
-                <div class="sixteen wide column">
-                  <div class="marginT10"></div>
-                  <div class="ui button compact addNewService addToPanel"><i class="plus circle icon"></i><span>Add Exhibitor</span></div>
-                  <h3 id="servicesAnchor" class="ui dividing header">Exhibitors</h3>
-                  <div class="marginT10"></div>
+                <div class="field">
+                  <textarea class="textarea"
+                            *ngIf="venue.exhibitorList && venue.exhibitorList[0]"
+                            [(ngModel)]="venue.exhibitorList[0].notesToAll"
+                            [ngModelOptions]="{standalone:true}"></textarea>
                 </div>
               </div>
 
-              <ngb-accordion [closeOthers]="true" activeIds="static-1">
+              <div class="nine wide column" *ngIf="venue.exhibitorList[0]">
 
+                <div class="field">
+                  <div class="timeWindowsContainer">
+                    <div class="ui dividing header">
+                      <h3>Exhibition Time windows <i class="cog icon"></i><i class="sitemap icon"></i><i
+                        class="exhibitor icon"></i></h3>
+                    </div>
 
-                <ngb-panel id="static-1">
-                  <ng-template ngbPanelTitle>
-                    <i class="dropdown icon"></i>Exhibitor 1
-                  </ng-template>
-                  <ng-template ngbPanelContent>
-                    <div class="content active">
-                      <form class="ui form visible"
-                            style="display: block !important;">
-                        <div class="ui grid stackable">
+                    <app-time-windows
+                      [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
+                      [index]="venueIndex"
+                      [isVenueDependent]="true"
+                      [preEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpIn.timings"
+                      [postEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpOut.timings"
+                      [eventTimes]="venue.exhibitorList[0].timeWindowsToAll.eventTime.timings"
+                    ></app-time-windows>
+                  </div>
+                </div>
 
-                          <div class="seven wide column">
-                            <div class="companyContainer marginB20">
-                              <div class="ui dividing header">
-                                <h3>Exhibitor Company <i class="cog icon"></i><i class="sitemap icon"></i><i class="building icon"></i></h3>
-                              </div>
-                              <div class="kcpCardContainer">
+              </div>
 
-                              </div>
-                              <div class="ui grid center aligned">
-                                <div class="sixteen wide column">
-                                  <div class="ui button basic blue fluid addClient hasModal"  (click)="openVerticallyCentered(content)"><i class="plus circle icon"></i>Add Exhibitor</div>
-                                </div>
-                              </div>
+            </div>
+
+            <div class="sixteen wide column" *ngIf="false">
+              <div class="ui dividing header">
+                <h3>Request to Join as Exhibitor URL</h3>
+              </div>
+              <div class="field">
+                <p>
+                  Use this URL on your event website or email to exhibitor prospects to allow them to join the event as
+                  exhibitors. <br>
+                  <a href="">https://www.konnect.events.com?exhjoin=eventID</a>
+                </p>
+              </div>
+            </div>
+          </form>
+          <div class="ui grid">
+            <div class="sixteen wide column">
+              <div class="marginT10"></div>
+              <div class="ui button compact addNewService addToPanel"
+                   (click)="addExhibitor(venue, venueIndex)">
+                <i class="plus circle icon"></i>
+                <span>Add Exhibitor</span>
+              </div>
+              <h3 id="servicesAnchor" class="ui dividing header">Exhibitors</h3>
+              <div class="marginT10"></div>
+            </div>
+          </div>
+
+          <ngb-accordion
+            [closeOthers]="true"
+            (panelChange)="panelChange($event)"
+            #ngbAccordion
+            [activeIds]="'exhibitorListIndex-'+activeExhibitorPanel"
+            [destroyOnHide]="false">
+
+            <ng-container *ngIf="venue.exhibitorList[0]">
+              <ngb-panel *ngFor="let exhibitor of venue.exhibitorList[0].exhibitors; let exhibitorIndex=index"
+                         [id]="'exhibitorListIndex-'+exhibitorIndex"
+                         (shown)="exhibitorPanelActivated(venueIndex,exhibitorIndex)">
+
+                <ng-template ngbPanelTitle>
+                  <i class="dropdown icon"></i>
+                  Exhibitor {{exhibitorIndex + 1 + (exhibitor.companyId || exhibitor.invited ?
+                  ': ' + venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)?.companyName || ''
+                  : '')}}
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="content active">
+                    <form class="ui form visible"
+                          style="display: block !important;">
+                      <div class="ui grid stackable">
+
+                        <div class="seven wide column">
+                          <div class="companyContainer marginB20">
+                            <div class="ui dividing header">
+                              <h3>Exhibitor Company
+                                <i class="cog icon"></i>
+                                <i class="sitemap icon"></i>
+                                <i class="building icon"></i>
+                              </h3>
                             </div>
-                            <div class="contactsContainer">
-                              <div class="ui dividing header">
-                                <h3>Exhibitor Contacts <i class="cog icon"></i><i class="sitemap icon"></i><i class="building icon"></i></h3>
-                              </div>
-                              <div class="kipCardContainer">
+                            <div class="kcpCardContainer">
+                              <div
+                                *ngIf="venuesExhCmpsMap.has(venueIndex) && venuesExhCmpsMap.get(venueIndex)!.has(exhibitorIndex)"
+                                class="ui one column grid">
+                                <div class="column">
+                                  <div class="ui fluid card">
+                                    <div class="content">
+                                      <img class="right floated mini ui image"
+                                           [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
+                                           appImageFallback fallbackImage="assets/img/default_konnect_img.png">
+                                      <div class="header">
+                                        <a>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
+                                      </div>
+                                      <div class="meta">
+                                        <a
+                                          *ngIf="getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))"
+                                          [href]="getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))"
+                                          target="_blank"> {{getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))}}
+                                        </a>
+                                        <span
+                                          *ngIf="getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))">|</span>
+                                        <a>
+                                          <i
+                                            class="map marker alternate icon"></i>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.city}}
+                                        </a>
+                                        <span>|</span>
+                                        <i
+                                          class="phone icon"></i>{{ (venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex) &&
+                                        getCompanyPhone(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))) || ''}}
+                                      </div>
+                                    </div>
+                                    <div class="extra content" [ngClass]="{'editableObject':false}">
+                                      <div class="ui grid">
+                                        <div class="ten wide column">
 
-                              </div>
-                              <div class="ui grid stackable center aligned">
-                                <div class="sixteen wide column">
-                                  <div class="ui basic button blue fluid addContacts hasModal disabled" data-modal="contacts">
-                                    <i class="plus circle icon"></i>Add Contact
+                                        </div>
+                                        <div class="six wide column right aligned">
+                                          <div (click)="removeSelectedCompany(venueIndex,exhibitorIndex)"
+                                               class="ui circular compact mini basic button confirmRemove hasModal"
+                                               data-modal="removeModal"><i class="trash alternate icon"></i>Remove
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
+                          <app-event-assign-function-cmp #exhibitorsAssignCmp
+                                                         [selectedCompany]="venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)"
+                                                         [clientCmpBtnLabel]="'Add Exhibitor'"
+                                                         [contactListLabel]="'Exhibitors Contacts'"
+                                                         [clientCompanyModal]="searchInviteCmpModal"
+                                                         [contactModal]="searchInviteFnCmpCntModal"
+                                                         (modalOpen)="setOpenedModalRef($event)"
+                                                         [contactList]="exhibitor.contacts?exhibitor.contacts:[]"
+                                                         (contactRemove)="removeExhibitorContact(venueIndex,exhibitorIndex,$event)"
+                          ></app-event-assign-function-cmp>
+                        </div>
+                          <!--<div class="ui grid center aligned">
+                            <div class="sixteen wide column">
+                              <div class="ui button basic blue fluid addClient hasModal"
+                                   (click)="openVerticallyCentered(content)">
+                                <i class="plus circle icon"></i>Add Exhibitor
+                              </div>
+                            </div>
+                          </div>-->
+                          <!-- </div>-->
+                          <!--<div class="contactsContainer">
+                            <div class="ui dividing header">
+                              <h3>Exhibitor Contacts <i class="cog icon"></i><i class="sitemap icon"></i><i
+                                class="building icon"></i></h3>
+                            </div>
+                            <div class="kipCardContainer">
+
+                            </div>
+                            <div class="ui grid stackable center aligned">
+                              <div class="sixteen wide column">
+                                <div class="ui basic button blue fluid addContacts hasModal disabled"
+                                     data-modal="contacts">
+                                  <i class="plus circle icon"></i>Add Contact
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>-->
 
                           <div class="nine wide column">
                             <div class="ui dividing header">
-                              <h3>Stand Number <i class="cog icon"></i><i class="sitemap icon"></i><i class="building icon"></i></h3>
+                              <h3>Stand Number <i class="cog icon"></i><i class="sitemap icon"></i><i
+                                class="building icon"></i></h3>
                             </div>
                             <div class="field">
-                              <input type="text" placeholder="Stand Number">
+                              <input
+                                type="text"
+                                [(ngModel)]="exhibitor.standNumber"
+                                [ngModelOptions]="{standalone:true}"
+                                placeholder="Stand Number">
                             </div>
                             <div class="ui dividing header">
-                              <h3>Notes to Specific Exhibitor <i class="cog icon"></i><i class="sitemap icon"></i><i class="building icon"></i></h3>
+                              <h3>Notes to Specific Exhibitor <i class="cog icon"></i><i class="sitemap icon"></i><i
+                                class="building icon"></i></h3>
                             </div>
                             <div class="field">
-                              <div class="textarea" contenteditable=""></div>
+                              <textarea
+                                class="textarea"
+                                [(ngModel)]="exhibitor.requirement"
+                                [ngModelOptions]="{standalone:true}"
+                              ></textarea>
                             </div>
                             <div class="field">
                               <div class="timeWindowsContainer">
                                 <div class="ui dividing header">
-                                  <h3>Exhibitor Specific Time windows <i class="cog icon"></i><i class="sitemap icon"></i><i class="building icon"></i></h3>
+                                  <h3>Exhibitor Specific Time windows <i class="cog icon"></i><i
+                                    class="sitemap icon"></i><i
+                                    class="building icon"></i></h3>
                                 </div>
 
-                                <ngb-accordion [closeOthers]="true" activeIds="static-3">
-
-                                  <ngb-panel id="static-3">
-                                    <ng-template ngbPanelTitle>
-                                      <i class="dropdown icon"></i> Bump In
-                                    </ng-template>
-                                    <ng-template ngbPanelContent>
-
-                                      <div class="content active">
-                                        <div class="field visible" style="display: block !important;">
-                                          <div class="ui checkbox">
-                                            <input type="checkbox" id="sav" tabindex="0" class="hidden">
-                                            <label for="sav" >Same as venue</label>
-                                          </div>
-                                        </div>
-                                        <div class="visible" style="display: block !important;">
-                                          <div class="item">
-                                            <div class="ui three column grid">
-                                              <div class="column">
-                                                <span>Date</span>
-                                                <div class="ui calendar datePicker">
-                                                  <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table seven column day"><thead><tr><th colspan="7"><span class="link">April 2021</span><span class="prev link"><i class="chevron left icon"></i></span><span class="next link"><i class="chevron right icon"></i></span></th></tr><tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr></thead><tbody><tr><td class="link adjacent disabled">28</td><td class="link adjacent disabled">29</td><td class="link adjacent disabled">30</td><td class="link adjacent disabled">31</td><td class="link">1</td><td class="link">2</td><td class="link">3</td></tr><tr><td class="link">4</td><td class="link">5</td><td class="link">6</td><td class="link">7</td><td class="link today focus">8</td><td class="link">9</td><td class="link">10</td></tr><tr><td class="link">11</td><td class="link">12</td><td class="link">13</td><td class="link">14</td><td class="link">15</td><td class="link">16</td><td class="link">17</td></tr><tr><td class="link">18</td><td class="link">19</td><td class="link">20</td><td class="link">21</td><td class="link">22</td><td class="link">23</td><td class="link">24</td></tr><tr><td class="link">25</td><td class="link">26</td><td class="link">27</td><td class="link">28</td><td class="link">29</td><td class="link">30</td><td class="link adjacent disabled">1</td></tr><tr><td class="link adjacent disabled">2</td><td class="link adjacent disabled">3</td><td class="link adjacent disabled">4</td><td class="link adjacent disabled">5</td><td class="link adjacent disabled">6</td><td class="link adjacent disabled">7</td><td class="link adjacent disabled">8</td></tr></tbody></table></div>
-                                                    <i class="calendar icon"></i>
-                                                    <input type="text" placeholder="Date">
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              <div class="column">
-                                                <span>Start</span>
-                                                <div class="ui calendar startTime">
-                                                  <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table four column hour"><tbody><tr><td class="link">12:00 AM</td><td class="link">1:00 AM</td><td class="link">2:00 AM</td><td class="link">3:00 AM</td></tr><tr><td class="link">4:00 AM</td><td class="link">5:00 AM</td><td class="link">6:00 AM</td><td class="link">7:00 AM</td></tr><tr><td class="link">8:00 AM</td><td class="link">9:00 AM</td><td class="link">10:00 AM</td><td class="link">11:00 AM</td></tr><tr><td class="link">12:00 PM</td><td class="link">1:00 PM</td><td class="link">2:00 PM</td><td class="link">3:00 PM</td></tr><tr><td class="link">4:00 PM</td><td class="link focus">5:00 PM</td><td class="link">6:00 PM</td><td class="link">7:00 PM</td></tr><tr><td class="link">8:00 PM</td><td class="link">9:00 PM</td><td class="link">10:00 PM</td><td class="link">11:00 PM</td></tr></tbody></table></div>
-                                                    <i class="time icon"></i>
-                                                    <input type="text" placeholder="Start">
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              <div class="column">
-                                                <span>End</span>
-                                                <div class="ui calendar endTime">
-                                                  <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table four column hour"><tbody><tr><td class="link">12:00 AM</td><td class="link">1:00 AM</td><td class="link">2:00 AM</td><td class="link">3:00 AM</td></tr><tr><td class="link">4:00 AM</td><td class="link">5:00 AM</td><td class="link">6:00 AM</td><td class="link">7:00 AM</td></tr><tr><td class="link">8:00 AM</td><td class="link">9:00 AM</td><td class="link">10:00 AM</td><td class="link">11:00 AM</td></tr><tr><td class="link">12:00 PM</td><td class="link">1:00 PM</td><td class="link">2:00 PM</td><td class="link">3:00 PM</td></tr><tr><td class="link">4:00 PM</td><td class="link focus">5:00 PM</td><td class="link">6:00 PM</td><td class="link">7:00 PM</td></tr><tr><td class="link">8:00 PM</td><td class="link">9:00 PM</td><td class="link">10:00 PM</td><td class="link">11:00 PM</td></tr></tbody></table></div>
-                                                    <i class="time icon"></i>
-                                                    <input type="text" placeholder="End">
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div class="ui grid">
-                                              <div class="sixteen wide column">
-                                                <span>Notes</span>
-                                                <div class="textarea notes" contenteditable=""></div>
-                                                <div class="ui circular compact mini basic button">
-                                                  <i class="plus circle icon"></i>Add bump-in date
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                    </ng-template>
-                                  </ngb-panel>
-                                  <ngb-panel id="static-4">
-                                    <ng-template ngbPanelTitle>
-                                      <span><i class="dropdown icon"></i> Event Time</span>
-                                    </ng-template>
-                                    <ng-template ngbPanelContent>
-
-                                      <div class="content active">
-                                        <div class="field visible" style="display: block !important;">
-                                          <div class="ui checkbox">
-                                            <input type="checkbox" id="sav2" tabindex="0" class="hidden">
-                                            <label for="sav2" >Same as venue</label>
-                                          </div>
-                                        </div>
-                                        <div class="visible" style="display: block !important;">
-                                          <div class="item">
-                                            <div class="ui three column grid">
-                                              <div class="column">
-                                                <span>Date</span>
-                                                <div class="ui calendar datePicker">
-                                                  <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table seven column day"><thead><tr><th colspan="7"><span class="link">April 2021</span><span class="prev link"><i class="chevron left icon"></i></span><span class="next link"><i class="chevron right icon"></i></span></th></tr><tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr></thead><tbody><tr><td class="link adjacent disabled">28</td><td class="link adjacent disabled">29</td><td class="link adjacent disabled">30</td><td class="link adjacent disabled">31</td><td class="link">1</td><td class="link">2</td><td class="link">3</td></tr><tr><td class="link">4</td><td class="link">5</td><td class="link">6</td><td class="link">7</td><td class="link today focus">8</td><td class="link">9</td><td class="link">10</td></tr><tr><td class="link">11</td><td class="link">12</td><td class="link">13</td><td class="link">14</td><td class="link">15</td><td class="link">16</td><td class="link">17</td></tr><tr><td class="link">18</td><td class="link">19</td><td class="link">20</td><td class="link">21</td><td class="link">22</td><td class="link">23</td><td class="link">24</td></tr><tr><td class="link">25</td><td class="link">26</td><td class="link">27</td><td class="link">28</td><td class="link">29</td><td class="link">30</td><td class="link adjacent disabled">1</td></tr><tr><td class="link adjacent disabled">2</td><td class="link adjacent disabled">3</td><td class="link adjacent disabled">4</td><td class="link adjacent disabled">5</td><td class="link adjacent disabled">6</td><td class="link adjacent disabled">7</td><td class="link adjacent disabled">8</td></tr></tbody></table></div>
-                                                    <i class="calendar icon"></i>
-                                                    <input type="text" placeholder="Date">
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              <div class="column">
-                                                <span>Start</span>
-                                                <div class="ui calendar startTime">
-                                                  <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table four column hour"><tbody><tr><td class="link">12:00 AM</td><td class="link">1:00 AM</td><td class="link">2:00 AM</td><td class="link">3:00 AM</td></tr><tr><td class="link">4:00 AM</td><td class="link">5:00 AM</td><td class="link">6:00 AM</td><td class="link">7:00 AM</td></tr><tr><td class="link">8:00 AM</td><td class="link">9:00 AM</td><td class="link">10:00 AM</td><td class="link">11:00 AM</td></tr><tr><td class="link">12:00 PM</td><td class="link">1:00 PM</td><td class="link">2:00 PM</td><td class="link">3:00 PM</td></tr><tr><td class="link">4:00 PM</td><td class="link focus">5:00 PM</td><td class="link">6:00 PM</td><td class="link">7:00 PM</td></tr><tr><td class="link">8:00 PM</td><td class="link">9:00 PM</td><td class="link">10:00 PM</td><td class="link">11:00 PM</td></tr></tbody></table></div>
-                                                    <i class="time icon"></i>
-                                                    <input type="text" placeholder="Start">
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              <div class="column">
-                                                <span>End</span>
-                                                <div class="ui calendar endTime">
-                                                  <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table four column hour"><tbody><tr><td class="link">12:00 AM</td><td class="link">1:00 AM</td><td class="link">2:00 AM</td><td class="link">3:00 AM</td></tr><tr><td class="link">4:00 AM</td><td class="link">5:00 AM</td><td class="link">6:00 AM</td><td class="link">7:00 AM</td></tr><tr><td class="link">8:00 AM</td><td class="link">9:00 AM</td><td class="link">10:00 AM</td><td class="link">11:00 AM</td></tr><tr><td class="link">12:00 PM</td><td class="link">1:00 PM</td><td class="link">2:00 PM</td><td class="link">3:00 PM</td></tr><tr><td class="link">4:00 PM</td><td class="link focus">5:00 PM</td><td class="link">6:00 PM</td><td class="link">7:00 PM</td></tr><tr><td class="link">8:00 PM</td><td class="link">9:00 PM</td><td class="link">10:00 PM</td><td class="link">11:00 PM</td></tr></tbody></table></div>
-                                                    <i class="time icon"></i>
-                                                    <input type="text" placeholder="End">
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div class="ui grid">
-                                              <div class="sixteen wide column">
-                                                <span>Notes</span>
-                                                <div class="textarea notes" contenteditable=""></div>
-                                                <div class="ui circular compact mini basic button">
-                                                  <i class="plus circle icon"></i>Add Event Time date
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                    </ng-template>
-                                  </ngb-panel>
-                                  <ngb-panel id="static-5">
-                                    <ng-template ngbPanelTitle>
-                                      <span><i class="dropdown icon"></i> Bump Out</span>
-                                    </ng-template>
-                                    <ng-template ngbPanelContent>
-
-                                      <div class="content active">
-                                        <div class="field visible" style="display: block !important;">
-                                          <div class="ui checkbox">
-                                            <input type="checkbox" id="sav3" tabindex="0" class="hidden">
-                                            <label for="sav3" >Same as venue</label>
-                                          </div>
-                                        </div>
-                                        <div class="visible" style="display: block !important;">
-                                          <div class="item">
-                                            <div class="ui three column grid">
-                                              <div class="column">
-                                                <span>Date</span>
-                                                <div class="ui calendar datePicker">
-                                                  <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table seven column day"><thead><tr><th colspan="7"><span class="link">April 2021</span><span class="prev link"><i class="chevron left icon"></i></span><span class="next link"><i class="chevron right icon"></i></span></th></tr><tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr></thead><tbody><tr><td class="link adjacent disabled">28</td><td class="link adjacent disabled">29</td><td class="link adjacent disabled">30</td><td class="link adjacent disabled">31</td><td class="link">1</td><td class="link">2</td><td class="link">3</td></tr><tr><td class="link">4</td><td class="link">5</td><td class="link">6</td><td class="link">7</td><td class="link today focus">8</td><td class="link">9</td><td class="link">10</td></tr><tr><td class="link">11</td><td class="link">12</td><td class="link">13</td><td class="link">14</td><td class="link">15</td><td class="link">16</td><td class="link">17</td></tr><tr><td class="link">18</td><td class="link">19</td><td class="link">20</td><td class="link">21</td><td class="link">22</td><td class="link">23</td><td class="link">24</td></tr><tr><td class="link">25</td><td class="link">26</td><td class="link">27</td><td class="link">28</td><td class="link">29</td><td class="link">30</td><td class="link adjacent disabled">1</td></tr><tr><td class="link adjacent disabled">2</td><td class="link adjacent disabled">3</td><td class="link adjacent disabled">4</td><td class="link adjacent disabled">5</td><td class="link adjacent disabled">6</td><td class="link adjacent disabled">7</td><td class="link adjacent disabled">8</td></tr></tbody></table></div>
-                                                    <i class="calendar icon"></i>
-                                                    <input type="text" placeholder="Date">
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              <div class="column">
-                                                <span>Start</span>
-                                                <div class="ui calendar startTime">
-                                                  <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table four column hour"><tbody><tr><td class="link">12:00 AM</td><td class="link">1:00 AM</td><td class="link">2:00 AM</td><td class="link">3:00 AM</td></tr><tr><td class="link">4:00 AM</td><td class="link">5:00 AM</td><td class="link">6:00 AM</td><td class="link">7:00 AM</td></tr><tr><td class="link">8:00 AM</td><td class="link">9:00 AM</td><td class="link">10:00 AM</td><td class="link">11:00 AM</td></tr><tr><td class="link">12:00 PM</td><td class="link">1:00 PM</td><td class="link">2:00 PM</td><td class="link">3:00 PM</td></tr><tr><td class="link">4:00 PM</td><td class="link focus">5:00 PM</td><td class="link">6:00 PM</td><td class="link">7:00 PM</td></tr><tr><td class="link">8:00 PM</td><td class="link">9:00 PM</td><td class="link">10:00 PM</td><td class="link">11:00 PM</td></tr></tbody></table></div>
-                                                    <i class="time icon"></i>
-                                                    <input type="text" placeholder="Start">
-                                                  </div>
-                                                </div>
-                                              </div>
-                                              <div class="column">
-                                                <span>End</span>
-                                                <div class="ui calendar endTime">
-                                                  <div class="ui input left icon"><div class="ui popup calendar"><table class="ui celled center aligned unstackable table four column hour"><tbody><tr><td class="link">12:00 AM</td><td class="link">1:00 AM</td><td class="link">2:00 AM</td><td class="link">3:00 AM</td></tr><tr><td class="link">4:00 AM</td><td class="link">5:00 AM</td><td class="link">6:00 AM</td><td class="link">7:00 AM</td></tr><tr><td class="link">8:00 AM</td><td class="link">9:00 AM</td><td class="link">10:00 AM</td><td class="link">11:00 AM</td></tr><tr><td class="link">12:00 PM</td><td class="link">1:00 PM</td><td class="link">2:00 PM</td><td class="link">3:00 PM</td></tr><tr><td class="link">4:00 PM</td><td class="link focus">5:00 PM</td><td class="link">6:00 PM</td><td class="link">7:00 PM</td></tr><tr><td class="link">8:00 PM</td><td class="link">9:00 PM</td><td class="link">10:00 PM</td><td class="link">11:00 PM</td></tr></tbody></table></div>
-                                                    <i class="time icon"></i>
-                                                    <input type="text" placeholder="End">
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div class="ui grid">
-                                              <div class="sixteen wide column">
-                                                <span>Notes</span>
-                                                <div class="textarea notes" contenteditable=""></div>
-                                                <div class="ui circular compact mini basic button">
-                                                  <i class="plus circle icon"></i>Add Bump Out date
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                    </ng-template>
-                                  </ngb-panel>
-
-                                </ngb-accordion>
+                                <app-time-windows
+                                  [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
+                                  [isVenueDependent]="true"
+                                  [index]="exhibitorIndex"
+                                  [preEventTimes]="exhibitor.timeWindows.bumpIn.timings"
+                                  [postEventTimes]="exhibitor.timeWindows.bumpOut.timings"
+                                  [eventTimes]="exhibitor.timeWindows.eventTime.timings"
+                                ></app-time-windows>
 
                               </div>
                             </div>
@@ -498,40 +249,31 @@
                               <div
                                 class="sixteen wide column right aligned">
                                 <div class="ui button hasModal"
-                                     data-modal="inviteModal">Save &amp;
-                                  Invite</div>
+                                     data-modal="inviteModal"
+                                     (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"
+                                >Save &amp; Invite
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </form>
-                    </div>
-                  </ng-template>
-                </ngb-panel>
-                <!-- <ngb-panel id="static-2">
-                    <ng-template ngbPanelTitle>
-                        <span><i class="dropdown icon"></i>Venue 1</span>
-                    </ng-template>
-                    <ng-template ngbPanelContent>
-                        2
-                    </ng-template>
-                </ngb-panel> -->
-
-              </ngb-accordion>
+                      </div>
+                    </form>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+            </ng-container>
+          </ngb-accordion>
 
 
-            </div>
+        </div>
 
-          </ng-template>
-        </li>
-        <li ngbNavItem>
-          <a ngbNavLink><i class="map marker alternate icon"></i> Venue Name, City</a>
-          <ng-template ngbNavContent>
-            <p>CONTENT  </p>
-          </ng-template>
-        </li>
-      </ul>
-      <div [ngbNavOutlet]="nav" class="mt-2 innerTabCont"></div>
-    </div>
-  </ng-template>
-</li>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="venueNav" class="mt-2 innerTabCont"></div>
+</div>
+<ng-template #noVenues>
+  <div class="ui segment">
+    <h2>At least one venue company is required to add exhibitors!</h2>
+  </div>
+</ng-template>

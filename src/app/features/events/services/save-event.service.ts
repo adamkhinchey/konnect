@@ -26,6 +26,7 @@ export class SaveEventService {
 
   public activeVenuePanelIndex: number | null = null;
   public activeServicePanel: { venueIndex: number, serviceIndex: number } | null = null;
+  public activeExhibitorPanel: { venueIndex: number, exhibitorIndex: number } | null = null;
 
   setIsFnOwnCompany = new BehaviorSubject<Map<EventFunctionTypes, null | boolean | boolean[]>>(this.ownCompanyStatusMap);
 
@@ -38,6 +39,18 @@ export class SaveEventService {
   supplierCmpCntAddSubject = new Subject<{
     venueIndex: number;
     serviceIndex: number;
+    contactList: InviteFnCmpCntInterface[]
+  }>();
+
+  exhibitorCompanyAddSubject = new Subject<{
+    venueIndex: number;
+    exhibitorIndex: number;
+    exhibitorCompany: Company | InviteFnCmpInterface
+  }>();
+
+  exhibitorCmpCntAddSubject = new Subject<{
+    venueIndex: number;
+    exhibitorIndex: number;
     contactList: InviteFnCmpCntInterface[]
   }>();
 
@@ -76,6 +89,26 @@ export class SaveEventService {
       this.supplierCmpCntAddSubject.next({
         venueIndex: this.activeServicePanel.venueIndex,
         serviceIndex: this.activeServicePanel.serviceIndex,
+        contactList
+      });
+    }
+  }
+
+  exhibitorCompanyAdded(company: Company | InviteFnCmpInterface): void {
+    if (this.activeExhibitorPanel?.venueIndex !== undefined && this.activeExhibitorPanel?.exhibitorIndex !== undefined) {
+      this.exhibitorCompanyAddSubject.next({
+        venueIndex: this.activeExhibitorPanel.venueIndex,
+        exhibitorIndex: this.activeExhibitorPanel.exhibitorIndex,
+        exhibitorCompany: company
+      });
+    }
+  }
+
+  exhibitorContactsAdded(contactList: InviteFnCmpCntInterface[]): void {
+    if (this.activeExhibitorPanel?.venueIndex !== undefined && this.activeExhibitorPanel?.exhibitorIndex !== undefined) {
+      this.exhibitorCmpCntAddSubject.next({
+        venueIndex: this.activeExhibitorPanel.venueIndex,
+        exhibitorIndex: this.activeExhibitorPanel.exhibitorIndex,
         contactList
       });
     }

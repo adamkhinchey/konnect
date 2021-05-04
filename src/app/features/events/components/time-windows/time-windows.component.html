@@ -1,17 +1,18 @@
-<div class="field">
-  <div class="timeWindowsContainer">
-    <div class="ui dividing header">
-      <h3>Venue Time Windows <i
-        class="globe icon"></i></h3>
-    </div>
+<ng-container>
 
     <ngb-accordion [closeOthers]="true" activeIds="static-3" [destroyOnHide]="false">
 
       <ngb-panel id="static-3">
         <ng-template ngbPanelTitle>
-          <i class="dropdown icon"></i> Pre Event Access
+          <i class="dropdown icon"></i> {{windowLabels && windowLabels[0]}}
         </ng-template>
         <ng-template ngbPanelContent>
+          <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
+            <div class="ui checkbox">
+              <input type="checkbox" id="sav-1" tabindex="0" class="hidden">
+              <label for="sav-1">Same as venue</label>
+            </div>
+          </div>
           <div class="item">
             <div class="ui two column grid"
                  *ngFor="let preventEventTimeCount of Arr(preEventTimesCount).fill(1); let i=index">
@@ -20,80 +21,6 @@
                 <div class="ui calendar datePicker">
                   <div class="ui input left icon">
                     <div class="ui popup calendar">
-                      <!--<table class="ui celled center aligned unstackable table seven column day">
-                        <thead>
-                        <tr>
-                          <th colspan="7"><span class="link">April 2021</span><span
-                            class="prev link"><i class="chevron left icon"></i></span><span
-                            class="next link"><i class="chevron right icon"></i></span></th>
-                        </tr>
-                        <tr>
-                          <th>S</th>
-                          <th>M</th>
-                          <th>T</th>
-                          <th>W</th>
-                          <th>T</th>
-                          <th>F</th>
-                          <th>S</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                          <td class="link adjacent disabled">28</td>
-                          <td class="link adjacent disabled">29</td>
-                          <td class="link adjacent disabled">30</td>
-                          <td class="link adjacent disabled">31</td>
-                          <td class="link">1</td>
-                          <td class="link">2</td>
-                          <td class="link">3</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4</td>
-                          <td class="link">5</td>
-                          <td class="link">6</td>
-                          <td class="link">7</td>
-                          <td class="link today focus">8</td>
-                          <td class="link">9</td>
-                          <td class="link">10</td>
-                        </tr>
-                        <tr>
-                          <td class="link">11</td>
-                          <td class="link">12</td>
-                          <td class="link">13</td>
-                          <td class="link">14</td>
-                          <td class="link">15</td>
-                          <td class="link">16</td>
-                          <td class="link">17</td>
-                        </tr>
-                        <tr>
-                          <td class="link">18</td>
-                          <td class="link">19</td>
-                          <td class="link">20</td>
-                          <td class="link">21</td>
-                          <td class="link">22</td>
-                          <td class="link">23</td>
-                          <td class="link">24</td>
-                        </tr>
-                        <tr>
-                          <td class="link">25</td>
-                          <td class="link">26</td>
-                          <td class="link">27</td>
-                          <td class="link">28</td>
-                          <td class="link">29</td>
-                          <td class="link">30</td>
-                          <td class="link adjacent disabled">1</td>
-                        </tr>
-                        <tr>
-                          <td class="link adjacent disabled">2</td>
-                          <td class="link adjacent disabled">3</td>
-                          <td class="link adjacent disabled">4</td>
-                          <td class="link adjacent disabled">5</td>
-                          <td class="link adjacent disabled">6</td>
-                          <td class="link adjacent disabled">7</td>
-                          <td class="link adjacent disabled">8</td>
-                        </tr>
-                        </tbody>
-                      </table>-->
                     </div>
                     <i class="calendar icon"></i>
                     <!-- <input type="text" placeholder="Date">-->
@@ -110,80 +37,6 @@
                 <div class="ui calendar datePicker">
                   <div class="ui input left icon">
                     <div class="ui popup calendar">
-                      <!--<table class="ui celled center aligned unstackable table seven column day">
-                        <thead>
-                        <tr>
-                          <th colspan="7"><span class="link">April 2021</span><span
-                            class="prev link"><i class="chevron left icon"></i></span><span
-                            class="next link"><i class="chevron right icon"></i></span></th>
-                        </tr>
-                        <tr>
-                          <th>S</th>
-                          <th>M</th>
-                          <th>T</th>
-                          <th>W</th>
-                          <th>T</th>
-                          <th>F</th>
-                          <th>S</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                          <td class="link adjacent disabled">28</td>
-                          <td class="link adjacent disabled">29</td>
-                          <td class="link adjacent disabled">30</td>
-                          <td class="link adjacent disabled">31</td>
-                          <td class="link">1</td>
-                          <td class="link">2</td>
-                          <td class="link">3</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4</td>
-                          <td class="link">5</td>
-                          <td class="link">6</td>
-                          <td class="link">7</td>
-                          <td class="link today focus">8</td>
-                          <td class="link">9</td>
-                          <td class="link">10</td>
-                        </tr>
-                        <tr>
-                          <td class="link">11</td>
-                          <td class="link">12</td>
-                          <td class="link">13</td>
-                          <td class="link">14</td>
-                          <td class="link">15</td>
-                          <td class="link">16</td>
-                          <td class="link">17</td>
-                        </tr>
-                        <tr>
-                          <td class="link">18</td>
-                          <td class="link">19</td>
-                          <td class="link">20</td>
-                          <td class="link">21</td>
-                          <td class="link">22</td>
-                          <td class="link">23</td>
-                          <td class="link">24</td>
-                        </tr>
-                        <tr>
-                          <td class="link">25</td>
-                          <td class="link">26</td>
-                          <td class="link">27</td>
-                          <td class="link">28</td>
-                          <td class="link">29</td>
-                          <td class="link">30</td>
-                          <td class="link adjacent disabled">1</td>
-                        </tr>
-                        <tr>
-                          <td class="link adjacent disabled">2</td>
-                          <td class="link adjacent disabled">3</td>
-                          <td class="link adjacent disabled">4</td>
-                          <td class="link adjacent disabled">5</td>
-                          <td class="link adjacent disabled">6</td>
-                          <td class="link adjacent disabled">7</td>
-                          <td class="link adjacent disabled">8</td>
-                        </tr>
-                        </tbody>
-                      </table>-->
                     </div>
                     <i class="calendar icon"></i>
                     <!-- <input type="text" placeholder="Date">-->
@@ -195,108 +48,6 @@
                   </div>
                 </div>
               </div>
-              <!--<div class="column">
-                <span>Start</span>
-                <div class="ui calendar startTime">
-                  <div class="ui input left icon">
-                    <div class="ui popup calendar">
-                      <table class="ui celled center aligned unstackable table four column hour">
-                        <tbody>
-                        <tr>
-                          <td class="link">12:00 AM</td>
-                          <td class="link">1:00 AM</td>
-                          <td class="link">2:00 AM</td>
-                          <td class="link">3:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4:00 AM</td>
-                          <td class="link">5:00 AM</td>
-                          <td class="link">6:00 AM</td>
-                          <td class="link">7:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">8:00 AM</td>
-                          <td class="link">9:00 AM</td>
-                          <td class="link">10:00 AM</td>
-                          <td class="link">11:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link focus">12:00 PM</td>
-                          <td class="link">1:00 PM</td>
-                          <td class="link">2:00 PM</td>
-                          <td class="link">3:00 PM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4:00 PM</td>
-                          <td class="link">5:00 PM</td>
-                          <td class="link">6:00 PM</td>
-                          <td class="link">7:00 PM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">8:00 PM</td>
-                          <td class="link">9:00 PM</td>
-                          <td class="link">10:00 PM</td>
-                          <td class="link">11:00 PM</td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <i class="time icon"></i>
-                    <input type="text" placeholder="Start">
-                  </div>
-                </div>
-              </div>
-              <div class="column">
-                <span>End</span>
-                <div class="ui calendar endTime">
-                  <div class="ui input left icon">
-                    <div class="ui popup calendar">
-                      <table class="ui celled center aligned unstackable table four column hour">
-                        <tbody>
-                        <tr>
-                          <td class="link">12:00 AM</td>
-                          <td class="link">1:00 AM</td>
-                          <td class="link">2:00 AM</td>
-                          <td class="link">3:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4:00 AM</td>
-                          <td class="link">5:00 AM</td>
-                          <td class="link">6:00 AM</td>
-                          <td class="link">7:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">8:00 AM</td>
-                          <td class="link">9:00 AM</td>
-                          <td class="link">10:00 AM</td>
-                          <td class="link">11:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link focus">12:00 PM</td>
-                          <td class="link">1:00 PM</td>
-                          <td class="link">2:00 PM</td>
-                          <td class="link">3:00 PM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4:00 PM</td>
-                          <td class="link">5:00 PM</td>
-                          <td class="link">6:00 PM</td>
-                          <td class="link">7:00 PM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">8:00 PM</td>
-                          <td class="link">9:00 PM</td>
-                          <td class="link">10:00 PM</td>
-                          <td class="link">11:00 PM</td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <i class="time icon"></i>
-                    <input type="text" placeholder="End">
-                  </div>
-                </div>
-              </div>-->
             </div>
             <div class="ui grid">
               <div class="sixteen wide column">
@@ -307,7 +58,7 @@
                           (ngModelChange)="populatePreEventNotes($event)">
                 </textarea>
                 <div class="ui circular compact mini basic button" (click)="addMorePreEventDateTime()">
-                  <i class="plus circle icon"></i>Add Pre Event Access date
+                  <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[0]}} date
                 </div>
               </div>
             </div>
@@ -316,9 +67,15 @@
       </ngb-panel>
       <ngb-panel id="static-4">
         <ng-template ngbPanelTitle>
-          <span><i class="dropdown icon"></i> Event Time</span>
+          <span><i class="dropdown icon"></i> {{windowLabels && windowLabels[1]}}</span>
         </ng-template>
         <ng-template ngbPanelContent>
+          <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
+            <div class="ui checkbox">
+              <input type="checkbox" id="sav-2" tabindex="0" class="hidden">
+              <label for="sav-2">Same as venue</label>
+            </div>
+          </div>
           <div class="item">
             <div class="ui two column grid"
                  *ngFor="let preventEventTimeCount of Arr(eventTimesCount).fill(1); let i=index">
@@ -327,80 +84,6 @@
                 <div class="ui calendar datePicker">
                   <div class="ui input left icon">
                     <div class="ui popup calendar">
-                      <!--<table class="ui celled center aligned unstackable table seven column day">
-                        <thead>
-                        <tr>
-                          <th colspan="7"><span class="link">April 2021</span><span
-                            class="prev link"><i class="chevron left icon"></i></span><span
-                            class="next link"><i class="chevron right icon"></i></span></th>
-                        </tr>
-                        <tr>
-                          <th>S</th>
-                          <th>M</th>
-                          <th>T</th>
-                          <th>W</th>
-                          <th>T</th>
-                          <th>F</th>
-                          <th>S</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                          <td class="link adjacent disabled">28</td>
-                          <td class="link adjacent disabled">29</td>
-                          <td class="link adjacent disabled">30</td>
-                          <td class="link adjacent disabled">31</td>
-                          <td class="link">1</td>
-                          <td class="link">2</td>
-                          <td class="link">3</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4</td>
-                          <td class="link">5</td>
-                          <td class="link">6</td>
-                          <td class="link">7</td>
-                          <td class="link today focus">8</td>
-                          <td class="link">9</td>
-                          <td class="link">10</td>
-                        </tr>
-                        <tr>
-                          <td class="link">11</td>
-                          <td class="link">12</td>
-                          <td class="link">13</td>
-                          <td class="link">14</td>
-                          <td class="link">15</td>
-                          <td class="link">16</td>
-                          <td class="link">17</td>
-                        </tr>
-                        <tr>
-                          <td class="link">18</td>
-                          <td class="link">19</td>
-                          <td class="link">20</td>
-                          <td class="link">21</td>
-                          <td class="link">22</td>
-                          <td class="link">23</td>
-                          <td class="link">24</td>
-                        </tr>
-                        <tr>
-                          <td class="link">25</td>
-                          <td class="link">26</td>
-                          <td class="link">27</td>
-                          <td class="link">28</td>
-                          <td class="link">29</td>
-                          <td class="link">30</td>
-                          <td class="link adjacent disabled">1</td>
-                        </tr>
-                        <tr>
-                          <td class="link adjacent disabled">2</td>
-                          <td class="link adjacent disabled">3</td>
-                          <td class="link adjacent disabled">4</td>
-                          <td class="link adjacent disabled">5</td>
-                          <td class="link adjacent disabled">6</td>
-                          <td class="link adjacent disabled">7</td>
-                          <td class="link adjacent disabled">8</td>
-                        </tr>
-                        </tbody>
-                      </table>-->
                     </div>
                     <i class="calendar icon"></i>
                     <!--<input type="text" placeholder="Date">-->
@@ -418,80 +101,6 @@
                 <div class="ui calendar datePicker">
                   <div class="ui input left icon">
                     <div class="ui popup calendar">
-                      <!--<table class="ui celled center aligned unstackable table seven column day">
-                        <thead>
-                        <tr>
-                          <th colspan="7"><span class="link">April 2021</span><span
-                            class="prev link"><i class="chevron left icon"></i></span><span
-                            class="next link"><i class="chevron right icon"></i></span></th>
-                        </tr>
-                        <tr>
-                          <th>S</th>
-                          <th>M</th>
-                          <th>T</th>
-                          <th>W</th>
-                          <th>T</th>
-                          <th>F</th>
-                          <th>S</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                          <td class="link adjacent disabled">28</td>
-                          <td class="link adjacent disabled">29</td>
-                          <td class="link adjacent disabled">30</td>
-                          <td class="link adjacent disabled">31</td>
-                          <td class="link">1</td>
-                          <td class="link">2</td>
-                          <td class="link">3</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4</td>
-                          <td class="link">5</td>
-                          <td class="link">6</td>
-                          <td class="link">7</td>
-                          <td class="link today focus">8</td>
-                          <td class="link">9</td>
-                          <td class="link">10</td>
-                        </tr>
-                        <tr>
-                          <td class="link">11</td>
-                          <td class="link">12</td>
-                          <td class="link">13</td>
-                          <td class="link">14</td>
-                          <td class="link">15</td>
-                          <td class="link">16</td>
-                          <td class="link">17</td>
-                        </tr>
-                        <tr>
-                          <td class="link">18</td>
-                          <td class="link">19</td>
-                          <td class="link">20</td>
-                          <td class="link">21</td>
-                          <td class="link">22</td>
-                          <td class="link">23</td>
-                          <td class="link">24</td>
-                        </tr>
-                        <tr>
-                          <td class="link">25</td>
-                          <td class="link">26</td>
-                          <td class="link">27</td>
-                          <td class="link">28</td>
-                          <td class="link">29</td>
-                          <td class="link">30</td>
-                          <td class="link adjacent disabled">1</td>
-                        </tr>
-                        <tr>
-                          <td class="link adjacent disabled">2</td>
-                          <td class="link adjacent disabled">3</td>
-                          <td class="link adjacent disabled">4</td>
-                          <td class="link adjacent disabled">5</td>
-                          <td class="link adjacent disabled">6</td>
-                          <td class="link adjacent disabled">7</td>
-                          <td class="link adjacent disabled">8</td>
-                        </tr>
-                        </tbody>
-                      </table>-->
                     </div>
                     <i class="calendar icon"></i>
                     <!--<input type="text" placeholder="Date">-->
@@ -504,108 +113,6 @@
                   </div>
                 </div>
               </div>
-              <!--<div class="column">
-                <span>Start</span>
-                <div class="ui calendar startTime">
-                  <div class="ui input left icon">
-                    <div class="ui popup calendar">
-                      <table class="ui celled center aligned unstackable table four column hour">
-                        <tbody>
-                        <tr>
-                          <td class="link">12:00 AM</td>
-                          <td class="link">1:00 AM</td>
-                          <td class="link">2:00 AM</td>
-                          <td class="link">3:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4:00 AM</td>
-                          <td class="link">5:00 AM</td>
-                          <td class="link">6:00 AM</td>
-                          <td class="link">7:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">8:00 AM</td>
-                          <td class="link">9:00 AM</td>
-                          <td class="link">10:00 AM</td>
-                          <td class="link">11:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link focus">12:00 PM</td>
-                          <td class="link">1:00 PM</td>
-                          <td class="link">2:00 PM</td>
-                          <td class="link">3:00 PM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4:00 PM</td>
-                          <td class="link">5:00 PM</td>
-                          <td class="link">6:00 PM</td>
-                          <td class="link">7:00 PM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">8:00 PM</td>
-                          <td class="link">9:00 PM</td>
-                          <td class="link">10:00 PM</td>
-                          <td class="link">11:00 PM</td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <i class="time icon"></i>
-                    <input type="text" placeholder="Start">
-                  </div>
-                </div>
-              </div>
-              <div class="column">
-                <span>End</span>
-                <div class="ui calendar endTime">
-                  <div class="ui input left icon">
-                    <div class="ui popup calendar">
-                      <table class="ui celled center aligned unstackable table four column hour">
-                        <tbody>
-                        <tr>
-                          <td class="link">12:00 AM</td>
-                          <td class="link">1:00 AM</td>
-                          <td class="link">2:00 AM</td>
-                          <td class="link">3:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4:00 AM</td>
-                          <td class="link">5:00 AM</td>
-                          <td class="link">6:00 AM</td>
-                          <td class="link">7:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">8:00 AM</td>
-                          <td class="link">9:00 AM</td>
-                          <td class="link">10:00 AM</td>
-                          <td class="link">11:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link focus">12:00 PM</td>
-                          <td class="link">1:00 PM</td>
-                          <td class="link">2:00 PM</td>
-                          <td class="link">3:00 PM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4:00 PM</td>
-                          <td class="link">5:00 PM</td>
-                          <td class="link">6:00 PM</td>
-                          <td class="link">7:00 PM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">8:00 PM</td>
-                          <td class="link">9:00 PM</td>
-                          <td class="link">10:00 PM</td>
-                          <td class="link">11:00 PM</td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <i class="time icon"></i>
-                    <input type="text" placeholder="End">
-                  </div>
-                </div>
-              </div>-->
             </div>
             <div class="ui grid">
               <div class="sixteen wide column">
@@ -615,7 +122,7 @@
                           [ngModelOptions]="{standalone:true}"
                           (ngModelChange)="populateEventNotes($event)"></textarea>
                 <div class="ui circular compact mini basic button" (click)="addMoreEventDateTime()">
-                  <i class="plus circle icon"></i>Add Event Time date
+                  <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[1]}} date
                 </div>
               </div>
             </div>
@@ -624,9 +131,15 @@
       </ngb-panel>
       <ngb-panel id="static-5">
         <ng-template ngbPanelTitle>
-          <span><i class="dropdown icon"></i> Post Event Access</span>
+          <span><i class="dropdown icon"></i> {{windowLabels && windowLabels[2]}}</span>
         </ng-template>
         <ng-template ngbPanelContent>
+          <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
+            <div class="ui checkbox">
+              <input type="checkbox" id="sav-3" tabindex="0" class="hidden">
+              <label for="sav-3">Same as venue</label>
+            </div>
+          </div>
           <div class="item">
             <div class="ui two column grid"
                  *ngFor="let preventEventTimeCount of Arr(postEventTimesCount).fill(1); let i=index">
@@ -635,80 +148,6 @@
                 <div class="ui calendar datePicker">
                   <div class="ui input left icon">
                     <div class="ui popup calendar">
-                      <!--<table class="ui celled center aligned unstackable table seven column day">
-                        <thead>
-                        <tr>
-                          <th colspan="7"><span class="link">April 2021</span><span
-                            class="prev link"><i class="chevron left icon"></i></span><span
-                            class="next link"><i class="chevron right icon"></i></span></th>
-                        </tr>
-                        <tr>
-                          <th>S</th>
-                          <th>M</th>
-                          <th>T</th>
-                          <th>W</th>
-                          <th>T</th>
-                          <th>F</th>
-                          <th>S</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                          <td class="link adjacent disabled">28</td>
-                          <td class="link adjacent disabled">29</td>
-                          <td class="link adjacent disabled">30</td>
-                          <td class="link adjacent disabled">31</td>
-                          <td class="link">1</td>
-                          <td class="link">2</td>
-                          <td class="link">3</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4</td>
-                          <td class="link">5</td>
-                          <td class="link">6</td>
-                          <td class="link">7</td>
-                          <td class="link today focus">8</td>
-                          <td class="link">9</td>
-                          <td class="link">10</td>
-                        </tr>
-                        <tr>
-                          <td class="link">11</td>
-                          <td class="link">12</td>
-                          <td class="link">13</td>
-                          <td class="link">14</td>
-                          <td class="link">15</td>
-                          <td class="link">16</td>
-                          <td class="link">17</td>
-                        </tr>
-                        <tr>
-                          <td class="link">18</td>
-                          <td class="link">19</td>
-                          <td class="link">20</td>
-                          <td class="link">21</td>
-                          <td class="link">22</td>
-                          <td class="link">23</td>
-                          <td class="link">24</td>
-                        </tr>
-                        <tr>
-                          <td class="link">25</td>
-                          <td class="link">26</td>
-                          <td class="link">27</td>
-                          <td class="link">28</td>
-                          <td class="link">29</td>
-                          <td class="link">30</td>
-                          <td class="link adjacent disabled">1</td>
-                        </tr>
-                        <tr>
-                          <td class="link adjacent disabled">2</td>
-                          <td class="link adjacent disabled">3</td>
-                          <td class="link adjacent disabled">4</td>
-                          <td class="link adjacent disabled">5</td>
-                          <td class="link adjacent disabled">6</td>
-                          <td class="link adjacent disabled">7</td>
-                          <td class="link adjacent disabled">8</td>
-                        </tr>
-                        </tbody>
-                      </table>-->
                     </div>
                     <i class="calendar icon"></i>
                     <!--<input type="text" placeholder="Date">-->
@@ -726,80 +165,6 @@
                 <div class="ui calendar datePicker">
                   <div class="ui input left icon">
                     <div class="ui popup calendar">
-                      <!--<table class="ui celled center aligned unstackable table seven column day">
-                        <thead>
-                        <tr>
-                          <th colspan="7"><span class="link">April 2021</span><span
-                            class="prev link"><i class="chevron left icon"></i></span><span
-                            class="next link"><i class="chevron right icon"></i></span></th>
-                        </tr>
-                        <tr>
-                          <th>S</th>
-                          <th>M</th>
-                          <th>T</th>
-                          <th>W</th>
-                          <th>T</th>
-                          <th>F</th>
-                          <th>S</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                          <td class="link adjacent disabled">28</td>
-                          <td class="link adjacent disabled">29</td>
-                          <td class="link adjacent disabled">30</td>
-                          <td class="link adjacent disabled">31</td>
-                          <td class="link">1</td>
-                          <td class="link">2</td>
-                          <td class="link">3</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4</td>
-                          <td class="link">5</td>
-                          <td class="link">6</td>
-                          <td class="link">7</td>
-                          <td class="link today focus">8</td>
-                          <td class="link">9</td>
-                          <td class="link">10</td>
-                        </tr>
-                        <tr>
-                          <td class="link">11</td>
-                          <td class="link">12</td>
-                          <td class="link">13</td>
-                          <td class="link">14</td>
-                          <td class="link">15</td>
-                          <td class="link">16</td>
-                          <td class="link">17</td>
-                        </tr>
-                        <tr>
-                          <td class="link">18</td>
-                          <td class="link">19</td>
-                          <td class="link">20</td>
-                          <td class="link">21</td>
-                          <td class="link">22</td>
-                          <td class="link">23</td>
-                          <td class="link">24</td>
-                        </tr>
-                        <tr>
-                          <td class="link">25</td>
-                          <td class="link">26</td>
-                          <td class="link">27</td>
-                          <td class="link">28</td>
-                          <td class="link">29</td>
-                          <td class="link">30</td>
-                          <td class="link adjacent disabled">1</td>
-                        </tr>
-                        <tr>
-                          <td class="link adjacent disabled">2</td>
-                          <td class="link adjacent disabled">3</td>
-                          <td class="link adjacent disabled">4</td>
-                          <td class="link adjacent disabled">5</td>
-                          <td class="link adjacent disabled">6</td>
-                          <td class="link adjacent disabled">7</td>
-                          <td class="link adjacent disabled">8</td>
-                        </tr>
-                        </tbody>
-                      </table>-->
                     </div>
                     <i class="calendar icon"></i>
                     <!--<input type="text" placeholder="Date">-->
@@ -812,108 +177,6 @@
                   </div>
                 </div>
               </div>
-              <!--<div class="column">
-                <span>Start</span>
-                <div class="ui calendar startTime">
-                  <div class="ui input left icon">
-                    <div class="ui popup calendar">
-                      <table class="ui celled center aligned unstackable table four column hour">
-                        <tbody>
-                        <tr>
-                          <td class="link">12:00 AM</td>
-                          <td class="link">1:00 AM</td>
-                          <td class="link">2:00 AM</td>
-                          <td class="link">3:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4:00 AM</td>
-                          <td class="link">5:00 AM</td>
-                          <td class="link">6:00 AM</td>
-                          <td class="link">7:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">8:00 AM</td>
-                          <td class="link">9:00 AM</td>
-                          <td class="link">10:00 AM</td>
-                          <td class="link">11:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link focus">12:00 PM</td>
-                          <td class="link">1:00 PM</td>
-                          <td class="link">2:00 PM</td>
-                          <td class="link">3:00 PM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4:00 PM</td>
-                          <td class="link">5:00 PM</td>
-                          <td class="link">6:00 PM</td>
-                          <td class="link">7:00 PM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">8:00 PM</td>
-                          <td class="link">9:00 PM</td>
-                          <td class="link">10:00 PM</td>
-                          <td class="link">11:00 PM</td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <i class="time icon"></i>
-                    <input type="text" placeholder="Start">
-                  </div>
-                </div>
-              </div>
-              <div class="column">
-                <span>End</span>
-                <div class="ui calendar endTime">
-                  <div class="ui input left icon">
-                    <div class="ui popup calendar">
-                      <table class="ui celled center aligned unstackable table four column hour">
-                        <tbody>
-                        <tr>
-                          <td class="link">12:00 AM</td>
-                          <td class="link">1:00 AM</td>
-                          <td class="link">2:00 AM</td>
-                          <td class="link">3:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4:00 AM</td>
-                          <td class="link">5:00 AM</td>
-                          <td class="link">6:00 AM</td>
-                          <td class="link">7:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">8:00 AM</td>
-                          <td class="link">9:00 AM</td>
-                          <td class="link">10:00 AM</td>
-                          <td class="link">11:00 AM</td>
-                        </tr>
-                        <tr>
-                          <td class="link focus">12:00 PM</td>
-                          <td class="link">1:00 PM</td>
-                          <td class="link">2:00 PM</td>
-                          <td class="link">3:00 PM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">4:00 PM</td>
-                          <td class="link">5:00 PM</td>
-                          <td class="link">6:00 PM</td>
-                          <td class="link">7:00 PM</td>
-                        </tr>
-                        <tr>
-                          <td class="link">8:00 PM</td>
-                          <td class="link">9:00 PM</td>
-                          <td class="link">10:00 PM</td>
-                          <td class="link">11:00 PM</td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <i class="time icon"></i>
-                    <input type="text" placeholder="End">
-                  </div>
-                </div>
-              </div>-->
             </div>
             <div class="ui grid">
               <div class="sixteen wide column">
@@ -923,7 +186,7 @@
                           [ngModelOptions]="{standalone:true}"
                           (ngModelChange)="populatePostEventNotes($event)"></textarea>
                 <div class="ui circular compact mini basic button" (click)="addMorePostEventDateTime()">
-                  <i class="plus circle icon"></i>Add Post Event Access date
+                  <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[2]}} date
                 </div>
               </div>
             </div>
@@ -932,6 +195,4 @@
       </ngb-panel>
 
     </ngb-accordion>
-
-  </div>
-</div>
+</ng-container>

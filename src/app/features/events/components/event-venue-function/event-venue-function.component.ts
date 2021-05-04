@@ -8,14 +8,14 @@ import {
   Output,
   QueryList, ViewChild, ViewChildren
 } from '@angular/core';
-import {Company} from "../../../users/models";
-import {InviteFnCmpClass} from "../../models/classes";
-import {SaveEventClass} from "../../models/classes/saveEvent.class";
-import {Subscription} from "rxjs";
-import {EventAssignFunctionCmpComponent} from "../event-assign-function-cmp/event-assign-function-cmp.component";
-import {NgbAccordion, NgbPanelChangeEvent} from "@ng-bootstrap/ng-bootstrap";
-import {SaveEventService} from "../../services/save-event.service";
-import {devLogger} from "../../../../shared/utils";
+import {Company} from '../../../users/models';
+import {InviteFnCmpClass} from '../../models/classes';
+import {SaveEventClass} from '../../models/classes/saveEvent.class';
+import {Subscription} from 'rxjs';
+import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/event-assign-function-cmp.component';
+import {NgbAccordion, NgbPanelChangeEvent} from '@ng-bootstrap/ng-bootstrap';
+import {SaveEventService} from '../../services/save-event.service';
+import {devLogger} from '../../../../shared/utils';
 
 @Component({
   selector: 'app-event-venue-function',
@@ -63,7 +63,8 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
           contacts: null,
           shouldInvite: 0,
           invited: null,
-          suppliers:[]
+          suppliers: [],
+          exhibitorList: []
         }],
         notesToAll: ''
       };
@@ -77,7 +78,8 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
         contacts: null,
         shouldInvite: 0,
         invited: null,
-        suppliers:[]
+        suppliers: [],
+        exhibitorList: []
       });
     }
     this.ngbAccordion.collapseAll();
