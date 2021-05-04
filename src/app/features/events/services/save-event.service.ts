@@ -72,6 +72,7 @@ export class SaveEventService {
     this.setIsFnOwnCompany.next(this.ownCompanyStatusMap);
     this.activeVenuePanelIndex = null;
     this.activeServicePanel = null;
+    this.activeExhibitorPanel = null;
   }
 
   supplierCompanyAdded(company: Company | InviteFnCmpInterface): void {
