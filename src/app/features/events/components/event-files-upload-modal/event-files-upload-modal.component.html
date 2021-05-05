@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Upload Files</h4>
+  <button type="button" class="close" aria-label="Close" (click)="this.closed.emit()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="content uploadDocuments">
+    <form class="ui form">
+      <div class="ui grid">
+        <div class="sixteen wide column">
+          <div class="field" *ngFor="let listItem of selectedFileList; let i=index">
+            <p>{{listItem.file.name}}</p>
+            <input [(ngModel)]="listItem.displayName"
+                   [ngModelOptions]="{standalone:true}"
+                   type="text"
+                   placeholder="Display Name">
+            <a [style.cursor]="'pointer'" (click)="removeFile(i)"
+               class="removeDocument">
+              <i class="trash alternate icon"></i>
+              Remove
+            </a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="newFooter">
+  <div class="actions">
+    <div class="ui grid">
+      <div class="eight wide column left aligned">
+        <div appFileUploadTrigger [fileUploadComponentRef]="fileUploadComponent"
+             class="ui button positive" [ngClass]="{'disabled':selectedFileList.length>=8}">Browse and Add</div>
+        <app-file-upload #fileUploadComponent
+                         [config]="fileConfig"
+                         [showValidFileTypeList]="false"
+                         (fileChange)="fileSelected($event)"
+        ></app-file-upload>
+      </div>
+      <div class="eight wide column right aligned">
+        <div class="ui button positive">Save and Upload</div>
+      </div>
+    </div>
+  </div>
+</div>

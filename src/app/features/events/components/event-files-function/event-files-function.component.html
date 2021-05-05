@@ -1,397 +1,415 @@
-<li [ngbNavItem]="6">
-  <a ngbNavLink class="item tabAdmin"><i class="file alternate icon"></i><span
-    class="hideMobile">FILES</span></a>
-  <ng-template ngbNavContent>
-    <div class="ui segment">
-      <div class="sixteen wide column">
-        <div class="field">
-          <div class="ui dividing header">
-            <div class="ui grid">
-              <div class="ten wide column middle aligned">
-                <h3>Client/Event Manager Shared Files <i class="cog icon"></i><i class="sitemap icon"></i></h3>
-              </div>
-              <div class="six wide column right aligned">
-                <div class="ui button compact mini basic circular addDocuments hasModal" (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-              </div>
-            </div>
+<div class="ui segment">
+  <div class="sixteen wide column">
+    <div class="field">
+      <div class="ui dividing header">
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Client/Event Manager Shared Files <i class="cog icon"></i><i class="sitemap icon"></i></h3>
           </div>
-          <div class="ui grid docsContainer">
-            <div class="sixteen wide column">
-
-
-
+          <div class="six wide column right aligned">
+            <div class="ui button compact mini basic circular addDocuments hasModal"
+                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
       </div>
-      <div class="sixteen wide column">
-        <div class="field">
-          <div class="ui dividing header">
-            <div class="ui grid">
-              <div class="ten wide column middle aligned">
-                <h3>Client Internal Files <i class="cog icon"></i></h3>
-              </div>
-              <div class="six wide column right aligned">
-                <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-              </div>
-            </div>
+      <div class="ui grid docsContainer">
+        <div class="sixteen wide column">
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sixteen wide column">
+    <div class="field">
+      <div class="ui dividing header">
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Client Internal Files <i class="cog icon"></i></h3>
           </div>
-          <div class="ui grid docsContainer">
-            <div class="sixteen wide column">
-
-
-
+          <div class="six wide column right aligned">
+            <div class="ui button compact mini basic circular addDocuments hasModal"
+                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
       </div>
-      <div class="sixteen wide column">
-        <div class="field">
-          <div class="ui dividing header">
-            <div class="ui grid">
-              <div class="ten wide column middle aligned">
-                <h3>Event Management Internal Files <i class="sitemap icon"></i></h3>
-              </div>
-              <div class="six wide column right aligned">
-                <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-              </div>
-            </div>
+      <div class="ui grid docsContainer">
+        <div class="sixteen wide column">
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sixteen wide column">
+    <div class="field">
+      <div class="ui dividing header">
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Event Management Internal Files <i class="sitemap icon"></i></h3>
           </div>
-          <div class="ui grid docsContainer">
-            <div class="sixteen wide column">
-
-
-
+          <div class="six wide column right aligned">
+            <div class="ui button compact mini basic circular addDocuments hasModal"
+                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
       </div>
-      <div class="sixteen wide column">
-        <div class="field">
-          <div class="ui dividing header">
-            <div class="ui grid">
-              <div class="ten wide column middle aligned">
-                <h3>Event Files <i class="globe icon"></i></h3>
-              </div>
-              <div class="six wide column right aligned">
-                <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-              </div>
-            </div>
+      <div class="ui grid docsContainer">
+        <div class="sixteen wide column">
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sixteen wide column">
+    <div class="field">
+      <div class="ui dividing header">
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Event Files <i class="globe icon"></i></h3>
           </div>
-          <div class="ui grid docsContainer">
-            <div class="sixteen wide column">
-
-
-
+          <div class="six wide column right aligned">
+            <div class="ui button compact mini basic circular addDocuments hasModal"
+                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
       </div>
+      <div class="ui grid docsContainer">
+        <div class="sixteen wide column">
 
-      <div class="sixteen wide column">
-        <div class="field">
-          <div class="ui dividing header">
-            <div class="ui grid">
-              <div class="ten wide column middle aligned">
-                <h3>Files for All Venues <i class="cog icon"></i><i class="sitemap icon"></i><i class="map marker alternate icon"></i></h3>
-              </div>
-              <div class="six wide column right aligned">
-                <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-              </div>
-            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sixteen wide column">
+    <div class="field">
+      <div class="ui dividing header">
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Files for All Venues <i class="cog icon"></i><i class="sitemap icon"></i><i
+              class="map marker alternate icon"></i></h3>
           </div>
-          <div class="ui grid docsContainer">
-            <div class="sixteen wide column">
-
-
-
+          <div class="six wide column right aligned">
+            <div class="ui button compact mini basic circular addDocuments hasModal"
+                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
-
       </div>
-      <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
-        <ngb-accordion [closeOthers]="true" activeIds="static-1">
+      <div class="ui grid docsContainer">
+        <div class="sixteen wide column">
 
 
-          <ngb-panel id="static-1">
-            <ng-template ngbPanelTitle>
-              <i class="dropdown icon"></i>Venue 1: Venue Company Name, City
-            </ng-template>
-            <ng-template ngbPanelContent>
-              <div class="content active">
+        </div>
+      </div>
+    </div>
 
-                <div class="ui grid stackable visible" style="display: flex !important;">
-                  <div class="sixteen wide column">
-                    <div class="field">
-                      <div class="ui dividing header">
-                        <div class="ui grid">
-                          <div class="ten wide column middle aligned">
-                            <h3>Floorplan <i class="globe icon"></i></h3>
-                          </div>
-                          <div class="six wide column right aligned">
-                            <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-                          </div>
-                        </div>
+  </div>
+  <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
+    <ngb-accordion [closeOthers]="true" activeIds="static-1">
+
+
+      <ngb-panel id="static-1">
+        <ng-template ngbPanelTitle>
+          <i class="dropdown icon"></i>Venue 1: Venue Company Name, City
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="content active">
+
+            <div class="ui grid stackable visible" style="display: flex !important;">
+              <div class="sixteen wide column">
+                <div class="field">
+                  <div class="ui dividing header">
+                    <div class="ui grid">
+                      <div class="ten wide column middle aligned">
+                        <h3>Floorplan <i class="globe icon"></i></h3>
                       </div>
-                      <div class="ui grid docsContainer">
-                        <div class="sixteen wide column">
-
-
-
+                      <div class="six wide column right aligned">
+                        <div class="ui button compact mini basic circular addDocuments hasModal"
+                             (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="eight wide column">
-                    <div class="field">
-                      <div class="ui dividing header">
-                        <div class="ui grid">
-                          <div class="ten wide column middle aligned">
-                            <h3>Venue Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i class="building icon"></i></h3>
-                          </div>
-                          <div class="six wide column right aligned">
-                            <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-                          </div>
-                        </div>
+                  <div class="ui grid docsContainer">
+                    <div class="sixteen wide column">
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="eight wide column">
+                <div class="field">
+                  <div class="ui dividing header">
+                    <div class="ui grid">
+                      <div class="ten wide column middle aligned">
+                        <h3>Venue Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
+                          class="building icon"></i></h3>
                       </div>
-                      <div class="ui grid docsContainer">
-                        <div class="sixteen wide column">
-
-
-
+                      <div class="six wide column right aligned">
+                        <div class="ui button compact mini basic circular addDocuments hasModal"
+                             (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="eight wide column">
-                    <div class="field">
-                      <div class="ui dividing header">
-                        <div class="ui grid">
-                          <div class="ten wide column middle aligned">
-                            <h3>Venue Internal Files <i class="building icon"></i></h3>
-                          </div>
-                          <div class="six wide column right aligned">
-                            <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
+                  <div class="ui grid docsContainer">
+                    <div class="sixteen wide column">
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="eight wide column">
+                <div class="field">
+                  <div class="ui dividing header">
+                    <div class="ui grid">
+                      <div class="ten wide column middle aligned">
+                        <h3>Venue Internal Files <i class="building icon"></i></h3>
+                      </div>
+                      <div class="six wide column right aligned">
+                        <div class="ui button compact mini basic circular addDocuments hasModal"
+                             (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui grid docsContainer">
+                    <div class="sixteen wide column">
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </ng-template>
+      </ngb-panel>
+      <!-- <ngb-panel id="static-2">
+          <ng-template ngbPanelTitle>
+              <span><i class="dropdown icon"></i>Venue 1</span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+              2
+          </ng-template>
+      </ngb-panel> -->
+
+    </ngb-accordion>
+  </div>
+  <div class="ui grid docsContainer">
+    <div class="sixteen wide column"></div>
+  </div>
+  <div class="sixteen wide column">
+    <div class="field">
+      <div class="ui dividing header">
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Files for All Suppliers <i class="cog icon"></i><i class="sitemap icon"></i><i class="truck icon"></i>
+            </h3>
+          </div>
+          <div class="six wide column right aligned">
+            <div class="ui button compact mini basic circular addDocuments hasModal"
+                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui grid docsContainer">
+        <div class="sixteen wide column">
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
+
+    <ngb-accordion [closeOthers]="true" activeIds="static-1">
+
+
+      <ngb-panel id="static-1">
+        <ng-template ngbPanelTitle>
+          <i class="dropdown icon"></i>Supplier 1: Supplier Name
+        </ng-template>
+        <ng-template ngbPanelContent>
+
+          <div class="content active">
+            <form class="ui form visible" style="display: block !important;">
+              <div class="ui grid stackable">
+                <div class="eight wide column">
+                  <div class="field">
+                    <div class="ui dividing header">
+                      <div class="ui grid">
+                        <div class="ten wide column middle aligned">
+                          <h3>Supplier Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
+                            class="building icon"></i></h3>
+                        </div>
+                        <div class="six wide column right aligned">
+                          <div class="ui button compact mini basic circular addDocuments hasModal"
+                               (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
                           </div>
                         </div>
                       </div>
-                      <div class="ui grid docsContainer">
-                        <div class="sixteen wide column">
+                    </div>
+                    <div class="ui grid docsContainer">
+                      <div class="sixteen wide column">
 
 
-
-                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <div class="eight wide column">
+                  <div class="field">
+                    <div class="ui dividing header">
+                      <div class="ui grid">
+                        <div class="ten wide column middle aligned">
+                          <h3>Supplier Internal Files <i class="building icon"></i></h3>
+                        </div>
+                        <div class="six wide column right aligned">
+                          <div class="ui button compact mini basic circular addDocuments hasModal"
+                               (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui grid docsContainer">
+                      <div class="sixteen wide column">
 
-              </div>
-            </ng-template>
-          </ngb-panel>
-          <!-- <ngb-panel id="static-2">
-              <ng-template ngbPanelTitle>
-                  <span><i class="dropdown icon"></i>Venue 1</span>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                  2
-              </ng-template>
-          </ngb-panel> -->
 
-        </ngb-accordion>
-      </div>
-      <div class="ui grid docsContainer"><div class="sixteen wide column"></div></div>
-      <div class="sixteen wide column">
-        <div class="field">
-          <div class="ui dividing header">
-            <div class="ui grid">
-              <div class="ten wide column middle aligned">
-                <h3>Files for All Suppliers <i class="cog icon"></i><i class="sitemap icon"></i><i class="truck icon"></i></h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="six wide column right aligned">
-                <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-              </div>
-            </div>
+            </form>
           </div>
-          <div class="ui grid docsContainer">
-            <div class="sixteen wide column">
+        </ng-template>
+      </ngb-panel>
+      <!-- <ngb-panel id="static-2">
+          <ng-template ngbPanelTitle>
+              <span><i class="dropdown icon"></i>Venue 1</span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+              2
+          </ng-template>
+      </ngb-panel> -->
+
+    </ngb-accordion>
+  </div>
 
 
-
+  <div class="ui grid docsContainer">
+    <div class="sixteen wide column"></div>
+  </div>
+  <div class="sixteen wide column">
+    <div class="field">
+      <div class="ui dividing header">
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Files for All Exhibitors <i class="cog icon"></i><i class="sitemap icon"></i><i class="truck icon"></i>
+            </h3>
+          </div>
+          <div class="six wide column right aligned">
+            <div class="ui button compact mini basic circular addDocuments hasModal"
+                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
       </div>
-      <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
-
-        <ngb-accordion [closeOthers]="true" activeIds="static-1">
-
-
-          <ngb-panel id="static-1">
-            <ng-template ngbPanelTitle>
-              <i class="dropdown icon"></i>Supplier 1: Supplier Name
-            </ng-template>
-            <ng-template ngbPanelContent>
-
-              <div class="content active">
-                <form class="ui form visible" style="display: block !important;">
-                  <div class="ui grid stackable">
-                    <div class="eight wide column">
-                      <div class="field">
-                        <div class="ui dividing header">
-                          <div class="ui grid">
-                            <div class="ten wide column middle aligned">
-                              <h3>Supplier Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i class="building icon"></i></h3>
-                            </div>
-                            <div class="six wide column right aligned">
-                              <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="ui grid docsContainer">
-                          <div class="sixteen wide column">
+      <div class="ui grid docsContainer">
+        <div class="sixteen wide column">
 
 
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="eight wide column">
-                      <div class="field">
-                        <div class="ui dividing header">
-                          <div class="ui grid">
-                            <div class="ten wide column middle aligned">
-                              <h3>Supplier Internal Files <i class="building icon"></i></h3>
-                            </div>
-                            <div class="six wide column right aligned">
-                              <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="ui grid docsContainer">
-                          <div class="sixteen wide column">
-
-
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </ng-template>
-          </ngb-panel>
-          <!-- <ngb-panel id="static-2">
-              <ng-template ngbPanelTitle>
-                  <span><i class="dropdown icon"></i>Venue 1</span>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                  2
-              </ng-template>
-          </ngb-panel> -->
-
-        </ngb-accordion>
-      </div>
-
-
-      <div class="ui grid docsContainer"><div class="sixteen wide column"></div></div>
-      <div class="sixteen wide column">
-        <div class="field">
-          <div class="ui dividing header">
-            <div class="ui grid">
-              <div class="ten wide column middle aligned">
-                <h3>Files for All Exhibitors  <i class="cog icon"></i><i class="sitemap icon"></i><i class="truck icon"></i></h3>
-              </div>
-              <div class="six wide column right aligned">
-                <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-              </div>
-            </div>
-          </div>
-          <div class="ui grid docsContainer">
-            <div class="sixteen wide column">
-
-
-
-            </div>
-          </div>
         </div>
       </div>
-      <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
-
-        <ngb-accordion [closeOthers]="true" activeIds="static-1">
-
-
-          <ngb-panel id="static-1">
-            <ng-template ngbPanelTitle>
-              <i class="dropdown icon"></i>Exhibitor 1: Exhibitor Name
-            </ng-template>
-            <ng-template ngbPanelContent>
-
-              <div class="content active">
-                <form class="ui form visible" style="display: block !important;">
-                  <div class="ui grid stackable">
-                    <div class="eight wide column">
-                      <div class="field">
-                        <div class="ui dividing header">
-                          <div class="ui grid">
-                            <div class="ten wide column middle aligned">
-                              <h3>Exhibitor Shared Files  <i class="cog icon"></i><i class="sitemap icon"></i><i class="building icon"></i></h3>
-                            </div>
-                            <div class="six wide column right aligned">
-                              <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="ui grid docsContainer">
-                          <div class="sixteen wide column">
-
-
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="eight wide column">
-                      <div class="field">
-                        <div class="ui dividing header">
-                          <div class="ui grid">
-                            <div class="ten wide column middle aligned">
-                              <h3>Exhibitor Internal Files  <i class="building icon"></i></h3>
-                            </div>
-                            <div class="six wide column right aligned">
-                              <div class="ui button compact mini basic circular addDocuments hasModal"  (click)="contentUpload(contentNew)"><i class="upload icon"></i>Upload</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="ui grid docsContainer">
-                          <div class="sixteen wide column">
-
-
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </ng-template>
-          </ngb-panel>
-          <!-- <ngb-panel id="static-2">
-              <ng-template ngbPanelTitle>
-                  <span><i class="dropdown icon"></i>Venue 1</span>
-              </ng-template>
-              <ng-template ngbPanelContent>
-                  2
-              </ng-template>
-          </ngb-panel> -->
-
-        </ngb-accordion>
-      </div>
-
     </div>
-  </ng-template>
-</li>
+  </div>
+  <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
+
+    <ngb-accordion [closeOthers]="true" activeIds="static-1">
+
+
+      <ngb-panel id="static-1">
+        <ng-template ngbPanelTitle>
+          <i class="dropdown icon"></i>Exhibitor 1: Exhibitor Name
+        </ng-template>
+        <ng-template ngbPanelContent>
+
+          <div class="content active">
+            <form class="ui form visible" style="display: block !important;">
+              <div class="ui grid stackable">
+                <div class="eight wide column">
+                  <div class="field">
+                    <div class="ui dividing header">
+                      <div class="ui grid">
+                        <div class="ten wide column middle aligned">
+                          <h3>Exhibitor Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
+                            class="building icon"></i></h3>
+                        </div>
+                        <div class="six wide column right aligned">
+                          <div class="ui button compact mini basic circular addDocuments hasModal"
+                               (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui grid docsContainer">
+                      <div class="sixteen wide column">
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide column">
+                  <div class="field">
+                    <div class="ui dividing header">
+                      <div class="ui grid">
+                        <div class="ten wide column middle aligned">
+                          <h3>Exhibitor Internal Files <i class="building icon"></i></h3>
+                        </div>
+                        <div class="six wide column right aligned">
+                          <div class="ui button compact mini basic circular addDocuments hasModal"
+                               (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui grid docsContainer">
+                      <div class="sixteen wide column">
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </ng-template>
+      </ngb-panel>
+      <!-- <ngb-panel id="static-2">
+          <ng-template ngbPanelTitle>
+              <span><i class="dropdown icon"></i>Venue 1</span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+              2
+          </ng-template>
+      </ngb-panel> -->
+
+    </ngb-accordion>
+  </div>
+
+</div>

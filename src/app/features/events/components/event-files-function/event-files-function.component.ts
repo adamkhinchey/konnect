@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, TemplateRef} from '@angular/core';
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
@@ -8,9 +8,9 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 })
 export class EventFilesFunctionComponent implements OnInit {
 
-  @Input() contentNew: any;
+  @Input() uploadFilesModal: TemplateRef<any> | undefined;
 
-  modalReference: NgbModalRef | undefined;
+  fileUploadModalReference: NgbModalRef | undefined;
 
   constructor(private modalService: NgbModal) {
   }
@@ -18,10 +18,12 @@ export class EventFilesFunctionComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  contentUpload(contentNew: any): void {
-    this.modalReference = this.modalService.open(contentNew, {
+  contentUpload(content: any): void {
+    this.fileUploadModalReference = this.modalService.open(content, {
       centered: true,
       size: 'md',
+      backdrop: 'static',
+      keyboard: false,
     });
 
   }

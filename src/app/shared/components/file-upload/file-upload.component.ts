@@ -11,6 +11,7 @@ import {ToastrService} from "ngx-toastr";
 export class FileUploadComponent implements OnInit {
 
   @Input() config: FileUploadConfigInterface | undefined;
+  @Input() showValidFileTypeList = true;
   @ViewChild('fileInputForm') inputForm: ElementRef<HTMLFormElement> | undefined;
   @ViewChild('fileUploadInputElement') inputElement: ElementRef<HTMLElement> | undefined;
   @Output() fileChange = new EventEmitter<File>();
@@ -34,10 +35,16 @@ export class FileUploadComponent implements OnInit {
           return type.slice(index + 1);
         }).join(', ');
 
-        this.toaster.error(`Only files in
+        if (this.showValidFileTypeList) {
+          this.toaster.error(`Only files in
         ${allowedFileTypesString} format(s)
         ${this.config?.size ? ` of upto ${this.config?.size / (1024 * 1024)} MB` : ''} are valid`
-          , 'Invalid file type');
+            , 'Invalid file type');
+        } else {
+          this.toaster.error(`Selected file type is not allowed
+        ${this.config?.size ? `and file of upto ${this.config?.size / (1024 * 1024)} MB` : ''} is valid`
+            , 'Invalid file type or file size');
+        }
 
         this.inputForm?.nativeElement.reset();
       }

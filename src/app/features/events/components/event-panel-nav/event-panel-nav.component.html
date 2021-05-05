@@ -37,5 +37,12 @@
     <ng-content select="[exhibitors]"></ng-content>
     </ng-template>
   </li>
+  <li [ngbNavItem]="6">
+    <a ngbNavLink class="item tabAdmin"><i class="file alternate icon"></i><span
+      class="hideMobile">FILES</span></a>
+    <ng-template ngbNavContent>
+      <ng-content select="[eventFiles]"></ng-content>
+    </ng-template>
+  </li>
 </ul>
 <div [ngbNavOutlet]="nav" class="mt-2"></div>

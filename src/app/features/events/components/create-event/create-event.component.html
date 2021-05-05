@@ -80,16 +80,19 @@
         </ng-container>
         <ng-container exhibitors>
           <app-event-exhibitors-function #exhibitorsFn
-            [eventToBeSaved]="eventToBeSaved"
-            (saveAndInvite)="saveToDb($event)"
-            [searchInviteCmpModal]="searchInviteCmpModal"
-            [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
-            [setOpenedModalRef]="setOpenedModalRef.bind(this)">
+                                         [eventToBeSaved]="eventToBeSaved"
+                                         (saveAndInvite)="saveToDb($event)"
+                                         [searchInviteCmpModal]="searchInviteCmpModal"
+                                         [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+                                         [setOpenedModalRef]="setOpenedModalRef.bind(this)">
 
           </app-event-exhibitors-function>
         </ng-container>
-        <!--<app-event-files-function></app-event-files-function>
-        <app-event-timeline-function></app-event-timeline-function>-->
+        <ng-container eventFiles>
+          <app-event-files-function
+          [uploadFilesModal]="uploadFilesModal"></app-event-files-function>
+        </ng-container>
+        <!--<app-event-timeline-function></app-event-timeline-function>-->
       </app-event-panel-nav>
 
       <!--<div [ngbNavOutlet]="eventPanelNav.navRef" class="mt-2"></div>-->
@@ -115,50 +118,8 @@
     </app-search-or-invite-fn-cmp-cnt>
   </ng-template>
 
-  <ng-template #contentNew let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Upload Files</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="content uploadDocuments">
-        <form class="ui form">
-          <div class="ui grid">
-            <div class="sixteen wide column">
-              <div class="field">
-                <p>ADocument.pfd</p>
-                <input type="text" placeholder="Display Name">
-                <a href="#" class="removeDocument"><i class="trash alternate icon"></i>Remove</a>
-              </div>
-              <div class="field">
-                <p>ADocument.docx</p>
-                <input type="text" placeholder="Display Name">
-                <a href="#" class="removeDocument"><i class="trash alternate icon"></i>Remove</a>
-              </div>
-              <div class="field">
-                <p>AnImage.jpg</p>
-                <input type="text" placeholder="Display Name">
-                <a href="#" class="removeDocument"><i class="trash alternate icon"></i>Remove</a>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="newFooter">
-      <div class="actions">
-        <div class="ui grid">
-          <div class="eight wide column left aligned">
-            <div class="ui button positive">Browse and Add</div>
-          </div>
-          <div class="eight wide column right aligned">
-            <div class="ui button positive">Save and Upload</div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <ng-template #uploadFilesModal let-modal>
+    <app-event-files-upload-modal (closed)="modal.close()"></app-event-files-upload-modal>
   </ng-template>
 
 
