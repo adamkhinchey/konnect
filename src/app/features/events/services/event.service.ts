@@ -15,7 +15,7 @@ import {InviteFnCmpCntInterface, InviteFnCmpInterface} from "../models/interface
 @Injectable({
   providedIn: 'root'
 })
-export class SaveEventService {
+export class EventService {
 
   private apiBaseUrl = environment.apiBaseURL;
 

@@ -12,7 +12,7 @@ import {UserSettingsService} from '../../../../shared/services';
 import {UserSettingsInterface} from '../../../../shared/models';
 import {Subscription} from 'rxjs';
 import {AuthService} from '../../../../core/services/auth.service';
-import {SaveEventService} from '../../services/save-event.service';
+import {EventService} from '../../services/event.service';
 import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/event-assign-function-cmp.component';
 import {EventVenueFunctionComponent} from '../event-venue-function/event-venue-function.component';
 import {Router} from '@angular/router';
@@ -33,7 +33,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   disabled = true;
   modalReference: NgbModalRef | undefined;
   eventToBeSaved = new SaveEventClass();
-  updateFnCmpToSelf: Map<EventFunctionTypes, boolean | boolean[] | null> = this.saveEventService.setIsFnOwnCompany.getValue();
+  updateFnCmpToSelf: Map<EventFunctionTypes, boolean | boolean[] | null> = this.eventService.setIsFnOwnCompany.getValue();
   selectedFunction: EventFunctionTypes = this.active;
   isFnCmpInvited: boolean | undefined;
   private userSettingsSub: Subscription | undefined;
@@ -63,19 +63,19 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     private toaster: ToastrService,
     private userSettings: UserSettingsService,
     private authService: AuthService,
-    private saveEventService: SaveEventService,
+    private eventService: EventService,
     private router: Router) {
   }
 
   ngOnInit(): void {
-    this.saveEventService.reset();
+    this.eventService.reset();
     this.userSettingsSub = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
       this.defaultCompany = value.defaultCompany;
       this.eventToBeSaved.createrUserId = this.authService.getUserInfo().id;
       this.eventToBeSaved.creatorFromCompanyId = this.defaultCompany.id;
       this.setFnCompanyToSelf(this.defaultCompany);
     });
-    this.isOwnCompanySub = this.saveEventService.setIsFnOwnCompany.subscribe(status => {
+    this.isOwnCompanySub = this.eventService.setIsFnOwnCompany.subscribe(status => {
       this.updateFnCmpToSelf = status;
       devLogger('log', {createEvent: status});
       if (this.defaultCompany) {
@@ -83,7 +83,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    this.saveOnlySub = this.saveEventService.triggerSaveOnly.subscribe(() => {
+    this.saveOnlySub = this.eventService.triggerSaveOnly.subscribe(() => {
       switch (this.selectedFunction) {
         case EventFunctionTypes.CLIENT:
         case EventFunctionTypes.EVENT_MANAGER:
@@ -115,9 +115,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.selectedFunction = changeEvent.nextId;
     // null means navigated to first time
     if (this.updateFnCmpToSelf.get(this.selectedFunction) === null) {
-      const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
+      const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
       tempMap.set(this.selectedFunction, true);
-      this.saveEventService.setIsFnOwnCompany.next(tempMap);
+      this.eventService.setIsFnOwnCompany.next(tempMap);
     }
   }
 
@@ -227,7 +227,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
       case EventFunctionTypes.VENUE:
         this.venueCompanies?.push(company);
-        const activatedVenuePanelIndex = this.saveEventService.activeVenuePanelIndex;
+        const activatedVenuePanelIndex = this.eventService.activeVenuePanelIndex;
         if (activatedVenuePanelIndex !== null && this.venueCompanies) {
           // @ts-ignore
           this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex).setSelectedCompany(company);
@@ -235,10 +235,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         break;
       case EventFunctionTypes.SUPPLIERS:
-        this.saveEventService.supplierCompanyAdded(company);
+        this.eventService.supplierCompanyAdded(company);
         break;
       case EventFunctionTypes.EXHIBITORS:
-        this.saveEventService.exhibitorCompanyAdded(company);
+        this.eventService.exhibitorCompanyAdded(company);
         break;
       case EventFunctionTypes.FILES:
         break;
@@ -261,15 +261,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       case EventFunctionTypes.EVENT_MANAGER:
         return (this.eventMgrCmp as Company)?.id;
       case EventFunctionTypes.VENUE:
-        const activatedVenuePanelIndex = this.saveEventService.activeVenuePanelIndex;
+        const activatedVenuePanelIndex = this.eventService.activeVenuePanelIndex;
         if (activatedVenuePanelIndex !== null && this.venueCompanies) {
           return (this.venueCompanies[activatedVenuePanelIndex] as Company)?.id;
         } else {
           return null;
         }
       case EventFunctionTypes.SUPPLIERS: {
-        const activeVenueIndex = this.saveEventService.activeServicePanel?.venueIndex;
-        const activeServiceIndex = this.saveEventService.activeServicePanel?.serviceIndex;
+        const activeVenueIndex = this.eventService.activeServicePanel?.venueIndex;
+        const activeServiceIndex = this.eventService.activeServicePanel?.serviceIndex;
         if (typeof activeVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
           const company = this.suppliersFn?.venuesSuppCmpsMap.get(activeVenueIndex)?.get(activeServiceIndex);
           if (company) {
@@ -279,8 +279,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         return null;
       }
       case EventFunctionTypes.EXHIBITORS: {
-        const activeVenueIndex = this.saveEventService.activeExhibitorPanel?.venueIndex;
-        const activeExhibitorIndex = this.saveEventService.activeExhibitorPanel?.exhibitorIndex;
+        const activeVenueIndex = this.eventService.activeExhibitorPanel?.venueIndex;
+        const activeExhibitorIndex = this.eventService.activeExhibitorPanel?.exhibitorIndex;
         if (typeof activeVenueIndex === 'number' && typeof activeExhibitorIndex === 'number') {
           const company = this.exhibitorsFn?.venuesExhCmpsMap.get(activeVenueIndex)?.get(activeExhibitorIndex);
           if (company) {
@@ -303,7 +303,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.eventMgrContactList = [...this.eventMgrContactList, ...contactList];
         break;
       case EventFunctionTypes.VENUE:
-        const activatedVenuePanelIndex = this.saveEventService.activeVenuePanelIndex;
+        const activatedVenuePanelIndex = this.eventService.activeVenuePanelIndex;
         if (activatedVenuePanelIndex !== null && this.venueFn?.venueAssignCmp) {
           if (!this.venueContactLists[activatedVenuePanelIndex]) {
             this.venueContactLists[activatedVenuePanelIndex] = [];
@@ -318,10 +318,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         break;
       case EventFunctionTypes.SUPPLIERS:
-        this.saveEventService.supplierContactsAdded(contactList);
+        this.eventService.supplierContactsAdded(contactList);
         break;
       case EventFunctionTypes.EXHIBITORS:
-        this.saveEventService.exhibitorContactsAdded(contactList);
+        this.eventService.exhibitorContactsAdded(contactList);
         break;
       default:
         break;
@@ -336,7 +336,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       case EventFunctionTypes.EVENT_MANAGER:
         return this.eventMgrContactList.slice(0);
       case EventFunctionTypes.VENUE:
-        const activatedVenuePanelIndex = this.saveEventService.activeVenuePanelIndex;
+        const activatedVenuePanelIndex = this.eventService.activeVenuePanelIndex;
         if (activatedVenuePanelIndex !== null && this.venueFn?.venueAssignCmp) {
           let venueAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
           venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex);
@@ -346,8 +346,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         return [];
       case EventFunctionTypes.SUPPLIERS: {
-        const activeVenueIndex = this.saveEventService.activeServicePanel?.venueIndex;
-        const activeServiceIndex = this.saveEventService.activeServicePanel?.serviceIndex;
+        const activeVenueIndex = this.eventService.activeServicePanel?.venueIndex;
+        const activeServiceIndex = this.eventService.activeServicePanel?.serviceIndex;
         if (typeof activeVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
           const service = this.eventToBeSaved.venues?.list[activeVenueIndex]
             .suppliers[0].services[activeServiceIndex];
@@ -358,8 +358,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         return [];
       }
       case EventFunctionTypes.EXHIBITORS: {
-        const activeVenueIndex = this.saveEventService.activeExhibitorPanel?.venueIndex;
-        const activeServiceIndex = this.saveEventService.activeExhibitorPanel?.exhibitorIndex;
+        const activeVenueIndex = this.eventService.activeExhibitorPanel?.venueIndex;
+        const activeServiceIndex = this.eventService.activeExhibitorPanel?.exhibitorIndex;
         if (typeof activeVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
           const exhibitor = this.eventToBeSaved.venues?.list[activeVenueIndex]
             .exhibitorList[0].exhibitors[activeServiceIndex];
@@ -416,9 +416,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.clientContactList = [];
     this.eventToBeSaved.client = null;
     if (wasOwnCompany) {
-      const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
+      const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
       tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
-      this.saveEventService.setIsFnOwnCompany.next(tempMap);
+      this.eventService.setIsFnOwnCompany.next(tempMap);
     }
   }
 
@@ -452,9 +452,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eventMgrContactList = [];
     this.eventToBeSaved.eventManager = null;
     if (wasOwnCompany) {
-      const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
+      const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
       tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
-      this.saveEventService.setIsFnOwnCompany.next(tempMap);
+      this.eventService.setIsFnOwnCompany.next(tempMap);
     }
   }
 
@@ -701,7 +701,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (!this.isEventClientInvalid && !this.isEventMgrInvalid && !this.isEventVenuesInvalid &&
       !this.isVenuesSuppliersInvalid && !this.isVenuesExhibitorsInvalid) {
-      this.saveEventSub = this.saveEventService.saveToDb(this.eventToBeSaved).subscribe(
+      this.saveEventSub = this.eventService.saveToDb(this.eventToBeSaved).subscribe(
         value => {
           if (value) {
             this.toaster.success('Event saved successfully');

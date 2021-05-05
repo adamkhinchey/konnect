@@ -14,7 +14,7 @@ import {SaveEventClass} from '../../models/classes/saveEvent.class';
 import {Subscription} from 'rxjs';
 import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/event-assign-function-cmp.component';
 import {NgbAccordion, NgbPanelChangeEvent} from '@ng-bootstrap/ng-bootstrap';
-import {SaveEventService} from '../../services/save-event.service';
+import {EventService} from '../../services/event.service';
 import {devLogger} from '../../../../shared/utils';
 
 @Component({
@@ -41,7 +41,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   @Input() setOpenedModalRef: any;
   @Input() removeContact: any;
 
-  constructor(private saveEventService: SaveEventService) {
+  constructor(private eventService: EventService) {
   }
 
   ngAfterViewInit(): void {
@@ -84,7 +84,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
     }
     this.ngbAccordion.collapseAll();
     this.activeVenuePanel = this.eventToBeSaved.venues.list.length - 1;
-    this.saveEventService.activeVenuePanelIndex = this.activeVenuePanel;
+    this.eventService.activeVenuePanelIndex = this.activeVenuePanel;
     devLogger('log', {selectedCompanies: this.selectedCompanies});
   }
 
@@ -128,7 +128,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   }
 
   panelActivated(i: number): void {
-    this.saveEventService.activeVenuePanelIndex = i;
+    this.eventService.activeVenuePanelIndex = i;
   }
 
   removeVenueContact(rowIndex: number, columnIndex: number): any {

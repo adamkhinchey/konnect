@@ -3,7 +3,7 @@ import {Company} from '../../../users/models';
 import {InviteFnCmpClass} from '../../models/classes';
 import {SaveEventClass} from '../../models/classes/saveEvent.class';
 import {Subscription} from 'rxjs';
-import {SaveEventService} from '../../services/save-event.service';
+import {EventService} from '../../services/event.service';
 import {EventFunctionTypes} from '../../models/types';
 
 @Component({
@@ -20,11 +20,11 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   isOwnCompany = false;
   private subs1: Subscription | undefined;
 
-  constructor(public saveEventService: SaveEventService) {
+  constructor(public eventService: EventService) {
   }
 
   ngOnInit(): void {
-    this.subs1 = this.saveEventService.setIsFnOwnCompany.subscribe(status => {
+    this.subs1 = this.eventService.setIsFnOwnCompany.subscribe(status => {
       this.isOwnCompany = !!status.get(EventFunctionTypes.EVENT_MANAGER);
     });
   }
@@ -58,9 +58,9 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   }
 
   toggleEvMgrOwnCompany(): void {
-    const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
+    const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
     tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
-    this.saveEventService.setIsFnOwnCompany.next(tempMap);
+    this.eventService.setIsFnOwnCompany.next(tempMap);
   }
 
   ngOnDestroy(): void {

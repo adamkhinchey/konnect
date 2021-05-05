@@ -9,7 +9,7 @@ import {
   SuppExhTimeWindowFormatInterface,
   VenueListItemInterface
 } from '../../models/interfaces';
-import {SaveEventService} from '../../services/save-event.service';
+import {EventService} from '../../services/event.service';
 import {devLogger} from '../../../../shared/utils';
 import {InviteFnCmpClass} from '../../models/classes';
 
@@ -31,11 +31,11 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   private exhCmpCntAddedSub: Subscription | undefined;
   venuesExhCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
 
-  constructor(private saveEventService: SaveEventService) {
+  constructor(private eventService: EventService) {
   }
 
   ngOnInit(): void {
-    this.exhCompanyAddedSub = this.saveEventService.exhibitorCompanyAddSubject
+    this.exhCompanyAddedSub = this.eventService.exhibitorCompanyAddSubject
       .subscribe(value => {
         devLogger('log', 'exhCompanyAddedSub');
         devLogger('log', value);
@@ -58,7 +58,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.exhCmpCntAddedSub = this.saveEventService.exhibitorCmpCntAddSubject.subscribe(value => {
+    this.exhCmpCntAddedSub = this.eventService.exhibitorCmpCntAddSubject.subscribe(value => {
       this.setContacts(value);
     });
   }
@@ -123,13 +123,13 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
     }
     this.ngbAccordion?.collapseAll();
     this.activeExhibitorPanel = venue.exhibitorList[0].exhibitors.length - 1;
-    this.saveEventService.activeExhibitorPanel = {venueIndex, exhibitorIndex: this.activeExhibitorPanel};
+    this.eventService.activeExhibitorPanel = {venueIndex, exhibitorIndex: this.activeExhibitorPanel};
     // devLogger('log', {selectedCompanies: this.selectedCompanies});
   }
 
   exhibitorPanelActivated(venueIndex: number, exhibitorIndex: number): void {
     this.activeExhibitorPanel = exhibitorIndex;
-    this.saveEventService.activeExhibitorPanel = {venueIndex, exhibitorIndex};
+    this.eventService.activeExhibitorPanel = {venueIndex, exhibitorIndex};
   }
 
   removeExhibitorContact(venueIndex: number, exhibitorIndex: number, event: number): void {

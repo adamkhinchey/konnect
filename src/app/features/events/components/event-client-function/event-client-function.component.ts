@@ -3,7 +3,7 @@ import {Company} from "../../../users/models";
 import {InviteFnCmpClass} from "../../models/classes";
 import {SaveEventClass} from "../../models/classes/saveEvent.class";
 import {Subscription} from "rxjs";
-import {SaveEventService} from "../../services/save-event.service";
+import {EventService} from "../../services/event.service";
 import {EventFunctionTypes} from "../../models/types";
 
 @Component({
@@ -21,7 +21,7 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   private subs1: Subscription | undefined;
   private subs2: Subscription | undefined;
 
-  constructor(private saveEventService: SaveEventService) {
+  constructor(private eventService: EventService) {
   }
 
 
@@ -41,7 +41,7 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
       }
     });*/
 
-    this.subs2 = this.saveEventService.setIsFnOwnCompany.subscribe(status => {
+    this.subs2 = this.eventService.setIsFnOwnCompany.subscribe(status => {
       this.isOwnCompany = !!status.get(EventFunctionTypes.CLIENT);
     });
   }
@@ -75,9 +75,9 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   }
 
   toggleClientOwnCompany(): void {
-    const tempMap = new Map(this.saveEventService.setIsFnOwnCompany.getValue());
+    const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
     tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
-    this.saveEventService.setIsFnOwnCompany.next(tempMap);
+    this.eventService.setIsFnOwnCompany.next(tempMap);
   }
 
   ngOnDestroy(): void {

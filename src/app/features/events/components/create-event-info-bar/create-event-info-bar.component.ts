@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {SaveEventService} from "../../services/save-event.service";
+import {EventService} from "../../services/event.service";
 
 @Component({
   selector: 'app-create-event-info-bar',
@@ -8,7 +8,7 @@ import {SaveEventService} from "../../services/save-event.service";
 })
 export class CreateEventInfoBarComponent implements OnInit {
 
-  constructor(public eventSaveService: SaveEventService) { }
+  constructor(public eventService: EventService) { }
 
   ngOnInit(): void {
   }

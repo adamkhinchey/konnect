@@ -8,7 +8,7 @@ import {
   InviteFnCmpInterface, SuppExhTimeWindowFormatInterface,
   TimeWindowFormatInterface, VenueListItemInterface
 } from '../../models/interfaces';
-import {SaveEventService} from "../../services/save-event.service";
+import {EventService} from "../../services/event.service";
 import {Subscription} from "rxjs";
 import {InviteFnCmpClass} from "../../models/classes";
 import {Company} from "../../../users/models";
@@ -32,11 +32,11 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   private supplierCmpCntAddedSub: Subscription | undefined;
   venuesSuppCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
 
-  constructor(private saveEventService: SaveEventService) {
+  constructor(private eventService: EventService) {
   }
 
   ngOnInit(): void {
-    this.supplierCompanyAddedSub = this.saveEventService.supplierCompanyAddSubject
+    this.supplierCompanyAddedSub = this.eventService.supplierCompanyAddSubject
       .subscribe(value => {
         devLogger('log', 'supplierCompanyAddedSub');
         devLogger('log', value);
@@ -59,7 +59,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.supplierCmpCntAddedSub = this.saveEventService.supplierCmpCntAddSubject.subscribe(value => {
+    this.supplierCmpCntAddedSub = this.eventService.supplierCmpCntAddSubject.subscribe(value => {
       this.setContacts(value);
     });
   }
@@ -121,14 +121,14 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     }
     this.ngbAccordion.collapseAll();
     this.activeServicePanel = venue.suppliers[0].services.length - 1;
-    this.saveEventService.activeServicePanel = {venueIndex, serviceIndex: this.activeServicePanel};
+    this.eventService.activeServicePanel = {venueIndex, serviceIndex: this.activeServicePanel};
     //devLogger('log', {selectedCompanies: this.selectedCompanies});
 
   }
 
   servicePanelActivated(venueIndex: number, serviceIndex: number): void {
     this.activeServicePanel = serviceIndex;
-    this.saveEventService.activeServicePanel = {venueIndex, serviceIndex};
+    this.eventService.activeServicePanel = {venueIndex, serviceIndex};
   }
 
   removeServiceContact(venueIndex: number, serviceIndex: number, event: number): void {
