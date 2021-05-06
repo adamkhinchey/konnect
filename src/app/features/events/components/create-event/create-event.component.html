@@ -89,8 +89,7 @@
           </app-event-exhibitors-function>
         </ng-container>
         <ng-container eventFiles>
-          <app-event-files-function
-          [uploadFilesModal]="uploadFilesModal"></app-event-files-function>
+          <app-event-files-function [eventID]="savedEventId"></app-event-files-function>
         </ng-container>
         <!--<app-event-timeline-function></app-event-timeline-function>-->
       </app-event-panel-nav>
@@ -118,9 +117,6 @@
     </app-search-or-invite-fn-cmp-cnt>
   </ng-template>
 
-  <ng-template #uploadFilesModal let-modal>
-    <app-event-files-upload-modal (closed)="modal.close()"></app-event-files-upload-modal>
-  </ng-template>
 
 
 </div>

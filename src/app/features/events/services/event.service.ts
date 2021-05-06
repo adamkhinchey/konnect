@@ -56,6 +56,8 @@ export class EventService {
 
   triggerSaveOnly = new Subject();
 
+  fetchEventFilesSubject = new Subject<number>();
+
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -120,6 +122,17 @@ export class EventService {
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/saveEvent`,
       {event})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
+
+  fetchEventFiles(eventID: number): Observable<ApiResponseModelInterface> {
+    this.spinner.show();
+    return this.http.get<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/event/${eventID}/files`)
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),

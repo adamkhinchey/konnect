@@ -413,3 +413,7 @@
   </div>
 
 </div>
+
+<ng-template #uploadFilesModal let-modal>
+  <app-event-files-upload-modal (closed)="modal.close()"></app-event-files-upload-modal>
+</ng-template>
