@@ -17,7 +17,7 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
   fileUploadModalReference: NgbModalRef | undefined;
   private fetchEventFilesSubs: Subscription | undefined;
   private fetchEventFilesTrigger: Subscription | undefined;
-  private eventFiles: EventFiles | undefined;
+  eventFiles: EventFiles | undefined;
 
   constructor(
     private modalService: NgbModal,

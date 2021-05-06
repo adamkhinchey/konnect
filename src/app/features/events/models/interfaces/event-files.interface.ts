@@ -33,7 +33,7 @@ interface VenueFile {
 }
 
 interface FilesForAllVenues extends FilesData {
-  venueFiles?: VenueFile[];
+  venuesFiles?: VenueFile[];
 }
 
 interface SupplierFile {
