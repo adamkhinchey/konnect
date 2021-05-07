@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title" id="modal-basic-title">Upload Files</h4>
-  <button type="button" class="close" aria-label="Close" (click)="this.closed.emit()">
+  <button type="button" class="close" aria-label="Close" (click)="toggleUploadStarted() && this.closed.emit()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -10,13 +10,24 @@
       <div class="ui grid">
         <div class="sixteen wide column">
           <div class="field" *ngFor="let listItem of selectedFileList; let i=index">
-            <p>{{listItem.file.name}}</p>
+            <div>
+              <p [style.display]="'inline-block'">{{listItem.file.name}}</p>
+              <div [style.marginLeft.px]="20" *ngIf="eventFileUploadService.fileUploadStatus.get(i)?.uploading"
+                    class="ui active inline loader"></div>
+              <i [style.marginLeft.px]="20" *ngIf="eventFileUploadService.fileUploadStatus.get(i)?.uploaded"
+                   class="check icon"></i>
+              <span [style.marginLeft.px]="20" *ngIf="eventFileUploadService.fileUploadStatus.get(i)?.failed"
+                 class="ui tiny red header">Failed</span>
+            </div>
             <input [(ngModel)]="listItem.displayName"
                    [ngModelOptions]="{standalone:true}"
                    type="text"
-                   placeholder="Display Name">
-            <a [style.cursor]="'pointer'" (click)="removeFile(i)"
-               class="removeDocument">
+                   placeholder="Display Name"
+                   [disabled]="eventFileUploadService.fileUploadStatus.has(i) && eventFileUploadService.fileUploadStatus.get(i)!.uploading">
+            <a [style.cursor]="'pointer'"
+               (click)="removeFile(i)"
+               class="removeDocument"
+               [ngClass]="{disabled:eventFileUploadService.fileUploadStatus.get(i)?.uploading}">
               <i class="trash alternate icon"></i>
               Remove
             </a>
@@ -31,7 +42,8 @@
     <div class="ui grid">
       <div class="eight wide column left aligned">
         <div appFileUploadTrigger [fileUploadComponentRef]="fileUploadComponent"
-             class="ui button positive" [ngClass]="{'disabled':selectedFileList.length>=8}">Browse and Add</div>
+             class="ui button positive" [ngClass]="{'disabled':selectedFileList.length>=8}">Browse and Add
+        </div>
         <app-file-upload #fileUploadComponent
                          [config]="fileConfig"
                          [showValidFileTypeList]="false"
@@ -39,7 +51,10 @@
         ></app-file-upload>
       </div>
       <div class="eight wide column right aligned">
-        <div class="ui button positive">Save and Upload</div>
+        <div class="ui button positive"
+             [ngClass]="{'disabled':selectedFileList.length===0 || uploadStarted}"
+             (click)="uploadSelectedFiles()">Save and Upload
+        </div>
       </div>
     </div>
   </div>
