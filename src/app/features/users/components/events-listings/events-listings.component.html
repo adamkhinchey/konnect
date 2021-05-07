@@ -20,30 +20,39 @@
                 </div>
                 <div class="ui segment">
                     <div class="activeEventsContainer">
-                        <ng-container *ngFor="let event of events;">
-                            <div class="ui grid stackable" id="september21">
-                                <div class="three wide column center aligned">
-                                    <div class="ui statistic marginB0">
-                                        <div class="value">
-                                            21 - 23
-                                        </div>
-                                        <div class="label">
-                                            September
+                        <ng-container *ngIf="events && events.length; else noData">
+                            <ng-container *ngFor="let event of events;">
+                                <div class="ui grid stackable" id="september21">
+                                    <div class="three wide column center aligned">
+                                        <div class="ui statistic marginB0">
+                                            <div class="value">
+                                                {{event.eventStartDate | date:'dd'}} - {{event.eventEndDate |
+                                                date:'dd'}}
+                                            </div>
+                                            <div class="label">
+                                                {{event.eventStartDate | date:'MMMM'}} {{event.eventEndDate ? '-' : ''}}
+                                                {{event.eventEndDate |
+                                                date:'MMMM'}}
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="nine wide column">
+                                        <h2 class="marginT10"><a href="CE-03.html">{{event.title}}</a></h2>
+                                        <h4>{{event.clientCompanyName}}</h4>
+                                        <h4>{{event.clientCompanyCity}}, {{event.clientCompanyState}}</h4>
+                                    </div>
+                                    <div class="four wide column">
+                                        <h4 class="columnTitle">My roles</h4>
+                                        <p *ngFor="let service of event.services">{{service.serviceName}}:
+                                            {{service.roleName}}</p>
+                                    </div>
                                 </div>
-                                <div class="nine wide column">
-                                    <h2 class="marginT10"><a href="CE-03.html">{{event.title}}</a></h2>
-                                    <h4>{{event.clientCompanyName}}</h4>
-                                    <h4>{{event.clientCompanyCity}}, {{event.clientCompanyState}}</h4>
-                                </div>
-                                <div class="four wide column">
-                                    <h4 class="columnTitle">My roles</h4>
-                                    <p>{{Service Name}}: {{Role}}</p>
-                                </div>
-                            </div>
-                            <div class="ui divider specialDivider"></div>
+                                <div class="ui divider specialDivider"></div>
+                            </ng-container>
                         </ng-container>
+                        <ng-template #noData>
+                            <h2>Your associated companies currently have no scheduled events</h2>
+                        </ng-template>
                         <!-- <div class="ui grid stackable" id="september25">
                             <div class="three wide column center aligned">
                                 <div class="ui statistic marginB0">
