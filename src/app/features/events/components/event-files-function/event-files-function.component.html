@@ -4,19 +4,29 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Client/Event Manager Shared Files <i class="cog icon"></i><i class="sitemap icon"></i></h3>
+            <h3>Client/Event Manager Shared Files
+              <i class="cog icon"></i>
+              <i class="sitemap icon"></i></h3>
           </div>
           <div class="six wide column right aligned">
             <div class="ui button compact mini basic circular addDocuments hasModal"
-                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                 (click)="contentUpload(uploadFilesModal)">
+              <i class="upload icon">
+              </i>Upload
             </div>
           </div>
         </div>
       </div>
       <div class="ui grid docsContainer">
         <div class="sixteen wide column">
-
-
+          <ng-container *ngIf="eventFiles?.data?.files?.CEMSF">
+            <a class="ui mini button basic"
+               *ngFor="let listItem of eventFiles!.data!.files!.CEMSF!.list"
+               [href]="listItem.fileURL"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -37,8 +47,14 @@
       </div>
       <div class="ui grid docsContainer">
         <div class="sixteen wide column">
-
-
+          <ng-container *ngIf="eventFiles?.data?.files?.CIF">
+            <a class="ui mini button basic"
+               *ngFor="let listItem of eventFiles!.data!.files!.CIF!.list"
+               [href]="listItem.fileURL"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -59,8 +75,14 @@
       </div>
       <div class="ui grid docsContainer">
         <div class="sixteen wide column">
-
-
+          <ng-container *ngIf="eventFiles?.data?.files?.EMIF">
+            <a class="ui mini button basic"
+               *ngFor="let listItem of eventFiles!.data!.files!.EMIF!.list"
+               [href]="listItem.fileURL"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -81,8 +103,14 @@
       </div>
       <div class="ui grid docsContainer">
         <div class="sixteen wide column">
-
-
+          <ng-container *ngIf="eventFiles?.data?.files?.EF">
+            <a class="ui mini button basic"
+               *ngFor="let listItem of eventFiles!.data!.files!.EF!.list"
+               [href]="listItem.fileURL"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+          </ng-container>
         </div>
       </div>
     </div>
@@ -105,20 +133,29 @@
       </div>
       <div class="ui grid docsContainer">
         <div class="sixteen wide column">
-
-
+          <ng-container *ngIf="eventFiles?.data?.files?.FFAV">
+            <a class="ui mini button basic"
+               *ngFor="let listItem of eventFiles!.data!.files!.FFAV!.list"
+               [href]="listItem.fileURL"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+          </ng-container>
         </div>
       </div>
     </div>
 
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
-    <ngb-accordion [closeOthers]="true" activeIds="static-1">
+    <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAV?.venuesFiles"
+      [closeOthers]="true" [activeIds]="'venueId_' + eventFiles!.data!.files!.FFAV!.venuesFiles![0]!.venueId">
 
 
-      <ngb-panel id="static-1">
+      <ngb-panel [id]="'venueId_' + venueFileItem.venueId"
+                 *ngFor="let venueFileItem of eventFiles!.data!.files!.FFAV!.venuesFiles!">
         <ng-template ngbPanelTitle>
-          <i class="dropdown icon"></i>Venue 1: Venue Company Name, City
+          <i class="dropdown icon"></i>Venue 1: {{venueFileItem.name}}
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="content active">
@@ -140,8 +177,14 @@
                   </div>
                   <div class="ui grid docsContainer">
                     <div class="sixteen wide column">
-
-
+                      <ng-container *ngIf="venueFileItem.FLOOR_PLAN">
+                        <a class="ui mini button basic"
+                           *ngFor="let listItem of venueFileItem.FLOOR_PLAN.list"
+                           [href]="listItem.fileURL"
+                           target="_blank">
+                          <i class="file icon"></i>{{listItem.displayName}}
+                        </a>
+                      </ng-container>
                     </div>
                   </div>
                 </div>
@@ -163,8 +206,14 @@
                   </div>
                   <div class="ui grid docsContainer">
                     <div class="sixteen wide column">
-
-
+                      <ng-container *ngIf="venueFileItem.VSF">
+                        <a class="ui mini button basic"
+                           *ngFor="let listItem of venueFileItem!.VSF!.list"
+                           [href]="listItem.fileURL"
+                           target="_blank">
+                          <i class="file icon"></i>{{listItem.displayName}}
+                        </a>
+                      </ng-container>
                     </div>
                   </div>
                 </div>
@@ -185,8 +234,14 @@
                   </div>
                   <div class="ui grid docsContainer">
                     <div class="sixteen wide column">
-
-
+                      <ng-container *ngIf="venueFileItem.VIF">
+                        <a class="ui mini button basic"
+                           *ngFor="let listItem of venueFileItem!.VIF!.list"
+                           [href]="listItem.fileURL"
+                           target="_blank">
+                          <i class="file icon"></i>{{listItem.displayName}}
+                        </a>
+                      </ng-container>
                     </div>
                   </div>
                 </div>
@@ -227,20 +282,30 @@
       </div>
       <div class="ui grid docsContainer">
         <div class="sixteen wide column">
-
-
+          <ng-container *ngIf="eventFiles?.data?.files?.FFAS">
+            <a class="ui mini button basic"
+               *ngFor="let listItem of eventFiles!.data!.files!.FFAS!.list"
+               [href]="listItem.fileURL"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+          </ng-container>
         </div>
       </div>
     </div>
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
-    <ngb-accordion [closeOthers]="true" activeIds="static-1">
+    <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAS?.supplierFiles"
+      [closeOthers]="true"
+      [activeIds]="'serviceId_' + eventFiles!.data!.files!.FFAS!.supplierFiles![0]!.serviceId">
 
 
-      <ngb-panel id="static-1">
+      <ngb-panel [id]="'serviceId_' + supplierItem.serviceId"
+                 *ngFor="let supplierItem of eventFiles!.data!.files!.FFAS!.supplierFiles!">
         <ng-template ngbPanelTitle>
-          <i class="dropdown icon"></i>Supplier 1: Supplier Name
+          <i class="dropdown icon"></i>Supplier 1: {{supplierItem.name}}
         </ng-template>
         <ng-template ngbPanelContent>
 
@@ -264,8 +329,14 @@
                     </div>
                     <div class="ui grid docsContainer">
                       <div class="sixteen wide column">
-
-
+                        <ng-container *ngIf="supplierItem?.SSF">
+                          <a class="ui mini button basic"
+                             *ngFor="let listItem of supplierItem!.SSF!.list"
+                             [href]="listItem.fileURL"
+                             target="_blank">
+                            <i class="file icon"></i>{{listItem.displayName}}
+                          </a>
+                        </ng-container>
                       </div>
                     </div>
                   </div>
@@ -286,7 +357,14 @@
                     </div>
                     <div class="ui grid docsContainer">
                       <div class="sixteen wide column">
-
+                        <ng-container *ngIf="supplierItem?.SIF">
+                          <a class="ui mini button basic"
+                             *ngFor="let listItem of supplierItem!.SIF!.list"
+                             [href]="listItem.fileURL"
+                             target="_blank">
+                            <i class="file icon"></i>{{listItem.displayName}}
+                          </a>
+                        </ng-container>
 
                       </div>
                     </div>
@@ -330,20 +408,29 @@
       </div>
       <div class="ui grid docsContainer">
         <div class="sixteen wide column">
-
-
+          <ng-container *ngIf="eventFiles?.data?.files?.FFAE">
+            <a class="ui mini button basic"
+               *ngFor="let listItem of eventFiles!.data!.files!.FFAE!.list"
+               [href]="listItem.fileURL"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+          </ng-container>
         </div>
       </div>
     </div>
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
-    <ngb-accordion [closeOthers]="true" activeIds="static-1">
+    <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAE?.exhibitorFiles"
+      [closeOthers]="true" [activeIds]="'exhibitorId_' +eventFiles!.data!.files!.FFAE!.exhibitorFiles![0]!.exhibitorId">
 
 
-      <ngb-panel id="static-1">
+      <ngb-panel [id]="'exhibitorId_' + exhibitorFileItem.exhibitorId"
+                 *ngFor="let exhibitorFileItem of eventFiles!.data!.files!.FFAE!.exhibitorFiles!">
         <ng-template ngbPanelTitle>
-          <i class="dropdown icon"></i>Exhibitor 1: Exhibitor Name
+          <i class="dropdown icon"></i>Exhibitor 1: {{exhibitorFileItem.name}}
         </ng-template>
         <ng-template ngbPanelContent>
 
@@ -367,8 +454,14 @@
                     </div>
                     <div class="ui grid docsContainer">
                       <div class="sixteen wide column">
-
-
+                        <ng-container *ngIf="exhibitorFileItem?.EBSF">
+                          <a class="ui mini button basic"
+                             *ngFor="let listItem of exhibitorFileItem!.EBSF!.list"
+                             [href]="listItem.fileURL"
+                             target="_blank">
+                            <i class="file icon"></i>{{listItem.displayName}}
+                          </a>
+                        </ng-container>
                       </div>
                     </div>
                   </div>
@@ -389,7 +482,14 @@
                     </div>
                     <div class="ui grid docsContainer">
                       <div class="sixteen wide column">
-
+                        <ng-container *ngIf="exhibitorFileItem?.EBIF">
+                          <a class="ui mini button basic"
+                             *ngFor="let listItem of exhibitorFileItem!.EBIF!.list"
+                             [href]="listItem.fileURL"
+                             target="_blank">
+                            <i class="file icon"></i>{{listItem.displayName}}
+                          </a>
+                        </ng-container>
 
                       </div>
                     </div>
@@ -413,3 +513,7 @@
   </div>
 
 </div>
+
+<ng-template #uploadFilesModal let-modal>
+  <app-event-files-upload-modal (closed)="modal.close()"></app-event-files-upload-modal>
+</ng-template>

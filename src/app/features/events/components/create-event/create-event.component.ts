@@ -33,6 +33,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   disabled = true;
   modalReference: NgbModalRef | undefined;
   eventToBeSaved = new SaveEventClass();
+  // TODO remove this hard coded saved eventId
+  savedEventId: number | undefined = 162;
   updateFnCmpToSelf: Map<EventFunctionTypes, boolean | boolean[] | null> = this.eventService.setIsFnOwnCompany.getValue();
   selectedFunction: EventFunctionTypes = this.active;
   isFnCmpInvited: boolean | undefined;
@@ -118,6 +120,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
       tempMap.set(this.selectedFunction, true);
       this.eventService.setIsFnOwnCompany.next(tempMap);
+    }
+
+
+    if (this.selectedFunction === EventFunctionTypes.FILES) {
+      this.eventService.fetchEventFilesSubject.next(this.savedEventId);
     }
   }
 
@@ -705,9 +712,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         value => {
           if (value) {
             this.toaster.success('Event saved successfully');
-            this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() => {
+            this.savedEventId = value.data.eventId;
+            /*this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() => {
               this.router.navigate(['/home/event/create']);
-            });
+            });*/
           }
         },
         error => {
