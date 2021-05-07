@@ -228,11 +228,12 @@
                             <div class="clearfix">
 
                                 <article class="calendar-wrapper">
-                                    <igx-calendar selection="range" [monthsViewNumber]="3"></igx-calendar>
+                                    <igx-calendar #calendar [specialDates]="specialDates" selection="multi"
+                                        [monthsViewNumber]="3"></igx-calendar>
                                 </article>
 
                             </div>
-                            <div class="workWithCalendar">
+                            <!-- <div class="workWithCalendar">
                                 <div class="visibleMobile">
                                     <div class="ui grid">
                                         <div class="eight wide column">
@@ -327,7 +328,7 @@
                                             Picker</div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
