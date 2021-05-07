@@ -19,6 +19,7 @@ const routes: Routes = [
     path: 'home',
     component: DashboardComponent,
     children: [
+      { path: '', pathMatch: 'full', component: ManageConnectionsComponent },
       { path: 'edit-profile', component: EditIndividualProfileComponent },
       {
         path: 'company', children: [

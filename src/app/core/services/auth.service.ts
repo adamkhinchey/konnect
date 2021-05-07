@@ -45,7 +45,7 @@ export class AuthService {
       this.saveToken(user);
       this.loggedIn = true;
       // TODO make navigation back to home or /home/events-dashboard
-      this.router.navigate(['home', 'edit-profile']);
+      this.router.navigate(['home']);
     },
     error: (err: Error) => {
       this.isLoggedIn.next({status: false});

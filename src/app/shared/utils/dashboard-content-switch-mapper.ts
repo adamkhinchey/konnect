@@ -4,5 +4,6 @@ export const contentSwitchMapper: { [key: string]: string } = {
   '/home/join-company': 'join-company',
   '/home/create-company': 'create-company',
   '/home/unapproved': 'un-approved',
-  '/home/manage-connections': 'manage-connections'
+  '/home/manage-connections': 'manage-connections',
+  '/home': 'event-dashboard'
 };

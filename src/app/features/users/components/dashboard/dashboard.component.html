@@ -9,18 +9,15 @@
     <div class="ui middle aligned center aligned">
       <div class="ui middle aligned center aligned grid">
         <div class="column minContainer marginT50 marginB30">
-          <app-company-details-tab
-            [searchForCompany]="true"
-            [navigateTo]="'home/edit-profile'"
+          <app-company-details-tab [searchForCompany]="true" [navigateTo]="'home/edit-profile'"
             (createCompanyMode)="switchToCreateCompany($event)"></app-company-details-tab>
         </div>
       </div>
     </div>
   </ng-container>
   <ng-container *ngSwitchCase="'create-company'">
-    <app-create-company
-      [createCompanyMode]="createCompanyMode"
-      [navigateToPostCreate]="'home/edit-profile'"></app-create-company>
+    <app-create-company [createCompanyMode]="createCompanyMode" [navigateToPostCreate]="'home/edit-profile'">
+    </app-create-company>
   </ng-container>
   <ng-container *ngSwitchCase="'un-approved'">
     <div class="ui middle aligned center aligned">
@@ -28,6 +25,9 @@
     </div>
   </ng-container>
   <ng-container *ngSwitchCase="'manage-connections'">
-      <app-manage-connections></app-manage-connections>
+    <app-manage-connections></app-manage-connections>
+  </ng-container>
+  <ng-container *ngSwitchCase="'event-dashboard'">
+    <app-events-listings *ngIf="events" [events]="events"></app-events-listings>
   </ng-container>
 </div>

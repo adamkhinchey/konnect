@@ -1,0 +1,328 @@
+<div class="mainContent">
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="sixteen wide column">
+                <h2 id="toScheduledEvents" class="ui dividing header">Scheduled Events</h2>
+                <div class="visibleMobile">
+                    <div class="ui grid">
+                        <div class="eight wide column">
+                            <div class="ui button basic blue compact fluid"><i class="undo icon"></i>Event History</div>
+                        </div>
+                        <div class="eight wide column">
+                            <a href="CE-01.html" class="ui button compact fluid ml-2"><i
+                                    class="plus circle icon"></i>Create Event</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="createEvent hideMobile">
+                    <div class="ui button compact basic blue"><i class="undo icon"></i>Event History</div>
+                    <a href="CE-01.html" class="ui button compact ml-1"><i class="plus circle icon"></i>Create Event</a>
+                </div>
+                <div class="ui segment">
+                    <div class="activeEventsContainer">
+                        <ng-container *ngFor="let event of events;">
+                            <div class="ui grid stackable" id="september21">
+                                <div class="three wide column center aligned">
+                                    <div class="ui statistic marginB0">
+                                        <div class="value">
+                                            21 - 23
+                                        </div>
+                                        <div class="label">
+                                            September
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nine wide column">
+                                    <h2 class="marginT10"><a href="CE-03.html">{{event.title}}</a></h2>
+                                    <h4>{{event.clientCompanyName}}</h4>
+                                    <h4>{{event.clientCompanyCity}}, {{event.clientCompanyState}}</h4>
+                                </div>
+                                <div class="four wide column">
+                                    <h4 class="columnTitle">My roles</h4>
+                                    <p>{{Service Name}}: {{Role}}</p>
+                                </div>
+                            </div>
+                            <div class="ui divider specialDivider"></div>
+                        </ng-container>
+                        <!-- <div class="ui grid stackable" id="september25">
+                            <div class="three wide column center aligned">
+                                <div class="ui statistic marginB0">
+                                    <div class="value">
+                                        25
+                                    </div>
+                                    <div class="label">
+                                        September
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nine wide column">
+                                <h2 class="marginT10"><a href="CE-03.html">Donec nec justo eget felis facilisis
+                                        fermentum</a></h2>
+                                <h4>ClientCompany</h4>
+                                <h4>Location</h4>
+                            </div>
+                            <div class="four wide column">
+                                <h4 class="columnTitle">My roles</h4>
+                                Service Name: Role <br>
+                                Service Name: Role
+                            </div>
+                        </div>
+                        <div class="ui divider specialDivider"></div>
+                        <div class="ui grid stackable" id="october1">
+                            <div class="three wide column center aligned">
+                                <div class="ui statistic marginB0">
+                                    <div class="value">
+                                        1
+                                    </div>
+                                    <div class="label">
+                                        October
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nine wide column">
+                                <h2 class="marginT10"><a href="CE-03.html">Donec nec justo eget felis facilisis
+                                        fermentum</a></h2>
+                                <h4>ClientCompany</h4>
+                                <h4>Location</h4>
+                            </div>
+                            <div class="four wide column">
+                                <h4 class="columnTitle">My roles</h4>
+                                Service Name: Role
+                            </div>
+                        </div>
+                        <div class="ui divider specialDivider"></div>
+                        <div class="ui grid stackable" id="october28">
+                            <div class="three wide column center aligned">
+                                <div class="ui statistic marginB0">
+                                    <div class="value">
+                                        28 - 1
+                                    </div>
+                                    <div class="label">
+                                        October - November
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nine wide column">
+                                <h2 class="marginT10"><a href="CE-03.html">Mastering People Management &amp; Team
+                                        Leadership</a></h2>
+                                <h4>Oxford Management Centre</h4>
+                                <h4>Oxford Management Centre, Oxford</h4>
+                            </div>
+                            <div class="four wide column">
+                                <h4 class="columnTitle">My roles</h4>
+                                Audio Visual: Primary Contact
+                            </div>
+                        </div>
+                        <div class="ui divider specialDivider"></div>
+                        <div class="ui grid stackable" id="november14">
+                            <div class="three wide column center aligned">
+                                <div class="ui statistic marginB0">
+                                    <div class="value">
+                                        14
+                                    </div>
+                                    <div class="label">
+                                        November
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nine wide column">
+                                <h2 class="marginT10"><a href="CE-03.html">Donec nec justo eget felis facilisis
+                                        fermentum</a></h2>
+                                <h4>ClientCompany</h4>
+                                <h4>Location</h4>
+                            </div>
+                            <div class="four wide column">
+                                <h4 class="columnTitle">My roles</h4>
+                                Service Name: Role
+                            </div>
+                        </div>
+                        <div class="ui divider specialDivider"></div>
+                        <div class="ui grid stackable" id="november19">
+                            <div class="three wide column center aligned">
+                                <div class="ui statistic marginB0">
+                                    <div class="value">
+                                        19
+                                    </div>
+                                    <div class="label">
+                                        November
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nine wide column">
+                                <h2 class="marginT10"><a href="CE-03.html">Donec nec justo eget felis facilisis
+                                        fermentum</a></h2>
+                                <h4>ClientCompany</h4>
+                                <h4>Location</h4>
+                            </div>
+                            <div class="four wide column">
+                                <h4 class="columnTitle">My roles</h4>
+                                Service Name: Role
+                            </div>
+                        </div>
+                        <div class="ui divider specialDivider"></div>
+                        <div class="ui grid stackable" id="november24">
+                            <div class="three wide column center aligned">
+                                <div class="ui statistic marginB0">
+                                    <div class="value">
+                                        24 - 25
+                                    </div>
+                                    <div class="label">
+                                        November
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nine wide column">
+                                <h2 class="marginT10"><a href="CE-03.html">International conference on Law and Society -
+                                        ICLS 2019</a></h2>
+                                <h4>Researchfora</h4>
+                                <h4>Quest Melbourne Airport, Melbourne Airport</h4>
+                            </div>
+                            <div class="four wide column">
+                                <h4 class="columnTitle">My roles</h4>
+                                Event Manager: Secondary Contact
+                            </div>
+                        </div>
+                        <div class="ui divider specialDivider"></div>
+                        <div class="ui grid stackable" id="november25">
+                            <div class="three wide column center aligned">
+                                <div class="ui statistic marginB0">
+                                    <div class="value">
+                                        25 - 26
+                                    </div>
+                                    <div class="label">
+                                        November
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nine wide column">
+                                <h2 class="marginT10"><a href="CE-03.html">174th International Conference on Medical,
+                                        Pharmaceutical and Health Sciences (ICMPH)</a></h2>
+                                <h4>Global Society for Research and Development</h4>
+                                <h4>Hilton Sydney, Sydney</h4>
+                            </div>
+                            <div class="four wide column">
+                                <h4 class="columnTitle">My roles</h4>
+                                Event Manager: Primary Contact
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui grid stackable">
+            <div class="sixteen wide column">
+                <h2 class="ui dividing header">Your Calendar</h2>
+                <div class="visibleMobile marginB60"></div>
+                <div class="ui segment">
+                    <div class="dashboardCalendar">
+                        <div class="clndr">
+                            <div class="clearfix">
+
+                                <article class="calendar-wrapper">
+                                    <igx-calendar selection="range" [monthsViewNumber]="3"></igx-calendar>
+                                </article>
+
+                            </div>
+                            <div class="workWithCalendar">
+                                <div class="visibleMobile">
+                                    <div class="ui grid">
+                                        <div class="eight wide column">
+                                            <div class="ui button basic blue compact clndr-today-button fluid"><i
+                                                    class="undo icon"></i>Today</div>
+                                        </div>
+                                        <div class="eight wide column">
+                                            <div class="ui calendar" id="button_calendar_mobile">
+                                                <div class="ui popup calendar" tabindex="0">
+                                                    <table
+                                                        class="ui celled center aligned unstackable table three column month">
+                                                        <thead>
+                                                            <tr>
+                                                                <th colspan="3"><span class="link">2021</span><span
+                                                                        class="prev link"><i
+                                                                            class="chevron left icon"></i></span><span
+                                                                        class="next link"><i
+                                                                            class="chevron right icon"></i></span></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="link">Jan</td>
+                                                                <td class="link">Feb</td>
+                                                                <td class="link today focus">Mar</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="link">Apr</td>
+                                                                <td class="link">May</td>
+                                                                <td class="link">Jun</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="link">Jul</td>
+                                                                <td class="link">Aug</td>
+                                                                <td class="link">Sep</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="link">Oct</td>
+                                                                <td class="link">Nov</td>
+                                                                <td class="link">Dec</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="ui button compact fluid"><i
+                                                        class="calendar alternate icon"></i>Month Picker</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hideMobile">
+                                    <div class="ui button basic blue compact clndr-today-button"><i
+                                            class="undo icon"></i>Today</div>
+                                    <div class="ui calendar" id="button_calendar">
+                                        <div class="ui popup calendar" tabindex="0">
+                                            <table
+                                                class="ui celled center aligned unstackable table three column month">
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="3"><span class="link">2021</span><span
+                                                                class="prev link"><i
+                                                                    class="chevron left icon"></i></span><span
+                                                                class="next link"><i
+                                                                    class="chevron right icon"></i></span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="link">Jan</td>
+                                                        <td class="link">Feb</td>
+                                                        <td class="link today focus">Mar</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="link">Apr</td>
+                                                        <td class="link">May</td>
+                                                        <td class="link">Jun</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="link">Jul</td>
+                                                        <td class="link">Aug</td>
+                                                        <td class="link">Sep</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="link">Oct</td>
+                                                        <td class="link">Nov</td>
+                                                        <td class="link">Dec</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="ui button compact"><i class="calendar alternate icon"></i>Month
+                                            Picker</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

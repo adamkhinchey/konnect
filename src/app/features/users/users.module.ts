@@ -17,6 +17,10 @@ import { ManageColleaguesComponent } from './components/manage-colleagues/manage
 import { ManageConnectionsComponent } from './components/manage-connections/manage-connections.component';
 import {NgbNavModule} from "@ng-bootstrap/ng-bootstrap";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import { EventsListingsComponent } from './components/events-listings/events-listings.component';
+import { IgxCalendarModule, IgxSnackbarModule } from 'igniteui-angular';
+import { HammerModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -29,6 +33,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     DashboardComponent,
     ManageColleaguesComponent,
     ManageConnectionsComponent,
+    EventsListingsComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +44,10 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     FormsModule,
     NgbNavModule,
     FontAwesomeModule,
+    IgxCalendarModule,
+    IgxSnackbarModule,
+    HammerModule,
+    BrowserAnimationsModule
   ],
   exports: [
     DashboardComponent
