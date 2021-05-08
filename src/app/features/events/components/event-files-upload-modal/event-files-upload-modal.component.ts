@@ -55,8 +55,7 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
   }
 
   private saveFileToDB(fileIndex: number, params: EventFileToDbReqInterface): void {
-    const subs = this.eventFileUploadService.saveFileToDB(fileIndex, params)
-      .subscribe();
+    const subs = this.eventFileUploadService.saveFileToDB(fileIndex, params).subscribe();
     this.saveFileToDBSubs.push(subs);
   }
 
@@ -69,10 +68,7 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
     from(this.selectedFileList)
       .pipe(tap({
         next: (value) => {
-          devLogger('log', value.displayName);
-          devLogger('log', `i before increment is ${i}`);
           i++;
-          devLogger('log', `i after increment is ${i}`);
         }
       }))
       .subscribe(selectedFile => {
@@ -83,13 +79,11 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
         this.eventFileSignedURLReq.fileName = uniqueFileName;
         this.eventFileSignedURLReq.key = this.eventFileType;
         this.eventFileSignedURLReq.mimeType = selectedFile.file.type;
-        devLogger('log', `i is ${i}`);
         this.eventFileUploadService.uploadFile(
           i,
           (this.eventFileSignedURLReq as EventFilesSignedURLReq),
           file,
           (url, fileIndex) => {
-            devLogger('log', `index in cb is ${fileIndex}`);
             that.saveFileToDB.call(that, fileIndex, {
               eventFileType: this.eventFileSignedURLReq.key,
               eventId: this.eventFileSignedURLReq.eventId,

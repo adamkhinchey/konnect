@@ -13,18 +13,19 @@
             <div>
               <p [style.display]="'inline-block'">{{listItem.file.name}}</p>
               <div [style.marginLeft.px]="20" *ngIf="eventFileUploadService.fileUploadStatus.get(i)?.uploading"
-                    class="ui active inline loader"></div>
+                   class="ui active inline loader"></div>
               <i [style.marginLeft.px]="20" *ngIf="eventFileUploadService.fileUploadStatus.get(i)?.uploaded"
-                   class="check icon"></i>
+                 class="check icon"></i>
               <span [style.marginLeft.px]="20" *ngIf="eventFileUploadService.fileUploadStatus.get(i)?.failed"
-                 class="ui tiny red header">Failed</span>
+                    class="ui tiny red header">Failed</span>
             </div>
             <input [(ngModel)]="listItem.displayName"
                    [ngModelOptions]="{standalone:true}"
                    type="text"
                    placeholder="Display Name"
-                   [disabled]="eventFileUploadService.fileUploadStatus.has(i) && eventFileUploadService.fileUploadStatus.get(i)!.uploading">
-            <a [style.cursor]="'pointer'"
+                   [disabled]="uploadTriggered">
+            <a *ngIf="!uploadTriggered"
+               [style.cursor]="'pointer'"
                (click)="removeFile(i)"
                class="removeDocument"
                [ngClass]="{disabled:eventFileUploadService.fileUploadStatus.get(i)?.uploading}">
@@ -42,7 +43,8 @@
     <div class="ui grid">
       <div class="eight wide column left aligned">
         <div appFileUploadTrigger [fileUploadComponentRef]="fileUploadComponent"
-             class="ui button positive" [ngClass]="{'disabled':selectedFileList.length>=8 || uploadTriggered}">Browse and Add
+             class="ui button positive" [ngClass]="{'disabled':selectedFileList.length>=8 || uploadTriggered}">Browse
+          and Add
         </div>
         <app-file-upload #fileUploadComponent
                          [config]="fileConfig"
