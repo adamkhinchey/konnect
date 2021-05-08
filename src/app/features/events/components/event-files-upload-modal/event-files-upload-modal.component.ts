@@ -6,9 +6,10 @@ import {EventFileUploadService} from "../../services/event-file-upload.service";
 import {EventFileTypes} from "../../models/types";
 import {from, Subscription} from "rxjs";
 import {EventFilesSignedURLReq, EventFileToDbReqInterface} from "../../models/interfaces";
-import {finalize, tap} from "rxjs/operators";
+import {finalize, map, tap} from "rxjs/operators";
 import {v4 as uuidV4} from 'uuid';
 import {devLogger} from "../../../../shared/utils";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-event-files-upload-modal',
@@ -27,15 +28,22 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
   };
   @Output() closed = new EventEmitter();
   private saveFileToDBSubs: Subscription[] = [];
-  uploadStarted = false;
+  uploading = false;
+  private uploadingStoppedSub: Subscription | undefined;
+  uploadTriggered = false;
 
 
   constructor(
     private eventService: EventService,
-    public eventFileUploadService: EventFileUploadService) {
+    public eventFileUploadService: EventFileUploadService,
+    private toaster: ToastrService) {
   }
 
   ngOnInit(): void {
+    this.uploadingStoppedSub = this.eventFileUploadService.uploadingStopped.subscribe(() => {
+      this.uploading = false;
+      this.toaster.success('File upload completed');
+    });
   }
 
   fileSelected(file: File): void {
@@ -54,10 +62,19 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
 
   uploadSelectedFiles(): void {
     this.saveFileToDBSubs.forEach(sub => sub.unsubscribe());
-    this.uploadStarted = true;
+    this.uploading = true;
+    this.uploadTriggered = true;
     const that = this;
-    let i = 0;
+    let i = -1;
     from(this.selectedFileList)
+      .pipe(tap({
+        next: (value) => {
+          devLogger('log', value.displayName);
+          devLogger('log', `i before increment is ${i}`);
+          i++;
+          devLogger('log', `i after increment is ${i}`);
+        }
+      }))
       .subscribe(selectedFile => {
         const actualFileName = selectedFile.file.name;
         const extension = actualFileName.substring(actualFileName.lastIndexOf('.'));
@@ -71,8 +88,9 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
           i,
           (this.eventFileSignedURLReq as EventFilesSignedURLReq),
           file,
-          (url) => {
-            that.saveFileToDB.call(that, i, {
+          (url, fileIndex) => {
+            devLogger('log', `index in cb is ${fileIndex}`);
+            that.saveFileToDB.call(that, fileIndex, {
               eventFileType: this.eventFileSignedURLReq.key,
               eventId: this.eventFileSignedURLReq.eventId,
               exhibitorId: this.eventFileSignedURLReq.exhibitorId,
@@ -82,18 +100,23 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
                 fileUrl: url
               }]
             });
-            i++;
           }
         );
       });
   }
 
-  toggleUploadStarted(): boolean {
-    this.uploadStarted = false;
-    return true;
+  checkUploading(): boolean {
+    if (this.uploading) {
+      this.toaster.info('File upload is in progress', 'Please wait!');
+      return false;
+    } else {
+      this.eventFileUploadService.reset();
+      return true;
+    }
   }
 
   ngOnDestroy(): void {
     this.saveFileToDBSubs.forEach(sub => sub.unsubscribe());
+    this.uploadingStoppedSub?.unsubscribe();
   }
 }

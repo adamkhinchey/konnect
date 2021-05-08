@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title" id="modal-basic-title">Upload Files</h4>
-  <button type="button" class="close" aria-label="Close" (click)="toggleUploadStarted() && this.closed.emit()">
+  <button type="button" class="close" aria-label="Close" (click)="checkUploading() && this.closed.emit()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -42,7 +42,7 @@
     <div class="ui grid">
       <div class="eight wide column left aligned">
         <div appFileUploadTrigger [fileUploadComponentRef]="fileUploadComponent"
-             class="ui button positive" [ngClass]="{'disabled':selectedFileList.length>=8}">Browse and Add
+             class="ui button positive" [ngClass]="{'disabled':selectedFileList.length>=8 || uploadTriggered}">Browse and Add
         </div>
         <app-file-upload #fileUploadComponent
                          [config]="fileConfig"
@@ -52,7 +52,7 @@
       </div>
       <div class="eight wide column right aligned">
         <div class="ui button positive"
-             [ngClass]="{'disabled':selectedFileList.length===0 || uploadStarted}"
+             [ngClass]="{'disabled':selectedFileList.length===0 || uploadTriggered}"
              (click)="uploadSelectedFiles()">Save and Upload
         </div>
       </div>

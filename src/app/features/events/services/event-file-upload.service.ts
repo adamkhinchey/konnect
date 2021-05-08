@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {v4 as uuidv4} from 'uuid';
-import {map, take, tap} from 'rxjs/operators';
+import {finalize, map, take, tap} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {HttpErrRespHandlerService} from '../../../shared/services';
@@ -29,6 +29,7 @@ interface SignedURLApiResponseModel extends ApiResponseModelInterface {
 export class EventFileUploadService {
   private apiBaseUrl = environment.apiBaseURL;
   public fileUploadStatus = new Map<number, { uploading: boolean; uploaded: boolean; failed: boolean }>();
+  public uploadingStopped = new Subject<boolean>();
 
   constructor(
     private http: HttpClient,
@@ -62,7 +63,7 @@ export class EventFileUploadService {
   uploadFile(fileIndex: number,
              eventFilesSignedURLReq: EventFilesSignedURLReq,
              file: File,
-             cb: (url: string) => void): void {
+             cb: (url: string, fileIndex: number) => void): void {
     const name = uuidv4() + '__' + file.name;
     let signedUploadUrl: string | null = null;
     let url: string | null = null;
@@ -92,7 +93,7 @@ export class EventFileUploadService {
                    signedUploadUrl: string,
                    url: string,
                    file: File,
-                   cb: (url: string) => void): void {
+                   cb: (url: string, fileIndex: number) => void): void {
     /*this.spinner.show();*/
     devLogger('log', {['uploading file ']: fileIndex});
     this.http.put(
@@ -115,7 +116,7 @@ export class EventFileUploadService {
         this.httpErrHandler.processError(true)
       )
       .subscribe(value => {
-        cb(url);
+        cb(url, fileIndex);
       });
   }
 
@@ -138,8 +139,25 @@ export class EventFileUploadService {
           this.fileUploadStatus.set(fileIndex, {uploading: false, uploaded: false, failed: true});
         }
       }),
+      finalize(() => {
+        let arr = [];
+        const entries = this.fileUploadStatus.entries();
+        for (const [key, value] of entries) {
+          arr.push(value);
+        }
+        arr = arr.filter(val => {
+          return (val.failed || val.uploaded) && !val.uploading;
+        });
+        if (arr.length === this.fileUploadStatus.size) {
+          this.uploadingStopped.next(true);
+        }
+      }),
       hideSpinnerPostApiCall(this.spinner),
       this.httpErrHandler.processError(false)
     );
+  }
+
+  reset(): void {
+    this.fileUploadStatus.clear();
   }
 }
