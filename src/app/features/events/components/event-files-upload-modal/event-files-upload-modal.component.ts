@@ -7,6 +7,8 @@ import {EventFileTypes} from "../../models/types";
 import {from, Subscription} from "rxjs";
 import {EventFilesSignedURLReq, EventFileToDbReqInterface} from "../../models/interfaces";
 import {finalize, tap} from "rxjs/operators";
+import {v4 as uuidV4} from 'uuid';
+import {devLogger} from "../../../../shared/utils";
 
 @Component({
   selector: 'app-event-files-upload-modal',
@@ -45,27 +47,32 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
   }
 
   private saveFileToDB(fileIndex: number, params: EventFileToDbReqInterface): void {
-    this.saveFileToDBSubs.forEach(sub => sub.unsubscribe());
     const subs = this.eventFileUploadService.saveFileToDB(fileIndex, params)
       .subscribe();
     this.saveFileToDBSubs.push(subs);
   }
 
   uploadSelectedFiles(): void {
+    this.saveFileToDBSubs.forEach(sub => sub.unsubscribe());
     this.uploadStarted = true;
     const that = this;
     let i = 0;
     from(this.selectedFileList)
       .subscribe(selectedFile => {
-        this.eventFileSignedURLReq.fileName = selectedFile.file.name;
+        const actualFileName = selectedFile.file.name;
+        const extension = actualFileName.substring(actualFileName.lastIndexOf('.'));
+        const uniqueFileName = uuidV4() + (actualFileName !== extension ? extension : '');
+        const file = new File([selectedFile.file], uniqueFileName, {type: selectedFile.file.type});
+        this.eventFileSignedURLReq.fileName = uniqueFileName;
         this.eventFileSignedURLReq.key = this.eventFileType;
         this.eventFileSignedURLReq.mimeType = selectedFile.file.type;
+        devLogger('log', `i is ${i}`);
         this.eventFileUploadService.uploadFile(
           i,
           (this.eventFileSignedURLReq as EventFilesSignedURLReq),
-          selectedFile.file,
+          file,
           (url) => {
-            that.saveFileToDB.call(that, i++, {
+            that.saveFileToDB.call(that, i, {
               eventFileType: this.eventFileSignedURLReq.key,
               eventId: this.eventFileSignedURLReq.eventId,
               exhibitorId: this.eventFileSignedURLReq.exhibitorId,
@@ -75,6 +82,7 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
                 fileUrl: url
               }]
             });
+            i++;
           }
         );
       });

@@ -67,6 +67,7 @@ export class EventFileUploadService {
     let signedUploadUrl: string | null = null;
     let url: string | null = null;
     /*this.spinner.show();*/
+    devLogger('log', {['fetching url for file ']: fileIndex});
     this.fileUploadStatus.set(fileIndex, {uploading: true, uploaded: false, failed: false});
     this.fetchSignedUrl(eventFilesSignedURLReq)
       .pipe(hideSpinnerPostApiCall(this.spinner))
@@ -75,10 +76,9 @@ export class EventFileUploadService {
           signedUploadUrl = value.signedRequest;
           url = value.url;
         } else {
-          this.toaster.error('Failed to upload profile image. Please try again!');
+          this.fileUploadStatus.set(fileIndex, {uploading: false, uploaded: false, failed: true});
         }
       }, err => {
-        this.toaster.error('Failed to upload profile image. Please try again!');
         devLogger('error', err);
         this.fileUploadStatus.set(fileIndex, {uploading: false, uploaded: false, failed: true});
       }, () => {
@@ -94,6 +94,7 @@ export class EventFileUploadService {
                    file: File,
                    cb: (url: string) => void): void {
     /*this.spinner.show();*/
+    devLogger('log', {['uploading file ']: fileIndex});
     this.http.put(
       signedUploadUrl,
       file,
@@ -119,6 +120,7 @@ export class EventFileUploadService {
   }
 
   saveFileToDB(fileIndex: number, param: EventFileToDbReqInterface): Observable<any> {
+    devLogger('log', {['saving file ']: fileIndex});
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/addEventFiles`,
       {...param}
@@ -126,11 +128,8 @@ export class EventFileUploadService {
       take(1),
       tap({
         next: (value) => {
-          devLogger('log', {value: value.data.filesList[0].success});
           if (value.data && value.data.filesList[0].success) {
             this.fileUploadStatus.set(fileIndex, {uploading: false, uploaded: true, failed: false});
-            devLogger('log', fileIndex);
-            devLogger('log', {map: new Map(this.fileUploadStatus)});
           } else {
             this.fileUploadStatus.set(fileIndex, {uploading: false, uploaded: false, failed: true});
           }
