@@ -153,7 +153,7 @@
 
 
       <ngb-panel [id]="'venueId_' + venueFileItem.venueId"
-                 *ngFor="let venueFileItem of eventFiles!.data!.files!.FFAV!.venuesFiles!">
+                 *ngFor="let venueFileItem of eventFiles!.data!.files!.FFAV!.venuesFiles!; let i=index">
         <ng-template ngbPanelTitle>
           <i class="dropdown icon"></i>Venue 1: {{venueFileItem.name}}
         </ng-template>
@@ -170,7 +170,7 @@
                       </div>
                       <div class="six wide column right aligned">
                         <div class="ui button compact mini basic circular addDocuments hasModal"
-                             (click)="contentUpload(uploadFilesModal, fileType.VENUE_FLOOR_PLAN,{venueId:venueFileItem.venueId})">
+                             (click)="contentUpload(uploadFilesModal, fileType.VENUE_FLOOR_PLAN,{venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
                         </div>
                       </div>
@@ -200,7 +200,7 @@
                       </div>
                       <div class="six wide column right aligned">
                         <div class="ui button compact mini basic circular addDocuments hasModal"
-                             (click)="contentUpload(uploadFilesModal, fileType.VENUE_SHARED_FILES, {venueId:venueFileItem.venueId})">
+                             (click)="contentUpload(uploadFilesModal, fileType.VENUE_SHARED_FILES, {venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
                         </div>
                       </div>
@@ -229,7 +229,7 @@
                       </div>
                       <div class="six wide column right aligned">
                         <div class="ui button compact mini basic circular addDocuments hasModal"
-                             (click)="contentUpload(uploadFilesModal, fileType.VENUE_INTERNAL_FILES, {venueId:venueFileItem.venueId})">
+                             (click)="contentUpload(uploadFilesModal, fileType.VENUE_INTERNAL_FILES, {venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
                         </div>
                       </div>
@@ -307,7 +307,7 @@
 
 
       <ngb-panel [id]="'serviceId_' + supplierItem.serviceId"
-                 *ngFor="let supplierItem of eventFiles!.data!.files!.FFAS!.supplierFiles!">
+                 *ngFor="let supplierItem of eventFiles!.data!.files!.FFAS!.supplierFiles!; let i =index">
         <ng-template ngbPanelTitle>
           <i class="dropdown icon"></i>Supplier 1: {{supplierItem.name}}
         </ng-template>
@@ -326,7 +326,7 @@
                         </div>
                         <div class="six wide column right aligned">
                           <div class="ui button compact mini basic circular addDocuments hasModal"
-                               (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_SHARED_FILES, {serviceId: supplierItem.serviceId})">
+                               (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_SHARED_FILES, {serviceId: supplierItem.serviceId},i)">
                             <i class="upload icon"></i>Upload
                           </div>
                         </div>
@@ -355,7 +355,7 @@
                         </div>
                         <div class="six wide column right aligned">
                           <div class="ui button compact mini basic circular addDocuments hasModal"
-                               (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_INTERNAL_FILES,{serviceId:supplierItem.serviceId})">
+                               (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_INTERNAL_FILES,{serviceId:supplierItem.serviceId},i)">
                             <i class="upload icon"></i>Upload
                           </div>
                         </div>
@@ -434,7 +434,7 @@
 
 
       <ngb-panel [id]="'exhibitorId_' + exhibitorFileItem.exhibitorId"
-                 *ngFor="let exhibitorFileItem of eventFiles!.data!.files!.FFAE!.exhibitorFiles!">
+                 *ngFor="let exhibitorFileItem of eventFiles!.data!.files!.FFAE!.exhibitorFiles!; let i=index">
         <ng-template ngbPanelTitle>
           <i class="dropdown icon"></i>Exhibitor 1: {{exhibitorFileItem.name}}
         </ng-template>
@@ -453,7 +453,7 @@
                         </div>
                         <div class="six wide column right aligned">
                           <div class="ui button compact mini basic circular addDocuments hasModal"
-                               (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_SHARED_FILES,{exhibitorId:exhibitorFileItem.exhibitorId})">
+                               (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_SHARED_FILES,{exhibitorId:exhibitorFileItem.exhibitorId},i)">
                             <i class="upload icon"></i>Upload
                           </div>
                         </div>
@@ -482,7 +482,7 @@
                         </div>
                         <div class="six wide column right aligned">
                           <div class="ui button compact mini basic circular addDocuments hasModal"
-                               (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_INTERNAL_FILES, {exhibitorId:exhibitorFileItem.exhibitorId})">
+                               (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_INTERNAL_FILES, {exhibitorId:exhibitorFileItem.exhibitorId},i)">
                             <i class="upload icon"></i>Upload
                           </div>
                         </div>
@@ -524,7 +524,8 @@
 
 <ng-template #uploadFilesModal let-modal>
   <app-event-files-upload-modal
+    [existingFiles]="existingFiles"
     [eventFileType]="uploadingFileType"
     [eventFileSignedURLReq]="eventFilesSignedURLReqPayload"
-    (closed)="modal.close()"></app-event-files-upload-modal>
+    (closed)="closeFileUploadModal(modal)"></app-event-files-upload-modal>
 </ng-template>

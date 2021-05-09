@@ -1,10 +1,20 @@
-import {Component, Input, OnInit, Output, EventEmitter, OnDestroy} from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+  AfterViewChecked
+} from '@angular/core';
 import {FileUploadConfigInterface} from '../../../../shared/models';
 import {environment} from '../../../../../environments/environment';
 import {EventService} from "../../services/event.service";
-import {EventFileUploadService} from "../../services/event-file-upload.service";
+import {EventFileUploadDeleteService} from "../../services/event-file-upload-delete.service";
 import {EventFileTypes} from "../../models/types";
-import {from, Subscription} from "rxjs";
+import {BehaviorSubject, from, Subscription} from "rxjs";
 import {EventFilesSignedURLReq, EventFileToDbReqInterface} from "../../models/interfaces";
 import {finalize, map, tap} from "rxjs/operators";
 import {v4 as uuidV4} from 'uuid';
@@ -16,8 +26,8 @@ import {ToastrService} from "ngx-toastr";
   templateUrl: './event-files-upload-modal.component.html',
   styleUrls: ['./event-files-upload-modal.component.scss']
 })
-export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
-
+export class EventFilesUploadModalComponent implements OnInit, OnDestroy, AfterViewChecked {
+  @ViewChild('fileContainer') private fileContainer: ElementRef | undefined;
   @Input() key: string | null = null;
   @Input() eventFileType: EventFileTypes | undefined;
   @Input() eventFileSignedURLReq: Partial<EventFilesSignedURLReq> = {};
@@ -31,23 +41,39 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
   uploading = false;
   private uploadingStoppedSub: Subscription | undefined;
   uploadTriggered = false;
+  @Input() existingFiles: {
+    displayName: string;
+    fileUrl: string;
+    fileId: number;
+    mimeType: string;
+  }[] = [];
+  fileSelectedSubject = new BehaviorSubject<boolean>(true);
+  private deleteFileSub: Subscription | undefined;
 
 
   constructor(
     private eventService: EventService,
-    public eventFileUploadService: EventFileUploadService,
+    public eventFileUploadDeleteService: EventFileUploadDeleteService,
     private toaster: ToastrService) {
   }
 
   ngOnInit(): void {
-    this.uploadingStoppedSub = this.eventFileUploadService.uploadingStopped.subscribe(() => {
+    this.uploadingStoppedSub = this.eventFileUploadDeleteService.uploadingStopped.subscribe(() => {
       this.uploading = false;
       this.toaster.success('File upload completed');
     });
   }
 
+  ngAfterViewChecked(): void {
+    if (this.fileContainer && this.fileSelectedSubject.getValue()) {
+      this.fileContainer.nativeElement.scrollTop = this.fileContainer.nativeElement.scrollHeight;
+      this.fileSelectedSubject.next(false);
+    }
+  }
+
   fileSelected(file: File): void {
     this.selectedFileList.push({displayName: ``, file});
+    this.fileSelectedSubject.next(true);
   }
 
   removeFile(i: number): void {
@@ -55,7 +81,7 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
   }
 
   private saveFileToDB(fileIndex: number, params: EventFileToDbReqInterface): void {
-    const subs = this.eventFileUploadService.saveFileToDB(fileIndex, params).subscribe();
+    const subs = this.eventFileUploadDeleteService.saveFileToDB(fileIndex, params).subscribe();
     this.saveFileToDBSubs.push(subs);
   }
 
@@ -79,7 +105,7 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
         this.eventFileSignedURLReq.fileName = uniqueFileName;
         this.eventFileSignedURLReq.key = this.eventFileType;
         this.eventFileSignedURLReq.mimeType = selectedFile.file.type;
-        this.eventFileUploadService.uploadFile(
+        this.eventFileUploadDeleteService.uploadFile(
           i,
           (this.eventFileSignedURLReq as EventFilesSignedURLReq),
           file,
@@ -88,6 +114,8 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
               eventFileType: this.eventFileSignedURLReq.key,
               eventId: this.eventFileSignedURLReq.eventId,
               exhibitorId: this.eventFileSignedURLReq.exhibitorId,
+              venueId: this.eventFileSignedURLReq.venueId,
+              supplierId: this.eventFileSignedURLReq.serviceId,
               filesList: [{
                 mimeType: this.eventFileSignedURLReq.mimeType,
                 displayName: selectedFile.displayName,
@@ -104,10 +132,31 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy {
       this.toaster.info('File upload is in progress', 'Please wait!');
       return false;
     } else {
-      this.eventFileUploadService.reset();
+      this.eventFileUploadDeleteService.reset();
       return true;
     }
   }
+
+  deleteFile(existingFile: {
+    displayName: string;
+    fileUrl: string;
+    fileId: number;
+    mimeType: string
+  }, index: number): void {
+    this.deleteFileSub?.unsubscribe();
+    this.deleteFileSub = this.eventFileUploadDeleteService.deleteFile({
+      eventId: this.eventFileSignedURLReq.eventId,
+      fileId: existingFile.fileId
+    }).subscribe((result) => {
+      if (result && result.code === 200) {
+        this.toaster.success('File deleted successfully');
+        this.existingFiles.splice(index, 1);
+      }
+    }, (err) => {
+      devLogger('log', {['EVENT_FILE_DELETE_ERROR']: err});
+    });
+  }
+
 
   ngOnDestroy(): void {
     this.saveFileToDBSubs.forEach(sub => sub.unsubscribe());

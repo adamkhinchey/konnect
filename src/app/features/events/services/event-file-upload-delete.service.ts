@@ -26,7 +26,7 @@ interface SignedURLApiResponseModel extends ApiResponseModelInterface {
 @Injectable({
   providedIn: 'root'
 })
-export class EventFileUploadService {
+export class EventFileUploadDeleteService {
   private apiBaseUrl = environment.apiBaseURL;
   public fileUploadStatus = new Map<number, { uploading: boolean; uploaded: boolean; failed: boolean }>();
   public uploadingStopped = new Subject<boolean>();
@@ -159,5 +159,16 @@ export class EventFileUploadService {
 
   reset(): void {
     this.fileUploadStatus.clear();
+  }
+
+  deleteFile(param: { eventId: number | undefined; fileId: number }): Observable<ApiResponseModelInterface> {
+    this.spinner.show();
+    return this.http.delete<ApiResponseModelInterface>(`${this.apiBaseUrl}/event/${param.eventId}/files/${param.fileId}`)
+      .pipe(
+        take(1),
+        hideSpinnerPostApiCall(this.spinner),
+        this.httpErrHandler.processError(false)
+      );
+
   }
 }
