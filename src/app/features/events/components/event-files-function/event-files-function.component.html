@@ -10,7 +10,7 @@
           </div>
           <div class="six wide column right aligned">
             <div class="ui button compact mini basic circular addDocuments hasModal"
-                 (click)="contentUpload(uploadFilesModal)">
+                 (click)="contentUpload(uploadFilesModal, fileType.CLIENT_EVENT_MANAGER_SHARED_FILES)">
               <i class="upload icon">
               </i>Upload
             </div>
@@ -22,7 +22,7 @@
           <ng-container *ngIf="eventFiles?.data?.files?.CEMSF">
             <a class="ui mini button basic"
                *ngFor="let listItem of eventFiles!.data!.files!.CEMSF!.list"
-               [href]="listItem.fileURL"
+               [href]="listItem.fileUrl"
                target="_blank">
               <i class="file icon"></i>{{listItem.displayName}}
             </a>
@@ -40,7 +40,7 @@
           </div>
           <div class="six wide column right aligned">
             <div class="ui button compact mini basic circular addDocuments hasModal"
-                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                 (click)="contentUpload(uploadFilesModal, fileType.CLIENT_INTERNAL_FILES)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
@@ -50,7 +50,7 @@
           <ng-container *ngIf="eventFiles?.data?.files?.CIF">
             <a class="ui mini button basic"
                *ngFor="let listItem of eventFiles!.data!.files!.CIF!.list"
-               [href]="listItem.fileURL"
+               [href]="listItem.fileUrl"
                target="_blank">
               <i class="file icon"></i>{{listItem.displayName}}
             </a>
@@ -68,7 +68,7 @@
           </div>
           <div class="six wide column right aligned">
             <div class="ui button compact mini basic circular addDocuments hasModal"
-                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                 (click)="contentUpload(uploadFilesModal, fileType.EVENT_MANAGEMENT_INTERNAL_FILES)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
@@ -78,7 +78,7 @@
           <ng-container *ngIf="eventFiles?.data?.files?.EMIF">
             <a class="ui mini button basic"
                *ngFor="let listItem of eventFiles!.data!.files!.EMIF!.list"
-               [href]="listItem.fileURL"
+               [href]="listItem.fileUrl"
                target="_blank">
               <i class="file icon"></i>{{listItem.displayName}}
             </a>
@@ -96,7 +96,7 @@
           </div>
           <div class="six wide column right aligned">
             <div class="ui button compact mini basic circular addDocuments hasModal"
-                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                 (click)="contentUpload(uploadFilesModal, fileType.EVENT_FILES)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
@@ -106,7 +106,7 @@
           <ng-container *ngIf="eventFiles?.data?.files?.EF">
             <a class="ui mini button basic"
                *ngFor="let listItem of eventFiles!.data!.files!.EF!.list"
-               [href]="listItem.fileURL"
+               [href]="listItem.fileUrl"
                target="_blank">
               <i class="file icon"></i>{{listItem.displayName}}
             </a>
@@ -126,7 +126,7 @@
           </div>
           <div class="six wide column right aligned">
             <div class="ui button compact mini basic circular addDocuments hasModal"
-                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                 (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_VENUES)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
@@ -136,7 +136,7 @@
           <ng-container *ngIf="eventFiles?.data?.files?.FFAV">
             <a class="ui mini button basic"
                *ngFor="let listItem of eventFiles!.data!.files!.FFAV!.list"
-               [href]="listItem.fileURL"
+               [href]="listItem.fileUrl"
                target="_blank">
               <i class="file icon"></i>{{listItem.displayName}}
             </a>
@@ -153,7 +153,7 @@
 
 
       <ngb-panel [id]="'venueId_' + venueFileItem.venueId"
-                 *ngFor="let venueFileItem of eventFiles!.data!.files!.FFAV!.venuesFiles!">
+                 *ngFor="let venueFileItem of eventFiles!.data!.files!.FFAV!.venuesFiles!; let i=index">
         <ng-template ngbPanelTitle>
           <i class="dropdown icon"></i>Venue 1: {{venueFileItem.name}}
         </ng-template>
@@ -170,7 +170,8 @@
                       </div>
                       <div class="six wide column right aligned">
                         <div class="ui button compact mini basic circular addDocuments hasModal"
-                             (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                             (click)="contentUpload(uploadFilesModal, fileType.VENUE_FLOOR_PLAN,{venueId:venueFileItem.venueId},i)">
+                          <i class="upload icon"></i>Upload
                         </div>
                       </div>
                     </div>
@@ -180,7 +181,7 @@
                       <ng-container *ngIf="venueFileItem.FLOOR_PLAN">
                         <a class="ui mini button basic"
                            *ngFor="let listItem of venueFileItem.FLOOR_PLAN.list"
-                           [href]="listItem.fileURL"
+                           [href]="listItem.fileUrl"
                            target="_blank">
                           <i class="file icon"></i>{{listItem.displayName}}
                         </a>
@@ -199,7 +200,8 @@
                       </div>
                       <div class="six wide column right aligned">
                         <div class="ui button compact mini basic circular addDocuments hasModal"
-                             (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                             (click)="contentUpload(uploadFilesModal, fileType.VENUE_SHARED_FILES, {venueId:venueFileItem.venueId},i)">
+                          <i class="upload icon"></i>Upload
                         </div>
                       </div>
                     </div>
@@ -209,7 +211,7 @@
                       <ng-container *ngIf="venueFileItem.VSF">
                         <a class="ui mini button basic"
                            *ngFor="let listItem of venueFileItem!.VSF!.list"
-                           [href]="listItem.fileURL"
+                           [href]="listItem.fileUrl"
                            target="_blank">
                           <i class="file icon"></i>{{listItem.displayName}}
                         </a>
@@ -227,7 +229,8 @@
                       </div>
                       <div class="six wide column right aligned">
                         <div class="ui button compact mini basic circular addDocuments hasModal"
-                             (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                             (click)="contentUpload(uploadFilesModal, fileType.VENUE_INTERNAL_FILES, {venueId:venueFileItem.venueId},i)">
+                          <i class="upload icon"></i>Upload
                         </div>
                       </div>
                     </div>
@@ -237,7 +240,7 @@
                       <ng-container *ngIf="venueFileItem.VIF">
                         <a class="ui mini button basic"
                            *ngFor="let listItem of venueFileItem!.VIF!.list"
-                           [href]="listItem.fileURL"
+                           [href]="listItem.fileUrl"
                            target="_blank">
                           <i class="file icon"></i>{{listItem.displayName}}
                         </a>
@@ -275,7 +278,8 @@
           </div>
           <div class="six wide column right aligned">
             <div class="ui button compact mini basic circular addDocuments hasModal"
-                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                 (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_SUPPLIERS)">
+              <i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
@@ -285,7 +289,7 @@
           <ng-container *ngIf="eventFiles?.data?.files?.FFAS">
             <a class="ui mini button basic"
                *ngFor="let listItem of eventFiles!.data!.files!.FFAS!.list"
-               [href]="listItem.fileURL"
+               [href]="listItem.fileUrl"
                target="_blank">
               <i class="file icon"></i>{{listItem.displayName}}
             </a>
@@ -303,7 +307,7 @@
 
 
       <ngb-panel [id]="'serviceId_' + supplierItem.serviceId"
-                 *ngFor="let supplierItem of eventFiles!.data!.files!.FFAS!.supplierFiles!">
+                 *ngFor="let supplierItem of eventFiles!.data!.files!.FFAS!.supplierFiles!; let i =index">
         <ng-template ngbPanelTitle>
           <i class="dropdown icon"></i>Supplier 1: {{supplierItem.name}}
         </ng-template>
@@ -322,7 +326,8 @@
                         </div>
                         <div class="six wide column right aligned">
                           <div class="ui button compact mini basic circular addDocuments hasModal"
-                               (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                               (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_SHARED_FILES, {serviceId: supplierItem.serviceId},i)">
+                            <i class="upload icon"></i>Upload
                           </div>
                         </div>
                       </div>
@@ -332,7 +337,7 @@
                         <ng-container *ngIf="supplierItem?.SSF">
                           <a class="ui mini button basic"
                              *ngFor="let listItem of supplierItem!.SSF!.list"
-                             [href]="listItem.fileURL"
+                             [href]="listItem.fileUrl"
                              target="_blank">
                             <i class="file icon"></i>{{listItem.displayName}}
                           </a>
@@ -350,7 +355,8 @@
                         </div>
                         <div class="six wide column right aligned">
                           <div class="ui button compact mini basic circular addDocuments hasModal"
-                               (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                               (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_INTERNAL_FILES,{serviceId:supplierItem.serviceId},i)">
+                            <i class="upload icon"></i>Upload
                           </div>
                         </div>
                       </div>
@@ -360,7 +366,7 @@
                         <ng-container *ngIf="supplierItem?.SIF">
                           <a class="ui mini button basic"
                              *ngFor="let listItem of supplierItem!.SIF!.list"
-                             [href]="listItem.fileURL"
+                             [href]="listItem.fileUrl"
                              target="_blank">
                             <i class="file icon"></i>{{listItem.displayName}}
                           </a>
@@ -401,7 +407,7 @@
           </div>
           <div class="six wide column right aligned">
             <div class="ui button compact mini basic circular addDocuments hasModal"
-                 (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                 (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_EXHIBITORS)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
@@ -411,7 +417,7 @@
           <ng-container *ngIf="eventFiles?.data?.files?.FFAE">
             <a class="ui mini button basic"
                *ngFor="let listItem of eventFiles!.data!.files!.FFAE!.list"
-               [href]="listItem.fileURL"
+               [href]="listItem.fileUrl"
                target="_blank">
               <i class="file icon"></i>{{listItem.displayName}}
             </a>
@@ -428,7 +434,7 @@
 
 
       <ngb-panel [id]="'exhibitorId_' + exhibitorFileItem.exhibitorId"
-                 *ngFor="let exhibitorFileItem of eventFiles!.data!.files!.FFAE!.exhibitorFiles!">
+                 *ngFor="let exhibitorFileItem of eventFiles!.data!.files!.FFAE!.exhibitorFiles!; let i=index">
         <ng-template ngbPanelTitle>
           <i class="dropdown icon"></i>Exhibitor 1: {{exhibitorFileItem.name}}
         </ng-template>
@@ -447,7 +453,8 @@
                         </div>
                         <div class="six wide column right aligned">
                           <div class="ui button compact mini basic circular addDocuments hasModal"
-                               (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                               (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_SHARED_FILES,{exhibitorId:exhibitorFileItem.exhibitorId},i)">
+                            <i class="upload icon"></i>Upload
                           </div>
                         </div>
                       </div>
@@ -457,7 +464,7 @@
                         <ng-container *ngIf="exhibitorFileItem?.EBSF">
                           <a class="ui mini button basic"
                              *ngFor="let listItem of exhibitorFileItem!.EBSF!.list"
-                             [href]="listItem.fileURL"
+                             [href]="listItem.fileUrl"
                              target="_blank">
                             <i class="file icon"></i>{{listItem.displayName}}
                           </a>
@@ -475,7 +482,8 @@
                         </div>
                         <div class="six wide column right aligned">
                           <div class="ui button compact mini basic circular addDocuments hasModal"
-                               (click)="contentUpload(uploadFilesModal)"><i class="upload icon"></i>Upload
+                               (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_INTERNAL_FILES, {exhibitorId:exhibitorFileItem.exhibitorId},i)">
+                            <i class="upload icon"></i>Upload
                           </div>
                         </div>
                       </div>
@@ -485,7 +493,7 @@
                         <ng-container *ngIf="exhibitorFileItem?.EBIF">
                           <a class="ui mini button basic"
                              *ngFor="let listItem of exhibitorFileItem!.EBIF!.list"
-                             [href]="listItem.fileURL"
+                             [href]="listItem.fileUrl"
                              target="_blank">
                             <i class="file icon"></i>{{listItem.displayName}}
                           </a>
@@ -515,5 +523,9 @@
 </div>
 
 <ng-template #uploadFilesModal let-modal>
-  <app-event-files-upload-modal (closed)="modal.close()"></app-event-files-upload-modal>
+  <app-event-files-upload-modal
+    [existingFiles]="existingFiles"
+    [eventFileType]="uploadingFileType"
+    [eventFileSignedURLReq]="eventFilesSignedURLReqPayload"
+    (closed)="closeFileUploadModal(modal)"></app-event-files-upload-modal>
 </ng-template>

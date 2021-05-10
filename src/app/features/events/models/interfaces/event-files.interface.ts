@@ -14,7 +14,7 @@ export interface EventFilesInterface {
 
 interface FileListObject {
   displayName: string;
-  fileURL: string;
+  fileUrl: string;
   fileId: number;
   mimeType: string;
 }
