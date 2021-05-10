@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, AfterViewInit, ViewChild, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { IgxCalendarComponent, DateRangeType, DateRangeDescriptor } from 'igniteui-angular';
 
 @Component({
@@ -10,7 +11,10 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   @ViewChild('calendar', { static: true }) calendar: IgxCalendarComponent = new IgxCalendarComponent();
   @Input() events: any;
   specialDates: DateRangeDescriptor[] = [];
-  constructor(private cdRef: ChangeDetectorRef) { }
+  constructor(
+    private cdRef: ChangeDetectorRef,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     console.log(this.events);
@@ -26,6 +30,10 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
       ]
     }];
     this.cdRef.detectChanges();
+  }
+
+  createEvent() {
+    this.router.navigate(['/home/event/create']);
   }
 
 

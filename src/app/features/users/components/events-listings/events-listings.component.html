@@ -9,14 +9,15 @@
                             <div class="ui button basic blue compact fluid"><i class="undo icon"></i>Event History</div>
                         </div>
                         <div class="eight wide column">
-                            <a href="CE-01.html" class="ui button compact fluid ml-2"><i
+                            <a (click)="createEvent()" class="ui button compact fluid ml-2"><i
                                     class="plus circle icon"></i>Create Event</a>
                         </div>
                     </div>
                 </div>
                 <div class="createEvent hideMobile">
                     <div class="ui button compact basic blue"><i class="undo icon"></i>Event History</div>
-                    <a href="CE-01.html" class="ui button compact ml-1"><i class="plus circle icon"></i>Create Event</a>
+                    <a (click)="createEvent()" class="ui button compact ml-1"><i class="plus circle icon"></i>Create
+                        Event</a>
                 </div>
                 <div class="ui segment">
                     <div class="activeEventsContainer">
