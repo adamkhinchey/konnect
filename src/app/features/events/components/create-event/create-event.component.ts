@@ -34,7 +34,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   modalReference: NgbModalRef | undefined;
   eventToBeSaved = new SaveEventClass();
   // TODO remove this hard coded saved eventId
-  savedEventId: number | undefined = 162;
+  savedEventId: number | undefined;
   updateFnCmpToSelf: Map<EventFunctionTypes, boolean | boolean[] | null> = this.eventService.setIsFnOwnCompany.getValue();
   selectedFunction: EventFunctionTypes = this.active;
   isFnCmpInvited: boolean | undefined;
@@ -122,10 +122,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       this.eventService.setIsFnOwnCompany.next(tempMap);
     }
 
-
-    if (this.selectedFunction === EventFunctionTypes.FILES) {
-      this.eventService.fetchEventFilesSubject.next(this.savedEventId);
-    }
   }
 
   toggleDisabled(): void {
@@ -711,11 +707,13 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       this.saveEventSub = this.eventService.saveToDb(this.eventToBeSaved).subscribe(
         value => {
           if (value) {
-            this.toaster.success('Event saved successfully');
+            this.toaster.success('Continue with saving event files', 'Event saved successfully');
             this.savedEventId = value.data.eventId;
             /*this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() => {
               this.router.navigate(['/home/event/create']);
             });*/
+            this.active = 6;
+            this.eventService.fetchEventFilesSubject.next(this.savedEventId);
           }
         },
         error => {
