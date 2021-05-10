@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, AfterViewInit, ViewChild, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { IgxCalendarComponent, DateRangeType, DateRangeDescriptor } from 'igniteui-angular';
+import { IgxCalendarComponent, DateRangeType, DateRangeDescriptor, CalendarView, IgxCalendarView } from 'igniteui-angular';
 import * as moment from 'moment'
 
 @Component({
@@ -11,6 +11,7 @@ import * as moment from 'moment'
 export class EventsListingsComponent implements OnInit, AfterViewChecked {
   @ViewChild('calendar', { static: true }) calendar: IgxCalendarComponent = new IgxCalendarComponent();
   @Input() events: any;
+  eventsCopy:any;
   dates: any = [];
   specialDates: DateRangeDescriptor[] = [];
   constructor(
@@ -20,6 +21,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     console.log(this.events);
+    this.eventsCopy = this.events;
     for (let i = 0; i < this.events.length; i++) {
       console.log('loop time: ', i);
       var startDate;
@@ -60,5 +62,8 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
     this.calendar.changeMonth(currentDate);
   }
 
+  public onSelection(dates: Date | Date[]) {
+    console.log(dates);
+  }
 
 }

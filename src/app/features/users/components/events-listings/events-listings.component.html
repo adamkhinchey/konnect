@@ -1,4 +1,4 @@
-<div class="mainContent">
+<div #mainContainer class="mainContent">
     <div class="ui container">
         <div class="ui grid">
             <div class="sixteen wide column">
@@ -21,8 +21,8 @@
                 </div>
                 <div class="ui segment">
                     <div class="activeEventsContainer">
-                        <ng-container *ngIf="events && events.length; else noData">
-                            <ng-container *ngFor="let event of events;">
+                        <ng-container *ngIf="eventsCopy && eventsCopy.length; else noData">
+                            <ng-container *ngFor="let event of eventsCopy;">
                                 <div class="ui grid stackable" id="september21">
                                     <div class="three wide column center aligned">
                                         <div class="ui statistic marginB0">
@@ -230,7 +230,7 @@
 
                                 <article class="calendar-wrapper">
                                     <igx-calendar #calendar [specialDates]="specialDates" selection="multi"
-                                        [monthsViewNumber]="3"></igx-calendar>
+                                        [monthsViewNumber]="3" (selected)="onSelection($event)"></igx-calendar>
                                 </article>
 
                             </div>
