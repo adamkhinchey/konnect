@@ -30,6 +30,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
       ]
     }];
     this.cdRef.detectChanges();
+    console.log(this.specialDates);
   }
 
   createEvent() {
