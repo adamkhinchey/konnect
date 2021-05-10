@@ -21,15 +21,18 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     console.log(this.events);
     for (let i = 0; i < this.events.length; i++) {
-      console.log('loop time');
-      console.log(i);
+      console.log('loop time: ', i);
       var startDate;
       var endDate;
       startDate = moment(this.events[i].eventStartDate).format('YYYY-MM-DD');
       endDate = moment(this.events[i].eventEndDate).format('YYYY-MM-DD');
-      if(moment(startDate).isSame(endDate)){
+      if (moment(startDate).isSame(endDate)) {
         this.dates.push(new Date(startDate));
-      };
+      }
+      else {
+        this.dates.push(new Date(startDate));
+        this.dates.push(new Date(startDate));
+      }
     }
     console.log(this.dates);
     this.specialDates = [{
@@ -46,33 +49,15 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    // for (let i = 0; i < this.events.length; i++) {
-    //   console.log('loop time');
-    //   console.log(i);
-    //   var startDate;
-    //   var endDate;
-    //   startDate = moment(this.events[i].eventStartDate).format('YYYY-MM-DD');
-    //   endDate = moment(this.events[i].eventEndDate).format('YYYY-MM-DD');
-    //   if(moment(startDate).isSame(endDate)){
-    //     this.dates.push(new Date(startDate));
-    //   };
-    // }
-    // console.log(this.dates);
-    // this.specialDates = [{
-    //   type: DateRangeType.Specific, dateRange: this.dates
-    //   // [
-    //   //   new Date(2021, 5 - 1, 4),
-    //   //   new Date(2021, 5 - 1, 14),
-    //   //   new Date(2021, 5 - 1, 15),
-    //   //   new Date(2021, 8 - 1, 14)
-    //   // ]
-    // }];
-    // this.cdRef.detectChanges();
-    // console.log(this.specialDates);
   }
 
   createEvent() {
     this.router.navigate(['/home/event/create']);
+  }
+
+  changeToTodaysView() {
+    let currentDate = new Date();
+    this.calendar.changeMonth(currentDate);
   }
 
 

@@ -237,7 +237,7 @@
                             <div class="workWithCalendar">
                                 <div class="visibleMobile">
                                     <div class="ui grid">
-                                        <div class="eight wide column">
+                                        <div class="eight wide column" (click)="changeToTodaysView()">
                                             <div class="ui button basic blue compact clndr-today-button fluid"><i
                                                     class="undo icon"></i>Today</div>
                                         </div>
@@ -286,7 +286,7 @@
                                     </div>
                                 </div>
                                 <div class="hideMobile">
-                                    <div class="ui button basic blue compact clndr-today-button"><i
+                                    <div class="ui button basic blue compact clndr-today-button" (click)="changeToTodaysView()"><i
                                             class="undo icon"></i>Today</div>
                                     <div class="ui calendar" id="button_calendar">
                                         <div class="ui popup calendar" tabindex="0">
