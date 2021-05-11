@@ -1,4 +1,5 @@
-<app-create-event-info-bar></app-create-event-info-bar>
+<app-create-event-info-bar *ngIf="!isView"></app-create-event-info-bar>
 <div class="mainContent">
-  <app-create-event></app-create-event>
+  <app-create-event *ngIf="!isView"></app-create-event>
+  <app-event-view *ngIf="isView"></app-event-view>
 </div>

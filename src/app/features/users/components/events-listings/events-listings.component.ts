@@ -11,7 +11,7 @@ import * as moment from 'moment'
 export class EventsListingsComponent implements OnInit, AfterViewChecked {
   @ViewChild('calendar', { static: true }) calendar: IgxCalendarComponent = new IgxCalendarComponent();
   @Input() events: any;
-  eventsCopy:any;
+  eventsCopy: any;
   dates: any = [];
   specialDates: DateRangeDescriptor[] = [];
   constructor(
@@ -63,8 +63,24 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   }
 
   public onSelection(dates: Date | Date[]) {
+    console.log(this.events);
     console.log(dates);
-    console.log(moment.utc(dates.toString()));
+    let date: any;
+    console.log(moment.utc(dates.toString()).format('YYYY-MM-DD'));
+    date = moment.utc(dates.toString()).format('YYYY-MM-DD');
+    this.eventsCopy = this.events.filter((val: any) => {
+      var startDate;
+      startDate = moment(val.eventStartDate).format('YYYY-MM-DD');
+      console.log(startDate);
+      if (date == startDate) {
+        console.log(val);
+        return val;
+      }
+    })
+  }
+
+  viewEvent() {
+    this.router.navigate(['/home/event/view-event']);
   }
 
 }
