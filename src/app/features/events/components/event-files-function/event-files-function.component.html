@@ -116,7 +116,7 @@
     </div>
   </div>
 
-  <div class="sixteen wide column">
+  <div class="sixteen wide column" *ngIf="showVenuesFilesSection()" >
     <div class="field">
       <div class="ui dividing header">
         <div class="ui grid">
@@ -148,7 +148,7 @@
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
     <ngb-accordion
-      *ngIf="eventFiles?.data?.files?.FFAV?.venuesFiles"
+      *ngIf="eventFiles?.data?.files?.FFAV?.venuesFiles && eventFiles?.data?.files?.FFAV?.venuesFiles!.length>0"
       [closeOthers]="true" [activeIds]="'venueId_' + eventFiles!.data!.files!.FFAV!.venuesFiles![0]!.venueId">
 
 
@@ -268,7 +268,7 @@
   <div class="ui grid docsContainer">
     <div class="sixteen wide column"></div>
   </div>
-  <div class="sixteen wide column">
+  <div class="sixteen wide column" *ngIf="showSuppliersFilesSection()">
     <div class="field">
       <div class="ui dividing header">
         <div class="ui grid">
@@ -301,7 +301,7 @@
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
     <ngb-accordion
-      *ngIf="eventFiles?.data?.files?.FFAS?.supplierFiles"
+      *ngIf="eventFiles?.data?.files?.FFAS?.supplierFiles && eventFiles?.data?.files?.FFAS?.supplierFiles!.length>0"
       [closeOthers]="true"
       [activeIds]="'serviceId_' + eventFiles!.data!.files!.FFAS!.supplierFiles![0]!.serviceId">
 
@@ -397,7 +397,7 @@
   <div class="ui grid docsContainer">
     <div class="sixteen wide column"></div>
   </div>
-  <div class="sixteen wide column">
+  <div class="sixteen wide column" *ngIf="showExhibitorsFilesSection()">
     <div class="field">
       <div class="ui dividing header">
         <div class="ui grid">
@@ -429,7 +429,7 @@
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
     <ngb-accordion
-      *ngIf="eventFiles?.data?.files?.FFAE?.exhibitorFiles"
+      *ngIf="eventFiles?.data?.files?.FFAE?.exhibitorFiles && eventFiles?.data?.files?.FFAE?.exhibitorFiles!.length>0"
       [closeOthers]="true" [activeIds]="'exhibitorId_' +eventFiles!.data!.files!.FFAE!.exhibitorFiles![0]!.exhibitorId">
 
 

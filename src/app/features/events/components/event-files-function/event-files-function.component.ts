@@ -196,15 +196,27 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
     }
   }
 
-  ngOnDestroy(): void {
-    this.fetchEventFilesTrigger?.unsubscribe();
-    this.fetchEventFilesSubs?.unsubscribe();
-  }
-
   closeFileUploadModal(modal: NgbModalRef): void {
     modal.close();
     if (this.eventID) {
       this.fetchEventFiles(this.eventID);
     }
+  }
+
+  showVenuesFilesSection(): boolean {
+    return !!this.eventFiles?.data.files?.FFAV?.venuesFiles?.some(venueFile => venueFile.venueId);
+  }
+
+  showSuppliersFilesSection(): boolean {
+    return !!this.eventFiles?.data.files?.FFAS?.supplierFiles?.some(supplierFile => supplierFile.serviceId);
+  }
+
+  showExhibitorsFilesSection(): boolean {
+    return !!this.eventFiles?.data.files?.FFAE?.exhibitorFiles?.some(exhibitorFile => exhibitorFile.exhibitorId);
+  }
+
+  ngOnDestroy(): void {
+    this.fetchEventFilesTrigger?.unsubscribe();
+    this.fetchEventFilesSubs?.unsubscribe();
   }
 }
