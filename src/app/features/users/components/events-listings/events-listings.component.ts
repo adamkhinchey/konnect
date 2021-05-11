@@ -64,6 +64,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
 
   public onSelection(dates: Date | Date[]) {
     console.log(dates);
+    console.log(moment.utc(dates.toString()));
   }
 
 }
