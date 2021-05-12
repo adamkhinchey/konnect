@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { ViewEventService } from '../../services/view-event.service';
 
 @Component({
   selector: 'app-event-view',
@@ -7,17 +8,16 @@ import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./event-view.component.scss']
 })
 export class EventViewComponent implements OnInit {
+  @Input() eventId: any
+  data: any = {};
   active = 1;
   disabled = true;
   modalReference: any;
 
 
-
-
   onNavChange(changeEvent: NgbNavChangeEvent) {
-    if (changeEvent.nextId === 3) {
-      changeEvent.preventDefault();
-    }
+    console.log(changeEvent);
+    this.getEventsById(changeEvent.nextId);
   }
 
   toggleDisabled() {
@@ -26,10 +26,26 @@ export class EventViewComponent implements OnInit {
       this.active = 1;
     }
   }
-  constructor(private modalService: NgbModal,) {
+  constructor(private modalService: NgbModal, private viewEvSrvc: ViewEventService) {
   }
 
   ngOnInit() {
+    console.log(this.eventId);
+    if (this.eventId) {
+      this.getEventsById(1);
+    }
+  }
+
+  getEventsById(tabType: any) {
+    this.viewEvSrvc.getEventsByEventId(this.eventId, tabType).subscribe((res: any) => {
+      console.log(res);
+      this.data.eventData = res.eventData;
+      this.data.userPermission = res.userPermission;
+      console.log(this.data);
+      this.active = tabType
+    }, err => {
+      console.log(err);
+    })
   }
 
 

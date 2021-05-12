@@ -1,5 +1,5 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewChecked, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-panel',
@@ -8,14 +8,20 @@ import { Router } from '@angular/router';
 })
 export class EventPanelComponent implements OnInit, AfterViewChecked {
   isView: boolean = false;
-  constructor(private router: Router, private cdRef: ChangeDetectorRef) { }
+  eventId: any;
+  constructor(private router: Router, private aroute: ActivatedRoute, private cdRef: ChangeDetectorRef) {
+    this.eventId = this.router.getCurrentNavigation()?.extras.state?.eventId;
+    this.aroute.queryParams.subscribe(param => {
+      console.log(param);
+      this.eventId = param['eventId'];
+    });
+  }
 
   ngOnInit(): void {
-
   }
 
   ngAfterViewChecked() {
-    if (this.router.url === '/home/event/view-event') {
+    if (this.eventId != undefined) {
       this.isView = true;
     }
     else {
