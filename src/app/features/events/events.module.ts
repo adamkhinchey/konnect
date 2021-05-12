@@ -24,6 +24,7 @@ import {SearchOrInviteFnCmpCntComponent} from './components/search-or-invite-fn-
 import {TimeWindowsComponent} from './components/time-windows/time-windows.component';
 import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
 import { EventFilesUploadModalComponent } from './components/event-files-upload-modal/event-files-upload-modal.component';
+import { EventGanttChartComponent } from './components/event-gantt-chart/event-gantt-chart.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { EventFilesUploadModalComponent } from './components/event-files-upload-
     TimeWindowsComponent,
     DateTimePickerComponent,
     EventFilesUploadModalComponent,
+    EventGanttChartComponent,
   ],
   imports: [
     CommonModule,

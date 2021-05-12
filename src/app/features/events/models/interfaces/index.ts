@@ -8,3 +8,4 @@ export * from './event-exhibitor-list.interface';
 export * from './event-files.interface';
 export * from './event-file-signed-uri-req.interface';
 export * from './event-file-to-db-req.interface';
+export * from './event-timeline-data.interface';

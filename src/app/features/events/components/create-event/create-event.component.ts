@@ -18,6 +18,7 @@ import {EventVenueFunctionComponent} from '../event-venue-function/event-venue-f
 import {Router} from '@angular/router';
 import {EventSuppliersFunctionComponent} from '../event-suppliers-function/event-suppliers-function.component';
 import {EventExhibitorsFunctionComponent} from "../event-exhibitors-function/event-exhibitors-function.component";
+import {EventTimelineService} from "../../services/event-timeline.service";
 
 @Component({
   selector: 'app-create-event',
@@ -66,7 +67,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     private userSettings: UserSettingsService,
     private authService: AuthService,
     private eventService: EventService,
-    private router: Router) {
+    private router: Router,
+    private eventTimelineService: EventTimelineService) {
   }
 
   ngOnInit(): void {
@@ -120,6 +122,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
       tempMap.set(this.selectedFunction, true);
       this.eventService.setIsFnOwnCompany.next(tempMap);
+    }
+
+    if (changeEvent.nextId === EventFunctionTypes.TIMELINE) {
+      this.eventTimelineService.render.next();
     }
 
   }

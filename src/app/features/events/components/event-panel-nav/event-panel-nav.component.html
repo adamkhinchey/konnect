@@ -44,5 +44,12 @@
       <ng-content select="[eventFiles]"></ng-content>
     </ng-template>
   </li>
+  <li [ngbNavItem]="7" [disabled]="active===6">
+    <a ngbNavLink class="item tabAdmin"><i class="clock icon"></i><span
+      class="hideMobile">TIMELINE</span></a>
+    <ng-template ngbNavContent>
+      <ng-content select="[timeline]"></ng-content>
+    </ng-template>
+  </li>
 </ul>
 <div [ngbNavOutlet]="nav" class="mt-2"></div>
