@@ -7,6 +7,7 @@ import {EventTimelineService} from "../../services/event-timeline.service";
 import {devLogger} from "../../../../shared/utils";
 import {EventTimelineType} from "../../../../shared/models";
 import {Subject, Subscription} from "rxjs";
+import {v4 as uuidV4} from 'uuid';
 
 @Component({
   selector: 'app-event-gantt-chart',
@@ -17,8 +18,8 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
   @ViewChild('timeline') timelineContainer: ElementRef | undefined;
   @Input() timelineID: any = 'timelineContainer';
   @Input() timelineType: EventTimelineType | undefined;
-  @Input() timelineGenTrigger: Subject<HTMLElement> | undefined;
-  @Input() timelineData: EventTimelineDataInterface | undefined;
+  @Input() timelineGenTrigger: Subject<{ elem: HTMLElement, data: EventTimelineDataInterface | undefined }> | undefined;
+  timelineData: EventTimelineDataInterface | undefined;
 
   private pageDocument;
   timeline: Timeline | undefined;
@@ -35,178 +36,186 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.timelineGenTriggerSubs = this.timelineGenTrigger?.subscribe((element) => {
-      if (element) {
-        this.render(element);
+    this.timelineGenTriggerSubs = this.timelineGenTrigger?.subscribe((value) => {
+      if (value.elem) {
+        this.render(value.elem, value.data);
       }
     });
   }
 
 
-  render(nativeElement: HTMLElement): void {
+  render(nativeElement: HTMLElement, timelineData: EventTimelineDataInterface | undefined): void {
 
+    this.timelineData = timelineData;
 
     if (this.timeline) {
       this.timeline.destroy();
     }
 
-    this.groups = new DataSet<any>(mockTimeLineData.groups.map(group => ({id: group.date})));
+    devLogger('log', {timelineData: this.timelineData});
 
-    devLogger('log', 'Rendering timeline');
+    if (this.timelineData) {
 
-    this.options = {
-      width: '2000vw',
-      zoomable: true,
-      autoResize: true,
-      stack: false,
-      align: 'left',
-      start: mockTimeLineData.startDateTime,
-      min: mockTimeLineData.minimumDateTime,
-      max: mockTimeLineData.maxDateTime,
-      margin: {
-        item: {
-          vertical: 35,
-          horizontal: 15
+      this.groups = new DataSet<any>(this.timelineData.groups.map(group => ({id: group.date})));
+
+      devLogger('log', 'Rendering timeline');
+
+      this.options = {
+        width: '2000vw',
+        zoomable: true,
+        autoResize: true,
+        stack: false,
+        align: 'left',
+        start: this.timelineData.startDateTime,
+        min: this.timelineData.minimumDateTime,
+        max: this.timelineData.maxDateTime,
+        margin: {
+          item: {
+            vertical: 35,
+            horizontal: 15
+          },
+          axis: 260,
         },
-        axis: 260,
-      },
-      timeAxis: {
-        scale: 'hour',
-        step: 1
-      },
-      orientation: {
-        axis: 'both',
-        item: 'top'
-      },
-      format: {
-        minorLabels: {
-          hour: 'HH',
-        }
-      },
-    };
+        timeAxis: {
+          scale: 'hour',
+          step: 1
+        },
+        orientation: {
+          axis: 'both',
+          item: 'top'
+        },
+        format: {
+          minorLabels: {
+            hour: 'HH',
+          }
+        },
+      };
 
-    const items: any[] = [];
-    mockTimeLineData.groups.forEach((groupData) => {
-      groupData.data.preTime.forEach(preTimeData => {
-        items.push({
-          id: preTimeData.id,
-          content: preTimeData.content,
-          start: preTimeData.startDateTime,
-          end: preTimeData.endDateTime,
-          type: 'background',
-          className: 'bumpIn'
+      const items: any[] = [];
+      this.timelineData.groups.forEach((groupData) => {
+        groupData.data.preTime.forEach(preTimeData => {
+          items.push({
+            id: `${preTimeData.id}_${uuidV4()}`,
+            content: preTimeData.content,
+            start: preTimeData.startDateTime,
+            end: preTimeData.endDateTime,
+            type: 'background',
+            className: 'bumpIn'
+          });
+
+          if (this.timelineType === EventTimelineType.SERVICES) {
+            preTimeData.services?.forEach((servicesData) => {
+              items.push({
+                id: `${servicesData.id}_${uuidV4()}`,
+                content: 'BI',
+                title: `<b>${servicesData.content} Bump In </b><br/>${new Date(servicesData.startDateTime).toDateString()} - ${new Date(servicesData.endDateTime).toDateString()}`,
+                start: servicesData.startDateTime,
+                end: servicesData.endDateTime,
+                group: servicesData.group,
+              });
+            });
+          } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
+            preTimeData.exhibitors?.forEach((exhibitorsData) => {
+              items.push({
+                id: `${exhibitorsData.id}_${uuidV4()}`,
+                content: 'BI',
+                title: `<b>${exhibitorsData.content} Bump In </b><br/>${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}`,
+                start: exhibitorsData.startDateTime,
+                end: exhibitorsData.endDateTime,
+                group: exhibitorsData.group,
+              });
+            });
+          }
         });
 
-        if (this.timelineType === EventTimelineType.SERVICES) {
-          preTimeData.services?.forEach((servicesData) => {
-            items.push({
-              id: servicesData.id,
-              content: 'BI',
-              title: `<b>${servicesData.content} Bump In </b><br/>${servicesData.startDateTime.toDateString()} - ${servicesData.endDateTime.toDateString()}`,
-              start: servicesData.startDateTime,
-              end: servicesData.endDateTime,
-              group: servicesData.group,
-            });
+        groupData.data.eventTime.forEach(eventTimeData => {
+          items.push({
+            id: `${eventTimeData.id}_${uuidV4()}`,
+            content: eventTimeData.content,
+            start: eventTimeData.startDateTime,
+            end: eventTimeData.endDateTime,
+            type: 'background',
+            className: 'eventTimes'
           });
-        } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
-          preTimeData.exhibitors?.forEach((exhibitorsData) => {
-            items.push({
-              id: exhibitorsData.id,
-              content: 'BI',
-              title: `<b>${exhibitorsData.content} Bump In </b><br/>${exhibitorsData.startDateTime.toDateString()} - ${exhibitorsData.endDateTime.toDateString()}`,
-              start: exhibitorsData.startDateTime,
-              end: exhibitorsData.endDateTime,
-              group: exhibitorsData.group,
-            });
-          });
-        }
-      });
 
-      groupData.data.eventTime.forEach(eventTimeData => {
-        items.push({
-          id: eventTimeData.id,
-          content: eventTimeData.content,
-          start: eventTimeData.startDateTime,
-          end: eventTimeData.endDateTime,
-          type: 'background',
-          className: 'eventTimes'
-        });
-
-        if (this.timelineType === EventTimelineType.SERVICES) {
-          eventTimeData.services?.forEach((servicesData) => {
-            items.push({
-              id: servicesData.id,
-              content: servicesData.content,
-              title: `<b>${servicesData.content}</b><p>${servicesData.companyName}<br/>
-${servicesData.startDateTime.toDateString()} - ${servicesData.endDateTime.toDateString()}</p>
+          if (this.timelineType === EventTimelineType.SERVICES) {
+            eventTimeData.services?.forEach((servicesData) => {
+              items.push({
+                id: `${servicesData.id}_${uuidV4()}`,
+                content: servicesData.content,
+                title: `<b>${servicesData.content}</b><p>${servicesData.companyName}<br/>
+${new Date(servicesData.startDateTime).toDateString()} - ${new Date(servicesData.endDateTime).toDateString()}</p>
 <b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite}</small>`,
-              start: servicesData.startDateTime,
-              end: servicesData.endDateTime,
-              group: servicesData.group,
+                start: servicesData.startDateTime,
+                end: servicesData.endDateTime,
+                group: servicesData.group,
+              });
             });
-          });
-        } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
-          eventTimeData.exhibitors?.forEach((exhibitorsData) => {
-            items.push({
-              id: exhibitorsData.id,
-              content: exhibitorsData.content,
-              title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName}<br/>
-${exhibitorsData.startDateTime.toDateString()} - ${exhibitorsData.endDateTime.toDateString()}</p>
+          } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
+            eventTimeData.exhibitors?.forEach((exhibitorsData) => {
+              items.push({
+                id: `${exhibitorsData.id}_${uuidV4()}`,
+                content: exhibitorsData.content,
+                title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName}<br/>
+${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}</p>
 <b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite}</small>`,
-              start: exhibitorsData.startDateTime,
-              end: exhibitorsData.endDateTime,
-              group: exhibitorsData.group,
+                start: exhibitorsData.startDateTime,
+                end: exhibitorsData.endDateTime,
+                group: exhibitorsData.group,
+              });
             });
-          });
-        }
-      });
-
-      groupData.data.postTime.forEach(postTimeData => {
-        items.push({
-          id: postTimeData.id,
-          content: postTimeData.content,
-          start: postTimeData.startDateTime,
-          end: postTimeData.endDateTime,
-          type: 'background',
-          className: 'bumpOut'
+          }
         });
 
-        if (this.timelineType === EventTimelineType.SERVICES) {
-          postTimeData.services?.forEach((servicesData) => {
-            items.push({
-              id: servicesData.id,
-              content: 'BO',
-              title: `${servicesData.content} Bump Out ${servicesData.startDateTime.toDateString()} - ${servicesData.endDateTime.toDateString()}`,
-              start: servicesData.startDateTime,
-              end: servicesData.endDateTime,
-              group: servicesData.group,
-            });
+        groupData.data.postTime.forEach(postTimeData => {
+          items.push({
+            id: `${postTimeData.id}_${uuidV4()}`,
+            content: postTimeData.content,
+            start: postTimeData.startDateTime,
+            end: postTimeData.endDateTime,
+            type: 'background',
+            className: 'bumpOut'
           });
-        } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
-          postTimeData.exhibitors?.forEach((exhibitorsData) => {
-            items.push({
-              id: exhibitorsData.id,
-              content: 'BO',
-              title: `${exhibitorsData.content} Bump Out ${exhibitorsData.startDateTime.toDateString()} - ${exhibitorsData.endDateTime.toDateString()}`,
-              start: exhibitorsData.startDateTime,
-              end: exhibitorsData.endDateTime,
-              group: exhibitorsData.group,
+
+          if (this.timelineType === EventTimelineType.SERVICES) {
+            postTimeData.services?.forEach((servicesData) => {
+              items.push({
+                id: `${servicesData.id}_${uuidV4()}`,
+                content: 'BO',
+                title: `${servicesData.content} Bump Out ${new Date(servicesData.startDateTime).toDateString()} - ${new Date(servicesData.endDateTime).toDateString()}`,
+                start: servicesData.startDateTime,
+                end: servicesData.endDateTime,
+                group: servicesData.group,
+              });
             });
-          });
-        }
+          } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
+            postTimeData.exhibitors?.forEach((exhibitorsData) => {
+              items.push({
+                id: `${exhibitorsData.id}_${uuidV4()}`,
+                content: 'BO',
+                title: `${exhibitorsData.content} Bump Out ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}`,
+                start: exhibitorsData.startDateTime,
+                end: exhibitorsData.endDateTime,
+                group: exhibitorsData.group,
+              });
+            });
+          }
+        });
       });
-    });
 
-    this.items = new DataSet<any>(items);
+      devLogger('log', {items});
 
-    this.timeline = new Timeline(
-      nativeElement,
-      this.items,
-      this.groups,
-      this.options
-    );
+      this.items = new DataSet<any>(items);
 
-    this.chdRef.detectChanges();
+      this.timeline = new Timeline(
+        nativeElement,
+        this.items,
+        this.groups,
+        this.options
+      );
+
+      this.chdRef.detectChanges();
+    }
   }
 
   ngOnDestroy(): void {
