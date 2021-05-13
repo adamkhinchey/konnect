@@ -1,4 +1,5 @@
 import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { ViewEventService } from '../../services/view-event.service';
 
@@ -13,10 +14,11 @@ export class EventViewComponent implements OnInit {
   active = 1;
   disabled = true;
   modalReference: any;
-
+  isClientEdit: boolean = false;
+  isEventEdit: boolean = false;
 
   onNavChange(changeEvent: NgbNavChangeEvent) {
-    console.log(changeEvent);
+    this.booleanFalse();
     if (changeEvent.nextId == 4 || changeEvent.nextId == 5) {
       this.getEventsById(3);
     } else {
@@ -25,13 +27,22 @@ export class EventViewComponent implements OnInit {
     this.active = changeEvent.nextId;
   }
 
+  booleanFalse() {
+    this.isClientEdit = false;
+    this.isEventEdit = false;
+  }
+
   toggleDisabled() {
     this.disabled = !this.disabled;
     if (this.disabled) {
       this.active = 1;
     }
   }
-  constructor(private modalService: NgbModal, private viewEvSrvc: ViewEventService) {
+  constructor(
+    private modalService: NgbModal,
+    private viewEvSrvc: ViewEventService,
+    private router: Router
+  ) {
   }
 
   ngOnInit() {
@@ -47,6 +58,15 @@ export class EventViewComponent implements OnInit {
       this.data.eventData = res.eventData;
       this.data.userPermission = res.userPermission;
       console.log(this.data);
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  deleteEvent(eventId: any) {
+    this.viewEvSrvc.deleteEvent(eventId).subscribe((res: any) => {
+      console.log(res);
+      this.router.navigate(['/home']);
     }, err => {
       console.log(err);
     })
@@ -82,5 +102,11 @@ export class EventViewComponent implements OnInit {
       size: "lg",
     });
 
+  }
+  editClientEvent() {
+    this.isClientEdit = true;
+  }
+  editEventManager() {
+    this.isEventEdit = true;
   }
 }

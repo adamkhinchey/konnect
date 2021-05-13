@@ -37,4 +37,16 @@ export class ViewEventService {
       })
     );
   }
+  deleteEvent(eventId: any): Observable<any> {
+    this.spinner.show();
+    return this.http.get<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/deleteMyEvent?eventId=${eventId}`
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      this.httpErrorHandler.processError(),
+      map((response: any) => {
+        return response.data;
+      })
+    );
+  }
 }

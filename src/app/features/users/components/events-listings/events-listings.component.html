@@ -5,7 +5,7 @@
                 <h2 id="toScheduledEvents" class="ui dividing header">Scheduled Events</h2>
                 <div class="visibleMobile">
                     <div class="ui grid">
-                        <div class="eight wide column">
+                        <div class="eight wide column" (click)="eventHistory()">
                             <div class="ui button basic blue compact fluid"><i class="undo icon"></i>Event History</div>
                         </div>
                         <div class="eight wide column">
@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="createEvent hideMobile">
-                    <div class="ui button compact basic blue"><i class="undo icon"></i>Event History</div>
+                    <div class="ui button compact basic blue" (click)="eventHistory()"><i class="undo icon"></i>Event History</div>
                     <a (click)="createEvent()" class="ui button compact ml-1"><i class="plus circle icon"></i>Create
                         Event</a>
                 </div>

@@ -45,7 +45,8 @@
                                                             <div class="ui fluid card">
                                                                 <div class="content">
                                                                     <img class="right floated mini ui image"
-                                                                        src="../../assets/img/elliot.jpg">
+                                                                        onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
+                                                                        [src]="data.eventData.client.clientCompanyProfileImage">
                                                                     <div class="header">
                                                                         <a href="/VCP.html"
                                                                             target="_blank">{{data.eventData.client.clientCompanyName}}</a>
@@ -57,7 +58,8 @@
                                                                             class="phone icon"></i>{{data.eventData.client.clientCompanyPhone}}
                                                                     </div>
                                                                 </div>
-                                                                <div class="extra content editableObject">
+                                                                <div class="extra content editableObject"
+                                                                    *ngIf="isClientEdit">
                                                                     <div class="ui grid">
                                                                         <div class="eight wide column">
 
@@ -91,7 +93,8 @@
                                                             <div class="ui fluid card">
                                                                 <div class="content">
                                                                     <img class="right floated mini ui image"
-                                                                        src="../../assets/img/elliot.jpg">
+                                                                        onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
+                                                                        [src]="contact.profileImage">
                                                                     <div class="header">
                                                                         <a href="/VPP.html"
                                                                             target="_blank">{{contact.firstName}}</a>
@@ -104,7 +107,8 @@
                                                                         {{contact.mobile}}
                                                                     </div>
                                                                 </div>
-                                                                <div class="extra content editableObject">
+                                                                <div class="extra content editableObject"
+                                                                    *ngIf="isClientEdit">
                                                                     <div class="ui grid">
                                                                         <div class="eight wide column">
 
@@ -150,7 +154,7 @@
                                                         </div> -->
                                                     </div>
                                                 </div>
-                                                <div class="ui grid stackable center aligned">
+                                                <div class="ui grid stackable center aligned" *ngIf="isClientEdit">
                                                     <div class="sixteen wide column">
                                                         <div class="ui basic button blue fluid hasModal editableObject"
                                                             data-modal="contacts">
@@ -166,15 +170,16 @@
                                             </div>
                                             <div class="field required">
                                                 <label>Event Title</label>
-                                                <div class="field disabled editable">
-                                                    <input type="text" value="{{data.eventData.title}}">
+                                                <div class="field editable">
+                                                    <input type="text" [readonly]="!isClientEdit"
+                                                        value="{{data.eventData.title}}">
                                                 </div>
                                             </div>
-                                            <div class="field disabled editable">
+                                            <div class="field editable">
                                                 <label>Event Description</label>
-                                                <div class="textarea" contenteditable="">
+                                                <textarea type="text" rows="3" class="textarea" [readonly]="!isClientEdit">
                                                     {{data.eventData.description}}
-                                                </div>
+                                                </textarea>
                                             </div>
                                             <div class="field">
                                                 <div class="ui toggle checkbox toggleOnColumn">
@@ -189,26 +194,34 @@
                                             <div class="ui grid stackable">
                                                 <div class="ten wide column middle aligned">
                                                     <div class="ui circular compact mini basic button confirmRemove hasModal"
-                                                        data-modal="removeModal"><i
+                                                        data-modal="removeModal"
+                                                        (click)="deleteEvent(data.eventData.eventId)"><i
                                                             class="trash alternate icon"></i>Delete Event</div>
                                                     &nbsp;&nbsp;&nbsp;Event created by
-                                                    {{data.eventData.creatorCompanyName}}, Date
-                                                    CreateTime
+                                                    {{data.eventData.creatorCompanyName}},
+                                                    {{data.eventData.eventCreatedDate | date:'dd-MM-YYYY'}}
+                                                    {{data.eventData.eventCreatedDate | date:'hh:mm'}}
                                                 </div>
                                                 <div class="six wide column right aligned hideMobile">
                                                     <div class="ui button basic blue icon"><i class="file pdf icon"></i>
                                                     </div>
-                                                    <div class="ui button triggerEditableOptions ml-3">Edit</div>
-                                                    <div class="ui button hasModal saveActions"
-                                                        data-modal="inviteModal">Save &amp; Invite</div>
+                                                    <div *ngIf="!isClientEdit"
+                                                        class="ui button triggerEditableOptions ml-3"
+                                                        (click)="editClientEvent()">Edit</div>
+                                                    <div class="ui button hasModal saveActions ml-3"
+                                                        data-modal="inviteModal" *ngIf="isClientEdit">Save &amp; Invite
+                                                    </div>
                                                 </div>
                                                 <div class="six wide column right aligned visibleMobile">
                                                     <div class="ui button basic blue icon downloadPDF halfWidth"><i
                                                             class="file pdf icon"></i></div>
-                                                    <div class="ui button triggerEditableOptions halfWidth ml-3">Edit
+                                                    <div *ngIf="!isClientEdit"
+                                                        class="ui button triggerEditableOptions halfWidth ml-3"
+                                                        (click)="editClientEvent()">Edit
                                                     </div>
-                                                    <div class="ui button hasModal saveActions halfWidth"
-                                                        data-modal="inviteModal">Save &amp; Invite</div>
+                                                    <div class="ui button hasModal saveActions halfWidth ml-3"
+                                                        data-modal="inviteModal" *ngIf="isClientEdit">Save &amp; Invite
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -242,7 +255,8 @@
                                                             <div class="ui fluid card">
                                                                 <div class="content">
                                                                     <img class="right floated mini ui image"
-                                                                        src="../../assets/img/elliot.jpg">
+                                                                    onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';" 
+                                                                    [src]="data.eventData.eventManager.emCompanyProfileImage">
                                                                     <div class="header">
                                                                         <a href="/VCP.html"
                                                                             target="_blank">{{data.eventData.eventManager.emCompanyName}}</a>
@@ -250,11 +264,12 @@
                                                                     <div class="meta">
                                                                         <a href="https://goo.gl/maps/n4DPECjGtgno53FL9"
                                                                             target="_blank"><i
-                                                                                class="map marker alternate icon"></i>Sydney</a><span>|</span><i
+                                                                                class="map marker alternate icon"></i>{{data.eventData.eventManager.emCompanyCity}}</a><span>|</span><i
                                                                             class="phone icon"></i>{{data.eventData.eventManager.emCompanyPhone}}
                                                                     </div>
                                                                 </div>
-                                                                <div class="extra content editableObject">
+                                                                <div class="extra content editableObject"
+                                                                    *ngIf="isEventEdit">
                                                                     <div class="ui grid">
                                                                         <div class="eight wide column">
 
@@ -294,14 +309,15 @@
                                                                             target="_blank">{{contactManager.firstName}}</a>
                                                                     </div>
                                                                     <div class="meta">
-                                                                        Position
+                                                                        {{contactManager.contactPosition}}
                                                                     </div>
                                                                     <div class="description">
                                                                         {{contactManager.email}}<br>
-                                                                        1234 5678
+                                                                        {{contactManager.mobile}}
                                                                     </div>
                                                                 </div>
-                                                                <div class="extra content editableObject">
+                                                                <div class="extra content editableObject"
+                                                                    *ngIf="isEventEdit">
                                                                     <div class="ui grid">
                                                                         <div class="eight wide column">
 
@@ -355,7 +371,7 @@
                                                         </div> -->
                                                     </div>
                                                 </div>
-                                                <div class="ui grid stackable center aligned">
+                                                <div class="ui grid stackable center aligned" *ngIf="isEventEdit">
                                                     <div class="sixteen wide column">
                                                         <div class="ui basic button blue fluid hasModal editableObject"
                                                             data-modal="contacts">
@@ -392,17 +408,21 @@
                                                 <div class="sixteen wide column right aligned hideMobile">
                                                     <div class="ui button basic blue icon"><i class="file pdf icon"></i>
                                                     </div>
-                                                    <div class="ui button triggerEditableOptions ml-3">Edit</div>
-                                                    <div class="ui button hasModal saveActions"
-                                                        data-modal="inviteModal">Save &amp; Invite</div>
+                                                    <div class="ui button triggerEditableOptions ml-3"
+                                                        *ngIf="!isEventEdit" (click)="editEventManager()">Edit</div>
+                                                    <div class="ui button hasModal saveActions ml-3"
+                                                        data-modal="inviteModal" *ngIf="isEventEdit">Save &amp; Invite
+                                                    </div>
                                                 </div>
                                                 <div class="six wide column right aligned visibleMobile">
                                                     <div class="ui button basic blue icon downloadPDF halfWidth"><i
                                                             class="file pdf icon"></i></div>
-                                                    <div class="ui button triggerEditableOptions halfWidth ml-3">Edit
+                                                    <div class="ui button triggerEditableOptions halfWidth ml-3"
+                                                        *ngIf="!isEventEdit" (click)="editEventManager()">Edit
                                                     </div>
-                                                    <div class="ui button hasModal saveActions halfWidth"
-                                                        data-modal="inviteModal">Save &amp; Invite</div>
+                                                    <div class="ui button hasModal saveActions halfWidth ml-3"
+                                                        *ngIf="isEventEdit" data-modal="inviteModal">Save &amp; Invite
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -6476,7 +6496,8 @@
                                                                                     <div class="kipCardContainer">
                                                                                         <div
                                                                                             class="ui one column grid stackable">
-                                                                                            <div class="column" *ngFor="let contact of exhibitor.contacts">
+                                                                                            <div class="column"
+                                                                                                *ngFor="let contact of exhibitor.contacts">
                                                                                                 <div
                                                                                                     class="sixteen wide column">
                                                                                                     ContactLabel<button
