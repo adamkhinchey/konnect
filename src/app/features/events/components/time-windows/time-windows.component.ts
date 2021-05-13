@@ -197,7 +197,7 @@ export class TimeWindowsComponent implements OnInit {
       return;
     }
     this.postEventTimes[i] = {
-      ...this.eventTimes[i],
+      ...this.postEventTimes[i],
       startDateTime: event,
       notes: this.postEventNotes
     };
@@ -215,7 +215,7 @@ export class TimeWindowsComponent implements OnInit {
       return;
     }
     this.postEventTimes[i] = {
-      ...this.eventTimes[i],
+      ...this.postEventTimes[i],
       endDateTime: event,
       notes: this.postEventNotes
     };

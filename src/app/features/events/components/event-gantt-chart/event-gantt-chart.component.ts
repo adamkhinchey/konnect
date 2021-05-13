@@ -61,18 +61,17 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
       devLogger('log', 'Rendering timeline');
 
       this.options = {
-        width: '2000vw',
+        width: '100%',
         zoomable: true,
         autoResize: true,
         stack: false,
-        align: 'left',
         start: this.timelineData.startDateTime,
         min: this.timelineData.minimumDateTime,
+        end: this.timelineData.maxDateTime,
         max: this.timelineData.maxDateTime,
         margin: {
           item: {
-            vertical: 35,
-            horizontal: 15
+            vertical: 15,
           },
           axis: 260,
         },
@@ -96,7 +95,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
         groupData.data.preTime.forEach(preTimeData => {
           items.push({
             id: `${preTimeData.id}_${uuidV4()}`,
-            content: preTimeData.content,
+            content: `Pre Event Access:<br/>${preTimeData.content}`,
             start: preTimeData.startDateTime,
             end: preTimeData.endDateTime,
             type: 'background',
@@ -131,7 +130,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
         groupData.data.eventTime.forEach(eventTimeData => {
           items.push({
             id: `${eventTimeData.id}_${uuidV4()}`,
-            content: eventTimeData.content,
+            content: `Event:<br/>${eventTimeData.content}`,
             start: eventTimeData.startDateTime,
             end: eventTimeData.endDateTime,
             type: 'background',
@@ -170,7 +169,7 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
         groupData.data.postTime.forEach(postTimeData => {
           items.push({
             id: `${postTimeData.id}_${uuidV4()}`,
-            content: postTimeData.content,
+            content: `Post Event Access:<br/>${postTimeData.content}`,
             start: postTimeData.startDateTime,
             end: postTimeData.endDateTime,
             type: 'background',
