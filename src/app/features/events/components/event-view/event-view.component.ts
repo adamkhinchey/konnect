@@ -17,7 +17,12 @@ export class EventViewComponent implements OnInit {
 
   onNavChange(changeEvent: NgbNavChangeEvent) {
     console.log(changeEvent);
-    this.getEventsById(changeEvent.nextId);
+    if (changeEvent.nextId == 4 || changeEvent.nextId == 5) {
+      this.getEventsById(3);
+    } else {
+      this.getEventsById(changeEvent.nextId);
+    }
+    this.active = changeEvent.nextId;
   }
 
   toggleDisabled() {
@@ -42,7 +47,6 @@ export class EventViewComponent implements OnInit {
       this.data.eventData = res.eventData;
       this.data.userPermission = res.userPermission;
       console.log(this.data);
-      this.active = tabType
     }, err => {
       console.log(err);
     })
