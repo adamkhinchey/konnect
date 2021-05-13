@@ -15,7 +15,7 @@ import {NgbNavChangeEvent} from "@ng-bootstrap/ng-bootstrap";
 })
 export class EventTimelineFunctionComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @Input() eventId: number | null = 175;
+  @Input() eventId: number | null = null;
   @ViewChild('servicesGanttChart') servicesGanttChart: EventGanttChartComponent | undefined;
   @ViewChild('exhibitorsGanttChart') exhibitorsGanttChart: EventGanttChartComponent | undefined;
   activeVenueId: number | undefined;

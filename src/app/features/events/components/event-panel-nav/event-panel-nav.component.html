@@ -31,7 +31,7 @@
     </ng-template>
   </li>
   <li [ngbNavItem]="5" [disabled]="active===6">
-    <a ngbNavLink class="item tabAdmin"><i class="exhibitor icon"></i><span
+    <a ngbNavLink class="item tabAdmin"><i class="exhibitor icon" [ngClass]="{disabled: active===6}"></i><span
       class="hideMobile">EXHIBITORS</span></a>
     <ng-template ngbNavContent>
     <ng-content select="[exhibitors]"></ng-content>
@@ -44,7 +44,7 @@
       <ng-content select="[eventFiles]"></ng-content>
     </ng-template>
   </li>
-  <li [ngbNavItem]="7" [disabled]="active===6">
+  <li *ngIf="false" [ngbNavItem]="7" [disabled]="active===6" [hidden]="true">
     <a ngbNavLink class="item tabAdmin"><i class="clock icon"></i><span
       class="hideMobile">TIMELINE</span></a>
     <ng-template ngbNavContent>
