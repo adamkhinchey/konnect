@@ -5,7 +5,7 @@
       [destroyOnHide]="false">
     <li ngbNavItem *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
       <a ngbNavLink><i class="map marker alternate icon"></i>
-        {{venueCompanies && venueCompanies.length>0? venueCompanies[venueIndex].companyName+', '+venueCompanies[venueIndex].city:'Venue-'+(venueIndex + 1)}}</a>
+        {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]? venueCompanies[venueIndex].companyName+', '+venueCompanies[venueIndex].city:'Venue-'+(venueIndex + 1)}}</a>
       <ng-template ngbNavContent>
         <form class="ui form">
           <div class="ui grid stackable">
