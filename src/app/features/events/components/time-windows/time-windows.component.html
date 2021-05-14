@@ -26,6 +26,7 @@
                     <!-- <input type="text" placeholder="Date">-->
                     <app-date-time-picker
                       #preEventStartDateTimes
+                      [eventDateTime]="preEventTimes[i]?.startDateTime || null"
                       [minimumDate]="getMinimumPreEventStartDateTime(i)"
                       [index]="index"
                       (addNewDateTime)="pushPreEventStartDateTime($event,i)"></app-date-time-picker>
@@ -42,6 +43,7 @@
                     <!-- <input type="text" placeholder="Date">-->
                     <app-date-time-picker
                       #preEventEndDateTimes
+                      [eventDateTime]="preEventTimes[i]?.endDateTime || null"
                       [minimumDate]="getMinimumPreEventEndDateTime(i)"
                       [index]="index"
                       (addNewDateTime)="pushPreEventEndDateTime($event,i)"></app-date-time-picker>
@@ -89,6 +91,7 @@
                     <!--<input type="text" placeholder="Date">-->
                     <app-date-time-picker
                       #eventStartDateTimes
+                      [eventDateTime]="eventTimes[i]?.startDateTime || null"
                       [minimumDate]="getMinimumEventStartDateTime(i)"
                       [index]="index"
                       (addNewDateTime)="pushEventStartDateTime($event,i)">
@@ -106,6 +109,7 @@
                     <!--<input type="text" placeholder="Date">-->
                     <app-date-time-picker
                       #eventEndDateTimes
+                      [eventDateTime]="eventTimes[i]?.endDateTime || null"
                       [minimumDate]="getMinimumEventEndDateTime(i)"
                       [index]="index"
                       (addNewDateTime)="pushEventEndDateTime($event,i)"
@@ -153,6 +157,7 @@
                     <!--<input type="text" placeholder="Date">-->
                     <app-date-time-picker
                       #postEventStartDateTimes
+                      [eventDateTime]="postEventTimes[i]?.startDateTime || null"
                       [minimumDate]="getMinimumPostEventStartDateTime(i)"
                       [index]="index"
                       (addNewDateTime)="pushPostEventStartDateTime($event,i)"
@@ -170,6 +175,7 @@
                     <!--<input type="text" placeholder="Date">-->
                     <app-date-time-picker
                       #postEventEndDateTimes
+                      [eventDateTime]="postEventTimes[i]?.endDateTime || null"
                       [minimumDate]="getMinimumPostEventEndDateTime(i)"
                       [index]="index"
                       (addNewDateTime)="pushPostEventEndDateTime($event,i)">
