@@ -22,7 +22,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   // @ts-ignore
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
   @Input() eventToBeSaved = new SaveEventClass();
-  @Input() venueCompanies: Array<Company | InviteFnCmpInterface> | undefined | null = [];
+  @Input() venueCompanies: Array<Company | InviteFnCmpInterface | null> | undefined | null = [];
   @Output() saveAndInvite = new EventEmitter<{ venueIndex: number, serviceIndex: number, shouldInvite: boolean }>();
   @Input() searchInviteCmpModal: any;
   @Input() searchInviteFnCmpCntModal: any;

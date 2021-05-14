@@ -17,8 +17,8 @@ import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/even
 import {EventVenueFunctionComponent} from '../event-venue-function/event-venue-function.component';
 import {Router} from '@angular/router';
 import {EventSuppliersFunctionComponent} from '../event-suppliers-function/event-suppliers-function.component';
-import {EventExhibitorsFunctionComponent} from "../event-exhibitors-function/event-exhibitors-function.component";
-import {EventTimelineService} from "../../services/event-timeline.service";
+import {EventExhibitorsFunctionComponent} from '../event-exhibitors-function/event-exhibitors-function.component';
+import {EventTimelineService} from '../../services/event-timeline.service';
 
 @Component({
   selector: 'app-create-event',
@@ -53,7 +53,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   eventMgrContactList: FnCmpCntInterface[] = [];
   isEventMgrInvalid = true;
 
-  venueCompanies: Array<Company | InviteFnCmpInterface> | undefined | null = [];
+  venueCompanies: Array<Company | InviteFnCmpInterface | null> | undefined | null = [];
   venueContactLists: Array<Array<FnCmpCntInterface>> = [];
   isEventVenuesInvalid = true;
 
@@ -235,12 +235,27 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         };
         break;
       case EventFunctionTypes.VENUE:
-        this.venueCompanies?.push(company);
         const activatedVenuePanelIndex = this.eventService.activeVenuePanelIndex;
         if (activatedVenuePanelIndex !== null && this.venueCompanies) {
+          devLogger('log', activatedVenuePanelIndex);
+          devLogger('log', {venueCompanies: this.venueCompanies});
+          if (this.venueCompanies.length - 1 < activatedVenuePanelIndex) {
+            for (let i = this.venueCompanies.length; i < activatedVenuePanelIndex; i++) {
+              /*
+               * fill the missing with null
+               * example if venueCompanies=[0,1] && activeVenuePanelIndex=4
+               * then after loop venuesCompanies=[0,1,null,null]
+               */
+              this.venueCompanies.push(null);
+            }
+          }
+
+          this.venueCompanies?.splice(activatedVenuePanelIndex, 1, company);
+          devLogger('log', {venueCompanies: this.venueCompanies});
           // @ts-ignore
           this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex).setSelectedCompany(company);
           this.setSelectedFnCompanyContacts([]);
+          devLogger('log', {venueCompaniesContactList: this.venueContactLists[activatedVenuePanelIndex]});
         }
         break;
       case EventFunctionTypes.SUPPLIERS:
@@ -314,6 +329,16 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       case EventFunctionTypes.VENUE:
         const activatedVenuePanelIndex = this.eventService.activeVenuePanelIndex;
         if (activatedVenuePanelIndex !== null && this.venueFn?.venueAssignCmp) {
+          if (this.venueContactLists.length - 1 < activatedVenuePanelIndex) {
+            for (let i = this.venueContactLists.length; i < activatedVenuePanelIndex; i++) {
+              /*
+               * fill the missing with null
+               * example if venueContactLists=[[someVal, someVal],[someVal]] && activeVenuePanelIndex=4
+               * then after loop venueContactLists=[[someVal, someVal],[someVal],[],[]]
+               */
+              this.venueContactLists.push([]);
+            }
+          }
           if (!this.venueContactLists[activatedVenuePanelIndex]) {
             this.venueContactLists[activatedVenuePanelIndex] = [];
           }
@@ -505,9 +530,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   unsetVenueCmp(index: number): void {
-    this.venueCompanies?.splice(index, 1);
+    this.venueCompanies?.splice(index, 1, null);
     this.venueCompanies = this.venueCompanies?.slice(0);
-    this.venueContactLists = this.venueContactLists.splice(index, 1);
+    this.venueContactLists[index] = [];
     this.venueContactLists = this.venueContactLists.slice(0);
     if (this.venueFn?.venueAssignCmp && this.venueFn?.venueAssignCmp.get(index)) {
       // @ts-ignore
@@ -570,6 +595,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         for (const venuesList of this.eventToBeSaved.venues?.list) {
           const services = venuesList.suppliers[0]?.services;
           let j = 0;
+          if (!services || !Array.isArray(services)) {
+            break;
+          }
           for (const service of services) {
             if (param.venueIndex === i && param.serviceIndex === j && param.shouldInvite) {
               service.shouldInvite = 1;
@@ -580,7 +608,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
           i++;
         }
-        devLogger('log', {beforeFilterVenSupp: this.eventToBeSaved.venues?.list})
+        devLogger('log', {beforeFilterVenSupp: this.eventToBeSaved.venues?.list});
         for (const venuesList of this.eventToBeSaved.venues?.list) {
           const services = venuesList.suppliers[0]?.services;
           if (services) {
@@ -605,6 +633,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         for (const venuesList of this.eventToBeSaved.venues?.list) {
           const exhibitors = venuesList.exhibitorList[0]?.exhibitors;
           let j = 0;
+          if (!exhibitors || !Array.isArray(exhibitors)) {
+            break;
+          }
           for (const exhibitor of exhibitors) {
             if (param.venueIndex === i && param.exhibitorIndex === j && param.shouldInvite) {
               exhibitor.shouldInvite = 1;
@@ -774,6 +805,20 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private isVenuesValid(): boolean {
+    if (this.venueCompanies && this.venueCompanies.length > 0) {
+      /*
+      * clean venue companies and there corresponding contacts
+      * which are removed i.e venueCompany===null
+       */
+      for (let i = 0; i < this.venueCompanies.length; i++) {
+        if (this.venueCompanies[i] === null) {
+          this.venueContactLists.splice(i, 1);
+        }
+      }
+
+      this.venueCompanies = this.venueCompanies.filter(vc => vc !== null);
+    }
+
     if (this.venueCompanies && this.venueCompanies.length > 0) {
       for (let i = 0; i < this.venueCompanies.length; i++) {
         if (this.venueCompanies[i] instanceof InviteFnCmpClass) {

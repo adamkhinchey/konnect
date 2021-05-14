@@ -56,14 +56,14 @@
                                        [src]="getCompanyProfileImage(i) || 'assets/img/default_konnect_img.png'"
                                        appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                   <div class="header">
-                                    <a>{{selectedCompanies[i].companyName}}</a>
+                                    <a>{{selectedCompanies[i]!.companyName}}</a>
                                   </div>
                                   <div class="meta">
                                     <a *ngIf="getCompanyWebsite(i)" [href]="getCompanyWebsite(i)"
                                        target="_blank"> {{getCompanyWebsite(i)}}</a>
                                     <span *ngIf="getCompanyWebsite(i)">|</span>
                                     <a>
-                                      <i class="map marker alternate icon"></i>{{selectedCompanies[i].city}}</a>
+                                      <i class="map marker alternate icon"></i>{{selectedCompanies[i]!.city}}</a>
                                     <span>|</span>
                                     <i class="phone icon"></i>{{getCompanyPhone(i) || ''}}
                                   </div>
