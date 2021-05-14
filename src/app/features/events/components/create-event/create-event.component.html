@@ -70,6 +70,7 @@
         </ng-container>
         <ng-container suppliers>
           <app-event-suppliers-function #suppliersFn
+                                        [venueCompanies]="venueCompanies"
                                         [eventToBeSaved]="eventToBeSaved"
                                         (saveAndInvite)="saveToDb($event)"
                                         [searchInviteCmpModal]="searchInviteCmpModal"
@@ -91,7 +92,9 @@
         <ng-container eventFiles>
           <app-event-files-function [eventID]="savedEventId"></app-event-files-function>
         </ng-container>
-        <!--<app-event-timeline-function></app-event-timeline-function>-->
+        <ng-container timeline>
+          <app-event-timeline-function></app-event-timeline-function>
+        </ng-container>
       </app-event-panel-nav>
 
       <!--<div [ngbNavOutlet]="eventPanelNav.navRef" class="mt-2"></div>-->
@@ -116,7 +119,6 @@
     >
     </app-search-or-invite-fn-cmp-cnt>
   </ng-template>
-
 
 
 </div>
