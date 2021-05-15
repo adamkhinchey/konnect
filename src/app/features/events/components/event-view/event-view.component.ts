@@ -13,23 +13,40 @@ export class EventViewComponent implements OnInit {
   data: any = {};
   active = 1;
   disabled = true;
+  isSupplier: boolean = false;
+  isExhibitor: boolean = false;
   modalReference: any;
   isClientEdit: boolean = false;
   isEventEdit: boolean = false;
+  isVenueEdit: boolean = false;
+  isSupplierEdit: boolean = false;
+  isExhibitorEdit: boolean = true;
 
   onNavChange(changeEvent: NgbNavChangeEvent) {
     this.booleanFalse();
     if (changeEvent.nextId == 4 || changeEvent.nextId == 5) {
       this.getEventsById(3);
+      this.active = changeEvent.nextId;
     } else {
+      this.isSupplier = false;
+      this.isExhibitor = false;
       this.getEventsById(changeEvent.nextId);
+      this.active = changeEvent.nextId;
     }
-    this.active = changeEvent.nextId;
+    if (changeEvent.nextId == 4) {
+      this.isSupplier = true;
+    } else if (changeEvent.nextId == 5) {
+      this.isExhibitor = true;
+    }
+
   }
 
   booleanFalse() {
     this.isClientEdit = false;
     this.isEventEdit = false;
+    this.isVenueEdit = false;;
+    this.isSupplierEdit = false;
+    this.isExhibitorEdit = false;
   }
 
   toggleDisabled() {
@@ -108,5 +125,14 @@ export class EventViewComponent implements OnInit {
   }
   editEventManager() {
     this.isEventEdit = true;
+  }
+  editVenue() {
+    this.isVenueEdit = true;
+  }
+  editSupplier() {
+    this.isSupplierEdit = true;
+  }
+  editExhibitor() {
+    this.isExhibitorEdit = true;
   }
 }

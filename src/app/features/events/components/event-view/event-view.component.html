@@ -85,7 +85,7 @@
                                                     <div class="ui one column grid stackable">
                                                         <div class="column"
                                                             *ngFor="let contact of data.eventData.client.contacts">
-                                                            <div class="contactRole">ContactLabel <div
+                                                            <div class="contactRole">{{contact.contactRole}} <div
                                                                     class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive hasModal"
                                                                     data-modal="editProfile"><i
                                                                         class="pencil alternate icon"></i></div>
@@ -177,7 +177,8 @@
                                             </div>
                                             <div class="field editable">
                                                 <label>Event Description</label>
-                                                <textarea type="text" rows="3" class="textarea" [readonly]="!isClientEdit">
+                                                <textarea type="text" rows="3" class="textarea"
+                                                    [readonly]="!isClientEdit">
                                                     {{data.eventData.description}}
                                                 </textarea>
                                             </div>
@@ -255,8 +256,8 @@
                                                             <div class="ui fluid card">
                                                                 <div class="content">
                                                                     <img class="right floated mini ui image"
-                                                                    onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';" 
-                                                                    [src]="data.eventData.eventManager.emCompanyProfileImage">
+                                                                        onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
+                                                                        [src]="data.eventData.eventManager.emCompanyProfileImage">
                                                                     <div class="header">
                                                                         <a href="/VCP.html"
                                                                             target="_blank">{{data.eventData.eventManager.emCompanyName}}</a>
@@ -295,7 +296,7 @@
                                                     <div class="ui one column grid stackable">
                                                         <div class="column"
                                                             *ngFor="let contactManager of data.eventData.eventManager.contacts">
-                                                            <div class="contactRole">ContactLabel <div
+                                                            <div class="contactRole">{{contactManager.contactRole}} <div
                                                                     class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive hasModal"
                                                                     data-modal="editProfile"><i
                                                                         class="pencil alternate icon"></i></div>
@@ -435,7 +436,7 @@
                         <a ngbNavLink class="item tabAdmin"><i class="map marker alternate icon"></i><span
                                 class="hideMobile">VENUE</span></a>
                         <ng-template ngbNavContent>
-                            <div class="ui segment" *ngIf="data.eventData.venues && active == 3">
+                            <div class="ui segment" *ngIf="data.eventData.venues && !isSupplier && !isExhibitorEdit && active == 3">
                                 <form class="ui form">
                                     <div class="ui grid">
                                         <div class="sixteen wide column">
@@ -501,12 +502,11 @@
                                                                                                     <a href="https://goo.gl/maps/n4DPECjGtgno53FL9"
                                                                                                         target="_blank"><i
                                                                                                             class="map marker alternate icon"></i>{{venue.companyCity}}</a><span>|</span><i
-                                                                                                        class="phone icon"></i>9876
-                                                                                                    5432
+                                                                                                        class="phone icon"></i>{{venue.companyPhone}}
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div
-                                                                                                class="extra content editableObject">
+                                                                                            <div class="extra content editableObject"
+                                                                                                *ngIf="isVenueEdit">
                                                                                                 <div class="ui grid">
                                                                                                     <div
                                                                                                         class="ten wide column">
@@ -538,7 +538,7 @@
                                                                                     <div class="column"
                                                                                         *ngFor="let contact of venue.contacts">
                                                                                         <div class="contactRole">
-                                                                                            ContactLabel <div
+                                                                                            {{contact.contactRole}} <div
                                                                                                 class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive hasModal"
                                                                                                 data-modal="editProfile">
                                                                                                 <i
@@ -554,16 +554,16 @@
                                                                                                         target="_blank">{{contact.firstName}}</a>
                                                                                                 </div>
                                                                                                 <div class="meta">
-                                                                                                    Position
+                                                                                                    {{contact.contactPosition}}
                                                                                                 </div>
                                                                                                 <div
                                                                                                     class="description">
                                                                                                     {{contact.email}}<br>
-                                                                                                    1234 5678
+                                                                                                    {{contact.mobile}}
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div
-                                                                                                class="extra content editableObject">
+                                                                                            <div class="extra content editableObject"
+                                                                                                *ngIf="isVenueEdit">
                                                                                                 <div class="ui grid">
                                                                                                     <div
                                                                                                         class="eight wide column">
@@ -629,8 +629,8 @@
                                                                                     </div> -->
                                                                                 </div>
                                                                             </div>
-                                                                            <div
-                                                                                class="ui grid stackable center aligned">
+                                                                            <div class="ui grid stackable center aligned"
+                                                                                *ngIf="isVenueEdit">
                                                                                 <div class="sixteen wide column">
                                                                                     <div class="ui basic button blue fluid hasModal editableObject"
                                                                                         data-modal="contacts">
@@ -649,8 +649,22 @@
                                                                                     <h3>Venue Time Windows <i
                                                                                             class="globe icon"></i></h3>
                                                                                 </div>
+                                                                                <app-time-windows
+                                                                                    [windowLabels]="['Pre Event Access', 'Event Time', 'Post Event Access']"
+                                                                                    [index]="idx"
+                                                                                    [preEventTimes]="venue.preEventTime"
+                                                                                    [postEventTimes]="venue.eventTime"
+                                                                                    [eventTimes]="venue.postEventTime"
+                                                                                    [preEventTimesCount]="venue?.preEventTime?.length || 1"
+                                                                                    [eventTimesCount]="venue?.eventTime?.length || 1"
+                                                                                    [postEventTimesCount]="venue?.postEventTime?.length || 1"
+                                                                                    [eventView]="true"
+                                                                                    [preEventNotes]="venue.preEventTime[idx].notes"
+                                                                                    [eventNotes]="venue.eventTime[idx].notes"
+                                                                                    [postEventNotes]="venue.postEventTime[idx].notes">
+                                                                                </app-time-windows>
 
-                                                                                <ngb-accordion [closeOthers]="true"
+                                                                                <!-- <ngb-accordion [closeOthers]="true"
                                                                                     activeIds="static-3">
 
                                                                                     <ngb-panel id="static-3">
@@ -2380,7 +2394,7 @@
                                                                                         </ng-template>
                                                                                     </ngb-panel>
 
-                                                                                </ngb-accordion>
+                                                                                </ngb-accordion> -->
 
                                                                             </div>
                                                                         </div>
@@ -2398,15 +2412,69 @@
                                                                         </div>
 
                                                                     </div>
-                                                                    <div
+                                                                    <!-- <div
                                                                         class="sixteen wide column saveButtons paddingT0">
                                                                         <div class="ui divider"></div>
                                                                         <div class="ui grid stackable">
                                                                             <div
-                                                                                class="sixteen wide column right aligned">
-                                                                                <div class="ui button hasModal"
-                                                                                    data-modal="inviteModal">Save &amp;
-                                                                                    Invite</div>
+                                                                                class="sixteen wide column right aligned hideMobile">
+                                                                                <div class="ui button basic blue icon">
+                                                                                    <i class="file pdf icon"></i></div>
+                                                                                <div
+                                                                                    class="ui button triggerEditableOptions ml-3">
+                                                                                    Edit</div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="sixteen wide column right aligned visibleMobile">
+                                                                                <div
+                                                                                    class="ui button basic blue icon downloadPDF halfWidth">
+                                                                                    <i class="file pdf icon"></i></div>
+                                                                                <div
+                                                                                    class="ui button triggerEditableOptions halfWidth ml-3">
+                                                                                    Edit</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div> -->
+                                                                    <div
+                                                                        class="sixteen wide column saveButtons paddingT0">
+                                                                        <div class="ui divider"></div>
+                                                                        <div class="ui grid stackable">
+                                                                            <div class="ten wide column middle aligned">
+                                                                                <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                    data-modal="removeModal"><i
+                                                                                        class="trash alternate icon"></i>Remove
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="six wide column right aligned hideMobile">
+                                                                                <div class="ui button basic blue icon">
+                                                                                    <i class="file pdf icon"></i>
+                                                                                </div>
+                                                                                <div *ngIf="!isVenueEdit"
+                                                                                    class="ui button triggerEditableOptions ml-3"
+                                                                                    (click)="editVenue()">Edit
+                                                                                </div>
+                                                                                <div class="ui button hasModal saveActions ml-3"
+                                                                                    data-modal="inviteModal"
+                                                                                    *ngIf="isVenueEdit">Save &amp;
+                                                                                    Invite
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="six wide column right aligned visibleMobile">
+                                                                                <div
+                                                                                    class="ui button basic blue icon downloadPDF halfWidth">
+                                                                                    <i class="file pdf icon"></i>
+                                                                                </div>
+                                                                                <div *ngIf="!isVenueEdit"
+                                                                                    class="ui button triggerEditableOptions halfWidth ml-3"
+                                                                                    (click)="editVenue()">Edit
+                                                                                </div>
+                                                                                <div class="ui button hasModal saveActions halfWidth ml-3"
+                                                                                    data-modal="inviteModal"
+                                                                                    *ngIf="isVenueEdit">Save &amp;
+                                                                                    Invite
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -2436,7 +2504,8 @@
                                 class="hideMobile">SUPPLIERS</span></a>
 
                         <ng-template ngbNavContent>
-                            <div class="ui segment" *ngIf="data.eventData.venues && active == 4">
+                            <div class="ui segment"
+                                *ngIf="data.eventData.venues && isSupplier && active == 4">
                                 <ul ngbNav #nav="ngbNav" class="nav-tabs supplierInnerCont">
                                     <li ngbNavItem *ngFor="let venueSrvice of data.eventData.venues">
                                         <a ngbNavLink><i class="map marker alternate icon"></i>
@@ -2525,12 +2594,12 @@
                                                                                                     <div class="meta">
                                                                                                         <a href="https://goo.gl/maps/n4DPECjGtgno53FL9"
                                                                                                             target="_blank"><i
-                                                                                                                class="map marker alternate icon"></i>Sydney</a><span>|</span><i
+                                                                                                                class="map marker alternate icon"></i>{{service.companyCity}}</a><span>|</span><i
                                                                                                             class="phone icon"></i>{{service.companyPhone}}
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <div
-                                                                                                    class="extra content editableObject">
+                                                                                                <div class="extra content editableObject"
+                                                                                                    *ngIf="isSupplierEdit">
                                                                                                     <div
                                                                                                         class="ui grid">
                                                                                                         <div
@@ -2567,7 +2636,7 @@
                                                                                             *ngFor="let contact of service.contacts">
                                                                                             <div
                                                                                                 class="sixteen wide column">
-                                                                                                ContactLabel<button
+                                                                                                {{contact.contactRole}}<button
                                                                                                     class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive"><i
                                                                                                         class="pencil alternate icon"></i></button>
                                                                                             </div>
@@ -2580,16 +2649,16 @@
                                                                                                             target="_blank">{{contact.firstName}}</a>
                                                                                                     </div>
                                                                                                     <div class="meta">
-                                                                                                        Position
+                                                                                                        {{contact.contactPosition}}
                                                                                                     </div>
                                                                                                     <div
                                                                                                         class="description">
                                                                                                         {{contact.email}}<br>
-                                                                                                        1234 5678
+                                                                                                        {{contact.mobile}}
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <div
-                                                                                                    class="extra content editableObject">
+                                                                                                <div class="extra content editableObject"
+                                                                                                    *ngIf="isSupplierEdit">
                                                                                                     <div
                                                                                                         class="ui grid">
                                                                                                         <div
@@ -2655,8 +2724,8 @@
                                                                                         </div> -->
                                                                                     </div>
                                                                                 </div>
-                                                                                <div
-                                                                                    class="ui grid stackable center aligned">
+                                                                                <div class="ui grid stackable center aligned"
+                                                                                    *ngIf="isSupplierEdit">
                                                                                     <div class="sixteen wide column">
                                                                                         <div class="ui basic button blue fluid hasModal editableObject"
                                                                                             data-modal="contacts">
@@ -2691,8 +2760,22 @@
                                                                                                 class="building icon"></i>
                                                                                         </h3>
                                                                                     </div>
+                                                                                    <app-time-windows
+                                                                                        [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
+                                                                                        [index]="idx"
+                                                                                        [preEventTimes]="service.preEventTime"
+                                                                                        [postEventTimes]="service.eventTime"
+                                                                                        [eventTimes]="service.postEventTime"
+                                                                                        [preEventTimesCount]="service?.preEventTime?.length || 1"
+                                                                                        [eventTimesCount]="service?.eventTime?.length || 1"
+                                                                                        [postEventTimesCount]="service?.postEventTime?.length || 1"
+                                                                                        [eventView]="true"
+                                                                                        [preEventNotes]="service.preEventTime[idx].notes"
+                                                                                        [eventNotes]="service.eventTime[idx].notes"
+                                                                                        [postEventNotes]="service.postEventTime[idx].notes">
+                                                                                    </app-time-windows>
 
-                                                                                    <ngb-accordion [closeOthers]="true"
+                                                                                    <!-- <ngb-accordion [closeOthers]="true"
                                                                                         activeIds="static-3">
 
                                                                                         <ngb-panel id="static-3">
@@ -4510,13 +4593,13 @@
                                                                                             </ng-template>
                                                                                         </ngb-panel>
 
-                                                                                    </ngb-accordion>
+                                                                                    </ngb-accordion> -->
 
                                                                                 </div>
                                                                             </div>
 
                                                                         </div>
-                                                                        <div
+                                                                        <!-- <div
                                                                             class="sixteen wide column saveButtons paddingT0">
                                                                             <div class="ui divider"></div>
                                                                             <div class="ui grid stackable">
@@ -4526,6 +4609,50 @@
                                                                                         data-modal="inviteModal">Save
                                                                                         &amp;
                                                                                         Invite</div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div> -->
+
+                                                                    </div>
+                                                                    <div
+                                                                        class="sixteen wide column saveButtons paddingT0">
+                                                                        <div class="ui divider"></div>
+                                                                        <div class="ui grid stackable">
+                                                                            <div class="ten wide column middle aligned">
+                                                                                <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                    data-modal="removeModal"><i
+                                                                                        class="trash alternate icon"></i>Remove
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="six wide column right aligned hideMobile">
+                                                                                <div class="ui button basic blue icon">
+                                                                                    <i class="file pdf icon"></i>
+                                                                                </div>
+                                                                                <div *ngIf="!isSupplierEdit"
+                                                                                    class="ui button triggerEditableOptions ml-3"
+                                                                                    (click)="editSupplier()">Edit
+                                                                                </div>
+                                                                                <div class="ui button hasModal saveActions ml-3"
+                                                                                    data-modal="inviteModal"
+                                                                                    *ngIf="isSupplierEdit">Save &amp;
+                                                                                    Invite
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="six wide column right aligned visibleMobile">
+                                                                                <div
+                                                                                    class="ui button basic blue icon downloadPDF halfWidth">
+                                                                                    <i class="file pdf icon"></i>
+                                                                                </div>
+                                                                                <div *ngIf="!isSupplierEdit"
+                                                                                    class="ui button triggerEditableOptions halfWidth ml-3"
+                                                                                    (click)="editSupplier()">Edit
+                                                                                </div>
+                                                                                <div class="ui button hasModal saveActions halfWidth ml-3"
+                                                                                    data-modal="inviteModal"
+                                                                                    *ngIf="isSupplierEdit">Save &amp;
+                                                                                    Invite
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -4571,7 +4698,8 @@
                         <a ngbNavLink class="item tabAdmin"><i class="exhibitor icon"></i><span
                                 class="hideMobile">EXHIBITORS</span></a>
                         <ng-template ngbNavContent>
-                            <div class="ui segment" *ngIf="data.eventData.venues && active == 5">
+                            <div class="ui segment"
+                                *ngIf="data.eventData.venues && isExhibitor && active == 5">
                                 <ul ngbNav #nav="ngbNav" class="nav-tabs supplierInnerCont">
                                     <li ngbNavItem *ngFor="let venueSrvice of data.eventData.venues">
                                         <a ngbNavLink><i class="map marker alternate icon"></i>
@@ -4592,7 +4720,7 @@
                                                             </div>
                                                             <div class="field">
                                                                 <div class="textarea" contenteditable="">
-                                                                    {{venueSrvice.exhibitors[0].notes}}
+                                                                    {{venueSrvice.exhibitorData.exhibitors[0].notes}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -4607,8 +4735,21 @@
                                                                                 class="sitemap icon"></i><i
                                                                                 class="exhibitor icon"></i></h3>
                                                                     </div>
+                                                                    <app-time-windows
+                                                                        [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
+                                                                        [preEventTimes]="venueSrvice.exhibitorData.timeWindowsToAll.preEventTime"
+                                                                        [postEventTimes]="venueSrvice.exhibitorData.timeWindowsToAll.eventTime"
+                                                                        [eventTimes]="venueSrvice.exhibitorData.timeWindowsToAll.postEventTime"
+                                                                        [preEventTimesCount]="venueSrvice?.preEventTime?.length || 1"
+                                                                        [eventTimesCount]="venueSrvice?.eventTime?.length || 1"
+                                                                        [postEventTimesCount]="venueSrvice?.postEventTime?.length || 1"
+                                                                        [eventView]="true"
+                                                                        [preEventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.preEventTime.notes"
+                                                                        [eventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.eventTime.notes"
+                                                                        [postEventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.postEventTime.notes">
+                                                                    </app-time-windows>
 
-                                                                    <ngb-accordion [closeOthers]="true"
+                                                                    <!-- <ngb-accordion [closeOthers]="true"
                                                                         activeIds="static-3">
 
                                                                         <ngb-panel id="static-3">
@@ -6375,7 +6516,7 @@
                                                                             </ng-template>
                                                                         </ngb-panel>
 
-                                                                    </ngb-accordion>
+                                                                    </ngb-accordion> -->
 
                                                                 </div>
                                                             </div>
@@ -6399,7 +6540,7 @@
                                                         </div>
                                                     </div> -->
                                                 </form>
-                                                <div class="ui grid">
+                                                <div class="ui grid" *ngIf="isExhibitorEdit">
                                                     <div class="sixteen wide column">
                                                         <div class="marginT10"></div>
                                                         <div class="ui button compact addNewService addToPanel"><i
@@ -6414,7 +6555,7 @@
                                                 <ngb-accordion [closeOthers]="true" activeIds="static-1">
 
                                                     <ng-container
-                                                        *ngFor="let exhibitor of venueSrvice.exhibitors; let idx=index;">
+                                                        *ngFor="let exhibitor of venueSrvice.exhibitorData.exhibitors; let idx=index;">
                                                         <ngb-panel id="static-1">
                                                             <ng-template ngbPanelTitle>
                                                                 <i class="dropdown icon"></i>Exhibitor {{idx+1}}
@@ -6458,12 +6599,12 @@
                                                                                                             class="meta">
                                                                                                             <a href="https://goo.gl/maps/n4DPECjGtgno53FL9"
                                                                                                                 target="_blank"><i
-                                                                                                                    class="map marker alternate icon"></i>{{exhibitor.exhibitorCompanyName}}</a><span>|</span><i
+                                                                                                                    class="map marker alternate icon"></i>{{exhibitor.companyCity}}</a><span>|</span><i
                                                                                                                 class="phone icon"></i>{{exhibitor.companyPhone}}
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    <div
-                                                                                                        class="extra content editableObject">
+                                                                                                    <div class="extra content editableObject"
+                                                                                                        *ngIf="isExhibitorEdit">
                                                                                                         <div
                                                                                                             class="ui grid">
                                                                                                             <div
@@ -6500,7 +6641,7 @@
                                                                                                 *ngFor="let contact of exhibitor.contacts">
                                                                                                 <div
                                                                                                     class="sixteen wide column">
-                                                                                                    ContactLabel<button
+                                                                                                    {{contact.contactRole}}<button
                                                                                                         class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive"><i
                                                                                                             class="pencil alternate icon"></i></button>
                                                                                                 </div>
@@ -6525,8 +6666,8 @@
                                                                                                             {{contact.mobile}}
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    <div
-                                                                                                        class="extra content editableObject">
+                                                                                                    <div class="extra content editableObject"
+                                                                                                        *ngIf="isExhibitorEdit">
                                                                                                         <div
                                                                                                             class="ui grid">
                                                                                                             <div
@@ -6596,8 +6737,8 @@
                                                                                             </div> -->
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div
-                                                                                        class="ui grid stackable center aligned">
+                                                                                    <div class="ui grid stackable center aligned"
+                                                                                        *ngIf="isExhibitorEdit">
                                                                                         <div
                                                                                             class="sixteen wide column">
                                                                                             <div class="ui basic button blue fluid hasModal editableObject"
@@ -6621,7 +6762,8 @@
                                                                                 </div>
                                                                                 <div class="field">
                                                                                     <input type="text"
-                                                                                        placeholder="Stand Number">
+                                                                                        placeholder="Stand Number"
+                                                                                        [value]="exhibitor.standNumber">
                                                                                 </div>
                                                                                 <div class="ui dividing header">
                                                                                     <h3>Notes to Specific Exhibitor <i
@@ -6644,8 +6786,22 @@
                                                                                                     class="building icon"></i>
                                                                                             </h3>
                                                                                         </div>
+                                                                                        <app-time-windows
+                                                                                            [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
+                                                                                            [index]="idx"
+                                                                                            [preEventTimes]="exhibitor.preEventTime"
+                                                                                            [postEventTimes]="exhibitor.eventTime"
+                                                                                            [eventTimes]="exhibitor.postEventTime"
+                                                                                            [preEventTimesCount]="exhibitor?.preEventTime?.length || 1"
+                                                                                            [eventTimesCount]="exhibitor?.eventTime?.length || 1"
+                                                                                            [postEventTimesCount]="exhibitor?.postEventTime?.length || 1"
+                                                                                            [eventView]="true"
+                                                                                            [preEventNotes]="exhibitor.preEventTime[idx].notes"
+                                                                                            [eventNotes]="exhibitor.eventTime[idx].notes"
+                                                                                            [postEventNotes]="exhibitor.postEventTime[idx].notes">
+                                                                                        </app-time-windows>
 
-                                                                                        <ngb-accordion
+                                                                                        <!-- <ngb-accordion
                                                                                             [closeOthers]="true"
                                                                                             activeIds="static-3">
 
@@ -8468,7 +8624,7 @@
                                                                                                 </ng-template>
                                                                                             </ngb-panel>
 
-                                                                                        </ngb-accordion>
+                                                                                        </ngb-accordion> -->
 
                                                                                     </div>
                                                                                 </div>
@@ -8479,12 +8635,49 @@
                                                                                 <div class="ui divider"></div>
                                                                                 <div class="ui grid stackable">
                                                                                     <div
-                                                                                        class="sixteen wide column right aligned">
-                                                                                        <div class="ui button hasModal"
-                                                                                            data-modal="inviteModal">
-                                                                                            Save
+                                                                                        class="ten wide column middle aligned">
+                                                                                        <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                            data-modal="removeModal"><i
+                                                                                                class="trash alternate icon"></i>Remove
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="six wide column right aligned hideMobile">
+                                                                                        <div
+                                                                                            class="ui button basic blue icon">
+                                                                                            <i
+                                                                                                class="file pdf icon"></i>
+                                                                                        </div>
+                                                                                        <div *ngIf="!isExhibitorEdit"
+                                                                                            class="ui button triggerEditableOptions ml-3"
+                                                                                            (click)="editExhibitor()">
+                                                                                            Edit
+                                                                                        </div>
+                                                                                        <div class="ui button hasModal saveActions ml-3"
+                                                                                            data-modal="inviteModal"
+                                                                                            *ngIf="isExhibitorEdit">Save
                                                                                             &amp;
-                                                                                            Invite</div>
+                                                                                            Invite
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="six wide column right aligned visibleMobile">
+                                                                                        <div
+                                                                                            class="ui button basic blue icon downloadPDF halfWidth">
+                                                                                            <i
+                                                                                                class="file pdf icon"></i>
+                                                                                        </div>
+                                                                                        <div *ngIf="!isExhibitorEdit"
+                                                                                            class="ui button triggerEditableOptions halfWidth ml-3"
+                                                                                            (click)="editExhibitor()">
+                                                                                            Edit
+                                                                                        </div>
+                                                                                        <div class="ui button hasModal saveActions halfWidth ml-3"
+                                                                                            data-modal="inviteModal"
+                                                                                            *ngIf="isExhibitorEdit">Save
+                                                                                            &amp;
+                                                                                            Invite
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

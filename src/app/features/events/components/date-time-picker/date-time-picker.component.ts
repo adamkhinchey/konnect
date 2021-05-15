@@ -13,6 +13,7 @@ export class DateTimePickerComponent implements OnInit {
   @ViewChild('dt1') owlDateTime: OwlDateTimeComponent<any> | undefined;
   @Input() minimumDate: Date | undefined;
   @Input() index: any;
+  @Input() eventDateTime: any;
   @Output() addNewDateTime = new EventEmitter<Date>();
 
   constructor() {

@@ -2,6 +2,8 @@ export interface TimeWindowFormatInterface {
   startDateTime: null | Date;
   notes?: string;
   endDateTime: null | Date;
+  timeId?: number;
+  timeType?: string;
 }
 
 export interface SuppExhTimeWindowFormatInterface {
