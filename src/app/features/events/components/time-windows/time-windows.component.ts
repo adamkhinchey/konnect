@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChildren, QueryList } from '@angular/core';
-import { devLogger } from "../../../../shared/utils";
-import { TimeWindowFormatInterface } from "../../models/interfaces";
-import { ToastrService } from "ngx-toastr";
-import * as moment from "moment";
-import { DateTimePickerComponent } from "../date-time-picker/date-time-picker.component";
+import {Component, Input, OnInit, Output, EventEmitter, ViewChildren, QueryList} from '@angular/core';
+import {devLogger} from '../../../../shared/utils';
+import {TimeWindowFormatInterface} from '../../models/interfaces';
+import {ToastrService} from 'ngx-toastr';
+import * as moment from 'moment';
+import {DateTimePickerComponent} from '../date-time-picker/date-time-picker.component';
 
 @Component({
   selector: 'app-time-windows',
@@ -23,7 +23,7 @@ export class TimeWindowsComponent implements OnInit {
   @Input() windowLabels: string[] | undefined;
 
   Arr = Array;
-  @Input() eventView: boolean = false;
+  @Input() eventView = false;
   @Input() preEventTimesCount = 1;
   @Input() preEventNotes = '';
   @Input() preEventTimes: Partial<TimeWindowFormatInterface>[] = [];
@@ -47,7 +47,7 @@ export class TimeWindowsComponent implements OnInit {
     // if (this.eventView && this.preEventTimes && this.preEventTimes.length){
     //   return moment(this.preEventTimes[i].startDateTime).toDate();
     // }
-      return moment().add('1', 'minutes').toDate();
+    return moment().add('1', 'minutes').toDate();
   }
 
   getMinimumPreEventEndDateTime(i: number): Date {
@@ -56,7 +56,7 @@ export class TimeWindowsComponent implements OnInit {
 
   pushPreEventStartDateTime(event: Date, i: number): void {
     if (this.preEventTimes.length === 0) {
-      this.preEventTimes.push({ startDateTime: event, notes: this.preEventNotes });
+      this.preEventTimes.push({startDateTime: event, notes: this.preEventNotes});
       this.preEventEndDateTimes?.get(0)?.owlDateTime?.confirmSelectedChange.next(
         this.preEventTimes[0].startDateTime
       );
@@ -77,7 +77,7 @@ export class TimeWindowsComponent implements OnInit {
 
   pushPreEventEndDateTime(event: Date, i: number): void {
     if (this.preEventTimes.length === 0) {
-      this.preEventTimes.push({ endDateTime: event, notes: this.preEventNotes });
+      this.preEventTimes.push({endDateTime: event, notes: this.preEventNotes});
       return;
     }
     this.preEventTimes[i] = {
@@ -125,7 +125,7 @@ export class TimeWindowsComponent implements OnInit {
 
   pushEventStartDateTime(event: Date, i: number): void {
     if (this.eventTimes.length === 0) {
-      this.eventTimes.push({ startDateTime: event, notes: this.eventNotes });
+      this.eventTimes.push({startDateTime: event, notes: this.eventNotes});
       this.eventEndDateTimes?.get(0)?.owlDateTime?.confirmSelectedChange.next(
         this.eventTimes[0].startDateTime
       );
@@ -146,7 +146,7 @@ export class TimeWindowsComponent implements OnInit {
 
   pushEventEndDateTime(event: Date, i: number): void {
     if (this.eventTimes.length === 0) {
-      this.eventTimes.push({ endDateTime: event, notes: this.eventNotes });
+      this.eventTimes.push({endDateTime: event, notes: this.eventNotes});
       return;
     }
     this.eventTimes[i] = {
@@ -194,7 +194,7 @@ export class TimeWindowsComponent implements OnInit {
 
   pushPostEventStartDateTime(event: Date, i: number): void {
     if (this.postEventTimes.length === 0) {
-      this.postEventTimes.push({ startDateTime: event, notes: this.postEventNotes });
+      this.postEventTimes.push({startDateTime: event, notes: this.postEventNotes});
       this.postEventEndDateTimes?.get(0)?.owlDateTime?.confirmSelectedChange.next(
         this.postEventTimes[0].startDateTime
       );
@@ -215,7 +215,7 @@ export class TimeWindowsComponent implements OnInit {
 
   pushPostEventEndDateTime(event: Date, i: number): void {
     if (this.postEventTimes.length === 0) {
-      this.postEventTimes.push({ endDateTime: event, notes: this.postEventNotes });
+      this.postEventTimes.push({endDateTime: event, notes: this.postEventNotes});
       return;
     }
     this.postEventTimes[i] = {
