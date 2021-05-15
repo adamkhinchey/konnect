@@ -56,6 +56,7 @@
                 <span>Notes</span>
                 <textarea class="textarea notes" [(ngModel)]="preEventNotes"
                           ngDefaultControl
+                          rows="3"
                           [ngModelOptions]="{standalone:true}"
                           (ngModelChange)="populatePreEventNotes($event)">
                 </textarea>
@@ -123,6 +124,7 @@
                 <span>Notes</span>
                 <textarea class="textarea notes" [(ngModel)]="eventNotes"
                           ngDefaultControl
+                          rows="3"
                           [ngModelOptions]="{standalone:true}"
                           (ngModelChange)="populateEventNotes($event)"></textarea>
                 <div class="ui circular compact mini basic button" (click)="addMoreEventDateTime()">
@@ -189,6 +191,7 @@
                 <span>Notes</span>
                 <textarea class="textarea notes" [(ngModel)]="postEventNotes"
                           ngDefaultControl
+                          rows="3"
                           [ngModelOptions]="{standalone:true}"
                           (ngModelChange)="populatePostEventNotes($event)"></textarea>
                 <div class="ui circular compact mini basic button" (click)="addMorePostEventDateTime()">
