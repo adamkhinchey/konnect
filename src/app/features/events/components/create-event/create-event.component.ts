@@ -128,6 +128,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       this.eventTimelineService.render.next();
     }
 
+    if (changeEvent.nextId === EventFunctionTypes.TIMELINE || changeEvent.nextId === EventFunctionTypes.FILES) {
+      this.eventService.hideInfoBar = true;
+    } else {
+      this.eventService.hideInfoBar = false;
+    }
+
   }
 
   toggleDisabled(): void {
@@ -751,6 +757,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             });*/
             this.active = 6;
             this.eventService.fetchEventFilesSubject.next(this.savedEventId);
+            this.eventService.hideInfoBar = true;
           }
         },
         error => {

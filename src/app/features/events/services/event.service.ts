@@ -58,6 +58,17 @@ export class EventService {
 
   fetchEventFilesSubject = new Subject<number>();
 
+  // tslint:disable-next-line:variable-name
+  private _hideInfoBar = false;
+
+  get hideInfoBar(): boolean {
+    return this._hideInfoBar;
+  }
+
+  set hideInfoBar(value: boolean) {
+    this._hideInfoBar = value;
+  }
+
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -75,6 +86,7 @@ export class EventService {
     this.activeVenuePanelIndex = null;
     this.activeServicePanel = null;
     this.activeExhibitorPanel = null;
+    this.hideInfoBar = false;
   }
 
   supplierCompanyAdded(company: Company | InviteFnCmpInterface): void {
