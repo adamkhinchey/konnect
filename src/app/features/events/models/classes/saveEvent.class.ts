@@ -9,7 +9,7 @@ import {
 export class SaveEventClass {
   title = '';
   description = '';
-  hasExhibitors = false;
+  hasExhibitors = true;
   // @ts-ignore
   createrUserId: number;
   // @ts-ignore
