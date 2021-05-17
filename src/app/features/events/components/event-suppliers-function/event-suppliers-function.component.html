@@ -159,6 +159,11 @@
                               </div>
 
                               <app-time-windows
+                                [timeWindowFor]="eventTimeWindowType"
+                                [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
+                                [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
+                                [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
+                                [venueIndex]="venueIndex"
                                 [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
                                 [isVenueDependent]="true"
                                 [index]="serviceIndex"

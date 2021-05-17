@@ -1,16 +1,19 @@
-import {Component, Input, OnInit, Output, EventEmitter, ViewChildren, QueryList} from '@angular/core';
-import {devLogger} from '../../../../shared/utils';
-import {TimeWindowFormatInterface} from '../../models/interfaces';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
+import {TimeWindowFormatInterface, VenueTimeChangedSubjectInterface} from '../../models/interfaces';
 import {ToastrService} from 'ngx-toastr';
 import * as moment from 'moment';
 import {DateTimePickerComponent} from '../date-time-picker/date-time-picker.component';
+import {EventService} from '../../services/event.service';
+import {EventTimeSlotTypes, EventTimeWindowTypes} from '../../models/types';
+import {Subscription} from 'rxjs';
+import {cloneDeep} from 'lodash-es';
 
 @Component({
   selector: 'app-time-windows',
   templateUrl: './time-windows.component.html',
   styleUrls: ['./time-windows.component.scss']
 })
-export class TimeWindowsComponent implements OnInit {
+export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   @ViewChildren('preEventStartDateTimes') preEventStartDateTimes: QueryList<DateTimePickerComponent> | undefined;
   @ViewChildren('preEventEndDateTimes') preEventEndDateTimes: QueryList<DateTimePickerComponent> | undefined;
@@ -33,11 +36,38 @@ export class TimeWindowsComponent implements OnInit {
   @Input() postEventTimesCount = 1;
   @Input() postEventNotes = '';
   @Input() postEventTimes: Partial<TimeWindowFormatInterface>[] = [];
-  @Input() index: any;
+  /*
+  ** venueIndex in case of venues tab
+  ** service index in case of suppliers tab
+  ** exhibitorIndex in case of exhibitors tab
+   */
+  @Input() index: number | undefined;
+  @Input() timeWindowFor: EventTimeWindowTypes | undefined;
+
+  /*
+  ** below  four @Input() bound properties are
+  ** used to hold reference to venue time windows
+  * and venue index in added venues
+  ** only in suppliers and exhibitors
+   */
+  @Input() venuePreEventTimes: Partial<TimeWindowFormatInterface>[] | undefined;
+  @Input() venueEventTimes: Partial<TimeWindowFormatInterface>[] | undefined;
+  @Input() venuePostEventTimes: Partial<TimeWindowFormatInterface>[] | undefined;
+  @Input() venueIndex: number | undefined;
 
   @Output() test = new EventEmitter();
+  eventTimeSlotTypes = EventTimeSlotTypes;
 
-  constructor(private toaster: ToastrService) {
+  private venuePreEventTimeChangeSub: Subscription | undefined;
+  isPreEventTimesSameAsVenue = false;
+
+  private venueEventTimeChangeSub: Subscription | undefined;
+  isEventTimesSameAsVenue = false;
+
+  private venuePostEventTimeChangeSub: Subscription | undefined;
+  isPostEventTimesSameAsVenue = false;
+
+  constructor(private toaster: ToastrService, private eventService: EventService) {
   }
 
   ngOnInit(): void {
@@ -60,6 +90,14 @@ export class TimeWindowsComponent implements OnInit {
       this.preEventEndDateTimes?.get(0)?.owlDateTime?.confirmSelectedChange.next(
         this.preEventTimes[0].startDateTime
       );
+      // don't consider 0 (zero) as falsy
+      if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
+        this.eventService.venuePreEventTimeChange.next({
+          venueIndex: this.index,
+          data: (cloneDeep(this.preEventTimes) as TimeWindowFormatInterface[])
+        });
+      }
+      // early return;
       return;
     }
     this.preEventTimes[i] = {
@@ -73,11 +111,27 @@ export class TimeWindowsComponent implements OnInit {
         this.preEventTimes[i].startDateTime
       );
     }
+
+    if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
+      this.eventService.venuePreEventTimeChange.next({
+        venueIndex: this.index,
+        data: (cloneDeep(this.preEventTimes) as TimeWindowFormatInterface[])
+      });
+    }
   }
 
   pushPreEventEndDateTime(event: Date, i: number): void {
     if (this.preEventTimes.length === 0) {
       this.preEventTimes.push({endDateTime: event, notes: this.preEventNotes});
+
+      if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
+        this.eventService.venuePreEventTimeChange.next({
+          venueIndex: this.index,
+          data: (cloneDeep(this.preEventTimes) as TimeWindowFormatInterface[])
+        });
+      }
+
+      // early return
       return;
     }
     this.preEventTimes[i] = {
@@ -85,6 +139,13 @@ export class TimeWindowsComponent implements OnInit {
       endDateTime: event,
       notes: this.preEventNotes
     };
+
+    if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
+      this.eventService.venuePreEventTimeChange.next({
+        venueIndex: this.index,
+        data: (cloneDeep(this.preEventTimes) as TimeWindowFormatInterface[])
+      });
+    }
   }
 
   addMorePreEventDateTime(): void {
@@ -129,6 +190,12 @@ export class TimeWindowsComponent implements OnInit {
       this.eventEndDateTimes?.get(0)?.owlDateTime?.confirmSelectedChange.next(
         this.eventTimes[0].startDateTime
       );
+      if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
+        this.eventService.venueEventTimeChange.next({
+          venueIndex: this.index,
+          data: (cloneDeep(this.eventTimes) as TimeWindowFormatInterface[])
+        });
+      }
       return;
     }
     this.eventTimes[i] = {
@@ -142,6 +209,13 @@ export class TimeWindowsComponent implements OnInit {
         this.eventTimes[i].startDateTime
       );
     }
+
+    if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
+      this.eventService.venueEventTimeChange.next({
+        venueIndex: this.index,
+        data: (cloneDeep(this.eventTimes) as TimeWindowFormatInterface[])
+      });
+    }
   }
 
   pushEventEndDateTime(event: Date, i: number): void {
@@ -154,6 +228,13 @@ export class TimeWindowsComponent implements OnInit {
       endDateTime: event,
       notes: this.eventNotes
     };
+
+    if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
+      this.eventService.venueEventTimeChange.next({
+        venueIndex: this.index,
+        data: (cloneDeep(this.eventTimes) as TimeWindowFormatInterface[])
+      });
+    }
   }
 
   addMoreEventDateTime(): void {
@@ -198,6 +279,12 @@ export class TimeWindowsComponent implements OnInit {
       this.postEventEndDateTimes?.get(0)?.owlDateTime?.confirmSelectedChange.next(
         this.postEventTimes[0].startDateTime
       );
+      if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
+        this.eventService.venuePostEventTimeChange.next({
+          venueIndex: this.index,
+          data: (cloneDeep(this.postEventTimes) as TimeWindowFormatInterface[])
+        });
+      }
       return;
     }
     this.postEventTimes[i] = {
@@ -211,6 +298,13 @@ export class TimeWindowsComponent implements OnInit {
         this.postEventTimes[i].startDateTime
       );
     }
+
+    if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
+      this.eventService.venuePostEventTimeChange.next({
+        venueIndex: this.index,
+        data: (cloneDeep(this.postEventTimes) as TimeWindowFormatInterface[])
+      });
+    }
   }
 
   pushPostEventEndDateTime(event: Date, i: number): void {
@@ -223,6 +317,12 @@ export class TimeWindowsComponent implements OnInit {
       endDateTime: event,
       notes: this.postEventNotes
     };
+    if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
+      this.eventService.venuePostEventTimeChange.next({
+        venueIndex: this.index,
+        data: (cloneDeep(this.postEventTimes) as TimeWindowFormatInterface[])
+      });
+    }
   }
 
   addMorePostEventDateTime(): void {
@@ -250,5 +350,89 @@ export class TimeWindowsComponent implements OnInit {
       // @ts-ignore
       obj.notes = this.postEventNotes;
     });
+  }
+
+  listenVenueEventTimeChange(event: Event, slotsType: EventTimeSlotTypes, forAll = false): void {
+    const target = (event.target as HTMLInputElement);
+    const {checked} = target;
+    if (checked) {
+      if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
+        this.copyAssignVenueTime(this.eventTimeSlotTypes.PRE_EVENT_ACCESS, (this.venuePreEventTimes as TimeWindowFormatInterface[]));
+        this.isPreEventTimesSameAsVenue = true;
+        this.venuePreEventTimeChangeSub = this.eventService.venuePreEventTimeChange.subscribe((value: VenueTimeChangedSubjectInterface) => {
+          if (this.venueIndex === value.venueIndex) {
+            this.copyAssignVenueTime(this.eventTimeSlotTypes.PRE_EVENT_ACCESS, value.data);
+          }
+        });
+      } else if (slotsType === EventTimeSlotTypes.EVENT_ACCESS) {
+        this.copyAssignVenueTime(this.eventTimeSlotTypes.EVENT_ACCESS, (this.venueEventTimes as TimeWindowFormatInterface[]));
+        this.isEventTimesSameAsVenue = true;
+        this.venueEventTimeChangeSub = this.eventService.venueEventTimeChange.subscribe((value: VenueTimeChangedSubjectInterface) => {
+          if (this.venueIndex === value.venueIndex) {
+            this.copyAssignVenueTime(this.eventTimeSlotTypes.EVENT_ACCESS, value.data);
+          }
+        });
+      } else if (slotsType === EventTimeSlotTypes.POST_EVENT_ACCESS) {
+        this.copyAssignVenueTime(this.eventTimeSlotTypes.POST_EVENT_ACCESS, (this.venuePostEventTimes as TimeWindowFormatInterface[]));
+        this.isPostEventTimesSameAsVenue = true;
+        this.venuePostEventTimeChangeSub = this.eventService.venuePostEventTimeChange.subscribe((value: VenueTimeChangedSubjectInterface) => {
+          if (this.venueIndex === value.venueIndex) {
+            this.copyAssignVenueTime(this.eventTimeSlotTypes.POST_EVENT_ACCESS, value.data);
+          }
+        });
+      }
+    } else {
+      if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
+        this.isPreEventTimesSameAsVenue = false;
+        this.venuePreEventTimeChangeSub?.unsubscribe();
+      } else if (slotsType === EventTimeSlotTypes.EVENT_ACCESS) {
+        this.isEventTimesSameAsVenue = false;
+        this.venueEventTimeChangeSub?.unsubscribe();
+      } else if (slotsType === EventTimeSlotTypes.POST_EVENT_ACCESS) {
+        this.isPostEventTimesSameAsVenue = false;
+        this.venuePostEventTimeChangeSub?.unsubscribe();
+      }
+    }
+  }
+
+  copyAssignVenueTime(slotsType: EventTimeSlotTypes, timeWindows: Partial<TimeWindowFormatInterface>[]): void {
+    if (this.isVenueDependent) {
+      if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
+        this.preEventTimesCount = timeWindows.length || 1;
+        this.preEventTimes = [];
+        timeWindows.forEach(timeSlot => {
+          this.preEventTimes.push({
+            notes: timeSlot.notes,
+            endDateTime: timeSlot.endDateTime,
+            startDateTime: timeSlot.startDateTime
+          });
+        });
+      } else if (slotsType === EventTimeSlotTypes.EVENT_ACCESS) {
+        this.eventTimesCount = timeWindows.length || 1;
+        this.eventTimes = [];
+        timeWindows.forEach(timeSlot => {
+          this.eventTimes.push({
+            notes: timeSlot.notes,
+            endDateTime: timeSlot.endDateTime,
+            startDateTime: timeSlot.startDateTime
+          });
+        });
+      } else if (slotsType === EventTimeSlotTypes.POST_EVENT_ACCESS) {
+        this.postEventTimesCount = timeWindows.length || 1;
+        this.postEventTimes = [];
+        timeWindows.forEach(timeSlot => {
+          this.postEventTimes.push({
+            notes: timeSlot.notes,
+            endDateTime: timeSlot.endDateTime,
+            startDateTime: timeSlot.startDateTime
+          });
+        });
+      }
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.venuePreEventTimeChangeSub?.unsubscribe();
+    this.venueEventTimeChangeSub?.unsubscribe();
   }
 }

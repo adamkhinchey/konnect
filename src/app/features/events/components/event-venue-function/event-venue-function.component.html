@@ -133,6 +133,7 @@
                               class="globe icon"></i></h3>
                           </div>
                           <app-time-windows
+                            [timeWindowFor]="eventTimeWindowType"
                             [windowLabels]="['Pre Event Access', 'Event Time', 'Post Event Access']"
                             (test)="testLogVenue()"
                             [index]="i"
