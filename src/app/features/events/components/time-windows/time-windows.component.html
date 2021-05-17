@@ -9,14 +9,14 @@
       <ng-template ngbPanelContent>
         <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
           <div class="ui checkbox">
-            <input type="checkbox" [id]="'preEventTime-sav-'+index+'_venue_'+venueIndex" class="hidden"
+            <input type="checkbox" [id]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'" class="hidden"
                    (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.PRE_EVENT_ACCESS)">
-            <label [for]="'preEventTime-sav-'+index+'_venue_'+venueIndex">Same as venue</label>
+            <label [for]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'">Same as venue</label>
           </div>
         </div>
         <div class="item">
           <div class="ui two column grid"
-               *ngFor="let preventEventTimeCount of Arr(preEventTimesCount).fill(1); let i=index">
+               *ngFor="let preEventEventTimeCount of Arr(preEventTimesCount).fill(1); let i=index">
             <div class="column">
               <span>Start Date &amp; Time</span>
               <div class="ui calendar datePicker">
@@ -79,14 +79,14 @@
       <ng-template ngbPanelContent>
         <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
           <div class="ui checkbox">
-            <input type="checkbox" [id]="'eventTime-sav-'+index+'_venue_'+venueIndex" class="hidden"
+            <input type="checkbox" [id]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'" class="hidden"
                    (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.EVENT_ACCESS)">
-            <label [for]="'eventTime-sav-'+index+'_venue_'+venueIndex">Same as venue</label>
+            <label [for]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'">Same as venue</label>
           </div>
         </div>
         <div class="item">
           <div class="ui two column grid"
-               *ngFor="let preventEventTimeCount of Arr(eventTimesCount).fill(1); let i=index">
+               *ngFor="let eventTmCount of Arr(eventTimesCount).fill(1); let i=index">
             <div class="column">
               <span>Start Date &amp; Time</span>
               <div class="ui calendar datePicker">
@@ -150,9 +150,9 @@
       <ng-template ngbPanelContent>
         <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
           <div class="ui checkbox">
-            <input type="checkbox" [id]="'postEventTime-sav-'+index+'_venue_'+venueIndex" class="hidden"
+            <input type="checkbox" [id]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'" class="hidden"
                    (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.POST_EVENT_ACCESS)">
-            <label [for]="'postEventTime-sav-'+index+'_venue_'+venueIndex">Same as venue</label>
+            <label [for]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'">Same as venue</label>
           </div>
         </div>
         <div class="item">

@@ -1,5 +1,6 @@
 export enum EventTimeWindowTypes {
   Venue,
   Supplier,
-  Exhibitor
+  Exhibitor,
+  ALL_EXHIBITORS
 }

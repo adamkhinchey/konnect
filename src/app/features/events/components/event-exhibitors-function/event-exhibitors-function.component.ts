@@ -32,6 +32,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   private exhCmpCntAddedSub: Subscription | undefined;
   venuesExhCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
   eventTimeWindowType = EventTimeWindowTypes.Exhibitor;
+  eventTimeWindowForAllExh = EventTimeWindowTypes.ALL_EXHIBITORS;
 
   constructor(private eventService: EventService) {
   }

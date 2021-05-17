@@ -37,6 +37,11 @@
                     </div>
 
                     <app-time-windows
+                      [timeWindowFor]="eventTimeWindowForAllExh"
+                      [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
+                      [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
+                      [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
+                      [venueIndex]="venueIndex"
                       [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
                       [index]="venueIndex"
                       [isVenueDependent]="true"

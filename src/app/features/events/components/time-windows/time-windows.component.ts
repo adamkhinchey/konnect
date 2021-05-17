@@ -40,6 +40,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
   ** venueIndex in case of venues tab
   ** service index in case of suppliers tab
   ** exhibitorIndex in case of exhibitors tab
+  ** venueIndex in case of exhibitors tab but for all exhibitors time windows
    */
   @Input() index: number | undefined;
   @Input() timeWindowFor: EventTimeWindowTypes | undefined;
@@ -352,7 +353,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
     });
   }
 
-  listenVenueEventTimeChange(event: Event, slotsType: EventTimeSlotTypes, forAll = false): void {
+  listenVenueEventTimeChange(event: Event, slotsType: EventTimeSlotTypes, forAllExhibitors = false): void {
     const target = (event.target as HTMLInputElement);
     const {checked} = target;
     if (checked) {
@@ -383,19 +384,28 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
       }
     } else {
       if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
+        this.preEventTimesCount = 1;
+        this.preEventTimes = [];
         this.isPreEventTimesSameAsVenue = false;
         this.venuePreEventTimeChangeSub?.unsubscribe();
       } else if (slotsType === EventTimeSlotTypes.EVENT_ACCESS) {
+        this.eventTimesCount = 1;
+        this.eventTimes = [];
         this.isEventTimesSameAsVenue = false;
         this.venueEventTimeChangeSub?.unsubscribe();
       } else if (slotsType === EventTimeSlotTypes.POST_EVENT_ACCESS) {
+        this.postEventTimesCount = 1;
+        this.postEventTimes = [];
         this.isPostEventTimesSameAsVenue = false;
         this.venuePostEventTimeChangeSub?.unsubscribe();
       }
     }
   }
 
-  copyAssignVenueTime(slotsType: EventTimeSlotTypes, timeWindows: Partial<TimeWindowFormatInterface>[]): void {
+  copyAssignVenueTime(
+    slotsType: EventTimeSlotTypes,
+    timeWindows: Partial<TimeWindowFormatInterface>[],
+  ): void {
     if (this.isVenueDependent) {
       if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
         this.preEventTimesCount = timeWindows.length || 1;
