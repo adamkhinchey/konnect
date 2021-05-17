@@ -8729,7 +8729,8 @@
                         <a ngbNavLink class="item tabAdmin"><i class="file alternate icon"></i><span
                                 class="hideMobile">FILES</span></a>
                         <ng-template ngbNavContent>
-                            <div class="ui segment">
+                            <app-event-files-function [eventID]="data.eventData.eventId"></app-event-files-function>
+                            <!-- <div class="ui segment">
                                 <div class="sixteen wide column">
                                     <div class="field">
                                         <div class="ui dividing header">
@@ -8956,14 +8957,6 @@
                                                 </div>
                                             </ng-template>
                                         </ngb-panel>
-                                        <!-- <ngb-panel id="static-2">
-                                        <ng-template ngbPanelTitle>
-                                            <span><i class="dropdown icon"></i>Venue 1</span>
-                                        </ng-template>
-                                        <ng-template ngbPanelContent>
-                                            2
-                                        </ng-template>
-                                    </ngb-panel> -->
 
                                     </ngb-accordion>
                                 </div>
@@ -9065,14 +9058,6 @@
                                                 </div>
                                             </ng-template>
                                         </ngb-panel>
-                                        <!-- <ngb-panel id="static-2">
-                                        <ng-template ngbPanelTitle>
-                                            <span><i class="dropdown icon"></i>Venue 1</span>
-                                        </ng-template>
-                                        <ng-template ngbPanelContent>
-                                            2
-                                        </ng-template>
-                                    </ngb-panel> -->
 
                                     </ngb-accordion>
                                 </div>
@@ -9176,26 +9161,19 @@
                                                 </div>
                                             </ng-template>
                                         </ngb-panel>
-                                        <!-- <ngb-panel id="static-2">
-                                        <ng-template ngbPanelTitle>
-                                            <span><i class="dropdown icon"></i>Venue 1</span>
-                                        </ng-template>
-                                        <ng-template ngbPanelContent>
-                                            2
-                                        </ng-template>
-                                    </ngb-panel> -->
 
                                     </ngb-accordion>
                                 </div>
 
-                            </div>
+                            </div> -->
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="7">
                         <a ngbNavLink class="item tabAdmin"><i class="clock icon"></i><span
                                 class="hideMobile">TIMELINE</span></a>
                         <ng-template ngbNavContent>
-                            <div class="ui segment">
+                            <app-event-timeline-function [eventId]="data.eventData.eventId"></app-event-timeline-function>
+                            <!-- <div class="ui segment">
                                 <ul ngbNav #nav="ngbNav" class="nav-tabs supplierInnerCont">
                                     <li ngbNavItem>
                                         <a ngbNavLink><i class="map marker alternate icon"></i> International Convention
@@ -9231,7 +9209,7 @@
                                     </li>
                                 </ul>
                                 <div [ngbNavOutlet]="nav" class="mt-2 innerTabCont"></div>
-                            </div>
+                            </div> -->
                         </ng-template>
                     </li>
                 </ul>
