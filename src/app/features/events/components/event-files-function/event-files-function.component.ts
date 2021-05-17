@@ -15,7 +15,7 @@ import {EventFilesSignedURLReq} from '../../models/interfaces';
 export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges {
 
   @ViewChild('uploadFilesModal') uploadFilesModal: TemplateRef<any> | undefined;
-  @Input() eventID: number | undefined = 162;
+  @Input() eventID: number | undefined;
   fileUploadModalReference: NgbModalRef | undefined;
   private fetchEventFilesSubs: Subscription | undefined;
   private fetchEventFilesTrigger: Subscription | undefined;
