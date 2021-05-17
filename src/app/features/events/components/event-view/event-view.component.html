@@ -448,9 +448,10 @@
                                                             class="map marker alternate icon"></i></h3>
                                                 </div>
                                                 <div class="field">
-                                                    <div class="textarea" contenteditable="">
+                                                    <div  *ngIf="isClient || isEventManager || isVenue; else no_access"  class="textarea" contenteditable="">
                                                         {{data.eventData.venues[0].venueNotesToAll}}
                                                     </div>
+                                                    <ng-template #no_access>No access</ng-template>
                                                 </div>
                                             </div>
                                         </div>
@@ -2409,9 +2410,10 @@
                                                                             </h3>
                                                                         </div>
                                                                         <div class="field">
-                                                                            <div class="textarea" contenteditable="">
+                                                                            <div *ngIf="isClient || isEventManager || isVenue; else no_access" class="textarea" contenteditable="">
                                                                                 {{venue.venueRequirements}}
                                                                             </div>
+                                                                            <ng-template #no_access>No access</ng-template>
                                                                         </div>
 
                                                                     </div>
@@ -2524,9 +2526,10 @@
                                                                         class="truck icon"></i></h3>
                                                             </div>
                                                             <div class="field">
-                                                                <div class="textarea" contenteditable="">
+                                                                <div *ngIf="isClient || isEventManager ||  isService; else no_access" class="textarea" contenteditable="">
                                                                     {{venueSrvice.services[0].notes}}
                                                                 </div>
+                                                                <ng-template #no_access>No access</ng-template>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2572,10 +2575,11 @@
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
-                                                                                <div class="field disabled editable">
+                                                                                <div *ngIf="isClient || isEventManager || isExhibitor; else no_access" class="field disabled editable">
                                                                                     <input type="text"
                                                                                         value="{{service.serviceName}}">
                                                                                 </div>
+                                                                                <ng-template #no_access>No access</ng-template>
                                                                                 <div class="ui dividing header">
                                                                                     <h3>Supplier Company <i
                                                                                             class="cog icon"></i><i
@@ -2586,7 +2590,7 @@
                                                                                 <div class="kcpCardContainer">
                                                                                     <div class="ui one column grid">
                                                                                         <div class="column">
-                                                                                            <div class="ui fluid card">
+                                                                                            <div  *ngIf="isClient || isEventManager || isExhibitor; else no_access"  class="ui fluid card">
                                                                                                 <div class="content">
                                                                                                     <img class="right floated mini ui image"
                                                                                                     onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
@@ -2622,6 +2626,7 @@
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
+                                                                                            <ng-template #no_access>No access</ng-template>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -2635,8 +2640,7 @@
                                                                                     </h3>
                                                                                 </div>
                                                                                 <div class="kipCardContainer">
-                                                                                    <div
-                                                                                        class="ui one column grid stackable">
+                                                                                    <div  *ngIf="isClient || isEventManager || isExhibitor; else no_access"  class="ui one column grid stackable">
                                                                                         <div class="column"
                                                                                             *ngFor="let contact of service.contacts">
                                                                                             <div
@@ -2730,6 +2734,7 @@
                                                                                             </div>
                                                                                         </div> -->
                                                                                     </div>
+                                                                                    <ng-template #no_access>No access</ng-template>
                                                                                 </div>
                                                                                 <div class="ui grid stackable center aligned"
                                                                                     *ngIf="isSupplierEdit">
@@ -2753,10 +2758,11 @@
                                                                                         class="building icon"></i></h3>
                                                                             </div>
                                                                             <div class="field">
-                                                                                <div class="textarea"
+                                                                                <div  *ngIf="isClient || isEventManager || isExhibitor; else no_access"  class="textarea"
                                                                                     contenteditable="">
                                                                                     {{service.serviceRequirements}}
                                                                                 </div>
+                                                                                <ng-template #no_access>No access</ng-template>
                                                                             </div>
                                                                             <div class="field">
                                                                                 <div class="timeWindowsContainer">
@@ -2767,7 +2773,8 @@
                                                                                                 class="building icon"></i>
                                                                                         </h3>
                                                                                     </div>
-                                                                                    <app-time-windows
+                                                                                   
+                                                                                    <app-time-windows   *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
                                                                                         [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
                                                                                         [index]="idx"
                                                                                         [preEventTimes]="service.preEventTime"
@@ -2781,6 +2788,8 @@
                                                                                         [eventNotes]="service.eventTime[idx].notes"
                                                                                         [postEventNotes]="service.postEventTime[idx].notes">
                                                                                     </app-time-windows>
+                                                                         
+                                                                                <ng-template #no_access>No access</ng-template>
 
                                                                                     <!-- <ngb-accordion [closeOthers]="true"
                                                                                         activeIds="static-3">
@@ -4726,9 +4735,10 @@
                                                                         class="exhibitor icon"></i></h3>
                                                             </div>
                                                             <div class="field">
-                                                                <div class="textarea" contenteditable="">
+                                                                <div  *ngIf="isClient || isEventManager || isExhibitor; else no_access"  class="textarea" contenteditable="">
                                                                     {{venueSrvice.exhibitorData.exhibitors[0].notes}}
                                                                 </div>
+                                                                <ng-template #no_access>No access</ng-template>
                                                             </div>
                                                         </div>
 
@@ -4742,7 +4752,8 @@
                                                                                 class="sitemap icon"></i><i
                                                                                 class="exhibitor icon"></i></h3>
                                                                     </div>
-                                                                    <app-time-windows
+                                                                
+                                                                    <app-time-windows   *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
                                                                         [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
                                                                         [preEventTimes]="venueSrvice.exhibitorData.timeWindowsToAll.preEventTime"
                                                                         [postEventTimes]="venueSrvice.exhibitorData.timeWindowsToAll.eventTime"
@@ -4755,6 +4766,8 @@
                                                                         [eventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.eventTime.notes"
                                                                         [postEventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.postEventTime.notes">
                                                                     </app-time-windows>
+                                                                
+                                                                <ng-template #no_access>No access</ng-template>
 
                                                                     <!-- <ngb-accordion [closeOthers]="true"
                                                                         activeIds="static-3">
@@ -6591,7 +6604,7 @@
                                                                                     <div class="kcpCardContainer">
                                                                                         <div class="ui one column grid">
                                                                                             <div class="column">
-                                                                                                <div
+                                                                                                <div *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
                                                                                                     class="ui fluid card">
                                                                                                     <div
                                                                                                         class="content">
@@ -6631,6 +6644,7 @@
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
+                                                                                                <ng-template #no_access>No access</ng-template>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -6644,7 +6658,7 @@
                                                                                         </h3>
                                                                                     </div>
                                                                                     <div class="kipCardContainer">
-                                                                                        <div
+                                                                                        <div   *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
                                                                                             class="ui one column grid stackable">
                                                                                             <div class="column"
                                                                                                 *ngFor="let contact of exhibitor.contacts">
@@ -6747,6 +6761,7 @@
                                                                                                 </div>
                                                                                             </div> -->
                                                                                         </div>
+                                                                                        <ng-template #no_access>No access</ng-template>
                                                                                     </div>
                                                                                     <div class="ui grid stackable center aligned"
                                                                                         *ngIf="isExhibitorEdit">
@@ -6771,11 +6786,12 @@
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
-                                                                                <div class="field">
+                                                                                <div *ngIf="isClient || isEventManager || isExhibitor; else no_access"  class="field">
                                                                                     <input type="text"
                                                                                         placeholder="Stand Number"
                                                                                         [value]="exhibitor.standNumber">
                                                                                 </div>
+                                                                                <ng-template #no_access>No access</ng-template>
                                                                                 <div class="ui dividing header">
                                                                                     <h3>Notes to Specific Exhibitor <i
                                                                                             class="cog icon"></i><i
@@ -6784,8 +6800,9 @@
                                                                                     </h3>
                                                                                 </div>
                                                                                 <div class="field">
-                                                                                    <div class="textarea"
+                                                                                    <div  *ngIf="isClient || isEventManager || isExhibitor; else no_access"   class="textarea"
                                                                                         contenteditable=""></div>
+                                                                                    <ng-template #no_access>No access</ng-template>
                                                                                 </div>
                                                                                 <div class="field">
                                                                                     <div class="timeWindowsContainer">
@@ -6797,7 +6814,8 @@
                                                                                                     class="building icon"></i>
                                                                                             </h3>
                                                                                         </div>
-                                                                                        <app-time-windows
+                                                                                 
+                                                                                        <app-time-windows  *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
                                                                                             [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
                                                                                             [index]="idx"
                                                                                             [preEventTimes]="exhibitor.preEventTime"
@@ -6811,6 +6829,9 @@
                                                                                             [eventNotes]="exhibitor.eventTime[idx].notes"
                                                                                             [postEventNotes]="exhibitor.postEventTime[idx].notes">
                                                                                         </app-time-windows>
+                                                                                 
+
+                                                                                    <ng-template #no_access>No access</ng-template>
 
                                                                                         <!-- <ngb-accordion
                                                                                             [closeOthers]="true"
