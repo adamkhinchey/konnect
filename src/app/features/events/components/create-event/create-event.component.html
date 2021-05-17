@@ -81,6 +81,7 @@
         </ng-container>
         <ng-container exhibitors>
           <app-event-exhibitors-function #exhibitorsFn
+                                         [venueCompanies]="venueCompanies"
                                          [eventToBeSaved]="eventToBeSaved"
                                          (saveAndInvite)="saveToDb($event)"
                                          [searchInviteCmpModal]="searchInviteCmpModal"
