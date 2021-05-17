@@ -13,6 +13,12 @@ export class EventViewComponent implements OnInit {
   data: any = {};
   active = 1;
   disabled = true;
+
+  isClient: boolean =  false; 
+  isEventManager: boolean =  false; 
+  isService: boolean =  false; 
+  isVenue: boolean =  false; 
+
   isSupplier: boolean = false;
   isExhibitor: boolean = false;
   modalReference: any;
@@ -61,6 +67,19 @@ export class EventViewComponent implements OnInit {
       console.log(res);
       this.data.eventData = res.eventData;
       this.data.userPermission = res.userPermission;
+
+      if(res.userPermission){
+        this.isClient = true; //  res.userPermission.isClient == 0 ? false : true ; 
+        this.isEventManager = true ; //  res.userPermission.isEventManager == 0 ? false : true  ; 
+        this.isVenue = true; // res.userPermission.isVenue == 0 ? false : true  ; 
+        this.isService = true; //  res.userPermission.isService == 0 ? false : true ; 
+        this.isExhibitor = true; //  res.userPermission.isExhibitor == 0 ? false : true ; 
+
+      }
+
+
+
+
       console.log(this.data);
     }, err => {
       console.log(err);
