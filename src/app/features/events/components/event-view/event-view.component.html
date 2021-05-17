@@ -436,7 +436,7 @@
                         <a ngbNavLink class="item tabAdmin"><i class="map marker alternate icon"></i><span
                                 class="hideMobile">VENUE</span></a>
                         <ng-template ngbNavContent>
-                            <div class="ui segment" *ngIf="data.eventData.venues && !isSupplier && !isExhibitorEdit && active == 3">
+                            <div class="ui segment" *ngIf="data.eventData.venues && !isExhibitorEdit && active == 3">
                                 <form class="ui form">
                                     <div class="ui grid">
                                         <div class="sixteen wide column">
@@ -2505,7 +2505,7 @@
 
                         <ng-template ngbNavContent>
                             <div class="ui segment"
-                                *ngIf="data.eventData.venues && isSupplier && active == 4">
+                                *ngIf="data.eventData.venues && data.eventData.venues[0].services && active == 4">
                                 <ul ngbNav #nav="ngbNav" class="nav-tabs supplierInnerCont">
                                     <li ngbNavItem *ngFor="let venueSrvice of data.eventData.venues">
                                         <a ngbNavLink><i class="map marker alternate icon"></i>
@@ -4699,7 +4699,7 @@
                                 class="hideMobile">EXHIBITORS</span></a>
                         <ng-template ngbNavContent>
                             <div class="ui segment"
-                                *ngIf="data.eventData.venues && isExhibitor && active == 5">
+                                *ngIf="data.eventData.venues && data.eventData.venues[0].exhibitorData && active == 5">
                                 <ul ngbNav #nav="ngbNav" class="nav-tabs supplierInnerCont">
                                     <li ngbNavItem *ngFor="let venueSrvice of data.eventData.venues">
                                         <a ngbNavLink><i class="map marker alternate icon"></i>

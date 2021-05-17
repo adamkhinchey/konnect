@@ -24,21 +24,8 @@ export class EventViewComponent implements OnInit {
 
   onNavChange(changeEvent: NgbNavChangeEvent) {
     this.booleanFalse();
-    if (changeEvent.nextId == 4 || changeEvent.nextId == 5) {
-      this.getEventsById(3);
-      this.active = changeEvent.nextId;
-    } else {
-      this.isSupplier = false;
-      this.isExhibitor = false;
       this.getEventsById(changeEvent.nextId);
       this.active = changeEvent.nextId;
-    }
-    if (changeEvent.nextId == 4) {
-      this.isSupplier = true;
-    } else if (changeEvent.nextId == 5) {
-      this.isExhibitor = true;
-    }
-
   }
 
   booleanFalse() {
