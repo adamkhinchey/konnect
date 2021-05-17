@@ -2527,7 +2527,7 @@
                                                             </div>
                                                             <div class="field">
                                                                 <div *ngIf="isClient || isEventManager ||  isService; else no_access" class="textarea" contenteditable="">
-                                                                    {{venueSrvice.services[0].notes}}
+                                                                    {{venueSrvice.services[0]?.notes}}
                                                                 </div>
                                                                 <ng-template #no_access>No access</ng-template>
                                                             </div>
@@ -2784,9 +2784,9 @@
                                                                                         [eventTimesCount]="service?.eventTime?.length || 1"
                                                                                         [postEventTimesCount]="service?.postEventTime?.length || 1"
                                                                                         [eventView]="true"
-                                                                                        [preEventNotes]="service.preEventTime[idx].notes"
-                                                                                        [eventNotes]="service.eventTime[idx].notes"
-                                                                                        [postEventNotes]="service.postEventTime[idx].notes">
+                                                                                        [preEventNotes]="service.preEventTime[idx]?.notes"
+                                                                                        [eventNotes]="service.eventTime[idx]?.notes"
+                                                                                        [postEventNotes]="service.postEventTime[idx]?.notes">
                                                                                     </app-time-windows>
                                                                          
                                                                                 <ng-template #no_access>No access</ng-template>
@@ -4736,7 +4736,7 @@
                                                             </div>
                                                             <div class="field">
                                                                 <div  *ngIf="isClient || isEventManager || isExhibitor; else no_access"  class="textarea" contenteditable="">
-                                                                    {{venueSrvice.exhibitorData.exhibitors[0].notes}}
+                                                                    {{venueSrvice.exhibitorData.exhibitors[0]?.notes}}
                                                                 </div>
                                                                 <ng-template #no_access>No access</ng-template>
                                                             </div>
@@ -4762,9 +4762,9 @@
                                                                         [eventTimesCount]="venueSrvice?.eventTime?.length || 1"
                                                                         [postEventTimesCount]="venueSrvice?.postEventTime?.length || 1"
                                                                         [eventView]="true"
-                                                                        [preEventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.preEventTime.notes"
-                                                                        [eventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.eventTime.notes"
-                                                                        [postEventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.postEventTime.notes">
+                                                                        [preEventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.preEventTime?.notes"
+                                                                        [eventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.eventTime?.notes"
+                                                                        [postEventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.postEventTime?.notes">
                                                                     </app-time-windows>
                                                                 
                                                                 <ng-template #no_access>No access</ng-template>
@@ -6825,9 +6825,9 @@
                                                                                             [eventTimesCount]="exhibitor?.eventTime?.length || 1"
                                                                                             [postEventTimesCount]="exhibitor?.postEventTime?.length || 1"
                                                                                             [eventView]="true"
-                                                                                            [preEventNotes]="exhibitor.preEventTime[idx].notes"
-                                                                                            [eventNotes]="exhibitor.eventTime[idx].notes"
-                                                                                            [postEventNotes]="exhibitor.postEventTime[idx].notes">
+                                                                                            [preEventNotes]="exhibitor.preEventTime[idx]?.notes"
+                                                                                            [eventNotes]="exhibitor.eventTime[idx]?.notes"
+                                                                                            [postEventNotes]="exhibitor.postEventTime[idx]?.notes">
                                                                                         </app-time-windows>
                                                                                  
 
