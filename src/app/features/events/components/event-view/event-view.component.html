@@ -2773,8 +2773,8 @@
                                                                                                 class="building icon"></i>
                                                                                         </h3>
                                                                                     </div>
-                                                                                    <ng-template  *ngIf="isClient || isEventManager || isExhibitor; else no_access" >
-                                                                                    <app-time-windows
+                                                                                   
+                                                                                    <app-time-windows   *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
                                                                                         [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
                                                                                         [index]="idx"
                                                                                         [preEventTimes]="service.preEventTime"
@@ -2788,7 +2788,7 @@
                                                                                         [eventNotes]="service.eventTime[idx].notes"
                                                                                         [postEventNotes]="service.postEventTime[idx].notes">
                                                                                     </app-time-windows>
-                                                                                </ng-template>
+                                                                         
                                                                                 <ng-template #no_access>No access</ng-template>
 
                                                                                     <!-- <ngb-accordion [closeOthers]="true"
@@ -4752,8 +4752,8 @@
                                                                                 class="sitemap icon"></i><i
                                                                                 class="exhibitor icon"></i></h3>
                                                                     </div>
-                                                                <ng-template   *ngIf="isClient || isEventManager || isExhibitor; else no_access" >
-                                                                    <app-time-windows
+                                                                
+                                                                    <app-time-windows   *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
                                                                         [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
                                                                         [preEventTimes]="venueSrvice.exhibitorData.timeWindowsToAll.preEventTime"
                                                                         [postEventTimes]="venueSrvice.exhibitorData.timeWindowsToAll.eventTime"
@@ -4766,7 +4766,7 @@
                                                                         [eventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.eventTime.notes"
                                                                         [postEventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.postEventTime.notes">
                                                                     </app-time-windows>
-                                                                </ng-template>
+                                                                
                                                                 <ng-template #no_access>No access</ng-template>
 
                                                                     <!-- <ngb-accordion [closeOthers]="true"
@@ -6814,8 +6814,8 @@
                                                                                                     class="building icon"></i>
                                                                                             </h3>
                                                                                         </div>
-                                                                                    <ng-template *ngIf="isClient || isEventManager || isExhibitor; else no_access" >
-                                                                                        <app-time-windows
+                                                                                 
+                                                                                        <app-time-windows  *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
                                                                                             [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
                                                                                             [index]="idx"
                                                                                             [preEventTimes]="exhibitor.preEventTime"
@@ -6829,7 +6829,7 @@
                                                                                             [eventNotes]="exhibitor.eventTime[idx].notes"
                                                                                             [postEventNotes]="exhibitor.postEventTime[idx].notes">
                                                                                         </app-time-windows>
-                                                                                    </ng-template>
+                                                                                 
 
                                                                                     <ng-template #no_access>No access</ng-template>
 
