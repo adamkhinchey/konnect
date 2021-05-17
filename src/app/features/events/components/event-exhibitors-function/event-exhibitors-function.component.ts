@@ -12,6 +12,7 @@ import {
 import {EventService} from '../../services/event.service';
 import {devLogger} from '../../../../shared/utils';
 import {InviteFnCmpClass} from '../../models/classes';
+import {EventTimeWindowTypes} from "../../models/types";
 
 @Component({
   selector: 'app-event-exhibitors-function',
@@ -30,6 +31,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   private exhCompanyAddedSub: Subscription | undefined;
   private exhCmpCntAddedSub: Subscription | undefined;
   venuesExhCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
+  eventTimeWindowType = EventTimeWindowTypes.Exhibitor;
 
   constructor(private eventService: EventService) {
   }
