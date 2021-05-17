@@ -662,9 +662,9 @@
                                                                                     [eventTimesCount]="venue?.eventTime?.length || 1"
                                                                                     [postEventTimesCount]="venue?.postEventTime?.length || 1"
                                                                                     [eventView]="true"
-                                                                                    [preEventNotes]="venue.preEventTime[idx].notes"
-                                                                                    [eventNotes]="venue.eventTime[idx].notes"
-                                                                                    [postEventNotes]="venue.postEventTime[idx].notes">
+                                                                                    [preEventNotes]="venue.preEventTime[idx]?.notes"
+                                                                                    [eventNotes]="venue.eventTime[idx]?.notes"
+                                                                                    [postEventNotes]="venue.postEventTime[idx]?.notes">
                                                                                 </app-time-windows>
 
                                                                                 <!-- <ngb-accordion [closeOthers]="true"
