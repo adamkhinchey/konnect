@@ -1,6 +1,8 @@
 import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { EventTimelineService } from '../../services/event-timeline.service';
+import { EventService } from '../../services/event.service';
 import { ViewEventService } from '../../services/view-event.service';
 
 @Component({
@@ -24,8 +26,8 @@ export class EventViewComponent implements OnInit {
 
   onNavChange(changeEvent: NgbNavChangeEvent) {
     this.booleanFalse();
-      this.getEventsById(changeEvent.nextId);
-      this.active = changeEvent.nextId;
+    this.getEventsById(changeEvent.nextId);
+    this.active = changeEvent.nextId;
   }
 
   booleanFalse() {
@@ -45,7 +47,9 @@ export class EventViewComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private viewEvSrvc: ViewEventService,
-    private router: Router
+    private router: Router,
+    private eventTimelineSrvc: EventTimelineService,
+    private eventSrvc: EventService
   ) {
   }
 
@@ -62,6 +66,12 @@ export class EventViewComponent implements OnInit {
       this.data.eventData = res.eventData;
       this.data.userPermission = res.userPermission;
       console.log(this.data);
+      if (tabType === 7) {
+        this.eventTimelineSrvc.render.next();
+      }
+      if (tabType === 6) {
+        this.eventSrvc.fetchEventFilesSubject.next(this.data.eventData.eventId);
+      }
     }, err => {
       console.log(err);
     })

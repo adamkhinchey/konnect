@@ -1,12 +1,12 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {EventGanttChartComponent} from "../event-gantt-chart/event-gantt-chart.component";
-import {EventTimelineService} from "../../services/event-timeline.service";
-import {devLogger} from "../../../../shared/utils";
-import {Subject, Subscription} from "rxjs";
-import {ToastrService} from "ngx-toastr";
-import {EventTimelineDataInterface} from "../../models/interfaces";
-import {EventTimelineType} from "../../../../shared/models";
-import {NgbNavChangeEvent} from "@ng-bootstrap/ng-bootstrap";
+import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { EventGanttChartComponent } from "../event-gantt-chart/event-gantt-chart.component";
+import { EventTimelineService } from "../../services/event-timeline.service";
+import { devLogger } from "../../../../shared/utils";
+import { Subject, Subscription } from "rxjs";
+import { ToastrService } from "ngx-toastr";
+import { EventTimelineDataInterface } from "../../models/interfaces";
+import { EventTimelineType } from "../../../../shared/models";
+import { NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-event-timeline-function',
@@ -38,13 +38,14 @@ export class EventTimelineFunctionComponent implements OnInit, AfterViewInit, On
   }
 
   ngOnInit(): void {
+
   }
 
   ngAfterViewInit(): void {
     this.tlineRenderTrigrSubs = this.eventTimelineService.render.subscribe(() => {
       this.fetchVenuesData(() => {
         this.fetchServicesTimelineData((data: EventTimelineDataInterface | undefined) => {
-          this.timelineRenderSubject.next({elem: this.servicesGanttChart?.timelineContainer?.nativeElement, data});
+          this.timelineRenderSubject.next({ elem: this.servicesGanttChart?.timelineContainer?.nativeElement, data });
         });
       });
     });
@@ -54,12 +55,12 @@ export class EventTimelineFunctionComponent implements OnInit, AfterViewInit, On
     if (event.nextId === this.serviceTimeLineId) {
       this.timelineType = EventTimelineType.SERVICES;
       this.fetchServicesTimelineData((data) => {
-        this.timelineRenderSubject.next({elem: this.servicesGanttChart?.timelineContainer?.nativeElement, data});
+        this.timelineRenderSubject.next({ elem: this.servicesGanttChart?.timelineContainer?.nativeElement, data });
       });
     } else if (event.nextId === this.exhibitorsTimeLineId) {
       this.timelineType = EventTimelineType.EXHIBITORS;
       this.fetchExhibitorsTimelineData((data) => {
-        this.timelineRenderSubject.next({elem: this.exhibitorsGanttChart?.timelineContainer?.nativeElement, data});
+        this.timelineRenderSubject.next({ elem: this.exhibitorsGanttChart?.timelineContainer?.nativeElement, data });
       });
     }
   }
@@ -76,7 +77,7 @@ export class EventTimelineFunctionComponent implements OnInit, AfterViewInit, On
           callback.call(this);
         }, (err) => {
           this.toaster.error('Failed to load venue data for timeline', 'Event Timeline');
-          devLogger('error', {err});
+          devLogger('error', { err });
         });
     } else {
       this.toaster.error('Invalid event id', 'Event Timeline');
@@ -88,10 +89,10 @@ export class EventTimelineFunctionComponent implements OnInit, AfterViewInit, On
     this.eventServTLSubs = this.eventTimelineService.fetchServicesTimelineData(this.eventId, this.activeVenueId)
       .subscribe((value) => {
         this.timelineData = value.data;
-        devLogger('log', {timelineData: this.timelineData});
+        devLogger('log', { timelineData: this.timelineData });
         callback.call(this, this.timelineData);
       }, (err) => {
-        devLogger('error', {err});
+        devLogger('error', { err });
         this.toaster.error('Failed to load venue services data for timeline', 'Event Timeline: Services');
       });
   }
@@ -103,7 +104,7 @@ export class EventTimelineFunctionComponent implements OnInit, AfterViewInit, On
         this.timelineData = value.data;
         callback.call(this, this.timelineData);
       }, (err) => {
-        devLogger('error', {err});
+        devLogger('error', { err });
         this.toaster.error('Failed to load venue exhibitors data for timeline', 'Event Timeline: Exhibitors');
       });
   }
@@ -111,7 +112,7 @@ export class EventTimelineFunctionComponent implements OnInit, AfterViewInit, On
   setVenueId(event: any): void {
     this.activeVenueId = event;
     this.fetchServicesTimelineData((data) => {
-      this.timelineRenderSubject.next({elem: this.servicesGanttChart?.timelineContainer?.nativeElement, data});
+      this.timelineRenderSubject.next({ elem: this.servicesGanttChart?.timelineContainer?.nativeElement, data });
     });
   }
 
