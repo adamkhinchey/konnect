@@ -16,6 +16,7 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
 
   @ViewChild('uploadFilesModal') uploadFilesModal: TemplateRef<any> | undefined;
   @Input() eventID: number | undefined;
+  // parameter for check file permission
   @Input() permissionObj: any ;
  
   
