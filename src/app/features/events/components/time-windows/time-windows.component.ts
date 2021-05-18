@@ -385,17 +385,20 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
     } else {
       if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
         this.preEventTimesCount = 1;
-        this.preEventTimes = [];
+        this.emptyPreEventTimes();
+        //this.preEventTimes = [];
         this.isPreEventTimesSameAsVenue = false;
         this.venuePreEventTimeChangeSub?.unsubscribe();
       } else if (slotsType === EventTimeSlotTypes.EVENT_ACCESS) {
         this.eventTimesCount = 1;
-        this.eventTimes = [];
+        this.emptyEventTimes();
+        //this.eventTimes = [];
         this.isEventTimesSameAsVenue = false;
         this.venueEventTimeChangeSub?.unsubscribe();
       } else if (slotsType === EventTimeSlotTypes.POST_EVENT_ACCESS) {
         this.postEventTimesCount = 1;
-        this.postEventTimes = [];
+        this.emptyPostEventTimes();
+        //this.postEventTimes = [];
         this.isPostEventTimesSameAsVenue = false;
         this.venuePostEventTimeChangeSub?.unsubscribe();
       }
@@ -409,17 +412,19 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
     if (this.isVenueDependent) {
       if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
         this.preEventTimesCount = timeWindows.length || 1;
-        this.preEventTimes = [];
+        //this.preEventTimes = [];
+        this.emptyPreEventTimes();
         timeWindows.forEach(timeSlot => {
           this.preEventTimes.push({
             notes: timeSlot.notes,
             endDateTime: timeSlot.endDateTime,
-            startDateTime: timeSlot.startDateTime
+            startDateTime: timeSlot.startDateTime,
           });
         });
       } else if (slotsType === EventTimeSlotTypes.EVENT_ACCESS) {
         this.eventTimesCount = timeWindows.length || 1;
-        this.eventTimes = [];
+        //this.eventTimes = [];
+        this.emptyEventTimes();
         timeWindows.forEach(timeSlot => {
           this.eventTimes.push({
             notes: timeSlot.notes,
@@ -429,7 +434,8 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
         });
       } else if (slotsType === EventTimeSlotTypes.POST_EVENT_ACCESS) {
         this.postEventTimesCount = timeWindows.length || 1;
-        this.postEventTimes = [];
+        //this.postEventTimes = [];
+        this.emptyPostEventTimes();
         timeWindows.forEach(timeSlot => {
           this.postEventTimes.push({
             notes: timeSlot.notes,
@@ -438,6 +444,27 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
           });
         });
       }
+    }
+  }
+
+  private emptyPreEventTimes(): void {
+    const len = this.preEventTimes.length;
+    for (let i = 0; i < len; i++) {
+      this.preEventTimes.pop();
+    }
+  }
+
+  private emptyEventTimes(): void {
+    const len = this.eventTimes.length;
+    for (let i = 0; i < len; i++) {
+      this.eventTimes.pop();
+    }
+  }
+
+  private emptyPostEventTimes(): void {
+    const len = this.postEventTimes.length;
+    for (let i = 0; i < len; i++) {
+      this.postEventTimes.pop();
     }
   }
 
