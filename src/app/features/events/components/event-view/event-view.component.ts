@@ -16,19 +16,23 @@ export class EventViewComponent implements OnInit {
   active = 1;
   disabled = true;
 
-  isClient: boolean =  false; 
-  isEventManager: boolean =  false; 
-  isService: boolean =  false; 
-  isVenue: boolean =  false; 
+  // isClient: boolean =  false; 
+  // isEventManager: boolean =  false; 
+  // isService: boolean =  false; 
+  // isVenue: boolean =  false; 
 
-  isSupplier: boolean = false;
-  isExhibitor: boolean = false;
+  // isExhibitor: boolean = false;
+
+  permissionObj= {isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false }; 
+
+   isSupplier: boolean = false;
   modalReference: any;
   isClientEdit: boolean = false;
   isEventEdit: boolean = false;
   isVenueEdit: boolean = false;
   isSupplierEdit: boolean = false;
   isExhibitorEdit: boolean = true;
+
 
   onNavChange(changeEvent: NgbNavChangeEvent) {
     this.booleanFalse();
@@ -71,17 +75,16 @@ export class EventViewComponent implements OnInit {
       console.log(res);
       this.data.eventData = res.eventData;
       this.data.userPermission = res.userPermission;
-
+      // console.log("permissionObj", this.permissionObj); 
       if(res.userPermission){
-        this.isClient = true; //  res.userPermission.isClient == 0 ? false : true ; 
-        this.isEventManager = true ; //  res.userPermission.isEventManager == 0 ? false : true  ; 
-        this.isVenue = true; // res.userPermission.isVenue == 0 ? false : true  ; 
-        this.isService = true; //  res.userPermission.isService == 0 ? false : true ; 
-        this.isExhibitor = true; //  res.userPermission.isExhibitor == 0 ? false : true ; 
-
+        this.permissionObj.isClient =  res.userPermission.isClient == 0 ? false : true ; 
+        this.permissionObj.isEventManager =   res.userPermission.isEventManager == 0 ? false : true  ; 
+        this.permissionObj.isVenue =  res.userPermission.isVenue == 0 ? false : true  ; 
+        this.permissionObj.isService =   res.userPermission.isService == 0 ? false : true ; 
+        this.permissionObj.isExhibitor =   res.userPermission.isExhibitor == 0 ? false : true ;  
       }
 
-
+      // console.log("permissionObj", this.permissionObj); 
 
 
       console.log(this.data);
