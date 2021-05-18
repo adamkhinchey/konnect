@@ -12,6 +12,7 @@ import {EventService} from "../../services/event.service";
 import {Subscription} from "rxjs";
 import {InviteFnCmpClass} from "../../models/classes";
 import {Company} from "../../../users/models";
+import {EventTimeWindowTypes} from "../../models/types";
 
 @Component({
   selector: 'app-event-suppliers-function',
@@ -32,6 +33,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   private supplierCompanyAddedSub: Subscription | undefined;
   private supplierCmpCntAddedSub: Subscription | undefined;
   venuesSuppCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
+  eventTimeWindowType = EventTimeWindowTypes.Supplier;
 
   constructor(private eventService: EventService) {
   }

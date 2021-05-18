@@ -16,6 +16,7 @@ import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/even
 import {NgbAccordion, NgbPanelChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import {EventService} from '../../services/event.service';
 import {devLogger} from '../../../../shared/utils';
+import {EventTimeWindowTypes} from "../../models/types";
 
 @Component({
   selector: 'app-event-venue-function',
@@ -40,6 +41,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   @Input() searchInviteFnCmpCntModal: any;
   @Input() setOpenedModalRef: any;
   @Input() removeContact: any;
+  eventTimeWindowType = EventTimeWindowTypes.Venue;
 
   constructor(private eventService: EventService) {
   }

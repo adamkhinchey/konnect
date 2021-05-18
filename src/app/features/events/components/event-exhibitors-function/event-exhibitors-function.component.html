@@ -4,7 +4,8 @@
   <ul ngbNav #venueNav="ngbNav" class="nav-tabs supplierInnerCont"
       [destroyOnHide]="false">
     <li ngbNavItem *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
-      <a ngbNavLink><i class="map marker alternate icon"></i>Venue-{{venueIndex + 1}}</a>
+      <a ngbNavLink><i class="map marker alternate icon"></i>
+        {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]? venueCompanies[venueIndex]!.companyName+', '+venueCompanies[venueIndex]!.city:'Venue-'+(venueIndex + 1)}}</a>
       <ng-template ngbNavContent>
 
         <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
@@ -37,6 +38,11 @@
                     </div>
 
                     <app-time-windows
+                      [timeWindowFor]="eventTimeWindowForAllExh"
+                      [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
+                      [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
+                      [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
+                      [venueIndex]="venueIndex"
                       [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
                       [index]="venueIndex"
                       [isVenueDependent]="true"
@@ -230,6 +236,11 @@
                                 </div>
 
                                 <app-time-windows
+                                  [timeWindowFor]="eventTimeWindowType"
+                                  [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
+                                  [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
+                                  [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
+                                  [venueIndex]="venueIndex"
                                   [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
                                   [isVenueDependent]="true"
                                   [index]="exhibitorIndex"
