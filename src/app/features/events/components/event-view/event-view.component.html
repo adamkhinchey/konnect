@@ -448,7 +448,7 @@
                                                             class="map marker alternate icon"></i></h3>
                                                 </div>
                                                 <div class="field">
-                                                    <div  *ngIf="isClient || isEventManager || isVenue; else no_access"  class="textarea" contenteditable="">
+                                                    <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"  class="textarea" contenteditable="">
                                                         {{data.eventData.venues[0].venueNotesToAll}}
                                                     </div>
                                                     <ng-template #no_access>No access</ng-template>
@@ -2410,7 +2410,7 @@
                                                                             </h3>
                                                                         </div>
                                                                         <div class="field">
-                                                                            <div *ngIf="isClient || isEventManager || isVenue; else no_access" class="textarea" contenteditable="">
+                                                                            <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access" class="textarea" contenteditable="">
                                                                                 {{venue.venueRequirements}}
                                                                             </div>
                                                                             <ng-template #no_access>No access</ng-template>
@@ -2526,7 +2526,7 @@
                                                                         class="truck icon"></i></h3>
                                                             </div>
                                                             <div class="field">
-                                                                <div *ngIf="isClient || isEventManager ||  isService; else no_access" class="textarea" contenteditable="">
+                                                                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  permissionObj.isService; else no_access" class="textarea" contenteditable="">
                                                                     {{venueSrvice.services[0]?.notes}}
                                                                 </div>
                                                                 <ng-template #no_access>No access</ng-template>
@@ -2575,7 +2575,7 @@
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
-                                                                                <div *ngIf="isClient || isEventManager || isExhibitor; else no_access" class="field disabled editable">
+                                                                                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access" class="field disabled editable">
                                                                                     <input type="text"
                                                                                         value="{{service.serviceName}}">
                                                                                 </div>
@@ -2590,7 +2590,7 @@
                                                                                 <div class="kcpCardContainer">
                                                                                     <div class="ui one column grid">
                                                                                         <div class="column">
-                                                                                            <div  *ngIf="isClient || isEventManager || isExhibitor; else no_access"  class="ui fluid card">
+                                                                                            <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"  class="ui fluid card">
                                                                                                 <div class="content">
                                                                                                     <img class="right floated mini ui image"
                                                                                                     onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
@@ -2640,7 +2640,7 @@
                                                                                     </h3>
                                                                                 </div>
                                                                                 <div class="kipCardContainer">
-                                                                                    <div  *ngIf="isClient || isEventManager || isExhibitor; else no_access"  class="ui one column grid stackable">
+                                                                                    <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"  class="ui one column grid stackable">
                                                                                         <div class="column"
                                                                                             *ngFor="let contact of service.contacts">
                                                                                             <div
@@ -2758,7 +2758,7 @@
                                                                                         class="building icon"></i></h3>
                                                                             </div>
                                                                             <div class="field">
-                                                                                <div  *ngIf="isClient || isEventManager || isExhibitor; else no_access"  class="textarea"
+                                                                                <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"  class="textarea"
                                                                                     contenteditable="">
                                                                                     {{service.serviceRequirements}}
                                                                                 </div>
@@ -2774,7 +2774,7 @@
                                                                                         </h3>
                                                                                     </div>
                                                                                    
-                                                                                    <app-time-windows   *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
+                                                                                    <app-time-windows   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access" 
                                                                                         [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
                                                                                         [index]="idx"
                                                                                         [preEventTimes]="service.preEventTime"
@@ -4735,7 +4735,7 @@
                                                                         class="exhibitor icon"></i></h3>
                                                             </div>
                                                             <div class="field">
-                                                                <div  *ngIf="isClient || isEventManager || isExhibitor; else no_access"  class="textarea" contenteditable="">
+                                                                <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"  class="textarea" contenteditable="">
                                                                     {{venueSrvice.exhibitorData.exhibitors[0]?.notes}}
                                                                 </div>
                                                                 <ng-template #no_access>No access</ng-template>
@@ -4753,7 +4753,7 @@
                                                                                 class="exhibitor icon"></i></h3>
                                                                     </div>
                                                                 
-                                                                    <app-time-windows   *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
+                                                                    <app-time-windows   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access" 
                                                                         [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
                                                                         [preEventTimes]="venueSrvice.exhibitorData.timeWindowsToAll.preEventTime"
                                                                         [postEventTimes]="venueSrvice.exhibitorData.timeWindowsToAll.eventTime"
@@ -6604,7 +6604,7 @@
                                                                                     <div class="kcpCardContainer">
                                                                                         <div class="ui one column grid">
                                                                                             <div class="column">
-                                                                                                <div *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
+                                                                                                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access" 
                                                                                                     class="ui fluid card">
                                                                                                     <div
                                                                                                         class="content">
@@ -6658,7 +6658,7 @@
                                                                                         </h3>
                                                                                     </div>
                                                                                     <div class="kipCardContainer">
-                                                                                        <div   *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
+                                                                                        <div   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access" 
                                                                                             class="ui one column grid stackable">
                                                                                             <div class="column"
                                                                                                 *ngFor="let contact of exhibitor.contacts">
@@ -6786,7 +6786,7 @@
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
-                                                                                <div *ngIf="isClient || isEventManager || isExhibitor; else no_access"  class="field">
+                                                                                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"  class="field">
                                                                                     <input type="text"
                                                                                         placeholder="Stand Number"
                                                                                         [value]="exhibitor.standNumber">
@@ -6800,7 +6800,7 @@
                                                                                     </h3>
                                                                                 </div>
                                                                                 <div class="field">
-                                                                                    <div  *ngIf="isClient || isEventManager || isExhibitor; else no_access"   class="textarea"
+                                                                                    <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"   class="textarea"
                                                                                         contenteditable=""></div>
                                                                                     <ng-template #no_access>No access</ng-template>
                                                                                 </div>
@@ -6815,7 +6815,7 @@
                                                                                             </h3>
                                                                                         </div>
                                                                                  
-                                                                                        <app-time-windows  *ngIf="isClient || isEventManager || isExhibitor; else no_access" 
+                                                                                        <app-time-windows  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access" 
                                                                                             [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
                                                                                             [index]="idx"
                                                                                             [preEventTimes]="exhibitor.preEventTime"
@@ -8750,7 +8750,7 @@
                         <a ngbNavLink class="item tabAdmin"><i class="file alternate icon"></i><span
                                 class="hideMobile">FILES</span></a>
                         <ng-template ngbNavContent>
-                            <app-event-files-function [eventID]="data.eventData.eventId"></app-event-files-function>
+                            <app-event-files-function  [permissionObj]="permissionObj" [eventID]="data.eventData.eventId"></app-event-files-function>
                             <!-- <div class="ui segment">
                                 <div class="sixteen wide column">
                                     <div class="field">
