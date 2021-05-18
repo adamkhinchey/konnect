@@ -12,6 +12,7 @@ import {
 import {EventService} from '../../services/event.service';
 import {devLogger} from '../../../../shared/utils';
 import {InviteFnCmpClass} from '../../models/classes';
+import {EventTimeWindowTypes} from "../../models/types";
 
 @Component({
   selector: 'app-event-exhibitors-function',
@@ -26,10 +27,13 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   @Input() searchInviteFnCmpCntModal: any;
   @Input() setOpenedModalRef: any;
   @Input() content: any;
+  @Input() venueCompanies: Array<Company | InviteFnCmpInterface | null> | undefined | null = [];
   activeExhibitorPanel = 0;
   private exhCompanyAddedSub: Subscription | undefined;
   private exhCmpCntAddedSub: Subscription | undefined;
   venuesExhCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
+  eventTimeWindowType = EventTimeWindowTypes.Exhibitor;
+  eventTimeWindowForAllExh = EventTimeWindowTypes.ALL_EXHIBITORS;
 
   constructor(private eventService: EventService) {
   }

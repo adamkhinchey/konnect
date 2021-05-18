@@ -1,207 +1,219 @@
 <ng-container>
 
-    <ngb-accordion [closeOthers]="true" activeIds="static-3" [destroyOnHide]="false">
+  <ngb-accordion [closeOthers]="true" activeIds="static-3" [destroyOnHide]="false">
 
-      <ngb-panel id="static-3">
-        <ng-template ngbPanelTitle>
-          <i class="dropdown icon"></i> {{windowLabels && windowLabels[0]}}
-        </ng-template>
-        <ng-template ngbPanelContent>
-          <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
-            <div class="ui checkbox">
-              <input type="checkbox" id="sav-1" tabindex="0" class="hidden">
-              <label for="sav-1">Same as venue</label>
+    <ngb-panel id="static-3">
+      <ng-template ngbPanelTitle>
+        <i class="dropdown icon"></i> {{windowLabels && windowLabels[0]}}
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
+          <div class="ui checkbox">
+            <input type="checkbox" [id]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'" class="hidden"
+                   (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.PRE_EVENT_ACCESS)">
+            <label [for]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'">Same as venue</label>
+          </div>
+        </div>
+        <div class="item">
+          <div class="ui two column grid"
+               *ngFor="let preEventEventTimeCount of Arr(preEventTimesCount).fill(1); let i=index">
+            <div class="column">
+              <span>Start Date &amp; Time</span>
+              <div class="ui calendar datePicker">
+                <div class="ui input left icon">
+                  <div class="ui popup calendar">
+                  </div>
+                  <i class="calendar icon"></i>
+                  <!-- <input type="text" placeholder="Date">-->
+                  <app-date-time-picker
+                    #preEventStartDateTimes
+                    [freeze]="isPreEventTimesSameAsVenue"
+                    [eventDateTime]="preEventTimes[i]?.startDateTime || null"
+                    [minimumDate]="getMinimumPreEventStartDateTime(i)"
+                    [index]="index"
+                    (addNewDateTime)="pushPreEventStartDateTime($event,i)"></app-date-time-picker>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <span>End Date &amp; Time</span>
+              <div class="ui calendar datePicker">
+                <div class="ui input left icon">
+                  <div class="ui popup calendar">
+                  </div>
+                  <i class="calendar icon"></i>
+                  <!-- <input type="text" placeholder="Date">-->
+                  <app-date-time-picker
+                    #preEventEndDateTimes
+                    [freeze]="isPreEventTimesSameAsVenue"
+                    [eventDateTime]="preEventTimes[i]?.endDateTime || null"
+                    [minimumDate]="getMinimumPreEventEndDateTime(i)"
+                    [index]="index"
+                    (addNewDateTime)="pushPreEventEndDateTime($event,i)"></app-date-time-picker>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="item">
-            <div class="ui two column grid"
-                 *ngFor="let preventEventTimeCount of Arr(preEventTimesCount).fill(1); let i=index">
-              <div class="column">
-                <span>Start Date &amp; Time</span>
-                <div class="ui calendar datePicker">
-                  <div class="ui input left icon">
-                    <div class="ui popup calendar">
-                    </div>
-                    <i class="calendar icon"></i>
-                    <!-- <input type="text" placeholder="Date">-->
-                    <app-date-time-picker
-                      #preEventStartDateTimes
-                      [eventDateTime]="preEventTimes[i]?.startDateTime || null"
-                      [minimumDate]="getMinimumPreEventStartDateTime(i)"
-                      [index]="index"
-                      (addNewDateTime)="pushPreEventStartDateTime($event,i)"></app-date-time-picker>
-                  </div>
-                </div>
-              </div>
-              <div class="column">
-                <span>End Date &amp; Time</span>
-                <div class="ui calendar datePicker">
-                  <div class="ui input left icon">
-                    <div class="ui popup calendar">
-                    </div>
-                    <i class="calendar icon"></i>
-                    <!-- <input type="text" placeholder="Date">-->
-                    <app-date-time-picker
-                      #preEventEndDateTimes
-                      [eventDateTime]="preEventTimes[i]?.endDateTime || null"
-                      [minimumDate]="getMinimumPreEventEndDateTime(i)"
-                      [index]="index"
-                      (addNewDateTime)="pushPreEventEndDateTime($event,i)"></app-date-time-picker>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="ui grid">
-              <div class="sixteen wide column">
-                <span>Notes</span>
-                <textarea class="textarea notes" [(ngModel)]="preEventNotes"
-                          ngDefaultControl
-                          rows="3"
-                          [ngModelOptions]="{standalone:true}"
-                          (ngModelChange)="populatePreEventNotes($event)">
+          <div class="ui grid">
+            <div class="sixteen wide column">
+              <span>Notes</span>
+              <textarea class="textarea notes" [(ngModel)]="preEventNotes"
+                        ngDefaultControl
+                        rows="3"
+                        [ngModelOptions]="{standalone:true}"
+                        (ngModelChange)="populatePreEventNotes($event)">
                 </textarea>
-                <div class="ui circular compact mini basic button" (click)="addMorePreEventDateTime()">
-                  <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[0]}} date
-                </div>
+              <div *ngIf="!isPreEventTimesSameAsVenue" class="ui circular compact mini basic button"
+                   (click)="addMorePreEventDateTime()">
+                <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[0]}} date
               </div>
             </div>
           </div>
-        </ng-template>
-      </ngb-panel>
-      <ngb-panel id="static-4">
-        <ng-template ngbPanelTitle>
-          <span><i class="dropdown icon"></i> {{windowLabels && windowLabels[1]}}</span>
-        </ng-template>
-        <ng-template ngbPanelContent>
-          <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
-            <div class="ui checkbox">
-              <input type="checkbox" id="sav-2" tabindex="0" class="hidden">
-              <label for="sav-2">Same as venue</label>
-            </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel id="static-4">
+      <ng-template ngbPanelTitle>
+        <span><i class="dropdown icon"></i> {{windowLabels && windowLabels[1]}}</span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
+          <div class="ui checkbox">
+            <input type="checkbox" [id]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'" class="hidden"
+                   (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.EVENT_ACCESS)">
+            <label [for]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'">Same as venue</label>
           </div>
-          <div class="item">
-            <div class="ui two column grid"
-                 *ngFor="let preventEventTimeCount of Arr(eventTimesCount).fill(1); let i=index">
-              <div class="column">
-                <span>Start Date &amp; Time</span>
-                <div class="ui calendar datePicker">
-                  <div class="ui input left icon">
-                    <div class="ui popup calendar">
-                    </div>
-                    <i class="calendar icon"></i>
-                    <!--<input type="text" placeholder="Date">-->
-                    <app-date-time-picker
-                      #eventStartDateTimes
-                      [eventDateTime]="eventTimes[i]?.startDateTime || null"
-                      [minimumDate]="getMinimumEventStartDateTime(i)"
-                      [index]="index"
-                      (addNewDateTime)="pushEventStartDateTime($event,i)">
-                    </app-date-time-picker>
+        </div>
+        <div class="item">
+          <div class="ui two column grid"
+               *ngFor="let eventTmCount of Arr(eventTimesCount).fill(1); let i=index">
+            <div class="column">
+              <span>Start Date &amp; Time</span>
+              <div class="ui calendar datePicker">
+                <div class="ui input left icon">
+                  <div class="ui popup calendar">
                   </div>
-                </div>
-              </div>
-              <div class="column">
-                <span>End Date &amp; Time</span>
-                <div class="ui calendar datePicker">
-                  <div class="ui input left icon">
-                    <div class="ui popup calendar">
-                    </div>
-                    <i class="calendar icon"></i>
-                    <!--<input type="text" placeholder="Date">-->
-                    <app-date-time-picker
-                      #eventEndDateTimes
-                      [eventDateTime]="eventTimes[i]?.endDateTime || null"
-                      [minimumDate]="getMinimumEventEndDateTime(i)"
-                      [index]="index"
-                      (addNewDateTime)="pushEventEndDateTime($event,i)"
-                    ></app-date-time-picker>
-                  </div>
+                  <i class="calendar icon"></i>
+                  <!--<input type="text" placeholder="Date">-->
+                  <app-date-time-picker
+                    #eventStartDateTimes
+                    [freeze]="isEventTimesSameAsVenue"
+                    [eventDateTime]="eventTimes[i]?.startDateTime || null"
+                    [minimumDate]="getMinimumEventStartDateTime(i)"
+                    [index]="index"
+                    (addNewDateTime)="pushEventStartDateTime($event,i)">
+                  </app-date-time-picker>
                 </div>
               </div>
             </div>
-            <div class="ui grid">
-              <div class="sixteen wide column">
-                <span>Notes</span>
-                <textarea class="textarea notes" [(ngModel)]="eventNotes"
-                          ngDefaultControl
-                          rows="3"
-                          [ngModelOptions]="{standalone:true}"
-                          (ngModelChange)="populateEventNotes($event)"></textarea>
-                <div class="ui circular compact mini basic button" (click)="addMoreEventDateTime()">
-                  <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[1]}} date
+            <div class="column">
+              <span>End Date &amp; Time</span>
+              <div class="ui calendar datePicker">
+                <div class="ui input left icon">
+                  <div class="ui popup calendar">
+                  </div>
+                  <i class="calendar icon"></i>
+                  <!--<input type="text" placeholder="Date">-->
+                  <app-date-time-picker
+                    #eventEndDateTimes
+                    [freeze]="isEventTimesSameAsVenue"
+                    [eventDateTime]="eventTimes[i]?.endDateTime || null"
+                    [minimumDate]="getMinimumEventEndDateTime(i)"
+                    [index]="index"
+                    (addNewDateTime)="pushEventEndDateTime($event,i)"
+                  ></app-date-time-picker>
                 </div>
               </div>
             </div>
           </div>
-        </ng-template>
-      </ngb-panel>
-      <ngb-panel id="static-5">
-        <ng-template ngbPanelTitle>
-          <span><i class="dropdown icon"></i> {{windowLabels && windowLabels[2]}}</span>
-        </ng-template>
-        <ng-template ngbPanelContent>
-          <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
-            <div class="ui checkbox">
-              <input type="checkbox" id="sav-3" tabindex="0" class="hidden">
-              <label for="sav-3">Same as venue</label>
-            </div>
-          </div>
-          <div class="item">
-            <div class="ui two column grid"
-                 *ngFor="let preventEventTimeCount of Arr(postEventTimesCount).fill(1); let i=index">
-              <div class="column">
-                <span> Start Date &amp; Time</span>
-                <div class="ui calendar datePicker">
-                  <div class="ui input left icon">
-                    <div class="ui popup calendar">
-                    </div>
-                    <i class="calendar icon"></i>
-                    <!--<input type="text" placeholder="Date">-->
-                    <app-date-time-picker
-                      #postEventStartDateTimes
-                      [eventDateTime]="postEventTimes[i]?.startDateTime || null"
-                      [minimumDate]="getMinimumPostEventStartDateTime(i)"
-                      [index]="index"
-                      (addNewDateTime)="pushPostEventStartDateTime($event,i)"
-                    ></app-date-time-picker>
-                  </div>
-                </div>
-              </div>
-              <div class="column">
-                <span>End Date &amp; Time</span>
-                <div class="ui calendar datePicker">
-                  <div class="ui input left icon">
-                    <div class="ui popup calendar">
-                    </div>
-                    <i class="calendar icon"></i>
-                    <!--<input type="text" placeholder="Date">-->
-                    <app-date-time-picker
-                      #postEventEndDateTimes
-                      [eventDateTime]="postEventTimes[i]?.endDateTime || null"
-                      [minimumDate]="getMinimumPostEventEndDateTime(i)"
-                      [index]="index"
-                      (addNewDateTime)="pushPostEventEndDateTime($event,i)">
-                    </app-date-time-picker>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="ui grid">
-              <div class="sixteen wide column">
-                <span>Notes</span>
-                <textarea class="textarea notes" [(ngModel)]="postEventNotes"
-                          ngDefaultControl
-                          rows="3"
-                          [ngModelOptions]="{standalone:true}"
-                          (ngModelChange)="populatePostEventNotes($event)"></textarea>
-                <div class="ui circular compact mini basic button" (click)="addMorePostEventDateTime()">
-                  <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[2]}} date
-                </div>
+          <div class="ui grid">
+            <div class="sixteen wide column">
+              <span>Notes</span>
+              <textarea class="textarea notes" [(ngModel)]="eventNotes"
+                        ngDefaultControl
+                        rows="3"
+                        [ngModelOptions]="{standalone:true}"
+                        (ngModelChange)="populateEventNotes($event)"></textarea>
+              <div *ngIf="!isEventTimesSameAsVenue" class="ui circular compact mini basic button"
+                   (click)="addMoreEventDateTime()">
+                <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[1]}} date
               </div>
             </div>
           </div>
-        </ng-template>
-      </ngb-panel>
+        </div>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel id="static-5">
+      <ng-template ngbPanelTitle>
+        <span><i class="dropdown icon"></i> {{windowLabels && windowLabels[2]}}</span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
+          <div class="ui checkbox">
+            <input type="checkbox" [id]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'" class="hidden"
+                   (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.POST_EVENT_ACCESS)">
+            <label [for]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'">Same as venue</label>
+          </div>
+        </div>
+        <div class="item">
+          <div class="ui two column grid"
+               *ngFor="let preventEventTimeCount of Arr(postEventTimesCount).fill(1); let i=index">
+            <div class="column">
+              <span> Start Date &amp; Time</span>
+              <div class="ui calendar datePicker">
+                <div class="ui input left icon">
+                  <div class="ui popup calendar">
+                  </div>
+                  <i class="calendar icon"></i>
+                  <!--<input type="text" placeholder="Date">-->
+                  <app-date-time-picker
+                    #postEventStartDateTimes
+                    [freeze]="isPostEventTimesSameAsVenue"
+                    [eventDateTime]="postEventTimes[i]?.startDateTime || null"
+                    [minimumDate]="getMinimumPostEventStartDateTime(i)"
+                    [index]="index"
+                    (addNewDateTime)="pushPostEventStartDateTime($event,i)"
+                  ></app-date-time-picker>
+                </div>
+              </div>
+            </div>
+            <div class="column">
+              <span>End Date &amp; Time</span>
+              <div class="ui calendar datePicker">
+                <div class="ui input left icon">
+                  <div class="ui popup calendar">
+                  </div>
+                  <i class="calendar icon"></i>
+                  <!--<input type="text" placeholder="Date">-->
+                  <app-date-time-picker
+                    #postEventEndDateTimes
+                    [freeze]="isPostEventTimesSameAsVenue"
+                    [eventDateTime]="postEventTimes[i]?.endDateTime || null"
+                    [minimumDate]="getMinimumPostEventEndDateTime(i)"
+                    [index]="index"
+                    (addNewDateTime)="pushPostEventEndDateTime($event,i)">
+                  </app-date-time-picker>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui grid">
+            <div class="sixteen wide column">
+              <span>Notes</span>
+              <textarea class="textarea notes" [(ngModel)]="postEventNotes"
+                        ngDefaultControl
+                        rows="3"
+                        [ngModelOptions]="{standalone:true}"
+                        (ngModelChange)="populatePostEventNotes($event)"></textarea>
+              <div *ngIf="!isPostEventTimesSameAsVenue" class="ui circular compact mini basic button"
+                   (click)="addMorePostEventDateTime()">
+                <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[2]}} date
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
 
-    </ngb-accordion>
+  </ngb-accordion>
 </ng-container>

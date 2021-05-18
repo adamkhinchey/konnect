@@ -10,7 +10,7 @@ import {ApiResponseModelInterface} from '../../../shared/models';
 import {take, tap} from 'rxjs/operators';
 import {devLogger, hideSpinnerPostApiCall} from '../../../shared/utils';
 import {Company} from "../../users/models";
-import {InviteFnCmpCntInterface, InviteFnCmpInterface} from "../models/interfaces";
+import {InviteFnCmpCntInterface, InviteFnCmpInterface, VenueTimeChangedSubjectInterface} from "../models/interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +68,10 @@ export class EventService {
   set hideInfoBar(value: boolean) {
     this._hideInfoBar = value;
   }
+
+  venuePreEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+  venueEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+  venuePostEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
 
 
   constructor(
@@ -151,6 +155,5 @@ export class EventService {
         this.httpErrorHandler.processError(true, true)
       );
   }
-
 
 }
