@@ -33,7 +33,7 @@ export class EventslistingService {
       hideSpinnerPostApiCall(this.spinner),
       this.httpErrorHandler.processError(),
       map(response => {
-        return response.data;
+        return response?.data;
       })
     );
   }
