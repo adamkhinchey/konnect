@@ -29,6 +29,7 @@ export class EventTimelineFunctionComponent implements OnInit, AfterViewInit, On
   private eventServTLSubs: Subscription | undefined;
   private eventExhTLSubs: Subscription | undefined;
   private tlineRenderTrigrSubs: Subscription | undefined;
+  hasVenues = true;
 
 
   constructor(
@@ -73,9 +74,12 @@ export class EventTimelineFunctionComponent implements OnInit, AfterViewInit, On
       this.fetchEventVenueSubs = this.eventTimelineService.fetchEventVenues(this.eventId)
         .subscribe((value) => {
           this.venues = value;
-          this.activeVenueId = value[0].venueId;
-          devLogger('log', {VNEEEEEEEE: this.venues});
-          callback.call(this);
+          if (Array.isArray(this.venues) && this.venues.length > 0) {
+            this.activeVenueId = value[0].venueId;
+            callback.call(this);
+          } else {
+            this.hasVenues = false;
+          }
         }, (err) => {
           this.toaster.error('Failed to load venue data for timeline', 'Event Timeline');
           devLogger('error', {err});
