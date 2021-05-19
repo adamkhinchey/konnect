@@ -635,6 +635,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   saveVenuesExhibitors(param: { venueIndex: number | null, exhibitorIndex: number | null | undefined, shouldInvite: boolean }): void {
     if (this.isVenuesExhibitorsValid()) {
       if (this.eventToBeSaved.venues?.list) {
+        if (!this.eventToBeSaved.hasExhibitors) {
+          for (const venuesList of this.eventToBeSaved.venues?.list) {
+            venuesList.exhibitorList = [];
+          }
+          return;
+        }
         let i = 0;
         for (const venuesList of this.eventToBeSaved.venues?.list) {
           const exhibitors = venuesList.exhibitorList[0]?.exhibitors;
@@ -875,29 +881,31 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private isVenuesExhibitorsValid(): boolean {
-    if (this.eventToBeSaved.venues && this.eventToBeSaved.venues.list.length > 0) {
-      const venuesList = this.eventToBeSaved.venues.list;
-      for (let i = 0; i < venuesList.length; i++) {
-        const venueExhibitors = venuesList[i].exhibitorList[0]?.exhibitors || null;
-        if (venueExhibitors && venueExhibitors.length > 0) {
-          let j = 0;
-          for (const venueExhibitor of venueExhibitors) {
-            if (venueExhibitor.companyId === null) {
-              continue;
+    if (this.eventToBeSaved.hasExhibitors) {
+      if (this.eventToBeSaved.venues && this.eventToBeSaved.venues.list.length > 0) {
+        const venuesList = this.eventToBeSaved.venues.list;
+        for (let i = 0; i < venuesList.length; i++) {
+          const venueExhibitors = venuesList[i].exhibitorList[0]?.exhibitors || null;
+          if (venueExhibitors && venueExhibitors.length > 0) {
+            let j = 0;
+            for (const venueExhibitor of venueExhibitors) {
+              if (venueExhibitor.companyId === null) {
+                continue;
+              }
+              if (!venueExhibitor.contacts || (venueExhibitor.contacts && venueExhibitor.contacts.length <= 0)) {
+                this.toaster.error('Please select contacts for assigned selected exhibitor company',
+                  `Venue ${i + 1}, Exhibitor ${j + 1}: ${venueExhibitor.name}`);
+                this.isVenuesExhibitorsInvalid = true;
+                return false;
+              }
+              j++;
             }
-            if (!venueExhibitor.contacts || (venueExhibitor.contacts && venueExhibitor.contacts.length <= 0)) {
-              this.toaster.error('Please select contacts for assigned selected exhibitor company',
-                `Venue ${i + 1}, Exhibitor ${j + 1}: ${venueExhibitor.name}`);
-              this.isVenuesExhibitorsInvalid = true;
-              return false;
-            }
-            j++;
           }
         }
+      } else {
+        this.isVenuesExhibitorsInvalid = false;
+        return true;
       }
-    } else {
-      this.isVenuesExhibitorsInvalid = false;
-      return true;
     }
     this.isVenuesExhibitorsInvalid = false;
     return true;
