@@ -162,7 +162,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
     if (company instanceof InviteFnCmpClass) {
       return null;
     } else {
-      return (company as Company)?.companyProfileImage;
+      return (company as Company)?.website;
     }
   }
 

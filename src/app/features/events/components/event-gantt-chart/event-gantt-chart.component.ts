@@ -8,6 +8,7 @@ import {devLogger} from "../../../../shared/utils";
 import {EventTimelineType} from "../../../../shared/models";
 import {Subject, Subscription} from "rxjs";
 import {v4 as uuidV4} from 'uuid';
+import {isEmpty} from "lodash-es";
 
 @Component({
   selector: 'app-event-gantt-chart',
@@ -54,7 +55,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
 
     devLogger('log', {timelineData: this.timelineData});
 
-    if (this.timelineData) {
+    if (this.timelineData && !isEmpty(this.timelineData)) {
 
       this.groups = new DataSet<any>(this.timelineData.groups.map(group => ({id: group.date})));
 
