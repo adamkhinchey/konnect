@@ -33,7 +33,7 @@ export class ViewEventService {
       hideSpinnerPostApiCall(this.spinner),
       this.httpErrorHandler.processError(),
       map((response: any) => {
-        return response.data;
+        return response?.data;
       })
     );
   }
@@ -45,7 +45,7 @@ export class ViewEventService {
       hideSpinnerPostApiCall(this.spinner),
       this.httpErrorHandler.processError(),
       map((response: any) => {
-        return response.data;
+        return response?.data;
       })
     );
   }

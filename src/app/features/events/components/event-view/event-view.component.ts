@@ -23,9 +23,9 @@ export class EventViewComponent implements OnInit {
 
   // isExhibitor: boolean = false;
 
-  permissionObj= {isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false }; 
+  permissionObj = { isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
 
-   isSupplier: boolean = false;
+  isSupplier: boolean = false;
   modalReference: any;
   isClientEdit: boolean = false;
   isEventEdit: boolean = false;
@@ -73,15 +73,16 @@ export class EventViewComponent implements OnInit {
   getEventsById(tabType: any) {
     this.viewEvSrvc.getEventsByEventId(this.eventId, tabType).subscribe((res: any) => {
       console.log(res);
-      this.data.eventData = res.eventData;
-      this.data.userPermission = res.userPermission;
-      // console.log("permissionObj", this.permissionObj); 
-      if(res.userPermission){
-        this.permissionObj.isClient =  res.userPermission.isClient == 0 ? false : true ; 
-        this.permissionObj.isEventManager =   res.userPermission.isEventManager == 0 ? false : true  ; 
-        this.permissionObj.isVenue =  res.userPermission.isVenue == 0 ? false : true  ; 
-        this.permissionObj.isService =   res.userPermission.isService == 0 ? false : true ; 
-        this.permissionObj.isExhibitor =   res.userPermission.isExhibitor == 0 ? false : true ;  
+      if (res && res.eventData) {
+        this.data.eventData = res.eventData;
+      }
+      if (res && res.userPermission) {
+        this.data.userPermission = res.userPermission;
+        this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
+        this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
+        this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
+        this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
+        this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
       }
 
       // console.log("permissionObj", this.permissionObj); 
