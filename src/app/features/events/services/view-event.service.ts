@@ -28,7 +28,7 @@ export class ViewEventService {
   getEventsByEventId(eventId: any, tabType: any): Observable<any> {
     this.spinner.show();
     return this.http.get<ApiResponseModelInterface>(
-      `${this.apiBaseUrl}/getEvent?eventId=${eventId}&&tabType=${tabType}`
+      `${this.apiBaseUrl}/getEvent?eventId=${eventId}&tabType=${tabType}`
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       this.httpErrorHandler.processError(),

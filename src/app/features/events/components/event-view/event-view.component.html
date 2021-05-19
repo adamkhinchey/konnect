@@ -45,8 +45,8 @@
                                                             <div class="ui fluid card">
                                                                 <div class="content">
                                                                     <img class="right floated mini ui image"
-                                                                        onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
-                                                                        [src]="data.eventData.client.clientCompanyProfileImage">
+                                                                        [src]="data.eventData.client.clientCompanyProfileImage"
+                                                                        appImageFallback fallbackImage="../../assets/img/default_konnect_img.png">
                                                                     <div class="header">
                                                                         <a href="/VCP.html"
                                                                             target="_blank">{{data.eventData.client.clientCompanyName}}</a>
@@ -93,8 +93,8 @@
                                                             <div class="ui fluid card">
                                                                 <div class="content">
                                                                     <img class="right floated mini ui image"
-                                                                        onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
-                                                                        [src]="contact.profileImage">
+                                                                        [src]="contact.profileImage"
+                                                                        appImageFallback fallbackImage="../../assets/img/default_konnect_individual_img.png">
                                                                     <div class="header">
                                                                         <a href="/VPP.html"
                                                                             target="_blank">{{contact.firstName}}</a>
@@ -256,8 +256,8 @@
                                                             <div class="ui fluid card">
                                                                 <div class="content">
                                                                     <img class="right floated mini ui image"
-                                                                        onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
-                                                                        [src]="data.eventData.eventManager.emCompanyProfileImage">
+                                                                        [src]="data.eventData.eventManager.emCompanyProfileImage"
+                                                                        appImageFallback fallbackImage="../../assets/img/default_konnect_img.png">
                                                                     <div class="header">
                                                                         <a href="/VCP.html"
                                                                             target="_blank">{{data.eventData.eventManager.emCompanyName}}</a>
@@ -304,8 +304,8 @@
                                                             <div class="ui fluid card">
                                                                 <div class="content">
                                                                     <img class="right floated mini ui image"
-                                                                        onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
-                                                                        [src]="contactManager.profileImage">
+                                                                        [src]="contactManager.profileImage"
+                                                                        appImageFallback fallbackImage="../../assets/img/default_konnect_individual_img.png">
                                                                     <div class="header">
                                                                         <a href="/VPP.html"
                                                                             target="_blank">{{contactManager.firstName}}</a>
@@ -397,10 +397,6 @@
                                             </div>
                                             <div class="field disabled editable">
                                                 <div class="textarea" contenteditable="">
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis
-                                                    ipsum aut sit modi sequi voluptatem, a quam beatae, sapiente
-                                                    blanditiis id maxime! In reiciendis nemo illo tempora iusto facere
-                                                    minus!
                                                 </div>
                                             </div>
                                         </div>
@@ -495,8 +491,8 @@
                                                                                         <div class="ui fluid card">
                                                                                             <div class="content">
                                                                                                 <img class="right floated mini ui image"
-                                                                                                    onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
-                                                                                                    [src]="venue.companyProfileImage">
+                                                                                                    [src]="venue.companyProfileImage"
+                                                                                                    appImageFallback fallbackImage="../../assets/img/default_konnect_img.png">
                                                                                                 <div class="header">
                                                                                                     <a href="/VCP.html"
                                                                                                         target="_blank">{{venue.venueCompanyName}}</a>
@@ -551,8 +547,8 @@
                                                                                         <div class="ui fluid card">
                                                                                             <div class="content">
                                                                                                 <img class="right floated mini ui image"
-                                                                                                    onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
-                                                                                                    [src]="contact.profileImage">
+                                                                                                    [src]="contact.profileImage"
+                                                                                                    appImageFallback fallbackImage="../../assets/img/default_konnect_individual_img.png">
                                                                                                 <div class="header">
                                                                                                     <a href="/VPP.html"
                                                                                                         target="_blank">{{contact.firstName}}</a>
@@ -2593,9 +2589,8 @@
                                                                                             <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"  class="ui fluid card">
                                                                                                 <div class="content">
                                                                                                     <img class="right floated mini ui image"
-                                                                                                    onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
                                                                                                     [src]="service.companyProfileImage"
-                                                                                                        >
+                                                                                                    appImageFallback fallbackImage="../../assets/img/default_konnect_img.png">
                                                                                                     <div class="header">
                                                                                                         <a href="/VCP.html"
                                                                                                             target="_blank">{{service.serviceCompanyName}}</a>
@@ -2652,9 +2647,8 @@
                                                                                             <div class="ui fluid card">
                                                                                                 <div class="content">
                                                                                                     <img class="right floated mini ui image"
-                                                                                                    onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
                                                                                                     [src]="contact.profileImage"
-                                                                                                        >
+                                                                                                    appImageFallback fallbackImage="../../assets/img/default_konnect_individual_img.png">
                                                                                                     <div class="header">
                                                                                                         <a href="/VPP.html"
                                                                                                             target="_blank">{{contact.firstName}}</a>
@@ -6609,9 +6603,8 @@
                                                                                                     <div
                                                                                                         class="content">
                                                                                                         <img class="right floated mini ui image"
-                                                                                                        onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
                                                                                                         [src]="exhibitor.companyProfileImage"
-                                                                                                            >
+                                                                                                        appImageFallback fallbackImage="../../assets/img/default_konnect_img.png">
                                                                                                         <div
                                                                                                             class="header">
                                                                                                             <a href="/VCP.html"
@@ -6673,9 +6666,8 @@
                                                                                                     <div
                                                                                                         class="content">
                                                                                                         <img class="right floated mini ui image"
-                                                                                                        onerror="this.onerror=null;this.src='../../assets/img/elliot.jpg';"
                                                                                                         [src]="contact.profileImage"
-                                                                                                            >
+                                                                                                        appImageFallback fallbackImage="../../assets/img/default_konnect_individual_img.png">
                                                                                                         <div
                                                                                                             class="header">
                                                                                                             <a href="/VPP.html"
