@@ -7,6 +7,7 @@ import {EventService} from '../../services/event.service';
 import {EventTimeSlotTypes, EventTimeWindowTypes} from '../../models/types';
 import {Subscription} from 'rxjs';
 import {cloneDeep} from 'lodash-es';
+import {devLogger} from "../../../../shared/utils";
 
 @Component({
   selector: 'app-time-windows',
@@ -78,11 +79,11 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
     // if (this.eventView && this.preEventTimes && this.preEventTimes.length){
     //   return moment(this.preEventTimes[i].startDateTime).toDate();
     // }
-    return moment().add('1', 'minutes').toDate();
+    return moment().set('second', 0).set('millisecond', 0).toDate();
   }
 
   getMinimumPreEventEndDateTime(i: number): Date {
-    return this.preEventTimes[i]?.startDateTime || moment().add('1', 'minutes').toDate();
+    return this.preEventTimes[i]?.startDateTime || moment().set('second', 0).set('millisecond', 0).toDate();
   }
 
   pushPreEventStartDateTime(event: Date, i: number): void {
@@ -107,7 +108,8 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
       notes: this.preEventNotes
     };
 
-    if (moment(this.preEventTimes[i].startDateTime).isAfter(this.preEventTimes[i].endDateTime)) {
+    if (moment(this.preEventTimes[i].startDateTime).isAfter(this.preEventTimes[i].endDateTime) ||
+      !this.preEventTimes[i].endDateTime) {
       this.preEventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
         this.preEventTimes[i].startDateTime
       );
@@ -178,11 +180,11 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
 
   getMinimumEventStartDateTime(i: number): Date {
-    return moment().add('1', 'minutes').toDate();
+    return moment().set('seconds', 0).set('millisecond', 0).toDate();
   }
 
   getMinimumEventEndDateTime(i: number): Date {
-    return this.eventTimes[i]?.startDateTime || moment().add('1', 'minutes').toDate();
+    return this.eventTimes[i]?.startDateTime || moment().set('seconds', 0).set('milliseconds', 0).toDate();
   }
 
   pushEventStartDateTime(event: Date, i: number): void {
@@ -205,7 +207,8 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
       notes: this.eventNotes
     };
 
-    if (moment(this.eventTimes[i].startDateTime).isAfter(this.eventTimes[i].endDateTime)) {
+    if (moment(this.eventTimes[i].startDateTime).isAfter(this.eventTimes[i].endDateTime) ||
+      !this.eventTimes[i].endDateTime) {
       this.eventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
         this.eventTimes[i].startDateTime
       );
@@ -267,11 +270,11 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
 
   getMinimumPostEventStartDateTime(i: number): Date {
-    return moment().add('1', 'minutes').toDate();
+    return moment().set('seconds', 0).set('milliseconds', 0).toDate();
   }
 
   getMinimumPostEventEndDateTime(i: number): Date {
-    return this.postEventTimes[i]?.startDateTime || moment().add('1', 'minutes').toDate();
+    return this.postEventTimes[i]?.startDateTime || moment().set('seconds', 0).set('milliseconds', 0).toDate();
   }
 
   pushPostEventStartDateTime(event: Date, i: number): void {
@@ -294,7 +297,8 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
       notes: this.postEventNotes
     };
 
-    if (moment(this.postEventTimes[i].startDateTime).isAfter(this.postEventTimes[i].endDateTime)) {
+    if (moment(this.postEventTimes[i].startDateTime).isAfter(this.postEventTimes[i].endDateTime) ||
+      !this.postEventTimes[i].endDateTime) {
       this.postEventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
         this.postEventTimes[i].startDateTime
       );
