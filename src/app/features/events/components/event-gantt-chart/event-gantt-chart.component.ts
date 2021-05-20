@@ -1,5 +1,6 @@
 import {ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Timeline, TimelineOptions} from 'vis-timeline';
+import * as vis from 'vis-timeline';
 import {DataSet} from 'vis-data';
 import {DOCUMENT} from '@angular/common';
 import {EventTimelineDataInterface, mockTimeLineData} from "../../models/interfaces";
@@ -9,6 +10,8 @@ import {EventTimelineType} from "../../../../shared/models";
 import {Subject, Subscription} from "rxjs";
 import {v4 as uuidV4} from 'uuid';
 import {isEmpty} from "lodash-es";
+import * as moment from 'moment-timezone';
+import {MomentInput} from "moment";
 
 @Component({
   selector: 'app-event-gantt-chart',
@@ -28,6 +31,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
   items: DataSet<any> | undefined;
   options: TimelineOptions | undefined;
   private timelineGenTriggerSubs: Subscription | undefined;
+  private timeZone = moment.tz.guess();
 
   constructor(@Inject(DOCUMENT) document: Document,
               private eventTimelineService: EventTimelineService,
@@ -57,19 +61,20 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
 
     if (this.timelineData && !isEmpty(this.timelineData)) {
 
+
       this.groups = new DataSet<any>(this.timelineData.groups.map(group => ({id: group.date})));
 
       devLogger('log', 'Rendering timeline');
-
+      const that = this;
       this.options = {
         width: '100%',
         zoomable: true,
         autoResize: true,
         stack: false,
-        start: this.timelineData.startDateTime,
-        min: this.timelineData.minimumDateTime,
-        end: this.timelineData.maxDateTime,
-        max: this.timelineData.maxDateTime,
+        start: moment.tz(this.timelineData.startDateTime, this.timeZone).toDate(),
+        min: moment.tz(this.timelineData.minimumDateTime, this.timeZone).toDate(),
+        end: moment.tz(this.timelineData.maxDateTime, this.timeZone).toDate(),
+        max: moment.tz(this.timelineData.maxDateTime, this.timeZone).toDate(),
         margin: {
           item: {
             vertical: 15,
@@ -96,9 +101,9 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
         groupData.data.preTime.forEach(preTimeData => {
           items.push({
             id: `${preTimeData.id}_${uuidV4()}`,
-            content: `Pre Event Access:<br/>${preTimeData.content}`,
-            start: preTimeData.startDateTime,
-            end: preTimeData.endDateTime,
+            content: `Pre Event Access:<br/>${moment.tz(preTimeData.startDateTime, this.timeZone).format('hh:mm a')} - ${moment.tz(preTimeData.endDateTime, this.timeZone).format('hh:mm a')}`,
+            start: moment.tz(preTimeData.startDateTime, this.timeZone).toDate(),
+            end: moment.tz(preTimeData.endDateTime, this.timeZone).toDate(),
             type: 'background',
             className: 'bumpIn'
           });
@@ -108,7 +113,9 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
                 content: 'BI',
-                title: `<b>${servicesData.content} Bump In </b><br/>${new Date(servicesData.startDateTime).toDateString()} - ${new Date(servicesData.endDateTime).toDateString()}`,
+                title: `<b>${servicesData.content} Bump In </b><br/>
+${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
+${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}`,
                 start: servicesData.startDateTime,
                 end: servicesData.endDateTime,
                 group: servicesData.group,
@@ -119,9 +126,11 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
                 content: 'BI',
-                title: `<b>${exhibitorsData.content} Bump In </b><br/>${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}`,
-                start: exhibitorsData.startDateTime,
-                end: exhibitorsData.endDateTime,
+                title: `<b>${exhibitorsData.content} Bump In </b><br/>
+${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
+${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`,
+                start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
+                end: moment(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
               });
             });
@@ -131,9 +140,9 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
         groupData.data.eventTime.forEach(eventTimeData => {
           items.push({
             id: `${eventTimeData.id}_${uuidV4()}`,
-            content: `Event:<br/>${eventTimeData.content}`,
-            start: eventTimeData.startDateTime,
-            end: eventTimeData.endDateTime,
+            content: `Event:<br/>${moment.tz(eventTimeData.startDateTime, this.timeZone).format('hh:mm a')} - ${moment.tz(eventTimeData.endDateTime, this.timeZone).format('hh:mm a')}`,
+            start: moment.tz(eventTimeData.startDateTime, this.timeZone).toDate(),
+            end: moment.tz(eventTimeData.endDateTime, this.timeZone).toDate(),
             type: 'background',
             className: 'eventTimes'
           });
@@ -144,10 +153,11 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                 id: `${servicesData.id}_${uuidV4()}`,
                 content: servicesData.content,
                 title: `<b>${servicesData.content}</b><p>${servicesData.companyName}<br/>
-${new Date(servicesData.startDateTime).toDateString()} - ${new Date(servicesData.endDateTime).toDateString()}</p>
+${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
+${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p>
 <b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite}</small>`,
-                start: servicesData.startDateTime,
-                end: servicesData.endDateTime,
+                start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
+                end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
               });
             });
@@ -159,8 +169,8 @@ ${new Date(servicesData.startDateTime).toDateString()} - ${new Date(servicesData
                 title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName}<br/>
 ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}</p>
 <b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite}</small>`,
-                start: exhibitorsData.startDateTime,
-                end: exhibitorsData.endDateTime,
+                start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
+                end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
               });
             });
@@ -170,9 +180,9 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
         groupData.data.postTime.forEach(postTimeData => {
           items.push({
             id: `${postTimeData.id}_${uuidV4()}`,
-            content: `Post Event Access:<br/>${postTimeData.content}`,
-            start: postTimeData.startDateTime,
-            end: postTimeData.endDateTime,
+            content: `Post Event Access:<br/>${moment.tz(postTimeData.startDateTime, this.timeZone).format('hh:mm a')} - ${moment.tz(postTimeData.endDateTime, this.timeZone).format('hh:mm a')}`,
+            start: moment.tz(postTimeData.startDateTime, this.timeZone).toDate(),
+            end: moment.tz(postTimeData.endDateTime, this.timeZone).toDate(),
             type: 'background',
             className: 'bumpOut'
           });
@@ -182,9 +192,11 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
                 content: 'BO',
-                title: `${servicesData.content} Bump Out ${new Date(servicesData.startDateTime).toDateString()} - ${new Date(servicesData.endDateTime).toDateString()}`,
-                start: servicesData.startDateTime,
-                end: servicesData.endDateTime,
+                title: `${servicesData.content} Bump Out
+                ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
+                ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}`,
+                start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
+                end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
               });
             });
@@ -193,9 +205,11 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
                 content: 'BO',
-                title: `${exhibitorsData.content} Bump Out ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}`,
-                start: exhibitorsData.startDateTime,
-                end: exhibitorsData.endDateTime,
+                title: `${exhibitorsData.content} Bump Out
+                ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
+                ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`,
+                start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
+                end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
               });
             });
