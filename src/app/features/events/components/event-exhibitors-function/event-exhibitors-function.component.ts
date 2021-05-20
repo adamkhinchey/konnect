@@ -89,6 +89,11 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
 
   addExhibitor(venue: VenueListItemInterface, venueIndex: number): void {
     if (!venue.exhibitorList[0]) {
+      const timeWindowsToAll: SuppExhTimeWindowFormatInterface = {
+        bumpIn: {sameAsVenue: null, timings: []},
+        bumpOut: {sameAsVenue: null, timings: []},
+        eventTime: {sameAsVenue: null, timings: []}
+      };
       const timeWindows: SuppExhTimeWindowFormatInterface = {
         bumpIn: {sameAsVenue: null, timings: []},
         bumpOut: {sameAsVenue: null, timings: []},
@@ -96,7 +101,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
       };
       venue.exhibitorList[0] = {
         notesToAll: '',
-        timeWindowsToAll: timeWindows,
+        timeWindowsToAll,
         exhibitors: [{
           standNumber: null,
           name: '',
