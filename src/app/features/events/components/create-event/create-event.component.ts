@@ -19,6 +19,7 @@ import {Router} from '@angular/router';
 import {EventSuppliersFunctionComponent} from '../event-suppliers-function/event-suppliers-function.component';
 import {EventExhibitorsFunctionComponent} from '../event-exhibitors-function/event-exhibitors-function.component';
 import {EventTimelineService} from '../../services/event-timeline.service';
+import {cloneDeep} from "lodash-es";
 
 @Component({
   selector: 'app-create-event',
@@ -582,14 +583,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.eventToBeSaved.venues!.list[i].invited = (this.clientCompany as InviteFnCmpClass);
           }
         }
-        if (this.eventToBeSaved.venues) {
-          this.eventToBeSaved.venues.list = this.eventToBeSaved.venues.list
-            .filter(venueCmp => venueCmp.companyId !== null || venueCmp.invited !== null);
-        }
       } else {
         this.eventToBeSaved.venues = null;
       }
-      devLogger('log', {event: this.eventToBeSaved});
     }
 
   }
@@ -676,6 +672,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  private postProcessVenues(): void {
+    devLogger('log', {preProcessingVenues: cloneDeep(this.eventToBeSaved.venues)});
+    if (this.eventToBeSaved.venues) {
+      this.eventToBeSaved.venues.list = this.eventToBeSaved.venues.list
+        .filter(venueCmp => venueCmp.companyId !== null || venueCmp.invited !== null);
+    }
+    devLogger('log', {postProcessingVenues: cloneDeep(this.eventToBeSaved.venues)});
+  }
+
   saveToDb(param: {
     venueIndex: number | null,
     serviceIndex?: number | null,
@@ -753,6 +758,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (!this.isEventClientInvalid && !this.isEventMgrInvalid && !this.isEventVenuesInvalid &&
       !this.isVenuesSuppliersInvalid && !this.isVenuesExhibitorsInvalid) {
+      this.postProcessVenues();
       this.saveEventSub = this.eventService.saveToDb(this.eventToBeSaved).subscribe(
         value => {
           if (value) {
@@ -826,9 +832,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       for (let i = 0; i < this.venueCompanies.length; i++) {
         if (this.venueCompanies[i] === null) {
           this.venueContactLists.splice(i, 1);
+          devLogger('log', {[`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i])});
+          this.eventToBeSaved.venues?.list.splice(i, 1);
+        }else{
+          devLogger('log', {[`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i])});
         }
       }
-
       this.venueCompanies = this.venueCompanies.filter(vc => vc !== null);
     }
 
