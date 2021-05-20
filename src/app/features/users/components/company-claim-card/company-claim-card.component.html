@@ -1,6 +1,7 @@
 <div class="ui fluid card">
   <div class="content left aligned">
-    <img class="right floated mini ui image" src="./assets/img/default_konnect_img.png">
+    <img class="right floated mini ui image" [src]="company?.companyProfileImage || './assets/img/default_konnect_img.png'"
+         appImageFallback  fallbackImage="../../assets/img/default_konnect_img.png">
     <div class="header">
       {{company?.companyName}}
     </div>

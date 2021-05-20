@@ -107,7 +107,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
       if (this.selectedCompanies[i] instanceof InviteFnCmpClass) {
         return null;
       } else {
-        return (this.selectedCompanies[i] as Company)?.companyProfileImage;
+        return (this.selectedCompanies[i] as Company)?.website;
       }
     } else {
       return null;
