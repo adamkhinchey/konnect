@@ -764,12 +764,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           if (value) {
             this.toaster.success('Continue with saving event files', 'Event saved successfully');
             this.savedEventId = value.data.eventId;
-            /*this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() => {
-              this.router.navigate(['/home/event/create']);
-            });*/
-            this.active = 6;
+            this.router.navigateByUrl('/home');
+            /* block below opens files tab and disabled other tabs after post event creation*/
+            /*this.active = 6;
             this.eventService.fetchEventFilesSubject.next(this.savedEventId);
-            this.eventService.hideInfoBar = true;
+            this.eventService.hideInfoBar = true;*/
           }
         },
         error => {
@@ -834,7 +833,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           this.venueContactLists.splice(i, 1);
           devLogger('log', {[`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i])});
           this.eventToBeSaved.venues?.list.splice(i, 1);
-        }else{
+        } else {
           devLogger('log', {[`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i])});
         }
       }
