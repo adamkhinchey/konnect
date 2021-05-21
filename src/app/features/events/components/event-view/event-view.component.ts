@@ -11,10 +11,11 @@ import { ViewEventService } from '../../services/view-event.service';
   styleUrls: ['./event-view.component.scss']
 })
 export class EventViewComponent implements OnInit {
-  @Input() eventId: any
+  @Input() eventId: any;
   data: any = {};
   active = 1;
   disabled = true;
+
 
   // isClient: boolean =  false; 
   // isEventManager: boolean =  false; 
@@ -83,6 +84,9 @@ export class EventViewComponent implements OnInit {
         this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
         this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
         this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
+      }
+      if (res && res.commonData) {
+        this.data.commonData = res.commonData;
       }
 
       // console.log("permissionObj", this.permissionObj); 
