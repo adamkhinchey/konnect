@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Timeline, TimelineOptions} from 'vis-timeline';
+import {DataItemCollectionType, Timeline, TimelineOptions} from 'vis-timeline';
 import * as vis from 'vis-timeline';
 import {DataSet} from 'vis-data';
 import {DOCUMENT} from '@angular/common';
@@ -71,10 +71,11 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
         zoomable: true,
         autoResize: true,
         stack: false,
+        align: 'left',
         start: moment.tz(this.timelineData.startDateTime, this.timeZone).toDate(),
-        min: moment.tz(this.timelineData.minimumDateTime, this.timeZone).toDate(),
+        min: moment.tz(this.timelineData.minimumDateTime, this.timeZone).hours(0).minutes(0).seconds(0).toDate(),
         end: moment.tz(this.timelineData.maxDateTime, this.timeZone).toDate(),
-        max: moment.tz(this.timelineData.maxDateTime, this.timeZone).toDate(),
+        max: moment.tz(this.timelineData.maxDateTime, this.timeZone).hours(23).minutes(59).seconds(59).toDate(),
         margin: {
           item: {
             vertical: 15,
@@ -96,7 +97,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
         },
       };
 
-      const items: any[] = [];
+      const items: DataItemCollectionType = [];
       this.timelineData.groups.forEach((groupData) => {
         groupData.data.preTime.forEach(preTimeData => {
           items.push({
@@ -151,11 +152,11 @@ ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`
             eventTimeData.services?.forEach((servicesData) => {
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
-                content: servicesData.content,
-                title: `<b>${servicesData.content}</b><p>${servicesData.companyName}<br/>
+                content: servicesData.content || '',
+                title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
 ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p>
-<b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite}</small>`,
+<b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite || ''}</small>`,
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
@@ -165,7 +166,7 @@ ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p
             eventTimeData.exhibitors?.forEach((exhibitorsData) => {
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
-                content: exhibitorsData.content,
+                content: exhibitorsData.content || '',
                 title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName}<br/>
 ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}</p>
 <b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite}</small>`,
