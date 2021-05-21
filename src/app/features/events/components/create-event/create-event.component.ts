@@ -511,7 +511,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           };
         }) || null;
         this.eventToBeSaved.eventManager = {
-          id: (this.clientCompany as Company).id,
+          id: (this.eventMgrCmp as Company).id,
           contacts: contactList,
           shouldInvite: shouldInvite ? 1 : 0,
           isOwnCompany: false,
@@ -525,7 +525,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           contacts: null,
           shouldInvite: shouldInvite ? 1 : 0,
           isOwnCompany: false,
-          invited: (this.clientCompany as InviteFnCmpClass),
+          invited: (this.eventMgrCmp as InviteFnCmpClass),
           requirements: this.eventToBeSaved.eventManager?.requirements || ''
         };
 
@@ -580,7 +580,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             // tslint:disable-next-line:no-non-null-assertion
             this.eventToBeSaved.venues!.list[i].shouldInvite = event.index === i && event.shouldInvite ? 1 : 0;
             // tslint:disable-next-line:no-non-null-assertion
-            this.eventToBeSaved.venues!.list[i].invited = (this.clientCompany as InviteFnCmpClass);
+            this.eventToBeSaved.venues!.list[i].invited = (this.venueCompanies[i] as InviteFnCmpClass);
           }
         }
       } else {
