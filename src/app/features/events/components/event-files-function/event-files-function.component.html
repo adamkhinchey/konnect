@@ -159,7 +159,7 @@
       <ngb-panel [id]="'venueId_' + venueFileItem.venueId"
                  *ngFor="let venueFileItem of eventFiles!.data!.files!.FFAV!.venuesFiles!; let i=index">
         <ng-template ngbPanelTitle>
-          <i class="dropdown icon"></i>Venue 1: {{venueFileItem.name}}
+          <i class="dropdown icon"></i>Venue {{i+1}}: {{venueFileItem.name}}
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="content active">
@@ -316,7 +316,7 @@
       <ngb-panel [id]="'serviceId_' + supplierItem.serviceId"
                  *ngFor="let supplierItem of eventFiles!.data!.files!.FFAS!.supplierFiles!; let i =index">
         <ng-template ngbPanelTitle>
-          <i class="dropdown icon"></i>Supplier 1: {{supplierItem.name}}
+          <i class="dropdown icon"></i>Supplier {{i+1}}: {{supplierItem.name}}
         </ng-template>
         <ng-template ngbPanelContent>
 
@@ -446,7 +446,7 @@
       <ngb-panel [id]="'exhibitorId_' + exhibitorFileItem.exhibitorId"
                  *ngFor="let exhibitorFileItem of eventFiles!.data!.files!.FFAE!.exhibitorFiles!; let i=index">
         <ng-template ngbPanelTitle>
-          <i class="dropdown icon"></i>Exhibitor 1: {{exhibitorFileItem.name}}
+          <i class="dropdown icon"></i>Exhibitor {{i+1}}: {{exhibitorFileItem.name}}
         </ng-template>
         <ng-template ngbPanelContent>
 
