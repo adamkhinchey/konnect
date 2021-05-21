@@ -240,7 +240,7 @@
                       </div>
                     </div>
                   </div>
-                  <div  *ngIf="venueFileItem?.isViewPermisssion == 0; else no_access"   class="ui grid docsContainer">
+                  <div  *ngIf="venueFileItem?.isViewPermisssion == 1; else no_access"   class="ui grid docsContainer">
                     <div class="sixteen wide column">
                       <ng-container *ngIf="venueFileItem.VIF">
                         <a class="ui mini button basic"
@@ -369,7 +369,7 @@
                         </div>
                       </div>
                     </div>
-                    <div  *ngIf="supplierItem?.isViewPermisssion == 0; else no_access"   class="ui grid docsContainer">
+                    <div  *ngIf="supplierItem?.isViewPermisssion == 1; else no_access"   class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="supplierItem?.SIF">
                           <a class="ui mini button basic"
@@ -499,7 +499,7 @@
                         </div>
                       </div>
                     </div>
-                    <div  *ngIf="exhibitorFileItem?.isViewPermisssion==0; else no_access"   class="ui grid docsContainer">
+                    <div  *ngIf="exhibitorFileItem?.isViewPermisssion==1; else no_access"   class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="exhibitorFileItem?.EBIF">
                           <a class="ui mini button basic"
