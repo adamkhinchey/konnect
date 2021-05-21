@@ -37,7 +37,7 @@
                                                     </div>
                                                     <div class="ui checkbox">
                                                         <input type="checkbox" class="hidden"
-                                                            checked="{{data.eventData.client.isOwnCompany}}"
+                                                            [checked]="data.eventData.client.isOwnCompany"
                                                             tabindex="0">
                                                         <label>My company</label>
                                                     </div>
@@ -250,7 +250,7 @@
                                                     </div>
                                                     <div class="ui checkbox">
                                                         <input type="checkbox" class="hidden" tabindex="0"
-                                                            checked="{{data.eventData.eventManager.isOwnCompany}}">
+                                                            [checked]="data.eventData.eventManager.isOwnCompany">
                                                         <label>My company</label>
                                                     </div>
                                                 </div>
