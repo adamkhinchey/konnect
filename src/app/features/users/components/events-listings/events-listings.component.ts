@@ -23,7 +23,6 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
     console.log(this.events);
     this.eventsCopy = this.events;
     for (let i = 0; i < this.events.length; i++) {
-      console.log('loop time: ', i);
       var startDate;
       var endDate;
       startDate = moment(this.events[i].eventStartDate).format('YYYY-MM-DD');
@@ -36,7 +35,6 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
         this.dates.push(new Date(startDate));
       }
     }
-    console.log(this.dates);
     this.specialDates = [{
       type: DateRangeType.Specific, dateRange: this.dates
       // [

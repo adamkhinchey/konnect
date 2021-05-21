@@ -11,7 +11,6 @@ import {devLogger} from '../../../../shared/utils';
 export class EventPanelComponent implements OnInit, AfterViewChecked {
   isView = false;
   eventId: any;
-
   constructor(
     private router: Router,
     private aroute: ActivatedRoute,
