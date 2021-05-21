@@ -141,7 +141,7 @@ ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`
         groupData.data.eventTime.forEach(eventTimeData => {
           items.push({
             id: `${eventTimeData.id}_${uuidV4()}`,
-            content: `Event:<br/>${moment.tz(eventTimeData.startDateTime, this.timeZone).format('HH:mm a')} - ${moment.tz(eventTimeData.endDateTime, this.timeZone).format('HH:mm a')}`,
+            content: `Event:<br/>${moment.tz(eventTimeData.startDateTime, this.timeZone).format('HH:mm')} - ${moment.tz(eventTimeData.endDateTime, this.timeZone).format('HH:mm')}`,
             start: moment.tz(eventTimeData.startDateTime, this.timeZone).toDate(),
             end: moment.tz(eventTimeData.endDateTime, this.timeZone).toDate(),
             type: 'background',
