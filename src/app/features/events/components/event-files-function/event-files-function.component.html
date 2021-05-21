@@ -210,7 +210,7 @@
                       </div>
                     </div>
                   </div>
-                  <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"  class="ui grid docsContainer">
+                  <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || venueFileItem.isViewPermisssion; else no_access"  class="ui grid docsContainer">
                     <div class="sixteen wide column">
                       <ng-container *ngIf="venueFileItem.VSF">
                         <a class="ui mini button basic"
@@ -240,7 +240,7 @@
                       </div>
                     </div>
                   </div>
-                  <div  *ngIf="permissionObj.isExhibitor; else no_access"   class="ui grid docsContainer">
+                  <div  *ngIf="venueFileItem?.isViewPermisssion == 0; else no_access"   class="ui grid docsContainer">
                     <div class="sixteen wide column">
                       <ng-container *ngIf="venueFileItem.VIF">
                         <a class="ui mini button basic"
@@ -339,7 +339,7 @@
                         </div>
                       </div>
                     </div>
-                    <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"  class="ui grid docsContainer">
+                    <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || supplierItem.isViewPermisssion; else no_access"  class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="supplierItem?.SSF">
                           <a class="ui mini button basic"
@@ -369,7 +369,7 @@
                         </div>
                       </div>
                     </div>
-                    <div  *ngIf="permissionObj.isExhibitor; else no_access"   class="ui grid docsContainer">
+                    <div  *ngIf="supplierItem?.isViewPermisssion == 0; else no_access"   class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="supplierItem?.SIF">
                           <a class="ui mini button basic"
@@ -421,7 +421,7 @@
           </div>
         </div>
       </div>
-      <div   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isSupplier; else no_access"   class="ui grid docsContainer">
+      <div   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.FFAE">
             <a class="ui mini button basic"
@@ -469,7 +469,7 @@
                         </div>
                       </div>
                     </div>
-                    <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"   class="ui grid docsContainer">
+                    <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitorFileItem.isViewPermisssion; else no_access"   class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="exhibitorFileItem?.EBSF">
                           <a class="ui mini button basic"
@@ -499,7 +499,7 @@
                         </div>
                       </div>
                     </div>
-                    <div  *ngIf="permissionObj.isExhibitor; else no_access"   class="ui grid docsContainer">
+                    <div  *ngIf="exhibitorFileItem?.isViewPermisssion==0; else no_access"   class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="exhibitorFileItem?.EBIF">
                           <a class="ui mini button basic"
