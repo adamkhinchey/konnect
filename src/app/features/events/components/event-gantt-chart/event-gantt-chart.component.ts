@@ -101,7 +101,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
         groupData.data.preTime.forEach(preTimeData => {
           items.push({
             id: `${preTimeData.id}_${uuidV4()}`,
-            content: `Pre Event Access:<br/>${moment.tz(preTimeData.startDateTime, this.timeZone).format('hh:mm a')} - ${moment.tz(preTimeData.endDateTime, this.timeZone).format('hh:mm a')}`,
+            content: `Pre Event Access:<br/>${moment.tz(preTimeData.startDateTime, this.timeZone).format('HH:mm')} - ${moment.tz(preTimeData.endDateTime, this.timeZone).format('HH:mm')}`,
             start: moment.tz(preTimeData.startDateTime, this.timeZone).toDate(),
             end: moment.tz(preTimeData.endDateTime, this.timeZone).toDate(),
             type: 'background',
@@ -140,7 +140,7 @@ ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`
         groupData.data.eventTime.forEach(eventTimeData => {
           items.push({
             id: `${eventTimeData.id}_${uuidV4()}`,
-            content: `Event:<br/>${moment.tz(eventTimeData.startDateTime, this.timeZone).format('hh:mm a')} - ${moment.tz(eventTimeData.endDateTime, this.timeZone).format('hh:mm a')}`,
+            content: `Event:<br/>${moment.tz(eventTimeData.startDateTime, this.timeZone).format('HH:mm a')} - ${moment.tz(eventTimeData.endDateTime, this.timeZone).format('HH:mm a')}`,
             start: moment.tz(eventTimeData.startDateTime, this.timeZone).toDate(),
             end: moment.tz(eventTimeData.endDateTime, this.timeZone).toDate(),
             type: 'background',
@@ -180,7 +180,7 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
         groupData.data.postTime.forEach(postTimeData => {
           items.push({
             id: `${postTimeData.id}_${uuidV4()}`,
-            content: `Post Event Access:<br/>${moment.tz(postTimeData.startDateTime, this.timeZone).format('hh:mm a')} - ${moment.tz(postTimeData.endDateTime, this.timeZone).format('hh:mm a')}`,
+            content: `Post Event Access:<br/>${moment.tz(postTimeData.startDateTime, this.timeZone).format('HH:mm')} - ${moment.tz(postTimeData.endDateTime, this.timeZone).format('HH:mm')}`,
             start: moment.tz(postTimeData.startDateTime, this.timeZone).toDate(),
             end: moment.tz(postTimeData.endDateTime, this.timeZone).toDate(),
             type: 'background',
