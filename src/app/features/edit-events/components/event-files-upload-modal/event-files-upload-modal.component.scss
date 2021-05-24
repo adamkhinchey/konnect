@@ -1,0 +1,9 @@
+div.adjustableHeightColumn{
+  overflow-y: auto
+}
+
+@media screen {
+  div.adjustableHeightColumn {
+    max-height: 80vh;
+  }
+}

@@ -1,0 +1,215 @@
+<div *ngIf="eventToBeSaved.venues &&
+    eventToBeSaved.venues.list &&
+    eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
+  <ul ngbNav #venueNav="ngbNav" class="nav-tabs supplierInnerCont"
+      [destroyOnHide]="false">
+    <li ngbNavItem *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
+      <a ngbNavLink><i class="map marker alternate icon"></i>
+        {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]? venueCompanies[venueIndex]!.companyName+', '+venueCompanies[venueIndex]!.city:'Venue-'+(venueIndex + 1)}}</a>
+      <ng-template ngbNavContent>
+        <form class="ui form">
+          <div class="ui grid stackable">
+            <div class="sixteen wide column">
+              <div class="companyContainer marginB20">
+                <div class="ui dividing header">
+                  <h3>Notes to All Suppliers <i class="cog icon"></i><i class="sitemap icon"></i><i
+                    class="truck icon"></i></h3>
+                </div>
+                <div class="field">
+                  <textarea
+                    class="textarea"
+                    *ngIf="venue.suppliers && venue.suppliers[0]"
+                    [(ngModel)]="venue.suppliers[0].notesToAll"
+                    [ngModelOptions]="{standalone:true}"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="ui grid">
+          <div class="sixteen wide column">
+            <div class="marginT10"></div>
+            <div class="ui button compact addNewService addToPanel"
+                 (click)="addService(venue,venueIndex)">
+              <i class="plus circle icon"></i>
+              <span>Add Service</span>
+            </div>
+            <h3 id="servicesAnchor" class="ui dividing header">Services</h3>
+          </div>
+        </div>
+        <div class="marginT10"></div>
+        <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
+
+
+          <ngb-accordion
+            [closeOthers]="true"
+            (panelChange)="panelChange($event)"
+            #ngbAccordion
+            [activeIds]="'serviceListIndex-'+activeServicePanel"
+            [destroyOnHide]="false">
+
+            <ng-container *ngIf="venue.suppliers[0]">
+              <ngb-panel *ngFor="let service of venue.suppliers[0].services; let serviceIndex=index"
+                         [id]="'serviceListIndex-'+serviceIndex"
+                         (shown)="servicePanelActivated(venueIndex,serviceIndex)">
+                <ng-template ngbPanelTitle>
+                  <i
+                    class="dropdown icon"></i>Service {{serviceIndex + 1 + (service.name.trim().length > 0 ? ': ' + service.name : '')}}
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="content active">
+                    <form class="ui form visible"
+                          style="display: block !important;">
+                      <div class="ui grid stackable">
+
+                        <div class="seven wide column">
+                          <div class="companyContainer marginB20">
+                            <div class="ui dividing header">
+                              <h3>Service Name <i class="cog icon"></i><i class="sitemap icon"></i><i
+                                class="building icon"></i></h3>
+                            </div>
+                            <div class="field">
+                              <input [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
+                                     placeholder="Name">
+                            </div>
+                            <div class="ui dividing header">
+                              <h3>Supplier Company <i class="cog icon"></i><i class="sitemap icon"></i><i
+                                class="building icon"></i></h3>
+                            </div>
+
+
+                            <div class="kcpCardContainer">
+                              <div
+                                *ngIf="venuesSuppCmpsMap.has(venueIndex) && venuesSuppCmpsMap.get(venueIndex)!.has(serviceIndex)"
+                                class="ui one column grid">
+                                <div class="column">
+                                  <div class="ui fluid card">
+                                    <div class="content">
+                                      <img class="right floated mini ui image"
+                                           [src]="getCompanyProfileImage(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || 'assets/img/default_konnect_img.png'"
+                                           appImageFallback fallbackImage="assets/img/default_konnect_img.png">
+                                      <div class="header">
+                                        <a>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
+                                      </div>
+                                      <div class="meta">
+                                        <a
+                                          *ngIf="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))"
+                                          [href]="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))"
+                                          target="_blank"> {{getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))}}</a>
+                                        <span
+                                          *ngIf="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))">|</span>
+                                        <a>
+                                          <i
+                                            class="map marker alternate icon"></i>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.city}}
+                                        </a>
+                                        <span>|</span>
+                                        <i
+                                          class="phone icon"></i>{{ (venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex) &&
+                                        getCompanyPhone(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))) || ''}}
+                                      </div>
+                                    </div>
+                                    <div class="extra content" [ngClass]="{'editableObject':false}">
+                                      <div class="ui grid">
+                                        <div class="ten wide column">
+
+                                        </div>
+                                        <div class="six wide column right aligned">
+                                          <div (click)="removeSelectedCompany(venueIndex,serviceIndex)"
+                                               class="ui circular compact mini basic button confirmRemove hasModal"
+                                               data-modal="removeModal"><i class="trash alternate icon"></i>Remove
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                          <app-event-assign-function-cmp #suppliersAssignCmp
+                                                         [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"
+                                                         [clientCmpBtnLabel]="'Add Supplier'"
+                                                         [contactListLabel]="'Supplier Contacts'"
+                                                         [clientCompanyModal]="searchInviteCmpModal"
+                                                         [contactModal]="searchInviteFnCmpCntModal"
+                                                         (modalOpen)="setOpenedModalRef($event)"
+                                                         [contactList]="service.contacts?service.contacts:[]"
+                                                         (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)"
+                          ></app-event-assign-function-cmp>
+                          <!-- </div>-->
+                        </div>
+
+                        <div class="nine wide column">
+                          <div class="ui dividing header">
+                            <h3>Service Requirements <i class="cog icon"></i><i class="sitemap icon"></i><i
+                              class="building icon"></i></h3>
+                          </div>
+                          <div class="field">
+                          <textarea [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}"
+                                    class="textarea"></textarea>
+                          </div>
+                          <div class="field">
+                            <div class="timeWindowsContainer">
+                              <div class="ui dividing header">
+                                <h3>Supplier Time Windows <i class="cog icon"></i><i class="sitemap icon"></i><i
+                                  class="building icon"></i></h3>
+                              </div>
+
+                              <app-time-windows
+                                [timeWindowFor]="eventTimeWindowType"
+                                [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
+                                [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
+                                [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
+                                [venueIndex]="venueIndex"
+                                [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
+                                [isVenueDependent]="true"
+                                [index]="serviceIndex"
+                                [preEventTimes]="service.timeWindows.bumpIn.timings"
+                                [postEventTimes]="service.timeWindows.bumpOut.timings"
+                                [eventTimes]="service.timeWindows.eventTime.timings"
+                              ></app-time-windows>
+
+                            </div>
+                          </div>
+
+                        </div>
+                        <div
+                          class="sixteen wide column saveButtons paddingT0">
+                          <div class="ui divider"></div>
+                          <div class="ui grid stackable">
+                            <div
+                              class="sixteen wide column right aligned">
+                              <div class="ui button hasModal"
+                                   data-modal="inviteModal"
+                                   (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})">
+                                Save
+                                &amp; Invite
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+            </ng-container>
+
+          </ngb-accordion>
+
+
+        </div>
+
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="venueNav" class="mt-2 innerTabCont"></div>
+</div>
+<ng-template #noVenues>
+  <div class="ui segment">
+    <h2>At least one venue is required to add suppliers!</h2>
+  </div>
+</ng-template>
