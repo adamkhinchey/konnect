@@ -50,8 +50,7 @@
             <div class="headerCompanySelector">
               <span class="userName">{{(userSettingsService.settings | async)!.firstName!}}</span>
               <div class="ui dropdown dropdownChangeCompany" (click)="clickEvent2()" tabindex="0">
-                <div class="text">{{(userSettingsService.settings | async)!.defaultCompany?.companyName || 'NO
-                  ASSOCIATED COMPANY!' }}</div>
+                <div class="text">{{(userSettingsService.settings | async)!.defaultCompany?.companyName || 'NO ASSOCIATED COMPANY!' }}</div>
                 <i class="dropdown icon"></i>
                 <div class="menu transition" [ngClass]="status2 ? 'show' : 'd-none'" tabindex="-1">
                   <div class="item"
@@ -67,9 +66,9 @@
           </div>
           <ul class="subMenu" [ngClass]="status ? 'show' : 'd-none'">
             <li (click)="isApproved && navToEditProfile($event) && hideAllMenus()">
-              <a [class.disabled]="!isApproved">Edit Profile</a>
+              <a [class.disabled]="!isApproved" class="cursor-pointer">Edit Profile</a>
             </li>
-            <li (click)="logout($event)"><a>Logout</a></li>
+            <li (click)="logout($event)"><a class="cursor-pointer">Logout</a></li>
           </ul>
         </div>
       </div>
