@@ -1,6 +1,6 @@
-import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, Input, OnInit, Output, TemplateRef, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EventTimelineService } from '../../services/event-timeline.service';
 import { EventService } from '../../services/event.service';
 import { ViewEventService } from '../../services/view-event.service';
@@ -11,6 +11,8 @@ import { ViewEventService } from '../../services/view-event.service';
   styleUrls: ['./event-view.component.scss']
 })
 export class EventViewComponent implements OnInit {
+  @Input() contactModal: TemplateRef<any> | undefined;
+  @Output() modalOpen = new EventEmitter<NgbModalRef>();
   @Input() eventId: any;
   data: any = {};
   active = 1;
@@ -127,6 +129,17 @@ export class EventViewComponent implements OnInit {
       size: "lg",
     });
 
+  }
+
+  openVerticallyCentered3(content: any): void {
+    this.modalReference = this.modalService.open(content, {
+      centered: true,
+      size: 'lg',
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    this.modalOpen.emit(this.modalReference);
   }
 
   contentUpload(contentNew: any) {
