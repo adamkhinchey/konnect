@@ -11,7 +11,7 @@ export class InviteFnCmpClass implements InviteFnCmpInterface {
     this.city = param.city;
     this.companyName = param.companyName;
     this.contactEmail = param.contactEmail;
-    this.contactName = param.companyName;
+    this.contactName = param.contactName;
     this.countryId = param.countryId;
   }
 }
