@@ -127,41 +127,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- <div class="column">
-                                                            <div class="contactRole">ContactLabel <div class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive hasModal" data-modal="editProfile"><i class="pencil alternate icon"></i></div>
-                                                            </div>
-                                                            <div class="ui fluid card">
-                                                                <div class="content">
-                                                                    <img class="right floated mini ui image" src="../../assets/img/joe.jpg">
-                                                                    <div class="header">
-                                                                        <a href="/VPP.html" target="_blank">Jenny Hess</a>
-                                                                    </div>
-                                                                    <div class="meta">
-                                                                        Position
-                                                                    </div>
-                                                                    <div class="description">
-                                                                        mail@mail.com<br>
-                                                                        1234 5678
-                                                                    </div>
-                                                                </div>
-                                                                <div class="extra content editableObject">
-                                                                    <div class="ui grid">
-                                                                        <div class="eight wide column">
-
-                                                                        </div>
-                                                                        <div class="eight wide column right aligned">
-                                                                            <div class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
                                                     </div>
                                                 </div>
                                                 <div class="ui grid stackable center aligned" *ngIf="isClientEdit">
                                                     <div class="sixteen wide column">
                                                         <div class="ui basic button blue fluid hasModal editableObject"
-                                                            data-modal="contacts">
+                                                            data-modal="contacts" (click)="addContactModal(searchInviteFnCmpCntModal)">
                                                             <i class="plus circle icon"></i>Add Contact
                                                         </div>
                                                     </div>
@@ -9548,3 +9519,15 @@
 
     </div>
 </div>
+
+<ng-template #searchInviteFnCmpCntModal let-modal>
+    <!-- <app-search-or-invite-fn-cmp-cnt
+      (closed)="searchInviteContactModalClosed()"
+      [companyId]="getCompanyId()"
+      (addedContactList)="setSelectedFnCompanyContacts($event)"
+      [alreadyInContactList]="getFnContactList()"
+    >
+    </app-search-or-invite-fn-cmp-cnt> -->
+    <app-search-or-invite-fn-cmp-cnt>
+  </app-search-or-invite-fn-cmp-cnt>
+  </ng-template>
