@@ -1,0 +1,7 @@
+<input #inp class="timeWindowDate" [owlDateTime]="dt1"
+       [min]="minimumDate"
+       [owlDateTimeTrigger]="dt1"
+       [readOnly]="true"
+       [disabled]="true" placeholder="Date Time" (dateTimeChange)="setDateTime($event)"
+       [value]="eventDateTime" [ngClass]="{'opacity-35': freeze}">
+<owl-date-time #dt1 [disabled]="freeze"></owl-date-time>
