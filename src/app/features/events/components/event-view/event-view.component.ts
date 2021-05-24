@@ -1,9 +1,17 @@
-import { AfterViewChecked, Component, Input, OnInit, Output, TemplateRef, EventEmitter } from '@angular/core';
+import { AfterViewChecked, Component, Input, OnInit, Output, TemplateRef, EventEmitter, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { Company } from 'src/app/features/users/models';
+import { SaveEventClass } from '../../models/classes';
+import { FnCmpCntInterface, InviteFnCmpCntInterface, InviteFnCmpInterface } from '../../models/interfaces';
+import { EventFunctionTypes } from '../../models/types';
 import { EventTimelineService } from '../../services/event-timeline.service';
 import { EventService } from '../../services/event.service';
 import { ViewEventService } from '../../services/view-event.service';
+import { EventAssignFunctionCmpComponent } from '../event-assign-function-cmp/event-assign-function-cmp.component';
+import { EventExhibitorsFunctionComponent } from '../event-exhibitors-function/event-exhibitors-function.component';
+import { EventSuppliersFunctionComponent } from '../event-suppliers-function/event-suppliers-function.component';
+import { EventVenueFunctionComponent } from '../event-venue-function/event-venue-function.component';
 
 @Component({
   selector: 'app-event-view',
@@ -17,6 +25,17 @@ export class EventViewComponent implements OnInit {
   data: any = {};
   active = 1;
   disabled = true;
+  selectedFunction: EventFunctionTypes = this.active;
+  clientCompany: Company | InviteFnCmpInterface | undefined | null;
+  eventMgrCmp: Company | InviteFnCmpInterface | undefined | null;
+  venueCompanies: Array<Company | InviteFnCmpInterface | null> | undefined | null = [];
+  @ViewChild('suppliersFn') suppliersFn: EventSuppliersFunctionComponent | undefined;
+  @ViewChild('exhibitorsFn') exhibitorsFn: EventExhibitorsFunctionComponent | undefined;
+  @ViewChild('venueFn') venueFn: EventVenueFunctionComponent | undefined;
+  clientContactList: FnCmpCntInterface[] = [];
+  eventMgrContactList: FnCmpCntInterface[] = [];
+  venueContactLists: Array<Array<FnCmpCntInterface>> = [];
+  eventToBeSaved = new SaveEventClass();
 
 
   // isClient: boolean =  false; 
@@ -62,7 +81,7 @@ export class EventViewComponent implements OnInit {
     private viewEvSrvc: ViewEventService,
     private router: Router,
     private eventTimelineSrvc: EventTimelineService,
-    private eventSrvc: EventService
+    private eventService: EventService,
   ) {
   }
 
@@ -99,7 +118,7 @@ export class EventViewComponent implements OnInit {
         this.eventTimelineSrvc.render.next();
       }
       if (tabType === 6) {
-        this.eventSrvc.fetchEventFilesSubject.next(this.data.eventData.eventId);
+        this.eventService.fetchEventFilesSubject.next(this.data.eventData.eventId);
       }
     }, err => {
       console.log(err);
@@ -172,4 +191,139 @@ export class EventViewComponent implements OnInit {
   editExhibitor() {
     this.isExhibitorEdit = true;
   }
+
+  searchInviteContactModalClosed(): void {
+    this.modalReference?.close();
+  }
+
+  getCompanyId(): number | null {
+    switch (this.selectedFunction) {
+      case EventFunctionTypes.CLIENT:
+        return (this.clientCompany as Company)?.id;
+      case EventFunctionTypes.EVENT_MANAGER:
+        return (this.eventMgrCmp as Company)?.id;
+      case EventFunctionTypes.VENUE:
+        const activatedVenuePanelIndex = this.eventService.activeVenuePanelIndex;
+        if (activatedVenuePanelIndex !== null && this.venueCompanies) {
+          return (this.venueCompanies[activatedVenuePanelIndex] as Company)?.id;
+        } else {
+          return null;
+        }
+      case EventFunctionTypes.SUPPLIERS: {
+        const activeVenueIndex = this.eventService.activeServicePanel?.venueIndex;
+        const activeServiceIndex = this.eventService.activeServicePanel?.serviceIndex;
+        if (typeof activeVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
+          const company = this.suppliersFn?.venuesSuppCmpsMap.get(activeVenueIndex)?.get(activeServiceIndex);
+          if (company) {
+            return (company as Company)?.id;
+          }
+        }
+        return null;
+      }
+      case EventFunctionTypes.EXHIBITORS: {
+        const activeVenueIndex = this.eventService.activeExhibitorPanel?.venueIndex;
+        const activeExhibitorIndex = this.eventService.activeExhibitorPanel?.exhibitorIndex;
+        if (typeof activeVenueIndex === 'number' && typeof activeExhibitorIndex === 'number') {
+          const company = this.exhibitorsFn?.venuesExhCmpsMap.get(activeVenueIndex)?.get(activeExhibitorIndex);
+          if (company) {
+            return (company as Company)?.id;
+          }
+        }
+        return null;
+      }
+      default:
+        return null;
+    }
+  }
+
+  setSelectedFnCompanyContacts(contactList: InviteFnCmpCntInterface[]): void {
+    switch (this.selectedFunction) {
+      case EventFunctionTypes.CLIENT:
+        this.clientContactList = [...this.clientContactList, ...contactList];
+        break;
+      case EventFunctionTypes.EVENT_MANAGER:
+        this.eventMgrContactList = [...this.eventMgrContactList, ...contactList];
+        break;
+      case EventFunctionTypes.VENUE:
+        const activatedVenuePanelIndex = this.eventService.activeVenuePanelIndex;
+        if (activatedVenuePanelIndex !== null && this.venueFn?.venueAssignCmp) {
+          if (this.venueContactLists.length - 1 < activatedVenuePanelIndex) {
+            for (let i = this.venueContactLists.length; i < activatedVenuePanelIndex; i++) {
+              /*
+               * fill the missing with null
+               * example if venueContactLists=[[someVal, someVal],[someVal]] && activeVenuePanelIndex=4
+               * then after loop venueContactLists=[[someVal, someVal],[someVal],[],[]]
+               */
+              this.venueContactLists.push([]);
+            }
+          }
+          if (!this.venueContactLists[activatedVenuePanelIndex]) {
+            this.venueContactLists[activatedVenuePanelIndex] = [];
+          }
+          this.venueContactLists[activatedVenuePanelIndex].push(...contactList);
+          this.venueContactLists = [...this.venueContactLists];
+          let venueAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
+          venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex);
+          if (venueAssignCmpCnt) {
+            venueAssignCmpCnt.setContactList(this.venueContactLists[activatedVenuePanelIndex]);
+          }
+        }
+        break;
+      case EventFunctionTypes.SUPPLIERS:
+        this.eventService.supplierContactsAdded(contactList);
+        break;
+      case EventFunctionTypes.EXHIBITORS:
+        this.eventService.exhibitorContactsAdded(contactList);
+        break;
+      default:
+        break;
+    }
+    this.searchInviteContactModalClosed();
+  }
+
+  getFnContactList(): FnCmpCntInterface[] {
+    switch (this.selectedFunction) {
+      case EventFunctionTypes.CLIENT:
+        return this.clientContactList.slice(0);
+      case EventFunctionTypes.EVENT_MANAGER:
+        return this.eventMgrContactList.slice(0);
+      case EventFunctionTypes.VENUE:
+        const activatedVenuePanelIndex = this.eventService.activeVenuePanelIndex;
+        if (activatedVenuePanelIndex !== null && this.venueFn?.venueAssignCmp) {
+          let venueAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
+          venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex);
+          if (venueAssignCmpCnt) {
+            return this.venueContactLists[activatedVenuePanelIndex].slice(0);
+          }
+        }
+        return [];
+      case EventFunctionTypes.SUPPLIERS: {
+        const activeVenueIndex = this.eventService.activeServicePanel?.venueIndex;
+        const activeServiceIndex = this.eventService.activeServicePanel?.serviceIndex;
+        if (typeof activeVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
+          const service = this.eventToBeSaved.venues?.list[activeVenueIndex]
+            .suppliers[0].services[activeServiceIndex];
+          if (service && service.contacts) {
+            return service.contacts;
+          }
+        }
+        return [];
+      }
+      case EventFunctionTypes.EXHIBITORS: {
+        const activeVenueIndex = this.eventService.activeExhibitorPanel?.venueIndex;
+        const activeServiceIndex = this.eventService.activeExhibitorPanel?.exhibitorIndex;
+        if (typeof activeVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
+          const exhibitor = this.eventToBeSaved.venues?.list[activeVenueIndex]
+            .exhibitorList[0].exhibitors[activeServiceIndex];
+          if (exhibitor && exhibitor.contacts) {
+            return exhibitor.contacts;
+          }
+        }
+        return [];
+      }
+      default:
+        return [];
+    }
+  }
+
 }

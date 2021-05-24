@@ -9521,13 +9521,11 @@
 </div>
 
 <ng-template #searchInviteFnCmpCntModal let-modal>
-    <!-- <app-search-or-invite-fn-cmp-cnt
-      (closed)="searchInviteContactModalClosed()"
-      [companyId]="getCompanyId()"
-      (addedContactList)="setSelectedFnCompanyContacts($event)"
-      [alreadyInContactList]="getFnContactList()"
+    <app-search-or-invite-fn-cmp-cnt
+    (closed)="searchInviteContactModalClosed()"
+    [companyId]="getCompanyId()"
+    (addedContactList)="setSelectedFnCompanyContacts($event)"
+    [alreadyInContactList]="getFnContactList()"
     >
-    </app-search-or-invite-fn-cmp-cnt> -->
-    <app-search-or-invite-fn-cmp-cnt>
   </app-search-or-invite-fn-cmp-cnt>
   </ng-template>
