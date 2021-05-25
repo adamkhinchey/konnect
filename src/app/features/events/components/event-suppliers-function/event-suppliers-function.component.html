@@ -17,6 +17,7 @@
                 </div>
                 <div class="field">
                   <textarea
+                    rows="3"
                     class="textarea"
                     *ngIf="venue.suppliers && venue.suppliers[0]"
                     [(ngModel)]="venue.suppliers[0].notesToAll"
@@ -148,7 +149,7 @@
                               class="building icon"></i></h3>
                           </div>
                           <div class="field">
-                          <textarea [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}"
+                          <textarea rows="3" [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}"
                                     class="textarea"></textarea>
                           </div>
                           <div class="field">

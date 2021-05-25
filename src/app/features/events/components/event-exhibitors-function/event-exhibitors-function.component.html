@@ -22,6 +22,7 @@
                 </div>
                 <div class="field">
                   <textarea class="textarea"
+                            rows="3"
                             *ngIf="venue.exhibitorList && venue.exhibitorList[0]"
                             [(ngModel)]="venue.exhibitorList[0].notesToAll"
                             [ngModelOptions]="{standalone:true}"></textarea>
@@ -222,6 +223,7 @@
                             </div>
                             <div class="field">
                               <textarea
+                                rows="3"
                                 class="textarea"
                                 [(ngModel)]="exhibitor.requirement"
                                 [ngModelOptions]="{standalone:true}"
