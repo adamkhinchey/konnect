@@ -28,6 +28,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   @ViewChildren('venueAssignCmp') venueAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
   // @ts-ignore
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
+  @Input() eventData: any;
   @Input() selectedCompanies: (Company | InviteFnCmpClass | null)[] | undefined | null;
   @Input() content: any;
   @Output() removeSelectedCompany = new EventEmitter<number>();

@@ -1,25 +1,25 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {NgbModal, NgbModalRef, NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
-import {EventPanelNavComponent} from '../event-panel-nav/event-panel-nav.component';
-import {Company} from '../../../users/models';
-import {EventFunctionTypes} from '../../models/types';
-import {FnCmpCntInterface, InviteFnCmpCntInterface, InviteFnCmpInterface} from '../../models/interfaces';
-import {InviteFnCmpClass} from '../../models/classes';
-import {SaveEventClass} from '../../models/classes/saveEvent.class';
-import {ToastrService} from 'ngx-toastr';
-import {devLogger} from '../../../../shared/utils';
-import {UserSettingsService} from '../../../../shared/services';
-import {UserSettingsInterface} from '../../../../shared/models';
-import {Subscription} from 'rxjs';
-import {AuthService} from '../../../../core/services/auth.service';
-import {EventService} from '../../services/event.service';
-import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/event-assign-function-cmp.component';
-import {EventVenueFunctionComponent} from '../event-venue-function/event-venue-function.component';
-import {Router} from '@angular/router';
-import {EventSuppliersFunctionComponent} from '../event-suppliers-function/event-suppliers-function.component';
-import {EventExhibitorsFunctionComponent} from '../event-exhibitors-function/event-exhibitors-function.component';
-import {EventTimelineService} from '../../services/event-timeline.service';
-import {cloneDeep} from "lodash-es";
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { EventPanelNavComponent } from '../event-panel-nav/event-panel-nav.component';
+import { Company } from '../../../users/models';
+import { EventFunctionTypes } from '../../models/types';
+import { FnCmpCntInterface, InviteFnCmpCntInterface, InviteFnCmpInterface } from '../../models/interfaces';
+import { InviteFnCmpClass } from '../../models/classes';
+import { SaveEventClass } from '../../models/classes/saveEvent.class';
+import { ToastrService } from 'ngx-toastr';
+import { devLogger } from '../../../../shared/utils';
+import { UserSettingsService } from '../../../../shared/services';
+import { UserSettingsInterface } from '../../../../shared/models';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../../../core/services/auth.service';
+import { EventService } from '../../services/event.service';
+import { EventAssignFunctionCmpComponent } from '../event-assign-function-cmp/event-assign-function-cmp.component';
+import { EventVenueFunctionComponent } from '../event-venue-function/event-venue-function.component';
+import { Router } from '@angular/router';
+import { EventSuppliersFunctionComponent } from '../event-suppliers-function/event-suppliers-function.component';
+import { EventExhibitorsFunctionComponent } from '../event-exhibitors-function/event-exhibitors-function.component';
+import { EventTimelineService } from '../../services/event-timeline.service';
+import { cloneDeep } from "lodash-es";
 import { ViewEventService } from '../../services/view-event.service';
 
 @Component({
@@ -65,6 +65,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   data: any = {};
   permissionObj = { isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
+  public isClientEditable: boolean = false;
+  public isManagerEditable: boolean = false;
+  public isVenueEditable: boolean = false;
+  public isServiceEditable: boolean = false;
+  public isExhibitorEditable: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -75,7 +80,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private eventTimelineService: EventTimelineService,
     private viewEvSrvc: ViewEventService,
-    ) {
+  ) {
   }
 
   ngOnInit(): void {
@@ -88,7 +93,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     this.isOwnCompanySub = this.eventService.setIsFnOwnCompany.subscribe(status => {
       this.updateFnCmpToSelf = status;
-      devLogger('log', {createEvent: status});
+      devLogger('log', { createEvent: status });
       if (this.defaultCompany) {
         this.setFnCompanyToSelf(this.defaultCompany);
       }
@@ -101,13 +106,13 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           this.saveToDb(false);
           break;
         case EventFunctionTypes.VENUE:
-          this.saveToDb({venueIndex: null, serviceIndex: null, shouldInvite: false});
+          this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
           break;
         case EventFunctionTypes.SUPPLIERS:
-          this.saveToDb({venueIndex: null, serviceIndex: null, shouldInvite: false});
+          this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
           break;
         case EventFunctionTypes.EXHIBITORS:
-          this.saveToDb({venueIndex: null, exhibitorIndex: null, shouldInvite: false});
+          this.saveToDb({ venueIndex: null, exhibitorIndex: null, shouldInvite: false });
           break;
       }
     });
@@ -161,6 +166,13 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onNavChange(changeEvent: NgbNavChangeEvent): void {
     this.selectedFunction = changeEvent.nextId;
+    this.isClientEditable = false;
+    this.isManagerEditable = false;
+    this.isVenueEditable = false;
+    this.isServiceEditable = false;
+    this.isExhibitorEditable = false;
+    this.getEventsById(changeEvent.nextId);
+    this.active = changeEvent.nextId;
     // null means navigated to first time
     if (this.updateFnCmpToSelf.get(this.selectedFunction) === null) {
       const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
@@ -288,7 +300,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         const activatedVenuePanelIndex = this.eventService.activeVenuePanelIndex;
         if (activatedVenuePanelIndex !== null && this.venueCompanies) {
           devLogger('log', activatedVenuePanelIndex);
-          devLogger('log', {venueCompanies: this.venueCompanies});
+          devLogger('log', { venueCompanies: this.venueCompanies });
           if (this.venueCompanies.length - 1 < activatedVenuePanelIndex) {
             for (let i = this.venueCompanies.length; i < activatedVenuePanelIndex; i++) {
               /*
@@ -301,11 +313,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
 
           this.venueCompanies?.splice(activatedVenuePanelIndex, 1, company);
-          devLogger('log', {venueCompanies: this.venueCompanies});
+          devLogger('log', { venueCompanies: this.venueCompanies });
           // @ts-ignore
           this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex).setSelectedCompany(company);
           this.setSelectedFnCompanyContacts([]);
-          devLogger('log', {venueCompaniesContactList: this.venueContactLists[activatedVenuePanelIndex]});
+          devLogger('log', { venueCompaniesContactList: this.venueContactLists[activatedVenuePanelIndex] });
         }
         break;
       case EventFunctionTypes.SUPPLIERS:
@@ -487,7 +499,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         };
 
       }
-      devLogger('log', {event: this.eventToBeSaved});
+      devLogger('log', { event: this.eventToBeSaved });
 
 
     }
@@ -573,7 +585,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         };
 
       }
-      devLogger('log', {event: this.eventToBeSaved});
+      devLogger('log', { event: this.eventToBeSaved });
 
     }
   }
@@ -653,7 +665,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
           i++;
         }
-        devLogger('log', {beforeFilterVenSupp: this.eventToBeSaved.venues?.list});
+        devLogger('log', { beforeFilterVenSupp: this.eventToBeSaved.venues?.list });
         for (const venuesList of this.eventToBeSaved.venues?.list) {
           const services = venuesList.suppliers[0]?.services;
           if (services) {
@@ -667,7 +679,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
 
-      devLogger('log', {eventAfterVenuesSupplier: this.eventToBeSaved});
+      devLogger('log', { eventAfterVenuesSupplier: this.eventToBeSaved });
     }
   }
 
@@ -697,7 +709,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
           i++;
         }
-        devLogger('log', {beforeFilterVenExh: this.eventToBeSaved.venues?.list});
+        devLogger('log', { beforeFilterVenExh: this.eventToBeSaved.venues?.list });
         for (const venuesList of this.eventToBeSaved.venues?.list) {
           const exhibitors = venuesList.exhibitorList[0]?.exhibitors;
           if (exhibitors) {
@@ -711,17 +723,17 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
 
-      devLogger('log', {eventAfterVenuesExh: this.eventToBeSaved});
+      devLogger('log', { eventAfterVenuesExh: this.eventToBeSaved });
     }
   }
 
   private postProcessVenues(): void {
-    devLogger('log', {preProcessingVenues: cloneDeep(this.eventToBeSaved.venues)});
+    devLogger('log', { preProcessingVenues: cloneDeep(this.eventToBeSaved.venues) });
     if (this.eventToBeSaved.venues) {
       this.eventToBeSaved.venues.list = this.eventToBeSaved.venues.list
         .filter(venueCmp => venueCmp.companyId !== null || venueCmp.invited !== null);
     }
-    devLogger('log', {postProcessingVenues: cloneDeep(this.eventToBeSaved.venues)});
+    devLogger('log', { postProcessingVenues: cloneDeep(this.eventToBeSaved.venues) });
   }
 
   saveToDb(param: {
@@ -730,17 +742,17 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     exhibitorIndex?: number | null,
     shouldInvite: boolean
   } | boolean = {
-    venueIndex: null,
-    serviceIndex: null,
-    exhibitorIndex: null,
-    shouldInvite: false
-  }): void {
+      venueIndex: null,
+      serviceIndex: null,
+      exhibitorIndex: null,
+      shouldInvite: false
+    }): void {
 
     switch (this.selectedFunction) {
       case EventFunctionTypes.CLIENT:
         this.saveClient(typeof param === 'boolean' ? param : false);
         this.saveEvMgr(false);
-        this.saveVenueCmp({index: null, shouldInvite: false});
+        this.saveVenueCmp({ index: null, shouldInvite: false });
         this.saveVenuesSuppliers({
           venueIndex: null, serviceIndex: null, shouldInvite: false
         });
@@ -751,7 +763,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       case EventFunctionTypes.EVENT_MANAGER:
         this.saveClient(false);
         this.saveEvMgr(typeof param === 'boolean' ? param : false);
-        this.saveVenueCmp({index: null, shouldInvite: false});
+        this.saveVenueCmp({ index: null, shouldInvite: false });
         this.saveVenuesSuppliers({
           venueIndex: null, serviceIndex: null, shouldInvite: false
         });
@@ -763,7 +775,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.saveClient(false);
         this.saveEvMgr(false);
         if (typeof param !== 'boolean') {
-          this.saveVenueCmp({index: param.venueIndex, shouldInvite: param.shouldInvite});
+          this.saveVenueCmp({ index: param.venueIndex, shouldInvite: param.shouldInvite });
         }
         this.saveVenuesSuppliers({
           venueIndex: null, serviceIndex: null, shouldInvite: false
@@ -775,7 +787,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       case EventFunctionTypes.SUPPLIERS:
         this.saveClient(false);
         this.saveEvMgr(false);
-        this.saveVenueCmp({index: null, shouldInvite: false});
+        this.saveVenueCmp({ index: null, shouldInvite: false });
         if (typeof param !== 'boolean') {
           this.saveVenuesSuppliers({
             venueIndex: param.venueIndex, serviceIndex: param.serviceIndex, shouldInvite: param.shouldInvite
@@ -788,7 +800,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       case EventFunctionTypes.EXHIBITORS:
         this.saveClient(false);
         this.saveEvMgr(false);
-        this.saveVenueCmp({index: null, shouldInvite: false});
+        this.saveVenueCmp({ index: null, shouldInvite: false });
         this.saveVenuesSuppliers({
           venueIndex: null, serviceIndex: null, shouldInvite: false
         });
@@ -816,7 +828,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         },
         error => {
-          devLogger('error', {saveEventError: error});
+          devLogger('error', { saveEventError: error });
         }, () => {
         }
       );
@@ -837,7 +849,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       this.isEventClientInvalid = true;
       return false;
     }
-    devLogger('log', {clientComapny: this.clientCompany, contactList: this.clientContactList});
+    devLogger('log', { clientComapny: this.clientCompany, contactList: this.clientContactList });
 
     if (this.eventToBeSaved.title.trim().length === 0) {
       this.toaster.error('Event title is required');
@@ -861,7 +873,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       this.isEventMgrInvalid = true;
       return false;
     }
-    devLogger('log', {eventMgrCmp: this.eventMgrCmp, contactList: this.eventMgrContactList});
+    devLogger('log', { eventMgrCmp: this.eventMgrCmp, contactList: this.eventMgrContactList });
     this.isEventMgrInvalid = false;
     return true;
   }
@@ -875,10 +887,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       for (let i = 0; i < this.venueCompanies.length; i++) {
         if (this.venueCompanies[i] === null) {
           this.venueContactLists.splice(i, 1);
-          devLogger('log', {[`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i])});
+          devLogger('log', { [`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i]) });
           this.eventToBeSaved.venues?.list.splice(i, 1);
-        }else{
-          devLogger('log', {[`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i])});
+        } else {
+          devLogger('log', { [`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i]) });
         }
       }
       this.venueCompanies = this.venueCompanies.filter(vc => vc !== null);

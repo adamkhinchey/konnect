@@ -12,6 +12,7 @@ import {environment} from '../../../../../environments/environment';
   styleUrls: ['./event-assign-function-cmp.component.scss']
 })
 export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
+  @Input() eventData: any;
   @Input() clientCmpBtnLabel = '';
   @Input() contactListLabel = '';
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
@@ -26,6 +27,11 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() contactList: FnCmpCntInterface[] = [];
   editingContactLabelIndex = -1;
   currentContactLabelIdSelected: number | null = null;
+  @Input() isClientEditable: boolean = false;
+  @Input() isManagerEditable: boolean = false;
+  @Input() isVenueEditable: boolean = false;
+  @Input() isServiceEditable: boolean = false;
+  @Input() isExhibitorEditable: boolean = false;
 
 
   constructor(private modalService: NgbModal) {

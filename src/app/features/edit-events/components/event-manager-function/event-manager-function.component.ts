@@ -12,6 +12,7 @@ import {EventFunctionTypes} from '../../models/types';
   styleUrls: ['./event-manager-function.component.scss']
 })
 export class EventManagerFunctionComponent implements OnInit, OnDestroy {
+  @Input() eventData: any;
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
   @Input() content: any;
   @Output() removeSelectedCompany = new EventEmitter<any>();
@@ -19,8 +20,19 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   @Output() saveAndInvite = new EventEmitter<boolean>();
   isOwnCompany = false;
   private subs1: Subscription | undefined;
+  @Output() editClient = new EventEmitter<boolean>();
+  @Output() editManager = new EventEmitter<boolean>();
+  @Output() editVenue = new EventEmitter<boolean>();
+  @Output() editService = new EventEmitter<boolean>();
+  @Output() editExhibitor = new EventEmitter<boolean>();
+  isEventEdit:boolean = false;
 
   constructor(public eventService: EventService) {
+  }
+
+  editEventManager() {
+    this.isEventEdit = !this.isEventEdit;
+    this.editManager.emit(this.isEventEdit);
   }
 
   ngOnInit(): void {

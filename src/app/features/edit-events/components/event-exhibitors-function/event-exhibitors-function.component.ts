@@ -21,6 +21,7 @@ import {EventTimeWindowTypes} from "../../models/types";
 })
 export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion | undefined;
+  @Input() eventData: any;
   @Input() eventToBeSaved = new SaveEventClass();
   @Output() saveAndInvite = new EventEmitter<{ venueIndex: number, exhibitorIndex: number, shouldInvite: boolean }>();
   @Input() searchInviteCmpModal: any;

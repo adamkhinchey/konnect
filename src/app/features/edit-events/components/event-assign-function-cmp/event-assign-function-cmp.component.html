@@ -13,20 +13,20 @@
   <div class="kipCardContainer">
     <div  *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
       <div class="column" *ngFor="let contact of contactList; let i=index">
-        <div class="contactRole" [ngClass]="{'lightText':!contactLabels.has(contact.contactLabelId)}">{{contactLabels.get(contact.contactLabelId) || '(Contact Label Not Assigned)'}}
-          <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal" (click)="editContactLabelModal(editContactDetail,i)">
+        <div class="contactRole">{{contact.contactRole}}
+          <!-- <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal" (click)="editContactLabelModal(editContactDetail,i)">
             <i class="pencil alternate icon"></i>
-          </div>
+          </div> -->
         </div>
         <div class="ui fluid card">
           <div class="content">
-            <img class="right floated mini ui image" [src]="contact.profileImage || 'assets/img/profile.png'"
-                 appImageFallback fallbackImage="assets/img/profile.png">
+            <img class="right floated mini ui image" [src]="contact.profileImage"
+                 appImageFallback fallbackImage="assets/img/default_konnect_individual_img.png">
             <div class="header">
               <a>{{contact.firstName + ' '+ (contact.lastName || '')}}</a>
             </div>
             <div class="meta">
-              {{contact.position}}
+              {{contact.contactPosition}}
             </div>
             <div class="description">
               {{contact.email}}<br>
@@ -40,7 +40,7 @@
               </div>
               <div class="eight wide column right aligned">
                 <div class="ui circular compact mini basic button confirmRemove hasModal"
-                     (click)="removeContactFromList(i)"
+                     (click)="removeContactFromList(i)" *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable"
                      data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
               </div>
             </div>
@@ -49,7 +49,7 @@
       </div>
     </div>
   </div>
-  <div class="ui grid center aligned">
+  <div class="ui grid center aligned" *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable">
     <div class="sixteen wide column">
       <div class="ui basic button blue fluid addContacts hasModal"
            (click)="openVerticallyCentered(contactModal)"

@@ -1,11 +1,11 @@
-<div *ngIf="eventToBeSaved.venues &&
-    eventToBeSaved.venues.list &&
-    eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
+<div *ngIf="eventData.eventData && eventData.eventData.venues && eventData.eventData.venues.length &&
+eventData.eventData.venues[0].exhibitorData && 
+eventData.eventData.venues[0].exhibitorData.exhibitors.length>0; else noVenues" class="ui segment">
   <ul ngbNav #venueNav="ngbNav" class="nav-tabs supplierInnerCont"
       [destroyOnHide]="false">
-    <li ngbNavItem *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
+    <li ngbNavItem *ngFor="let venue of eventData.eventData.venues; let venueIndex=index">
       <a ngbNavLink><i class="map marker alternate icon"></i>
-        {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]? venueCompanies[venueIndex]!.companyName+', '+venueCompanies[venueIndex]!.city:'Venue-'+(venueIndex + 1)}}</a>
+        {{venue.venueCompanyName}}, {{venue.companyCity}}</a>
       <ng-template ngbNavContent>
 
         <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
@@ -15,20 +15,19 @@
                 style="display: block !important;">
             <div class="ui grid stackable">
 
-              <div class="seven wide column" *ngIf="venue.exhibitorList[0]">
+              <div class="seven wide column">
                 <div class="ui dividing header">
                   <h3>Notes to All Exhibitors <i class="cog icon"></i><i class="sitemap icon"></i><i
                     class="exhibitor icon"></i></h3>
                 </div>
                 <div class="field">
                   <textarea class="textarea"
-                            *ngIf="venue.exhibitorList && venue.exhibitorList[0]"
-                            [(ngModel)]="venue.exhibitorList[0].notesToAll"
+                            [(ngModel)]="venue.exhibitorData.exhibitors[0]!.notes"
                             [ngModelOptions]="{standalone:true}"></textarea>
                 </div>
               </div>
 
-              <div class="nine wide column" *ngIf="venue.exhibitorList[0]">
+              <div class="nine wide column">
 
                 <div class="field">
                   <div class="timeWindowsContainer">
@@ -38,36 +37,23 @@
                     </div>
 
                     <app-time-windows
-                      [timeWindowFor]="eventTimeWindowForAllExh"
-                      [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
-                      [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
-                      [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
-                      [venueIndex]="venueIndex"
-                      [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
-                      [index]="venueIndex"
-                      [isVenueDependent]="true"
-                      [preEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpIn.timings"
-                      [postEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpOut.timings"
-                      [eventTimes]="venue.exhibitorList[0].timeWindowsToAll.eventTime.timings"
-                    ></app-time-windows>
+                    [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
+                    [preEventTimes]="venue.exhibitorData.timeWindowsToAll.preEventTime"
+                    [postEventTimes]="venue.exhibitorData.timeWindowsToAll.postEventTime"
+                    [eventTimes]="venue.exhibitorData.timeWindowsToAll.eventTime"
+                    [preEventTimesCount]="venue?.preEventTime?.length || 1"
+                    [eventTimesCount]="venue?.eventTime?.length || 1"
+                    [postEventTimesCount]="venue?.postEventTime?.length || 1"
+                    [eventView]="true"
+                    [preEventNotes]="venue.exhibitorData.timeWindowsToAll.preEventTime?.notes"
+                    [eventNotes]="venue.exhibitorData.timeWindowsToAll.eventTime?.notes"
+                    [postEventNotes]="venue.exhibitorData.timeWindowsToAll.postEventTime?.notes">
+                </app-time-windows>
                   </div>
                 </div>
 
               </div>
 
-            </div>
-
-            <div class="sixteen wide column" *ngIf="false">
-              <div class="ui dividing header">
-                <h3>Request to Join as Exhibitor URL</h3>
-              </div>
-              <div class="field">
-                <p>
-                  Use this URL on your event website or email to exhibitor prospects to allow them to join the event as
-                  exhibitors. <br>
-                  <a href="">https://www.konnect.events.com?exhjoin=eventID</a>
-                </p>
-              </div>
             </div>
           </form>
           <div class="ui grid">
@@ -90,16 +76,18 @@
             [activeIds]="'exhibitorListIndex-'+activeExhibitorPanel"
             [destroyOnHide]="false">
 
-            <ng-container *ngIf="venue.exhibitorList[0]">
-              <ngb-panel *ngFor="let exhibitor of venue.exhibitorList[0].exhibitors; let exhibitorIndex=index"
+            <ng-container>
+              <ngb-panel *ngFor="let exhibitor of venue.exhibitorData.exhibitors; let exhibitorIndex=index"
                          [id]="'exhibitorListIndex-'+exhibitorIndex"
                          (shown)="exhibitorPanelActivated(venueIndex,exhibitorIndex)">
 
                 <ng-template ngbPanelTitle>
-                  <i class="dropdown icon"></i>
-                  Exhibitor {{exhibitorIndex + 1 + (exhibitor.companyId || exhibitor.invited ?
-                  ': ' + venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)?.companyName || ''
-                  : '')}}
+                  <i class="dropdown icon"></i> 
+                  Exhibitor {{exhibitorIndex + 1}}
+                  <div class="ui selection dropdown" tabindex="0">
+                    <div class="text"><i class="ui icon circle green"></i>Confirmed</div>
+                    <div class="menu" tabindex="-1"></div>
+                  </div>
                 </ng-template>
                 <ng-template ngbPanelContent>
                   <div class="content active">
@@ -118,33 +106,31 @@
                             </div>
                             <div class="kcpCardContainer">
                               <div
-                                *ngIf="venuesExhCmpsMap.has(venueIndex) && venuesExhCmpsMap.get(venueIndex)!.has(exhibitorIndex)"
                                 class="ui one column grid">
                                 <div class="column">
                                   <div class="ui fluid card">
                                     <div class="content">
                                       <img class="right floated mini ui image"
-                                           [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
+                                           [src]="exhibitor.companyProfileImage"
                                            appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
-                                        <a>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
+                                        <a>{{exhibitor.exhibitorCompanyName}}</a>
                                       </div>
                                       <div class="meta">
-                                        <a
+                                        <!-- <a
                                           *ngIf="getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))"
                                           [href]="getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))"
                                           target="_blank"> {{getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))}}
                                         </a>
                                         <span
-                                          *ngIf="getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))">|</span>
+                                          *ngIf="getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))">|</span> -->
                                         <a>
                                           <i
-                                            class="map marker alternate icon"></i>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.city}}
+                                            class="map marker alternate icon"></i>{{exhibitor.companyCity}}
                                         </a>
                                         <span>|</span>
                                         <i
-                                          class="phone icon"></i>{{ (venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex) &&
-                                        getCompanyPhone(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))) || ''}}
+                                          class="phone icon"></i>{{ exhibitor.companyPhone || ''}}
                                       </div>
                                     </div>
                                     <div class="extra content" [ngClass]="{'editableObject':false}">
@@ -176,33 +162,6 @@
                                                          (contactRemove)="removeExhibitorContact(venueIndex,exhibitorIndex,$event)"
                           ></app-event-assign-function-cmp>
                         </div>
-                          <!--<div class="ui grid center aligned">
-                            <div class="sixteen wide column">
-                              <div class="ui button basic blue fluid addClient hasModal"
-                                   (click)="openVerticallyCentered(content)">
-                                <i class="plus circle icon"></i>Add Exhibitor
-                              </div>
-                            </div>
-                          </div>-->
-                          <!-- </div>-->
-                          <!--<div class="contactsContainer">
-                            <div class="ui dividing header">
-                              <h3>Exhibitor Contacts <i class="cog icon"></i><i class="sitemap icon"></i><i
-                                class="building icon"></i></h3>
-                            </div>
-                            <div class="kipCardContainer">
-
-                            </div>
-                            <div class="ui grid stackable center aligned">
-                              <div class="sixteen wide column">
-                                <div class="ui basic button blue fluid addContacts hasModal disabled"
-                                     data-modal="contacts">
-                                  <i class="plus circle icon"></i>Add Contact
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>-->
 
                           <div class="nine wide column">
                             <div class="ui dividing header">
@@ -236,18 +195,19 @@
                                 </div>
 
                                 <app-time-windows
-                                  [timeWindowFor]="eventTimeWindowType"
-                                  [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
-                                  [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
-                                  [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
-                                  [venueIndex]="venueIndex"
-                                  [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
-                                  [isVenueDependent]="true"
-                                  [index]="exhibitorIndex"
-                                  [preEventTimes]="exhibitor.timeWindows.bumpIn.timings"
-                                  [postEventTimes]="exhibitor.timeWindows.bumpOut.timings"
-                                  [eventTimes]="exhibitor.timeWindows.eventTime.timings"
-                                ></app-time-windows>
+                                [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
+                                [index]="exhibitorIndex"
+                                [preEventTimes]="exhibitor.preEventTime"
+                                [postEventTimes]="exhibitor.postEventTime"
+                                [eventTimes]="exhibitor.eventTime"
+                                [preEventTimesCount]="exhibitor?.preEventTime?.length || 1"
+                                [eventTimesCount]="exhibitor?.eventTime?.length || 1"
+                                [postEventTimesCount]="exhibitor?.postEventTime?.length || 1"
+                                [eventView]="true"
+                                [preEventNotes]="exhibitor.preEventTime[exhibitorIndex]?.notes"
+                                [eventNotes]="exhibitor.eventTime[exhibitorIndex]?.notes"
+                                [postEventNotes]="exhibitor.postEventTime[exhibitorIndex]?.notes">
+                            </app-time-windows>
 
                               </div>
                             </div>
@@ -285,6 +245,6 @@
 </div>
 <ng-template #noVenues>
   <div class="ui segment">
-    <h2>At least one venue company is required to add exhibitors!</h2>
+    <h2>Exhibitors are not present for this event</h2>
   </div>
 </ng-template>

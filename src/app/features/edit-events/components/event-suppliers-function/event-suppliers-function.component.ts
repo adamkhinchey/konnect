@@ -1,18 +1,18 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {SaveEventClass} from "../../models/classes/saveEvent.class";
-import {NgbAccordion, NgbNav, NgbPanelChangeEvent} from "@ng-bootstrap/ng-bootstrap";
-import {devLogger} from "../../../../shared/utils";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { SaveEventClass } from "../../models/classes/saveEvent.class";
+import { NgbAccordion, NgbNav, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
+import { devLogger } from "../../../../shared/utils";
 import {
   EventSuppliersInterface,
   InviteFnCmpCntInterface,
   InviteFnCmpInterface, SuppExhTimeWindowFormatInterface,
   TimeWindowFormatInterface, VenueListItemInterface
 } from '../../models/interfaces';
-import {EventService} from "../../services/event.service";
-import {Subscription} from "rxjs";
-import {InviteFnCmpClass} from "../../models/classes";
-import {Company} from "../../../users/models";
-import {EventTimeWindowTypes} from "../../models/types";
+import { EventService } from "../../services/event.service";
+import { Subscription } from "rxjs";
+import { InviteFnCmpClass } from "../../models/classes";
+import { Company } from "../../../users/models";
+import { EventTimeWindowTypes } from "../../models/types";
 
 @Component({
   selector: 'app-event-suppliers-function',
@@ -22,6 +22,7 @@ import {EventTimeWindowTypes} from "../../models/types";
 export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   // @ts-ignore
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
+  @Input() eventData: any;
   @Input() eventToBeSaved = new SaveEventClass();
   @Input() venueCompanies: Array<Company | InviteFnCmpInterface | null> | undefined | null = [];
   @Output() saveAndInvite = new EventEmitter<{ venueIndex: number, serviceIndex: number, shouldInvite: boolean }>();
@@ -39,6 +40,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log('event Data: ', this.eventData)
     this.supplierCompanyAddedSub = this.eventService.supplierCompanyAddSubject
       .subscribe(value => {
         devLogger('log', 'supplierCompanyAddedSub');
@@ -90,9 +92,9 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   addService(venue: VenueListItemInterface, venueIndex: number): void {
     if (!venue.suppliers[0]) {
       const timeWindows: SuppExhTimeWindowFormatInterface = {
-        bumpIn: {sameAsVenue: null, timings: []},
-        bumpOut: {sameAsVenue: null, timings: []},
-        eventTime: {sameAsVenue: null, timings: []}
+        bumpIn: { sameAsVenue: null, timings: [] },
+        bumpOut: { sameAsVenue: null, timings: [] },
+        eventTime: { sameAsVenue: null, timings: [] }
       };
       venue.suppliers[0] = {
         notesToAll: '',
@@ -108,9 +110,9 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
       };
     } else {
       const timeWindows: SuppExhTimeWindowFormatInterface = {
-        bumpIn: {sameAsVenue: null, timings: []},
-        bumpOut: {sameAsVenue: null, timings: []},
-        eventTime: {sameAsVenue: null, timings: []}
+        bumpIn: { sameAsVenue: null, timings: [] },
+        bumpOut: { sameAsVenue: null, timings: [] },
+        eventTime: { sameAsVenue: null, timings: [] }
       };
       venue.suppliers[0].services.push({
         name: '',
@@ -124,14 +126,14 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     }
     this.ngbAccordion.collapseAll();
     this.activeServicePanel = venue.suppliers[0].services.length - 1;
-    this.eventService.activeServicePanel = {venueIndex, serviceIndex: this.activeServicePanel};
+    this.eventService.activeServicePanel = { venueIndex, serviceIndex: this.activeServicePanel };
     //devLogger('log', {selectedCompanies: this.selectedCompanies});
 
   }
 
   servicePanelActivated(venueIndex: number, serviceIndex: number): void {
     this.activeServicePanel = serviceIndex;
-    this.eventService.activeServicePanel = {venueIndex, serviceIndex};
+    this.eventService.activeServicePanel = { venueIndex, serviceIndex };
   }
 
   removeServiceContact(venueIndex: number, serviceIndex: number, event: number): void {
