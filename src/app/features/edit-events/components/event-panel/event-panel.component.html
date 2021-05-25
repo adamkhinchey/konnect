@@ -1,5 +1,5 @@
 <app-create-event-info-bar *ngIf="!isView && !eventService.hideInfoBar"></app-create-event-info-bar>
 <div class="mainContent">
-  <app-create-event *ngIf="!isView"></app-create-event>
-  <app-event-view *ngIf="isView" [eventId]=eventId></app-event-view>
+  <app-create-event [eventId]=eventId></app-create-event>
+  <!-- <app-event-view *ngIf="isView" [eventId]=eventId></app-event-view> -->
 </div>

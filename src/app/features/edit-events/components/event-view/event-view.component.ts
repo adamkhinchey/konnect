@@ -16,14 +16,6 @@ export class EventViewComponent implements OnInit {
   active = 1;
   disabled = true;
 
-
-  // isClient: boolean =  false; 
-  // isEventManager: boolean =  false; 
-  // isService: boolean =  false; 
-  // isVenue: boolean =  false; 
-
-  // isExhibitor: boolean = false;
-
   permissionObj = { isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
 
   isSupplier: boolean = false;

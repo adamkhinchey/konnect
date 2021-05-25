@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgbModal, NgbModalRef, NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 import {EventPanelNavComponent} from '../event-panel-nav/event-panel-nav.component';
 import {Company} from '../../../users/models';
@@ -20,6 +20,7 @@ import {EventSuppliersFunctionComponent} from '../event-suppliers-function/event
 import {EventExhibitorsFunctionComponent} from '../event-exhibitors-function/event-exhibitors-function.component';
 import {EventTimelineService} from '../../services/event-timeline.service';
 import {cloneDeep} from "lodash-es";
+import { ViewEventService } from '../../services/view-event.service';
 
 @Component({
   selector: 'app-create-event',
@@ -27,6 +28,7 @@ import {cloneDeep} from "lodash-es";
   styleUrls: ['./create-event.component.scss']
 })
 export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
+  @Input() eventId: any;
   @ViewChild('app-event-panel-nav') eventPanelNav: EventPanelNavComponent | undefined;
   @ViewChild('venueFn') venueFn: EventVenueFunctionComponent | undefined;
   @ViewChild('suppliersFn') suppliersFn: EventSuppliersFunctionComponent | undefined;
@@ -61,6 +63,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   isVenuesSuppliersInvalid = true;
   isVenuesExhibitorsInvalid = true;
 
+  data: any = {};
+  permissionObj = { isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
 
   constructor(
     private modalService: NgbModal,
@@ -69,7 +73,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     private authService: AuthService,
     private eventService: EventService,
     private router: Router,
-    private eventTimelineService: EventTimelineService) {
+    private eventTimelineService: EventTimelineService,
+    private viewEvSrvc: ViewEventService,
+    ) {
   }
 
   ngOnInit(): void {
@@ -105,7 +111,44 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           break;
       }
     });
+    if (this.eventId) {
+      this.getEventsById(1);
+    }
   }
+
+  getEventsById(tabType: any) {
+    this.viewEvSrvc.getEventsByEventId(this.eventId, tabType).subscribe((res: any) => {
+      console.log(res);
+      if (res && res.eventData) {
+        this.data.eventData = res.eventData;
+      }
+      if (res && res.userPermission) {
+        this.data.userPermission = res.userPermission;
+        this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
+        this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
+        this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
+        this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
+        this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
+      }
+      if (res && res.commonData) {
+        this.data.commonData = res.commonData;
+      }
+
+      // console.log("permissionObj", this.permissionObj); 
+
+
+      console.log(this.data);
+      if (tabType === 7) {
+        this.eventTimelineService.render.next();
+      }
+      if (tabType === 6) {
+        this.eventService.fetchEventFilesSubject.next(this.data.eventData.eventId);
+      }
+    }, err => {
+      console.log(err);
+    })
+  }
+
 
   ngAfterViewInit(): void {
     /*this.venueAssignCmp?.forEach((component, index) => {
@@ -132,7 +175,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     if (changeEvent.nextId === EventFunctionTypes.TIMELINE || changeEvent.nextId === EventFunctionTypes.FILES) {
       this.eventService.hideInfoBar = true;
     } else {
-      this.eventService.hideInfoBar = false;
+      this.eventService.hideInfoBar = true;
     }
 
   }
