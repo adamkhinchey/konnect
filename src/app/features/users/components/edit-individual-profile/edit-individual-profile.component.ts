@@ -51,7 +51,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   });
 
   userInfoSubscription = new Subscription();
-  userInfo: any = {};
+  userInfo: any = null;
 
   companyIdToDissociate: number | null = null;
   removeMessage: any;
