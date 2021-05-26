@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Route, Router } from "@angular/router";
-import { contentSwitchMapper, devLogger } from "../../../../shared/utils";
-import { ActivatedUserModuleRouteService, UserSettingsService } from "../../../../shared/services";
-import { Subscription } from "rxjs";
-import { EventslistingService } from '../../services/eventslisting.service';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, Route, Router} from "@angular/router";
+import {contentSwitchMapper, devLogger} from "../../../../shared/utils";
+import {ActivatedUserModuleRouteService, UserSettingsService} from "../../../../shared/services";
+import {Subscription} from "rxjs";
+import {EventslistingService} from '../../services/eventslisting.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +13,7 @@ import { EventslistingService } from '../../services/eventslisting.service';
 export class DashboardComponent implements OnInit, OnDestroy {
   events: any;
   createCompanyMode: { status: boolean; type: { soleTrader: boolean; inc: boolean } } = {
-    status: false, type: { soleTrader: false, inc: false }
+    status: false, type: {soleTrader: false, inc: false}
   };
   contentToShow: string | null = null;
   private userSettingsSub: Subscription | undefined;
@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.contentToShow = contentSwitchMapper[this.router.url]  //contentSwitchMapper['/home/edit-profile'];
         }
       } else {
-        this.contentToShow = contentSwitchMapper['/home/unapproved'];
+        this.contentToShow = contentSwitchMapper['/home/edit-profile'];
       }
     });
     this.getEvents();
@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   switchToCreateCompany(event: { status: boolean; type: { soleTrader: boolean; inc: boolean } }): void {
     if (event && event.status) {
-      this.createCompanyMode = { ...event };
+      this.createCompanyMode = {...event};
       this.router.navigate(['home', 'create-company']);
     }
   }

@@ -6,7 +6,7 @@
           <h2>Edit Konnect Profile</h2>
         </div>
       </div>
-      <div class="ui segment">
+      <div class="ui segment" *ngIf="userInfo">
         <form class="ui form" [formGroup]="editProfileForm">
           <div class="ui grid stackable">
             <div class="nine wide column left aligned">

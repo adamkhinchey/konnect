@@ -65,8 +65,8 @@
             </div>
           </div>
           <ul class="subMenu" [ngClass]="status ? 'show' : 'd-none'">
-            <li (click)="isApproved && navToEditProfile($event) && hideAllMenus()">
-              <a [class.disabled]="!isApproved" class="cursor-pointer">Edit Profile</a>
+            <li (click)="navToEditProfile($event) && hideAllMenus()">
+              <a  class="cursor-pointer">Edit Profile</a>
             </li>
             <li (click)="logout($event)"><a class="cursor-pointer">Logout</a></li>
           </ul>
