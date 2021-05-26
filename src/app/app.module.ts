@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {EventsModule} from "./features/events/events.module";
+import {EditEventsModule} from "./features/edit-events/edit-events.module";
 import {UsersModule} from "./features/users/users.module";
 import {NgxSpinnerModule} from "ngx-spinner";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -29,7 +30,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     UsersModule,
     AppRoutingModule,
     FontAwesomeModule,
-    EventsModule
+    EditEventsModule
   ],
   providers: [
   ],

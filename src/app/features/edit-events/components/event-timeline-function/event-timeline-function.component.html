@@ -1,0 +1,39 @@
+<div *ngIf="venues.length>0" class="ui segment">
+  <ul ngbNav #outerNav="ngbNav" [activeId]="venues[0].venueId" (activeIdChange)="setVenueId($event)"
+      class="nav-tabs supplierInnerCont">
+    <li *ngFor="let venue of venues; let i= index" [ngbNavItem]="venue.venueId">
+      <a ngbNavLink><i class="map marker alternate icon"></i>{{venue.venueName}}</a>
+      <ng-template ngbNavContent>
+        <ul ngbNav [activeId]="serviceTimeLineId" #nav="ngbNav" (navChange)="onNavChange($event)"
+            class="nav-tabs ui pointing secondary menu ui timelineMenu">
+          <li [ngbNavItem]="serviceTimeLineId">
+            <a ngbNavLink class="item tabAdmin">Services</a>
+            <ng-template ngbNavContent>
+              <app-event-gantt-chart
+                #servicesGanttChart
+                [timelineGenTrigger]="timelineRenderSubject"
+                [timelineType]="timelineType"
+              ></app-event-gantt-chart>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="exhibitorsTimeLineId">
+            <a ngbNavLink class="item tabAdmin">Exhibitors</a>
+            <ng-template ngbNavContent>
+              <app-event-gantt-chart
+                #exhibitorsGanttChart
+                [timelineGenTrigger]="timelineRenderSubject"
+                [timelineType]="timelineType">
+              </app-event-gantt-chart>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="outerNav" class="mt-2 innerTabCont"></div>
+</div>
+<div *ngIf="!hasVenues" class="ui segment">
+  <h2>No timings are added to this event therefore timeline is not available for this event</h2>
+</div>
+

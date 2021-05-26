@@ -1,0 +1,159 @@
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {EventFunctionTypes} from '../models/types';
+import {environment} from '../../../../environments/environment';
+import {SaveEventClass} from '../models/classes/saveEvent.class';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {HttpClient} from '@angular/common/http';
+import {HttpErrRespHandlerService} from '../../../shared/services';
+import {ApiResponseModelInterface} from '../../../shared/models';
+import {take, tap} from 'rxjs/operators';
+import {devLogger, hideSpinnerPostApiCall} from '../../../shared/utils';
+import {Company} from "../../users/models";
+import {InviteFnCmpCntInterface, InviteFnCmpInterface, VenueTimeChangedSubjectInterface} from "../models/interfaces";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EventService {
+
+  private apiBaseUrl = environment.apiBaseURL;
+
+  private ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([
+    [EventFunctionTypes.CLIENT, true],
+    [EventFunctionTypes.EVENT_MANAGER, null]
+  ]);
+
+  public activeVenuePanelIndex: number | null = null;
+  public activeServicePanel: { venueIndex: number, serviceIndex: number } | null = null;
+  public activeExhibitorPanel: { venueIndex: number, exhibitorIndex: number } | null = null;
+
+  setIsFnOwnCompany = new BehaviorSubject<Map<EventFunctionTypes, null | boolean | boolean[]>>(this.ownCompanyStatusMap);
+
+  supplierCompanyAddSubject = new Subject<{
+    venueIndex: number;
+    serviceIndex: number;
+    supplierCompany: Company | InviteFnCmpInterface
+  }>();
+
+  supplierCmpCntAddSubject = new Subject<{
+    venueIndex: number;
+    serviceIndex: number;
+    contactList: InviteFnCmpCntInterface[]
+  }>();
+
+  exhibitorCompanyAddSubject = new Subject<{
+    venueIndex: number;
+    exhibitorIndex: number;
+    exhibitorCompany: Company | InviteFnCmpInterface
+  }>();
+
+  exhibitorCmpCntAddSubject = new Subject<{
+    venueIndex: number;
+    exhibitorIndex: number;
+    contactList: InviteFnCmpCntInterface[]
+  }>();
+
+  triggerSaveOnly = new Subject();
+
+  fetchEventFilesSubject = new Subject<number>();
+
+  // tslint:disable-next-line:variable-name
+  private _hideInfoBar = false;
+
+  get hideInfoBar(): boolean {
+    return this._hideInfoBar;
+  }
+
+  set hideInfoBar(value: boolean) {
+    this._hideInfoBar = value;
+  }
+
+  venuePreEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+  venueEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+  venuePostEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+
+
+  constructor(
+    private spinner: NgxSpinnerService,
+    private http: HttpClient,
+    private httpErrorHandler: HttpErrRespHandlerService,
+  ) {
+  }
+
+  reset(): void {
+    this.ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([
+      [EventFunctionTypes.CLIENT, true],
+      [EventFunctionTypes.EVENT_MANAGER, null]
+    ]);
+    this.setIsFnOwnCompany.next(this.ownCompanyStatusMap);
+    this.activeVenuePanelIndex = null;
+    this.activeServicePanel = null;
+    this.activeExhibitorPanel = null;
+    this.hideInfoBar = false;
+  }
+
+  supplierCompanyAdded(company: Company | InviteFnCmpInterface): void {
+    if (this.activeServicePanel?.venueIndex !== undefined && this.activeServicePanel?.serviceIndex !== undefined) {
+      this.supplierCompanyAddSubject.next({
+        venueIndex: this.activeServicePanel.venueIndex,
+        serviceIndex: this.activeServicePanel.serviceIndex,
+        supplierCompany: company
+      });
+    }
+  }
+
+  supplierContactsAdded(contactList: InviteFnCmpCntInterface[]): void {
+    if (this.activeServicePanel?.venueIndex !== undefined && this.activeServicePanel?.serviceIndex !== undefined) {
+      this.supplierCmpCntAddSubject.next({
+        venueIndex: this.activeServicePanel.venueIndex,
+        serviceIndex: this.activeServicePanel.serviceIndex,
+        contactList
+      });
+    }
+  }
+
+  exhibitorCompanyAdded(company: Company | InviteFnCmpInterface): void {
+    if (this.activeExhibitorPanel?.venueIndex !== undefined && this.activeExhibitorPanel?.exhibitorIndex !== undefined) {
+      this.exhibitorCompanyAddSubject.next({
+        venueIndex: this.activeExhibitorPanel.venueIndex,
+        exhibitorIndex: this.activeExhibitorPanel.exhibitorIndex,
+        exhibitorCompany: company
+      });
+    }
+  }
+
+  exhibitorContactsAdded(contactList: InviteFnCmpCntInterface[]): void {
+    if (this.activeExhibitorPanel?.venueIndex !== undefined && this.activeExhibitorPanel?.exhibitorIndex !== undefined) {
+      this.exhibitorCmpCntAddSubject.next({
+        venueIndex: this.activeExhibitorPanel.venueIndex,
+        exhibitorIndex: this.activeExhibitorPanel.exhibitorIndex,
+        contactList
+      });
+    }
+  }
+
+  saveToDb(event: SaveEventClass): Observable<any> {
+    this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/saveEvent`,
+      {event})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
+
+  fetchEventFiles(eventID: number): Observable<ApiResponseModelInterface> {
+    this.spinner.show();
+    return this.http.get<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/event/${eventID}/files`)
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
+
+}
