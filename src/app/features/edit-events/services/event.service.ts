@@ -1,16 +1,16 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {EventFunctionTypes} from '../models/types';
-import {environment} from '../../../../environments/environment';
-import {SaveEventClass} from '../models/classes/saveEvent.class';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {HttpClient} from '@angular/common/http';
-import {HttpErrRespHandlerService} from '../../../shared/services';
-import {ApiResponseModelInterface} from '../../../shared/models';
-import {take, tap} from 'rxjs/operators';
-import {devLogger, hideSpinnerPostApiCall} from '../../../shared/utils';
-import {Company} from "../../users/models";
-import {InviteFnCmpCntInterface, InviteFnCmpInterface, VenueTimeChangedSubjectInterface} from "../models/interfaces";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { EventFunctionTypes } from '../models/types';
+import { environment } from '../../../../environments/environment';
+import { SaveEventClass } from '../models/classes/saveEvent.class';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { HttpClient } from '@angular/common/http';
+import { HttpErrRespHandlerService } from '../../../shared/services';
+import { ApiResponseModelInterface } from '../../../shared/models';
+import { take, tap } from 'rxjs/operators';
+import { devLogger, hideSpinnerPostApiCall } from '../../../shared/utils';
+import { Company } from "../../users/models";
+import { InviteFnCmpCntInterface, InviteFnCmpInterface, VenueTimeChangedSubjectInterface } from "../models/interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -137,7 +137,7 @@ export class EventService {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/saveEvent`,
-      {event})
+      { event })
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),

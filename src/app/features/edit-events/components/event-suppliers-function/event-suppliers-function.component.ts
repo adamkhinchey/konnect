@@ -43,6 +43,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     console.log('event Data: ', this.eventData)
     this.supplierCompanyAddedSub = this.eventService.supplierCompanyAddSubject
       .subscribe(value => {
+        alert('in company added' + JSON.stringify(value));
         devLogger('log', 'supplierCompanyAddedSub');
         devLogger('log', value);
         const isInvited = value.supplierCompany instanceof InviteFnCmpClass;
@@ -50,18 +51,23 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
           .suppliers[0].services[value.serviceIndex];
 
         if (service) {
+          alert('in services');
           service.companyId = isInvited ? null : (value.supplierCompany as Company).id;
           service.invited = isInvited ? (value.supplierCompany as InviteFnCmpClass) : null;
           service.contacts = isInvited ? null : [];
           if (this.venuesSuppCmpsMap.has(value.venueIndex)) {
+            alert('in if condition');
             this.venuesSuppCmpsMap.get(value.venueIndex)?.set(value.serviceIndex, value.supplierCompany);
           } else {
+            alert('in else condition');
             const serviceSuppCmpMap = new Map([[value.serviceIndex, value.supplierCompany]]);
             this.venuesSuppCmpsMap.set(value.venueIndex, serviceSuppCmpMap);
           }
 
           devLogger('log', this.venuesSuppCmpsMap);
         }
+      },err=>{
+        alert('in company added' + JSON.stringify(err));
       });
 
     this.supplierCmpCntAddedSub = this.eventService.supplierCmpCntAddSubject.subscribe(value => {

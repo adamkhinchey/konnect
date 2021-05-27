@@ -380,7 +380,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
           this.eventToBeSaved.venues = {
             notesToAll: this.data.eventData.venues[0].venueNotesToAll,
-            list: (this.data.eventData.venues.map((venue: any) => {
+            list: (this.data.eventData.venues.map((venue: any, venueIndex: number) => {
               return {
                 companyId: venue.venueCompanyId,
                 contacts: venue.contacts.map((contact: any) => {
@@ -406,7 +406,30 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 suppliers: [{
                   notesToAll: venue?.services[0]?.notes,
                   services:
-                    venue.services.map((service: any) => {
+                    venue.services.map((service: any, serviceIndex: number) => {
+                      const serviceCompany = ({
+                        id: service.serviceCompanyId,
+                        companyName: service.serviceCompanyName,
+                        city: service.companyCity,
+                        phone: service.companyPhone,
+                        companyProfileImage: service.companyProfileImage,
+                        state: service.companyState,
+                        website: service.companyWebsite,
+                        companyTaxNumber: '',
+                        streetAddress_1: '',
+                        streetAddress_2: '',
+                        countryId: 0,
+                        postcode: '',
+                        description: '',
+                        createdDate: '',
+                        updatedDate: '',
+                        companyUID: '',
+                        companyType: '',
+                        canClaim: 0,
+                        canJoin: 0
+                      } as Company);
+                      this.eventService.activeServicePanel = {venueIndex, serviceIndex};
+                      this.eventService.supplierCompanyAdded(serviceCompany);
                       return {
                         name: service.serviceName,
                         requirement: service.serviceRequirements,
