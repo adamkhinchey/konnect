@@ -35,8 +35,16 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   venuesExhCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
   eventTimeWindowType = EventTimeWindowTypes.Exhibitor;
   eventTimeWindowForAllExh = EventTimeWindowTypes.ALL_EXHIBITORS;
+  isExhibitorEdit: boolean = false;
+  public isExhibitorEditable: boolean = false;
 
   constructor(private eventService: EventService) {
+  }
+
+  editExhibitorFn() {
+    this.isExhibitorEdit = !this.isExhibitorEdit;
+    this.isExhibitorEditable = !this.isExhibitorEditable;
+    // this.editVenue.emit(this.isVenueEdit);
   }
 
   ngOnInit(): void {

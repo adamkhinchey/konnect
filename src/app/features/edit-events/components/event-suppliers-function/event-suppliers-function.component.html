@@ -94,8 +94,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         <div class="ten wide column">
 
                                         </div>
-                                        <div class="six wide column right aligned">
-                                          <div (click)="removeSelectedCompany(venueIndex,serviceIndex)"
+                                        <div class="six wide column right aligned" *ngIf="isServiceEdit">
+                                          <div (click)="removeSelectedCompany(venueIndex,serviceIndex)" 
                                             class="ui circular compact mini basic button confirmRemove hasModal"
                                             data-modal="removeModal"><i class="trash alternate icon"></i>Remove
                                           </div>
@@ -113,7 +113,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             [clientCmpBtnLabel]="'Add Supplier'" [contactListLabel]="'Supplier Contacts'"
                             [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                             (modalOpen)="setOpenedModalRef($event)" [contactList]="service.contacts?service.contacts:[]"
-                            (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)">
+                            (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)" [isServiceEditable]="isServiceEditable">
                           </app-event-assign-function-cmp>
                         </div>
 
@@ -155,10 +155,14 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="ui divider"></div>
                           <div class="ui grid stackable">
                             <div class="sixteen wide column right aligned">
-                              <div class="ui button hasModal" data-modal="inviteModal"
-                                (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})">
-                                Save
-                                &amp; Invite
+                              <div class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i></div>
+                              <div class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="!isServiceEdit" (click)="editServiceFn()">
+                                Edit
+                              </div>
+                              <div class="ui button hasModal ml-3"
+                                (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})"
+                                data-modal="inviteModal" *ngIf="isServiceEdit">Save &amp;
+                                Invite
                               </div>
                             </div>
                           </div>

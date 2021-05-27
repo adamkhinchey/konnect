@@ -35,8 +35,16 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   private supplierCmpCntAddedSub: Subscription | undefined;
   venuesSuppCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
   eventTimeWindowType = EventTimeWindowTypes.Supplier;
+  isServiceEdit: boolean = false;
+  public isServiceEditable: boolean = false;
 
   constructor(private eventService: EventService) {
+  }
+
+  editServiceFn() {
+    this.isServiceEdit = !this.isServiceEdit;
+    this.isServiceEditable = !this.isServiceEditable;
+    // this.editVenue.emit(this.isVenueEdit);
   }
 
   ngOnInit(): void {

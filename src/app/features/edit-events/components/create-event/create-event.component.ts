@@ -1250,6 +1250,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       shouldInvite: false
     }): void {
 
+      console.log(param);
 
     switch (this.selectedFunction) {
       case EventFunctionTypes.CLIENT:
@@ -1317,7 +1318,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.isEventClientInvalid && !this.isEventMgrInvalid && !this.isEventVenuesInvalid &&
       !this.isVenuesSuppliersInvalid && !this.isVenuesExhibitorsInvalid) {
       this.postProcessVenues();
-      this.saveEventSub = this.eventService.saveToDb(this.eventToBeSaved).subscribe(
+      this.saveEventSub = this.eventService.updateToDb(this.eventToBeSaved, this.data.eventData.eventId).subscribe(
         value => {
           if (value) {
             this.toaster.success('Continue with saving event files', 'Event saved successfully');

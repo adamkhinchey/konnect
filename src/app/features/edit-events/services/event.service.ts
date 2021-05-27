@@ -145,6 +145,18 @@ export class EventService {
       );
   }
 
+  updateToDb(event: SaveEventClass, eventId:any): Observable<any> {
+    this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/updateEvent`,
+      {eventId, event })
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
+
   fetchEventFiles(eventID: number): Observable<ApiResponseModelInterface> {
     this.spinner.show();
     return this.http.get<ApiResponseModelInterface>(

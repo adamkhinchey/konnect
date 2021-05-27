@@ -34,19 +34,15 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           class="exhibitor icon"></i></h3>
                     </div>
 
-                    <app-time-windows
-                      [timeWindowFor]="eventTimeWindowForAllExh"
+                    <app-time-windows [timeWindowFor]="eventTimeWindowForAllExh"
                       [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                       [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
                       [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
-                      [venueIndex]="venueIndex"
-                      [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
-                      [index]="venueIndex"
-                      [isVenueDependent]="true"
+                      [venueIndex]="venueIndex" [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
+                      [index]="venueIndex" [isVenueDependent]="true"
                       [preEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpIn.timings"
                       [postEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpOut.timings"
-                      [eventTimes]="venue.exhibitorList[0].timeWindowsToAll.eventTime.timings"
-                    ></app-time-windows>
+                      [eventTimes]="venue.exhibitorList[0].timeWindowsToAll.eventTime.timings"></app-time-windows>
                   </div>
                 </div>
 
@@ -96,11 +92,11 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 <i class="building icon"></i>
                               </h3>
                             </div>
-                            <!-- <div class="kcpCardContainer">
+                            <div class="kcpCardContainer">
                               <div class="ui one column grid">
                                 <div class="column">
                                   <div class="ui fluid card">
-                                    <div class="content">
+                                    <!-- <div class="content">
                                       <img class="right floated mini ui image" [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
                                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
@@ -114,13 +110,13 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         <i class="phone icon"></i>{{ (venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex) &&
                                           getCompanyPhone(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))) || ''}}
                                       </div>
-                                    </div>
+                                    </div> -->
                                     <div class="extra content" [ngClass]="{'editableObject':false}">
                                       <div class="ui grid">
                                         <div class="ten wide column">
 
                                         </div>
-                                        <div class="six wide column right aligned">
+                                        <div class="six wide column right aligned" *ngIf="isExhibitorEdit">
                                           <div (click)="removeSelectedCompany(venueIndex,exhibitorIndex)"
                                             class="ui circular compact mini basic button confirmRemove hasModal"
                                             data-modal="removeModal"><i class="trash alternate icon"></i>Remove
@@ -131,7 +127,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   </div>
                                 </div>
                               </div>
-                            </div> -->
+                            </div>
                           </div>
                           <app-event-assign-function-cmp #exhibitorsAssignCmp
                             [selectedCompany]="venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)"
@@ -139,7 +135,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                             (modalOpen)="setOpenedModalRef($event)"
                             [contactList]="exhibitor.contacts?exhibitor.contacts:[]"
-                            (contactRemove)="removeExhibitorContact(venueIndex,exhibitorIndex,$event)">
+                            (contactRemove)="removeExhibitorContact(venueIndex,exhibitorIndex,$event)"
+                            [isExhibitorEditable]="isExhibitorEditable">
                           </app-event-assign-function-cmp>
                         </div>
 
@@ -167,19 +164,15 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                     class="sitemap icon"></i><i class="building icon"></i></h3>
                               </div>
 
-                              <app-time-windows
-                                  [timeWindowFor]="eventTimeWindowType"
-                                  [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
-                                  [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
-                                  [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
-                                  [venueIndex]="venueIndex"
-                                  [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
-                                  [isVenueDependent]="true"
-                                  [index]="exhibitorIndex"
-                                  [preEventTimes]="exhibitor.timeWindows.bumpIn.timings"
-                                  [postEventTimes]="exhibitor.timeWindows.bumpOut.timings"
-                                  [eventTimes]="exhibitor.timeWindows.eventTime.timings"
-                                ></app-time-windows>
+                              <app-time-windows [timeWindowFor]="eventTimeWindowType"
+                                [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
+                                [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
+                                [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
+                                [venueIndex]="venueIndex" [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
+                                [isVenueDependent]="true" [index]="exhibitorIndex"
+                                [preEventTimes]="exhibitor.timeWindows.bumpIn.timings"
+                                [postEventTimes]="exhibitor.timeWindows.bumpOut.timings"
+                                [eventTimes]="exhibitor.timeWindows.eventTime.timings"></app-time-windows>
 
                             </div>
                           </div>
@@ -189,9 +182,16 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="ui divider"></div>
                           <div class="ui grid stackable">
                             <div class="sixteen wide column right aligned">
-                              <div class="ui button hasModal" data-modal="inviteModal"
-                                (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})">
-                                Save &amp; Invite
+                              <div class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i>
+                              </div>
+                              <div class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="!isExhibitorEdit"
+                                (click)="editExhibitorFn()">
+                                Edit
+                              </div>
+                              <div class="ui button hasModal ml-3"
+                                (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})"
+                                data-modal="inviteModal" *ngIf="isExhibitorEdit">Save &amp;
+                                Invite
                               </div>
                             </div>
                           </div>
