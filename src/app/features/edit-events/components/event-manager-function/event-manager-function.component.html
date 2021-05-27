@@ -66,7 +66,8 @@
           <h3>Event Management Internal Notes <i class="building icon"></i></h3>
         </div>
         <div class="field">
-          <textarea class="textarea"></textarea>
+          <textarea class="textarea" [readonly]="!isEventEdit" [(ngModel)]="eventToBeSaved.eventManager!.emInternalNotes"
+          [ngModelOptions]="{standalone:true}"></textarea>
         </div>
       </div>
       <div class="sixteen wide column saveButtons paddingT0">

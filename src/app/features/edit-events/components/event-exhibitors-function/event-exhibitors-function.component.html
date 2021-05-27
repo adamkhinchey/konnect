@@ -14,18 +14,18 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <form class="ui form visible" style="display: block !important;">
             <div class="ui grid stackable">
 
-              <div class="seven wide column" *ngIf="venue.exhibitorList[0]">
+              <div class="seven wide column" *ngIf="venue.exhibitorList[0].exhibitors.length">
                 <div class="ui dividing header">
                   <h3>Notes to All Exhibitors <i class="cog icon"></i><i class="sitemap icon"></i><i
                       class="exhibitor icon"></i></h3>
                 </div>
                 <div class="field">
-                  <textarea class="textarea" *ngIf="venue.exhibitorList && venue.exhibitorList[0]"
+                  <textarea class="textarea" *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
                     [(ngModel)]="venue.exhibitorList[0].notesToAll" [ngModelOptions]="{standalone:true}"></textarea>
                 </div>
               </div>
 
-              <div class="nine wide column" *ngIf="venue.exhibitorList[0]">
+              <div class="nine wide column" *ngIf="venue.exhibitorList[0].exhibitors.length">
 
                 <div class="field">
                   <div class="timeWindowsContainer">
@@ -53,7 +53,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <div class="ui grid">
             <div class="sixteen wide column">
               <div class="marginT10"></div>
-              <div class="ui button compact addNewService addToPanel" (click)="addExhibitor(venue, venueIndex)">
+              <div *ngIf="isExhibitorEdit" class="ui button compact addNewService addToPanel" (click)="addExhibitor(venue, venueIndex)">
                 <i class="plus circle icon"></i>
                 <span>Add Exhibitor</span>
               </div>
@@ -65,7 +65,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
             [activeIds]="'exhibitorListIndex-'+activeExhibitorPanel" [destroyOnHide]="false">
 
-            <ng-container *ngIf="venue.exhibitorList[0]">
+            <ng-container *ngIf="venue.exhibitorList[0].exhibitors.length">
               <ngb-panel *ngFor="let exhibitor of venue.exhibitorList[0].exhibitors; let exhibitorIndex=index"
                 [id]="'exhibitorListIndex-'+exhibitorIndex"
                 (shown)="exhibitorPanelActivated(venueIndex,exhibitorIndex)">
@@ -96,21 +96,24 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               <div class="ui one column grid">
                                 <div class="column">
                                   <div class="ui fluid card">
-                                    <!-- <div class="content">
-                                      <img class="right floated mini ui image" [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
+                                    <div class="content">
+                                      <img class="right floated mini ui image"
+                                        [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
                                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
                                         <a>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
                                         <a>
-                                          <i class="map marker alternate icon"></i>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.city}}
+                                          <i
+                                            class="map marker alternate icon"></i>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.city}}
                                         </a>
                                         <span>|</span>
-                                        <i class="phone icon"></i>{{ (venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex) &&
-                                          getCompanyPhone(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))) || ''}}
+                                        <i class="phone icon"></i>{{
+                                        (venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex) &&
+                                        getCompanyPhone(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))) || ''}}
                                       </div>
-                                    </div> -->
+                                    </div>
                                     <div class="extra content" [ngClass]="{'editableObject':false}">
                                       <div class="ui grid">
                                         <div class="ten wide column">

@@ -74,6 +74,28 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
     this.exhCmpCntAddedSub = this.eventService.exhibitorCmpCntAddSubject.subscribe(value => {
       this.setContacts(value);
     });
+
+    this.eventService.getFetchedVenueExCmp().forEach((param, index) => {
+      this.eventService.activeExhibitorPanel = {venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex};
+      if (param.company) {
+        this.eventService.exhibitorCompanyAdded(param.company);
+      }
+
+      if (index === this.eventService.getFetchedVenueExCmp().length-1) {
+        this.eventService.activeExhibitorPanel = {venueIndex: 0, exhibitorIndex: 0};
+      }
+    });
+
+    this.eventService.getFetchedVenueExCmpCnts().forEach((param, index) => {
+      this.eventService.activeExhibitorPanel = {venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex};
+      if (param.contactList) {
+        this.eventService.exhibitorContactsAdded(param.contactList);
+      }
+      if (index === this.eventService.getFetchedVenueExCmpCnts().length-1) {
+        this.eventService.activeExhibitorPanel = {venueIndex: 0, exhibitorIndex: 0};
+      }
+    });
+
   }
 
   private setContacts(value: { venueIndex: number; exhibitorIndex: number; contactList: InviteFnCmpCntInterface[] }): void {

@@ -16,6 +16,9 @@ import {InviteFnCmpCntInterface, InviteFnCmpInterface, VenueTimeChangedSubjectIn
 type FetchedVenueSrvcsCmp = { company: Company, venueIndex: number, serviceIndex: number };
 type FetchedVenueSrvcCmpCnts = { contactList: InviteFnCmpCntInterface[], venueIndex: number, serviceIndex: number };
 
+type FetchedVenueExCmp = { company: Company, venueIndex: number, exhibitorIndex: number };
+type FetchedVenueExCmpCnts = { contactList: InviteFnCmpCntInterface[], venueIndex: number, exhibitorIndex: number };
+
 @Injectable({
   providedIn: 'root'
 })
@@ -79,6 +82,9 @@ export class EventService {
 
   private fetchedVenueSrvcsCmp: FetchedVenueSrvcsCmp[] = [];
   private fetchedVenueSrvcsCmpCnts: FetchedVenueSrvcCmpCnts[] = [];
+
+  private fetchedVenueExCmp: FetchedVenueExCmp[] = [];
+  private fetchedVenueExCmpCnts: FetchedVenueExCmpCnts[] = [];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -157,6 +163,24 @@ export class EventService {
     return this.fetchedVenueSrvcsCmpCnts;
   }
 
+  // for exhibitor
+
+  addFetchedVenueExCmp(param: FetchedVenueExCmp): void {
+    this.fetchedVenueExCmp.push(param);
+  }
+
+  getFetchedVenueExCmp(): FetchedVenueExCmp[] {
+    return this.fetchedVenueExCmp;
+  }
+
+  addFetchedVenueExCmpCnt(param: FetchedVenueExCmpCnts): void {
+    this.fetchedVenueExCmpCnts.push(param);
+  }
+
+  getFetchedVenueExCmpCnts(): FetchedVenueExCmpCnts[] {
+    return this.fetchedVenueExCmpCnts;
+  }
+
   saveToDb(event: SaveEventClass): Observable<any> {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
@@ -171,7 +195,7 @@ export class EventService {
 
   updateToDb(event: SaveEventClass, eventId:any): Observable<any> {
     this.spinner.show();
-    return this.http.post<ApiResponseModelInterface>(
+    return this.http.patch<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/updateEvent`,
       {eventId, event })
       .pipe(

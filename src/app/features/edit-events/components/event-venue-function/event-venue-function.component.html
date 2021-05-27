@@ -18,7 +18,7 @@
   <div class="ui grid">
     <div class="sixteen wide column">
       <div class="marginT10"></div>
-      <div class="ui button compact addNewVenue addToPanel" (click)="addVenue()"><i class="plus circle icon"></i><span
+      <div *ngIf="isVenueEdit" class="ui button compact addNewVenue addToPanel" (click)="addVenue()"><i class="plus circle icon"></i><span
           class="hideMobile">Add Venue</span>
       </div>
       <h3 id="venuesAnchor" class="ui dividing header">Venues</h3>

@@ -15,7 +15,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                       class="truck icon"></i></h3>
                 </div>
                 <div class="field">
-                  <textarea class="textarea" *ngIf="venue.suppliers && venue.suppliers[0]"
+                  <textarea class="textarea" *ngIf="venue.suppliers && venue.suppliers[0].services.length"
                   [(ngModel)]="venue.suppliers[0].notesToAll"
                     [ngModelOptions]="{standalone:true}"></textarea>
                 </div>
@@ -27,7 +27,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
         <div class="ui grid">
           <div class="sixteen wide column">
             <div class="marginT10"></div>
-            <div class="ui button compact addNewService addToPanel" (click)="addService(venue,venueIndex)">
+            <div *ngIf="isServiceEdit" class="ui button compact addNewService addToPanel" (click)="addService(venue,venueIndex)">
               <i class="plus circle icon"></i>
               <span>Add Service</span>
             </div>
@@ -41,7 +41,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
             [activeIds]="'serviceListIndex-'+activeServicePanel" [destroyOnHide]="false">
 
-            <ng-container *ngIf="venue.suppliers[0]">
+            <ng-container *ngIf="venue.suppliers[0].services.length">
               <ngb-panel *ngFor="let service of venue.suppliers[0].services; let serviceIndex=index"
                 [id]="'serviceListIndex-'+serviceIndex" (shown)="servicePanelActivated(venueIndex,serviceIndex)">
                 <ng-template ngbPanelTitle>
