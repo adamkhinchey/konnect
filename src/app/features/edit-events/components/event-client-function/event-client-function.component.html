@@ -8,7 +8,7 @@
               <h3>Client Company <i class="globe icon"></i></h3>
             </div>
             <div class="ui checkbox" (click)="toggleClientOwnCompany()">
-              <input type="checkbox" class="hidden" tabindex="0" [(ngModel)]="eventData.eventData.client.isOwnCompany"
+              <input type="checkbox" class="hidden" tabindex="0" [(ngModel)]="isOwnCompany"
                 [ngModelOptions]="{standalone:true}">
               <label>My company</label>
             </div>
@@ -19,19 +19,19 @@
                 <div class="ui fluid card">
                   <div class="content">
                     <img class="right floated mini ui image"
-                      [src]="eventData.eventData.client.clientCompanyProfileImage" appImageFallback
+                      [src]="selectedCompany.companyProfileImage" appImageFallback
                       fallbackImage="assets/img/default_konnect_img.png">
                     <div class="header">
-                      <a>{{eventData.eventData.client.clientCompanyName}}</a>
+                      <a>{{selectedCompany.companyName}}</a>
                     </div>
                     <div class="meta">
                       <!-- <a *ngIf="getCompanyWebsite()" [href]="getCompanyWebsite()"
                          target="_blank"> {{getCompanyWebsite()}}</a>
                       <span *ngIf="getCompanyWebsite()">|</span> -->
                       <a>
-                        <i class="map marker alternate icon"></i>{{eventData.eventData.client.clientCompanyCity}}</a>
+                        <i class="map marker alternate icon"></i>{{selectedCompany.city}}</a>
                       <span>|</span>
-                      <i class="phone icon"></i>{{eventData.eventData.client.clientCompanyPhone || ''}}
+                      <i class="phone icon"></i>{{selectedCompany.phone || ''}}
                     </div>
                   </div>
                   <div class="extra content" [ngClass]="{'editableObject':false}">
@@ -66,20 +66,20 @@
         <div class="field required">
           <label>Event Title</label>
           <div class="field">
-            <input type="text" placeholder="Event Title" [readonly]="!isClientEdit" [(ngModel)]="eventData.eventData.title"
+            <input type="text" placeholder="Event Title" [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.title"
               [ngModelOptions]="{standalone:true}">
           </div>
         </div>
         <div class="field">
           <label>Event Description</label>
-          <textarea class="textarea" [readonly]="!isClientEdit" [(ngModel)]="eventData.eventData.description"
+          <textarea class="textarea" [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.description"
             [ngModelOptions]="{standalone:true}"></textarea>
         </div>
         <div class="field">
           <div class="ui toggle checkbox toggleOnColumn"
             (click)="eventToBeSaved.hasExhibitors=!eventToBeSaved.hasExhibitors">
             <input type="checkbox" name="exhibitors" class="hidden" tabindex="0"
-              [(ngModel)]="eventData.eventData.hasExhibitors" [ngModelOptions]="{standalone:true}">
+              [(ngModel)]="eventToBeSaved.hasExhibitors" [ngModelOptions]="{standalone:true}">
             <label>Event has exhibitors</label>
           </div>
         </div>
@@ -91,9 +91,9 @@
             <div class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal"
               (click)="deleteEvent(eventData.eventData.eventId)"><i class="trash alternate icon"></i>Delete Event</div>
             &nbsp;&nbsp;&nbsp;Event created by
-            {{eventData.eventData.creatorCompanyName}},
-            {{eventData.eventData.eventCreatedDate | date:'dd-MM-YYYY'}}
-            {{eventData.eventData.eventCreatedDate | date:'hh:mm'}}
+            {{eventToBeSaved.creatorCompanyName}},
+            {{eventToBeSaved.eventCreatedDate | date:'dd-MM-YYYY'}}
+            {{eventToBeSaved.eventCreatedDate | date:'hh:mm'}}
           </div>
           <div class="six wide column right aligned hideMobile">
             <div class="ui button basic blue icon"><i class="file pdf icon"></i>

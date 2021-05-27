@@ -19,11 +19,12 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   @Output() removeSelectedCompany = new EventEmitter<any>();
   @Input() eventToBeSaved = new SaveEventClass();
   @Output() saveAndInvite = new EventEmitter<boolean>();
-  isOwnCompany = false;
+  @Input() isOwnCompany: boolean = false;
   private subs1: Subscription | undefined;
   private subs2: Subscription | undefined;
   @Input() eventData: any;
   @Output() editClient = new EventEmitter<boolean>();
+
 
   isSupplier: boolean = false;
   modalReference: any;
@@ -117,9 +118,13 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   }
 
   toggleClientOwnCompany(): void {
+    console.log('before next in toggle: ', this.eventData.eventData.client.isOwnCompany);
     const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
     tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
+    this.eventData.eventData.client.isOwnCompany = tempMap.get(EventFunctionTypes.CLIENT)? 1 : 0;
     this.eventService.setIsFnOwnCompany.next(tempMap);
+    console.log('after next in toggle: ', this.eventData.eventData.client.isOwnCompany);
+    
   }
 
   ngOnDestroy(): void {

@@ -18,7 +18,7 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   @Output() removeSelectedCompany = new EventEmitter<any>();
   @Input() eventToBeSaved = new SaveEventClass();
   @Output() saveAndInvite = new EventEmitter<boolean>();
-  isOwnCompany = false;
+  @Input() isOwnCompany:boolean = false;
   private subs1: Subscription | undefined;
   @Output() editClient = new EventEmitter<boolean>();
   @Output() editManager = new EventEmitter<boolean>();
@@ -72,7 +72,10 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   toggleEvMgrOwnCompany(): void {
     const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
     tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
+    console.log('before toggle: ',this.eventData.eventData.eventManager.isOwnCompany);
+    this.eventData.eventData.eventManager.isOwnCompany = tempMap.get(EventFunctionTypes.EVENT_MANAGER)? 1 : 0;
     this.eventService.setIsFnOwnCompany.next(tempMap);
+    console.log('after toggle: ',this.eventData.eventData.eventManager.isOwnCompany);
   }
 
   ngOnDestroy(): void {

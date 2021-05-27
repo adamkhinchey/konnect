@@ -9,12 +9,12 @@
         <ng-container client *ngIf="data.eventData && data.eventData.client && !data.eventData.venues">
           <app-event-client-function [eventData]="data" [selectedCompany]="clientCompany"
             (removeSelectedCompany)="unsetClientCompany()" [eventToBeSaved]="eventToBeSaved"
-            (saveAndInvite)="saveToDb($event)" (editClient)="isClientEditable = $event">
+            (saveAndInvite)="saveToDb($event)" (editClient)="isClientEditable = $event" [isOwnCompany]="data.eventData.client.isOwnCompany === 1">
             <ng-container assignFunctionCmp>
               <app-event-assign-function-cmp [clientCmpBtnLabel]="'Add Client'" [contactListLabel]="'Client Contacts'"
                 [eventData]="data" [selectedCompany]="clientCompany" [clientCompanyModal]="searchInviteCmpModal"
                 [contactModal]="searchInviteFnCmpCntModal" (modalOpen)="setOpenedModalRef($event)"
-                (contactRemove)="removeContact($event)" [contactList]="data.eventData.client.contacts"
+                (contactRemove)="removeContact($event)" [contactList]="clientContactList"
                 [isClientEditable]="isClientEditable">
               </app-event-assign-function-cmp>
             </ng-container>
@@ -24,13 +24,13 @@
         <ng-container eventManager *ngIf="data.eventData && data.eventData.eventManager && !data.eventData.venues">
           <app-event-manager-function [eventData]="data" [selectedCompany]="eventMgrCmp"
             (removeSelectedCompany)="unsetEvMgrCmp()" [eventToBeSaved]="eventToBeSaved"
-            (saveAndInvite)="saveToDb($event)" (editManager)="isManagerEditable = $event">
+            (saveAndInvite)="saveToDb($event)" (editManager)="isManagerEditable = $event" [isOwnCompany]="data.eventData.eventManager.isOwnCompany === 1">
             <ng-container assignFunctionCmp>
               <app-event-assign-function-cmp [eventData]="data" [clientCmpBtnLabel]="'Add Event Management Company'"
                 [contactListLabel]="'Event Management Company Contacts'" [selectedCompany]="eventMgrCmp"
                 [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                 (modalOpen)="setOpenedModalRef($event)" (contactRemove)="removeContact($event)"
-                [contactList]="data.eventData.eventManager.contacts"
+                [contactList]="eventMgrContactList"
                 [isManagerEditable]="isManagerEditable"></app-event-assign-function-cmp>
             </ng-container>
           </app-event-manager-function>
@@ -38,6 +38,7 @@
 
         <ng-container venues *ngIf="data.eventData && data.eventData.venues && data.eventData.venues.length">
           <app-event-venue-function #venueFn [eventData]="data" [selectedCompanies]="venueCompanies"
+            [venueContactLists]="venueContactLists"
             (removeSelectedCompany)="unsetVenueCmp($event)" [eventToBeSaved]="eventToBeSaved"
             (saveAndInvite)="saveToDb($event)" [searchInviteCmpModal]="searchInviteCmpModal"
             [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal" [setOpenedModalRef]="setOpenedModalRef.bind(this)"

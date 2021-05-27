@@ -1,4 +1,4 @@
-export interface Company{
+export interface Company {
     id: number;
     companyName: string;
     companyTaxNumber: string;

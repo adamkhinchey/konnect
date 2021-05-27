@@ -1,10 +1,10 @@
-<div *ngIf="eventData.eventData && eventData.eventData.venues && eventData.eventData.venues.length &&
-eventData.eventData.venues[0].services &&
-eventData.eventData.venues[0].services.length>0; else noVenues" class="ui segment">
+<div *ngIf="eventToBeSaved.venues &&
+eventToBeSaved.venues.list &&
+eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
   <ul ngbNav #venueNav="ngbNav" class="nav-tabs supplierInnerCont" [destroyOnHide]="false">
-    <li ngbNavItem *ngFor="let venue of eventData.eventData.venues; let venueIndex=index">
+    <li ngbNavItem *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
       <a ngbNavLink><i class="map marker alternate icon"></i>
-        {{venue.venueCompanyName}}, {{venue.companyCity}}</a>
+        {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]? venueCompanies[venueIndex]!.companyName+', '+venueCompanies[venueIndex]!.city:'Venue-'+(venueIndex + 1)}}</a>
       <ng-template ngbNavContent>
         <form class="ui form">
           <div class="ui grid stackable">
@@ -15,7 +15,8 @@ eventData.eventData.venues[0].services.length>0; else noVenues" class="ui segmen
                       class="truck icon"></i></h3>
                 </div>
                 <div class="field">
-                  <textarea class="textarea" [(ngModel)]="venue.services[0]!.notes"
+                  <textarea class="textarea" *ngIf="venue.suppliers && venue.suppliers[0]"
+                  [(ngModel)]="venue.suppliers[0].notesToAll"
                     [ngModelOptions]="{standalone:true}"></textarea>
                 </div>
               </div>
@@ -40,13 +41,11 @@ eventData.eventData.venues[0].services.length>0; else noVenues" class="ui segmen
           <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
             [activeIds]="'serviceListIndex-'+activeServicePanel" [destroyOnHide]="false">
 
-            <ng-container *ngIf="venue.services[0]">
-              <ngb-panel *ngFor="let service of venue.services; let serviceIndex=index"
+            <ng-container *ngIf="venue.suppliers[0]">
+              <ngb-panel *ngFor="let service of venue.suppliers[0].services; let serviceIndex=index"
                 [id]="'serviceListIndex-'+serviceIndex" (shown)="servicePanelActivated(venueIndex,serviceIndex)">
                 <ng-template ngbPanelTitle>
-                  <i class="dropdown icon"></i>Service {{serviceIndex + 1 + (service.serviceName.trim().length > 0 ? ':
-                  ' +
-                  service.serviceName : '')}}
+                  <i class="dropdown icon"></i>Service {{serviceIndex + 1}}
                   <div class="ui selection dropdown" tabindex="0">
                     <div class="text"><i class="ui icon circle green"></i>Confirmed</div>
                     <div class="menu" tabindex="-1"></div>
@@ -64,7 +63,7 @@ eventData.eventData.venues[0].services.length>0; else noVenues" class="ui segmen
                                   class="building icon"></i></h3>
                             </div>
                             <div class="field">
-                              <input [(ngModel)]="service.serviceName" [ngModelOptions]="{standalone:true}" type="text"
+                              <input [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
                                 placeholder="Name">
                             </div>
                             <div class="ui dividing header">
@@ -72,29 +71,22 @@ eventData.eventData.venues[0].services.length>0; else noVenues" class="ui segmen
                                   class="building icon"></i></h3>
                             </div>
 
-
                             <div class="kcpCardContainer">
-                              <div class="ui one column grid">
+                              <div class="ui one column grid" *ngIf="venuesSuppCmpsMap.has(venueIndex) && venuesSuppCmpsMap.get(venueIndex)!.has(serviceIndex)">
                                 <div class="column">
                                   <div class="ui fluid card">
                                     <div class="content">
-                                      <img class="right floated mini ui image" [src]="service.companyProfileImage"
+                                      <img class="right floated mini ui image" [src]="getCompanyProfileImage(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || 'assets/img/default_konnect_img.png'"
                                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
-                                        <a>{{service.serviceCompanyName}}</a>
+                                        <a>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
-                                        <!-- <a *ngIf="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))"
-                                          [href]="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))"
-                                          target="_blank">
-                                          {{getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))}}</a>
-                                        <span
-                                          *ngIf="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))">|</span> -->
                                         <a>
-                                          <i class="map marker alternate icon"></i>{{service!.companyCity}}
+                                          <i class="map marker alternate icon"></i>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.city}}
                                         </a>
                                         <span>|</span>
-                                        <i class="phone icon"></i>{{service.companyPhone || ''}}
+                                        <i class="phone icon"></i>getCompanyPhone(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))) || ''}}
                                       </div>
                                     </div>
                                     <div class="extra content" [ngClass]="{'editableObject':false}">
@@ -123,7 +115,6 @@ eventData.eventData.venues[0].services.length>0; else noVenues" class="ui segmen
                             (modalOpen)="setOpenedModalRef($event)" [contactList]="service.contacts?service.contacts:[]"
                             (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)">
                           </app-event-assign-function-cmp>
-                          <!-- </div>-->
                         </div>
 
                         <div class="nine wide column">
@@ -132,7 +123,7 @@ eventData.eventData.venues[0].services.length>0; else noVenues" class="ui segmen
                                 class="building icon"></i></h3>
                           </div>
                           <div class="field">
-                            <textarea [(ngModel)]="service.serviceRequirements" [ngModelOptions]="{standalone:true}"
+                            <textarea [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}"
                               class="textarea"></textarea>
                           </div>
                           <div class="field">
@@ -142,16 +133,19 @@ eventData.eventData.venues[0].services.length>0; else noVenues" class="ui segmen
                                     class="building icon"></i></h3>
                               </div>
 
-                              <app-time-windows [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
-                                [index]="serviceIndex" [preEventTimes]="service.preEventTime"
-                                [postEventTimes]="service.postEventTime" [eventTimes]="service.eventTime"
-                                [preEventTimesCount]="service?.preEventTime?.length || 1"
-                                [eventTimesCount]="service?.eventTime?.length || 1"
-                                [postEventTimesCount]="service?.postEventTime?.length || 1" [eventView]="true"
-                                [preEventNotes]="service.preEventTime[serviceIndex]?.notes"
-                                [eventNotes]="service.eventTime[serviceIndex]?.notes"
-                                [postEventNotes]="service.postEventTime[serviceIndex]?.notes">
-                              </app-time-windows>
+                              <app-time-windows
+                              [timeWindowFor]="eventTimeWindowType"
+                              [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
+                              [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
+                              [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
+                              [venueIndex]="venueIndex"
+                              [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
+                              [isVenueDependent]="true"
+                              [index]="serviceIndex"
+                              [preEventTimes]="service.timeWindows.bumpIn.timings"
+                              [postEventTimes]="service.timeWindows.bumpOut.timings"
+                              [eventTimes]="service.timeWindows.eventTime.timings"
+                            ></app-time-windows>
 
                             </div>
                           </div>

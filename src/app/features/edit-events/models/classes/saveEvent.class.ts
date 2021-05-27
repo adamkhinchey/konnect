@@ -1,4 +1,4 @@
-import {InviteFnCmpCntInterface} from "../interfaces/invite-fn-cmp-cnt.interface";
+import { InviteFnCmpCntInterface } from "../interfaces/invite-fn-cmp-cnt.interface";
 import {
   EventSuppliersInterface,
   InviteFnCmpInterface,
@@ -10,6 +10,9 @@ export class SaveEventClass {
   title = '';
   description = '';
   hasExhibitors = true;
+  creatorCompanyName = '';
+  eventCreatedDate = '';
+
   // @ts-ignore
   createrUserId: number;
   // @ts-ignore
@@ -29,7 +32,8 @@ export class SaveEventClass {
     isOwnCompany: boolean,
     shouldInvite: null | number,
     requirements: string,
-    invited: null | InviteFnCmpInterface
+    invited: null | InviteFnCmpInterface,
+    internalNotes?: string
   };
 
   // @ts-ignore

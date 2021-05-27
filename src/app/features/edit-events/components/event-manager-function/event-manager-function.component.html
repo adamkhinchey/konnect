@@ -8,7 +8,7 @@
               <h3>Event Management Company <i class="icon globe"></i></h3>
             </div>
             <div class="ui checkbox" (click)="toggleEvMgrOwnCompany()">
-              <input type="checkbox" class="hidden" tabindex="0" [(ngModel)]="eventData.eventData.eventManager.isOwnCompany"
+              <input type="checkbox" class="hidden" tabindex="0" [(ngModel)]="isOwnCompany"
                      [ngModelOptions]="{standalone:true}">
               <label>My company</label>
             </div>
@@ -19,19 +19,19 @@
                 <div class="ui fluid card">
                   <div class="content">
                     <img class="right floated mini ui image"
-                    [src]="eventData.eventData.eventManager.emCompanyProfileImage"
+                    [src]="selectedCompany.companyProfileImage"
                     appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                     <div class="header">
-                      <a>{{eventData.eventData.eventManager.emCompanyName}}</a>
+                      <a>{{selectedCompany.companyName}}</a>
                     </div>
                     <div class="meta">
                       <!-- <a *ngIf="getCompanyWebsite()" [href]="getCompanyWebsite()"
                          target="_blank"> {{getCompanyWebsite()}}</a>
                       <span *ngIf="getCompanyWebsite()">|</span> -->
                       <a>
-                        <i class="map marker alternate icon"></i>{{eventData.eventData.eventManager.emCompanyCity}}</a>
+                        <i class="map marker alternate icon"></i>{{selectedCompany.city}}</a>
                       <span>|</span>
-                      <i class="phone icon"></i>{{eventData.eventData.eventManager.emCompanyPhone || ''}}
+                      <i class="phone icon"></i>{{selectedCompany.phone || ''}}
                     </div>
                   </div>
                   <div class="extra content" [ngClass]="{'editableObject':false}">
@@ -59,8 +59,14 @@
           <h3>Event Management Requirements <i class="icon globe"></i></h3>
         </div>
         <div class="field">
-          <textarea class="textarea" [readonly]="!isEventEdit" [(ngModel)]="eventData.eventData.eventManager!.requirements"
+          <textarea class="textarea" [readonly]="!isEventEdit" [(ngModel)]="eventToBeSaved.eventManager!.requirements"
           [ngModelOptions]="{standalone:true}"></textarea>
+        </div>
+        <div class="ui dividing header">
+          <h3>Event Management Internal Notes <i class="building icon"></i></h3>
+        </div>
+        <div class="field">
+          <textarea class="textarea"></textarea>
         </div>
       </div>
       <div class="sixteen wide column saveButtons paddingT0">

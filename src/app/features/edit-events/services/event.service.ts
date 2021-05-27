@@ -20,7 +20,7 @@ export class EventService {
   private apiBaseUrl = environment.apiBaseURL;
 
   private ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([
-    [EventFunctionTypes.CLIENT, true],
+    [EventFunctionTypes.CLIENT, false],
     [EventFunctionTypes.EVENT_MANAGER, null]
   ]);
 
@@ -83,7 +83,7 @@ export class EventService {
 
   reset(): void {
     this.ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([
-      [EventFunctionTypes.CLIENT, true],
+      [EventFunctionTypes.CLIENT, false],
       [EventFunctionTypes.EVENT_MANAGER, null]
     ]);
     this.setIsFnOwnCompany.next(this.ownCompanyStatusMap);
