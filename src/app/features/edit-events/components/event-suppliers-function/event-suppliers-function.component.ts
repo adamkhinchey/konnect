@@ -70,17 +70,24 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
       this.setContacts(value);
     });
 
-    this.eventService.getFetchedVenueSrvcsCmp().forEach((param) => {
+    this.eventService.getFetchedVenueSrvcsCmp().forEach((param, index) => {
       this.eventService.activeServicePanel = {venueIndex: param.venueIndex, serviceIndex: param.serviceIndex};
-      if(param.company) {
+      if (param.company) {
         this.eventService.supplierCompanyAdded(param.company);
+      }
+
+      if (index === this.eventService.getFetchedVenueSrvcsCmp().length-1) {
+        this.eventService.activeServicePanel = {venueIndex: 0, serviceIndex: 0};
       }
     });
 
-    this.eventService.getFetchedVenueSrvcCmpCnts().forEach((param) => {
+    this.eventService.getFetchedVenueSrvcCmpCnts().forEach((param, index) => {
       this.eventService.activeServicePanel = {venueIndex: param.venueIndex, serviceIndex: param.serviceIndex};
-      if(param.contactList) {
+      if (param.contactList) {
         this.eventService.supplierContactsAdded(param.contactList);
+      }
+      if (index === this.eventService.getFetchedVenueSrvcCmpCnts().length-1) {
+        this.eventService.activeServicePanel = {venueIndex: 0, serviceIndex: 0};
       }
     });
   }
