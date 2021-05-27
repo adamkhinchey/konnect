@@ -1,16 +1,20 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { EventFunctionTypes } from '../models/types';
-import { environment } from '../../../../environments/environment';
-import { SaveEventClass } from '../models/classes/saveEvent.class';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { HttpClient } from '@angular/common/http';
-import { HttpErrRespHandlerService } from '../../../shared/services';
-import { ApiResponseModelInterface } from '../../../shared/models';
-import { take, tap } from 'rxjs/operators';
-import { devLogger, hideSpinnerPostApiCall } from '../../../shared/utils';
-import { Company } from "../../users/models";
-import { InviteFnCmpCntInterface, InviteFnCmpInterface, VenueTimeChangedSubjectInterface } from "../models/interfaces";
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {EventFunctionTypes} from '../models/types';
+import {environment} from '../../../../environments/environment';
+import {SaveEventClass} from '../models/classes/saveEvent.class';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {HttpClient} from '@angular/common/http';
+import {HttpErrRespHandlerService} from '../../../shared/services';
+import {ApiResponseModelInterface} from '../../../shared/models';
+import {take, tap} from 'rxjs/operators';
+import {devLogger, hideSpinnerPostApiCall} from '../../../shared/utils';
+import {Company} from "../../users/models";
+import {InviteFnCmpCntInterface, InviteFnCmpInterface, VenueTimeChangedSubjectInterface} from "../models/interfaces";
+
+
+type FetchedVenueSrvcsCmp = { company: Company, venueIndex: number, serviceIndex: number };
+type FetchedVenueSrvcCmpCnts = { contactList: InviteFnCmpCntInterface[], venueIndex: number, serviceIndex: number };
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +77,8 @@ export class EventService {
   venueEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
   venuePostEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
 
+  private fetchedVenueSrvcsCmp: FetchedVenueSrvcsCmp[] = [];
+  private fetchedVenueSrvcsCmpCnts: FetchedVenueSrvcCmpCnts[] = [];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -91,6 +97,8 @@ export class EventService {
     this.activeServicePanel = null;
     this.activeExhibitorPanel = null;
     this.hideInfoBar = false;
+    this.fetchedVenueSrvcsCmp = [];
+    this.fetchedVenueSrvcsCmpCnts = [];
   }
 
   supplierCompanyAdded(company: Company | InviteFnCmpInterface): void {
@@ -133,11 +141,27 @@ export class EventService {
     }
   }
 
+  addFetchedVenueSrvcCmp(param: FetchedVenueSrvcsCmp): void {
+    this.fetchedVenueSrvcsCmp.push(param);
+  }
+
+  getFetchedVenueSrvcsCmp(): FetchedVenueSrvcsCmp[] {
+    return this.fetchedVenueSrvcsCmp;
+  }
+
+  addFetchedVenueSrvcCmpCnt(param: FetchedVenueSrvcCmpCnts): void {
+    this.fetchedVenueSrvcsCmpCnts.push(param);
+  }
+
+  getFetchedVenueSrvcCmpCnts(): FetchedVenueSrvcCmpCnts[] {
+    return this.fetchedVenueSrvcsCmpCnts;
+  }
+
   saveToDb(event: SaveEventClass): Observable<any> {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/saveEvent`,
-      { event })
+      {event})
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),

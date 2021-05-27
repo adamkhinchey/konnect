@@ -86,7 +86,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                           <i class="map marker alternate icon"></i>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.city}}
                                         </a>
                                         <span>|</span>
-                                        <i class="phone icon"></i>getCompanyPhone(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))) || ''}}
+                                        <i class="phone icon"></i>{{getCompanyPhone(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || ''}}
                                       </div>
                                     </div>
                                     <div class="extra content" [ngClass]="{'editableObject':false}">
