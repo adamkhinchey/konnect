@@ -33,7 +33,7 @@ export class SaveEventClass {
     shouldInvite: null | number,
     requirements: string,
     invited: null | InviteFnCmpInterface,
-    emInternalNotes?: string
+    emInternalNotes?: null | string
   };
 
   // @ts-ignore

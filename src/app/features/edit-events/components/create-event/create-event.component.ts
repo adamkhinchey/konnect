@@ -26,6 +26,13 @@ import { EventExhibitorsFunctionComponent } from '../event-exhibitors-function/e
 import { EventTimelineService } from '../../services/event-timeline.service';
 import { cloneDeep } from 'lodash-es';
 import { ViewEventService } from '../../services/view-event.service';
+import * as _ from 'lodash';
+
+export interface VenuueCompany extends Company {
+  venueId?: number;
+  supplierId?: number;
+  exhibitorId?: number;
+}
 
 @Component({
   selector: 'app-create-event',
@@ -61,7 +68,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   eventMgrContactList: FnCmpCntInterface[] = [];
   isEventMgrInvalid = true;
 
-  venueCompanies: Array<Company | InviteFnCmpInterface | null> | undefined | null = [];
+  venueCompanies: Array<Company | InviteFnCmpInterface | VenuueCompany | null> | undefined | null = [];
   venueContactLists: Array<Array<FnCmpCntInterface>> = [];
   isEventVenuesInvalid = true;
 
@@ -76,6 +83,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   public isServiceEditable = false;
   public isExhibitorEditable = false;
   public eventDataCopy: Partial<SaveEventClass> = new SaveEventClass();
+  public supplierCount: number = 0;
+  public exhibitorCount: number = 0;
 
   constructor(
     private modalService: NgbModal,
@@ -310,6 +319,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             list: (this.data.eventData.venues.map((venue: any) => {
               return {
                 companyId: venue.venueCompanyId,
+                venueId: venue.venueId,
                 contacts: venue.contacts.map((contact: any) => {
                   return {
                     id: contact.id,
@@ -335,29 +345,35 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               };
             }) as VenueListItemInterface[])
           };
+
           const venues = this.data.eventData.venues;
           for (let i = 0; i < venues.length; i++) {
-            this.venueCompanies?.push(({
-              id: venues[i].venueCompanyId,
-              companyName: venues[i].venueCompanyName,
-              city: venues[i].companyCity,
-              phone: venues[i].companyPhone,
-              companyProfileImage: venues[i].companyProfileImage,
-              state: venues[i].companyState,
-              website: venues[i].companyWebsite,
-              companyTaxNumber: '',
-              streetAddress_1: '',
-              streetAddress_2: '',
-              countryId: 0,
-              postcode: '',
-              description: '',
-              createdDate: '',
-              updatedDate: '',
-              companyUID: '',
-              companyType: '',
-              canClaim: 0,
-              canJoin: 0
-            } as Company));
+            let venueId: number = venues[i].venueId;
+            let findVenueId = _.find(this.venueCompanies, { venueId });
+            if (!findVenueId && findVenueId == undefined) {
+              this.venueCompanies?.push(({
+                venueId: venues[i].venueId,
+                id: venues[i].venueCompanyId,
+                companyName: venues[i].venueCompanyName,
+                city: venues[i].companyCity,
+                phone: venues[i].companyPhone,
+                companyProfileImage: venues[i].companyProfileImage,
+                state: venues[i].companyState,
+                website: venues[i].companyWebsite,
+                companyTaxNumber: '',
+                streetAddress_1: '',
+                streetAddress_2: '',
+                countryId: 0,
+                postcode: '',
+                description: '',
+                createdDate: '',
+                updatedDate: '',
+                companyUID: '',
+                companyType: '',
+                canClaim: 0,
+                canJoin: 0
+              } as Company));
+            }
             const contacts: any = venues[i].contacts.map((contact: any) => {
               return {
                 id: contact.id,
@@ -380,11 +396,13 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (tabType === 4) {
         if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
+
           this.eventToBeSaved.venues = {
             notesToAll: this.data.eventData.venues[0].venueNotesToAll,
             list: (this.data.eventData.venues.map((venue: any, venueIndex: number) => {
               return {
                 companyId: venue.venueCompanyId,
+                venueId: venue.venueId,
                 contacts: venue.contacts.map((contact: any) => {
                   return {
                     id: contact.id,
@@ -410,6 +428,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   services:
                     venue.services.map((service: any, serviceIndex: number) => {
                       const serviceCompany = ({
+                        supplierId: service.serviceId,
                         id: service.serviceCompanyId,
                         companyName: service.serviceCompanyName,
                         city: service.companyCity,
@@ -431,26 +450,30 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                         canJoin: 0
                       } as Company);
                       this.eventService.addFetchedVenueSrvcCmp({ venueIndex, serviceIndex, company: serviceCompany });
-                      const contacts = service.contacts.map((contact: any) => {
-                        return {
-                          id: contact.id,
-                          email: contact.email,
-                          firstName: contact.firstName,
-                          lastName: contact.lastName || '',
-                          contactLabelId: contact.contactLabelId || null,
-                          position: '',
-                          contactPosition: contact.contactPosition,
-                          contactRole: contact.contactRole,
-                          profileImage: contact.profileImage,
-                          mobile: contact.mobile
-                        };
-                      });
+                      let contacts = [];
+                      if (this.supplierCount == 0) {
+                        contacts = service.contacts.map((contact: any) => {
+                          return {
+                            id: contact.id,
+                            email: contact.email,
+                            firstName: contact.firstName,
+                            lastName: contact.lastName || '',
+                            contactLabelId: contact.contactLabelId || null,
+                            position: '',
+                            contactPosition: contact.contactPosition,
+                            contactRole: contact.contactRole,
+                            profileImage: contact.profileImage,
+                            mobile: contact.mobile
+                          };
+                        });
+                      }
                       this.eventService.addFetchedVenueSrvcCmpCnt({ contactList: contacts, serviceIndex, venueIndex });
                       return {
                         name: service.serviceName,
                         requirement: service.serviceRequirements,
                         contacts,
                         companyId: service.serviceCompanyId,
+                        supplierId: service.serviceId,
                         timeWindows: {
                           bumpIn: {
                             sameAsVenue: null,
@@ -475,27 +498,33 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           };
           const venues = this.data.eventData.venues;
           for (let i = 0; i < venues.length; i++) {
-            this.venueCompanies?.push(({
-              id: venues[i].venueCompanyId,
-              companyName: venues[i].venueCompanyName,
-              city: venues[i].companyCity,
-              phone: venues[i].companyPhone,
-              companyProfileImage: venues[i].companyProfileImage,
-              state: venues[i].companyState,
-              website: venues[i].companyWebsite,
-              companyTaxNumber: '',
-              streetAddress_1: '',
-              streetAddress_2: '',
-              countryId: 0,
-              postcode: '',
-              description: '',
-              createdDate: '',
-              updatedDate: '',
-              companyUID: '',
-              companyType: '',
-              canClaim: 0,
-              canJoin: 0
-            } as Company));
+            let venueId: number = venues[i].venueId;
+            let findVenueId = _.find(this.venueCompanies, { venueId });
+            console.log('find venue: ', findVenueId);
+            if (!findVenueId && findVenueId == undefined) {
+              this.venueCompanies?.push(({
+                venueId: venues[i].venueId,
+                id: venues[i].venueCompanyId,
+                companyName: venues[i].venueCompanyName,
+                city: venues[i].companyCity,
+                phone: venues[i].companyPhone,
+                companyProfileImage: venues[i].companyProfileImage,
+                state: venues[i].companyState,
+                website: venues[i].companyWebsite,
+                companyTaxNumber: '',
+                streetAddress_1: '',
+                streetAddress_2: '',
+                countryId: 0,
+                postcode: '',
+                description: '',
+                createdDate: '',
+                updatedDate: '',
+                companyUID: '',
+                companyType: '',
+                canClaim: 0,
+                canJoin: 0
+              } as Company));
+            }
             const contacts: any = venues[i].contacts.map((contact: any) => {
               return {
                 id: contact.id,
@@ -511,8 +540,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               };
             });
             this.venueContactLists.push(contacts);
-
           }
+          this.supplierCount++;
           console.log(this.eventToBeSaved);
         }
       }
@@ -523,6 +552,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             list: (this.data.eventData.venues.map((venue: any, venueIndex: number) => {
               return {
                 companyId: venue.venueCompanyId,
+                venueId: venue.venueId,
                 contacts: venue.contacts.map((contact: any) => {
                   return {
                     id: contact.id,
@@ -564,6 +594,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                     exhibitors:
                       venue?.exhibitorData?.exhibitors?.map((exhibitor: any, exhibitorIndex: number) => {
                         const exhibitorCompany = ({
+                          exhibitorId: exhibitor.exhibitorId,
                           id: exhibitor.exhibitorCompanyId,
                           companyName: exhibitor.exhibitorCompanyName,
                           city: exhibitor.companyCity,
@@ -585,20 +616,23 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           canJoin: 0
                         } as Company);
                         this.eventService.addFetchedVenueExCmp({ venueIndex, exhibitorIndex, company: exhibitorCompany });
-                        const contacts = exhibitor.contacts.map((contact: any) => {
-                          return {
-                            id: contact.id,
-                            email: contact.email,
-                            firstName: contact.firstName,
-                            lastName: contact.lastName || '',
-                            contactLabelId: contact.contactLabelId || null,
-                            position: '',
-                            contactPosition: contact.contactPosition,
-                            contactRole: contact.contactRole,
-                            profileImage: contact.profileImage,
-                            mobile: contact.mobile
-                          };
-                        });
+                        let contacts = [];
+                        if (this.exhibitorCount == 0) {
+                          contacts = exhibitor.contacts.map((contact: any) => {
+                            return {
+                              id: contact.id,
+                              email: contact.email,
+                              firstName: contact.firstName,
+                              lastName: contact.lastName || '',
+                              contactLabelId: contact.contactLabelId || null,
+                              position: '',
+                              contactPosition: contact.contactPosition,
+                              contactRole: contact.contactRole,
+                              profileImage: contact.profileImage,
+                              mobile: contact.mobile
+                            };
+                          });
+                        }
                         this.eventService.addFetchedVenueExCmpCnt({ contactList: contacts, exhibitorIndex, venueIndex });
                         return {
                           name: exhibitor.exhibitorName,
@@ -606,7 +640,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           companyId: exhibitor.exhibitorCompanyId,
                           standNumber: exhibitor.standNumber,
                           contacts,
-
+                          exhibitorId: exhibitor.exhibitorId,
                           timeWindows: {
                             bumpIn: {
                               sameAsVenue: null,
@@ -630,27 +664,32 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           };
           const venues = this.data.eventData.venues;
           for (let i = 0; i < venues.length; i++) {
-            this.venueCompanies?.push(({
-              id: venues[i].venueCompanyId,
-              companyName: venues[i].venueCompanyName,
-              city: venues[i].companyCity,
-              phone: venues[i].companyPhone,
-              companyProfileImage: venues[i].companyProfileImage,
-              state: venues[i].companyState,
-              website: venues[i].companyWebsite,
-              companyTaxNumber: '',
-              streetAddress_1: '',
-              streetAddress_2: '',
-              countryId: 0,
-              postcode: '',
-              description: '',
-              createdDate: '',
-              updatedDate: '',
-              companyUID: '',
-              companyType: '',
-              canClaim: 0,
-              canJoin: 0
-            } as Company));
+            let venueId: number = venues[i].venueId;
+            let findVenueId = _.find(this.venueCompanies, { venueId });
+            if (!findVenueId && findVenueId == undefined) {
+              this.venueCompanies?.push(({
+                venueId: venues[i].venueId,
+                id: venues[i].venueCompanyId,
+                companyName: venues[i].venueCompanyName,
+                city: venues[i].companyCity,
+                phone: venues[i].companyPhone,
+                companyProfileImage: venues[i].companyProfileImage,
+                state: venues[i].companyState,
+                website: venues[i].companyWebsite,
+                companyTaxNumber: '',
+                streetAddress_1: '',
+                streetAddress_2: '',
+                countryId: 0,
+                postcode: '',
+                description: '',
+                createdDate: '',
+                updatedDate: '',
+                companyUID: '',
+                companyType: '',
+                canClaim: 0,
+                canJoin: 0
+              } as Company));
+            }
             const contacts: any = venues[i].contacts.map((contact: any) => {
               return {
                 id: contact.id,
@@ -668,6 +707,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.venueContactLists.push(contacts);
 
           }
+          this.exhibitorCount++;
           console.log(this.eventToBeSaved);
         }
       }
@@ -765,7 +805,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               invited: null,
               shouldInvite: 1,
               contacts: null,
-              requirements: ''
+              requirements: '',
+              emInternalNotes: ''
             };
           } else {
             this.unsetFnCompanyToSelf();
@@ -821,7 +862,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           invited: isInvitedCompany ? (company as InviteFnCmpClass) : null,
           shouldInvite: isInvitedCompany ? null : 1,
           contacts: null,
-          requirements: ''
+          requirements: '',
+          emInternalNotes: ''
         };
         break;
       case EventFunctionTypes.VENUE:
@@ -1099,7 +1141,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           shouldInvite: shouldInvite ? 1 : 0,
           isOwnCompany: false,
           invited: null,
-          requirements: this.eventToBeSaved.eventManager?.requirements || ''
+          requirements: this.eventToBeSaved.eventManager?.requirements || '',
+          emInternalNotes: this.eventToBeSaved.eventManager?.emInternalNotes || '',
         };
 
       } else {
@@ -1109,7 +1152,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           shouldInvite: shouldInvite ? 1 : 0,
           isOwnCompany: false,
           invited: (this.eventMgrCmp as InviteFnCmpClass),
-          requirements: this.eventToBeSaved.eventManager?.requirements || ''
+          requirements: this.eventToBeSaved.eventManager?.requirements || '',
+          emInternalNotes: this.eventToBeSaved.eventManager?.emInternalNotes || '',
         };
 
       }
@@ -1356,6 +1400,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.active = 6;
             this.eventService.fetchEventFilesSubject.next(this.savedEventId);
             this.eventService.hideInfoBar = true;
+            this.router.navigate(['/home'], { replaceUrl: true });
           }
         },
         error => {
@@ -1411,6 +1456,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private isVenuesValid(): boolean {
     if (this.venueCompanies && this.venueCompanies.length > 0) {
+      console.log(cloneDeep(this.venueCompanies));
+      console.log(cloneDeep(this.venueContactLists))
       /*
       * clean venue companies and there corresponding contacts
       * which are removed i.e venueCompany===null
