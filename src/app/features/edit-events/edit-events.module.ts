@@ -26,6 +26,7 @@ import { DateTimePickerComponent } from './components/date-time-picker/date-time
 import { EventFilesUploadModalComponent } from './components/event-files-upload-modal/event-files-upload-modal.component';
 import { EventViewComponent } from './components/event-view/event-view.component';
 import { EventGanttChartComponent } from './components/event-gantt-chart/event-gantt-chart.component';
+import { EventAssignCrewFunctionCmpComponent } from './components/event-assign-crew-function-cmp/event-assign-crew-function-cmp.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { EventGanttChartComponent } from './components/event-gantt-chart/event-g
     EventFilesUploadModalComponent,
     EventViewComponent,
     EventGanttChartComponent,
+    EventAssignCrewFunctionCmpComponent,
   ],
   imports: [
     CommonModule,
