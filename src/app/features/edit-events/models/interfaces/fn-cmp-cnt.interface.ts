@@ -7,4 +7,5 @@ export interface FnCmpCntInterface extends InviteFnCmpCntInterface {
   profileImage?: string;
   contactPosition?: any;
   contactRole?: any;
+  isCrew?: any;
 }

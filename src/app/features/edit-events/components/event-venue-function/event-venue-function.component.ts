@@ -149,6 +149,10 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
     this.removeContact(rowIndex, columnIndex);
   }
 
+  removeCrewContact(rowIndex: number, columnIndex: number): any {
+    this.removeContact(rowIndex, columnIndex);
+  }
+
   testLogVenue(): void {
     devLogger('log', { EVENT_TO_BE_SAVE_VENUE: this.eventToBeSaved });
   }

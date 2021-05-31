@@ -92,6 +92,11 @@
                         [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                         (modalOpen)="setOpenedModalRef($event)" (contactRemove)="removeVenueContact(i,$event)" [isVenueEditable]="isVenueEditable">
                       </app-event-assign-function-cmp>
+                      <app-event-assign-crew-function-cmp #venueCrewAssignCmp [contactList]="panel.contacts"
+                      [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
+                      [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
+                      (modalOpen)="setOpenedModalRef($event)" (crewRemove)="removeCrewContact(i,$event)" [isVenueEditable]="isVenueEditable">
+                    </app-event-assign-crew-function-cmp>
                     </div>
                     <div class="nine wide column">
                       <div class="field">

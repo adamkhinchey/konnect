@@ -105,6 +105,8 @@ export class EventService {
     this.hideInfoBar = false;
     this.fetchedVenueSrvcsCmp = [];
     this.fetchedVenueSrvcsCmpCnts = [];
+    this.fetchedVenueExCmp = [];
+    this.fetchedVenueExCmpCnts = [];
   }
 
   supplierCompanyAdded(company: Company | InviteFnCmpInterface): void {

@@ -251,7 +251,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               contactPosition: contacts[i].contactPosition,
               contactRole: contacts[i].contactRole,
               profileImage: contacts[i].profileImage,
-              mobile: contacts[i].mobile
+              mobile: contacts[i].mobile,
+              isCrew: contacts.isCrew || 0
             });
           }
         }
@@ -307,13 +308,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               contactPosition: contacts[i].contactPosition,
               contactRole: contacts[i].contactRole,
               profileImage: contacts[i].profileImage,
-              mobile: contacts[i].mobile
+              mobile: contacts[i].mobile,
+              isCrew: contacts[i].isCrew || 0
             });
           }
         }
       }
       if (tabType === 3) {
         if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
+          this.eventService.activeVenuePanelIndex = 0;
           this.eventToBeSaved.venues = {
             notesToAll: this.data.eventData.venues[0].venueNotesToAll,
             list: (this.data.eventData.venues.map((venue: any) => {
@@ -331,7 +334,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                     contactPosition: contact.contactPosition,
                     contactRole: contact.contactRole,
                     profileImage: contact.profileImage,
-                    mobile: contact.mobile
+                    mobile: contact.mobile,
+                    isCrew: contact.isCrew || 0
                   };
                 }),
                 preEventAccessDateTimes: venue.preEventTime,
@@ -385,7 +389,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 contactPosition: contact.contactPosition,
                 contactRole: contact.contactRole,
                 profileImage: contact.profileImage,
-                mobile: contact.mobile
+                mobile: contact.mobile,
+                isCrew: contact.isCrew || 0
               };
             });
             this.venueContactLists.push(contacts);
@@ -463,7 +468,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             contactPosition: contact.contactPosition,
                             contactRole: contact.contactRole,
                             profileImage: contact.profileImage,
-                            mobile: contact.mobile
+                            mobile: contact.mobile,
+                            isCrew: contact.isCrew || 0
                           };
                         });
                       }
@@ -536,7 +542,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 contactPosition: contact.contactPosition,
                 contactRole: contact.contactRole,
                 profileImage: contact.profileImage,
-                mobile: contact.mobile
+                mobile: contact.mobile,
+                isCrew: contact.isCrew || 0
               };
             });
             this.venueContactLists.push(contacts);
@@ -564,7 +571,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                     contactPosition: contact.contactPosition,
                     contactRole: contact.contactRole,
                     profileImage: contact.profileImage,
-                    mobile: contact.mobile
+                    mobile: contact.mobile,
+                    isCrew: contact.isCrew || 0
                   };
                 }),
                 preEventAccessDateTimes: venue.preEventTime,
@@ -701,7 +709,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 contactPosition: contact.contactPosition,
                 contactRole: contact.contactRole,
                 profileImage: contact.profileImage,
-                mobile: contact.mobile
+                mobile: contact.mobile,
+                isCrew: contact.isCrew || 0
               };
             });
             this.venueContactLists.push(contacts);
