@@ -19,7 +19,7 @@
                 <div class="ui fluid card">
                   <div class="content">
                     <img class="right floated mini ui image"
-                    [src]="selectedCompany.companyProfileImage"
+                    [src]="getCompanyProfileImage() || 'assets/img/default_konnect_img.png'"
                     appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                     <div class="header">
                       <a>{{selectedCompany.companyName}}</a>
@@ -31,7 +31,7 @@
                       <a>
                         <i class="map marker alternate icon"></i>{{selectedCompany.city}}</a>
                       <span>|</span>
-                      <i class="phone icon"></i>{{selectedCompany.phone || ''}}
+                      <i class="phone icon"></i>{{getCompanyPhone() || ''}}
                     </div>
                   </div>
                   <div class="extra content" [ngClass]="{'editableObject':false}">

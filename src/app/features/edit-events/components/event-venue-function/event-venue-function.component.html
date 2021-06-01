@@ -55,7 +55,7 @@
                             <div class="column">
                               <div class="ui fluid card">
                                 <div class="content">
-                                  <img class="right floated mini ui image" [src]="selectedCompanies[i]!.companyProfileImage"
+                                  <img class="right floated mini ui image" [src]="getCompanyProfileImage(i) || 'assets/img/default_konnect_img.png'"
                                     appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                   <div class="header">
                                     <a>{{selectedCompanies[i]!.companyName}}</a>
@@ -67,7 +67,7 @@
                                     <a>
                                       <i class="map marker alternate icon"></i>{{selectedCompanies[i]!.city}}</a>
                                     <span>|</span>
-                                    <i class="phone icon"></i>{{selectedCompanies[i]!.phone || ''}}
+                                    <i class="phone icon"></i>{{getCompanyPhone(i) || ''}}
                                   </div>
                                 </div>
                                 <div class="extra content" [ngClass]="{'editableObject':false}">
@@ -88,13 +88,13 @@
                           </div>
                         </div>
                       </div>
-                      <app-event-assign-function-cmp #venueAssignCmp [contactList]="panel.contacts"  [permissionObj]="permissionObj"
+                      <app-event-assign-function-cmp #venueAssignCmp [contactList]="panel.contacts?panel.contacts:[]"  [permissionObj]="permissionObj"
                       [isViewPermisssion]="1"
                         [clientCmpBtnLabel]="'Add Venue'" [contactListLabel]="'Venue Contacts'"
                         [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                         (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)" (contactRemove)="removeVenueContact(i,$event)" [isVenueEditable]="isVenueEditable">
                       </app-event-assign-function-cmp>
-                      <app-event-assign-crew-function-cmp #venueCrewAssignCmp [contactList]="panel.contacts"
+                      <app-event-assign-crew-function-cmp #venueCrewAssignCmp [contactList]="panel.contacts?panel.contacts:[]"
                       [permissionObj]="permissionObj"
                       [isViewPermisssion]="1"
                       [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
@@ -119,9 +119,9 @@
                           [eventTimesCount]="panel?.eventAccessDateTimes?.length || 1"
                           [postEventTimesCount]="panel?.postEventAccessDateTimes?.length || 1"
                           [eventView]="true"
-                          [preEventNotes]="panel.preEventAccessDateTimes[i]?.notes"
-                          [eventNotes]="panel.eventAccessDateTimes[i]?.notes"
-                          [postEventNotes]="panel.postEventAccessDateTimes[i]?.notes">
+                          [preEventNotes]="panel.preEventAccessDateTimes[i]?.notes || ''"
+                          [eventNotes]="panel.eventAccessDateTimes[i]?.notes || ''"
+                          [postEventNotes]="panel.postEventAccessDateTimes[i]?.notes || ''">
                       </app-time-windows>
                         </div>
                       </div>
