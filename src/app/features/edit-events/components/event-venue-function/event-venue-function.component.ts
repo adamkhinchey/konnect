@@ -50,7 +50,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   isVenueEdit: boolean = false;
   public isVenueEditable: boolean = false;
   @Input() venueContactLists: Array<Array<FnCmpCntInterface>> = [];
-  @Input() setIsCrew: number = 0;
+  @Input() setIsCrew: any;
 
 
   constructor(private eventService: EventService) {
