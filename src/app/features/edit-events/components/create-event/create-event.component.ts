@@ -199,11 +199,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
 
 
-        // this.permissionObj.isClient = false;
-        // this.permissionObj.isEventManager = false;
-        // this.permissionObj.isVenue = false;
-        // this.permissionObj.isService = false;
-        // this.permissionObj.isExhibitor = false;
+        this.permissionObj.isClient = false;
+        this.permissionObj.isEventManager = false;
+        this.permissionObj.isVenue = false;
+        this.permissionObj.isService = false;
+        this.permissionObj.isExhibitor = false;
 
       }
       if (res && res.commonData) {

@@ -65,7 +65,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   class="building icon"></i></h3>
                             </div>
                             <div class="field">
-                              <input  *ngIf="permissionObj.isClient || permissionObj.isEventManager || service.isViewPermisssion == 1; else no_access" [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
+                              <input  *ngIf="permissionObj.isClient || permissionObj.isEventManager || service?.isViewPermisssion == 1; else no_access" [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
                                 placeholder="Name">
                                 <ng-template #no_access>No access
                                 </ng-template>
@@ -117,13 +117,14 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <app-event-assign-function-cmp #suppliersAssignCmp
                             [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"
                             [clientCmpBtnLabel]="'Add Supplier'" [contactListLabel]="'Supplier Contacts'" [permissionObj]="permissionObj"
-                            [isViewPermisssion]="service.isViewPermisssion"
+                            [isViewPermisssion]="service?.isViewPermisssion"
                             [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                             (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)" [contactList]="service.contacts?service.contacts:[]"
                             (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)" [isServiceEditable]="isServiceEditable">
                           </app-event-assign-function-cmp>
                           
-                          <app-event-assign-crew-function-cmp #suppliersCrewAssignCmp
+                          <app-event-assign-crew-function-cmp #suppliersCrewAssignCmp   [permissionObj]="permissionObj"
+                          [isViewPermisssion]="service?.isViewPermisssion"
                           [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"
                           [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
                           [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
@@ -138,7 +139,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 class="building icon"></i></h3>
                           </div>
                           <div class="field">
-                            <textarea  *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service.isViewPermisssion==1; else no_access" [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}"
+                            <textarea  *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service?.isViewPermisssion==1; else no_access" [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}"
                               class="textarea"></textarea>
                               <ng-template #no_access>No access
                               </ng-template>
@@ -151,7 +152,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </div>
 
                               <app-time-windows
-                              *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service.isViewPermisssion==1; else no_access"
+                              *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service?.isViewPermisssion==1; else no_access"
                               [timeWindowFor]="eventTimeWindowType"
                               [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                               [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"

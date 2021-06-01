@@ -33,8 +33,10 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   @Input() isServiceEditable: boolean = false;
   @Input() isExhibitorEditable: boolean = false;
   @Output() isCrew = new EventEmitter<any>();
-
-
+  @Input() isViewPermisssion: any; 
+  @Input() permissionObj: any; 
+ 
+   
   constructor(private modalService: NgbModal) {
   }
 
