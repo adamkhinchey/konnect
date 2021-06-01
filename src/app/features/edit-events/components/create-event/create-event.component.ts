@@ -419,7 +419,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                     contactPosition: contact.contactPosition,
                     contactRole: contact.contactRole,
                     profileImage: contact.profileImage,
-                    mobile: contact.mobile
+                    mobile: contact.mobile,
+                    isCrew: contact.isCrew || 0
                   };
                 }),
                 preEventAccessDateTimes: venue.preEventTime,
@@ -637,7 +638,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                               contactPosition: contact.contactPosition,
                               contactRole: contact.contactRole,
                               profileImage: contact.profileImage,
-                              mobile: contact.mobile
+                              mobile: contact.mobile,
+                              isCrew: contact.isCrew || 0
                             };
                           });
                         }
@@ -916,6 +918,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setOpenedModalRef(event: NgbModalRef): void {
+    console.log(event);
     this.modalReference = event;
   }
 
@@ -986,9 +989,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           this.venueContactLists[activatedVenuePanelIndex].push(...contactList);
           this.venueContactLists = [...this.venueContactLists];
           let venueAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
+          let venueCrewAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
           venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex);
+          //@ts-ignore 
+          venueCrewAssignCmpCnt = this.venueFn?.venueCrewAssignCmp.get(activatedVenuePanelIndex);
           if (venueAssignCmpCnt) {
             venueAssignCmpCnt.setContactList(this.venueContactLists[activatedVenuePanelIndex]);
+          }
+          if (venueCrewAssignCmpCnt) {
+            venueCrewAssignCmpCnt.setContactList(this.venueContactLists[activatedVenuePanelIndex]);
           }
         }
         break;
@@ -1107,11 +1116,21 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       case EventFunctionTypes.VENUE:
         if (typeof jIndex === 'number') {
+          alert(index);
+          alert(jIndex)
+          console.log('before splice: ', cloneDeep(this.venueContactLists[index]));
           this.venueContactLists[index].splice(jIndex, 1);
+          console.log('after splice: ', cloneDeep(this.venueContactLists[index]));
           // @ts-ignore
           const venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(index);
+          // @ts-ignore
+          const venueCrewAssignCmpCnt = this.venueFn?.venueCrewAssignCmp.get(index);
+          console.log('Venue assign: ', venueAssignCmpCnt);
           if (venueAssignCmpCnt) {
             venueAssignCmpCnt.setContactList(this.venueContactLists[index]);
+          }
+          if (venueCrewAssignCmpCnt) {
+            venueCrewAssignCmpCnt.setContactList(this.venueContactLists[index]);
           }
         }
         return;
@@ -1181,6 +1200,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       // @ts-ignore
       this.venueFn?.venueAssignCmp.get(index)?.removeSelectedCompany();
       this.venueFn?.venueAssignCmp.get(index)?.removeContactList();
+      // @ts-ignore
+      this.venueFn?.venueCrewAssignCmp.get(index)?.removeContactList();
     }
     // this.data.eventData.venues?.splice(index,1)
   }

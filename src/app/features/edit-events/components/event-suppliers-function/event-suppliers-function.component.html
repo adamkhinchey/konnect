@@ -121,7 +121,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
                           [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                           (modalOpen)="setOpenedModalRef($event)" [contactList]="service.contacts?service.contacts:[]"
-                          (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)" [isServiceEditable]="isServiceEditable">
+                          (crewRemove)="removeServiceContact(venueIndex,serviceIndex,$event)" [isServiceEditable]="isServiceEditable">
                         </app-event-assign-crew-function-cmp>
                         </div>
 

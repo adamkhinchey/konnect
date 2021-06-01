@@ -27,6 +27,7 @@ import { FnCmpCntInterface } from '../../models/interfaces';
 export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
 
   @ViewChildren('venueAssignCmp') venueAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
+  @ViewChildren('venueCrewAssignCmp') venueCrewAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
   // @ts-ignore
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
   @Input() eventData: any;
@@ -146,10 +147,6 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   }
 
   removeVenueContact(rowIndex: number, columnIndex: number): any {
-    this.removeContact(rowIndex, columnIndex);
-  }
-
-  removeCrewContact(rowIndex: number, columnIndex: number): any {
     this.removeContact(rowIndex, columnIndex);
   }
 

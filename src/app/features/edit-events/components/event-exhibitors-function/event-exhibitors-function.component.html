@@ -148,7 +148,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                           (modalOpen)="setOpenedModalRef($event)"
                           [contactList]="exhibitor.contacts?exhibitor.contacts:[]"
-                          (contactRemove)="removeExhibitorContact(venueIndex,exhibitorIndex,$event)"
+                          (crewRemove)="removeExhibitorContact(venueIndex,exhibitorIndex,$event)"
                           [isExhibitorEditable]="isExhibitorEditable">
                         </app-event-assign-crew-function-cmp>
                         </div>

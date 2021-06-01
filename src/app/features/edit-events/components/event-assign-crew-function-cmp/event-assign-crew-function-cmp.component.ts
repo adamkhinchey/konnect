@@ -38,6 +38,7 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('contact list after change: ', changes.contactList?.currentValue)
     if (changes && changes.selectedCompany && changes.selectedCompany.currentValue) {
       this.disableAddContacts = changes.selectedCompany.currentValue instanceof InviteFnCmpClass;
     } else if (changes && changes.selectedCompany && !changes.selectedCompany.currentValue) {
@@ -48,14 +49,15 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
 
-  openVerticallyCentered(content: any): void {
+  openVerticallyCentered(content: any, isCrew: number): void {
     this.modalReference = this.modalService.open(content, {
       centered: true,
       size: 'lg',
       backdrop: 'static',
-      keyboard: false
+      keyboard: false,
     });
-
+    
+    this.modalReference.componentInstance.isCrew = isCrew;
     this.modalOpen.emit(this.modalReference);
   }
 

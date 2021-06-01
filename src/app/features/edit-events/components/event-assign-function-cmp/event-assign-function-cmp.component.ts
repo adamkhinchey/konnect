@@ -5,6 +5,7 @@ import {FnCmpCntInterface, InviteFnCmpInterface} from '../../models/interfaces';
 import {InviteFnCmpClass} from '../../models/classes';
 import {devLogger} from '../../../../shared/utils';
 import {environment} from '../../../../../environments/environment';
+import { cloneDeep } from 'lodash-es';
 
 @Component({
   selector: 'app-event-assign-function-cmp',
@@ -88,7 +89,11 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   setContactList(contactList: FnCmpCntInterface[]): void {
-    this.contactList = contactList;
+    alert(this.contactList == contactList);
+    console.log('this. contact list in set contact',cloneDeep(this.contactList));
+    console.log('contact list in set contact',cloneDeep(contactList));
+
+    this.contactList = cloneDeep(contactList);
   }
 
   removeContactList(): void {

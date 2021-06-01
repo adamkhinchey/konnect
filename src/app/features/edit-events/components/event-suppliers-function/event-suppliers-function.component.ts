@@ -168,8 +168,10 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   }
 
   removeServiceContact(venueIndex: number, serviceIndex: number, event: number): void {
+    console.log('venue index: ',venueIndex, 'service index: ',serviceIndex, 'event: ',event)
     const service = this.eventToBeSaved.venues?.list[venueIndex]
       .suppliers[0]?.services[serviceIndex];
+      console.log('service: ', service);
     if (service && service.contacts) {
       service.contacts.splice(event, 1);
     }

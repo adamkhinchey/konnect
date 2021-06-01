@@ -52,11 +52,10 @@
             </div>
         </div>
     </div>
-    <div class="ui grid center aligned"
-        *ngIf="isVenueEditable || isServiceEditable || isExhibitorEditable">
+    <div class="ui grid center aligned" *ngIf="isVenueEditable || isServiceEditable || isExhibitorEditable">
         <div class="sixteen wide column">
-            <div class="ui basic button blue fluid addContacts hasModal" (click)="openVerticallyCentered(contactModal)"
-                data-modal="contacts">
+            <div class="ui basic button blue fluid addContacts hasModal"
+                (click)="openVerticallyCentered(contactModal,1)" data-modal="contacts">
                 <i class="plus circle icon"></i>Add Crew
             </div>
         </div>
