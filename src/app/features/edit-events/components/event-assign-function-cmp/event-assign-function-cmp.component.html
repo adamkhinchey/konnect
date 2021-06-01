@@ -10,8 +10,8 @@
   <div class="ui dividing header">
     <h3>{{contactListLabel}} <i class="globe icon"></i></h3>
   </div>
-  <div class="kipCardContainer">
-    <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
+  <div class="kipCardContainer"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermisssion ; else no_access">
+    <div  *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
       <div class="column" *ngFor="let contact of contactList; let i=index">
         <ng-container *ngIf="contact.isCrew == 0">
           <div class="contactRole">{{contact.contactRole}}
@@ -52,8 +52,9 @@
       </div>
     </div>
   </div>
-  <div class="ui grid center aligned"
-    *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable">
+  <ng-template #no_access>No access
+  </ng-template>
+  <div class="ui grid center aligned" *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable">
     <div class="sixteen wide column">
       <div class="ui basic button blue fluid addContacts hasModal" (click)="openVerticallyCentered(contactModal)"
         data-modal="contacts">

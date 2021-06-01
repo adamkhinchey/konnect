@@ -28,6 +28,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   @Input() searchInviteFnCmpCntModal: any;
   @Input() setOpenedModalRef: any;
   @Input() content: any;
+  @Input() permissionObj: any; 
   @Input() venueCompanies: Array<Company | InviteFnCmpInterface | null> | undefined | null = [];
   activeExhibitorPanel = 0;
   private exhCompanyAddedSub: Subscription | undefined;

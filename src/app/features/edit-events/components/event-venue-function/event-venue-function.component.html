@@ -8,8 +8,9 @@
                 class="map marker alternate icon"></i></h3>
           </div>
           <div class="field"  *ngIf="eventToBeSaved.venues">
-            <textarea class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
+            <textarea  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
               [ngModelOptions]="{standalone:true}"></textarea>
+              <ng-template #no_access>No access</ng-template>
           </div>
         </div>
       </div>
@@ -87,7 +88,8 @@
                           </div>
                         </div>
                       </div>
-                      <app-event-assign-function-cmp #venueAssignCmp [contactList]="panel.contacts"
+                      <app-event-assign-function-cmp #venueAssignCmp [contactList]="panel.contacts"  [permissionObj]="permissionObj"
+                      [isViewPermisssion]="1"
                         [clientCmpBtnLabel]="'Add Venue'" [contactListLabel]="'Venue Contacts'"
                         [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                         (modalOpen)="setOpenedModalRef($event)" (contactRemove)="removeVenueContact(i,$event)" [isVenueEditable]="isVenueEditable">
@@ -126,9 +128,11 @@
                         </h3>
                       </div>
                       <div class="field">
-                        <textarea class="textarea" [(ngModel)]="panel.requirements"
+                        <textarea  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access" class="textarea" [(ngModel)]="panel.requirements"
                           [ngModelOptions]="{standalone:true}">
                         </textarea>
+                        <ng-template #no_access>No access
+                        </ng-template>
                       </div>
 
                     </div>

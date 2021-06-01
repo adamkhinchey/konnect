@@ -19,10 +19,13 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   <h3>Notes to All Exhibitors <i class="cog icon"></i><i class="sitemap icon"></i><i
                       class="exhibitor icon"></i></h3>
                 </div>
-                <div class="field">
-                  <textarea class="textarea" *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
+                <div class="field"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access">
+                  <textarea  class="textarea" *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
                     [(ngModel)]="venue.exhibitorList[0].notesToAll" [ngModelOptions]="{standalone:true}"></textarea>
-                </div>
+                
+                   
+                  </div>
+                  <ng-template #no_access>No access</ng-template>
               </div>
 
               <div class="nine wide column" *ngIf="venue.exhibitorList[0].exhibitors.length">
@@ -35,6 +38,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                     </div>
 
                     <app-time-windows [timeWindowFor]="eventTimeWindowForAllExh"
+                    *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"
                       [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                       [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
                       [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
@@ -43,6 +47,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                       [preEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpIn.timings"
                       [postEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpOut.timings"
                       [eventTimes]="venue.exhibitorList[0].timeWindowsToAll.eventTime.timings"></app-time-windows>
+
+                      <ng-template #no_access>No access</ng-template>                      
                   </div>
                 </div>
 
@@ -92,7 +98,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 <i class="building icon"></i>
                               </h3>
                             </div>
-                            <div class="kcpCardContainer">
+                            <div class="kcpCardContainer"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor.isViewPermisssion==1; else no_access">
                               <div class="ui one column grid">
                                 <div class="column">
                                   <div class="ui fluid card">
@@ -131,8 +137,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 </div>
                               </div>
                             </div>
+                            <ng-template #no_access>
+                              No access
+                          </ng-template>
                           </div>
-                          <app-event-assign-function-cmp #exhibitorsAssignCmp
+                          <app-event-assign-function-cmp #exhibitorsAssignCmp [permissionObj]="permissionObj"
+                            [isViewPermisssion]="exhibitor.isViewPermisssion"
                             [selectedCompany]="venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)"
                             [clientCmpBtnLabel]="'Add Exhibitor'" [contactListLabel]="'Exhibitors Contacts'"
                             [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
@@ -158,18 +168,23 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             <h3>Stand Number <i class="cog icon"></i><i class="sitemap icon"></i><i
                                 class="building icon"></i></h3>
                           </div>
-                          <div class="field">
+                          <div class="field"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor.isViewPermisssion==1; else no_access">
                             <input type="text" [(ngModel)]="exhibitor.standNumber" [ngModelOptions]="{standalone:true}"
                               placeholder="Stand Number">
+                              
                           </div>
+                          <ng-template #no_access>No access
+                          </ng-template>
                           <div class="ui dividing header">
                             <h3>Notes to Specific Exhibitor <i class="cog icon"></i><i class="sitemap icon"></i><i
                                 class="building icon"></i></h3>
                           </div>
-                          <div class="field">
+                          <div class="field"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor.isViewPermisssion==1; else no_access">
                             <textarea class="textarea" [(ngModel)]="exhibitor.requirement"
                               [ngModelOptions]="{standalone:true}"></textarea>
                           </div>
+                          <ng-template #no_access>No access
+                          </ng-template>
                           <div class="field">
                             <div class="timeWindowsContainer">
                               <div class="ui dividing header">
@@ -178,6 +193,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </div>
 
                               <app-time-windows [timeWindowFor]="eventTimeWindowType"
+                              *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor.isViewPermisssion==1; else no_access"
                                 [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                                 [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
                                 [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
@@ -186,7 +202,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 [preEventTimes]="exhibitor.timeWindows.bumpIn.timings"
                                 [postEventTimes]="exhibitor.timeWindows.bumpOut.timings"
                                 [eventTimes]="exhibitor.timeWindows.eventTime.timings"></app-time-windows>
-
+                                <ng-template #no_access>No
+                                  access</ng-template>
                             </div>
                           </div>
 

@@ -20,6 +20,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() clientCompanyModal: TemplateRef<any> | undefined;
   @Input() contactModal: TemplateRef<any> | undefined;
   @Output() modalOpen = new EventEmitter<NgbModalRef>();
+  @Input() isViewPermisssion: any; 
   @Output() contactRemove = new EventEmitter<number>();
   modalReference: NgbModalRef | undefined;
   editContactLabelModalReference: NgbModalRef | undefined;
@@ -33,6 +34,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() isVenueEditable: boolean = false;
   @Input() isServiceEditable: boolean = false;
   @Input() isExhibitorEditable: boolean = false;
+  @Input() permissionObj: any; 
 
 
   constructor(private modalService: NgbModal) {
@@ -47,6 +49,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    // console.log("isViewPermisssion wer wer** ", this.isViewPermisssion)
   }
 
   openVerticallyCentered(content: any): void {
