@@ -35,7 +35,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() isServiceEditable: boolean = false;
   @Input() isExhibitorEditable: boolean = false;
   @Input() permissionObj: any; 
-
+  @Output() isCrew = new EventEmitter<any>();
 
   constructor(private modalService: NgbModal) {
   }
@@ -59,7 +59,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
       backdrop: 'static',
       keyboard: false
     });
-
+    this.isCrew.emit(0);
     this.modalOpen.emit(this.modalReference);
   }
 
@@ -92,10 +92,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   setContactList(contactList: FnCmpCntInterface[]): void {
-    alert(this.contactList == contactList);
-    console.log('this. contact list in set contact',cloneDeep(this.contactList));
-    console.log('contact list in set contact',cloneDeep(contactList));
-
     this.contactList = cloneDeep(contactList);
   }
 

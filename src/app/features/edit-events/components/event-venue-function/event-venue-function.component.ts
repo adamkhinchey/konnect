@@ -42,7 +42,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   activeVenuePanel = 0;
   @Input() searchInviteCmpModal: any;
   @Input() searchInviteFnCmpCntModal: any;
-  @Input() permissionObj: any; 
+  @Input() permissionObj: any;
   @Input() setOpenedModalRef: any;
   @Input() removeContact: any;
   eventTimeWindowType = EventTimeWindowTypes.Venue;
@@ -50,8 +50,9 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   isVenueEdit: boolean = false;
   public isVenueEditable: boolean = false;
   @Input() venueContactLists: Array<Array<FnCmpCntInterface>> = [];
- 
- 
+  @Input() setIsCrew: number = 0;
+
+
   constructor(private eventService: EventService) {
   }
 
@@ -68,7 +69,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     // console.log("permissionObj ** ", this.permissionObj); 
   }
-  
+
 
   addVenue(): void {
     if (!this.eventToBeSaved.venues) {

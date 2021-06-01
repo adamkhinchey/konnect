@@ -147,6 +147,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             [clientCmpBtnLabel]="'Add Exhibitor'" [contactListLabel]="'Exhibitors Contacts'"
                             [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                             (modalOpen)="setOpenedModalRef($event)"
+                            (isCrew)="setIsCrew($event)"
                             [contactList]="exhibitor.contacts?exhibitor.contacts:[]"
                             (contactRemove)="removeExhibitorContact(venueIndex,exhibitorIndex,$event)"
                             [isExhibitorEditable]="isExhibitorEditable">
@@ -157,6 +158,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
                           [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                           (modalOpen)="setOpenedModalRef($event)"
+                          (isCrew)="setIsCrew($event)"
                           [contactList]="exhibitor.contacts?exhibitor.contacts:[]"
                           (crewRemove)="removeExhibitorContact(venueIndex,exhibitorIndex,$event)"
                           [isExhibitorEditable]="isExhibitorEditable">

@@ -119,7 +119,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             [clientCmpBtnLabel]="'Add Supplier'" [contactListLabel]="'Supplier Contacts'" [permissionObj]="permissionObj"
                             [isViewPermisssion]="service.isViewPermisssion"
                             [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
-                            (modalOpen)="setOpenedModalRef($event)" [contactList]="service.contacts?service.contacts:[]"
+                            (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)" [contactList]="service.contacts?service.contacts:[]"
                             (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)" [isServiceEditable]="isServiceEditable">
                           </app-event-assign-function-cmp>
                           
@@ -127,7 +127,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"
                           [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
                           [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
-                          (modalOpen)="setOpenedModalRef($event)" [contactList]="service.contacts?service.contacts:[]"
+                          (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)" [contactList]="service.contacts?service.contacts:[]"
                           (crewRemove)="removeServiceContact(venueIndex,serviceIndex,$event)" [isServiceEditable]="isServiceEditable">
                         </app-event-assign-crew-function-cmp>
                         </div>

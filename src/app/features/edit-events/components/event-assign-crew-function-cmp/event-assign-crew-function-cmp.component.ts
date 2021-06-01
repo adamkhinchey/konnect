@@ -32,6 +32,7 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   @Input() isVenueEditable: boolean = false;
   @Input() isServiceEditable: boolean = false;
   @Input() isExhibitorEditable: boolean = false;
+  @Output() isCrew = new EventEmitter<any>();
 
 
   constructor(private modalService: NgbModal) {
@@ -56,8 +57,8 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
       backdrop: 'static',
       keyboard: false,
     });
-    
-    this.modalReference.componentInstance.isCrew = isCrew;
+
+    this.isCrew.emit(1);
     this.modalOpen.emit(this.modalReference);
   }
 
