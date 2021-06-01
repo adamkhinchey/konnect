@@ -931,7 +931,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.modalReference = event;
   }
 
-  setIsCrew(event: number) {
+  setIsCrew(event: any) {
     console.log('is Crew on create event: ', event);
     this.emitedCrew = event;
   }
