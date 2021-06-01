@@ -199,11 +199,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
 
 
-        this.permissionObj.isClient = false;
-        this.permissionObj.isEventManager = false;
-        this.permissionObj.isVenue = false;
-        this.permissionObj.isService = false;
-        this.permissionObj.isExhibitor = false;
+        // this.permissionObj.isClient = false;
+        // this.permissionObj.isEventManager = false;
+        // this.permissionObj.isVenue = false;
+        // this.permissionObj.isService = false;
+        // this.permissionObj.isExhibitor = false;
 
       }
       if (res && res.commonData) {
@@ -247,7 +247,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             creatorCompanyName: this.data.eventData.creatorCompanyName,
             eventCreatedDate: this.data.eventData.eventCreatedDate,
             createrUserId: this.data.eventData.createrUserId,
-            creatorFromCompanyId: this.data.eventData.createrUserId
+            creatorFromCompanyId: this.data.eventData.createrUserId,
+            client: {
+              isOwnCompany: this.data.eventData.client.isOwnCompany
+            }
           } as SaveEventClass);
           const contacts: any = this.data.eventData.client.contacts;
           for (let i = 0; i < contacts.length; i++) {
@@ -303,7 +306,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             creatorFromCompanyId: this.data.eventData.createrUserId,
             eventManager: {
               requirements: this.data.eventData.eventManager.requirements,
-              emInternalNotes: this.data.eventData.eventManager.emInternalNotes
+              emInternalNotes: this.data.eventData.eventManager.emInternalNotes,
+              isOwnCompany: this.data.eventData.eventManager.isOwnCompany
             }
           } as SaveEventClass);
           const contacts: any = this.data.eventData.eventManager.contacts;
