@@ -38,7 +38,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   eventTimeWindowForAllExh = EventTimeWindowTypes.ALL_EXHIBITORS;
   isExhibitorEdit: boolean = false;
   public isExhibitorEditable: boolean = false;
-  @Input() setIsCrew: number = 0;
+  @Input() setIsCrew: any;
 
   constructor(private eventService: EventService) {
   }

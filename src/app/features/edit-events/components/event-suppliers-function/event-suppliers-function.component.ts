@@ -38,7 +38,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   eventTimeWindowType = EventTimeWindowTypes.Supplier;
   isServiceEdit: boolean = false;
   public isServiceEditable: boolean = false;
-  @Input() setIsCrew: number = 0;
+  @Input() setIsCrew: any;
 
   constructor(private eventService: EventService) {
   }

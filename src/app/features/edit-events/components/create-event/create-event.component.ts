@@ -109,16 +109,16 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
       switch (this.selectedFunction) {
         case EventFunctionTypes.CLIENT:
-          if (this.defaultCompany && this.data?.eventData?.client?.isOwnCompany === 1) {
+          if (this.defaultCompany && this.data?.eventData?.client?.isOwnCompany === 1 && this.updateFnCmpToSelf.get(EventFunctionTypes.CLIENT)) {
             this.setFnCompanyToSelf(this.defaultCompany);
-          } else if (this.data?.eventData?.client?.isOwnCompany === 0) {
+          } else if (this.data?.eventData?.client?.isOwnCompany === 0 && this.updateFnCmpToSelf.get(EventFunctionTypes.CLIENT)) {
             this.unsetFnCompanyToSelf();
           }
           break;
         case EventFunctionTypes.EVENT_MANAGER:
-          if (this.defaultCompany && this.data?.eventData?.eventManager?.isOwnCompany === 1) {
+          if (this.defaultCompany && this.data?.eventData?.eventManager?.isOwnCompany === 1 && this.updateFnCmpToSelf.get(EventFunctionTypes.EVENT_MANAGER)) {
             this.setFnCompanyToSelf(this.defaultCompany);
-          } else if (this.data?.eventData?.eventManager?.isOwnCompany === 0) {
+          } else if (this.data?.eventData?.eventManager?.isOwnCompany === 0 && this.updateFnCmpToSelf.get(EventFunctionTypes.EVENT_MANAGER)) {
             this.unsetFnCompanyToSelf();
           }
           break;
