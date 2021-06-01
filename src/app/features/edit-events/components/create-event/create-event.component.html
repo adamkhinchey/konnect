@@ -11,7 +11,7 @@
             (removeSelectedCompany)="unsetClientCompany()" [eventToBeSaved]="eventToBeSaved"
             (saveAndInvite)="saveToDb($event)" (editClient)="isClientEditable = $event" [isOwnCompany]="data.eventData.client.isOwnCompany === 1">
             <ng-container assignFunctionCmp>
-              <app-event-assign-function-cmp [clientCmpBtnLabel]="'Add Client'" [contactListLabel]="'Client Contacts'"
+              <app-event-assign-function-cmp [permissionObj]="permissionObj" [isViewPermisssion]="1" [clientCmpBtnLabel]="'Add Client'" [contactListLabel]="'Client Contacts'"
                 [eventData]="data" [selectedCompany]="clientCompany" [clientCompanyModal]="searchInviteCmpModal"
                 [contactModal]="searchInviteFnCmpCntModal" (modalOpen)="setOpenedModalRef($event)"
                 (contactRemove)="removeContact($event)" [contactList]="clientContactList"
@@ -20,13 +20,13 @@
             </ng-container>
           </app-event-client-function>
         </ng-container>
-
+ 
         <ng-container eventManager *ngIf="data.eventData && data.eventData.eventManager && !data.eventData.venues">
-          <app-event-manager-function [eventData]="data" [selectedCompany]="eventMgrCmp"
+          <app-event-manager-function [eventData]="data" [selectedCompany]="eventMgrCmp"  [permissionObj]="permissionObj" 
             (removeSelectedCompany)="unsetEvMgrCmp()" [eventToBeSaved]="eventToBeSaved"
             (saveAndInvite)="saveToDb($event)" (editManager)="isManagerEditable = $event" [isOwnCompany]="data.eventData.eventManager.isOwnCompany === 1">
             <ng-container assignFunctionCmp>
-              <app-event-assign-function-cmp [eventData]="data" [clientCmpBtnLabel]="'Add Event Management Company'"
+              <app-event-assign-function-cmp [permissionObj]="permissionObj" [isViewPermisssion]="1" [eventData]="data" [clientCmpBtnLabel]="'Add Event Management Company'"
                 [contactListLabel]="'Event Management Company Contacts'" [selectedCompany]="eventMgrCmp"
                 [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                 (modalOpen)="setOpenedModalRef($event)" (contactRemove)="removeContact($event)"
@@ -37,31 +37,31 @@
         </ng-container>
 
         <ng-container venues *ngIf="data.eventData && data.eventData.venues && data.eventData.venues.length">
-          <app-event-venue-function #venueFn [eventData]="data" [selectedCompanies]="venueCompanies"
+          <app-event-venue-function #venueFn [eventData]="data" [permissionObj]="permissionObj" [selectedCompanies]="venueCompanies"
             [venueContactLists]="venueContactLists"
             (removeSelectedCompany)="unsetVenueCmp($event)" [eventToBeSaved]="eventToBeSaved"
             (saveAndInvite)="saveToDb($event)" [searchInviteCmpModal]="searchInviteCmpModal"
             [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal" [setOpenedModalRef]="setOpenedModalRef.bind(this)"
-            [removeContact]="removeContact.bind(this)">
+            [removeContact]="removeContact.bind(this)" >
           </app-event-venue-function>
-        </ng-container>
+        </ng-container>   
         <ng-container suppliers
           *ngIf="data.eventData && data.eventData.venues && data.eventData.venues.length && data.eventData.venues[0].services">
           <app-event-suppliers-function #suppliersFn [eventData]="data" [venueCompanies]="venueCompanies"
             [eventToBeSaved]="eventToBeSaved" (saveAndInvite)="saveToDb($event)"
             [searchInviteCmpModal]="searchInviteCmpModal" [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
-            [setOpenedModalRef]="setOpenedModalRef.bind(this)">
+            [setOpenedModalRef]="setOpenedModalRef.bind(this)"  [permissionObj]="permissionObj" >
           </app-event-suppliers-function>
         </ng-container>
         <ng-container exhibitors *ngIf="data.eventData && data.eventData.venues && data.eventData.venues.length && data.eventData.venues[0].exhibitorData">
-          <app-event-exhibitors-function #exhibitorsFn [eventData]="data" [venueCompanies]="venueCompanies"
+          <app-event-exhibitors-function #exhibitorsFn [eventData]="data" [venueCompanies]="venueCompanies"  [permissionObj]="permissionObj" 
             [eventToBeSaved]="eventToBeSaved" (saveAndInvite)="saveToDb($event)"
             [searchInviteCmpModal]="searchInviteCmpModal" [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
             [setOpenedModalRef]="setOpenedModalRef.bind(this)">
           </app-event-exhibitors-function>
         </ng-container>
         <ng-container eventFiles *ngIf="data.eventData && data.eventData.eventId">
-          <app-event-files-function [eventID]="data.eventData.eventId"></app-event-files-function>
+          <app-event-files-function  [permissionObj]="permissionObj"  [eventID]="data.eventData.eventId"></app-event-files-function>
         </ng-container>
         <ng-container timeline *ngIf="data.eventData && data.eventData.eventId">
           <app-event-timeline-function [eventId]="data.eventData.eventId"></app-event-timeline-function>
@@ -70,7 +70,7 @@
     </div>
   </div>
 
-
+ 
   <ng-template #searchInviteCmpModal let-modal>
     <app-search-or-invite-function-cmp (existingCompanySelected)="setSelectedCompany($event)"
       (newCompanyInvited)="setSelectedCompany($event)" (closed)="searchInviteCompanyClosed()">

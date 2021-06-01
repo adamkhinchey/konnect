@@ -27,6 +27,8 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   @Output() editExhibitor = new EventEmitter<boolean>();
   isEventEdit:boolean = false;
 
+  @Input() permissionObj: any;  
+
   constructor(public eventService: EventService) {
   }
 

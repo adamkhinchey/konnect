@@ -29,6 +29,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   @Input() searchInviteCmpModal: any;
   @Input() searchInviteFnCmpCntModal: any;
   @Input() setOpenedModalRef: any;
+  @Input() permissionObj: any; 
   @Input() content: any;
   activeServicePanel = 0;
   private supplierCompanyAddedSub: Subscription | undefined;

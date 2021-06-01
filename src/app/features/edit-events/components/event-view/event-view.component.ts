@@ -62,7 +62,7 @@ export class EventViewComponent implements OnInit {
       this.getEventsById(1);
     }
   }
-
+ 
   getEventsById(tabType: any) {
     this.viewEvSrvc.getEventsByEventId(this.eventId, tabType).subscribe((res: any) => {
       console.log(res);

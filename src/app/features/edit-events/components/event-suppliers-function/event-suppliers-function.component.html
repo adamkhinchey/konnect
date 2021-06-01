@@ -14,11 +14,13 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   <h3>Notes to All Suppliers <i class="cog icon"></i><i class="sitemap icon"></i><i
                       class="truck icon"></i></h3>
                 </div>
-                <div class="field">
+                <div class="field"   *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  permissionObj.isService; else no_access" >
                   <textarea class="textarea" *ngIf="venue.suppliers && venue.suppliers[0].services.length"
                   [(ngModel)]="venue.suppliers[0].notesToAll"
                     [ngModelOptions]="{standalone:true}"></textarea>
+                   
                 </div>
+                <ng-template #no_access>No access</ng-template>
               </div>
             </div>
           </div>
@@ -63,15 +65,17 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   class="building icon"></i></h3>
                             </div>
                             <div class="field">
-                              <input [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
+                              <input  *ngIf="permissionObj.isClient || permissionObj.isEventManager || service.isViewPermisssion == 1; else no_access" [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
                                 placeholder="Name">
+                                <ng-template #no_access>No access
+                                </ng-template>
                             </div>
                             <div class="ui dividing header">
                               <h3>Supplier Company <i class="cog icon"></i><i class="sitemap icon"></i><i
                                   class="building icon"></i></h3>
                             </div>
 
-                            <div class="kcpCardContainer">
+                            <div class="kcpCardContainer"  *ngIf="permissionObj.isClient || permissionObj.isEventManager  ||  venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.isViewPermisssion==1 ; else no_access">
                               <div class="ui one column grid" *ngIf="venuesSuppCmpsMap.has(venueIndex) && venuesSuppCmpsMap.get(venueIndex)!.has(serviceIndex)">
                                 <div class="column">
                                   <div class="ui fluid card">
@@ -107,10 +111,13 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </div>
 
                             </div>
+                            <ng-template #no_access>No
+                              access</ng-template>
                           </div>
                           <app-event-assign-function-cmp #suppliersAssignCmp
                             [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"
-                            [clientCmpBtnLabel]="'Add Supplier'" [contactListLabel]="'Supplier Contacts'"
+                            [clientCmpBtnLabel]="'Add Supplier'" [contactListLabel]="'Supplier Contacts'" [permissionObj]="permissionObj"
+                            [isViewPermisssion]="service.isViewPermisssion"
                             [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                             (modalOpen)="setOpenedModalRef($event)" [contactList]="service.contacts?service.contacts:[]"
                             (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)" [isServiceEditable]="isServiceEditable">
@@ -123,8 +130,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 class="building icon"></i></h3>
                           </div>
                           <div class="field">
-                            <textarea [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}"
+                            <textarea  *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service.isViewPermisssion==1; else no_access" [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}"
                               class="textarea"></textarea>
+                              <ng-template #no_access>No access
+                              </ng-template>
                           </div>
                           <div class="field">
                             <div class="timeWindowsContainer">
@@ -134,6 +143,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </div>
 
                               <app-time-windows
+                              *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service.isViewPermisssion==1; else no_access"
                               [timeWindowFor]="eventTimeWindowType"
                               [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                               [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
@@ -146,6 +156,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               [postEventTimes]="service.timeWindows.bumpOut.timings"
                               [eventTimes]="service.timeWindows.eventTime.timings"
                             ></app-time-windows>
+
+
+                            <ng-template #no_access>No access
+                            </ng-template>
 
                             </div>
                           </div>
