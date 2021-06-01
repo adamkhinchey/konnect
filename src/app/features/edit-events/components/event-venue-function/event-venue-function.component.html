@@ -95,6 +95,8 @@
                         (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)" (contactRemove)="removeVenueContact(i,$event)" [isVenueEditable]="isVenueEditable">
                       </app-event-assign-function-cmp>
                       <app-event-assign-crew-function-cmp #venueCrewAssignCmp [contactList]="panel.contacts"
+                      [permissionObj]="permissionObj"
+                      [isViewPermisssion]="1"
                       [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
                       [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                       (modalOpen)="setOpenedModalRef($event)" (crewRemove)="removeVenueContact(i,$event)" [isVenueEditable]="isVenueEditable"
