@@ -67,16 +67,16 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   eventMgrCmp: Company | InviteFnCmpInterface | undefined | null;
   eventMgrContactList: FnCmpCntInterface[] = [];
   isEventMgrInvalid = true;
- 
+
   venueCompanies: Array<Company | InviteFnCmpInterface | VenuueCompany | null> | undefined | null = [];
   venueContactLists: Array<Array<FnCmpCntInterface>> = [];
   isEventVenuesInvalid = true;
 
   isVenuesSuppliersInvalid = true;
   isVenuesExhibitorsInvalid = true;
-    
+
   data: any = {};
-     
+
   permissionObj = { isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
   public isClientEditable = false;
   public isManagerEditable = false;
@@ -86,6 +86,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   public eventDataCopy: Partial<SaveEventClass> = new SaveEventClass();
   public supplierCount: number = 0;
   public exhibitorCount: number = 0;
+  public emitedCrew: number = 0;
 
   constructor(
     private modalService: NgbModal,
@@ -196,14 +197,14 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
         this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
         this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
-      
-              
+
+
         // this.permissionObj.isClient = false;
         // this.permissionObj.isEventManager = false;
         // this.permissionObj.isVenue = false;
         // this.permissionObj.isService = false;
         // this.permissionObj.isExhibitor = false;
- 
+
       }
       if (res && res.commonData) {
         this.data.commonData = res.commonData;
@@ -927,8 +928,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setOpenedModalRef(event: NgbModalRef): void {
-    console.log(event);
     this.modalReference = event;
+  }
+
+  setIsCrew(event: number) {
+    console.log('is Crew on create event: ', event);
+    this.emitedCrew = event;
   }
 
   getCompanyId(): number | null {
@@ -1125,8 +1130,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       case EventFunctionTypes.VENUE:
         if (typeof jIndex === 'number') {
-          alert(index);
-          alert(jIndex)
           console.log('before splice: ', cloneDeep(this.venueContactLists[index]));
           this.venueContactLists[index].splice(jIndex, 1);
           console.log('after splice: ', cloneDeep(this.venueContactLists[index]));
