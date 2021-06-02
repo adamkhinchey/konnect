@@ -456,6 +456,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                         companyProfileImage: service.companyProfileImage,
                         state: service.companyState,
                         website: service.companyWebsite,
+                        isViewPermission: service.isViewPermission,
                         companyTaxNumber: '',
                         streetAddress_1: '',
                         streetAddress_2: '',
@@ -495,6 +496,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                         contacts,
                         companyId: service.serviceCompanyId,
                         supplierId: service.serviceId,
+                        isViewPermission: service.isViewPermission,
                         timeWindows: {
                           bumpIn: {
                             sameAsVenue: null,
@@ -625,6 +627,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           companyProfileImage: exhibitor.companyProfileImage,
                           state: exhibitor.companyState,
                           website: exhibitor.companyWebsite,
+                          isViewPermission: exhibitor.isViewPermission,
                           companyTaxNumber: '',
                           streetAddress_1: '',
                           streetAddress_2: '',
@@ -1091,7 +1094,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           id: (this.clientCompany as Company).id,
           contacts: contactList,
           shouldInvite: shouldInvite ? 1 : 0,
-          isOwnCompany: false,
+          isOwnCompany: !!this.eventToBeSaved.client?.isOwnCompany,
           invited: null,
         };
 
@@ -1183,7 +1186,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           id: (this.eventMgrCmp as Company).id,
           contacts: contactList,
           shouldInvite: shouldInvite ? 1 : 0,
-          isOwnCompany: false,
+          isOwnCompany: !!this.eventToBeSaved.eventManager?.isOwnCompany,
           invited: null,
           requirements: this.eventToBeSaved.eventManager?.requirements || '',
           emInternalNotes: this.eventToBeSaved.eventManager?.emInternalNotes || '',
@@ -1234,7 +1237,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 id: cnt.id,
                 email: cnt.email,
                 firstName: cnt.firstName,
-                contactLabelId: cnt.contactLabelId
+                contactLabelId: cnt.contactLabelId,
+                isCrew: cnt.isCrew ? cnt.isCrew : 0
               };
             }) || null;
             // @ts-ignore

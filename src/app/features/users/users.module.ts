@@ -53,7 +53,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DashboardComponent
   ],
   providers: [
-    CompaniesService,
+    CompaniesService, 
     UpdateUserProfileService
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]

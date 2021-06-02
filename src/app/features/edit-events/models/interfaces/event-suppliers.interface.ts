@@ -11,6 +11,7 @@ export interface EventSuppliersInterface {
     contacts: null | InviteFnCmpCntInterface[];
     shouldInvite: null | number,
     invited: null | InviteFnCmpInterface,
-    timeWindows: SuppExhTimeWindowFormatInterface
+    timeWindows: SuppExhTimeWindowFormatInterface,
+    isViewPermission?:any
   }[];
 }

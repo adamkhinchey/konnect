@@ -12,7 +12,7 @@
             (saveAndInvite)="saveToDb($event)" (editClient)="isClientEditable = $event"
             [isOwnCompany]="data.eventData.client.isOwnCompany === 1">
             <ng-container assignFunctionCmp>
-              <app-event-assign-function-cmp [permissionObj]="permissionObj" [isViewPermisssion]="1"
+              <app-event-assign-function-cmp [permissionObj]="permissionObj" [isViewPermission]="1"
                 [clientCmpBtnLabel]="'Add Client'" [contactListLabel]="'Client Contacts'" [eventData]="data"
                 [selectedCompany]="clientCompany" [clientCompanyModal]="searchInviteCmpModal"
                 [contactModal]="searchInviteFnCmpCntModal" (modalOpen)="setOpenedModalRef($event)"
@@ -29,7 +29,7 @@
             (saveAndInvite)="saveToDb($event)" (editManager)="isManagerEditable = $event"
             [isOwnCompany]="data.eventData.eventManager.isOwnCompany === 1">
             <ng-container assignFunctionCmp>
-              <app-event-assign-function-cmp [permissionObj]="permissionObj" [isViewPermisssion]="1" [eventData]="data"
+              <app-event-assign-function-cmp [permissionObj]="permissionObj" [isViewPermission]="1" [eventData]="data"
                 [clientCmpBtnLabel]="'Add Event Management Company'"
                 [contactListLabel]="'Event Management Company Contacts'" [selectedCompany]="eventMgrCmp"
                 [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"

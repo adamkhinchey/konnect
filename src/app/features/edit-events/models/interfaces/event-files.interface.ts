@@ -26,7 +26,7 @@ interface FilesData {
 
 interface VenueFile {
   name: string;
-  isViewPermisssion: number; 
+  isViewPermission: number; 
   venueId: number;
   FLOOR_PLAN?: FilesData;
   VSF?: FilesData;
@@ -39,7 +39,7 @@ interface FilesForAllVenues extends FilesData {
 
 interface SupplierFile {
   name: string;
-  isViewPermisssion: number; 
+  isViewPermission: number; 
   serviceId: number;
   SSF?: FilesData;
   SIF?: FilesData;
@@ -51,7 +51,7 @@ interface FilesForAllSuppliers extends FilesData {
 
 interface ExhibitorFile {
   name: string;
-  isViewPermisssion: number;
+  isViewPermission: number;
   exhibitorId: number;
   EBSF?: FilesData;
   EBIF?: FilesData;
