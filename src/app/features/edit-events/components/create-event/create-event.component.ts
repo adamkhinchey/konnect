@@ -875,7 +875,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         isInvitedCompany = company instanceof InviteFnCmpClass;
         this.eventToBeSaved.client = {
           id: !isInvitedCompany ? (this.clientCompany as Company).id : null,
-          isOwnCompany: isInvitedCompany ? false : (this.clientCompany as Company).id === this.defaultCompany.id,
+          isOwnCompany: isInvitedCompany ? false : (this.clientCompany as Company).id === this.defaultCompany.id || !!this.updateFnCmpToSelf.get(EventFunctionTypes.CLIENT),
           invited: isInvitedCompany ? (company as InviteFnCmpClass) : null,
           shouldInvite: isInvitedCompany ? null : 1,
           contacts: null,
@@ -886,7 +886,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         isInvitedCompany = company instanceof InviteFnCmpClass;
         this.eventToBeSaved.eventManager = {
           id: !isInvitedCompany ? (this.eventMgrCmp as Company).id : null,
-          isOwnCompany: isInvitedCompany ? false : (this.eventMgrCmp as Company).id === this.defaultCompany.id,
+          isOwnCompany: isInvitedCompany ? false : (this.eventMgrCmp as Company).id === this.defaultCompany.id || !!this.updateFnCmpToSelf.get(EventFunctionTypes.EVENT_MANAGER),
           invited: isInvitedCompany ? (company as InviteFnCmpClass) : null,
           shouldInvite: isInvitedCompany ? null : 1,
           contacts: null,
