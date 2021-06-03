@@ -125,7 +125,8 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
         profileImage: undefined,
         firstName: this.inviteCmpCntForm.get('firstName')?.value,
         id: null,
-        contactLabelId: null
+        contactLabelId: null,
+        isCrew: this.isCrew
       });
     } else {
       this.toaster.error('Please search and select a contact');

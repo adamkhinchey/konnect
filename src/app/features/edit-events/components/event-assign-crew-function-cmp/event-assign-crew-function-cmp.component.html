@@ -10,7 +10,7 @@
     <div class="ui dividing header">
         <h3>{{contactListLabel}} <i class="building icon"></i></h3>
     </div> 
-    <div class="kipCardContainer"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermisssion ; else no_access">
+    <div class="kipCardContainer"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission ; else no_access">
         <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
             <div class="column" *ngFor="let contact of contactList; let i=index">
                 <ng-container *ngIf="contact.isCrew == 1">

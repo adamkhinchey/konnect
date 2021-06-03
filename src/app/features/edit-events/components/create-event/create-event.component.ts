@@ -198,7 +198,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
         this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
 
-  
         // this.permissionObj.isClient = false;
         // this.permissionObj.isEventManager = false;
         // this.permissionObj.isVenue = false;
@@ -247,7 +246,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             creatorCompanyName: this.data.eventData.creatorCompanyName,
             eventCreatedDate: this.data.eventData.eventCreatedDate,
             createrUserId: this.data.eventData.createrUserId,
-            creatorFromCompanyId: this.data.eventData.createrUserId
+            creatorFromCompanyId: this.data.eventData.createrUserId,
+            client: {
+              isOwnCompany: this.data.eventData.client.isOwnCompany
+            }
           } as SaveEventClass);
           const contacts: any = this.data.eventData.client.contacts;
           for (let i = 0; i < contacts.length; i++) {
@@ -303,7 +305,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             creatorFromCompanyId: this.data.eventData.createrUserId,
             eventManager: {
               requirements: this.data.eventData.eventManager.requirements,
-              emInternalNotes: this.data.eventData.eventManager.emInternalNotes
+              emInternalNotes: this.data.eventData.eventManager.emInternalNotes,
+              isOwnCompany: this.data.eventData.eventManager.isOwnCompany
             }
           } as SaveEventClass);
           const contacts: any = this.data.eventData.eventManager.contacts;
@@ -452,6 +455,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                         companyProfileImage: service.companyProfileImage,
                         state: service.companyState,
                         website: service.companyWebsite,
+                        isViewPermission: service.isViewPermission,
                         companyTaxNumber: '',
                         streetAddress_1: '',
                         streetAddress_2: '',
@@ -491,6 +495,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                         contacts,
                         companyId: service.serviceCompanyId,
                         supplierId: service.serviceId,
+                        isViewPermission: service.isViewPermission,
                         timeWindows: {
                           bumpIn: {
                             sameAsVenue: null,
@@ -621,6 +626,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           companyProfileImage: exhibitor.companyProfileImage,
                           state: exhibitor.companyState,
                           website: exhibitor.companyWebsite,
+                          isViewPermission: exhibitor.isViewPermission,
                           companyTaxNumber: '',
                           streetAddress_1: '',
                           streetAddress_2: '',
@@ -868,7 +874,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         isInvitedCompany = company instanceof InviteFnCmpClass;
         this.eventToBeSaved.client = {
           id: !isInvitedCompany ? (this.clientCompany as Company).id : null,
-          isOwnCompany: isInvitedCompany ? false : (this.clientCompany as Company).id === this.defaultCompany.id,
+          isOwnCompany: isInvitedCompany ? false : (this.clientCompany as Company).id === this.defaultCompany.id || !!this.updateFnCmpToSelf.get(EventFunctionTypes.CLIENT),
           invited: isInvitedCompany ? (company as InviteFnCmpClass) : null,
           shouldInvite: isInvitedCompany ? null : 1,
           contacts: null,
@@ -879,7 +885,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         isInvitedCompany = company instanceof InviteFnCmpClass;
         this.eventToBeSaved.eventManager = {
           id: !isInvitedCompany ? (this.eventMgrCmp as Company).id : null,
-          isOwnCompany: isInvitedCompany ? false : (this.eventMgrCmp as Company).id === this.defaultCompany.id,
+          isOwnCompany: isInvitedCompany ? false : (this.eventMgrCmp as Company).id === this.defaultCompany.id || !!this.updateFnCmpToSelf.get(EventFunctionTypes.EVENT_MANAGER),
           invited: isInvitedCompany ? (company as InviteFnCmpClass) : null,
           shouldInvite: isInvitedCompany ? null : 1,
           contacts: null,
@@ -1087,7 +1093,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           id: (this.clientCompany as Company).id,
           contacts: contactList,
           shouldInvite: shouldInvite ? 1 : 0,
-          isOwnCompany: false,
+          isOwnCompany: !!this.eventToBeSaved.client?.isOwnCompany,
           invited: null,
         };
 
@@ -1179,7 +1185,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           id: (this.eventMgrCmp as Company).id,
           contacts: contactList,
           shouldInvite: shouldInvite ? 1 : 0,
-          isOwnCompany: false,
+          isOwnCompany: !!this.eventToBeSaved.eventManager?.isOwnCompany,
           invited: null,
           requirements: this.eventToBeSaved.eventManager?.requirements || '',
           emInternalNotes: this.eventToBeSaved.eventManager?.emInternalNotes || '',
@@ -1230,7 +1236,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 id: cnt.id,
                 email: cnt.email,
                 firstName: cnt.firstName,
-                contactLabelId: cnt.contactLabelId
+                contactLabelId: cnt.contactLabelId,
+                isCrew: cnt.isCrew ? cnt.isCrew : 0
               };
             }) || null;
             // @ts-ignore

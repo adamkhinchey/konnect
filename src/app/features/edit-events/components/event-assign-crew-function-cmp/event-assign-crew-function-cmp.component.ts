@@ -33,7 +33,7 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   @Input() isServiceEditable: boolean = false;
   @Input() isExhibitorEditable: boolean = false;
   @Output() isCrew = new EventEmitter<any>();
-  @Input() isViewPermisssion: any; 
+  @Input() isViewPermission: any; 
   @Input() permissionObj: any; 
  
    
