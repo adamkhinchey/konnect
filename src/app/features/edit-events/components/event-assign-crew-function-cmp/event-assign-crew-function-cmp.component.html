@@ -1,0 +1,119 @@
+<!-- <div class="ui grid center aligned"
+    *ngIf="!selectedCompany && (isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable)">
+    <div class="sixteen wide column">
+        <div class="ui button basic blue fluid addClient hasModal" (click)="openVerticallyCentered(clientCompanyModal)">
+            <i class="plus circle icon"></i>{{clientCmpBtnLabel}}
+        </div>
+    </div>
+</div> -->
+<div class="contactsContainer">
+    <div class="ui dividing header">
+        <h3>{{contactListLabel}} <i class="building icon"></i></h3>
+    </div> 
+    <div class="kipCardContainer"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission ; else no_access">
+        <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
+            <div class="column" *ngFor="let contact of contactList; let i=index">
+                <ng-container *ngIf="contact.isCrew == 1">
+                    <div class="contactRole">{{contact.contactRole}}
+                        <!-- <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal" (click)="editContactLabelModal(editContactDetail,i)">
+              <i class="pencil alternate icon"></i>
+            </div> -->
+                    </div>
+                    <div class="ui fluid card">
+                        <div class="content">
+                            <img class="right floated mini ui image" [src]="contact.profileImage" appImageFallback
+                                fallbackImage="assets/img/default_konnect_individual_img.png">
+                            <div class="header">
+                                <a>{{contact.firstName + ' '+ (contact.lastName || '')}}</a>
+                            </div>
+                            <div class="meta">
+                                {{contact.contactPosition}}
+                            </div>
+                            <div class="description">
+                                {{contact.email}}<br>
+                                {{contact.mobile}}
+                            </div>
+                        </div>
+                        <div class="extra content">
+                            <div class="ui grid">
+                                <div class="eight wide column">
+
+                                </div>
+                                <div class="eight wide column right aligned">
+                                    <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                        (click)="removeContactFromList(contact.id)"
+                                        *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable"
+                                        data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <ng-template #no_access>No access
+    </ng-template>
+    <div class="ui grid center aligned" *ngIf="isVenueEditable || isServiceEditable || isExhibitorEditable">
+        <div class="sixteen wide column">
+            <div class="ui basic button blue fluid addContacts hasModal"
+                (click)="openVerticallyCentered(contactModal,1)" data-modal="contacts">
+                <i class="plus circle icon"></i>Add Crew
+            </div>
+        </div>
+    </div>
+
+
+    <ng-template #editContactDetail let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Search for Contact</h4>
+            <button type="button" class="close" aria-label="Close" (click)="closeAndChangeContactLabelId(false)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="content">
+                <div class="ui grid stackable">
+                    <div class="sixteen wide column">
+                        <form class="ui form">
+                            <div class="field">
+                                <label>Contact Label</label>
+                                <div class="field">
+                                    <div class="CusSelectArrow" tabindex="0">
+                                        <select *ngIf="editingContactLabelIndex!==-1"
+                                            [ngModel]="contactList[editingContactLabelIndex]?.contactLabelId || 5"
+                                            (ngModelChange)="onContactLabelSelected($event)"
+                                            [ngModelOptions]="{standalone:true}">
+                                            <option class="item" [value]="5">Primary Contact</option>
+                                            <option class="item" [value]="6">Secondary Contact</option>
+                                            <option class="item" [value]="7">Technical Director</option>
+                                            <option class="item" [value]="8">Technical Contact</option>
+                                            <option class="item" [value]="9">Onsite Contact</option>
+                                            <option class="item" [value]="10">IT Contact</option>
+                                            <option class="item" [value]="11">Access Contact</option>
+                                            <option class="item" [value]="12">Legal Contact</option>
+                                            <option class="item" [value]="13">Finance Contact</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="newFooter">
+            <div class="actions">
+                <div class="ui grid">
+                    <div class="sixteen wide column right aligned">
+                        <div class="ui button fluid positive" (click)="closeAndChangeContactLabelId()">Save</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+
+</div>

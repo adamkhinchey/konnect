@@ -78,7 +78,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   }
 
   viewEvent(eventId: any) {
-    this.router.navigate(['/home/event/view-event'], { queryParams: { eventId: eventId } });
+    this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId } });
   }
 
   eventHistory() {

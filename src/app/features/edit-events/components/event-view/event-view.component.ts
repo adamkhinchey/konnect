@@ -16,14 +16,6 @@ export class EventViewComponent implements OnInit {
   active = 1;
   disabled = true;
 
-
-  // isClient: boolean =  false; 
-  // isEventManager: boolean =  false; 
-  // isService: boolean =  false; 
-  // isVenue: boolean =  false; 
-
-  // isExhibitor: boolean = false;
-
   permissionObj = { isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
 
   isSupplier: boolean = false;
@@ -70,7 +62,7 @@ export class EventViewComponent implements OnInit {
       this.getEventsById(1);
     }
   }
-
+ 
   getEventsById(tabType: any) {
     this.viewEvSrvc.getEventsByEventId(this.eventId, tabType).subscribe((res: any) => {
       console.log(res);

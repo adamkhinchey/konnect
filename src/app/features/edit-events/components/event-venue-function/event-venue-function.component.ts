@@ -8,15 +8,16 @@ import {
   Output,
   QueryList, ViewChild, ViewChildren
 } from '@angular/core';
-import {Company} from '../../../users/models';
-import {InviteFnCmpClass} from '../../models/classes';
-import {SaveEventClass} from '../../models/classes/saveEvent.class';
-import {Subscription} from 'rxjs';
-import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/event-assign-function-cmp.component';
-import {NgbAccordion, NgbPanelChangeEvent} from '@ng-bootstrap/ng-bootstrap';
-import {EventService} from '../../services/event.service';
-import {devLogger} from '../../../../shared/utils';
-import {EventTimeWindowTypes} from "../../models/types";
+import { Company } from '../../../users/models';
+import { InviteFnCmpClass } from '../../models/classes';
+import { SaveEventClass } from '../../models/classes/saveEvent.class';
+import { Subscription } from 'rxjs';
+import { EventAssignFunctionCmpComponent } from '../event-assign-function-cmp/event-assign-function-cmp.component';
+import { NgbAccordion, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { EventService } from '../../services/event.service';
+import { devLogger } from '../../../../shared/utils';
+import { EventTimeWindowTypes } from "../../models/types";
+import { FnCmpCntInterface } from '../../models/interfaces';
 
 @Component({
   selector: 'app-event-venue-function',
@@ -26,8 +27,10 @@ import {EventTimeWindowTypes} from "../../models/types";
 export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
 
   @ViewChildren('venueAssignCmp') venueAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
+  @ViewChildren('venueCrewAssignCmp') venueCrewAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
   // @ts-ignore
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
+  @Input() eventData: any;
   @Input() selectedCompanies: (Company | InviteFnCmpClass | null)[] | undefined | null;
   @Input() content: any;
   @Output() removeSelectedCompany = new EventEmitter<number>();
@@ -39,17 +42,32 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   activeVenuePanel = 0;
   @Input() searchInviteCmpModal: any;
   @Input() searchInviteFnCmpCntModal: any;
+  @Input() permissionObj: any;
   @Input() setOpenedModalRef: any;
   @Input() removeContact: any;
   eventTimeWindowType = EventTimeWindowTypes.Venue;
+  @Output() editVenue = new EventEmitter<boolean>();
+  isVenueEdit: boolean = false;
+  public isVenueEditable: boolean = false;
+  @Input() venueContactLists: Array<Array<FnCmpCntInterface>> = [];
+  @Input() setIsCrew: any;
+
 
   constructor(private eventService: EventService) {
   }
 
+  editVenueFn() {
+    this.isVenueEdit = !this.isVenueEdit;
+    this.isVenueEditable = !this.isVenueEditable;
+    // this.editVenue.emit(this.isVenueEdit);
+  }
+
   ngAfterViewInit(): void {
+
   }
 
   ngOnInit(): void {
+    // console.log("permissionObj ** ", this.permissionObj); 
   }
 
 
@@ -87,7 +105,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
     this.ngbAccordion.collapseAll();
     this.activeVenuePanel = this.eventToBeSaved.venues.list.length - 1;
     this.eventService.activeVenuePanelIndex = this.activeVenuePanel;
-    devLogger('log', {selectedCompanies: this.selectedCompanies});
+    devLogger('log', { selectedCompanies: this.selectedCompanies });
   }
 
   getCompanyProfileImage(i: number): string | null | undefined {
@@ -138,6 +156,6 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   }
 
   testLogVenue(): void {
-    devLogger('log', {EVENT_TO_BE_SAVE_VENUE: this.eventToBeSaved});
+    devLogger('log', { EVENT_TO_BE_SAVE_VENUE: this.eventToBeSaved });
   }
 }

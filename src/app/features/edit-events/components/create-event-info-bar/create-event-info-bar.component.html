@@ -1,15 +1,32 @@
 <div class="infoBar">
   <div class="ui container">
     <div class="ui grid">
-      <div class="eleven wide column middle aligned">
-
+      <div class="fifteen wide column right aligned hideMobile">
+        <div class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i></div>
       </div>
-      <div class="five wide column right aligned saveButtons hideMobile">
+      <div class="eleven wide column right aligned visibleMobile">
+        <div class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i></div>
+      </div>
+      <div class="one wide column right aligned saveButtons hideMobile">
         <a (click)="eventService.triggerSaveOnly.next()" class="ui button">Save</a>
       </div>
-      <div class="five wide column right aligned saveButtons visibleMobile">
+      <div class="one wide column right aligned saveButtons visibleMobile">
         <a (click)="eventService.triggerSaveOnly.next()" class="ui button icon"><i class="save icon"></i></a>
       </div>
     </div>
   </div>
 </div>
+
+<!-- <div class="sixteen wide column saveButtons paddingT0">
+  <div class="ui divider"></div>
+  <div class="ui grid stackable">
+    <div class="sixteen wide column right aligned">
+      <div class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i></div>
+      <div class="ui button triggerEditableOptions halfWidth ml-3">
+        Edit
+      </div>
+      <div class="ui button hasModal ml-3" data-modal="inviteModal">Save
+      </div>
+    </div>
+  </div>
+</div> -->

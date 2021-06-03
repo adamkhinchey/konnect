@@ -1,10 +1,12 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Company} from "../../../users/models";
-import {InviteFnCmpClass} from "../../models/classes";
-import {SaveEventClass} from "../../models/classes/saveEvent.class";
-import {Subscription} from "rxjs";
-import {EventService} from "../../services/event.service";
-import {EventFunctionTypes} from "../../models/types";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Company } from "../../../users/models";
+import { InviteFnCmpClass } from "../../models/classes";
+import { SaveEventClass } from "../../models/classes/saveEvent.class";
+import { Subscription } from "rxjs";
+import { EventService } from "../../services/event.service";
+import { EventFunctionTypes } from "../../models/types";
+import { Router } from '@angular/router';
+import { ViewEventService } from '../../services/view-event.service';
 
 @Component({
   selector: 'app-event-client-function',
@@ -17,13 +19,53 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   @Output() removeSelectedCompany = new EventEmitter<any>();
   @Input() eventToBeSaved = new SaveEventClass();
   @Output() saveAndInvite = new EventEmitter<boolean>();
-  isOwnCompany = false;
+  @Input() isOwnCompany: boolean = false;
   private subs1: Subscription | undefined;
   private subs2: Subscription | undefined;
+  @Input() eventData: any;
+  @Output() editClient = new EventEmitter<boolean>();
 
-  constructor(private eventService: EventService) {
+
+  isSupplier: boolean = false;
+  modalReference: any;
+  isClientEdit: boolean = false;
+  isEventEdit: boolean = false;
+  isVenueEdit: boolean = false;
+  isSupplierEdit: boolean = false;
+  isExhibitorEdit: boolean = true;
+
+  constructor(
+    private eventService: EventService,
+    private router: Router,
+    private viewEvSrvc: ViewEventService
+  ) {
   }
 
+
+  booleanFalse() {
+    this.isClientEdit = false;
+    this.isEventEdit = false;
+    this.isVenueEdit = false;;
+    this.isSupplierEdit = false;
+    this.isExhibitorEdit = false;
+  }
+
+  editClientEvent() {
+    this.isClientEdit = !this.isClientEdit;
+    this.editClient.emit(this.isClientEdit);
+  }
+  editEventManager() {
+    this.isEventEdit = true;
+  }
+  editVenue() {
+    this.isVenueEdit = true;
+  }
+  editSupplier() {
+    this.isSupplierEdit = true;
+  }
+  editExhibitor() {
+    this.isExhibitorEdit = true;
+  }
 
   /*ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes.eventToBeSaved && changes.eventToBeSaved.currentValue) {
@@ -35,6 +77,7 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   }*/
 
   ngOnInit(): void {
+    console.log(this.eventData);
     /*this.subs1 = this.clientCmpToSelfSub?.subscribe(value => {
       if (value !== null) {
         this.isOwnCompany = value;
@@ -75,13 +118,26 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   }
 
   toggleClientOwnCompany(): void {
+    console.log('before next in toggle: ', this.eventData.eventData.client.isOwnCompany);
     const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
     tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
+    this.eventData.eventData.client.isOwnCompany = tempMap.get(EventFunctionTypes.CLIENT)? 1 : 0;
     this.eventService.setIsFnOwnCompany.next(tempMap);
+    console.log('after next in toggle: ', this.eventData.eventData.client.isOwnCompany);
+    
   }
 
   ngOnDestroy(): void {
     this.subs1?.unsubscribe();
     this.subs2?.unsubscribe();
+  }
+
+  deleteEvent(eventId: any) {
+    this.viewEvSrvc.deleteEvent(eventId).subscribe((res: any) => {
+      console.log(res);
+      this.router.navigate(['/home']);
+    }, (err: any) => {
+      console.log(err);
+    })
   }
 }

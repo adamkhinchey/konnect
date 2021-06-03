@@ -21,12 +21,14 @@ import {EventTimeWindowTypes} from "../../models/types";
 })
 export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion | undefined;
+  @Input() eventData: any;
   @Input() eventToBeSaved = new SaveEventClass();
   @Output() saveAndInvite = new EventEmitter<{ venueIndex: number, exhibitorIndex: number, shouldInvite: boolean }>();
   @Input() searchInviteCmpModal: any;
   @Input() searchInviteFnCmpCntModal: any;
   @Input() setOpenedModalRef: any;
   @Input() content: any;
+  @Input() permissionObj: any; 
   @Input() venueCompanies: Array<Company | InviteFnCmpInterface | null> | undefined | null = [];
   activeExhibitorPanel = 0;
   private exhCompanyAddedSub: Subscription | undefined;
@@ -34,8 +36,17 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   venuesExhCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
   eventTimeWindowType = EventTimeWindowTypes.Exhibitor;
   eventTimeWindowForAllExh = EventTimeWindowTypes.ALL_EXHIBITORS;
+  isExhibitorEdit: boolean = false;
+  public isExhibitorEditable: boolean = false;
+  @Input() setIsCrew: any;
 
   constructor(private eventService: EventService) {
+  }
+
+  editExhibitorFn() {
+    this.isExhibitorEdit = !this.isExhibitorEdit;
+    this.isExhibitorEditable = !this.isExhibitorEditable;
+    // this.editVenue.emit(this.isVenueEdit);
   }
 
   ngOnInit(): void {
@@ -65,6 +76,28 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
     this.exhCmpCntAddedSub = this.eventService.exhibitorCmpCntAddSubject.subscribe(value => {
       this.setContacts(value);
     });
+
+    this.eventService.getFetchedVenueExCmp().forEach((param, index) => {
+      this.eventService.activeExhibitorPanel = {venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex};
+      if (param.company) {
+        this.eventService.exhibitorCompanyAdded(param.company);
+      }
+
+      if (index === this.eventService.getFetchedVenueExCmp().length-1) {
+        this.eventService.activeExhibitorPanel = {venueIndex: 0, exhibitorIndex: 0};
+      }
+    });
+
+    this.eventService.getFetchedVenueExCmpCnts().forEach((param, index) => {
+      this.eventService.activeExhibitorPanel = {venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex};
+      if (param.contactList) {
+        this.eventService.exhibitorContactsAdded(param.contactList);
+      }
+      if (index === this.eventService.getFetchedVenueExCmpCnts().length-1) {
+        this.eventService.activeExhibitorPanel = {venueIndex: 0, exhibitorIndex: 0};
+      }
+    });
+
   }
 
   private setContacts(value: { venueIndex: number; exhibitorIndex: number; contactList: InviteFnCmpCntInterface[] }): void {

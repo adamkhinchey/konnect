@@ -12,6 +12,13 @@ import {devLogger, hideSpinnerPostApiCall} from '../../../shared/utils';
 import {Company} from "../../users/models";
 import {InviteFnCmpCntInterface, InviteFnCmpInterface, VenueTimeChangedSubjectInterface} from "../models/interfaces";
 
+
+type FetchedVenueSrvcsCmp = { company: Company, venueIndex: number, serviceIndex: number };
+type FetchedVenueSrvcCmpCnts = { contactList: InviteFnCmpCntInterface[], venueIndex: number, serviceIndex: number };
+
+type FetchedVenueExCmp = { company: Company, venueIndex: number, exhibitorIndex: number };
+type FetchedVenueExCmpCnts = { contactList: InviteFnCmpCntInterface[], venueIndex: number, exhibitorIndex: number };
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +27,7 @@ export class EventService {
   private apiBaseUrl = environment.apiBaseURL;
 
   private ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([
-    [EventFunctionTypes.CLIENT, true],
+    [EventFunctionTypes.CLIENT, false],
     [EventFunctionTypes.EVENT_MANAGER, null]
   ]);
 
@@ -73,6 +80,11 @@ export class EventService {
   venueEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
   venuePostEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
 
+  private fetchedVenueSrvcsCmp: FetchedVenueSrvcsCmp[] = [];
+  private fetchedVenueSrvcsCmpCnts: FetchedVenueSrvcCmpCnts[] = [];
+
+  private fetchedVenueExCmp: FetchedVenueExCmp[] = [];
+  private fetchedVenueExCmpCnts: FetchedVenueExCmpCnts[] = [];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -83,7 +95,7 @@ export class EventService {
 
   reset(): void {
     this.ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([
-      [EventFunctionTypes.CLIENT, true],
+      [EventFunctionTypes.CLIENT, false],
       [EventFunctionTypes.EVENT_MANAGER, null]
     ]);
     this.setIsFnOwnCompany.next(this.ownCompanyStatusMap);
@@ -91,6 +103,10 @@ export class EventService {
     this.activeServicePanel = null;
     this.activeExhibitorPanel = null;
     this.hideInfoBar = false;
+    this.fetchedVenueSrvcsCmp = [];
+    this.fetchedVenueSrvcsCmpCnts = [];
+    this.fetchedVenueExCmp = [];
+    this.fetchedVenueExCmpCnts = [];
   }
 
   supplierCompanyAdded(company: Company | InviteFnCmpInterface): void {
@@ -133,11 +149,57 @@ export class EventService {
     }
   }
 
+  addFetchedVenueSrvcCmp(param: FetchedVenueSrvcsCmp): void {
+    this.fetchedVenueSrvcsCmp.push(param);
+  }
+
+  getFetchedVenueSrvcsCmp(): FetchedVenueSrvcsCmp[] {
+    return this.fetchedVenueSrvcsCmp;
+  }
+
+  addFetchedVenueSrvcCmpCnt(param: FetchedVenueSrvcCmpCnts): void {
+    this.fetchedVenueSrvcsCmpCnts.push(param);
+  }
+
+  getFetchedVenueSrvcCmpCnts(): FetchedVenueSrvcCmpCnts[] {
+    return this.fetchedVenueSrvcsCmpCnts;
+  }
+
+  // for exhibitor
+
+  addFetchedVenueExCmp(param: FetchedVenueExCmp): void {
+    this.fetchedVenueExCmp.push(param);
+  }
+
+  getFetchedVenueExCmp(): FetchedVenueExCmp[] {
+    return this.fetchedVenueExCmp;
+  }
+
+  addFetchedVenueExCmpCnt(param: FetchedVenueExCmpCnts): void {
+    this.fetchedVenueExCmpCnts.push(param);
+  }
+
+  getFetchedVenueExCmpCnts(): FetchedVenueExCmpCnts[] {
+    return this.fetchedVenueExCmpCnts;
+  }
+
   saveToDb(event: SaveEventClass): Observable<any> {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/saveEvent`,
       {event})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
+
+  updateToDb(event: SaveEventClass, eventId:any): Observable<any> {
+    this.spinner.show();
+    return this.http.patch<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/updateEvent`,
+      {eventId, event })
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),

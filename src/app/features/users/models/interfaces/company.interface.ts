@@ -1,4 +1,4 @@
-export interface Company{
+export interface Company {
     id: number;
     companyName: string;
     companyTaxNumber: string;
@@ -18,5 +18,6 @@ export interface Company{
     companyType: string;
     canClaim: number;
     canJoin: number;
+    isViewPermission?:any;
 }
 

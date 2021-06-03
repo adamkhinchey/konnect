@@ -1,18 +1,17 @@
-import {Component, Input, OnInit, Output, TemplateRef, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {Company} from '../../../users/models';
-import {FnCmpCntInterface, InviteFnCmpInterface} from '../../models/interfaces';
-import {InviteFnCmpClass} from '../../models/classes';
-import {devLogger} from '../../../../shared/utils';
-import {environment} from '../../../../../environments/environment';
-import { cloneDeep } from 'lodash-es';
-
+import { Component, Input, OnInit, Output, TemplateRef, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Company } from '../../../users/models';
+import { FnCmpCntInterface, InviteFnCmpInterface } from '../../models/interfaces';
+import { InviteFnCmpClass } from '../../models/classes';
+import { devLogger } from '../../../../shared/utils';
+import { environment } from '../../../../../environments/environment';
+import * as _ from 'lodash';
 @Component({
-  selector: 'app-event-assign-function-cmp',
-  templateUrl: './event-assign-function-cmp.component.html',
-  styleUrls: ['./event-assign-function-cmp.component.scss']
+  selector: 'app-event-assign-crew-function-cmp',
+  templateUrl: './event-assign-crew-function-cmp.component.html',
+  styleUrls: ['./event-assign-crew-function-cmp.component.scss']
 })
-export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
+export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   @Input() eventData: any;
   @Input() clientCmpBtnLabel = '';
   @Input() contactListLabel = '';
@@ -20,8 +19,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() clientCompanyModal: TemplateRef<any> | undefined;
   @Input() contactModal: TemplateRef<any> | undefined;
   @Output() modalOpen = new EventEmitter<NgbModalRef>();
-  @Input() isViewPermission: any; 
-  @Output() contactRemove = new EventEmitter<number>();
+  @Output() crewRemove = new EventEmitter<number>();
   modalReference: NgbModalRef | undefined;
   editContactLabelModalReference: NgbModalRef | undefined;
   disableAddContacts = true;
@@ -34,13 +32,16 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() isVenueEditable: boolean = false;
   @Input() isServiceEditable: boolean = false;
   @Input() isExhibitorEditable: boolean = false;
-  @Input() permissionObj: any; 
   @Output() isCrew = new EventEmitter<any>();
-
+  @Input() isViewPermission: any; 
+  @Input() permissionObj: any; 
+ 
+   
   constructor(private modalService: NgbModal) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('contact list after change: ', changes.contactList?.currentValue)
     if (changes && changes.selectedCompany && changes.selectedCompany.currentValue) {
       this.disableAddContacts = changes.selectedCompany.currentValue instanceof InviteFnCmpClass;
     } else if (changes && changes.selectedCompany && !changes.selectedCompany.currentValue) {
@@ -49,17 +50,17 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    // console.log("isViewPermission wer wer** ", this.isViewPermission)
   }
 
-  openVerticallyCentered(content: any): void {
+  openVerticallyCentered(content: any, isCrew: number): void {
     this.modalReference = this.modalService.open(content, {
       centered: true,
       size: 'lg',
       backdrop: 'static',
-      keyboard: false
+      keyboard: false,
     });
-    this.isCrew.emit(0);
+
+    this.isCrew.emit(1);
     this.modalOpen.emit(this.modalReference);
   }
 
@@ -77,8 +78,14 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
 
-  removeContactFromList(i: number): void {
-    this.contactRemove.emit(i);
+  removeContactFromList(id: any): void {
+    console.log(this.contactList);
+    let index = _.findIndex(this.contactList, (e: any) => {
+      console.log(e)
+      return e.id == id;
+    }, 0);
+    console.log(index);
+    this.crewRemove.emit(index);
   }
 
   setSelectedCompany(company: Company | InviteFnCmpClass): void {
@@ -92,7 +99,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   setContactList(contactList: FnCmpCntInterface[]): void {
-    this.contactList = cloneDeep(contactList);
+    this.contactList = contactList;
   }
 
   removeContactList(): void {

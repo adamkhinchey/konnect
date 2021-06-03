@@ -1,13 +1,13 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {InviteFnCmpCntInterface} from '../../models/interfaces/invite-fn-cmp-cnt.interface';
-import {Company} from '../../../users/models';
-import {FormBuilder, Validators} from '@angular/forms';
-import {CompaniesService} from '../../../users/services/companies.service';
-import {checkRxFormValidation, devLogger} from '../../../../shared/utils';
-import {environment} from '../../../../../environments/environment';
-import {ToastrService} from 'ngx-toastr';
-import {Subscription} from 'rxjs';
-import {FnCmpCntInterface} from '../../models/interfaces';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { InviteFnCmpCntInterface } from '../../models/interfaces/invite-fn-cmp-cnt.interface';
+import { Company } from '../../../users/models';
+import { FormBuilder, Validators } from '@angular/forms';
+import { CompaniesService } from '../../../users/services/companies.service';
+import { checkRxFormValidation, devLogger } from '../../../../shared/utils';
+import { environment } from '../../../../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { FnCmpCntInterface } from '../../models/interfaces';
 
 @Component({
   selector: 'app-search-or-invite-fn-cmp-cnt',
@@ -16,7 +16,7 @@ import {FnCmpCntInterface} from '../../models/interfaces';
 })
 export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/);
-
+  @Input() public isCrew: any = 0;
   @Input() alreadyInContactList: FnCmpCntInterface[] = [];
   @Input() companyId: number | null = null;
   @Output() closed = new EventEmitter();
@@ -44,6 +44,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+    console.log(this.isCrew);
   }
 
   searchForCompCnt(): void {
@@ -60,8 +61,8 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
               this.cntSearchList = value.data?.user.filter((u: any) => {
                 return this.contactList.findIndex(cnt => cnt.id === u.userId) === -1
                   && this.alreadyInContactList.findIndex(cnt => cnt.id === u.userId) === -1
-                && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
-                && this.contactList.findIndex(cnt => cnt.email === u.email) === -1;
+                  && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
+                  && this.contactList.findIndex(cnt => cnt.email === u.email) === -1;
               }) || [];
               this.listDisplayCss = 'block !important';
               this.listDisplayOverFlow = 'auto';
@@ -105,7 +106,8 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
         // @ts-ignore
         contactLabelId: parseInt(this.contactLabelId, 10),
         firstName: this.selectedContact.firstName,
-        id: this.selectedContact.userId
+        id: this.selectedContact.userId,
+        isCrew: this.isCrew
       });
     } else if (!this.selectedContact && inviteType) {
       const invitedInContactList = this.alreadyInContactList
@@ -123,7 +125,8 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
         profileImage: undefined,
         firstName: this.inviteCmpCntForm.get('firstName')?.value,
         id: null,
-        contactLabelId: null
+        contactLabelId: null,
+        isCrew: this.isCrew
       });
     } else {
       this.toaster.error('Please search and select a contact');
@@ -144,7 +147,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   emitContactListAndClose(): void {
     if (!this.emittedContactList) {
-      devLogger('log', {cntList: this.contactList});
+      devLogger('log', { cntList: this.contactList });
       this.addedContactList.emit(this.contactList);
       this.emittedContactList = true;
     }
