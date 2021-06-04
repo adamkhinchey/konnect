@@ -336,6 +336,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               return {
                 companyId: venue.venueCompanyId,
                 venueId: venue.venueId,
+                status: venue.status,
+                isStaffOrAdmin: venue.isStaffOrAdmin,
                 contacts: venue.contacts.map((contact: any) => {
                   return {
                     id: contact.id,
@@ -495,6 +497,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                         contacts,
                         companyId: service.serviceCompanyId,
                         supplierId: service.serviceId,
+                        isStaffOrAdmin: service.isStaffOrAdmin,
+                        status: service.status,
                         isViewPermission: service.isViewPermission,
                         timeWindows: {
                           bumpIn: {
@@ -668,6 +672,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           isViewPermission:exhibitor.isViewPermission,
                           contacts,
                           exhibitorId: exhibitor.exhibitorId,
+                          status: exhibitor.status,
+                          isStaffOrAdmin: exhibitor.isStaffOrAdmin,
                           timeWindows: {
                             bumpIn: {
                               sameAsVenue: null,

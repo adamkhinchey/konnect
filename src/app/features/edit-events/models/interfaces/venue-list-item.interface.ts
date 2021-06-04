@@ -16,4 +16,6 @@ export interface VenueListItemInterface {
   invited: null | InviteFnCmpInterface;
   suppliers: EventSuppliersInterface[];
   exhibitorList: EventExhibitorListInterface[];
+  status?: null|number; 
+  isStaffOrAdmin?: null|number; 
 }
