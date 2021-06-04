@@ -55,55 +55,55 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     // this.editVenue.emit(this.isVenueEdit);
   }
 
-  ngOnChanges(changes: SimpleChanges){
-    if(changes.eventData?.currentValue && changes.eventData?.currentValue?.eventData?.eventData?.venues && changes.eventData?.currentValue?.eventData?.eventData?.venues.length){
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.eventData?.currentValue && changes.eventData?.currentValue?.eventData?.eventData?.venues && changes.eventData?.currentValue?.eventData?.eventData?.venues.length) {
       this.exhCompanyAddedSub = this.eventService.exhibitorCompanyAddSubject
-      .subscribe(value => {
-        devLogger('log', 'exhCompanyAddedSub');
-        devLogger('log', value);
-        const isInvited = value.exhibitorCompany instanceof InviteFnCmpClass;
-        const exhibitor = this.eventToBeSaved.venues?.list[value.venueIndex]
-          .exhibitorList[0].exhibitors[value.exhibitorIndex];
+        .subscribe(value => {
+          devLogger('log', 'exhCompanyAddedSub');
+          devLogger('log', value);
+          const isInvited = value.exhibitorCompany instanceof InviteFnCmpClass;
+          const exhibitor = this.eventToBeSaved.venues?.list[value.venueIndex]
+            .exhibitorList[0].exhibitors[value.exhibitorIndex];
 
-        if (exhibitor) {
-          exhibitor.companyId = isInvited ? null : (value.exhibitorCompany as Company).id;
-          exhibitor.invited = isInvited ? (value.exhibitorCompany as InviteFnCmpClass) : null;
-          exhibitor.contacts = isInvited ? null : [];
-          if (this.venuesExhCmpsMap.has(value.venueIndex)) {
-            this.venuesExhCmpsMap.get(value.venueIndex)?.set(value.exhibitorIndex, value.exhibitorCompany);
-          } else {
-            const exhibitorCmpMap = new Map([[value.exhibitorIndex, value.exhibitorCompany]]);
-            this.venuesExhCmpsMap.set(value.venueIndex, exhibitorCmpMap);
+          if (exhibitor) {
+            exhibitor.companyId = isInvited ? null : (value.exhibitorCompany as Company).id;
+            exhibitor.invited = isInvited ? (value.exhibitorCompany as InviteFnCmpClass) : null;
+            exhibitor.contacts = isInvited ? null : [];
+            if (this.venuesExhCmpsMap.has(value.venueIndex)) {
+              this.venuesExhCmpsMap.get(value.venueIndex)?.set(value.exhibitorIndex, value.exhibitorCompany);
+            } else {
+              const exhibitorCmpMap = new Map([[value.exhibitorIndex, value.exhibitorCompany]]);
+              this.venuesExhCmpsMap.set(value.venueIndex, exhibitorCmpMap);
+            }
+
+            devLogger('log', this.venuesExhCmpsMap);
           }
+        });
 
-          devLogger('log', this.venuesExhCmpsMap);
+      this.exhCmpCntAddedSub = this.eventService.exhibitorCmpCntAddSubject.subscribe(value => {
+        this.setContacts(value);
+      });
+
+      this.eventService.getFetchedVenueExCmp().forEach((param, index) => {
+        this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
+        if (param.company) {
+          this.eventService.exhibitorCompanyAdded(param.company);
+        }
+
+        if (index === this.eventService.getFetchedVenueExCmp().length - 1) {
+          this.eventService.activeExhibitorPanel = { venueIndex: 0, exhibitorIndex: 0 };
         }
       });
 
-    this.exhCmpCntAddedSub = this.eventService.exhibitorCmpCntAddSubject.subscribe(value => {
-      this.setContacts(value);
-    });
-
-    this.eventService.getFetchedVenueExCmp().forEach((param, index) => {
-      this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
-      if (param.company) {
-        this.eventService.exhibitorCompanyAdded(param.company);
-      }
-
-      if (index === this.eventService.getFetchedVenueExCmp().length - 1) {
-        this.eventService.activeExhibitorPanel = { venueIndex: 0, exhibitorIndex: 0 };
-      }
-    });
-
-    this.eventService.getFetchedVenueExCmpCnts().forEach((param, index) => {
-      this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
-      if (param.contactList) {
-        this.eventService.exhibitorContactsAdded(param.contactList);
-      }
-      if (index === this.eventService.getFetchedVenueExCmpCnts().length - 1) {
-        this.eventService.activeExhibitorPanel = { venueIndex: 0, exhibitorIndex: 0 };
-      }
-    });
+      this.eventService.getFetchedVenueExCmpCnts().forEach((param, index) => {
+        this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
+        if (param.contactList) {
+          this.eventService.exhibitorContactsAdded(param.contactList);
+        }
+        if (index === this.eventService.getFetchedVenueExCmpCnts().length - 1) {
+          this.eventService.activeExhibitorPanel = { venueIndex: 0, exhibitorIndex: 0 };
+        }
+      });
     }
   }
 
@@ -114,7 +114,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
         devLogger('log', value);
         const isInvited = value.exhibitorCompany instanceof InviteFnCmpClass;
         const exhibitor = this.eventToBeSaved.venues?.list[value.venueIndex]
-          .exhibitorList[0].exhibitors[value.exhibitorIndex];
+          .exhibitorList[0]?.exhibitors[value.exhibitorIndex];
 
         if (exhibitor) {
           exhibitor.companyId = isInvited ? null : (value.exhibitorCompany as Company).id;
@@ -134,34 +134,34 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     this.exhCmpCntAddedSub = this.eventService.exhibitorCmpCntAddSubject.subscribe(value => {
       this.setContacts(value);
     });
+    this.eventService.navigatesToExhibitors.subscribe(() => {
+      this.eventService.getFetchedVenueExCmp().forEach((param, index) => {
+        alert(JSON.stringify({ param, index }))
+        this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
+        if (param.company) {
+          this.eventService.exhibitorCompanyAdded(param.company);
+        }
 
-    this.eventService.getFetchedVenueExCmp().forEach((param, index) => {
-      alert(JSON.stringify({ param, index }))
-      this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
-      if (param.company) {
-        this.eventService.exhibitorCompanyAdded(param.company);
-      }
+        if (index === this.eventService.getFetchedVenueExCmp().length - 1) {
+          this.eventService.activeExhibitorPanel = { venueIndex: 0, exhibitorIndex: 0 };
+        }
+      });
 
-      if (index === this.eventService.getFetchedVenueExCmp().length - 1) {
-        this.eventService.activeExhibitorPanel = { venueIndex: 0, exhibitorIndex: 0 };
-      }
-    });
-
-    this.eventService.getFetchedVenueExCmpCnts().forEach((param, index) => {
-      this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
-      if (param.contactList) {
-        this.eventService.exhibitorContactsAdded(param.contactList);
-      }
-      if (index === this.eventService.getFetchedVenueExCmpCnts().length - 1) {
-        this.eventService.activeExhibitorPanel = { venueIndex: 0, exhibitorIndex: 0 };
-      }
-    });
-
+      this.eventService.getFetchedVenueExCmpCnts().forEach((param, index) => {
+        this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
+        if (param.contactList) {
+          this.eventService.exhibitorContactsAdded(param.contactList);
+        }
+        if (index === this.eventService.getFetchedVenueExCmpCnts().length - 1) {
+          this.eventService.activeExhibitorPanel = { venueIndex: 0, exhibitorIndex: 0 };
+        }
+      });
+    })
   }
 
   private setContacts(value: { venueIndex: number; exhibitorIndex: number; contactList: InviteFnCmpCntInterface[] }): void {
     const exhibitor = this.eventToBeSaved.venues?.list[value.venueIndex]
-      .exhibitorList[0].exhibitors[value.exhibitorIndex];
+      .exhibitorList[0]?.exhibitors[value.exhibitorIndex];
     if (exhibitor) {
       if (exhibitor.contacts) {
         exhibitor.contacts = exhibitor.contacts.concat([...value.contactList]);

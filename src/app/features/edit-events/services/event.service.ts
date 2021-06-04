@@ -87,6 +87,7 @@ export class EventService {
   private fetchedVenueExCmpCnts: FetchedVenueExCmpCnts[] = [];
 
   public navigatesToSuppliers = new Subject();
+  public navigatesToExhibitors= new Subject();
 
   constructor(
     private spinner: NgxSpinnerService,

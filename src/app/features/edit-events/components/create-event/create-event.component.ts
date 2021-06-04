@@ -384,7 +384,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   isCrew: contact.isCrew || 0
                 };
               });
-              this.venueContactLists.push(contacts);
+              if (!findVenueId && findVenueId == undefined) {
+                this.venueContactLists.push(contacts);
+              }
 
             }
             console.log(this.eventToBeSaved);
@@ -467,7 +469,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           };
                         });
                         alert('supplier count: ' + this.supplierCount)
-                        console.log('contacts: ',cloneDeep(contacts));
+                        console.log('contacts: ', cloneDeep(contacts));
                         this.eventService.addFetchedVenueSrvcCmpCnt({ contactList: contacts, serviceIndex, venueIndex });
                         return {
                           name: service.serviceName,
@@ -542,7 +544,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   isCrew: contact.isCrew || 0
                 };
               });
-              this.venueContactLists.push(contacts);
+              if (!findVenueId && findVenueId == undefined) {
+                this.venueContactLists.push(contacts);
+              }
             }
             console.log(this.eventToBeSaved);
             // if (venue.services.length - 1 === serviceIndex) {
@@ -626,24 +630,22 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             canJoin: 0
                           } as Company);
                           this.eventService.addFetchedVenueExCmp({ venueIndex, exhibitorIndex, company: exhibitorCompany });
-                          let contacts = [];
-                          if (this.exhibitorCount == 0) {
-                            contacts = exhibitor.contacts.map((contact: any) => {
-                              return {
-                                id: contact.id,
-                                email: contact.email,
-                                firstName: contact.firstName,
-                                lastName: contact.lastName || '',
-                                contactLabelId: contact.contactLabelId || null,
-                                position: '',
-                                contactPosition: contact.contactPosition,
-                                contactRole: contact.contactRole,
-                                profileImage: contact.profileImage,
-                                mobile: contact.mobile,
-                                isCrew: contact.isCrew || 0
-                              };
-                            });
-                          }
+
+                          const contacts = exhibitor.contacts.map((contact: any) => {
+                            return {
+                              id: contact.id,
+                              email: contact.email,
+                              firstName: contact.firstName,
+                              lastName: contact.lastName || '',
+                              contactLabelId: contact.contactLabelId || null,
+                              position: '',
+                              contactPosition: contact.contactPosition,
+                              contactRole: contact.contactRole,
+                              profileImage: contact.profileImage,
+                              mobile: contact.mobile,
+                              isCrew: contact.isCrew || 0
+                            };
+                          });
                           this.eventService.addFetchedVenueExCmpCnt({ contactList: contacts, exhibitorIndex, venueIndex });
                           return {
                             name: exhibitor.exhibitorName,
@@ -717,11 +719,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   isCrew: contact.isCrew || 0
                 };
               });
-              this.venueContactLists.push(contacts);
-
+              if (!findVenueId && findVenueId == undefined) {
+                this.venueContactLists.push(contacts);
+              }
             }
-            this.exhibitorCount++;
             console.log(this.eventToBeSaved);
+            this.eventService.navigatesToExhibitors.next()
           }
         }
         if (tabType === 6) {
