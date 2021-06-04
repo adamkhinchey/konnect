@@ -57,7 +57,6 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    alert('on init in supplier')
     console.log('event Data: ', this.eventData)
     this.supplierCompanyAddedSub = this.eventService.supplierCompanyAddSubject
       .subscribe(value => {
@@ -89,7 +88,6 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     });
 
     this.eventService.navigatesToSuppliers.subscribe(()=>{
-      alert('company: '+JSON.stringify(this.eventService.getFetchedVenueSrvcsCmp()))
       this.eventService.getFetchedVenueSrvcsCmp().forEach((param, index) => {
         this.eventService.activeServicePanel = { venueIndex: param.venueIndex, serviceIndex: param.serviceIndex };
         if (param.company) {
@@ -100,7 +98,6 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
           this.eventService.activeServicePanel = { venueIndex: 0, serviceIndex: 0 };
         }
       });
-      alert('contacts: '+JSON.stringify(this.eventService.getFetchedVenueSrvcCmpCnts()))
       this.eventService.getFetchedVenueSrvcCmpCnts().forEach((param, index) => {
         this.eventService.activeServicePanel = { venueIndex: param.venueIndex, serviceIndex: param.serviceIndex };
         if (param.contactList) {

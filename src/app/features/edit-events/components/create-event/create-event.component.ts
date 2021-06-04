@@ -397,7 +397,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         if (tabType === 4) {
           this.eventService.resetVenueSupplierData();
           this.data.eventData = res.eventData;
-          alert(this.data?.eventData?.venues?.length);
           if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
 
             this.eventToBeSaved.venues = {
@@ -470,7 +469,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             isCrew: contact.isCrew || 0
                           };
                         });
-                        alert('supplier count: ' + this.supplierCount)
                         console.log('contacts: ', cloneDeep(contacts));
                         this.eventService.addFetchedVenueSrvcCmpCnt({ contactList: contacts, serviceIndex, venueIndex });
                         return {

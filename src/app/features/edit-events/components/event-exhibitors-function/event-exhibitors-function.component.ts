@@ -137,7 +137,6 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     });
     this.eventService.navigatesToExhibitors.subscribe(() => {
       this.eventService.getFetchedVenueExCmp().forEach((param, index) => {
-        alert(JSON.stringify({ param, index }))
         this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
         if (param.company) {
           this.eventService.exhibitorCompanyAdded(param.company);

@@ -48,7 +48,7 @@
 
 
                       
-              <select   [attr.disabled]="panel.isStaffOrAdmin==1 ? null : true"   ngModel (ngModelChange)="acceptDeclineService(panel, $event)"  [ngModel]="panel.status" >
+              <select [ngModelOptions]="{standalone:true}"  [attr.disabled]="panel.isStaffOrAdmin==1 ? null : true" (ngModelChange)="acceptDeclineService(panel, $event)"  [(ngModel)]="panel.status" >
                 <!-- <option value=""  [attr.selected]=true >Select status...</option> -->
                 <option  [ngValue]=1>Confirm</option>
                 <option *ngIf="panel.status==0"  [ngValue]=0>Pending</option> 

@@ -57,7 +57,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   </div> -->
 
                   
-                  <select   [attr.disabled]="service.isStaffOrAdmin==1 ? null : true"   ngModel (ngModelChange)="acceptDeclineService(service, $event)"  [ngModel]="service.status" >
+                  <select [ngModelOptions]="{standalone:true}"  [attr.disabled]="service.isStaffOrAdmin==1 ? null : true" (ngModelChange)="acceptDeclineService(service, $event)"  [(ngModel)]="service.status" >
                        
                     <option  [ngValue]=1>Confirm</option>
                     <option *ngIf="service.status==0"  [ngValue]=0>Pending</option> 
