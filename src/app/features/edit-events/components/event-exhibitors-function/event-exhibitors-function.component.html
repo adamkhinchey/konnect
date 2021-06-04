@@ -1,6 +1,6 @@
 <div *ngIf="eventToBeSaved.venues &&
 eventToBeSaved.venues.list &&
-eventToBeSaved.venues.list.length>0 && eventToBeSaved.venues.list[0].exhibitorList[0]; else noVenues" class="ui segment">
+eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
   <ul ngbNav #venueNav="ngbNav" class="nav-tabs supplierInnerCont" [destroyOnHide]="false">
     <li ngbNavItem *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
       <a ngbNavLink><i class="map marker alternate icon"></i>
@@ -101,7 +101,7 @@ eventToBeSaved.venues.list.length>0 && eventToBeSaved.venues.list[0].exhibitorLi
                             </div>
                             <div class="kcpCardContainer"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
                               <div class="ui one column grid">
-                                <div class="column">
+                                <div class="column" *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">
                                   <div class="ui fluid card">
                                     <div class="content">
                                       <img class="right floated mini ui image"

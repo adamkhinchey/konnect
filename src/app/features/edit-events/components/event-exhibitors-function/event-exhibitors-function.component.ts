@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { NgbAccordion, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { SaveEventClass } from '../../models/classes/saveEvent.class';
 import { Subscription } from 'rxjs';
@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
   templateUrl: './event-exhibitors-function.component.html',
   styleUrls: ['./event-exhibitors-function.component.scss']
 })
-export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
+export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion | undefined;
   @Input() eventData: any;
   @Input() eventToBeSaved = new SaveEventClass();
@@ -55,6 +55,58 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
     // this.editVenue.emit(this.isVenueEdit);
   }
 
+  ngOnChanges(changes: SimpleChanges){
+    if(changes.eventData?.currentValue && changes.eventData?.currentValue?.eventData?.eventData?.venues && changes.eventData?.currentValue?.eventData?.eventData?.venues.length){
+      this.exhCompanyAddedSub = this.eventService.exhibitorCompanyAddSubject
+      .subscribe(value => {
+        devLogger('log', 'exhCompanyAddedSub');
+        devLogger('log', value);
+        const isInvited = value.exhibitorCompany instanceof InviteFnCmpClass;
+        const exhibitor = this.eventToBeSaved.venues?.list[value.venueIndex]
+          .exhibitorList[0].exhibitors[value.exhibitorIndex];
+
+        if (exhibitor) {
+          exhibitor.companyId = isInvited ? null : (value.exhibitorCompany as Company).id;
+          exhibitor.invited = isInvited ? (value.exhibitorCompany as InviteFnCmpClass) : null;
+          exhibitor.contacts = isInvited ? null : [];
+          if (this.venuesExhCmpsMap.has(value.venueIndex)) {
+            this.venuesExhCmpsMap.get(value.venueIndex)?.set(value.exhibitorIndex, value.exhibitorCompany);
+          } else {
+            const exhibitorCmpMap = new Map([[value.exhibitorIndex, value.exhibitorCompany]]);
+            this.venuesExhCmpsMap.set(value.venueIndex, exhibitorCmpMap);
+          }
+
+          devLogger('log', this.venuesExhCmpsMap);
+        }
+      });
+
+    this.exhCmpCntAddedSub = this.eventService.exhibitorCmpCntAddSubject.subscribe(value => {
+      this.setContacts(value);
+    });
+
+    this.eventService.getFetchedVenueExCmp().forEach((param, index) => {
+      this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
+      if (param.company) {
+        this.eventService.exhibitorCompanyAdded(param.company);
+      }
+
+      if (index === this.eventService.getFetchedVenueExCmp().length - 1) {
+        this.eventService.activeExhibitorPanel = { venueIndex: 0, exhibitorIndex: 0 };
+      }
+    });
+
+    this.eventService.getFetchedVenueExCmpCnts().forEach((param, index) => {
+      this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
+      if (param.contactList) {
+        this.eventService.exhibitorContactsAdded(param.contactList);
+      }
+      if (index === this.eventService.getFetchedVenueExCmpCnts().length - 1) {
+        this.eventService.activeExhibitorPanel = { venueIndex: 0, exhibitorIndex: 0 };
+      }
+    });
+    }
+  }
+
   ngOnInit(): void {
     this.exhCompanyAddedSub = this.eventService.exhibitorCompanyAddSubject
       .subscribe(value => {
@@ -84,6 +136,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
     });
 
     this.eventService.getFetchedVenueExCmp().forEach((param, index) => {
+      alert(JSON.stringify({ param, index }))
       this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
       if (param.company) {
         this.eventService.exhibitorCompanyAdded(param.company);

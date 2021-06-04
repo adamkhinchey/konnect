@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {EventService} from "../../services/event.service";
 
 @Component({
@@ -7,7 +7,7 @@ import {EventService} from "../../services/event.service";
   styleUrls: ['./create-event-info-bar.component.scss']
 })
 export class CreateEventInfoBarComponent implements OnInit {
-
+  @Input() isEdit: boolean = false;
   constructor(public eventService: EventService) { }
 
   ngOnInit(): void {

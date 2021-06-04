@@ -1,6 +1,6 @@
 <div *ngIf="eventToBeSaved.venues &&
 eventToBeSaved.venues.list &&
-eventToBeSaved.venues.list.length>0 && eventToBeSaved.venues.list[0].suppliers[0]; else noVenues" class="ui segment">
+eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
   <ul ngbNav #venueNav="ngbNav" class="nav-tabs supplierInnerCont" [destroyOnHide]="false">
     <li ngbNavItem *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
       <a ngbNavLink><i class="map marker alternate icon"></i>
@@ -79,7 +79,6 @@ eventToBeSaved.venues.list.length>0 && eventToBeSaved.venues.list[0].suppliers[0
                               <h3>Supplier Company <i class="cog icon"></i><i class="sitemap icon"></i><i
                                   class="building icon"></i></h3>
                             </div>
-
                             <div class="kcpCardContainer"
                               *ngIf="permissionObj.isClient || permissionObj.isEventManager  ||  service?.isViewPermission==1 ; else no_access">
                               <div class="ui one column grid"

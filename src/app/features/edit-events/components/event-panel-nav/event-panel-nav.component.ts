@@ -1,6 +1,6 @@
-import {Component, ComponentRef, Input, OnInit, ViewChild} from '@angular/core';
-import {NgbNav, NgbNavChangeEvent} from '@ng-bootstrap/ng-bootstrap';
-import {SaveEventClass} from "../../models/classes";
+import { Component, ComponentRef, Input, OnInit, ViewChild } from '@angular/core';
+import { NgbNav, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { SaveEventClass } from "../../models/classes";
 
 @Component({
   selector: 'app-event-panel-nav',
@@ -21,5 +21,8 @@ export class EventPanelNavComponent implements OnInit {
 
   openVerticallyCentered(content: any) {
 
+  }
+  navChanged(ev: any) {
+    alert('nav changed' + ev);
   }
 }
