@@ -1,18 +1,20 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {NgbAccordion, NgbPanelChangeEvent} from '@ng-bootstrap/ng-bootstrap';
-import {SaveEventClass} from '../../models/classes/saveEvent.class';
-import {Subscription} from 'rxjs';
-import {Company} from '../../../users/models';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { NgbAccordion, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { SaveEventClass } from '../../models/classes/saveEvent.class';
+import { Subscription } from 'rxjs';
+import { Company } from '../../../users/models';
 import {
   InviteFnCmpCntInterface,
   InviteFnCmpInterface,
   SuppExhTimeWindowFormatInterface,
   VenueListItemInterface
 } from '../../models/interfaces';
-import {EventService} from '../../services/event.service';
-import {devLogger} from '../../../../shared/utils';
-import {InviteFnCmpClass} from '../../models/classes';
-import {EventTimeWindowTypes} from "../../models/types";
+import { EventService } from '../../services/event.service';
+import { devLogger } from '../../../../shared/utils';
+import { InviteFnCmpClass } from '../../models/classes';
+import { EventTimeWindowTypes } from "../../models/types";
+import { ViewEventService } from '../../services/view-event.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-exhibitors-function',
@@ -28,7 +30,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   @Input() searchInviteFnCmpCntModal: any;
   @Input() setOpenedModalRef: any;
   @Input() content: any;
-  @Input() permissionObj: any; 
+  @Input() permissionObj: any;
   @Input() venueCompanies: Array<Company | InviteFnCmpInterface | null> | undefined | null = [];
   activeExhibitorPanel = 0;
   private exhCompanyAddedSub: Subscription | undefined;
@@ -40,7 +42,11 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   public isExhibitorEditable: boolean = false;
   @Input() setIsCrew: any;
 
-  constructor(private eventService: EventService) {
+  constructor(
+    private eventService: EventService,
+    private viewEventService: ViewEventService,
+    private router: Router
+  ) {
   }
 
   editExhibitorFn() {
@@ -78,23 +84,23 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
     });
 
     this.eventService.getFetchedVenueExCmp().forEach((param, index) => {
-      this.eventService.activeExhibitorPanel = {venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex};
+      this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
       if (param.company) {
         this.eventService.exhibitorCompanyAdded(param.company);
       }
 
-      if (index === this.eventService.getFetchedVenueExCmp().length-1) {
-        this.eventService.activeExhibitorPanel = {venueIndex: 0, exhibitorIndex: 0};
+      if (index === this.eventService.getFetchedVenueExCmp().length - 1) {
+        this.eventService.activeExhibitorPanel = { venueIndex: 0, exhibitorIndex: 0 };
       }
     });
 
     this.eventService.getFetchedVenueExCmpCnts().forEach((param, index) => {
-      this.eventService.activeExhibitorPanel = {venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex};
+      this.eventService.activeExhibitorPanel = { venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex };
       if (param.contactList) {
         this.eventService.exhibitorContactsAdded(param.contactList);
       }
-      if (index === this.eventService.getFetchedVenueExCmpCnts().length-1) {
-        this.eventService.activeExhibitorPanel = {venueIndex: 0, exhibitorIndex: 0};
+      if (index === this.eventService.getFetchedVenueExCmpCnts().length - 1) {
+        this.eventService.activeExhibitorPanel = { venueIndex: 0, exhibitorIndex: 0 };
       }
     });
 
@@ -121,16 +127,18 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   }
 
   addExhibitor(venue: VenueListItemInterface, venueIndex: number): void {
+    this.isExhibitorEdit = true;
+    this.isExhibitorEditable = true;
     if (!venue.exhibitorList[0]) {
       const timeWindowsToAll: SuppExhTimeWindowFormatInterface = {
-        bumpIn: {sameAsVenue: null, timings: []},
-        bumpOut: {sameAsVenue: null, timings: []},
-        eventTime: {sameAsVenue: null, timings: []}
+        bumpIn: { sameAsVenue: null, timings: [] },
+        bumpOut: { sameAsVenue: null, timings: [] },
+        eventTime: { sameAsVenue: null, timings: [] }
       };
       const timeWindows: SuppExhTimeWindowFormatInterface = {
-        bumpIn: {sameAsVenue: null, timings: []},
-        bumpOut: {sameAsVenue: null, timings: []},
-        eventTime: {sameAsVenue: null, timings: []}
+        bumpIn: { sameAsVenue: null, timings: [] },
+        bumpOut: { sameAsVenue: null, timings: [] },
+        eventTime: { sameAsVenue: null, timings: [] }
       };
       venue.exhibitorList[0] = {
         notesToAll: '',
@@ -148,9 +156,9 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
       };
     } else {
       const timeWindows: SuppExhTimeWindowFormatInterface = {
-        bumpIn: {sameAsVenue: null, timings: []},
-        bumpOut: {sameAsVenue: null, timings: []},
-        eventTime: {sameAsVenue: null, timings: []}
+        bumpIn: { sameAsVenue: null, timings: [] },
+        bumpOut: { sameAsVenue: null, timings: [] },
+        eventTime: { sameAsVenue: null, timings: [] }
       };
       venue.exhibitorList[0].exhibitors.push({
         standNumber: null,
@@ -165,13 +173,13 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
     }
     this.ngbAccordion?.collapseAll();
     this.activeExhibitorPanel = venue.exhibitorList[0].exhibitors.length - 1;
-    this.eventService.activeExhibitorPanel = {venueIndex, exhibitorIndex: this.activeExhibitorPanel};
+    this.eventService.activeExhibitorPanel = { venueIndex, exhibitorIndex: this.activeExhibitorPanel };
     // devLogger('log', {selectedCompanies: this.selectedCompanies});
   }
 
   exhibitorPanelActivated(venueIndex: number, exhibitorIndex: number): void {
     this.activeExhibitorPanel = exhibitorIndex;
-    this.eventService.activeExhibitorPanel = {venueIndex, exhibitorIndex};
+    this.eventService.activeExhibitorPanel = { venueIndex, exhibitorIndex };
   }
 
   removeExhibitorContact(venueIndex: number, exhibitorIndex: number, event: number): void {
@@ -232,4 +240,21 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
     this.exhCompanyAddedSub?.unsubscribe();
     this.exhCmpCntAddedSub?.unsubscribe();
   }
+
+  removeDeclineExhibitor(exhibitorId: any, isAccept: any) {
+    console.log(exhibitorId);
+    let payload = {
+      eventId: this.eventData.eventData.eventId,
+      tabId: exhibitorId,
+      tabType: 5,
+      isAccept: isAccept
+    }
+    this.viewEventService.removeDecline(payload).subscribe((res: any) => {
+      console.log(res);
+      this.router.navigate(['home']);
+    }, err => {
+      devLogger('err', err)
+    })
+  }
+
 }

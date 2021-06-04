@@ -12,6 +12,7 @@ export interface EventSuppliersInterface {
     shouldInvite: null | number,
     invited: null | InviteFnCmpInterface,
     timeWindows: SuppExhTimeWindowFormatInterface,
-    isViewPermission?:any
+    isViewPermission?:any,
+    supplierId?:any
   }[];
 }

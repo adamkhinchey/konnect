@@ -1,13 +1,13 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
-import {TimeWindowFormatInterface, VenueTimeChangedSubjectInterface} from '../../models/interfaces';
-import {ToastrService} from 'ngx-toastr';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { TimeWindowFormatInterface, VenueTimeChangedSubjectInterface } from '../../models/interfaces';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
-import {DateTimePickerComponent} from '../date-time-picker/date-time-picker.component';
-import {EventService} from '../../services/event.service';
-import {EventTimeSlotTypes, EventTimeWindowTypes} from '../../models/types';
-import {Subscription} from 'rxjs';
-import {cloneDeep} from 'lodash-es';
-import {devLogger} from "../../../../shared/utils";
+import { DateTimePickerComponent } from '../date-time-picker/date-time-picker.component';
+import { EventService } from '../../services/event.service';
+import { EventTimeSlotTypes, EventTimeWindowTypes } from '../../models/types';
+import { Subscription } from 'rxjs';
+import { cloneDeep } from 'lodash-es';
+import { devLogger } from "../../../../shared/utils";
 
 @Component({
   selector: 'app-time-windows',
@@ -24,6 +24,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
   @ViewChildren('postEventEndDateTimes') postEventEndDateTimes: QueryList<DateTimePickerComponent> | undefined;
 
   @Input() isVenueDependent = false;
+  @Input() isEdit: boolean = false;
   @Input() windowLabels: string[] | undefined;
 
   Arr = Array;
@@ -88,7 +89,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   pushPreEventStartDateTime(event: Date, i: number): void {
     if (this.preEventTimes.length === 0) {
-      this.preEventTimes.push({startDateTime: event, notes: this.preEventNotes});
+      this.preEventTimes.push({ startDateTime: event, notes: this.preEventNotes });
       this.preEventEndDateTimes?.get(0)?.owlDateTime?.confirmSelectedChange.next(
         this.preEventTimes[0].startDateTime
       );
@@ -125,7 +126,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   pushPreEventEndDateTime(event: Date, i: number): void {
     if (this.preEventTimes.length === 0) {
-      this.preEventTimes.push({endDateTime: event, notes: this.preEventNotes});
+      this.preEventTimes.push({ endDateTime: event, notes: this.preEventNotes });
 
       if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
         this.eventService.venuePreEventTimeChange.next({
@@ -189,7 +190,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   pushEventStartDateTime(event: Date, i: number): void {
     if (this.eventTimes.length === 0) {
-      this.eventTimes.push({startDateTime: event, notes: this.eventNotes});
+      this.eventTimes.push({ startDateTime: event, notes: this.eventNotes });
       this.eventEndDateTimes?.get(0)?.owlDateTime?.confirmSelectedChange.next(
         this.eventTimes[0].startDateTime
       );
@@ -224,7 +225,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   pushEventEndDateTime(event: Date, i: number): void {
     if (this.eventTimes.length === 0) {
-      this.eventTimes.push({endDateTime: event, notes: this.eventNotes});
+      this.eventTimes.push({ endDateTime: event, notes: this.eventNotes });
       return;
     }
     this.eventTimes[i] = {
@@ -279,7 +280,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   pushPostEventStartDateTime(event: Date, i: number): void {
     if (this.postEventTimes.length === 0) {
-      this.postEventTimes.push({startDateTime: event, notes: this.postEventNotes});
+      this.postEventTimes.push({ startDateTime: event, notes: this.postEventNotes });
       this.postEventEndDateTimes?.get(0)?.owlDateTime?.confirmSelectedChange.next(
         this.postEventTimes[0].startDateTime
       );
@@ -314,7 +315,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   pushPostEventEndDateTime(event: Date, i: number): void {
     if (this.postEventTimes.length === 0) {
-      this.postEventTimes.push({endDateTime: event, notes: this.postEventNotes});
+      this.postEventTimes.push({ endDateTime: event, notes: this.postEventNotes });
       return;
     }
     this.postEventTimes[i] = {
@@ -359,7 +360,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   listenVenueEventTimeChange(event: Event, slotsType: EventTimeSlotTypes, forAllExhibitors = false): void {
     const target = (event.target as HTMLInputElement);
-    const {checked} = target;
+    const { checked } = target;
     if (checked) {
       if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
         this.copyAssignVenueTime(this.eventTimeSlotTypes.PRE_EVENT_ACCESS, (this.venuePreEventTimes as TimeWindowFormatInterface[]));

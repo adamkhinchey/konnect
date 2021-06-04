@@ -9,7 +9,7 @@
           </div>
           <div class="field"  *ngIf="eventToBeSaved.venues">
             <textarea  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
-              [ngModelOptions]="{standalone:true}"></textarea>
+              [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit"></textarea>
               <ng-template #no_access>No access</ng-template>
           </div>
         </div>
@@ -19,7 +19,7 @@
   <div class="ui grid">
     <div class="sixteen wide column">
       <div class="marginT10"></div>
-      <div *ngIf="isVenueEdit" class="ui button compact addNewVenue addToPanel" (click)="addVenue()"><i class="plus circle icon"></i><span
+      <div *ngIf="isVenueEdit || !eventToBeSaved.venues" class="ui button compact addNewVenue addToPanel" (click)="addVenue()"><i class="plus circle icon"></i><span
           class="hideMobile">Add Venue</span>
       </div>
       <h3 id="venuesAnchor" class="ui dividing header">Venues</h3>
@@ -121,7 +121,9 @@
                           [eventView]="true"
                           [preEventNotes]="panel.preEventAccessDateTimes[i]?.notes || ''"
                           [eventNotes]="panel.eventAccessDateTimes[i]?.notes || ''"
-                          [postEventNotes]="panel.postEventAccessDateTimes[i]?.notes || ''">
+                          [postEventNotes]="panel.postEventAccessDateTimes[i]?.notes || ''"
+                          [isEdit]="isVenueEdit"
+                          >
                       </app-time-windows>
                         </div>
                       </div>
@@ -132,7 +134,8 @@
                       </div>
                       <div class="field">
                         <textarea  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access" class="textarea" [(ngModel)]="panel.requirements"
-                          [ngModelOptions]="{standalone:true}">
+                          [ngModelOptions]="{standalone:true}"
+                          [readonly]="!isVenueEdit">
                         </textarea>
                         <ng-template #no_access>No access
                         </ng-template>

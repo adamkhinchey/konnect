@@ -1,6 +1,6 @@
 <div *ngIf="eventToBeSaved.venues &&
 eventToBeSaved.venues.list &&
-eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
+eventToBeSaved.venues.list.length>0 && eventToBeSaved.venues.list[0].exhibitorList[0]; else noVenues" class="ui segment">
   <ul ngbNav #venueNav="ngbNav" class="nav-tabs supplierInnerCont" [destroyOnHide]="false">
     <li ngbNavItem *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
       <a ngbNavLink><i class="map marker alternate icon"></i>
@@ -14,21 +14,21 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <form class="ui form visible" style="display: block !important;">
             <div class="ui grid stackable">
 
-              <div class="seven wide column" *ngIf="venue.exhibitorList[0].exhibitors.length">
+              <div class="seven wide column" *ngIf="venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length">
                 <div class="ui dividing header">
                   <h3>Notes to All Exhibitors <i class="cog icon"></i><i class="sitemap icon"></i><i
                       class="exhibitor icon"></i></h3>
                 </div>
                 <div class="field"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access">
                   <textarea  class="textarea" *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
-                    [(ngModel)]="venue.exhibitorList[0].notesToAll" [ngModelOptions]="{standalone:true}"></textarea>
+                    [(ngModel)]="venue.exhibitorList[0].notesToAll" [ngModelOptions]="{standalone:true}" [readonly]="!isExhibitorEdit"></textarea>
                 
                    
                   </div>
                   <ng-template #no_access>No access</ng-template>
               </div>
 
-              <div class="nine wide column" *ngIf="venue.exhibitorList[0].exhibitors.length">
+              <div class="nine wide column" *ngIf="venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length">
 
                 <div class="field">
                   <div class="timeWindowsContainer">
@@ -46,7 +46,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                       [index]="venueIndex" [isVenueDependent]="true"
                       [preEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpIn.timings"
                       [postEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpOut.timings"
-                      [eventTimes]="venue.exhibitorList[0].timeWindowsToAll.eventTime.timings"></app-time-windows>
+                      [eventTimes]="venue.exhibitorList[0].timeWindowsToAll.eventTime.timings"
+                      [isEdit]="isExhibitorEdit"></app-time-windows>
 
                       <ng-template #no_access>No access</ng-template>                      
                   </div>
@@ -59,7 +60,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <div class="ui grid">
             <div class="sixteen wide column">
               <div class="marginT10"></div>
-              <div *ngIf="isExhibitorEdit" class="ui button compact addNewService addToPanel" (click)="addExhibitor(venue, venueIndex)">
+              <div *ngIf="(venue.exhibitorList[0] && !venue.exhibitorList[0].exhibitors.length) || isExhibitorEdit" class="ui button compact addNewService addToPanel" (click)="addExhibitor(venue, venueIndex)">
                 <i class="plus circle icon"></i>
                 <span>Add Exhibitor</span>
               </div>
@@ -71,7 +72,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
             [activeIds]="'exhibitorListIndex-'+activeExhibitorPanel" [destroyOnHide]="false">
 
-            <ng-container *ngIf="venue.exhibitorList[0].exhibitors.length">
+            <ng-container *ngIf="venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length">
               <ngb-panel *ngFor="let exhibitor of venue.exhibitorList[0].exhibitors; let exhibitorIndex=index"
                 [id]="'exhibitorListIndex-'+exhibitorIndex"
                 (shown)="exhibitorPanelActivated(venueIndex,exhibitorIndex)">
@@ -173,7 +174,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           </div>
                           <div class="field"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
                             <input type="text" [(ngModel)]="exhibitor.standNumber" [ngModelOptions]="{standalone:true}"
-                              placeholder="Stand Number">
+                              placeholder="Stand Number" [readonly]="!isExhibitorEdit">
                               
                           </div>
                           <ng-template #no_access>No access
@@ -184,7 +185,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           </div>
                           <div class="field"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
                             <textarea class="textarea" [(ngModel)]="exhibitor.requirement"
-                              [ngModelOptions]="{standalone:true}"></textarea>
+                              [ngModelOptions]="{standalone:true}" [readonly]="!isExhibitorEdit"></textarea>
                           </div>
                           <ng-template #no_access>No access
                           </ng-template>
@@ -204,7 +205,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 [isVenueDependent]="true" [index]="exhibitorIndex"
                                 [preEventTimes]="exhibitor.timeWindows.bumpIn.timings"
                                 [postEventTimes]="exhibitor.timeWindows.bumpOut.timings"
-                                [eventTimes]="exhibitor.timeWindows.eventTime.timings"></app-time-windows>
+                                [eventTimes]="exhibitor.timeWindows.eventTime.timings"
+                                [isEdit]="isExhibitorEdit"></app-time-windows>
                                 <ng-template #no_access>No
                                   access</ng-template>
                             </div>
@@ -215,7 +217,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="ui divider"></div>
                           <div class="ui grid stackable">
                             <div class="ten wide column middle aligned">
-                              <div class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
+                              <div (click)="removeDeclineExhibitor(exhibitor?.exhibitorId, 0)" class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
                             <div class="six wide column right aligned hideMobile">
                               <div class="ui button basic blue icon"><i class="file pdf icon"></i>

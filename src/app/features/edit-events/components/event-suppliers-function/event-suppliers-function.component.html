@@ -1,10 +1,11 @@
 <div *ngIf="eventToBeSaved.venues &&
 eventToBeSaved.venues.list &&
-eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
+eventToBeSaved.venues.list.length>0 && eventToBeSaved.venues.list[0].suppliers[0]; else noVenues" class="ui segment">
   <ul ngbNav #venueNav="ngbNav" class="nav-tabs supplierInnerCont" [destroyOnHide]="false">
     <li ngbNavItem *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
       <a ngbNavLink><i class="map marker alternate icon"></i>
-        {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]? venueCompanies[venueIndex]!.companyName+', '+venueCompanies[venueIndex]!.city:'Venue-'+(venueIndex + 1)}}</a>
+        {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]?
+        venueCompanies[venueIndex]!.companyName+', '+venueCompanies[venueIndex]!.city:'Venue-'+(venueIndex + 1)}}</a>
       <ng-template ngbNavContent>
         <form class="ui form">
           <div class="ui grid stackable">
@@ -14,11 +15,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   <h3>Notes to All Suppliers <i class="cog icon"></i><i class="sitemap icon"></i><i
                       class="truck icon"></i></h3>
                 </div>
-                <div class="field"   *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  permissionObj.isService; else no_access" >
-                  <textarea class="textarea" *ngIf="venue.suppliers && venue.suppliers[0].services.length"
-                  [(ngModel)]="venue.suppliers[0].notesToAll"
-                    [ngModelOptions]="{standalone:true}"></textarea>
-                   
+                <div class="field"
+                  *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  permissionObj.isService; else no_access">
+                  <textarea class="textarea" *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
+                    [(ngModel)]="venue.suppliers[0].notesToAll" [ngModelOptions]="{standalone:true}"
+                    [readonly]="!isServiceEdit"></textarea>
+
                 </div>
                 <ng-template #no_access>No access</ng-template>
               </div>
@@ -29,7 +31,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
         <div class="ui grid">
           <div class="sixteen wide column">
             <div class="marginT10"></div>
-            <div *ngIf="isServiceEdit" class="ui button compact addNewService addToPanel" (click)="addService(venue,venueIndex)">
+            <div *ngIf="(isServiceEdit) || (venue.suppliers[0] && !venue.suppliers[0].services.length)"
+              class="ui button compact addNewService addToPanel" (click)="addService(venue,venueIndex)">
               <i class="plus circle icon"></i>
               <span>Add Service</span>
             </div>
@@ -43,7 +46,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
             [activeIds]="'serviceListIndex-'+activeServicePanel" [destroyOnHide]="false">
 
-            <ng-container *ngIf="venue.suppliers[0].services.length">
+            <ng-container *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length">
               <ngb-panel *ngFor="let service of venue.suppliers[0].services; let serviceIndex=index"
                 [id]="'serviceListIndex-'+serviceIndex" (shown)="servicePanelActivated(venueIndex,serviceIndex)">
                 <ng-template ngbPanelTitle>
@@ -65,32 +68,40 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   class="building icon"></i></h3>
                             </div>
                             <div class="field">
-                              <input  *ngIf="permissionObj.isClient || permissionObj.isEventManager || service?.isViewPermission == 1; else no_access" [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
-                                placeholder="Name">
-                                <ng-template #no_access>No access
-                                </ng-template>
+                              <input
+                                *ngIf="permissionObj.isClient || permissionObj.isEventManager || service?.isViewPermission == 1; else no_access"
+                                [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
+                                placeholder="Name" [readonly]="!isServiceEdit">
+                              <ng-template #no_access>No access
+                              </ng-template>
                             </div>
                             <div class="ui dividing header">
                               <h3>Supplier Company <i class="cog icon"></i><i class="sitemap icon"></i><i
                                   class="building icon"></i></h3>
                             </div>
 
-                            <div class="kcpCardContainer"  *ngIf="permissionObj.isClient || permissionObj.isEventManager  ||  venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.isViewPermission==1 ; else no_access">
-                              <div class="ui one column grid" *ngIf="venuesSuppCmpsMap.has(venueIndex) && venuesSuppCmpsMap.get(venueIndex)!.has(serviceIndex)">
+                            <div class="kcpCardContainer"
+                              *ngIf="permissionObj.isClient || permissionObj.isEventManager  ||  service?.isViewPermission==1 ; else no_access">
+                              <div class="ui one column grid"
+                                *ngIf="venuesSuppCmpsMap.has(venueIndex) && venuesSuppCmpsMap.get(venueIndex)!.has(serviceIndex)">
                                 <div class="column">
                                   <div class="ui fluid card">
                                     <div class="content">
-                                      <img class="right floated mini ui image" [src]="getCompanyProfileImage(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || 'assets/img/default_konnect_img.png'"
+                                      <img class="right floated mini ui image"
+                                        [src]="getCompanyProfileImage(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || 'assets/img/default_konnect_img.png'"
                                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
                                         <a>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
                                         <a>
-                                          <i class="map marker alternate icon"></i>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.city}}
+                                          <i
+                                            class="map marker alternate icon"></i>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.city}}
                                         </a>
                                         <span>|</span>
-                                        <i class="phone icon"></i>{{getCompanyPhone(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || ''}}
+                                        <i
+                                          class="phone icon"></i>{{getCompanyPhone(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))
+                                        || ''}}
                                       </div>
                                     </div>
                                     <div class="extra content" [ngClass]="{'editableObject':false}">
@@ -99,7 +110,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                                         </div>
                                         <div class="six wide column right aligned" *ngIf="isServiceEdit">
-                                          <div (click)="removeSelectedCompany(venueIndex,serviceIndex)" 
+                                          <div (click)="removeSelectedCompany(venueIndex,serviceIndex)"
                                             class="ui circular compact mini basic button confirmRemove hasModal"
                                             data-modal="removeModal"><i class="trash alternate icon"></i>Remove
                                           </div>
@@ -116,21 +127,25 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           </div>
                           <app-event-assign-function-cmp #suppliersAssignCmp
                             [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"
-                            [clientCmpBtnLabel]="'Add Supplier'" [contactListLabel]="'Supplier Contacts'" [permissionObj]="permissionObj"
-                            [isViewPermission]="service?.isViewPermission"
+                            [clientCmpBtnLabel]="'Add Supplier'" [contactListLabel]="'Supplier Contacts'"
+                            [permissionObj]="permissionObj" [isViewPermission]="service?.isViewPermission"
                             [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
-                            (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)" [contactList]="service.contacts?service.contacts:[]"
-                            (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)" [isServiceEditable]="isServiceEditable">
+                            (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)"
+                            [contactList]="service.contacts?service.contacts:[]"
+                            (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)"
+                            [isServiceEditable]="isServiceEditable">
                           </app-event-assign-function-cmp>
-                          
-                          <app-event-assign-crew-function-cmp #suppliersCrewAssignCmp   [permissionObj]="permissionObj"
-                          [isViewPermission]="service?.isViewPermission"
-                          [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"
-                          [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
-                          [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
-                          (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)" [contactList]="service.contacts?service.contacts:[]"
-                          (crewRemove)="removeServiceContact(venueIndex,serviceIndex,$event)" [isServiceEditable]="isServiceEditable">
-                        </app-event-assign-crew-function-cmp>
+
+                          <app-event-assign-crew-function-cmp #suppliersCrewAssignCmp [permissionObj]="permissionObj"
+                            [isViewPermission]="service?.isViewPermission"
+                            [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"
+                            [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
+                            [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
+                            (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)"
+                            [contactList]="service.contacts?service.contacts:[]"
+                            (crewRemove)="removeServiceContact(venueIndex,serviceIndex,$event)"
+                            [isServiceEditable]="isServiceEditable">
+                          </app-event-assign-crew-function-cmp>
                         </div>
 
                         <div class="nine wide column">
@@ -139,10 +154,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 class="building icon"></i></h3>
                           </div>
                           <div class="field">
-                            <textarea  *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service?.isViewPermission==1; else no_access" [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}"
-                              class="textarea"></textarea>
-                              <ng-template #no_access>No access
-                              </ng-template>
+                            <textarea
+                              *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service?.isViewPermission==1; else no_access"
+                              [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}" class="textarea"
+                              [readonly]="!isServiceEdit"></textarea>
+                            <ng-template #no_access>No access
+                            </ng-template>
                           </div>
                           <div class="field">
                             <div class="timeWindowsContainer">
@@ -152,23 +169,21 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </div>
 
                               <app-time-windows
-                              *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service?.isViewPermission==1; else no_access"
-                              [timeWindowFor]="eventTimeWindowType"
-                              [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
-                              [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
-                              [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
-                              [venueIndex]="venueIndex"
-                              [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
-                              [isVenueDependent]="true"
-                              [index]="serviceIndex"
-                              [preEventTimes]="service.timeWindows.bumpIn.timings"
-                              [postEventTimes]="service.timeWindows.bumpOut.timings"
-                              [eventTimes]="service.timeWindows.eventTime.timings"
-                            ></app-time-windows>
+                                *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service?.isViewPermission==1; else no_access"
+                                [timeWindowFor]="eventTimeWindowType"
+                                [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
+                                [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
+                                [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
+                                [venueIndex]="venueIndex" [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
+                                [isVenueDependent]="true" [index]="serviceIndex"
+                                [preEventTimes]="service.timeWindows.bumpIn.timings"
+                                [postEventTimes]="service.timeWindows.bumpOut.timings"
+                                [eventTimes]="service.timeWindows.eventTime.timings" [isEdit]="isServiceEdit">
+                              </app-time-windows>
 
 
-                            <ng-template #no_access>No access
-                            </ng-template>
+                              <ng-template #no_access>No access
+                              </ng-template>
 
                             </div>
                           </div>
@@ -178,15 +193,19 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="ui divider"></div>
                           <div class="ui grid stackable">
                             <div class="ten wide column middle aligned">
-                              <div class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
+                              <div (click)="removeDeclineService(service?.supplierId, 0)"
+                                class="ui circular compact mini basic button confirmRemove hasModal"
+                                data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
                             <div class="six wide column right aligned hideMobile">
                               <div class="ui button basic blue icon"><i class="file pdf icon"></i>
                               </div>
-                              <div class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit" (click)="editServiceFn()">Edit</div>
-                              <div class="ui button hasModal ml-3"
-                                      data-modal="inviteModal" (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})" *ngIf="isServiceEdit">Save &amp; Invite
-                                  </div>
+                              <div class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit"
+                                (click)="editServiceFn()">Edit</div>
+                              <div class="ui button hasModal ml-3" data-modal="inviteModal"
+                                (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})"
+                                *ngIf="isServiceEdit">Save &amp; Invite
+                              </div>
                             </div>
                           </div>
                         </div>
