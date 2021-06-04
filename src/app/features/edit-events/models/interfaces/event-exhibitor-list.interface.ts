@@ -1,6 +1,6 @@
-import {SuppExhTimeWindowFormatInterface} from "./time-window.format.interface";
-import {InviteFnCmpCntInterface} from "./invite-fn-cmp-cnt.interface";
-import {InviteFnCmpInterface} from "./invite-fn-cmp-interface";
+import { SuppExhTimeWindowFormatInterface } from "./time-window.format.interface";
+import { InviteFnCmpCntInterface } from "./invite-fn-cmp-cnt.interface";
+import { InviteFnCmpInterface } from "./invite-fn-cmp-interface";
 
 export interface ExhibitorInterface {
   name: string;
@@ -11,6 +11,8 @@ export interface ExhibitorInterface {
   invited: null | InviteFnCmpInterface;
   standNumber: number | null;
   timeWindows: SuppExhTimeWindowFormatInterface;
+  exhibitorId?: any;
+  isViewPermission?: any;
 }
 
 

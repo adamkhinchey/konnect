@@ -666,6 +666,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           requirement: exhibitor.exhibitorRequirements,
                           companyId: exhibitor.exhibitorCompanyId,
                           standNumber: exhibitor.standNumber,
+                          isViewPermission:exhibitor.isViewPermission,
                           contacts,
                           exhibitorId: exhibitor.exhibitorId,
                           timeWindows: {

@@ -72,6 +72,8 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
 
 
   addVenue(): void {
+    this.isVenueEditable = true;
+    this.isVenueEdit = true;
     if (!this.eventToBeSaved.venues) {
       this.eventToBeSaved.venues = {
         list: [{

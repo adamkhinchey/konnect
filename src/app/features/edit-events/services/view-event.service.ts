@@ -49,4 +49,18 @@ export class ViewEventService {
       })
     );
   }
+
+  removeDecline(payload: any): Observable<any> {
+    this.spinner.show();
+    return this.http.get<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/acceptDeclineEventTabParts?eventId=${payload.eventId}&tabId=${payload.tabId}&tabType=${payload.tabType}&isAccept=${payload.isAccept}`
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      this.httpErrorHandler.processError(),
+      map((response: any) => {
+        return response?.data;
+      })
+    );
+  }
+
 }

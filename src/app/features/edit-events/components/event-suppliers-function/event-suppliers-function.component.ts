@@ -1,18 +1,20 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {SaveEventClass} from "../../models/classes/saveEvent.class";
-import {NgbAccordion, NgbNav, NgbPanelChangeEvent} from "@ng-bootstrap/ng-bootstrap";
-import {devLogger} from "../../../../shared/utils";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { SaveEventClass } from "../../models/classes/saveEvent.class";
+import { NgbAccordion, NgbNav, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
+import { devLogger } from "../../../../shared/utils";
 import {
   EventSuppliersInterface,
   InviteFnCmpCntInterface,
   InviteFnCmpInterface, SuppExhTimeWindowFormatInterface,
   TimeWindowFormatInterface, VenueListItemInterface
 } from '../../models/interfaces';
-import {EventService} from "../../services/event.service";
-import {Subscription} from "rxjs";
-import {InviteFnCmpClass} from "../../models/classes";
-import {Company} from "../../../users/models";
-import {EventTimeWindowTypes} from "../../models/types";
+import { EventService } from "../../services/event.service";
+import { Subscription } from "rxjs";
+import { InviteFnCmpClass } from "../../models/classes";
+import { Company } from "../../../users/models";
+import { EventTimeWindowTypes } from "../../models/types";
+import { ViewEventService } from '../../services/view-event.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-suppliers-function',
@@ -29,7 +31,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   @Input() searchInviteCmpModal: any;
   @Input() searchInviteFnCmpCntModal: any;
   @Input() setOpenedModalRef: any;
-  @Input() permissionObj: any; 
+  @Input() permissionObj: any;
   @Input() content: any;
   activeServicePanel = 0;
   private supplierCompanyAddedSub: Subscription | undefined;
@@ -40,7 +42,11 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   public isServiceEditable: boolean = false;
   @Input() setIsCrew: any;
 
-  constructor(private eventService: EventService) {
+  constructor(
+    private eventService: EventService,
+    private viewEventService: ViewEventService,
+    private router: Router
+  ) {
   }
 
   editServiceFn() {
@@ -81,23 +87,23 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     });
 
     this.eventService.getFetchedVenueSrvcsCmp().forEach((param, index) => {
-      this.eventService.activeServicePanel = {venueIndex: param.venueIndex, serviceIndex: param.serviceIndex};
+      this.eventService.activeServicePanel = { venueIndex: param.venueIndex, serviceIndex: param.serviceIndex };
       if (param.company) {
         this.eventService.supplierCompanyAdded(param.company);
       }
 
-      if (index === this.eventService.getFetchedVenueSrvcsCmp().length-1) {
-        this.eventService.activeServicePanel = {venueIndex: 0, serviceIndex: 0};
+      if (index === this.eventService.getFetchedVenueSrvcsCmp().length - 1) {
+        this.eventService.activeServicePanel = { venueIndex: 0, serviceIndex: 0 };
       }
     });
 
     this.eventService.getFetchedVenueSrvcCmpCnts().forEach((param, index) => {
-      this.eventService.activeServicePanel = {venueIndex: param.venueIndex, serviceIndex: param.serviceIndex};
+      this.eventService.activeServicePanel = { venueIndex: param.venueIndex, serviceIndex: param.serviceIndex };
       if (param.contactList) {
         this.eventService.supplierContactsAdded(param.contactList);
       }
-      if (index === this.eventService.getFetchedVenueSrvcCmpCnts().length-1) {
-        this.eventService.activeServicePanel = {venueIndex: 0, serviceIndex: 0};
+      if (index === this.eventService.getFetchedVenueSrvcCmpCnts().length - 1) {
+        this.eventService.activeServicePanel = { venueIndex: 0, serviceIndex: 0 };
       }
     });
   }
@@ -123,11 +129,13 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   }
 
   addService(venue: VenueListItemInterface, venueIndex: number): void {
+    this.isServiceEdit = true;
+    this.isServiceEditable = true;
     if (!venue.suppliers[0]) {
       const timeWindows: SuppExhTimeWindowFormatInterface = {
-        bumpIn: {sameAsVenue: null, timings: []},
-        bumpOut: {sameAsVenue: null, timings: []},
-        eventTime: {sameAsVenue: null, timings: []}
+        bumpIn: { sameAsVenue: null, timings: [] },
+        bumpOut: { sameAsVenue: null, timings: [] },
+        eventTime: { sameAsVenue: null, timings: [] }
       };
       venue.suppliers[0] = {
         notesToAll: '',
@@ -143,9 +151,9 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
       };
     } else {
       const timeWindows: SuppExhTimeWindowFormatInterface = {
-        bumpIn: {sameAsVenue: null, timings: []},
-        bumpOut: {sameAsVenue: null, timings: []},
-        eventTime: {sameAsVenue: null, timings: []}
+        bumpIn: { sameAsVenue: null, timings: [] },
+        bumpOut: { sameAsVenue: null, timings: [] },
+        eventTime: { sameAsVenue: null, timings: [] }
       };
       venue.suppliers[0].services.push({
         name: '',
@@ -159,21 +167,21 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     }
     this.ngbAccordion.collapseAll();
     this.activeServicePanel = venue.suppliers[0].services.length - 1;
-    this.eventService.activeServicePanel = {venueIndex, serviceIndex: this.activeServicePanel};
+    this.eventService.activeServicePanel = { venueIndex, serviceIndex: this.activeServicePanel };
     //devLogger('log', {selectedCompanies: this.selectedCompanies});
 
   }
 
   servicePanelActivated(venueIndex: number, serviceIndex: number): void {
     this.activeServicePanel = serviceIndex;
-    this.eventService.activeServicePanel = {venueIndex, serviceIndex};
+    this.eventService.activeServicePanel = { venueIndex, serviceIndex };
   }
 
   removeServiceContact(venueIndex: number, serviceIndex: number, event: number): void {
-    console.log('venue index: ',venueIndex, 'service index: ',serviceIndex, 'event: ',event)
+    console.log('venue index: ', venueIndex, 'service index: ', serviceIndex, 'event: ', event)
     const service = this.eventToBeSaved.venues?.list[venueIndex]
       .suppliers[0]?.services[serviceIndex];
-      console.log('service: ', service);
+    console.log('service: ', service);
     if (service && service.contacts) {
       service.contacts.splice(event, 1);
     }
@@ -230,4 +238,21 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
       this.venuesSuppCmpsMap.get(venueIndex)?.delete(serviceIndex);
     }
   }
+
+  removeDeclineService(supplierId: any, isAccept: any) {
+    console.log(supplierId);
+    let payload = {
+      eventId: this.eventData.eventData.eventId,
+      tabId: supplierId,
+      tabType: 4,
+      isAccept: isAccept
+    }
+    this.viewEventService.removeDecline(payload).subscribe((res: any) => {
+      console.log(res);
+      this.router.navigate(['home']);
+    }, err => {
+      devLogger('err', err)
+    })
+  }
+
 }
