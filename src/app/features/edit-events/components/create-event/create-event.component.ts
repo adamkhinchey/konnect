@@ -1620,4 +1620,14 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.saveOnlySub?.unsubscribe();
   }
 
+  getIsEdit() {
+    if (this.active == 1) {
+      return this.isClientEditable
+    }
+    else if (this.active == 2) {
+      return this.isManagerEditable
+    }
+    return
+  }
+
 }

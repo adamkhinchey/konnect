@@ -23,7 +23,7 @@ type FetchedVenueExCmpCnts = { contactList: InviteFnCmpCntInterface[], venueInde
   providedIn: 'root'
 })
 export class EventService {
-
+  isEdit: boolean = false;
   private apiBaseUrl = environment.apiBaseURL;
 
   private ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([

@@ -57,6 +57,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   }
 
   editVenueFn() {
+    this.eventService.isEdit = !this.isVenueEdit;
     this.isVenueEdit = !this.isVenueEdit;
     this.isVenueEditable = !this.isVenueEditable;
     // this.editVenue.emit(this.isVenueEdit);

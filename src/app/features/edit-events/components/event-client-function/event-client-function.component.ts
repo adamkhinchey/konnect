@@ -51,6 +51,7 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   }
 
   editClientEvent() {
+    this.eventService.isEdit = !this.isClientEdit;
     this.isClientEdit = !this.isClientEdit;
     this.editClient.emit(this.isClientEdit);
   }

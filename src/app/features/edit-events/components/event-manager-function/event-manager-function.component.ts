@@ -33,6 +33,7 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   }
 
   editEventManager() {
+    this.eventService.isEdit = !this.isEventEdit;
     this.isEventEdit = !this.isEventEdit;
     this.editManager.emit(this.isEventEdit);
   }

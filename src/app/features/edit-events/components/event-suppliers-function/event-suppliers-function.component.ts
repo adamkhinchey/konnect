@@ -50,6 +50,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   }
 
   editServiceFn() {
+    this.eventService.isEdit = !this.isServiceEdit;
     this.isServiceEdit = !this.isServiceEdit;
     this.isServiceEditable = !this.isServiceEditable;
     // this.editVenue.emit(this.isVenueEdit);

@@ -50,6 +50,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   }
 
   editExhibitorFn() {
+    this.eventService.isEdit = !this.isExhibitorEdit;
     this.isExhibitorEdit = !this.isExhibitorEdit;
     this.isExhibitorEditable = !this.isExhibitorEditable;
     // this.editVenue.emit(this.isVenueEdit);
