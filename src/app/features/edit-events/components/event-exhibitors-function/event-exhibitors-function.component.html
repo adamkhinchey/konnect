@@ -92,6 +92,25 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                         <div class="seven wide column">
                           <div class="companyContainer marginB20">
+
+
+
+
+
+
+                            <select   [attr.disabled]="exhibitor.isStaffOrAdmin==1 ? null : true"   ngModel (ngModelChange)="acceptDeclineService(exhibitor, $event)"  [ngModel]="exhibitor.status" >
+                       
+                              <option  [ngValue]=1>Confirm</option>
+                              <option *ngIf="exhibitor.status==0"  [ngValue]=0>Pending</option> 
+                              <option  [ngValue]=2>Decline</option>
+                              
+                            </select>
+               
+          
+
+    
+
+
                             <div class="ui dividing header">
                               <h3>Exhibitor Company
                                 <i class="cog icon"></i>

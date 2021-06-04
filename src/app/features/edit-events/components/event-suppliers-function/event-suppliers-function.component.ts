@@ -261,4 +261,28 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     })
   }
 
+
+
+  acceptDeclineService(tab: any, isAccept: any) {
+    // console.log(tab.venueId);
+    console.log("isAccept", isAccept); 
+    if(tab.supplierId && isAccept> 0){
+      let payload = {
+        eventId: this.eventData.eventData.eventId,
+        tabId: tab.supplierId,
+        tabType: 4,
+        isAccept: isAccept > 1 ? 0 : isAccept
+      }
+      console.log("payload ** ", payload ); 
+      this.viewEventService.removeDecline(payload).subscribe((res: any) => {
+        console.log(res);
+        this.router.navigate(['home']);
+      }, err => {
+        devLogger('err', err)
+      })
+  }
+  }
+
+
+
 }

@@ -18,6 +18,9 @@ import { EventService } from '../../services/event.service';
 import { devLogger } from '../../../../shared/utils';
 import { EventTimeWindowTypes } from "../../models/types";
 import { FnCmpCntInterface } from '../../models/interfaces';
+import { ViewEventService } from '../../services/view-event.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-event-venue-function',
@@ -53,7 +56,11 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   @Input() setIsCrew: any;
 
 
-  constructor(private eventService: EventService) {
+  constructor(
+    private eventService: EventService,
+    private viewEventService: ViewEventService,
+    private router: Router
+    ) {
   }
 
   editVenueFn() {
@@ -161,4 +168,27 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   testLogVenue(): void {
     devLogger('log', { EVENT_TO_BE_SAVE_VENUE: this.eventToBeSaved });
   }
+
+
+  acceptDeclineService(tab: any, isAccept: any) {
+    // console.log(tab.venueId);
+    console.log("isAccept", isAccept); 
+    if(tab.venueId && isAccept> 0){
+      let payload = {
+        eventId: this.eventData.eventData.eventId,
+        tabId: tab.venueId,
+        tabType: 3,
+        isAccept: isAccept > 1 ? 0 : isAccept
+      }
+      console.log("payload ** ", payload ); 
+      this.viewEventService.removeDecline(payload).subscribe((res: any) => {
+        console.log(res);
+        this.router.navigate(['home']);
+      }, err => {
+        devLogger('err', err)
+      })
+  }
+  }
+
+
 }
