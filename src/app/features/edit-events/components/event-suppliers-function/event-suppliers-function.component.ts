@@ -93,7 +93,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
         if (param.company) {
           this.eventService.supplierCompanyAdded(param.company);
         }
-  
+
         if (index === this.eventService.getFetchedVenueSrvcsCmp().length - 1) {
           this.eventService.activeServicePanel = { venueIndex: 0, serviceIndex: 0 };
         }
@@ -108,6 +108,8 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
         }
       });
     })
+
+    this.eventService.navigatesToSuppliers.next()
 
   }
 
@@ -262,7 +264,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
 
   acceptDeclineService(tab: any, isAccept: any) {
     // console.log(tab.venueId);
-    console.log("isAccept", isAccept); 
+    console.log("isAccept", isAccept);
     if(tab.supplierId && isAccept> 0){
       let payload = {
         eventId: this.eventData.eventData.eventId,
@@ -270,7 +272,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
         tabType: 4,
         isAccept: isAccept > 1 ? 0 : isAccept
       }
-      console.log("payload ** ", payload ); 
+      console.log("payload ** ", payload );
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
         console.log(res);
         this.router.navigate(['home']);

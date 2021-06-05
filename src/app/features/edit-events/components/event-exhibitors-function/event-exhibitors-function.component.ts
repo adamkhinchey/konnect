@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
   templateUrl: './event-exhibitors-function.component.html',
   styleUrls: ['./event-exhibitors-function.component.scss']
 })
-export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnChanges {
+export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy{
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion | undefined;
   @Input() eventData: any;
   @Input() eventToBeSaved = new SaveEventClass();
@@ -56,7 +56,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     // this.editVenue.emit(this.isVenueEdit);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  /*ngOnChanges(changes: SimpleChanges) {
     if (changes.eventData?.currentValue && changes.eventData?.currentValue?.eventData?.eventData?.venues && changes.eventData?.currentValue?.eventData?.eventData?.venues.length) {
       this.exhCompanyAddedSub = this.eventService.exhibitorCompanyAddSubject
         .subscribe(value => {
@@ -106,7 +106,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
         }
       });
     }
-  }
+  }*/
 
   ngOnInit(): void {
     this.exhCompanyAddedSub = this.eventService.exhibitorCompanyAddSubject
@@ -157,6 +157,8 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
         }
       });
     })
+
+    this.eventService.navigatesToExhibitors.next()
   }
 
   private setContacts(value: { venueIndex: number; exhibitorIndex: number; contactList: InviteFnCmpCntInterface[] }): void {
@@ -319,7 +321,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
 
   acceptDeclineService(tab: any, isAccept: any) {
     // console.log(tab.venueId);
-    // console.log("isAccept", isAccept); 
+    // console.log("isAccept", isAccept);
     if(tab.exhibitorId && isAccept> 0){
       let payload = {
         eventId: this.eventData.eventData.eventId,
@@ -327,7 +329,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
         tabType: 5,
         isAccept: isAccept > 1 ? 0 : isAccept
       }
-      console.log("payload ** ", payload ); 
+      console.log("payload ** ", payload );
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
         console.log(res);
         this.router.navigate(['home']);
