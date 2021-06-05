@@ -43,7 +43,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy{
   @Input() setIsCrew: any;
 
   constructor(
-    private eventService: EventService,
+    public eventService: EventService,
     private viewEventService: ViewEventService,
     private router: Router
   ) {

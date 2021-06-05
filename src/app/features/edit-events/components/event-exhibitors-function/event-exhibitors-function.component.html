@@ -1,8 +1,8 @@
 <div *ngIf="eventToBeSaved.venues &&
 eventToBeSaved.venues.list &&
 eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
-  <ul ngbNav #venueNav="ngbNav" class="nav-tabs supplierInnerCont" [destroyOnHide]="false">
-    <li ngbNavItem *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
+  <ul ngbNav #venueNav="ngbNav" [activeId]="eventService?.activeExhibitorPanel?.venueIndex || 0" class="nav-tabs supplierInnerCont" [destroyOnHide]="false">
+    <li ngbNavItem [ngbNavItem]="venueIndex" *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
       <a ngbNavLink><i class="map marker alternate icon"></i>
         {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]?
         venueCompanies[venueIndex]!.companyName+', '+venueCompanies[venueIndex]!.city:'Venue-'+(venueIndex + 1)}}</a>
