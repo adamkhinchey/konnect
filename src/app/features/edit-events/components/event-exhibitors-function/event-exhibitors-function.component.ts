@@ -183,7 +183,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
         exhibitors: venue.exhibitorList[0].exhibitors
       };
 
-      venue.exhibitorList[venueIndex].exhibitors.push({
+      venue.exhibitorList[0].exhibitors.push({
         standNumber: null,
         name: '',
         shouldInvite: 0,
