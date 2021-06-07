@@ -52,24 +52,16 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 [id]="'serviceListIndex-'+serviceIndex" (shown)="servicePanelActivated(venueIndex,serviceIndex)">
                 <ng-template ngbPanelTitle>
                   <i class="dropdown icon"></i>Service {{serviceIndex + 1}}
-                  <!-- <div class="ui selection dropdown" tabindex="0">
-                    <div class="text"><i class="ui icon circle green"></i>Confirmed</div>
-                    <div class="menu" tabindex="-1"></div>
-                  </div> -->
 
-                  
-                  <select [ngModelOptions]="{standalone:true}"  [attr.disabled]="service.isStaffOrAdmin==1 ? null : true" (ngModelChange)="acceptDeclineService(service, $event)"  [(ngModel)]="service.status" >
-                       
-                    <option  [ngValue]=1>Confirm</option>
-                    <option *ngIf="service.status==0"  [ngValue]=0>Pending</option> 
-                    <option  [ngValue]=2>Decline</option>
-                    
-                  </select>
-     
-
-
-
-
+                  <div class="addNewService addToPanel">
+                    <div class=" selection">
+                        <select class="form-control" [ngModelOptions]="{standalone:true}"  [attr.disabled]="service.isStaffOrAdmin==1 ? null : true" (ngModelChange)="acceptDeclineService(service, $event)"  [(ngModel)]="service.status">
+                          <option  [ngValue]=1>Confirm</option>
+                          <option *ngIf="service.status==0"  [ngValue]=0>Pending</option> 
+                          <option  [ngValue]=2>Decline</option>
+                        </select>
+                    </div>
+                </div>
 
                 </ng-template>
                 <ng-template ngbPanelContent>
@@ -198,6 +190,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 [preEventTimes]="service.timeWindows.bumpIn.timings"
                                 [postEventTimes]="service.timeWindows.bumpOut.timings"
                                 [eventTimes]="service.timeWindows.eventTime.timings" [isEdit]="isServiceEdit"
+
+                                [preEventTimesCount]="service.timeWindows.bumpIn.timings?.length || 1"
+                                [eventTimesCount]="service.timeWindows.eventTime.timings?.length || 1"
+                                [postEventTimesCount]="service.timeWindows.bumpOut.timings?.length || 1" 
 
                                 [preEventNotes]="service.timeWindows.bumpIn.timings[0]?.notes || ''"
                                 [eventNotes]="service.timeWindows.eventTime.timings[0]?.notes || ''"

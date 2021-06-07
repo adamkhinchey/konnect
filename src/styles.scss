@@ -486,3 +486,10 @@ button:focus {
   display: inline-block !important;
   width: 100%;
 }
+
+.parentAccordionVenue .card-header .btn {
+	width: calc(100% - 200px);
+}
+.card-header .addToPanel.addNewService {
+	top: 0.6em;
+}

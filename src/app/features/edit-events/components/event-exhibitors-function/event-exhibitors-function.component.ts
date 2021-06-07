@@ -137,6 +137,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   addExhibitor(venue: VenueListItemInterface, venueIndex: number): void {
     this.isExhibitorEdit = true;
     this.isExhibitorEditable = true;
+    console.log(venue.exhibitorList[0])
     if (!venue.exhibitorList[0]) {
       const timeWindowsToAll: SuppExhTimeWindowFormatInterface = {
         bumpIn: { sameAsVenue: null, timings: [] },
@@ -163,6 +164,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
         }]
       };
     } else {
+      
       const timeWindows: SuppExhTimeWindowFormatInterface = {
         bumpIn: { sameAsVenue: null, timings: [] },
         bumpOut: { sameAsVenue: null, timings: [] },

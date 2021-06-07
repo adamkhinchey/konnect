@@ -28,7 +28,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   <ng-template #no_access>No access</ng-template>
               </div>
 
-              <div class="nine wide column" *ngIf="venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length">
+              <div class="nine wide column" *ngIf="venue!.exhibitorList && venue!.exhibitorList[0] && venue!.exhibitorList[0]!.exhibitors.length">
 
                 <div class="field">
                   <div class="timeWindowsContainer">
@@ -44,10 +44,20 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                       [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
                       [venueIndex]="venueIndex" [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
                       [index]="venueIndex" [isVenueDependent]="true"
-                      [preEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpIn.timings"
-                      [postEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpOut.timings"
-                      [eventTimes]="venue.exhibitorList[0].timeWindowsToAll.eventTime.timings"
-                      [isEdit]="isExhibitorEdit"></app-time-windows>
+                      [preEventTimes]="venue!.exhibitorList[0]?.timeWindowsToAll!.bumpIn!.timings"
+                      [postEventTimes]="venue!.exhibitorList[0]?.timeWindowsToAll!.bumpOut!.timings"
+                      [eventTimes]="venue!.exhibitorList[0]?.timeWindowsToAll!.eventTime!.timings"
+                      [isEdit]="isExhibitorEdit"
+
+                      [preEventTimesCount]="venue!.exhibitorList[0]?.timeWindowsToAll!.bumpIn!.timings?.length || 1"
+                      [eventTimesCount]="venue.exhibitorList[0]?.timeWindowsToAll!.eventTime!.timings?.length || 1"
+                      [postEventTimesCount]="venue.exhibitorList[0]?.timeWindowsToAll!.bumpOut!.timings?.length || 1" 
+
+                      [preEventNotes]="venue!.exhibitorList[0]?.timeWindowsToAll!.bumpIn!.timings[0]!.notes || ''"
+                      [eventNotes]="venue!.exhibitorList[0]?.timeWindowsToAll!.eventTime!.timings[0]!.notes || ''"
+                      [postEventNotes]="venue!.exhibitorList[0]?.timeWindowsToAll!.bumpOut!.timings[0]!.notes || ''" 
+
+                      ></app-time-windows>
 
                       <ng-template #no_access>No access</ng-template>                      
                   </div>
@@ -80,9 +90,16 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 <ng-template ngbPanelTitle>
                   <i class="dropdown icon"></i>
                   Exhibitor {{exhibitorIndex + 1}}
-                  <div class="ui selection dropdown" tabindex="0">
-                    <div class="text"><i class="ui icon circle green"></i>Confirmed</div>
-                    <div class="menu" tabindex="-1"></div>
+                  <div class="addNewService addToPanel">
+                    <div class=" selection">
+                      <select class="form-control" [ngModelOptions]="{standalone:true}"
+                        [attr.disabled]="exhibitor.isStaffOrAdmin==1 ? null : true"
+                        (ngModelChange)="acceptDeclineService(exhibitor, $event)" [(ngModel)]="exhibitor.status">
+                        <option [ngValue]=1>Confirm</option>
+                        <option *ngIf="exhibitor.status==0" [ngValue]=0>Pending</option>
+                        <option [ngValue]=2>Decline</option>
+                      </select>
+                    </div>
                   </div>
                 </ng-template>
                 <ng-template ngbPanelContent>
@@ -92,25 +109,6 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                         <div class="seven wide column">
                           <div class="companyContainer marginB20">
-
-
-
-
-
-
-                            <select [ngModelOptions]="{standalone:true}"  [attr.disabled]="exhibitor.isStaffOrAdmin==1 ? null : true"  (ngModelChange)="acceptDeclineService(exhibitor, $event)"  [(ngModel)]="exhibitor.status" >
-                       
-                              <option  [ngValue]=1>Confirm</option>
-                              <option *ngIf="exhibitor.status==0"  [ngValue]=0>Pending</option> 
-                              <option  [ngValue]=2>Decline</option>
-                              
-                            </select>
-               
-          
-
-    
-
-
                             <div class="ui dividing header">
                               <h3>Exhibitor Company
                                 <i class="cog icon"></i>
@@ -226,6 +224,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 [postEventTimes]="exhibitor.timeWindows.bumpOut.timings"
                                 [eventTimes]="exhibitor.timeWindows.eventTime.timings"
                                 [isEdit]="isExhibitorEdit"
+
+                                [preEventTimesCount]="exhibitor.timeWindows.bumpIn.timings?.length || 1"
+                                [eventTimesCount]="exhibitor.timeWindows.eventTime.timings?.length || 1"
+                                [postEventTimesCount]="exhibitor.timeWindows.bumpOut.timings?.length || 1" 
 
                                 [preEventNotes]="exhibitor.timeWindows.bumpIn.timings[0]?.notes || ''"
                                 [eventNotes]="exhibitor.timeWindows.eventTime.timings[0]?.notes || ''"
