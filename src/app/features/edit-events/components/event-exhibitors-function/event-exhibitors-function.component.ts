@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
   templateUrl: './event-exhibitors-function.component.html',
   styleUrls: ['./event-exhibitors-function.component.scss']
 })
-export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnChanges{
+export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion | undefined;
   @Input() eventData: any;
   @Input() eventToBeSaved = new SaveEventClass();
@@ -164,12 +164,25 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
         }]
       };
     } else {
-      
+
+      const timeWindowsToAll: SuppExhTimeWindowFormatInterface = {
+        bumpIn: { sameAsVenue: null, timings: [] },
+        bumpOut: { sameAsVenue: null, timings: [] },
+        eventTime: { sameAsVenue: null, timings: [] }
+      };
+
       const timeWindows: SuppExhTimeWindowFormatInterface = {
         bumpIn: { sameAsVenue: null, timings: [] },
         bumpOut: { sameAsVenue: null, timings: [] },
         eventTime: { sameAsVenue: null, timings: [] }
       };
+
+      venue.exhibitorList[0] = {
+        notesToAll: '',
+        timeWindowsToAll,
+        exhibitors: []
+      };
+
       venue.exhibitorList[0].exhibitors.push({
         standNumber: null,
         name: '',
@@ -277,21 +290,21 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   acceptDeclineService(tab: any, isAccept: any) {
     // console.log(tab.venueId);
     // console.log("isAccept", isAccept);
-    if(tab.exhibitorId && isAccept> 0){
+    if (tab.exhibitorId && isAccept > 0) {
       let payload = {
         eventId: this.eventData.eventData.eventId,
         tabId: tab.exhibitorId,
         tabType: 5,
         isAccept: isAccept > 1 ? 0 : isAccept
       }
-      console.log("payload ** ", payload );
+      console.log("payload ** ", payload);
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
         console.log(res);
         this.router.navigate(['home']);
       }, err => {
         devLogger('err', err)
       })
-  }
+    }
   }
 
 
