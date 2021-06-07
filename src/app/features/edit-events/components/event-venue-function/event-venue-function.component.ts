@@ -4,9 +4,10 @@ import {
   ContentChildren,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
-  QueryList, ViewChild, ViewChildren
+  QueryList, SimpleChanges, ViewChild, ViewChildren
 } from '@angular/core';
 import { Company } from '../../../users/models';
 import { InviteFnCmpClass } from '../../models/classes';
@@ -27,7 +28,7 @@ import { Router } from '@angular/router';
   templateUrl: './event-venue-function.component.html',
   styleUrls: ['./event-venue-function.component.scss']
 })
-export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
+export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnChanges {
 
   @ViewChildren('venueAssignCmp') venueAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
   @ViewChildren('venueCrewAssignCmp') venueCrewAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
@@ -61,6 +62,11 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
     private viewEventService: ViewEventService,
     private router: Router
     ) {
+  }
+
+  ngOnChanges(changes:SimpleChanges){
+    this.isVenueEdit = this.eventService.isEdit;
+    this.isVenueEditable = this.eventService.isEdit;
   }
 
   editVenueFn() {

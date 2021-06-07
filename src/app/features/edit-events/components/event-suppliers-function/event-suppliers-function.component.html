@@ -36,6 +36,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
               <i class="plus circle icon"></i>
               <span>Add Service</span>
             </div>
+            
             <h3 id="servicesAnchor" class="ui dividing header">Services</h3>
           </div>
         </div>
@@ -196,7 +197,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 [isVenueDependent]="true" [index]="serviceIndex"
                                 [preEventTimes]="service.timeWindows.bumpIn.timings"
                                 [postEventTimes]="service.timeWindows.bumpOut.timings"
-                                [eventTimes]="service.timeWindows.eventTime.timings" [isEdit]="isServiceEdit">
+                                [eventTimes]="service.timeWindows.eventTime.timings" [isEdit]="isServiceEdit"
+
+                                [preEventNotes]="service.timeWindows.bumpIn.timings[0]?.notes || ''"
+                                [eventNotes]="service.timeWindows.eventTime.timings[0]?.notes || ''"
+                                [postEventNotes]="service.timeWindows.bumpOut.timings[0]?.notes || ''" 
+                                >
                               </app-time-windows>
 
 

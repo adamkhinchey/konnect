@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { SaveEventClass } from "../../models/classes/saveEvent.class";
 import { NgbAccordion, NgbNav, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { devLogger } from "../../../../shared/utils";
@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
   templateUrl: './event-suppliers-function.component.html',
   styleUrls: ['./event-suppliers-function.component.scss']
 })
-export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
+export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnChanges {
   // @ts-ignore
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
   @Input() eventData: any;
@@ -47,6 +47,11 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     private viewEventService: ViewEventService,
     private router: Router
   ) {
+  }
+
+  ngOnChanges(changes:SimpleChanges){
+    this.isServiceEdit = this.eventService.isEdit;
+    this.isServiceEditable = this.eventService.isEdit;
   }
 
   editServiceFn() {

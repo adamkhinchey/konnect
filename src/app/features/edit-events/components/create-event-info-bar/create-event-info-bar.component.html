@@ -7,7 +7,7 @@
       <div class="eleven wide column right aligned visibleMobile">
         <div class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i></div>
       </div>
-      <div class="one wide column right aligned saveButtons hideMobile" *ngIf="!eventService.isEdit">
+      <div class="one wide column right aligned saveButtons hideMobile" (click)="edit()" *ngIf="!eventService.isEdit">
         <a class="ui button">Edit</a>
       </div>
       <div class="one wide column right aligned saveButtons hideMobile" *ngIf="eventService.isEdit">

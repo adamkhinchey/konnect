@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Company } from '../../../users/models';
 import { InviteFnCmpClass } from '../../models/classes';
 import { SaveEventClass } from '../../models/classes/saveEvent.class';
@@ -11,7 +11,7 @@ import { EventFunctionTypes } from '../../models/types';
   templateUrl: './event-manager-function.component.html',
   styleUrls: ['./event-manager-function.component.scss']
 })
-export class EventManagerFunctionComponent implements OnInit, OnDestroy {
+export class EventManagerFunctionComponent implements OnInit, OnDestroy, OnChanges {
   @Input() eventData: any;
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
   @Input() content: any;
@@ -30,6 +30,11 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   @Input() permissionObj: any;
 
   constructor(public eventService: EventService) {
+  }
+
+  ngOnChanges(changes:SimpleChanges){
+    this.isEventEdit = this.eventService.isEdit;
+    this.editClient.emit(this.isEventEdit);
   }
 
   editEventManager() {

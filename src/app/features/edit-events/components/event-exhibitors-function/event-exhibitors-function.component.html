@@ -225,7 +225,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 [preEventTimes]="exhibitor.timeWindows.bumpIn.timings"
                                 [postEventTimes]="exhibitor.timeWindows.bumpOut.timings"
                                 [eventTimes]="exhibitor.timeWindows.eventTime.timings"
-                                [isEdit]="isExhibitorEdit"></app-time-windows>
+                                [isEdit]="isExhibitorEdit"
+
+                                [preEventNotes]="exhibitor.timeWindows.bumpIn.timings[0]?.notes || ''"
+                                [eventNotes]="exhibitor.timeWindows.eventTime.timings[0]?.notes || ''"
+                                [postEventNotes]="exhibitor.timeWindows.bumpOut.timings[0]?.notes || ''" 
+                                ></app-time-windows>
                                 <ng-template #no_access>No
                                   access</ng-template>
                             </div>

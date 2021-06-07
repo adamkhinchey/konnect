@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Company } from "../../../users/models";
 import { InviteFnCmpClass } from "../../models/classes";
 import { SaveEventClass } from "../../models/classes/saveEvent.class";
@@ -13,7 +13,7 @@ import { ViewEventService } from '../../services/view-event.service';
   templateUrl: './event-client-function.component.html',
   styleUrls: ['./event-client-function.component.scss'],
 })
-export class EventClientFunctionComponent implements OnInit, OnDestroy {
+export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChanges {
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
   @Input() content: any;
   @Output() removeSelectedCompany = new EventEmitter<any>();
@@ -39,6 +39,11 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
     private router: Router,
     private viewEvSrvc: ViewEventService
   ) {
+  }
+
+  ngOnChanges(changes:SimpleChanges){
+    this.isClientEdit = this.eventService.isEdit;
+    this.editClient.emit(this.isClientEdit);
   }
 
 
@@ -122,10 +127,10 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
     console.log('before next in toggle: ', this.eventData.eventData.client.isOwnCompany);
     const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
     tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
-    this.eventData.eventData.client.isOwnCompany = tempMap.get(EventFunctionTypes.CLIENT)? 1 : 0;
+    this.eventData.eventData.client.isOwnCompany = tempMap.get(EventFunctionTypes.CLIENT) ? 1 : 0;
     this.eventService.setIsFnOwnCompany.next(tempMap);
     console.log('after next in toggle: ', this.eventData.eventData.client.isOwnCompany);
-    
+
   }
 
   ngOnDestroy(): void {
