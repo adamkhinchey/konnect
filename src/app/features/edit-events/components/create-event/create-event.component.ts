@@ -222,7 +222,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               creatorCompanyName: this.data.eventData.creatorCompanyName,
               eventCreatedDate: this.data.eventData.eventCreatedDate,
               createrUserId: this.data.eventData.createrUserId,
-              creatorFromCompanyId: this.data.eventData.createrUserId,
+              creatorFromCompanyId: this.data.eventData.creatorFromCompanyId,
               client: {
                 isOwnCompany: this.data.eventData.client.isOwnCompany
               }
@@ -279,7 +279,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               creatorCompanyName: this.data.eventData.creatorCompanyName,
               eventCreatedDate: this.data.eventData.eventCreatedDate,
               createrUserId: this.data.eventData.createrUserId,
-              creatorFromCompanyId: this.data.eventData.createrUserId,
+              creatorFromCompanyId: this.data.eventData.creatorFromCompanyId,
               eventManager: {
                 requirements: this.data.eventData.eventManager.requirements,
                 emInternalNotes: this.data.eventData.eventManager.emInternalNotes,
