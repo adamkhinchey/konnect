@@ -180,10 +180,10 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
       venue.exhibitorList[0] = {
         notesToAll: '',
         timeWindowsToAll,
-        exhibitors: []
+        exhibitors: venue.exhibitorList[0].exhibitors
       };
 
-      venue.exhibitorList[0].exhibitors.push({
+      venue.exhibitorList[venueIndex].exhibitors.push({
         standNumber: null,
         name: '',
         shouldInvite: 0,
@@ -197,7 +197,6 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     this.ngbAccordion?.collapseAll();
     this.activeExhibitorPanel = venue.exhibitorList[0].exhibitors.length - 1;
     this.eventService.activeExhibitorPanel = { venueIndex, exhibitorIndex: this.activeExhibitorPanel };
-    // devLogger('log', {selectedCompanies: this.selectedCompanies});
   }
 
   exhibitorPanelActivated(venueIndex: number, exhibitorIndex: number): void {
