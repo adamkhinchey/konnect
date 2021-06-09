@@ -8,7 +8,7 @@
               <i class="cog icon"></i>
               <i class="sitemap icon"></i></h3>
           </div>
-          <div class="six wide column right aligned">
+          <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager" >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.CLIENT_EVENT_MANAGER_SHARED_FILES)">
               <i class="upload icon">
@@ -39,7 +39,7 @@
           <div class="ten wide column middle aligned">
             <h3>Client Internal Files <i class="cog icon"></i></h3>
           </div>
-          <div class="six wide column right aligned">
+          <div class="six wide column right aligned"  *ngIf="permissionObj.isClient"  >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.CLIENT_INTERNAL_FILES)"><i class="upload icon"></i>Upload
             </div>
@@ -68,7 +68,7 @@
           <div class="ten wide column middle aligned">
             <h3>Event Management Internal Files <i class="sitemap icon"></i></h3>
           </div>
-          <div class="six wide column right aligned">
+          <div class="six wide column right aligned"  *ngIf="permissionObj.isEventManager" >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.EVENT_MANAGEMENT_INTERNAL_FILES)"><i class="upload icon"></i>Upload
             </div>
@@ -127,7 +127,7 @@
             <h3>Files for All Venues <i class="cog icon"></i><i class="sitemap icon"></i><i
               class="map marker alternate icon"></i></h3>
           </div>
-          <div class="six wide column right aligned">
+          <div class="six wide column right aligned"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue"  >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_VENUES)"><i class="upload icon"></i>Upload
             </div>
@@ -202,7 +202,7 @@
                         <h3>Venue Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
                           class="building icon"></i></h3>
                       </div>
-                      <div class="six wide column right aligned">
+                      <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isVenue && venueFileItem?.isViewPermission==1)" >
                         <div class="ui button compact mini basic circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_SHARED_FILES, {venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
@@ -232,7 +232,7 @@
                       <div class="ten wide column middle aligned">
                         <h3>Venue Internal Files <i class="building icon"></i></h3>
                       </div>
-                      <div class="six wide column right aligned">
+                      <div class="six wide column right aligned"  *ngIf="permissionObj.isVenue && venueFileItem?.isViewPermission == 1"  >
                         <div class="ui button compact mini basic circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_INTERNAL_FILES, {venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
@@ -282,7 +282,7 @@
             <h3>Files for All Suppliers <i class="cog icon"></i><i class="sitemap icon"></i><i class="truck icon"></i>
             </h3>
           </div>
-          <div class="six wide column right aligned">
+          <div class="six wide column right aligned"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isService"  >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_SUPPLIERS)">
               <i class="upload icon"></i>Upload
@@ -331,7 +331,7 @@
                           <h3>Supplier Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
                             class="building icon"></i></h3>
                         </div>
-                        <div class="six wide column right aligned">
+                        <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isService && supplierItem?.isViewPermission==1)">
                           <div class="ui button compact mini basic circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_SHARED_FILES, {serviceId: supplierItem.serviceId},i)">
                             <i class="upload icon"></i>Upload
@@ -361,7 +361,7 @@
                         <div class="ten wide column middle aligned">
                           <h3>Supplier Internal Files <i class="building icon"></i></h3>
                         </div>
-                        <div class="six wide column right aligned">
+                        <div class="six wide column right aligned"  *ngIf="permissionObj.isService && supplierItem?.isViewPermission == 1" >
                           <div class="ui button compact mini basic circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_INTERNAL_FILES,{serviceId:supplierItem.serviceId},i)">
                             <i class="upload icon"></i>Upload
@@ -414,7 +414,7 @@
             <h3>Files for All Exhibitors <i class="cog icon"></i><i class="sitemap icon"></i><i class="exhibitor icon"></i>
             </h3>
           </div>
-          <div class="six wide column right aligned">
+          <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor"  >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_EXHIBITORS)"><i class="upload icon"></i>Upload
             </div>
@@ -461,7 +461,7 @@
                           <h3>Exhibitor Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
                             class="building icon"></i></h3>
                         </div>
-                        <div class="six wide column right aligned">
+                        <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1)" >
                           <div class="ui button compact mini basic circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_SHARED_FILES,{exhibitorId:exhibitorFileItem.exhibitorId},i)">
                             <i class="upload icon"></i>Upload
@@ -491,7 +491,7 @@
                         <div class="ten wide column middle aligned">
                           <h3>Exhibitor Internal Files <i class="building icon"></i></h3>
                         </div>
-                        <div class="six wide column right aligned">
+                        <div class="six wide column right aligned"  *ngIf="permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1"  >
                           <div class="ui button compact mini basic circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_INTERNAL_FILES, {exhibitorId:exhibitorFileItem.exhibitorId},i)">
                             <i class="upload icon"></i>Upload
