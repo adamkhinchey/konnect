@@ -8,6 +8,7 @@ import { ManageColleaguesComponent } from "./components/manage-colleagues/manage
 import { CreateCompanyComponent } from "../../shared/components";
 import { CompanyDetailsTabComponent } from "./components/company-details-tab/company-details-tab.component";
 import { ManageConnectionsComponent } from "./components/manage-connections/manage-connections.component";
+import { ManageCompanyComponent } from './components/manage-company/manage-company.component';
 
 const routes: Routes = [
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
       { path: 'edit-profile', component: EditIndividualProfileComponent },
       {
         path: 'company', children: [
-          { path: 'manage-colleagues', component: ManageColleaguesComponent }
+          { path: 'manage-colleagues', component: ManageColleaguesComponent },
+          { path: 'manage-company', component: ManageCompanyComponent }
         ]
       },
       { path: 'join-company', component: CompanyDetailsTabComponent },

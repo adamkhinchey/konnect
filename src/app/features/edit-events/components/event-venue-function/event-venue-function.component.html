@@ -40,7 +40,7 @@
               <div class="addNewService addToPanel">
                 <div class=" selection">
                   <select class="form-control" [ngModelOptions]="{standalone:true}"
-                    [attr.disabled]="panel.isStaffOrAdmin==1 ? null : true"
+                    [attr.disabled]="panel.isStaffOrAdmin==1 && isVenueEdit ? null : true"
                     (ngModelChange)="acceptDeclineService(panel, $event)" [(ngModel)]="panel.status">
                     <option [ngValue]=1>Confirm</option>
                     <option *ngIf="panel.status==0" [ngValue]=0>Pending</option>

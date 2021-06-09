@@ -17,7 +17,7 @@
               <a   routerLink="/home/event/create" (click)="hideAllMenus()"
                 [class.disabled]="!isApproved"><i class="plus circle icon"></i>Create Event</a>
             </li>
-            <li class="column center aligned middle aligned itemMenu">
+            <!-- <li class="column center aligned middle aligned itemMenu">
               <a [attr.href]="isApproved ? 'SKP.html' : null" [class.disabled]="!isApproved"><i
                   class="search icon"></i>Platform Search</a>
             </li>
@@ -25,7 +25,7 @@
               <a class="inviteByEmailBtn hasModal" data-modal="inviteByEmail" [class.disabled]="!isApproved"><i
                   class="user plus icon"></i>Invite
                 Colleagues</a>
-            </li>
+            </li> -->
             <li class="column center aligned middle aligned itemMenu">
               <a routerLink="/home/manage-connections" (click)="hideAllMenus()" [class.disabled]="!isApproved"><i
                   class="address book icon"></i>Manage Connections</a>
@@ -35,7 +35,7 @@
                 [ngStyle]="{'color':isApproved?'#fdd200':'gray', 'cursor':isApproved?'pointer':'not-allowed'}"><i
                   class="building icon"></i>Manage Company</span>
               <ul class="subMenu" [ngClass]="status3 ? 'show' : 'd-none'" [@fade]="activeMenu==='manageCompany'">
-                <li><a (click)="hideAllMenus()" [attr.href]="isApproved ? 'MC.html' : ''"
+                <li><a routerLink="/home/company/manage-company" (click)="hideAllMenus()"
                     [class.disabled]="!isApproved">Company Profile</a></li>
                 <li><a routerLink="/home/company/manage-colleagues" (click)="hideAllMenus()"
                     [class.disabled]="!isApproved">Manage Colleagues</a></li>

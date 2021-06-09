@@ -122,14 +122,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.unsetFnCompanyToSelf();
           }
           break;
-        // case EventFunctionTypes.VENUE:
-
-        //   break;
-        // case EventFunctionTypes.SUPPLIERS:
-
-        //   break;
-        // case EventFunctionTypes.EXHIBITORS:
-
       }
     });
 
@@ -151,14 +143,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.unsetFnCompanyToSelf();
           }
           break;
-        // case EventFunctionTypes.VENUE:
-
-        //   break;
-        // case EventFunctionTypes.SUPPLIERS:
-
-        //   break;
-        // case EventFunctionTypes.EXHIBITORS:
-
       }
     });
 
@@ -190,10 +174,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       if (res && res.eventData) {
         if (tabType === 1) {
           this.data.eventData = res.eventData;
-          const tempMap = new Map<EventFunctionTypes, null | boolean | boolean[]>(this.eventService.setIsFnOwnCompany.getValue());
-          tempMap.set(EventFunctionTypes.CLIENT, this.data.eventData.client.isOwnCompany === 1);
-          this.eventService.setIsFnOwnCompany.next(tempMap);
-          if (this.data && this.data.eventData) {
+          if (this.data && this.data.eventData && this.data.eventData.client) {
+            const tempMap = new Map<EventFunctionTypes, null | boolean | boolean[]>(this.eventService.setIsFnOwnCompany.getValue());
+            tempMap.set(EventFunctionTypes.CLIENT, this.data.eventData.client.isOwnCompany === 1);
+            this.eventService.setIsFnOwnCompany.next(tempMap);
             this.clientCompany = ({
               id: this.data.eventData.client.companyId,
               companyName: this.data.eventData.client.clientCompanyName,
@@ -247,10 +231,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         if (tabType === 2) {
           this.data.eventData = res.eventData;
-          const tempMap = new Map<EventFunctionTypes, null | boolean | boolean[]>(this.eventService.setIsFnOwnCompany.getValue());
-          tempMap.set(EventFunctionTypes.EVENT_MANAGER, this.data.eventData.eventManager.isOwnCompany === 1);
-          this.eventService.setIsFnOwnCompany.next(tempMap);
-          if (this.data && this.data.eventData) {
+          if (this.data && this.data.eventData && this.data.eventData.eventManager) {
+            const tempMap = new Map<EventFunctionTypes, null | boolean | boolean[]>(this.eventService.setIsFnOwnCompany.getValue());
+            tempMap.set(EventFunctionTypes.EVENT_MANAGER, this.data.eventData.eventManager.isOwnCompany === 1);
+            this.eventService.setIsFnOwnCompany.next(tempMap);
             this.eventMgrCmp = ({
               id: this.data.eventData.eventManager.companyId,
               companyName: this.data.eventData.eventManager.emCompanyName,
@@ -315,7 +299,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyId: venue.venueCompanyId,
                   venueId: venue.venueId,
                   status: venue.status,
-                  isStaffOrAdmin:venue.isStaffOrAdmin,
+                  isStaffOrAdmin: venue.isStaffOrAdmin,
                   contacts: venue.contacts.map((contact: any) => {
                     return {
                       id: contact.id,
@@ -479,7 +463,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           supplierId: service.serviceId,
                           isViewPermission: service.isViewPermission,
                           status: service.status,
-                          isStaffOrAdmin:service.isStaffOrAdmin,
+                          isStaffOrAdmin: service.isStaffOrAdmin,
                           timeWindows: {
                             bumpIn: {
                               sameAsVenue: null,
@@ -658,7 +642,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             contacts,
                             exhibitorId: exhibitor.exhibitorId,
                             status: exhibitor.status,
-                            isStaffOrAdmin:exhibitor.isStaffOrAdmin,
+                            isStaffOrAdmin: exhibitor.isStaffOrAdmin,
                             timeWindows: {
                               bumpIn: {
                                 sameAsVenue: null,
@@ -775,6 +759,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isVenueEditable = false;
     this.isServiceEditable = false;
     this.isExhibitorEditable = false;
+    this.eventService.isEdit = false;
     this.getEventsById(changeEvent.nextId);
     this.active = changeEvent.nextId;
     // null means navigated to first time
@@ -791,7 +776,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     if (changeEvent.nextId === EventFunctionTypes.TIMELINE || changeEvent.nextId === EventFunctionTypes.FILES) {
       this.eventService.hideInfoBar = true;
     } else {
-      this.eventService.hideInfoBar = true;
+      this.eventService.hideInfoBar = false;
     }
 
   }
@@ -1123,8 +1108,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
       }
       devLogger('log', { event: this.eventToBeSaved });
-
-
     }
   }
 
@@ -1177,7 +1160,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     const wasOwnCompany = !eventMgrCmpInstOfInviteCmpCls && (this.eventMgrCmp as Company).id === this.defaultCompany.id;
     this.eventMgrCmp = null;
     this.eventMgrContactList = [];
-    this.eventToBeSaved.eventManager = null;
+    this.eventToBeSaved.eventManager = {
+      id: null,
+      contacts: null,
+      isOwnCompany: false,
+      shouldInvite: null,
+      requirements: this.eventToBeSaved.eventManager!.requirements,
+      invited: null,
+      emInternalNotes: this.eventToBeSaved.eventManager!.emInternalNotes,
+    };
     if (wasOwnCompany) {
       const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
       tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
@@ -1390,63 +1381,88 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (this.selectedFunction) {
       case EventFunctionTypes.CLIENT:
         this.saveClient(typeof param === 'boolean' ? param : false);
-        this.saveEvMgr(false);
-        this.saveVenueCmp({ index: null, shouldInvite: false });
-        this.saveVenuesSuppliers({
-          venueIndex: null, serviceIndex: null, shouldInvite: false
-        });
-        this.saveVenuesExhibitors({
-          venueIndex: null, exhibitorIndex: null, shouldInvite: false
-        });
+        // this.isEventClientInvalid = false;
+        this.isEventMgrInvalid = false;
+        this.isEventVenuesInvalid = false;
+        this.isVenuesSuppliersInvalid = false;
+        this.isVenuesExhibitorsInvalid = false;
+        // this.saveEvMgr(false);
+        // this.saveVenueCmp({ index: null, shouldInvite: false });
+        // this.saveVenuesSuppliers({
+        //   venueIndex: null, serviceIndex: null, shouldInvite: false
+        // });
+        // this.saveVenuesExhibitors({
+        //   venueIndex: null, exhibitorIndex: null, shouldInvite: false
+        // });
         break;
       case EventFunctionTypes.EVENT_MANAGER:
-        this.saveClient(false);
+        // this.saveClient(false);
         this.saveEvMgr(typeof param === 'boolean' ? param : false);
-        this.saveVenueCmp({ index: null, shouldInvite: false });
-        this.saveVenuesSuppliers({
-          venueIndex: null, serviceIndex: null, shouldInvite: false
-        });
-        this.saveVenuesExhibitors({
-          venueIndex: null, exhibitorIndex: null, shouldInvite: false
-        });
+        this.isEventClientInvalid = false;
+        // this.isEventMgrInvalid = false;
+        this.isEventVenuesInvalid = false;
+        this.isVenuesSuppliersInvalid = false;
+        this.isVenuesExhibitorsInvalid = false;
+        // this.saveVenueCmp({ index: null, shouldInvite: false });
+        // this.saveVenuesSuppliers({
+        //   venueIndex: null, serviceIndex: null, shouldInvite: false
+        // });
+        // this.saveVenuesExhibitors({
+        //   venueIndex: null, exhibitorIndex: null, shouldInvite: false
+        // });
         break;
       case EventFunctionTypes.VENUE:
-        this.saveClient(false);
-        this.saveEvMgr(false);
+        // this.saveClient(false);
+        // this.saveEvMgr(false);
         if (typeof param !== 'boolean') {
           this.saveVenueCmp({ index: param.venueIndex, shouldInvite: param.shouldInvite });
+          this.isEventClientInvalid = false;
+          this.isEventMgrInvalid = false;
+          // this.isEventVenuesInvalid = false;
+          this.isVenuesSuppliersInvalid = false;
+          this.isVenuesExhibitorsInvalid = false;
         }
-        this.saveVenuesSuppliers({
-          venueIndex: null, serviceIndex: null, shouldInvite: false
-        });
-        this.saveVenuesExhibitors({
-          venueIndex: null, exhibitorIndex: null, shouldInvite: false
-        });
+        // this.saveVenuesSuppliers({
+        //   venueIndex: null, serviceIndex: null, shouldInvite: false
+        // });
+        // this.saveVenuesExhibitors({
+        //   venueIndex: null, exhibitorIndex: null, shouldInvite: false
+        // });
         break;
       case EventFunctionTypes.SUPPLIERS:
-        this.saveClient(false);
-        this.saveEvMgr(false);
-        this.saveVenueCmp({ index: null, shouldInvite: false });
+        // this.saveClient(false);
+        // this.saveEvMgr(false);
+        // this.saveVenueCmp({ index: null, shouldInvite: false });
         if (typeof param !== 'boolean') {
           this.saveVenuesSuppliers({
             venueIndex: param.venueIndex, serviceIndex: param.serviceIndex, shouldInvite: param.shouldInvite
           });
+          this.isEventClientInvalid = false;
+          this.isEventMgrInvalid = false;
+          this.isEventVenuesInvalid = false;
+          // this.isVenuesSuppliersInvalid = false;
+          this.isVenuesExhibitorsInvalid = false;
         }
-        this.saveVenuesExhibitors({
-          venueIndex: null, exhibitorIndex: null, shouldInvite: false
-        });
+        // this.saveVenuesExhibitors({
+        //   venueIndex: null, exhibitorIndex: null, shouldInvite: false
+        // });
         break;
       case EventFunctionTypes.EXHIBITORS:
-        this.saveClient(false);
-        this.saveEvMgr(false);
-        this.saveVenueCmp({ index: null, shouldInvite: false });
-        this.saveVenuesSuppliers({
-          venueIndex: null, serviceIndex: null, shouldInvite: false
-        });
+        // this.saveClient(false);
+        // this.saveEvMgr(false);
+        // this.saveVenueCmp({ index: null, shouldInvite: false });
+        // this.saveVenuesSuppliers({
+        //   venueIndex: null, serviceIndex: null, shouldInvite: false
+        // });
         if (typeof param !== 'boolean') {
           this.saveVenuesExhibitors({
             venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex, shouldInvite: param.shouldInvite
           });
+          this.isEventClientInvalid = false;
+          this.isEventMgrInvalid = false;
+          this.isEventVenuesInvalid = false;
+          this.isVenuesSuppliersInvalid = false;
+          // this.isVenuesExhibitorsInvalid = false;
         }
     }
 
@@ -1456,7 +1472,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       this.saveEventSub = this.eventService.updateToDb(this.eventToBeSaved, this.data.eventData.eventId).subscribe(
         value => {
           if (value) {
-            this.toaster.success('Continue with saving event files', 'Event saved successfully');
+            this.toaster.success('Event updated successfully');
             this.savedEventId = this.data.eventData.eventId;
             /*this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() => {
               this.router.navigate(['/home/event/create']);

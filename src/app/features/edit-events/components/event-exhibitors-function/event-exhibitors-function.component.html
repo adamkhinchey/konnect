@@ -95,7 +95,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   <div class="addNewService addToPanel">
                     <div class=" selection">
                       <select class="form-control" [ngModelOptions]="{standalone:true}"
-                        [attr.disabled]="exhibitor.isStaffOrAdmin==1 ? null : true"
+                        [attr.disabled]="exhibitor.isStaffOrAdmin==1 && isExhibitorEdit ? null : true"
                         (ngModelChange)="acceptDeclineService(exhibitor, $event)" [(ngModel)]="exhibitor.status">
                         <option [ngValue]=1>Confirm</option>
                         <option *ngIf="exhibitor.status==0" [ngValue]=0>Pending</option>

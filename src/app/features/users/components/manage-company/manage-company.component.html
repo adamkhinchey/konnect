@@ -1,0 +1,216 @@
+<div class="mainContent">
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="sixteen wide column">
+                <div class="ui grid">
+                    <div class="sixteen wide column">
+                        <h2>Konnect Profile</h2>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <form class="ui form marginB20" [formGroup]="editProfileForm">
+                        <div class="ui grid stackable">
+                            <div class="nine wide column">
+                                <h3 class="ui dividing header">Company Details</h3>
+                                <div class="two fields">
+                                    <div class="field">
+                                        <div class="ui grid centered">
+                                            <div class="ten wide column marginT10">
+                                                <img [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): userInfo?.profileImage"
+                                                    alt="" class="ui medium fluid image marginB10 userleftImgUpdate"
+                                                    appImageFallback fallbackImage="../../assets/img/logo-ex-7.png">
+                                                <div class="ui button basic small compact blue fluid"
+                                                    appFileUploadTrigger [fileUploadComponentRef]="fileUploadComponent">
+                                                    Replace company image
+                                                </div>
+                                                <app-file-upload #fileUploadComponent [config]="profileImageConfig"
+                                                    (fileChange)="setSelectedImage($event)"></app-file-upload>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field hideMobile">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field ">
+                                        <label>Company Name</label>
+                                        <input id="edit-profile-first-name" type="text" placeholder="Company Name"
+                                            formControlName="firstName" required>
+                                        <span *ngIf="editProfileForm!.get('firstName')?.touched
+                              && editProfileForm!.get('firstName')?.errors?.required" class="text-danger">First Name is
+                                            Required</span>
+                                    </div>
+                                    <div class="field ">
+                                        <label>Company/Tax Number</label>
+                                        <input type="text" value="0987654321">
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field ">
+                                        <label>Street Address 1</label>
+                                        <input type="text" value="Address 1">
+                                    </div>
+                                    <div class="field ">
+                                        <label>Street Address 2</label>
+                                        <input type="text" value="Address 2">
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field ">
+                                        <label>City</label>
+                                        <input type="text" formControlName="city">
+                                        <span
+                                        *ngIf="editProfileForm!.get('city')?.touched
+                              && (
+                              editProfileForm!.get('city')?.hasError('required')
+                              )"
+                                        class="text-danger"
+                                      >City is required</span>
+                                    </div>
+                                    <div class="field ">
+                                        <label>State/Province/Region</label>
+                                        <input type="text" value="NSW">
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>ZIP/Postcode</label>
+                                        <input type="text" value="2000">
+                                    </div>
+                                    <div class="field required">
+                                        <label>Country</label>
+                                        <div class="ui fluid selection" tabindex="0">
+                                            <select formControlName="countryId" required>
+                                                <option *ngFor="let cntr of countries" [ngValue]="cntr.val"
+                                                    [disabled]="!cntr.val">{{ cntr.name }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>Phone</label>
+                                        <input type="text" value="1234 5678">
+                                    </div>
+                                    <div class="field required">
+                                        <label>Website</label>
+                                        <input type="text" value="www.website.com">
+                                    </div>
+                                </div>
+                                <div class="field required">
+                                    <label>Category</label>
+                                    <div class="ui fluid selection" tabindex="0">
+                                        <select>
+                                            <option value="">Australia</option>
+                                            <option value="AF">Afghanistan</option>
+                                            <option value="AX">Åland Islands</option>
+                                            <option value="AL">Albania</option>
+                                            <option value="DZ">Algeria</option>
+                                            <option value="AS">American Samoa</option>
+                                            <option value="AD">Andorra</option>
+                                            <option value="AO">Angola</option>
+                                            <option value="AI">Anguilla</option>
+                                            <option value="AQ">Antarctica</option>
+                                            <option value="AG">Antigua and Barbuda</option>
+                                            <option value="AR">Argentina</option>
+                                            <option value="AM">Armenia</option>
+                                            <option value="AW">Aruba</option>
+                                            <option value="AU">Australia</option>
+                                            <option value="AT">...</option>
+                                        </select>
+                                    </div>
+                                    <span *ngIf="editProfileForm!.get('countryId')?.touched
+                          && (
+                          editProfileForm!.get('countryId')?.hasError('required')
+                          )" class="text-danger">Country is required</span>
+                                </div>
+                                <div class="field">
+                                    <label>Description</label>
+                                    <div class="textarea">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In
+                                        adipisci laudantium minima veritatis porro repudiandae rem quidem atque, ut eum
+                                        ipsam nihil! Qui nulla dicta dolor nisi facilis, repellat rem.</div>
+                                </div>
+                                <div class="sixteen wide column marginT10 marginB20">
+                                    <p class="textRight marginT10 smallText">*compulsory fields</p>
+                                </div>
+                                <div class="sixteen wide column paddingT0">
+                                    <div class="ui divider"></div>
+                                </div>
+                                <div class="ui grid">
+                                    <div class="sixteen wide column right aligned">
+                                        <div class="ui button hideMobile">Save</div>
+                                        <div class="ui button fluid visibleMobile">Save</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="seven wide column">
+                                <div class="contactsContainer">
+                                    <div class="field">
+                                        <h3 class="ui dividing header">Staff</h3>
+                                    </div>
+                                    <div class="kipCardContainer">
+                                        <div class="ui one column grid stackable">
+                                            <div class="column">
+                                                <div class="ui fluid card">
+                                                    <div class="content">
+                                                        <img class="right floated mini ui image circular"
+                                                            src="../../assets/img/jenny.jpg">
+                                                        <div class="header">
+                                                            <a href="/VPP.html" target="_blank">Jenny Hess</a>
+                                                        </div>
+                                                        <div class="meta">Position</div>
+                                                        <div class="description">
+                                                            mail@mail.com<br>
+                                                            1234 5678
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column">
+                                                <div class="ui fluid card">
+                                                    <div class="content">
+                                                        <img class="right floated mini ui image circular"
+                                                            src="../../assets/img/elliot.jpg">
+                                                        <div class="header">
+                                                            <a href="/VPP.html" target="_blank">Elliot Fu</a>
+                                                        </div>
+                                                        <div class="meta">Position</div>
+                                                        <div class="description">
+                                                            mail@mail.com<br>
+                                                            1234 5678
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column">
+                                                <div class="ui fluid card">
+                                                    <div class="content">
+                                                        <img class="right floated mini ui image circular"
+                                                            src="../../assets/img/jenny.jpg">
+                                                        <div class="header">
+                                                            <a href="/VPP.html" target="_blank">Jenny Hess</a>
+                                                        </div>
+                                                        <div class="meta">Position</div>
+                                                        <div class="description">
+                                                            mail@mail.com<br>
+                                                            1234 5678
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="marginT30"></div>
+                                <a href="IC-01.html" routerLink="/home/company/manage-colleagues"
+                                    routerLinkActive="router-link-active" class="ui button fluid">Manage Colleagues</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

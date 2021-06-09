@@ -23,7 +23,15 @@ type FetchedVenueExCmpCnts = { contactList: InviteFnCmpCntInterface[], venueInde
   providedIn: 'root'
 })
 export class EventService {
-  isEdit: boolean = false;
+  private _isEdit: boolean = false;
+  isEditChange = new Subject<boolean>();
+  set isEdit(value: boolean) {
+    this._isEdit = value;
+    this.isEditChange.next(this._isEdit);
+  }
+  get isEdit() {
+    return this._isEdit;
+  }
   private apiBaseUrl = environment.apiBaseURL;
 
   private ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([
@@ -87,7 +95,7 @@ export class EventService {
   private fetchedVenueExCmpCnts: FetchedVenueExCmpCnts[] = [];
 
   public navigatesToSuppliers = new Subject();
-  public navigatesToExhibitors= new Subject();
+  public navigatesToExhibitors = new Subject();
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -96,12 +104,12 @@ export class EventService {
   ) {
   }
 
-  resetVenueExhibitorData(){
+  resetVenueExhibitorData() {
     this.fetchedVenueExCmp = [];
     this.fetchedVenueExCmpCnts = [];
   }
 
-  resetVenueSupplierData(){
+  resetVenueSupplierData() {
     this.fetchedVenueSrvcsCmp = [];
     this.fetchedVenueSrvcsCmpCnts = [];
   }
@@ -168,17 +176,17 @@ export class EventService {
     //   return value.company.supplierId === param.company.supplierId && value.serviceIndex === param.serviceIndex && value.venueIndex === param.venueIndex
     // })
     // if(!find){
-      this.fetchedVenueSrvcsCmp.push(param);
+    this.fetchedVenueSrvcsCmp.push(param);
     // }
   }
 
   getFetchedVenueSrvcsCmp(): FetchedVenueSrvcsCmp[] {
-    
+
     return this.fetchedVenueSrvcsCmp;
   }
 
   addFetchedVenueSrvcCmpCnt(param: FetchedVenueSrvcCmpCnts): void {
-    
+
     this.fetchedVenueSrvcsCmpCnts.push(param);
   }
 

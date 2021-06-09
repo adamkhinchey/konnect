@@ -1,4 +1,4 @@
-<div class="ui container">
+<div class="ui container" *ngIf="userInfo && userInfo.id">
   <div class="ui grid">
     <div class="sixteen wide column maxWidth">
       <div class="ui grid">
@@ -6,7 +6,7 @@
           <h2>Edit Konnect Profile</h2>
         </div>
       </div>
-      <div class="ui segment" *ngIf="userInfo">
+      <div class="ui segment">
         <form class="ui form" [formGroup]="editProfileForm">
           <div class="ui grid stackable">
             <div class="nine wide column left aligned">

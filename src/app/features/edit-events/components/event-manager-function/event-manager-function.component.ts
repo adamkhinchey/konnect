@@ -20,6 +20,7 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy, OnChang
   @Output() saveAndInvite = new EventEmitter<boolean>();
   @Input() isOwnCompany: boolean = false;
   private subs1: Subscription | undefined;
+  private subs2: Subscription | undefined;
   @Output() editClient = new EventEmitter<boolean>();
   @Output() editManager = new EventEmitter<boolean>();
   @Output() editVenue = new EventEmitter<boolean>();
@@ -32,18 +33,23 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy, OnChang
   constructor(public eventService: EventService) {
   }
 
-  ngOnChanges(changes:SimpleChanges){
-    this.isEventEdit = this.eventService.isEdit;
-    this.editClient.emit(this.isEventEdit);
+  ngOnChanges(changes: SimpleChanges) {
+    // this.isEventEdit = this.eventService.isEdit;
+    // this.editClient.emit(this.isEventEdit);
   }
 
   editEventManager() {
-    this.eventService.isEdit = !this.isEventEdit;
-    this.isEventEdit = !this.isEventEdit;
+    this.eventService.isEdit = true;
+    this.isEventEdit = true;
     this.editManager.emit(this.isEventEdit);
   }
 
   ngOnInit(): void {
+    this.subs2 = this.eventService.isEditChange.subscribe((value) => {
+      this.isEventEdit = value;
+      this.editManager.emit(this.isEventEdit);
+    })
+
     this.subs1 = this.eventService.setIsFnOwnCompany.subscribe(status => {
       this.isOwnCompany = !!status.get(EventFunctionTypes.EVENT_MANAGER);
     });
@@ -80,13 +86,13 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy, OnChang
   toggleEvMgrOwnCompany(): void {
     const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
     tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
-    console.log('before toggle: ', this.eventData.eventData.eventManager.isOwnCompany);
     this.eventData.eventData.eventManager.isOwnCompany = tempMap.get(EventFunctionTypes.EVENT_MANAGER) ? 1 : 0;
     this.eventService.setIsFnOwnCompany.next(tempMap);
-    console.log('after toggle: ', this.eventData.eventData.eventManager.isOwnCompany);
+
   }
 
   ngOnDestroy(): void {
     this.subs1?.unsubscribe();
+    this.subs2?.unsubscribe();
   }
 }

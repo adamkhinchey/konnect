@@ -20,9 +20,9 @@
                   <div class="">
                     <div class="field">
                       <div class="ui checkbox">
-                        <input type="radio" id="radio1" name="same" class="hidden" tabindex="0"
-                               [(ngModel)]="isExternal" [value]="0" [ngModelOptions]="{standalone:true}"
-                               (ngModelChange)="onSearchScopeChange($event)">
+                        <input type="radio" id="radio1" name="same" class="hidden" tabindex="0" [(ngModel)]="isExternal"
+                          [value]="0" [ngModelOptions]="{standalone:true}"
+                          (ngModelChange)="onSearchScopeChange($event)">
                         <label for="radio1">Internal</label>
                       </div>
                     </div>
@@ -30,9 +30,9 @@
                   <div class="">
                     <div class="field">
                       <div class="ui checkbox">
-                        <input type="radio" id="radio2" name="same" class="hidden" tabindex="0"
-                               [(ngModel)]="isExternal" [value]="1" [ngModelOptions]="{standalone:true}"
-                               (ngModelChange)="onSearchScopeChange($event)">
+                        <input type="radio" id="radio2" name="same" class="hidden" tabindex="0" [(ngModel)]="isExternal"
+                          [value]="1" [ngModelOptions]="{standalone:true}"
+                          (ngModelChange)="onSearchScopeChange($event)">
                         <label for="radio2">External</label>
                       </div>
                     </div>
@@ -41,7 +41,7 @@
               </div>
 
               <ul ngbNav #nav="ngbNav" [(activeId)]="active"
-                  class="nav-tabs ui pointing secondary menu ui manageMenuOuter" (navChange)="onNavChange($event)">
+                class="nav-tabs ui pointing secondary menu ui manageMenuOuter" (navChange)="onNavChange($event)">
                 <li [ngbNavItem]="1">
                   <a ngbNavLink class="item tabAdmin"><span class="hideMobile">People</span></a>
                   <ng-template ngbNavContent>
@@ -49,8 +49,8 @@
                       <div class="ui search searchPeople marginT20 marginB20">
                         <div class="ui fluid icon input">
                           <input class="prompt" type="text" placeholder="Search" autocomplete="off"
-                                 [(ngModel)]="keyword" (ngModelChange)="doConnectionSearch($event)"
-                                 [ngModelOptions]="{standalone:true}">
+                            [(ngModel)]="keyword" (ngModelChange)="doConnectionSearch($event)"
+                            [ngModelOptions]="{standalone:true}">
                           <i class="search icon"></i>
                         </div>
                         <div class="results"></div>
@@ -60,13 +60,13 @@
                           <div class="ui fluid card">
                             <div class="content">
                               <span *ngIf="userConn.isPrivate" class="ui blue right corner label popupNotes"
-                                    data-content="Private Contact">
-                                  <!--<i class="address card outline icon"></i>-->
+                                data-content="Private Contact">
+                                <!--<i class="address card outline icon"></i>-->
                                 <fa-icon [icon]="addressCardIcon"></fa-icon>
                               </span>
                               <img class="right floated mini ui image circular"
-                                   [src]="userConn.profileImage || './assets/img/default_konnect_img.png' "
-                                   appImageFallback="./assets/img/default_konnect_img.png">
+                                [src]="userConn.profileImage || './assets/img/default_konnect_img.png' "
+                                appImageFallback="./assets/img/default_konnect_img.png">
                               <div class="header">
                                 <a>{{userConn.firstName + ' ' + userConn.lastName}}</a>
                               </div>
@@ -82,22 +82,22 @@
                               <div class="ui grid">
                                 <div class="ten wide column">
                                   <div *ngIf="!userConn.isConnected && isUserAdmin && isExternal===1"
-                                       class="ui circular compact mini basic button confirmRemove hasModal active"
-                                       data-modal="removeModal"
-                                       (click)="addToConnections(userConn?.userId)"><i class="star icon"></i>Add to
+                                    class="ui circular compact mini basic button confirmRemove hasModal active"
+                                    data-modal="removeModal" (click)="addToConnections(userConn?.userId)"><i
+                                      class="star icon"></i>Add to
                                     connections
                                   </div>
                                   <div *ngIf="userConn.isConnected && isUserAdmin && isExternal===0"
-                                       class="ui circular compact mini basic button confirmRemove hasModal active"
-                                       data-modal="removeModal"
-                                       (click)="openRemoveConfirmationBox(userConn?.userId)"><i class="star icon"></i>Remove from
+                                    class="ui circular compact mini basic button confirmRemove hasModal active"
+                                    data-modal="removeModal" (click)="openRemoveConfirmationBox(userConn?.userId)"><i
+                                      class="star icon"></i>Remove from
                                     connections
                                   </div>
                                 </div>
                                 <div class="six wide column right aligned"
-                                     *ngIf="userConn?.isPrivate && userConn.creatorCompanyId===defaultCompany.id && isUserAdmin">
+                                  *ngIf="userConn?.isPrivate && userConn.creatorCompanyId===defaultCompany.id && isUserAdmin">
                                   <div class="ui circular compact mini basic icon button editProfileBtn"><i
-                                    class="pencil alternate icon"></i></div>
+                                      class="pencil alternate icon"></i></div>
                                 </div>
                               </div>
                             </div>
@@ -246,15 +246,14 @@
                   </ng-template>
                 </li>
                 <li [ngbNavItem]="2">
-                  <a ngbNavLink class="item tabAdmin"><span
-                    class="hideMobile">Companies</span></a>
+                  <a ngbNavLink class="item tabAdmin"><span class="hideMobile">Companies</span></a>
                   <ng-template ngbNavContent>
                     <div class="">
                       <div class="ui search searchCompany marginT20 marginB20">
                         <div class="ui fluid icon input">
                           <input class="prompt" type="text" placeholder="Search" autocomplete="off"
-                                 [(ngModel)]="keyword" (ngModelChange)="doConnectionSearch($event)"
-                                 [ngModelOptions]="{standalone:true}">
+                            [(ngModel)]="keyword" (ngModelChange)="doConnectionSearch($event)"
+                            [ngModelOptions]="{standalone:true}">
                           <i class="search icon"></i>
                         </div>
                         <div class="results"></div>
@@ -263,14 +262,14 @@
                         <div class="column" *ngFor="let cmpConn of companyConnections">
                           <div class="ui fluid card">
                             <div class="content">
-                             <span *ngIf="cmpConn?.isPrivate" class="ui blue right corner label popupNotes"
-                                   data-content="Private Contact">
-                                 <!--<i class="address card outline icon"></i>-->
-                               <fa-icon [icon]="addressCardIcon"></fa-icon>
-                             </span>
+                              <span *ngIf="cmpConn?.isPrivate" class="ui blue right corner label popupNotes"
+                                data-content="Private Contact">
+                                <!--<i class="address card outline icon"></i>-->
+                                <fa-icon [icon]="addressCardIcon"></fa-icon>
+                              </span>
                               <img class="right floated mini ui image circular"
-                                   [src]="cmpConn?.profileImage ||'./assets/img/default_konnect_img.png'"
-                                   appImageFallback="./assets/img/default_konnect_img.png">
+                                [src]="cmpConn?.profileImage ||'./assets/img/default_konnect_img.png'"
+                                appImageFallback="./assets/img/default_konnect_img.png">
                               <div class="header">
                                 <a>{{cmpConn?.companyName}}</a>
                               </div>
@@ -279,29 +278,29 @@
                                   {{cmpConn?.website}}
                                 </a>
                                 <span *ngIf="cmpConn?.website">|</span>
-                                <a><i
-                                  class="map marker alternate icon"></i>{{cmpConn?.city}}</a><span> |</span><i
-                                class="phone icon"></i>{{cmpConn?.phone}}
+                                <a><i class="map marker alternate icon"></i>{{cmpConn?.city}}</a><span> |</span><i
+                                  class="phone icon"></i>{{cmpConn?.phone}}
                               </div>
                               <div class="description">{{cmpConn?.description}}</div>
                             </div>
                             <div class="extra content">
                               <div class="ui grid">
                                 <div class="ten wide column">
-                                  <div *ngIf="!cmpConn.isConnected && isUserAdmin && isExternal===1"
-                                       class="ui circular compact mini basic button confirmRemove hasModal active"
-                                       data-modal="removeModal" (click)="addToConnections(cmpConn?.companyId)"><i class="star icon"></i>Add to connections
+                                  <div *ngIf="!cmpConn.isConnected && isExternal===1"
+                                    class="ui circular compact mini basic button confirmRemove hasModal active"
+                                    data-modal="removeModal" (click)="addToConnections(cmpConn?.companyId)"><i
+                                      class="star icon"></i>Add to connections
                                   </div>
-                                  <div *ngIf="cmpConn.isConnected && isUserAdmin && isExternal===0"
-                                       class="ui circular compact mini basic button confirmRemove hasModal active"
-                                       data-modal="removeModal" (click)="openRemoveConfirmationBox(cmpConn?.id)">
+                                  <div *ngIf="cmpConn.isConnected && isExternal===0"
+                                    class="ui circular compact mini basic button confirmRemove hasModal active"
+                                    data-modal="removeModal" (click)="openRemoveConfirmationBox(cmpConn?.id)">
                                     <i class="star icon"></i>Remove from connections
                                   </div>
                                 </div>
                                 <div class="six wide column right aligned"
-                                     *ngIf="cmpConn?.isPrivate && cmpConn?.creatorCompanyId===defaultCompany.id && isUserAdmin">
+                                  *ngIf="cmpConn?.isPrivate && cmpConn?.creatorCompanyId===defaultCompany.id && isUserAdmin">
                                   <div class="ui circular compact mini basic icon button editProfileBtn"><i
-                                    class="pencil alternate icon"></i></div>
+                                      class="pencil alternate icon"></i></div>
                                 </div>
                               </div>
                             </div>
@@ -373,10 +372,6 @@
     </div>
   </div>
 
-  <app-remove-modal
-    [toRemove]="removalType"
-    (cancel)="cancelRemove()"
-    (confirm)="confirmRemove()"
-    [modalInfoContent]="'Are you sure you want to remove the connection from this company'"
-  ></app-remove-modal>
+  <app-remove-modal [toRemove]="removalType" (cancel)="cancelRemove()" (confirm)="confirmRemove()"
+    [modalInfoContent]="'Are you sure you want to remove the connection from this company'"></app-remove-modal>
 </div>
