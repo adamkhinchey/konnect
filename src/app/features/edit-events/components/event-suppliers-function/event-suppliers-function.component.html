@@ -17,7 +17,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 </div>
                 <div class="field"
                   *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  permissionObj.isService; else no_access">
-                  <textarea class="textarea" *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
+                  <textarea rows="3" class="textarea" *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
                     [(ngModel)]="venue.suppliers[0].notesToAll" [ngModelOptions]="{standalone:true}"
                     [readonly]="!isServiceEdit"></textarea>
 
@@ -55,7 +55,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                   <div class="addNewService addToPanel">
                     <div class=" selection">
-                        <select class="form-control" [ngModelOptions]="{standalone:true}"  [attr.disabled]="service.isStaffOrAdmin==1 ? null : true" (ngModelChange)="acceptDeclineService(service, $event)"  [(ngModel)]="service.status">
+                        <select class="form-control" [ngModelOptions]="{standalone:true}"  [attr.disabled]="service.isStaffOrAdmin==1 && isServiceEdit ? null : true" (ngModelChange)="acceptDeclineService(service, $event)"  [(ngModel)]="service.status">
                           <option  [ngValue]=1>Confirm</option>
                           <option *ngIf="service.status==0"  [ngValue]=0>Pending</option> 
                           <option  [ngValue]=2>Decline</option>
@@ -167,7 +167,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="field">
                             <textarea
                               *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service?.isViewPermission==1; else no_access"
-                              [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}" class="textarea"
+                              [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}" rows="3" class="textarea"
                               [readonly]="!isServiceEdit"></textarea>
                             <ng-template #no_access>No access
                             </ng-template>

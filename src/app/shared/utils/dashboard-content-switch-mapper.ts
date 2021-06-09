@@ -1,6 +1,7 @@
 export const contentSwitchMapper: { [key: string]: string } = {
   '/home/edit-profile': 'edit-profile',
   '/home/company/manage-colleagues': 'manage-colleagues',
+  '/home/company/manage-company': 'manage-company',
   '/home/join-company': 'join-company',
   '/home/create-company': 'create-company',
   '/home/unapproved': 'un-approved',

@@ -10,7 +10,7 @@
           <div class="field" *ngIf="eventToBeSaved.venues">
             <textarea
               *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
-              class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll" [ngModelOptions]="{standalone:true}"
+              rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll" [ngModelOptions]="{standalone:true}"
               [readonly]="!isVenueEdit"></textarea>
             <ng-template #no_access>No access</ng-template>
           </div>
@@ -40,7 +40,7 @@
               <div class="addNewService addToPanel">
                 <div class=" selection">
                   <select class="form-control" [ngModelOptions]="{standalone:true}"
-                    [attr.disabled]="panel.isStaffOrAdmin==1 ? null : true"
+                    [attr.disabled]="panel.isStaffOrAdmin==1 && isVenueEdit ? null : true"
                     (ngModelChange)="acceptDeclineService(panel, $event)" [(ngModel)]="panel.status">
                     <option [ngValue]=1>Confirm</option>
                     <option *ngIf="panel.status==0" [ngValue]=0>Pending</option>
@@ -150,7 +150,7 @@
                       <div class="field">
                         <textarea
                           *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
-                          class="textarea" [(ngModel)]="panel.requirements" [ngModelOptions]="{standalone:true}"
+                          rows="3" class="textarea" [(ngModel)]="panel.requirements" [ngModelOptions]="{standalone:true}"
                           [readonly]="!isVenueEdit">
                         </textarea>
                         <ng-template #no_access>No access

@@ -21,6 +21,7 @@ import { EventsListingsComponent } from './components/events-listings/events-lis
 import { IgxCalendarModule, IgxSnackbarModule } from 'igniteui-angular';
 import { HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ManageCompanyComponent } from './components/manage-company/manage-company.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ManageColleaguesComponent,
     ManageConnectionsComponent,
     EventsListingsComponent,
+    ManageCompanyComponent,
   ],
   imports: [
     CommonModule,

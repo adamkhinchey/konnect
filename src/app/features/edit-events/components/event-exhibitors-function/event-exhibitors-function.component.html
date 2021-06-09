@@ -22,7 +22,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 </div>
                 <div class="field"
                   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access">
-                  <textarea class="textarea" *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
+                  <textarea rows="3" class="textarea" *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
                     [(ngModel)]="venue.exhibitorList[0].notesToAll" [ngModelOptions]="{standalone:true}"
                     [readonly]="!isExhibitorEdit"></textarea>
 
@@ -95,7 +95,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   <div class="addNewService addToPanel">
                     <div class=" selection">
                       <select class="form-control" [ngModelOptions]="{standalone:true}"
-                        [attr.disabled]="exhibitor.isStaffOrAdmin==1 ? null : true"
+                        [attr.disabled]="exhibitor.isStaffOrAdmin==1 && isExhibitorEdit ? null : true"
                         (ngModelChange)="acceptDeclineService(exhibitor, $event)" [(ngModel)]="exhibitor.status">
                         <option [ngValue]=1>Confirm</option>
                         <option *ngIf="exhibitor.status==0" [ngValue]=0>Pending</option>
@@ -205,7 +205,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           </div>
                           <div class="field"
                             *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
-                            <textarea class="textarea" [(ngModel)]="exhibitor.requirement"
+                            <textarea rows="3" class="textarea" [(ngModel)]="exhibitor.requirement"
                               [ngModelOptions]="{standalone:true}" [readonly]="!isExhibitorEdit"></textarea>
                           </div>
                           <ng-template #no_access>No access

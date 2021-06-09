@@ -22,6 +22,7 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
   @Input() isOwnCompany: boolean = false;
   private subs1: Subscription | undefined;
   private subs2: Subscription | undefined;
+  private subs3: Subscription | undefined;
   @Input() eventData: any;
   @Output() editClient = new EventEmitter<boolean>();
 
@@ -39,11 +40,11 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
     private router: Router,
     private viewEvSrvc: ViewEventService
   ) {
+    this.eventService.isEdit = false
   }
 
-  ngOnChanges(changes:SimpleChanges){
-    this.isClientEdit = this.eventService.isEdit;
-    this.editClient.emit(this.isClientEdit);
+  ngOnChanges(changes: SimpleChanges) {
+
   }
 
 
@@ -56,8 +57,8 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
   }
 
   editClientEvent() {
-    this.eventService.isEdit = !this.isClientEdit;
-    this.isClientEdit = !this.isClientEdit;
+    this.eventService.isEdit = true;
+    this.isClientEdit = true;
     this.editClient.emit(this.isClientEdit);
   }
   editEventManager() {
@@ -84,6 +85,10 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
 
   ngOnInit(): void {
     console.log(this.eventData);
+    this.subs3 = this.eventService.isEditChange.subscribe((value) => {
+      this.isClientEdit = value;
+      this.editClient.emit(this.isClientEdit);
+    })
     /*this.subs1 = this.clientCmpToSelfSub?.subscribe(value => {
       if (value !== null) {
         this.isOwnCompany = value;
@@ -124,18 +129,17 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
   }
 
   toggleClientOwnCompany(): void {
-    console.log('before next in toggle: ', this.eventData.eventData.client.isOwnCompany);
     const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
     tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
     this.eventData.eventData.client.isOwnCompany = tempMap.get(EventFunctionTypes.CLIENT) ? 1 : 0;
     this.eventService.setIsFnOwnCompany.next(tempMap);
-    console.log('after next in toggle: ', this.eventData.eventData.client.isOwnCompany);
 
   }
 
   ngOnDestroy(): void {
     this.subs1?.unsubscribe();
     this.subs2?.unsubscribe();
+    this.subs3?.unsubscribe();
   }
 
   deleteEvent(eventId: any) {
