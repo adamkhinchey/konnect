@@ -17,7 +17,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 </div>
                 <div class="field"
                   *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  permissionObj.isService; else no_access">
-                  <textarea class="textarea" *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
+                  <textarea rows="3" class="textarea" *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
                     [(ngModel)]="venue.suppliers[0].notesToAll" [ngModelOptions]="{standalone:true}"
                     [readonly]="!isServiceEdit"></textarea>
 
@@ -167,7 +167,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="field">
                             <textarea
                               *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service?.isViewPermission==1; else no_access"
-                              [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}" class="textarea"
+                              [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}" rows="3" class="textarea"
                               [readonly]="!isServiceEdit"></textarea>
                             <ng-template #no_access>No access
                             </ng-template>

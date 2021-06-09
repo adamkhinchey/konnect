@@ -10,7 +10,7 @@
           <div class="field" *ngIf="eventToBeSaved.venues">
             <textarea
               *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
-              class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll" [ngModelOptions]="{standalone:true}"
+              rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll" [ngModelOptions]="{standalone:true}"
               [readonly]="!isVenueEdit"></textarea>
             <ng-template #no_access>No access</ng-template>
           </div>
@@ -150,7 +150,7 @@
                       <div class="field">
                         <textarea
                           *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
-                          class="textarea" [(ngModel)]="panel.requirements" [ngModelOptions]="{standalone:true}"
+                          rows="3" class="textarea" [(ngModel)]="panel.requirements" [ngModelOptions]="{standalone:true}"
                           [readonly]="!isVenueEdit">
                         </textarea>
                         <ng-template #no_access>No access
