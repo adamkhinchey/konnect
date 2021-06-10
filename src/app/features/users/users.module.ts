@@ -22,6 +22,7 @@ import { IgxCalendarModule, IgxSnackbarModule } from 'igniteui-angular';
 import { HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ManageCompanyComponent } from './components/manage-company/manage-company.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { ManageCompanyComponent } from './components/manage-company/manage-compa
     IgxCalendarModule,
     IgxSnackbarModule,
     HammerModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgMultiSelectDropDownModule,
   ],
   exports: [
     DashboardComponent

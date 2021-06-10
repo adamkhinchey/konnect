@@ -17,6 +17,7 @@ import { FileUploadConfigInterface, LoginUserProfile, RemoveType } from '../../.
 import { CompaniesService } from '../../services/companies.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-manage-company',
@@ -24,7 +25,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./manage-company.component.scss']
 })
 export class ManageCompanyComponent implements OnInit, OnDestroy {
-
+  WEBSITE_REGEX = /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/;
   //OLD_MOBILE_REGEX = new RegExp(/^(?!(\d)\1+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/);
   MOBILE_REGEX = new RegExp(/^(?:0|\+[1-9]{1,3})\d{10,15}$/);
   EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/);
@@ -34,6 +35,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   modalReference: any;
   timeZones = environment.timeZones;
   countries: { val: any, name: any, regionId: any }[] = [];
+  categories: { id: any, name: any }[] = [];
   editProfileForm = this.fb.group({
     profileImage: [],
     firstName: ['', [Validators.required]],
@@ -50,8 +52,26 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     aboutMe: ['']
   });
 
+  editCompanyForm = this.fb.group({
+    companyId: [null, [Validators.required]],
+    companyProfileImage: [],
+    companyName: [''],
+    companyTaxNumber: [''],
+    streetAddress1: [''],
+    streetAddress2: [''],
+    city: [''],
+    state: [''],
+    postCode: [''],
+    countryId: ['', [Validators.required]],
+    phone: ['', [Validators.pattern(this.MOBILE_REGEX)]],
+    website: ['', [Validators.required, Validators.pattern(this.WEBSITE_REGEX)]],
+    category: [null, [Validators.required]],
+    description: [''],
+  });
+
   userInfoSubscription = new Subscription();
   userInfo: any = null;
+  companyInfo: any = null;
 
   companyIdToDissociate: number | null = null;
   removeMessage: any;
@@ -62,7 +82,17 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   };
   selectedImageSrc: string | undefined;
   private selectedProfileImage: File | undefined;
-
+  companyId: any;
+  dropdownSettings: IDropdownSettings = {
+    singleSelection: false,
+    idField: 'id',
+    textField: 'name',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true,
+  };
+  selectedCategory: any;
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -78,7 +108,23 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    let company: any = this.userSettingsService.settings.getValue();
+    console.log(company);
+    if (company) {
+      this.companyId = company.defaultCompany.id
+    }
+    console.log(this.companyId);
     this.getAndSetCountries();
+  }
+
+  getCompanyDetails() {
+    this.companyService.getCompanyDetails(this.companyId).subscribe((res: any) => {
+      console.log(res);
+      this.companyInfo = res;
+      this.populateCompanyFormValues();
+    }, err => {
+      devLogger('error', err);
+    })
   }
 
   private getAndSetCountries(): void {
@@ -87,8 +133,19 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     }, err => {
       devLogger('error', err);
     }, () => {
-      this.fetchUserInfo();
+      this.getCategories();
     });
+  }
+
+  getCategories() {
+    this.companyService.getCategoryList().subscribe((value) => {
+      console.log(value);
+      this.categories = value.categoryList
+    }, err => {
+      devLogger('error', err);
+    }, () => {
+      this.getCompanyDetails();
+    })
   }
 
   private fetchUserInfo(): void {
@@ -101,6 +158,30 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
       devLogger('error', { err });
     });
   }
+
+  private populateCompanyFormValues(): void {
+    this.editCompanyForm.get('companyId')?.setValue(this.companyInfo?.company.id);
+    this.editCompanyForm.get('companyProfileImage')?.setValue(this.companyInfo.company.companyProfileImage);
+    this.editCompanyForm.get('companyName')?.setValue(this.companyInfo?.company.companyName);
+    this.editCompanyForm.get('companyTaxNumber')?.setValue(this.companyInfo?.company.companyTaxNumber);
+    this.editCompanyForm.get('streetAddress1')?.setValue(this.companyInfo?.company.streetAddress1);
+    this.editCompanyForm.get('streetAddress2')?.setValue(this.companyInfo?.company.streetAddress2);
+    this.editCompanyForm.get('city')?.setValue(this.companyInfo?.company.city);
+    this.editCompanyForm.get('state')?.setValue(this.companyInfo?.company.state);
+    this.editCompanyForm.get('postCode')?.setValue(this.companyInfo?.company.state);
+    let countryIndex = this.countries.findIndex(country => {
+      return country.val === this.companyInfo?.company.countryId;
+    });
+    if (countryIndex === -1) {
+      countryIndex = 0;
+    }
+    this.editCompanyForm.get('countryId')?.setValue(this.countries[countryIndex].val);
+    this.editCompanyForm.get('phone')?.setValue(this.companyInfo?.company.phone?.trim());
+    this.editCompanyForm.get('website')?.setValue(this.companyInfo?.company.website);
+    this.editCompanyForm.get('description')?.setValue(this.companyInfo?.company.description);
+    this.selectedCategory = this.companyInfo?.company.category;
+  }
+
 
   private populateFormValues(): void {
     this.editProfileForm.get('profileImage')?.setValue(this.userInfo.profileImage);
@@ -172,11 +253,12 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     event.preventDefault();
     if (this.selectedProfileImage) {
       this.fileUploadService.uploadFile(this.selectedProfileImage, (url) => {
-        this.editProfileForm.get('profileImage')?.setValue(url);
-        this.updateProfile();
+        // this.editProfileForm.get('profileImage')?.setValue(url);
+        this.editCompanyForm.get('companyProfileImage')?.setValue(url);
+        this.updateCompanyProfile();
       });
     } else {
-      this.updateProfile();
+      this.updateCompanyProfile();
     }
   }
 
@@ -268,6 +350,32 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     this.selectedImageSrc = URL.createObjectURL(event);
     this.selectedProfileImage = event;
     devLogger('log', { FILEEEEE: event });
+  }
+
+  updateCompanyProfile(): void {
+    this.companyService.updateCompanyProfile(this.editCompanyForm.value)
+      .subscribe((data) => {
+        if (data) {
+          this.toaster.success('Company profile updated successfully');
+          this.router.navigate(['home']);
+        }
+      }, err => {
+        devLogger('error', err);
+      });
+  }
+
+  markCategoryTouched(): void {
+    this.editCompanyForm.get('category')?.markAsTouched({ onlySelf: true });
+  }
+
+  onCategoryChange(event: { id: number, val: string }[]): void {
+    if (event) {
+      if (event.length === 0) {
+        this.editCompanyForm.get('category')?.setValue(null);
+      } else {
+        this.editCompanyForm.get('category')?.setValue(event.map(ct => ct.id));
+      }
+    }
   }
 
 }
