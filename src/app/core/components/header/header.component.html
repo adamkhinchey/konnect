@@ -7,7 +7,7 @@
         <div class="three wide column center aligned middle aligned">
           <h1><a href="dashboard-events-01.html">konnect</a></h1>
         </div>
-        <div class="ten wide column paddingL0 paddingR0">
+        <div class="nine wide column paddingL0 paddingR0">
           <ul class="ui six column grid stackable mainMenu">
             <li class="column center aligned middle aligned itemMenu">
               <a [attr.href]="isApproved ? 'dashboard-events-01.html' : null" [class.disabled]="!isApproved"><i
@@ -43,7 +43,7 @@
             </li>
           </ul>
         </div>
-        <div class="three wide column">
+        <div class="four wide column">
           <div class="profileInfo">
             <img [src]="(userSettingsService.settings | async)!.profileImage! || '../../assets/img/profile.png'" alt=""
               class="ui fluid image circular">
