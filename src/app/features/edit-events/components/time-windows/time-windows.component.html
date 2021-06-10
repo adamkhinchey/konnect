@@ -4,7 +4,9 @@
 
     <ngb-panel id="static-3">
       <ng-template ngbPanelTitle>
-        <i class="dropdown icon"></i> {{windowLabels && windowLabels[0]}}
+        <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[0]}}</span>
+        <span class="dateStartEndContainer">Date, Start - End | Timezone</span>
+        <span class="dateStartEndContainer">Date, Start - End | Timezone</span>
       </ng-template>
       <ng-template ngbPanelContent>
         <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
@@ -79,7 +81,9 @@
     </ngb-panel>
     <ngb-panel id="static-4">
       <ng-template ngbPanelTitle>
-        <span><i class="dropdown icon"></i> {{windowLabels && windowLabels[1]}}</span>
+        <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[1]}}</span>
+        <span class="dateStartEndContainer">Date, Start - End | Timezone</span>
+        <span class="dateStartEndContainer">Date, Start - End | Timezone</span>
       </ng-template>
       <ng-template ngbPanelContent>
         <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
@@ -154,7 +158,9 @@
     </ngb-panel>
     <ngb-panel id="static-5">
       <ng-template ngbPanelTitle>
-        <span><i class="dropdown icon"></i> {{windowLabels && windowLabels[2]}}</span>
+        <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[2]}}</span>
+        <span class="dateStartEndContainer">Date, Start - End | Timezone</span>
+        <span class="dateStartEndContainer">Date, Start - End | Timezone</span>
       </ng-template>
       <ng-template ngbPanelContent>
         <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
