@@ -354,7 +354,7 @@ ul.secondary.menu {
   width: 100%;
 }
 .headerCompanySelector .dropdownChangeCompany .text {
-  max-width: 60%;
+  max-width: calc(100% - 20px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -488,8 +488,55 @@ button:focus {
 }
 
 .parentAccordionVenue .card-header .btn {
-	width: calc(100% - 200px);
+	// width: calc(100% - 200px);
+	width: 100%;
 }
 .card-header .addToPanel.addNewService {
 	top: 0.6em;
+}
+
+.igx-calendar__date { cursor: pointer; } 
+igx-days-view.igx-calendar {
+  border: 1px solid #0091e6 !important;
+  margin-top: 0px !important;
+  border-radius: 0px !important;
+  margin: 0 0px 0 0 !important;
+}
+.igx-calendar__label {
+  height: 2.5em;
+  color: rgb(255, 255, 255) !important;
+  border-radius: 0;
+}
+.igx-calendar__body-row:first-of-type, .igx-calendar__body-row--wrap:first-of-type {
+	margin: 0px !important;
+	background: #0091e6;
+}
+
+.igx-calendar__body-row, .igx-calendar__body-row--wrap {
+	margin: 0 !important;
+	padding: 0;
+}
+.igx-calendar__date--single, .igx-calendar__date--selected.igx-calendar__date--first.igx-calendar__date--last {
+	background: transparent;
+	border: 1px solid rgba(0,0,0,.1);
+}
+.igx-calendar__date-content {
+	width: 100% !important;
+}
+.igx-calendar__date, .igx-calendar__date--inactive { padding: 0px !important; }
+.igx-calendar__date-content::after {
+	position: absolute;
+	content: "";
+	width: 100%  !important;
+	height: 100% !important;
+	top: 0px !important;
+	left: 0px !important;
+	border-radius: inherit;
+	z-index: -1;
+}
+.igx-calendar__date--special .igx-calendar__date-content {
+	color: #959595;
+}
+.dateStartEndContainer {
+	margin-left: 180px;
 }

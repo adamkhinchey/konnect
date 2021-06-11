@@ -1,4 +1,4 @@
-<div class="mainContent">
+<div class="mainContent" *ngIf="companyInfo && companyInfo.company">
     <div class="ui container">
         <div class="ui grid">
             <div class="sixteen wide column">
@@ -8,7 +8,7 @@
                     </div>
                 </div>
                 <div class="ui segment">
-                    <form class="ui form marginB20" [formGroup]="editProfileForm">
+                    <form class="ui form marginB20" [formGroup]="editCompanyForm">
                         <div class="ui grid stackable">
                             <div class="nine wide column">
                                 <h3 class="ui dividing header">Company Details</h3>
@@ -16,7 +16,7 @@
                                     <div class="field">
                                         <div class="ui grid centered">
                                             <div class="ten wide column marginT10">
-                                                <img [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): userInfo?.profileImage"
+                                                <img [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): companyInfo?.company.companyProfileImage"
                                                     alt="" class="ui medium fluid image marginB10 userleftImgUpdate"
                                                     appImageFallback fallbackImage="../../assets/img/logo-ex-7.png">
                                                 <div class="ui button basic small compact blue fluid"
@@ -35,48 +35,72 @@
                                 <div class="two fields">
                                     <div class="field ">
                                         <label>Company Name</label>
-                                        <input id="edit-profile-first-name" type="text" placeholder="Company Name"
-                                            formControlName="firstName" required>
-                                        <span *ngIf="editProfileForm!.get('firstName')?.touched
-                              && editProfileForm!.get('firstName')?.errors?.required" class="text-danger">First Name is
-                                            Required</span>
+                                        <input id="edit-company-profile-company-name" type="text" placeholder="Company Name"
+                                            formControlName="companyName">
+                                        <!-- <span *ngIf="editCompanyForm!.get('companyName')?.touched
+                              && editCompanyForm!.get('companyName')?.errors?.required" class="text-danger">Company
+                                            Name is
+                                            Required</span> -->
                                     </div>
                                     <div class="field ">
                                         <label>Company/Tax Number</label>
-                                        <input type="text" value="0987654321">
+                                        <input id="edit-company-profile-tax-number" type="text" placeholder="Company/Tax Number"
+                                            formControlName="companyTaxNumber">
+                                        <!-- <span *ngIf="editCompanyForm!.get('companyTaxNumber')?.touched
+                                        && editCompanyForm!.get('companyTaxNumber')?.errors?.required"
+                                            class="text-danger">Company/Tax Number is
+                                            Required</span> -->
                                     </div>
                                 </div>
                                 <div class="two fields">
                                     <div class="field ">
                                         <label>Street Address 1</label>
-                                        <input type="text" value="Address 1">
+                                        <input id="edit-company-profile-street-address-1" type="text" placeholder="Street Address 1"
+                                            formControlName="streetAddress1">
+                                        <!-- <span *ngIf="editCompanyForm!.get('streetAddress1')?.touched
+                                        && editCompanyForm!.get('streetAddress1')?.errors?.required"
+                                            class="text-danger">Street Address 1 is
+                                            Required</span> -->
                                     </div>
                                     <div class="field ">
                                         <label>Street Address 2</label>
-                                        <input type="text" value="Address 2">
+                                        <input id="edit-company-profile-street-address-2" type="text" placeholder="Street Address 2"
+                                            formControlName="streetAddress2">
+                                        <!-- <span *ngIf="editCompanyForm!.get('streetAddress2')?.touched
+                                        && editCompanyForm!.get('streetAddress2')?.errors?.required"
+                                            class="text-danger">Street Address 2 is
+                                            Required</span> -->
                                     </div>
                                 </div>
                                 <div class="two fields">
                                     <div class="field ">
                                         <label>City</label>
-                                        <input type="text" formControlName="city">
-                                        <span
-                                        *ngIf="editProfileForm!.get('city')?.touched
+                                        <input id="edit-company-profile-city" type="text" placeholder="City"
+                                            formControlName="city">
+                                        <!-- <span *ngIf="editCompanyForm!.get('city')?.touched
                               && (
-                              editProfileForm!.get('city')?.hasError('required')
-                              )"
-                                        class="text-danger"
-                                      >City is required</span>
+                              editCompanyForm!.get('city')?.hasError('required')
+                              )" class="text-danger">City is required</span> -->
                                     </div>
                                     <div class="field ">
                                         <label>State/Province/Region</label>
-                                        <input type="text" value="NSW">
+                                        <input id="edit-company-profile-state" type="text" placeholder="State"
+                                            formControlName="state">
+                                        <!-- <span *ngIf="editCompanyForm!.get('state')?.touched
+                                        && (
+                                        editCompanyForm!.get('state')?.hasError('required')
+                                        )" class="text-danger">State is required</span> -->
                                     </div>
                                 </div>
                                 <div class="two fields">
                                     <div class="field">
                                         <label>ZIP/Postcode</label>
-                                        <input type="text" value="2000">
+                                        <input id="edit-company-profile-post-code" maxlength="6" type="tel" placeholder="ZIP/Postcode"
+                                            formControlName="postCode">
+                                        <span *ngIf="(editCompanyForm!.get('postCode')?.dirty || editCompanyForm!.get('postCode')?.touched)
+                                        && (
+                                        editCompanyForm!.get('postCode')?.hasError('pattern')
+                                        )" class="text-danger">Post code allow only numbers</span>
                                     </div>
                                     <div class="field required">
                                         <label>Country</label>
@@ -86,50 +110,60 @@
                                                     [disabled]="!cntr.val">{{ cntr.name }}</option>
                                             </select>
                                         </div>
+                                        <span *ngIf="editCompanyForm!.get('countryId')?.touched
+                                        && (
+                                        editCompanyForm!.get('countryId')?.hasError('required')
+                                        )" class="text-danger">Country is required</span>
                                     </div>
                                 </div>
                                 <div class="two fields">
                                     <div class="field">
                                         <label>Phone</label>
-                                        <input type="text" value="1234 5678">
+                                        <input id="edit-company-profile-phone" type="text" placeholder="Phone"
+                                            formControlName="phone">
+                                        <!-- <span *ngIf="editCompanyForm!.get('phone')?.touched
+                                        && (
+                                        editCompanyForm!.get('phone')?.hasError('required')
+                                        )" class="text-danger">Phone is required</span> -->
+                                        <span *ngIf="(editCompanyForm!.get('phone')?.dirty || editCompanyForm!.get('phone')?.touched)
+                                        && (
+                                        editCompanyForm!.get('phone')?.hasError('pattern')
+                                        )" class="text-danger">Please provide phone number in format: +611234567890</span>
                                     </div>
                                     <div class="field required">
                                         <label>Website</label>
-                                        <input type="text" value="www.website.com">
+                                        <input id="edit-company-profile-website" type="text" placeholder="Website"
+                                            formControlName="website" required>
+                                        <span *ngIf="editCompanyForm!.get('website')?.touched
+                                        && (
+                                        editCompanyForm!.get('website')?.hasError('required')
+                                        )" class="text-danger">Website is required</span>
+                                        <span *ngIf="editCompanyForm!.get('website')?.touched
+                                        && (
+                                        editCompanyForm!.get('website')?.hasError('pattern')
+                                        )" class="text-danger">Invalid website url</span>
                                     </div>
                                 </div>
                                 <div class="field required">
                                     <label>Category</label>
-                                    <div class="ui fluid selection" tabindex="0">
-                                        <select>
-                                            <option value="">Australia</option>
-                                            <option value="AF">Afghanistan</option>
-                                            <option value="AX">Åland Islands</option>
-                                            <option value="AL">Albania</option>
-                                            <option value="DZ">Algeria</option>
-                                            <option value="AS">American Samoa</option>
-                                            <option value="AD">Andorra</option>
-                                            <option value="AO">Angola</option>
-                                            <option value="AI">Anguilla</option>
-                                            <option value="AQ">Antarctica</option>
-                                            <option value="AG">Antigua and Barbuda</option>
-                                            <option value="AR">Argentina</option>
-                                            <option value="AM">Armenia</option>
-                                            <option value="AW">Aruba</option>
-                                            <option value="AU">Australia</option>
-                                            <option value="AT">...</option>
-                                        </select>
+                                    <div class="ui fluid selection" tabindex="0" (click)="markCategoryTouched()">
+                                        <ng-multiselect-dropdown [ngModelOptions]="{standalone:true}"
+                                            [placeholder]="'Select one or more category'" [settings]="dropdownSettings"
+                                            [data]="categories" [(ngModel)]="selectedCategory"
+                                            (ngModelChange)="onCategoryChange($event)"></ng-multiselect-dropdown>
+                                        <span *ngIf="editCompanyForm!.get('category')?.touched &&
+                                    (editCompanyForm!.get('category')?.hasError('required'))" class="text-danger">At
+                                            least one category has to be selected</span>
                                     </div>
-                                    <span *ngIf="editProfileForm!.get('countryId')?.touched
-                          && (
-                          editProfileForm!.get('countryId')?.hasError('required')
-                          )" class="text-danger">Country is required</span>
                                 </div>
                                 <div class="field">
                                     <label>Description</label>
-                                    <div class="textarea">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In
-                                        adipisci laudantium minima veritatis porro repudiandae rem quidem atque, ut eum
-                                        ipsam nihil! Qui nulla dicta dolor nisi facilis, repellat rem.</div>
+                                    <textarea rows="3" class="textarea" id="edit-company-profile-description"
+                                        placeholder="Description" formControlName="description"></textarea>
+                                    <!-- <span *ngIf="editCompanyForm!.get('description')?.touched
+                                    && (
+                                    editCompanyForm!.get('description')?.hasError('required')
+                                    )" class="text-danger">Description is required</span> -->
                                 </div>
                                 <div class="sixteen wide column marginT10 marginB20">
                                     <p class="textRight marginT10 smallText">*compulsory fields</p>
@@ -139,8 +173,11 @@
                                 </div>
                                 <div class="ui grid">
                                     <div class="sixteen wide column right aligned">
-                                        <div class="ui button hideMobile">Save</div>
-                                        <div class="ui button fluid visibleMobile">Save</div>
+                                        <button class="ui button hideMobile" (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)">
+                                            Save</button>
+                                        <button class="ui button fluid visibleMobile"
+                                            (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)">Save
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -149,52 +186,23 @@
                                     <div class="field">
                                         <h3 class="ui dividing header">Staff</h3>
                                     </div>
-                                    <div class="kipCardContainer">
+                                    <div class="kipCardContainer containerOverFlow"
+                                        *ngIf="companyInfo && companyInfo.staff && companyInfo.staff.length">
                                         <div class="ui one column grid stackable">
-                                            <div class="column">
+                                            <div class="column" *ngFor="let staff of companyInfo.staff; let i=index;">
                                                 <div class="ui fluid card">
                                                     <div class="content">
                                                         <img class="right floated mini ui image circular"
-                                                            src="../../assets/img/jenny.jpg">
+                                                            [src]="staff.profileImage" appImageFallback
+                                                            fallbackImage="assets/img/default_konnect_individual_img.png">
                                                         <div class="header">
-                                                            <a href="/VPP.html" target="_blank">Jenny Hess</a>
+                                                            <a target="_blank">{{staff.firstName}}
+                                                                {{staff.lastName}}</a>
                                                         </div>
-                                                        <div class="meta">Position</div>
+                                                        <div class="meta">{{staff.position}}</div>
                                                         <div class="description">
-                                                            mail@mail.com<br>
-                                                            1234 5678
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="column">
-                                                <div class="ui fluid card">
-                                                    <div class="content">
-                                                        <img class="right floated mini ui image circular"
-                                                            src="../../assets/img/elliot.jpg">
-                                                        <div class="header">
-                                                            <a href="/VPP.html" target="_blank">Elliot Fu</a>
-                                                        </div>
-                                                        <div class="meta">Position</div>
-                                                        <div class="description">
-                                                            mail@mail.com<br>
-                                                            1234 5678
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="column">
-                                                <div class="ui fluid card">
-                                                    <div class="content">
-                                                        <img class="right floated mini ui image circular"
-                                                            src="../../assets/img/jenny.jpg">
-                                                        <div class="header">
-                                                            <a href="/VPP.html" target="_blank">Jenny Hess</a>
-                                                        </div>
-                                                        <div class="meta">Position</div>
-                                                        <div class="description">
-                                                            mail@mail.com<br>
-                                                            1234 5678
+                                                            {{staff.email}}<br>
+                                                            {{staff.mobile}}
                                                         </div>
                                                     </div>
                                                 </div>

@@ -81,13 +81,13 @@
                             <div class="extra content">
                               <div class="ui grid">
                                 <div class="ten wide column">
-                                  <div *ngIf="!userConn.isConnected && isUserAdmin && isExternal===1"
+                                  <div *ngIf="!userConn.isConnected && isExternal===1"
                                     class="ui circular compact mini basic button confirmRemove hasModal active"
                                     data-modal="removeModal" (click)="addToConnections(userConn?.userId)"><i
                                       class="star icon"></i>Add to
                                     connections
                                   </div>
-                                  <div *ngIf="userConn.isConnected && isUserAdmin && isExternal===0"
+                                  <div *ngIf="userConn.isConnected && isExternal===0"
                                     class="ui circular compact mini basic button confirmRemove hasModal active"
                                     data-modal="removeModal" (click)="openRemoveConfirmationBox(userConn?.userId)"><i
                                       class="star icon"></i>Remove from
@@ -95,7 +95,7 @@
                                   </div>
                                 </div>
                                 <div class="six wide column right aligned"
-                                  *ngIf="userConn?.isPrivate && userConn.creatorCompanyId===defaultCompany.id && isUserAdmin">
+                                  *ngIf="userConn?.isPrivate && userConn.creatorCompanyId===defaultCompany.id">
                                   <div class="ui circular compact mini basic icon button editProfileBtn"><i
                                       class="pencil alternate icon"></i></div>
                                 </div>
@@ -298,7 +298,7 @@
                                   </div>
                                 </div>
                                 <div class="six wide column right aligned"
-                                  *ngIf="cmpConn?.isPrivate && cmpConn?.creatorCompanyId===defaultCompany.id && isUserAdmin">
+                                  *ngIf="cmpConn?.isPrivate && cmpConn?.creatorCompanyId===defaultCompany.id">
                                   <div class="ui circular compact mini basic icon button editProfileBtn"><i
                                       class="pencil alternate icon"></i></div>
                                 </div>

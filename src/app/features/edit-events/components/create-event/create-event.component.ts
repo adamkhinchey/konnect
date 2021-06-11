@@ -466,15 +466,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           isStaffOrAdmin: service.isStaffOrAdmin,
                           timeWindows: {
                             bumpIn: {
-                              sameAsVenue: null,
+                              sameAsVenue: service.preEventTime[0].sameAsVenue || 0,
                               timings: service.preEventTime
                             },
                             eventTime: {
-                              sameAsVenue: null,
+                              sameAsVenue: service.eventTime[0].sameAsVenue || 0,
                               timings: service.eventTime
                             },
                             bumpOut: {
-                              sameAsVenue: null,
+                              sameAsVenue: service.postEventTime[0].sameAsVenue || 0,
                               timings: service.postEventTime
                             },
                           }
@@ -578,15 +578,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                       notesToAll: venue?.exhibitorData?.exhibitors[0]?.notes,
                       timeWindowsToAll: {
                         bumpIn: {
-                          sameAsVenue: null,
+                          sameAsVenue: venue?.exhibitorData?.timeWindowsToAll?.preEventTime[0].sameAsVenue || 0,
                           timings: venue?.exhibitorData?.timeWindowsToAll?.preEventTime
                         },
                         eventTime: {
-                          sameAsVenue: null,
+                          sameAsVenue: venue?.exhibitorData?.timeWindowsToAll?.eventTime[0].sameAsVenue || 0,
                           timings: venue?.exhibitorData?.timeWindowsToAll?.eventTime
                         },
                         bumpOut: {
-                          sameAsVenue: null,
+                          sameAsVenue: venue?.exhibitorData?.timeWindowsToAll?.postEventTime[0].sameAsVenue || 0,
                           timings: venue?.exhibitorData?.timeWindowsToAll?.postEventTime
                         },
                       },
@@ -645,15 +645,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             isStaffOrAdmin: exhibitor.isStaffOrAdmin,
                             timeWindows: {
                               bumpIn: {
-                                sameAsVenue: null,
+                                sameAsVenue: exhibitor.preEventTime[0].sameAsVenue || 0,
                                 timings: exhibitor.preEventTime
                               },
                               eventTime: {
-                                sameAsVenue: null,
+                                sameAsVenue: exhibitor.eventTime[0].sameAsVenue || 0,
                                 timings: exhibitor.eventTime
                               },
                               bumpOut: {
-                                sameAsVenue: null,
+                                sameAsVenue: exhibitor.postEventTime[0].sameAsVenue || 0,
                                 timings: exhibitor.postEventTime
                               },
                             }

@@ -1,19 +1,19 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from "rxjs";
-import {environment} from "../../../../environments/environment";
-import {map, take, tap} from "rxjs/operators";
-import {HttpErrRespHandlerService} from "../../../shared/services/http-err-resp-handler.service";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from "rxjs";
+import { environment } from "../../../../environments/environment";
+import { map, take, tap } from "rxjs/operators";
+import { HttpErrRespHandlerService } from "../../../shared/services/http-err-resp-handler.service";
 import {
   ApiResponseModelInterface,
   ColleagueInviteInterface,
   ConnectionType,
   CreateCompanyInterface, SearchGlobalPayload
 } from '../../../shared/models';
-import {AssociateToCompany, Company} from '../models';
-import {camelCase, mapKeys} from 'lodash-es';
-import {NgxSpinnerService} from "ngx-spinner";
-import {devLogger, hideSpinnerPostApiCall} from "../../../shared/utils";
+import { AssociateToCompany, Company } from '../models';
+import { camelCase, mapKeys } from 'lodash-es';
+import { NgxSpinnerService } from "ngx-spinner";
+import { devLogger, hideSpinnerPostApiCall } from "../../../shared/utils";
 
 @Injectable()
 export class CompaniesService {
@@ -36,7 +36,7 @@ export class CompaniesService {
     }
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/searchCompany`,
-      {...param}
+      { ...param }
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       this.httpErrorHandler.processError(),
@@ -58,7 +58,7 @@ export class CompaniesService {
     this.spinner.show();
     return this.http.post(
       `${this.apiBaseUrl}/assignCompanyToUser`,
-      {...param}
+      { ...param }
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       this.httpErrorHandler.processError()
@@ -69,7 +69,7 @@ export class CompaniesService {
     this.spinner.show();
     return this.http.post(
       `${this.apiBaseUrl}/createCompany`,
-      {...param}
+      { ...param }
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),
@@ -81,7 +81,7 @@ export class CompaniesService {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/removeCompanyAssocaition`,
-      {...param}
+      { ...param }
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       this.httpErrorHandler.processError()
@@ -106,7 +106,7 @@ export class CompaniesService {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/approveRejectCompanyJoinRequest`,
-      {...param}
+      { ...param }
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),
@@ -118,7 +118,7 @@ export class CompaniesService {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/makeCompanyAdmin`,
-      {...param}
+      { ...param }
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),
@@ -130,7 +130,7 @@ export class CompaniesService {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/saveColleaguePosition`,
-      {...param}
+      { ...param }
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),
@@ -142,7 +142,7 @@ export class CompaniesService {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/inviteCompanyColleague`,
-      {...param}
+      { ...param }
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),
@@ -154,7 +154,7 @@ export class CompaniesService {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/listConnection`,
-      {...param},
+      { ...param },
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),
@@ -184,7 +184,7 @@ export class CompaniesService {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/searchGlobalConnection`,
-      {...param}
+      { ...param }
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),
@@ -214,7 +214,7 @@ export class CompaniesService {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/addConnection`,
-      {...param}
+      { ...param }
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),
@@ -226,7 +226,7 @@ export class CompaniesService {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/deleteConnection`,
-      {...param}
+      { ...param }
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),
@@ -241,11 +241,52 @@ export class CompaniesService {
     }
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/searchCompanyContactsByKeyword`,
-      {...param}
+      { ...param }
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrorHandler.processError()
     );
   }
+
+  getCompanyDetails(companyId: number): Observable<any> {
+    console.log(companyId);
+    this.spinner.show();
+    return this.http.get<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/getCompanyProfileDetails?companyId=${companyId}`
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      take(1),
+      this.httpErrorHandler.processError(),
+      map(response => {
+        return response.data;
+      })
+    );
+  }
+
+  updateCompanyProfile(param: any): Observable<any> {
+    this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/updateCompanyProfile`,
+      { ...param }
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      take(1),
+      this.httpErrorHandler.processError()
+    );
+  }
+
+  getCategoryList(): Observable<any> {
+    this.spinner.show();
+    return this.http.get<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/getCategoryList`
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      this.httpErrorHandler.processError(),
+      map(response => {
+        return response.data;
+      })
+    );
+  }
+
 }
