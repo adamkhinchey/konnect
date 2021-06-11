@@ -95,12 +95,12 @@
                                 <div class="two fields">
                                     <div class="field">
                                         <label>ZIP/Postcode</label>
-                                        <input id="edit-company-profile-post-code" type="tel" placeholder="ZIP/Postcode"
+                                        <input id="edit-company-profile-post-code" maxlength="6" type="tel" placeholder="ZIP/Postcode"
                                             formControlName="postCode">
-                                        <!-- <span *ngIf="editCompanyForm!.get('postCode')?.touched
+                                        <span *ngIf="(editCompanyForm!.get('postCode')?.dirty || editCompanyForm!.get('postCode')?.touched)
                                         && (
-                                        editCompanyForm!.get('postCode')?.hasError('required')
-                                        )" class="text-danger">ZIP/Postcode is required</span> -->
+                                        editCompanyForm!.get('postCode')?.hasError('pattern')
+                                        )" class="text-danger">Post code allow only numbers</span>
                                     </div>
                                     <div class="field required">
                                         <label>Country</label>
@@ -125,10 +125,10 @@
                                         && (
                                         editCompanyForm!.get('phone')?.hasError('required')
                                         )" class="text-danger">Phone is required</span> -->
-                                        <span *ngIf="editCompanyForm!.get('phone')?.touched
+                                        <span *ngIf="(editCompanyForm!.get('phone')?.dirty || editCompanyForm!.get('phone')?.touched)
                                         && (
                                         editCompanyForm!.get('phone')?.hasError('pattern')
-                                        )" class="text-danger">Invalid phone number</span>
+                                        )" class="text-danger">Please provide phone number in format: +611234567890</span>
                                     </div>
                                     <div class="field required">
                                         <label>Website</label>
@@ -173,11 +173,11 @@
                                 </div>
                                 <div class="ui grid">
                                     <div class="sixteen wide column right aligned">
-                                        <div class="ui button hideMobile" (click)="uploadImageAndUpdateProfile($event)">
-                                            Save</div>
-                                        <div class="ui button fluid visibleMobile"
-                                            (click)="uploadImageAndUpdateProfile($event)">Save
-                                        </div>
+                                        <button class="ui button hideMobile" (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)">
+                                            Save</button>
+                                        <button class="ui button fluid visibleMobile"
+                                            (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)">Save
+                                        </button>
                                     </div>
                                 </div>
                             </div>

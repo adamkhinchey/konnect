@@ -61,7 +61,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     streetAddress2: [''],
     city: [''],
     state: [''],
-    postCode: [''],
+    postCode: ['', [Validators.pattern("^[0-9]*$")]],
     countryId: ['', [Validators.required]],
     phone: ['', [Validators.pattern(this.MOBILE_REGEX)]],
     website: ['', [Validators.required, Validators.pattern(this.WEBSITE_REGEX)]],
@@ -92,7 +92,8 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     itemsShowLimit: 3,
     allowSearchFilter: true,
   };
-  selectedCategory: any;
+  selectedCategory: any = [];
+  company: any;
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -108,12 +109,10 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    let company: any = this.userSettingsService.settings.getValue();
-    console.log(company);
-    if (company) {
-      this.companyId = company.defaultCompany.id
+    this.company = this.userSettingsService.settings.getValue();
+    if (this.company) {
+      this.companyId = this.company.defaultCompany.id
     }
-    console.log(this.companyId);
     this.getAndSetCountries();
   }
 
@@ -178,8 +177,14 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     this.editCompanyForm.get('countryId')?.setValue(this.countries[countryIndex].val);
     this.editCompanyForm.get('phone')?.setValue(this.companyInfo?.company.phone?.trim());
     this.editCompanyForm.get('website')?.setValue(this.companyInfo?.company.website);
+    this.editCompanyForm.get('category')?.setValue(this.companyInfo?.company.category);
     this.editCompanyForm.get('description')?.setValue(this.companyInfo?.company.description);
-    this.selectedCategory = this.companyInfo?.company.category;
+    for (let i = 0; i < this.companyInfo?.company.category.length; i++) {
+      let data = this.categories.filter((val: any) => {
+        return val.id == this.companyInfo?.company.category[i];
+      })
+      this.selectedCategory.push(data[0]);
+    }
   }
 
 
@@ -277,7 +282,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
 
   checkValidityOfForm(event: MouseEvent): boolean {
     event.preventDefault();
-    return checkRxFormValidation(this.editProfileForm);
+    return checkRxFormValidation(this.editCompanyForm);
   }
 
   private removeCompany(): void {
@@ -353,15 +358,20 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   }
 
   updateCompanyProfile(): void {
-    this.companyService.updateCompanyProfile(this.editCompanyForm.value)
-      .subscribe((data) => {
-        if (data) {
-          this.toaster.success('Company profile updated successfully');
-          this.router.navigate(['home']);
-        }
-      }, err => {
-        devLogger('error', err);
-      });
+    if (this.company.isAdmin) {
+      this.editCompanyForm.get('category')?.setValue(this.selectedCategory.map((ct: any) => ct.id));
+      this.companyService.updateCompanyProfile(this.editCompanyForm.value)
+        .subscribe((data) => {
+          if (data) {
+            this.toaster.success('Company profile updated successfully');
+            this.router.navigate(['home']);
+          }
+        }, err => {
+          devLogger('error', err);
+        });
+    } else {
+      this.toaster.info('Only company admin can edit details', 'Info');
+    }
   }
 
   markCategoryTouched(): void {
@@ -369,6 +379,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   }
 
   onCategoryChange(event: { id: number, val: string }[]): void {
+    console.log(event);
     if (event) {
       if (event.length === 0) {
         this.editCompanyForm.get('category')?.setValue(null);
@@ -376,6 +387,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
         this.editCompanyForm.get('category')?.setValue(event.map(ct => ct.id));
       }
     }
+    console.log(this.selectedCategory);
   }
 
 }
