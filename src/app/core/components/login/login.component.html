@@ -32,7 +32,7 @@
         >Please provide a password</span>
       </div>
       <div class="field" (click)="!clickedLogin && checkValidation() && login()">
-        <div [ngClass]="clickedLogin?'ui submit button fluid loading disabled':'ui submit button fluid'">Login</div>
+        <button type="submit" [ngClass]="clickedLogin?'ui submit button fluid loading disabled':'ui submit button fluid'">Login</button>
       </div>
       <div class="field">
         <a (click)="checkIfLoggingIn($event)"
