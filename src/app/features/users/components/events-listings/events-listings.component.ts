@@ -19,30 +19,44 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
     private router: Router
   ) { }
 
+  // enumerateDaysBetweenDates = function (startDate: any, endDate: any) {
+  //   var now = startDate, dates = [];
+  //   if (moment(startDate).isSame(endDate)) {
+  //     dates.push(moment(now).format('YYYY-MM-DD'));
+  //   } else {
+  //     console.log(now);
+  //     while (moment(now).format('YYYY-MM-DD') <= moment(endDate).format('YYYY-MM-DD')) {
+  //       dates.push(moment(now).format('YYYY-MM-DD'));
+  //       moment(now).add(1, 'days').format('YYYY-MM-DD');
+  //     }
+  //     console.log(now);
+  //   }
+  //   return dates;
+  // };
+
   ngOnInit(): void {
     console.log(this.events);
     this.eventsCopy = this.events;
     for (let i = 0; i < this.events.length; i++) {
       var startDate;
       var endDate;
+      var results;
       startDate = moment(this.events[i].eventStartDate).format('YYYY-MM-DD');
       endDate = moment(this.events[i].eventEndDate).format('YYYY-MM-DD');
+      console.log(startDate);
+      // if (startDate != "Invalid date") {
+      //   results = this.enumerateDaysBetweenDates(startDate, endDate);
+      // }
       if (moment(startDate).isSame(endDate)) {
         this.dates.push(new Date(startDate));
       }
       else {
         this.dates.push(new Date(startDate));
-        this.dates.push(new Date(startDate));
+        this.dates.push(new Date(endDate));
       }
     }
     this.specialDates = [{
       type: DateRangeType.Specific, dateRange: this.dates
-      // [
-      //   new Date(2021, 5 - 1, 4),
-      //   new Date(2021, 5 - 1, 14),
-      //   new Date(2021, 5 - 1, 15),
-      //   new Date(2021, 8 - 1, 14)
-      // ]
     }];
     this.cdRef.detectChanges();
     console.log(this.specialDates);
@@ -68,9 +82,11 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
     date = moment.utc(dates.toString()).format('YYYY-MM-DD');
     this.eventsCopy = this.events.filter((val: any) => {
       var startDate;
+      var endDate;
       startDate = moment(val.eventStartDate).format('YYYY-MM-DD');
+      endDate = moment(val.eventEndDate).format('YYYY-MM-DD');
       console.log(startDate);
-      if (date == startDate) {
+      if (date == startDate || date == endDate) {
         console.log(val);
         return val;
       }

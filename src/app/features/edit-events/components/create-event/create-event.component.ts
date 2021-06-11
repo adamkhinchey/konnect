@@ -578,15 +578,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                       notesToAll: venue?.exhibitorData?.exhibitors[0]?.notes,
                       timeWindowsToAll: {
                         bumpIn: {
-                          sameAsVenue: venue?.exhibitorData?.timeWindowsToAll?.preEventTime[0].sameAsVenue || 0,
+                          sameAsVenue: 0,
                           timings: venue?.exhibitorData?.timeWindowsToAll?.preEventTime
                         },
                         eventTime: {
-                          sameAsVenue: venue?.exhibitorData?.timeWindowsToAll?.eventTime[0].sameAsVenue || 0,
+                          sameAsVenue: 0,
                           timings: venue?.exhibitorData?.timeWindowsToAll?.eventTime
                         },
                         bumpOut: {
-                          sameAsVenue: venue?.exhibitorData?.timeWindowsToAll?.postEventTime[0].sameAsVenue || 0,
+                          sameAsVenue: 0,
                           timings: venue?.exhibitorData?.timeWindowsToAll?.postEventTime
                         },
                       },
