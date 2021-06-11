@@ -54,6 +54,8 @@
     </div>
     <ng-template #no_access>No access
     </ng-template>
+    <ng-container  *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission">
+
     <div class="ui grid center aligned" *ngIf="isVenueEditable || isServiceEditable || isExhibitorEditable">
         <div class="sixteen wide column">
             <div class="ui basic button blue fluid addContacts hasModal"
@@ -63,7 +65,7 @@
         </div>
     </div>
 
-
+    </ng-container>
     <ng-template #editContactDetail let-modal>
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">Search for Contact</h4>

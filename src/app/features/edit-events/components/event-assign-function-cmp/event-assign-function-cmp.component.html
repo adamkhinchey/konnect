@@ -1,3 +1,5 @@
+  <ng-container  *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission">
+
 <div class="ui grid center aligned"
   *ngIf="!selectedCompany && (isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable)">
   <div class="sixteen wide column">
@@ -6,6 +8,7 @@
     </div>
   </div>
 </div>
+  </ng-container>
 <div class="contactsContainer">
   <div class="ui dividing header">
     <h3>{{contactListLabel}} <i class="globe icon"></i></h3>
@@ -55,6 +58,7 @@
   </div>
   <ng-template #no_access>No access
   </ng-template>
+  <ng-container  *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission">
   <div class="ui grid center aligned"
     *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable">
     <div class="sixteen wide column">
@@ -64,6 +68,7 @@
       </div>
     </div>
   </div>
+</ng-container>
 
 
   <ng-template #editContactDetail let-modal>
