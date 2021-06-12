@@ -20,12 +20,12 @@
             <!-- <li class="column center aligned middle aligned itemMenu">
               <a [attr.href]="isApproved ? 'SKP.html' : null" [class.disabled]="!isApproved"><i
                   class="search icon"></i>Platform Search</a>
-            </li>
+            </li> -->
             <li class="column center aligned middle aligned itemMenu">
-              <a class="inviteByEmailBtn hasModal" data-modal="inviteByEmail" [class.disabled]="!isApproved"><i
+              <a class="inviteByEmailBtn hasModal" routerLink="/home/company/manage-colleagues" data-modal="inviteByEmail" [class.disabled]="!isApproved"><i
                   class="user plus icon"></i>Invite
                 Colleagues</a>
-            </li> -->
+            </li>
             <li class="column center aligned middle aligned itemMenu">
               <a routerLink="/home/manage-connections" (click)="hideAllMenus()" [class.disabled]="!isApproved"><i
                   class="address book icon"></i>Manage Connections</a>

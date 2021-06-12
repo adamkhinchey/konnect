@@ -33,19 +33,19 @@
                                     </div>
                                 </div>
                                 <div class="two fields">
-                                    <div class="field ">
+                                    <div class="field required">
                                         <label>Company Name</label>
-                                        <input id="edit-company-profile-company-name" type="text" placeholder="Company Name"
-                                            formControlName="companyName">
-                                        <!-- <span *ngIf="editCompanyForm!.get('companyName')?.touched
+                                        <input id="edit-company-profile-company-name" type="text"
+                                            placeholder="Company Name" formControlName="companyName">
+                                        <span *ngIf="editCompanyForm!.get('companyName')?.touched
                               && editCompanyForm!.get('companyName')?.errors?.required" class="text-danger">Company
                                             Name is
-                                            Required</span> -->
+                                            Required</span>
                                     </div>
                                     <div class="field ">
                                         <label>Company/Tax Number</label>
-                                        <input id="edit-company-profile-tax-number" type="text" placeholder="Company/Tax Number"
-                                            formControlName="companyTaxNumber">
+                                        <input id="edit-company-profile-tax-number" type="text"
+                                            placeholder="Company/Tax Number" formControlName="companyTaxNumber">
                                         <!-- <span *ngIf="editCompanyForm!.get('companyTaxNumber')?.touched
                                         && editCompanyForm!.get('companyTaxNumber')?.errors?.required"
                                             class="text-danger">Company/Tax Number is
@@ -55,8 +55,8 @@
                                 <div class="two fields">
                                     <div class="field ">
                                         <label>Street Address 1</label>
-                                        <input id="edit-company-profile-street-address-1" type="text" placeholder="Street Address 1"
-                                            formControlName="streetAddress1">
+                                        <input id="edit-company-profile-street-address-1" type="text"
+                                            placeholder="Street Address 1" formControlName="streetAddress1">
                                         <!-- <span *ngIf="editCompanyForm!.get('streetAddress1')?.touched
                                         && editCompanyForm!.get('streetAddress1')?.errors?.required"
                                             class="text-danger">Street Address 1 is
@@ -64,8 +64,8 @@
                                     </div>
                                     <div class="field ">
                                         <label>Street Address 2</label>
-                                        <input id="edit-company-profile-street-address-2" type="text" placeholder="Street Address 2"
-                                            formControlName="streetAddress2">
+                                        <input id="edit-company-profile-street-address-2" type="text"
+                                            placeholder="Street Address 2" formControlName="streetAddress2">
                                         <!-- <span *ngIf="editCompanyForm!.get('streetAddress2')?.touched
                                         && editCompanyForm!.get('streetAddress2')?.errors?.required"
                                             class="text-danger">Street Address 2 is
@@ -73,14 +73,14 @@
                                     </div>
                                 </div>
                                 <div class="two fields">
-                                    <div class="field ">
+                                    <div class="field required">
                                         <label>City</label>
                                         <input id="edit-company-profile-city" type="text" placeholder="City"
                                             formControlName="city">
-                                        <!-- <span *ngIf="editCompanyForm!.get('city')?.touched
+                                        <span *ngIf="editCompanyForm!.get('city')?.touched
                               && (
                               editCompanyForm!.get('city')?.hasError('required')
-                              )" class="text-danger">City is required</span> -->
+                              )" class="text-danger">City is required</span>
                                     </div>
                                     <div class="field ">
                                         <label>State/Province/Region</label>
@@ -95,8 +95,8 @@
                                 <div class="two fields">
                                     <div class="field">
                                         <label>ZIP/Postcode</label>
-                                        <input id="edit-company-profile-post-code" maxlength="6" type="tel" placeholder="ZIP/Postcode"
-                                            formControlName="postCode">
+                                        <input id="edit-company-profile-post-code" maxlength="6" type="tel"
+                                            placeholder="ZIP/Postcode" formControlName="postCode">
                                         <span *ngIf="(editCompanyForm!.get('postCode')?.dirty || editCompanyForm!.get('postCode')?.touched)
                                         && (
                                         editCompanyForm!.get('postCode')?.hasError('pattern')
@@ -128,7 +128,8 @@
                                         <span *ngIf="(editCompanyForm!.get('phone')?.dirty || editCompanyForm!.get('phone')?.touched)
                                         && (
                                         editCompanyForm!.get('phone')?.hasError('pattern')
-                                        )" class="text-danger">Please provide phone number in format: +611234567890</span>
+                                        )" class="text-danger">Please provide phone number in format:
+                                            +611234567890</span>
                                     </div>
                                     <div class="field required">
                                         <label>Website</label>
@@ -173,7 +174,8 @@
                                 </div>
                                 <div class="ui grid">
                                     <div class="sixteen wide column right aligned">
-                                        <button class="ui button hideMobile" (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)">
+                                        <button class="ui button hideMobile"
+                                            (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)">
                                             Save</button>
                                         <button class="ui button fluid visibleMobile"
                                             (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)">Save

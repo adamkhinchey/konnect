@@ -55,11 +55,11 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   editCompanyForm = this.fb.group({
     companyId: [null, [Validators.required]],
     companyProfileImage: [],
-    companyName: [''],
+    companyName: ['', [Validators.required]],
     companyTaxNumber: [''],
     streetAddress1: [''],
     streetAddress2: [''],
-    city: [''],
+    city: ['', [Validators.required]],
     state: [''],
     postCode: ['', [Validators.pattern("^[0-9]*$")]],
     countryId: ['', [Validators.required]],
@@ -167,7 +167,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     this.editCompanyForm.get('streetAddress2')?.setValue(this.companyInfo?.company.streetAddress2);
     this.editCompanyForm.get('city')?.setValue(this.companyInfo?.company.city);
     this.editCompanyForm.get('state')?.setValue(this.companyInfo?.company.state);
-    this.editCompanyForm.get('postCode')?.setValue(this.companyInfo?.company.state);
+    this.editCompanyForm.get('postCode')?.setValue(this.companyInfo?.company.postCode);
     let countryIndex = this.countries.findIndex(country => {
       return country.val === this.companyInfo?.company.countryId;
     });

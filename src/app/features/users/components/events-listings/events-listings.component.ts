@@ -19,20 +19,20 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
     private router: Router
   ) { }
 
-  // enumerateDaysBetweenDates = function (startDate: any, endDate: any) {
-  //   var now = startDate, dates = [];
-  //   if (moment(startDate).isSame(endDate)) {
-  //     dates.push(moment(now).format('YYYY-MM-DD'));
-  //   } else {
-  //     console.log(now);
-  //     while (moment(now).format('YYYY-MM-DD') <= moment(endDate).format('YYYY-MM-DD')) {
-  //       dates.push(moment(now).format('YYYY-MM-DD'));
-  //       moment(now).add(1, 'days').format('YYYY-MM-DD');
-  //     }
-  //     console.log(now);
-  //   }
-  //   return dates;
-  // };
+  enumerateDaysBetweenDates = function (startDate: any, endDate: any) {
+    var now = startDate, dates = [];
+    if (moment(startDate).isSame(endDate)) {
+      dates.push(moment(now).format('YYYY-MM-DD'));
+    } else {
+      console.log(now);
+      while (moment(now).format('YYYY-MM-DD') <= moment(endDate).format('YYYY-MM-DD')) {
+        dates.push(moment(now).format('YYYY-MM-DD'));
+        moment(now, 'YYYY-MM-DD').add(1, 'days');
+        console.log(now);
+      }
+    }
+    return dates;
+  };
 
   ngOnInit(): void {
     console.log(this.events);
