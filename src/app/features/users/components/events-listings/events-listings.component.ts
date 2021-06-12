@@ -19,24 +19,27 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
     private router: Router
   ) { }
 
-  enumerateDaysBetweenDates = function (startDate: any, endDate: any) {
-    var now = startDate, dates = [];
-    if (moment(startDate).isSame(endDate)) {
-      dates.push(moment(now).format('YYYY-MM-DD'));
-    } else {
-      console.log(now);
-      while (moment(now).format('YYYY-MM-DD') <= moment(endDate).format('YYYY-MM-DD')) {
-        dates.push(moment(now).format('YYYY-MM-DD'));
-        moment(now, 'YYYY-MM-DD').add(1, 'days');
-        console.log(now);
-      }
+  getDates(startDate: any, stopDate: any) {
+    var dateArray = new Array();
+    var currentDate: any = moment(startDate).format('YYYY-MM-DD');
+    stopDate = moment(stopDate).format('YYYY-MM-DD');
+    console.log(currentDate);
+    console.log(stopDate);
+    while (currentDate <= stopDate) {
+      dateArray.push(currentDate)
+      currentDate = moment(currentDate).add(1, 'day').format('YYYY-MM-DD');
+      console.log(currentDate);
     }
-    return dates;
-  };
+    return dateArray;
+  }
 
   ngOnInit(): void {
     console.log(this.events);
     this.eventsCopy = this.events;
+    this.fillSpecialDates();
+  }
+
+  fillSpecialDates() {
     for (let i = 0; i < this.events.length; i++) {
       var startDate;
       var endDate;
@@ -44,15 +47,21 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
       startDate = moment(this.events[i].eventStartDate).format('YYYY-MM-DD');
       endDate = moment(this.events[i].eventEndDate).format('YYYY-MM-DD');
       console.log(startDate);
-      // if (startDate != "Invalid date") {
-      //   results = this.enumerateDaysBetweenDates(startDate, endDate);
-      // }
       if (moment(startDate).isSame(endDate)) {
         this.dates.push(new Date(startDate));
       }
       else {
-        this.dates.push(new Date(startDate));
-        this.dates.push(new Date(endDate));
+        // this.dates.push(new Date(startDate));
+        // this.dates.push(new Date(endDate));
+        if (startDate != "Invalid date") {
+          results = this.getDates(startDate, endDate);
+          console.log(results);
+          if (results.length) {
+            for (let d = 0; d < results.length; d++) {
+              this.dates.push(new Date(results[d]));
+            }
+          }
+        }
       }
     }
     this.specialDates = [{
@@ -88,6 +97,9 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
       console.log(startDate);
       if (date == startDate || date == endDate) {
         console.log(val);
+        return val;
+      }
+      else if (moment(date).isBetween(startDate, endDate)) {
         return val;
       }
     })
