@@ -36,19 +36,6 @@
             (shown)="panelActivated(i)">
             <ng-template ngbPanelTitle>
               <i class="dropdown icon"></i>Venue {{i + 1}}
-
-              <div class="addNewService addToPanel">
-                <div class=" selection">
-                  <select class="form-control" [ngModelOptions]="{standalone:true}"
-                    [attr.disabled]="panel.isStaffOrAdmin==1 && isVenueEdit ? null : true"
-                    (ngModelChange)="acceptDeclineService(panel, $event)" [(ngModel)]="panel.status">
-                    <option [ngValue]=1>Confirm</option>
-                    <option *ngIf="panel.status==0" [ngValue]=0>Pending</option>
-                    <option [ngValue]=2>Decline</option>
-                  </select>
-                </div>
-              </div>
-
             </ng-template>
             <ng-template ngbPanelContent>
               <div class="content active">
@@ -57,14 +44,21 @@
 
                 <form class="ui form visible" style="display: block !important;">
                   <div class="ui grid stackable">
+
+                    <div class="sixteen wide column right aligned ">
+                      <div class="addNewService insideSelect float-right">
+                        <div class=" selection">
+                            <select class="form-control" [ngModelOptions]="{standalone:true}"  [attr.disabled]="panel.isStaffOrAdmin==1 && isVenueEdit ? null : true" (ngModelChange)="acceptDeclineService(panel, $event)"  [(ngModel)]="panel.status">
+                              <option  [ngValue]=1>Confirm</option>
+                              <option *ngIf="panel.status==0"  [ngValue]=0>Pending</option> 
+                              <option  [ngValue]=2>Decline</option>
+                            </select>
+                        </div>
+                      </div>
+                    </div>
+
                     <div class="seven wide column">
                       <div class="companyContainer marginB20">
-
-
-
-
-
-
                         <div class="ui dividing header">
                           <h3>Venue Company <i class="globe icon"></i></h3>
                         </div>

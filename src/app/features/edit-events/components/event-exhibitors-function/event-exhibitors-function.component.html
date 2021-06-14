@@ -92,22 +92,23 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 <ng-template ngbPanelTitle>
                   <i class="dropdown icon"></i>
                   Exhibitor {{exhibitorIndex + 1}}
-                  <div class="addNewService addToPanel">
-                    <div class=" selection">
-                      <select class="form-control" [ngModelOptions]="{standalone:true}"
-                        [attr.disabled]="exhibitor.isStaffOrAdmin==1 && isExhibitorEdit ? null : true"
-                        (ngModelChange)="acceptDeclineService(exhibitor, $event)" [(ngModel)]="exhibitor.status">
-                        <option [ngValue]=1>Confirm</option>
-                        <option *ngIf="exhibitor.status==0" [ngValue]=0>Pending</option>
-                        <option [ngValue]=2>Decline</option>
-                      </select>
-                    </div>
-                  </div>
                 </ng-template>
                 <ng-template ngbPanelContent>
                   <div class="content active">
                     <form class="ui form visible" style="display: block !important;">
                       <div class="ui grid stackable">
+
+                        <div class="sixteen wide column right aligned ">
+                          <div class="addNewService insideSelect float-right">
+                            <div class=" selection">
+                                <select class="form-control" [ngModelOptions]="{standalone:true}"  [attr.disabled]="exhibitor.isStaffOrAdmin==1 && isExhibitorEdit ? null : true" (ngModelChange)="acceptDeclineService(exhibitor, $event)"  [(ngModel)]="exhibitor.status">
+                                  <option  [ngValue]=1>Confirm</option>
+                                  <option *ngIf="exhibitor.status==0"  [ngValue]=0>Pending</option> 
+                                  <option  [ngValue]=2>Decline</option>
+                                </select>
+                            </div>
+                          </div>
+                        </div>
 
                         <div class="seven wide column">
                           <div class="companyContainer marginB20">

@@ -121,4 +121,14 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
     })
   }
 
+  reset() {
+    this.eventListingSrvc.getEventsList(0).subscribe((res: any) => {
+      console.log(res);
+      this.eventsCopy = this.events = res;
+      this.fillSpecialDates();
+    }, err => {
+      console.log(err);
+    })
+  }
+
 }
