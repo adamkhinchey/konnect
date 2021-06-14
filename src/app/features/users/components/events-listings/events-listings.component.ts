@@ -2,6 +2,7 @@ import { Component, Input, OnInit, AfterViewInit, ViewChild, AfterViewChecked, C
 import { Router } from '@angular/router';
 import { IgxCalendarComponent, DateRangeType, DateRangeDescriptor, CalendarView, IgxCalendarView } from 'igniteui-angular';
 import * as moment from 'moment'
+import { EventslistingService } from '../../services/eventslisting.service';
 
 @Component({
   selector: 'app-events-listings',
@@ -16,7 +17,8 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   specialDates: DateRangeDescriptor[] = [];
   constructor(
     private cdRef: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private eventListingSrvc: EventslistingService
   ) { }
 
   getDates(startDate: any, stopDate: any) {
@@ -110,7 +112,13 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   }
 
   eventHistory() {
-    this.eventsCopy = this.events;
+    this.eventListingSrvc.getEventsList(1).subscribe((res: any) => {
+      console.log(res);
+      this.eventsCopy = this.events = res;
+      this.fillSpecialDates();
+    }, err => {
+      console.log(err);
+    })
   }
 
 }

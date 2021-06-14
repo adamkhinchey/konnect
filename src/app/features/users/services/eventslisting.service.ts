@@ -25,10 +25,10 @@ export class EventslistingService {
   constructor(private spinner: NgxSpinnerService, private http: HttpClient, private httpErrorHandler: HttpErrRespHandlerService) {
   }
 
-  getEventsList(): Observable<any> {
+  getEventsList(isPast:any): Observable<any> {
     this.spinner.show();
     return this.http.get<ApiResponseModelInterface>(
-      `${this.apiBaseUrl}/getEventList`
+      `${this.apiBaseUrl}/getEventList?isPast=${isPast}`
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       this.httpErrorHandler.processError(),
