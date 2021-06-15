@@ -44,14 +44,16 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
         <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
 
-          <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
-            [activeIds]="'serviceListIndex-'+activeServicePanel" [destroyOnHide]="false">
+          <!-- <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
+            [activeIds]="'serviceListIndex-'+activeServicePanel" [destroyOnHide]="false"> -->
+
+            <ngb-accordion (panelChange)="panelChange($event)" #ngbAccordion [destroyOnHide]="false">
 
             <ng-container *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length">
               <ngb-panel *ngFor="let service of venue.suppliers[0].services; let serviceIndex=index"
                 [id]="'serviceListIndex-'+serviceIndex" (shown)="servicePanelActivated(venueIndex,serviceIndex)">
                 <ng-template ngbPanelTitle>
-                  <i class="dropdown icon"></i>Service {{serviceIndex + 1}}
+                  <i class="dropdown icon"></i>Service {{serviceIndex + 1}}: {{service.name}}
 
                   
 

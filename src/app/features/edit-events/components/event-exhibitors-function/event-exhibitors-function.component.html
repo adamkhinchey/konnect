@@ -81,17 +81,19 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
             </div>
           </div>
 
-          <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
-            [activeIds]="'exhibitorListIndex-'+activeExhibitorPanel" [destroyOnHide]="false">
+          <!-- <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
+            [activeIds]="'exhibitorListIndex-'+activeExhibitorPanel" [destroyOnHide]="false"> -->
+
+            <ngb-accordion (panelChange)="panelChange($event)" #ngbAccordion [destroyOnHide]="false">
 
             <ng-container *ngIf="venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length">
               <ngb-panel *ngFor="let exhibitor of venue.exhibitorList[0].exhibitors; let exhibitorIndex=index"
                 [id]="'exhibitorListIndex-'+exhibitorIndex"
                 (shown)="exhibitorPanelActivated(venueIndex,exhibitorIndex)">
 
-                <ng-template ngbPanelTitle>
+                <ng-template ngbPanelTitle *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">
                   <i class="dropdown icon"></i>
-                  Exhibitor {{exhibitorIndex + 1}}
+                  Exhibitor {{exhibitorIndex + 1}}: {{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}
                 </ng-template>
                 <ng-template ngbPanelContent>
                   <div class="content active">

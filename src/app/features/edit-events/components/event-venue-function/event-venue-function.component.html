@@ -28,14 +28,16 @@
       <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
 
-        <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
-          [activeIds]="'venueListIndex-'+activeVenuePanel" [destroyOnHide]="false">
+        <!-- <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
+          [activeIds]="'venueListIndex-'+activeVenuePanel" [destroyOnHide]="false"> -->
+
+          <ngb-accordion (panelChange)="panelChange($event)" #ngbAccordion [destroyOnHide]="false">
 
 
           <ngb-panel *ngFor="let panel of eventToBeSaved.venues?.list; let i=index" [id]="'venueListIndex-'+i"
             (shown)="panelActivated(i)">
             <ng-template ngbPanelTitle>
-              <i class="dropdown icon"></i>Venue {{i + 1}}
+              <i class="dropdown icon"></i>Venue {{i + 1}}: <span *ngIf="selectedCompanies && selectedCompanies[i]">{{selectedCompanies[i]!.companyName}}, {{selectedCompanies[i]!.city}}</span>
             </ng-template>
             <ng-template ngbPanelContent>
               <div class="content active">
