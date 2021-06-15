@@ -1,14 +1,15 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {NgbModal, NgbModalRef, NgbNavChangeEvent} from "@ng-bootstrap/ng-bootstrap";
-import {faAddressCard} from '@fortawesome/free-regular-svg-icons';
-import {ConnectionType, RemoveType, UserSettingsInterface} from "../../../../shared/models";
-import {devLogger} from "../../../../shared/utils";
-import {UserSettingsService} from "../../../../shared/services";
-import {Subscription} from "rxjs";
-import {CompaniesService} from "../../services/companies.service";
-import {ToastrService} from "ngx-toastr";
-import {RemoveModalComponent} from "../../../../shared/components/modals/remove-modal/remove-modal.component";
-import {v4 as uuidV4} from "uuid";
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgbModal, NgbModalRef, NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
+import { ConnectionType, RemoveType, UserSettingsInterface } from "../../../../shared/models";
+import { devLogger } from "../../../../shared/utils";
+import { GetRegionAndCountriesService, UserSettingsService } from "../../../../shared/services";
+import { Subscription } from "rxjs";
+import { CompaniesService } from "../../services/companies.service";
+import { ToastrService } from "ngx-toastr";
+import { RemoveModalComponent } from "../../../../shared/components/modals/remove-modal/remove-modal.component";
+import { v4 as uuidV4 } from "uuid";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-search-platform',
@@ -41,13 +42,35 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
   removalType: RemoveType | undefined;
   private connectionToRemoveId: null | number = null;
   private deleteConnSub: Subscription | undefined;
-
+  regions: any;
+  regionIds: any = [];
 
   constructor(
     private userSettings: UserSettingsService,
     private companiesService: CompaniesService,
     private toaster: ToastrService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private getRegionAndCountriesService: GetRegionAndCountriesService,
+  ) {
+  }
+
+  onRegionChange(event: any) {
+    console.log(event.target.value);
+    let regionId;
+    regionId = this.regionIds.filter((obj: any) => {
+      return obj == event.target.value;
+    });
+    console.log(regionId);
+    if (regionId.length) {
+      this.regionIds = this.regionIds.filter((obj: any) => {
+        return obj != event.target.value;
+      });
+    } else {
+      this.regionIds.push(event.target.value)
+    }
+
+
+    console.log(this.regionIds);
   }
 
 
@@ -58,11 +81,21 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
       this.usersFirstName = value.firstName;
       this.isUserAdmin = value.isAdmin;
       this.keyword = '';
+      this.getRegions();
       this.clearSearchResults();
       this.getCompanyConnections();
     }, err => {
       devLogger('error', err);
     }, () => {
+    });
+  }
+
+  getRegions() {
+    this.getRegionAndCountriesService.getAllRegionsOnly().subscribe((value) => {
+      console.log(value);
+      this.regions = value;
+    }, err => {
+      devLogger('error', err);
     });
   }
 
@@ -120,7 +153,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
       this.searchOnPlatformSub = this.companiesService.searchOnPlatform({
         entityType: this.connectionType,
         keyword: this.keyword.trim().toLocaleLowerCase(),
-        regionId: null,
+        regionId: this.regionIds,
         isExternal: this.isExternal,
         companyId: this.defaultCompany.id,
         pageNo: this.connectionPageNumber,
