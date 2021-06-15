@@ -46,7 +46,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     textField: 'name',
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
-    itemsShowLimit: 3,
+    //itemsShowLimit: 3,
     allowSearchFilter: true,
   };
   selectedCategory: any;

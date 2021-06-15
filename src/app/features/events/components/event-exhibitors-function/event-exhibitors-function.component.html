@@ -99,9 +99,7 @@
 
                 <ng-template ngbPanelTitle>
                   <i class="dropdown icon"></i>
-                  Exhibitor {{exhibitorIndex + 1 + (exhibitor.companyId || exhibitor.invited ?
-                  ': ' + venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)?.companyName || ''
-                  : '')}}
+                  Exhibitor {{exhibitorIndex + 1}}: <span *ngIf="venuesExhCmpsMap.has(venueIndex) && venuesExhCmpsMap.get(venueIndex)!.has(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
                 </ng-template>
                 <ng-template ngbPanelContent>
                   <div class="content active">

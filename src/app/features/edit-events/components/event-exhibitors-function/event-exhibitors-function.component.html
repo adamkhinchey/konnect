@@ -93,7 +93,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                 <ng-template ngbPanelTitle *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">
                   <i class="dropdown icon"></i>
-                  Exhibitor {{exhibitorIndex + 1}}: {{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}
+                  Exhibitor {{exhibitorIndex + 1}}: <span *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
                 </ng-template>
                 <ng-template ngbPanelContent>
                   <div class="content active">

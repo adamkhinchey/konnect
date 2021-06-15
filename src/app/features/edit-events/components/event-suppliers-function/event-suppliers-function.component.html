@@ -53,7 +53,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
               <ngb-panel *ngFor="let service of venue.suppliers[0].services; let serviceIndex=index"
                 [id]="'serviceListIndex-'+serviceIndex" (shown)="servicePanelActivated(venueIndex,serviceIndex)">
                 <ng-template ngbPanelTitle>
-                  <i class="dropdown icon"></i>Service {{serviceIndex + 1}}: {{service.name}}
+                  <i class="dropdown icon"></i>Service {{serviceIndex + 1}}: <span>{{service?.name}}</span>
 
                   
 

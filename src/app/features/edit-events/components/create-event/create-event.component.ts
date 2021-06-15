@@ -466,15 +466,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           isStaffOrAdmin: service.isStaffOrAdmin,
                           timeWindows: {
                             bumpIn: {
-                              sameAsVenue: service.preEventTime[0].sameAsVenue || 0,
+                              sameAsVenue: 0,
                               timings: service.preEventTime
                             },
                             eventTime: {
-                              sameAsVenue: service.eventTime[0].sameAsVenue || 0,
+                              sameAsVenue: 0,
                               timings: service.eventTime
                             },
                             bumpOut: {
-                              sameAsVenue: service.postEventTime[0].sameAsVenue || 0,
+                              sameAsVenue: 0,
                               timings: service.postEventTime
                             },
                           }
@@ -645,15 +645,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             isStaffOrAdmin: exhibitor.isStaffOrAdmin,
                             timeWindows: {
                               bumpIn: {
-                                sameAsVenue: exhibitor.preEventTime[0].sameAsVenue || 0,
+                                sameAsVenue: 0,
                                 timings: exhibitor.preEventTime
                               },
                               eventTime: {
-                                sameAsVenue: exhibitor.eventTime[0].sameAsVenue || 0,
+                                sameAsVenue: 0,
                                 timings: exhibitor.eventTime
                               },
                               bumpOut: {
-                                sameAsVenue: exhibitor.postEventTime[0].sameAsVenue || 0,
+                                sameAsVenue: 0,
                                 timings: exhibitor.postEventTime
                               },
                             }
