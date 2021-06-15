@@ -547,3 +547,8 @@ igx-days-view.igx-calendar {
 }
 
 .addNewService.insideSelect { max-width: 130px; }
+.multiselect-dropdown .dropdown-btn .selected-item {
+	max-width: none !important;
+	margin-bottom: 3px !important;
+}
+.multiselect-dropdown .dropdown-btn { max-height: 140px; overflow: auto; }
