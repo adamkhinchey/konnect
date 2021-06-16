@@ -18,7 +18,7 @@
                       <img
                         [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): userInfo?.profileImage"
                         alt="" class="ui medium fluid image marginB10 userleftImgUpdate" appImageFallback fallbackImage="../../assets/img/profile.png">
-                      <div class="ui button basic small compact blue fluid"
+                      <div class="ui button basic small compact blue fluid" *ngIf="!isView"
                            appFileUploadTrigger
                            [fileUploadComponentRef]="fileUploadComponent">Replace profile image
                       </div>
@@ -36,7 +36,7 @@
               <div class="two fields">
                 <div class="field required">
                   <label for="edit-profile-first-name">First Name</label>
-                  <input id="edit-profile-first-name"
+                  <input id="edit-profile-first-name" [readonly]="isView"
                          type="text"
                          placeholder="First Name"
                          formControlName="firstName"
@@ -49,7 +49,7 @@
                 </div>
                 <div class="field">
                   <label>Last Name</label>
-                  <input id="edit-profile-last-name"
+                  <input id="edit-profile-last-name" [readonly]="isView"
                          type="text"
                          placeholder="Last Name"
                          formControlName="lastName">
@@ -57,11 +57,11 @@
               </div>
               <div class="field">
                 <label>Headline</label>
-                <input type="text" value="Headline" formControlName="headline">
+                <input type="text" value="Headline" formControlName="headline" [readonly]="isView">
               </div>
               <div class="field required">
                 <label>Email Address</label>
-                <input id="edit-profile-email"
+                <input id="edit-profile-email" [readonly]="isView"
                        type="email"
                        placeholder="Email Address"
                        formControlName="email"
@@ -77,7 +77,7 @@
               </div>
               <div class="field" [hidden]="true">
                 <label>Recovery Email</label>
-                <input type="email" formControlName="recoveryEmail">
+                <input type="email" formControlName="recoveryEmail" [readonly]="isView">
                 <span
                   *ngIf="editProfileForm!.get('recoveryEmail')?.touched
           && (editProfileForm!.get('recoveryEmail')?.errors?.pattern)"
@@ -87,7 +87,7 @@
               <div class="field">
                 <label>Time Zone</label>
                 <div class="CusSelectArrow" >
-                  <select class="ui fluid dropdown"
+                  <select class="ui fluid dropdown" [attr.disabled]="isView"
                           formControlName="timeZone">
                     <option *ngFor="let timeZone of timeZones" [ngValue]="timeZone" [disabled]="!timeZone.val">
                       {{ timeZone.name }}
@@ -105,7 +105,7 @@
               <div class="two fields">
                 <div class="field">
                   <label>Mobile</label>
-                  <input type="email" placeholder="+611234567890" formControlName="mobileNumber">
+                  <input type="email" placeholder="+611234567890" formControlName="mobileNumber" [readonly]="isView">
                   <span
                     *ngIf="(editProfileForm!.get('mobileNumber')?.dirty || editProfileForm!.get('mobileNumber')?.touched) &&
                     (editProfileForm!.get('mobileNumber')?.hasError('pattern'))"
@@ -128,7 +128,7 @@
                 <div class="field required">
                   <label>Country</label>
                   <div class="CusSelectArrow" >
-                    <select class="ui fluid dropdown selection"
+                    <select class="ui fluid dropdown selection" [attr.disabled]="isView"
                             formControlName="countryId" required>
                       <option *ngFor="let cntr of countries" [ngValue]="cntr.val" [disabled]="!cntr.val">
                         {{ cntr.name }}
@@ -146,14 +146,14 @@
               </div>
               <div class="field">
                 <label>About Me</label>
-                <textarea rows="3" class="textarea" formControlName="aboutMe">
+                <textarea rows="3" class="textarea" formControlName="aboutMe" [readonly]="isView">
                 </textarea>
                 <p class="textRight marginT10 smallText">*compulsory fields</p>
               </div>
               <div class="sixteen wide column paddingT0">
                 <div class="ui divider"></div>
               </div>
-              <div class="ui grid stackable">
+              <div class="ui grid stackable" *ngIf="!isView">
                 <div (click)="confirmDeleteUserProfile($event)" class="eight wide column middle aligned">
                   <a class="ui mini basic button confirmRemove hasModal" data-modal="removeModal"><i
                     class="ui trash icon"></i>Delete Profile</a>
@@ -206,7 +206,7 @@
                           </div>
                           <div class="extra content">
                             <div class="ui grid">
-                              <div class="ten wide column">
+                              <div class="ten wide column" *ngIf="!isView">
                                 <div class="field">
                                   <div class="ui toggle checkbox checked">
                                     <input type="radio" [checked]="company.isDefault"
@@ -218,7 +218,7 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="six wide column right aligned middle aligned">
+                              <div class="six wide column right aligned middle aligned"  *ngIf="!isView">
                                 <div *ngIf="!(company.isDefault===1)" class="ui circular compact mini basic icon button confirmRemove hasModal"
                                      (click)="confirmRemoveCompany(company.id,i,company.isDefault===1)"><i
                                   class="trash icon"></i></div>
@@ -299,7 +299,7 @@
                   </div>
 
                 </div>
-                <a (click)="navigateToJoinCreateCompany($event)" class="ui button fluid">Join or create a company</a>
+                <a  *ngIf="!isView" (click)="navigateToJoinCreateCompany($event)" class="ui button fluid">Join or create a company</a>
               </div>
             </div>
           </div>
