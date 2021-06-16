@@ -197,7 +197,7 @@
                                                         <img class="right floated mini ui image circular"
                                                             [src]="staff.profileImage" appImageFallback
                                                             fallbackImage="assets/img/default_konnect_individual_img.png">
-                                                        <div class="header">
+                                                        <div class="header" (click)="goToUserProfile(staff.userId)">
                                                             <a target="_blank">{{staff.firstName}}
                                                                 {{staff.lastName}}</a>
                                                         </div>

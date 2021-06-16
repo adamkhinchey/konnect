@@ -22,7 +22,7 @@ export class UserInfoService {
 
   getInfo(userId: any = 0): Observable<any> {
     this.spinner.show();
-    return this.http.get<ApiResponseModelInterface>(`${this.apiBaseURL}/me?userId${userId}`).pipe(
+    return this.http.get<ApiResponseModelInterface>(`${this.apiBaseURL}/me?userId=${userId}`).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrorHandler.processError(true, false),

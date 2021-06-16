@@ -67,7 +67,7 @@
                               <img class="right floated mini ui image circular"
                                 [src]="userConn.profileImage || './assets/img/default_konnect_img.png' "
                                 appImageFallback="./assets/img/default_konnect_img.png">
-                              <div class="header">
+                              <div class="header" (click)="goToUserProfile(userConn.userId)">
                                 <a>{{userConn.firstName + ' ' + userConn.lastName}}</a>
                               </div>
                               <div class="meta">

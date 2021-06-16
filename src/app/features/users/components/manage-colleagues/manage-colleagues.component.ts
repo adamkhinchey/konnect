@@ -286,4 +286,13 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
     this.colleagueRemoveReqSub?.unsubscribe();
   }
 
+  goToUserProfile(userId: any) {
+    console.log(userId);
+    if (userId) {
+      localStorage.setItem('userId', JSON.stringify(userId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/edit-profile', '_blank');
+    }
+  }
+
 }
