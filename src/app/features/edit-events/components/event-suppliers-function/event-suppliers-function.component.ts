@@ -280,7 +280,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
       console.log("payload ** ", payload );
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
         console.log(res);
-        this.router.navigate(['home']);
+        // this.router.navigate(['home']);
       }, err => {
         devLogger('err', err)
       })
