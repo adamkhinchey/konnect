@@ -91,6 +91,15 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy, OnChang
 
   }
 
+  goToCompanyProfile() {
+    console.log(this.eventData.eventData.eventManager.companyId);
+    if (this.eventData.eventData.eventManager.companyId) {
+      localStorage.setItem('companyId', JSON.stringify(this.eventData.eventData.eventManager.companyId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/company/manage-company', '_blank');
+    }
+  }
+
   ngOnDestroy(): void {
     this.subs1?.unsubscribe();
     this.subs2?.unsubscribe();

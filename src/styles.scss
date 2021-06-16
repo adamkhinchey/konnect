@@ -534,9 +534,21 @@ igx-days-view.igx-calendar {
 	border-radius: inherit;
 	z-index: -1;
 }
-.igx-calendar__date--special .igx-calendar__date-content {
-	color: #959595;
-}
+
 .dateStartEndContainer {
 	margin-left: 180px;
 }
+.igx-calendar__date--special .igx-calendar__date-content {
+	color: #7d7d7d !important;
+}
+#timelineContainer .vis-range {
+  border-color: #bfbfbf;
+  min-width:30px;
+}
+
+.addNewService.insideSelect { max-width: 130px; }
+.multiselect-dropdown .dropdown-btn .selected-item {
+	max-width: none !important;
+	margin-bottom: 3px !important;
+}
+.multiselect-dropdown .dropdown-btn { max-height: 140px; overflow: auto; }

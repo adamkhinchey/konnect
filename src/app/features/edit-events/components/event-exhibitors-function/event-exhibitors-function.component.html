@@ -81,33 +81,36 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
             </div>
           </div>
 
-          <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
-            [activeIds]="'exhibitorListIndex-'+activeExhibitorPanel" [destroyOnHide]="false">
+          <!-- <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
+            [activeIds]="'exhibitorListIndex-'+activeExhibitorPanel" [destroyOnHide]="false"> -->
+
+            <ngb-accordion (panelChange)="panelChange($event)" #ngbAccordion [destroyOnHide]="false">
 
             <ng-container *ngIf="venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length">
               <ngb-panel *ngFor="let exhibitor of venue.exhibitorList[0].exhibitors; let exhibitorIndex=index"
                 [id]="'exhibitorListIndex-'+exhibitorIndex"
                 (shown)="exhibitorPanelActivated(venueIndex,exhibitorIndex)">
 
-                <ng-template ngbPanelTitle>
+                <ng-template ngbPanelTitle *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">
                   <i class="dropdown icon"></i>
-                  Exhibitor {{exhibitorIndex + 1}}
-                  <div class="addNewService addToPanel">
-                    <div class=" selection">
-                      <select class="form-control" [ngModelOptions]="{standalone:true}"
-                        [attr.disabled]="exhibitor.isStaffOrAdmin==1 && isExhibitorEdit ? null : true"
-                        (ngModelChange)="acceptDeclineService(exhibitor, $event)" [(ngModel)]="exhibitor.status">
-                        <option [ngValue]=1>Confirm</option>
-                        <option *ngIf="exhibitor.status==0" [ngValue]=0>Pending</option>
-                        <option [ngValue]=2>Decline</option>
-                      </select>
-                    </div>
-                  </div>
+                  Exhibitor {{exhibitorIndex + 1}}: <span *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
                 </ng-template>
                 <ng-template ngbPanelContent>
                   <div class="content active">
                     <form class="ui form visible" style="display: block !important;">
                       <div class="ui grid stackable">
+
+                        <div class="sixteen wide column right aligned ">
+                          <div class="addNewService insideSelect float-right">
+                            <div class=" selection">
+                                <select class="form-control" [ngModelOptions]="{standalone:true}"  [attr.disabled]="exhibitor.isStaffOrAdmin==1 && isExhibitorEdit ? null : true" (ngModelChange)="acceptDeclineService(exhibitor, $event)"  [(ngModel)]="exhibitor.status">
+                                  <option  [ngValue]=1>Confirm</option>
+                                  <option *ngIf="exhibitor.status==0"  [ngValue]=0>Pending</option> 
+                                  <option  [ngValue]=2>Decline</option>
+                                </select>
+                            </div>
+                          </div>
+                        </div>
 
                         <div class="seven wide column">
                           <div class="companyContainer marginB20">
@@ -129,7 +132,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
                                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
-                                        <a>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
+                                        <a (click)="goToCompanyProfile(exhibitor.companyId)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
                                         <a>

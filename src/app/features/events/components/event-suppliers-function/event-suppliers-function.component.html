@@ -57,7 +57,7 @@
                          (shown)="servicePanelActivated(venueIndex,serviceIndex)">
                 <ng-template ngbPanelTitle>
                   <i
-                    class="dropdown icon"></i>Service {{serviceIndex + 1 + (service.name.trim().length > 0 ? ': ' + service.name : '')}}
+                    class="dropdown icon"></i>Service {{serviceIndex + 1}}: <span>{{service?.name}}</span>
                 </ng-template>
                 <ng-template ngbPanelContent>
                   <div class="content active">

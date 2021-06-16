@@ -42,11 +42,12 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   categoryList: any[] = [];
   dropdownSettings: IDropdownSettings = {
     singleSelection: false,
+    enableCheckAll: false,
     idField: 'id',
     textField: 'name',
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
-    itemsShowLimit: 3,
+    //itemsShowLimit: 3,
     allowSearchFilter: true,
   };
   selectedCategory: any;

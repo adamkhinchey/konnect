@@ -18,6 +18,7 @@ import { SortPipe } from './pipes/sort.pipe';
 import { InviteColleaguesComponent } from './components/modals/invite-colleagues/invite-colleagues.component';
 import { WaitingForApprovalComponent } from './components/waiting-for-approval/waiting-for-approval.component';
 import { ImageFallbackDirective } from './directives/image-fallback.directive';
+import { DateFilterPipe } from './pipes/dateFilter.pipe';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ImageFallbackDirective } from './directives/image-fallback.directive';
     FileUploadTriggerDirective,
     SafeUrlPipePipe,
     SortPipe,
+    DateFilterPipe,
     InviteColleaguesComponent,
     WaitingForApprovalComponent,
     ImageFallbackDirective,
@@ -49,6 +51,7 @@ import { ImageFallbackDirective } from './directives/image-fallback.directive';
     FileUploadTriggerDirective,
     SafeUrlPipePipe,
     SortPipe,
+    DateFilterPipe,
     InviteColleaguesComponent,
     WaitingForApprovalComponent,
     ImageFallbackDirective

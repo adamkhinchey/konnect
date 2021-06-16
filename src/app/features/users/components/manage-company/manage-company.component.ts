@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators } from '@angular/forms';
 import { environment } from '../../../../../environments/environment';
@@ -55,11 +55,11 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   editCompanyForm = this.fb.group({
     companyId: [null, [Validators.required]],
     companyProfileImage: [],
-    companyName: [''],
+    companyName: ['', [Validators.required]],
     companyTaxNumber: [''],
     streetAddress1: [''],
     streetAddress2: [''],
-    city: [''],
+    city: ['', [Validators.required]],
     state: [''],
     postCode: ['', [Validators.pattern("^[0-9]*$")]],
     countryId: ['', [Validators.required]],
@@ -85,15 +85,17 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   companyId: any;
   dropdownSettings: IDropdownSettings = {
     singleSelection: false,
+    enableCheckAll: false,
     idField: 'id',
     textField: 'name',
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
-    itemsShowLimit: 3,
+    //itemsShowLimit: 3,
     allowSearchFilter: true,
   };
   selectedCategory: any = [];
   company: any;
+  isView: any;
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -105,13 +107,26 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private fileUploadService: UploadFileService,
-    private userSettingsService: UserSettingsService) {
+    private userSettingsService: UserSettingsService,
+    public route: ActivatedRoute
+  ) {
+
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+
+    let companyId = localStorage.getItem('companyId');
+    this.isView = localStorage.getItem('isView');
     this.company = this.userSettingsService.settings.getValue();
-    if (this.company) {
-      this.companyId = this.company.defaultCompany.id
+    if (companyId != null) {
+      this.companyId = companyId
+      localStorage.removeItem('companyId');
+      localStorage.removeItem('isView');
+    }
+    else {
+      if (this.company) {
+        this.companyId = this.company.defaultCompany.id
+      }
     }
     this.getAndSetCountries();
   }
@@ -147,16 +162,16 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     })
   }
 
-  private fetchUserInfo(): void {
-    this.userInfoSubscription = this.userInfoService.getInfo().subscribe((value) => {
-      this.userInfo = value;
-      console.log(this.userInfo);
-      this.populateFormValues();
-      this.userSettingsService.populateSettings(value);
-    }, err => {
-      devLogger('error', { err });
-    });
-  }
+  // private fetchUserInfo(): void {
+  //   this.userInfoSubscription = this.userInfoService.getInfo().subscribe((value) => {
+  //     this.userInfo = value;
+  //     console.log(this.userInfo);
+  //     this.populateFormValues();
+  //     this.userSettingsService.populateSettings(value);
+  //   }, err => {
+  //     devLogger('error', { err });
+  //   });
+  // }
 
   private populateCompanyFormValues(): void {
     this.editCompanyForm.get('companyId')?.setValue(this.companyInfo?.company.id);
@@ -167,7 +182,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     this.editCompanyForm.get('streetAddress2')?.setValue(this.companyInfo?.company.streetAddress2);
     this.editCompanyForm.get('city')?.setValue(this.companyInfo?.company.city);
     this.editCompanyForm.get('state')?.setValue(this.companyInfo?.company.state);
-    this.editCompanyForm.get('postCode')?.setValue(this.companyInfo?.company.state);
+    this.editCompanyForm.get('postCode')?.setValue(this.companyInfo?.company.postCode);
     let countryIndex = this.countries.findIndex(country => {
       return country.val === this.companyInfo?.company.countryId;
     });
@@ -272,7 +287,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         if (data) {
           this.toaster.success('Profile updated successfully');
-          this.fetchUserInfo();
+          // this.fetchUserInfo();
         }
       }, err => {
         devLogger('error', err);
@@ -296,7 +311,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
         this.companyIdToDissociate = null;
       },
       () => {
-        this.fetchUserInfo();
+        this.getCompanyDetails();
         this.companyIdToDissociate = null;
       }
     );

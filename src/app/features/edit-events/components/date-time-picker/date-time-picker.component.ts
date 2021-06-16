@@ -20,6 +20,7 @@ import { OwlDateTimeComponent } from "@danielmoncada/angular-datetime-picker";
 })
 export class DateTimePickerComponent implements OnInit, AfterViewInit {
 
+
   @ViewChild('dt1') owlDateTime: OwlDateTimeComponent<any> | undefined;
   @ViewChild('inp') dateTimeInput: ElementRef | undefined;
   @Input() minimumDate: Date | undefined;

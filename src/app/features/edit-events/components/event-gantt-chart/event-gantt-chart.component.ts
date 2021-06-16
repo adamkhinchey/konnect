@@ -225,7 +225,7 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
       this.timeline = new Timeline(
         nativeElement,
         this.items,
-        this.groups,
+        // this.groups,
         this.options
       );
 

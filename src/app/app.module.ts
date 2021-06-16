@@ -13,10 +13,11 @@ import {EditEventsModule} from "./features/edit-events/edit-events.module";
 import {UsersModule} from "./features/users/users.module";
 import {NgxSpinnerModule} from "ngx-spinner";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +34,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     EditEventsModule
   ],
   providers: [
+    DatePipe
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

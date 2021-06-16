@@ -1,7 +1,8 @@
 <div *ngIf="eventToBeSaved.venues &&
 eventToBeSaved.venues.list &&
 eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
-  <ul ngbNav #venueNav="ngbNav" [activeId]="eventService?.activeServicePanel?.venueIndex || 0" class="nav-tabs supplierInnerCont" [destroyOnHide]="false">
+  <ul ngbNav #venueNav="ngbNav" [activeId]="eventService?.activeServicePanel?.venueIndex || 0"
+    class="nav-tabs supplierInnerCont" [destroyOnHide]="false">
     <li ngbNavItem [ngbNavItem]="venueIndex" *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
       <a ngbNavLink><i class="map marker alternate icon"></i>
         {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]?
@@ -36,7 +37,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
               <i class="plus circle icon"></i>
               <span>Add Service</span>
             </div>
-            
+
             <h3 id="servicesAnchor" class="ui dividing header">Services</h3>
           </div>
         </div>
@@ -44,36 +45,48 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
         <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
 
-          <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
-            [activeIds]="'serviceListIndex-'+activeServicePanel" [destroyOnHide]="false">
+          <!-- <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
+            [activeIds]="'serviceListIndex-'+activeServicePanel" [destroyOnHide]="false"> -->
+
+          <ngb-accordion (panelChange)="panelChange($event)" #ngbAccordion [destroyOnHide]="false">
 
             <ng-container *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length">
               <ngb-panel *ngFor="let service of venue.suppliers[0].services; let serviceIndex=index"
                 [id]="'serviceListIndex-'+serviceIndex" (shown)="servicePanelActivated(venueIndex,serviceIndex)">
                 <ng-template ngbPanelTitle>
-                  <i class="dropdown icon"></i>Service {{serviceIndex + 1}}
+                  <i class="dropdown icon"></i>Service {{serviceIndex + 1}}: <span>{{service?.name}}</span>
 
-                  <div class="addNewService addToPanel">
-                    <div class=" selection">
-                        <select class="form-control" [ngModelOptions]="{standalone:true}"  [attr.disabled]="service.isStaffOrAdmin==1 && isServiceEdit ? null : true" (ngModelChange)="acceptDeclineService(service, $event)"  [(ngModel)]="service.status">
-                          <option  [ngValue]=1>Confirm</option>
-                          <option *ngIf="service.status==0"  [ngValue]=0>Pending</option> 
-                          <option  [ngValue]=2>Decline</option>
-                        </select>
-                    </div>
-                </div>
+
 
                 </ng-template>
                 <ng-template ngbPanelContent>
                   <div class="content active">
                     <form class="ui form visible" style="display: block !important;">
                       <div class="ui grid stackable">
+                        <div class="sixteen wide column right aligned ">
+                          <div class="addNewService insideSelect float-right">
+                            <div class=" selection">
+                              <select class="form-control" [ngModelOptions]="{standalone:true}"
+                                [attr.disabled]="service.isStaffOrAdmin==1 && isServiceEdit ? null : true"
+                                (ngModelChange)="acceptDeclineService(service, $event)" [(ngModel)]="service.status">
+                                <option [ngValue]=1>Confirm</option>
+                                <option *ngIf="service.status==0" [ngValue]=0>Pending</option>
+                                <option [ngValue]=2>Decline</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="ui grid stackable">
+
 
                         <div class="seven wide column">
                           <div class="companyContainer marginB20">
- 
-  
-    
+
+
+
 
                             <div class="ui dividing header">
                               <h3>Service Name <i class="cog icon"></i><i class="sitemap icon"></i><i
@@ -102,7 +115,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         [src]="getCompanyProfileImage(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || 'assets/img/default_konnect_img.png'"
                                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
-                                        <a>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
+                                        <a
+                                          (click)="goToCompanyProfile(service.companyId)">{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
                                         <a>
@@ -167,8 +181,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="field">
                             <textarea
                               *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service?.isViewPermission==1; else no_access"
-                              [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}" rows="3" class="textarea"
-                              [readonly]="!isServiceEdit"></textarea>
+                              [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}" rows="3"
+                              class="textarea" [readonly]="!isServiceEdit"></textarea>
                             <ng-template #no_access>No access
                             </ng-template>
                           </div>
@@ -190,15 +204,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 [preEventTimes]="service.timeWindows.bumpIn.timings"
                                 [postEventTimes]="service.timeWindows.bumpOut.timings"
                                 [eventTimes]="service.timeWindows.eventTime.timings" [isEdit]="isServiceEdit"
-
                                 [preEventTimesCount]="service.timeWindows.bumpIn.timings?.length || 1"
                                 [eventTimesCount]="service.timeWindows.eventTime.timings?.length || 1"
-                                [postEventTimesCount]="service.timeWindows.bumpOut.timings?.length || 1" 
-
+                                [postEventTimesCount]="service.timeWindows.bumpOut.timings?.length || 1"
                                 [preEventNotes]="service.timeWindows.bumpIn.timings[0]?.notes || ''"
                                 [eventNotes]="service.timeWindows.eventTime.timings[0]?.notes || ''"
-                                [postEventNotes]="service.timeWindows.bumpOut.timings[0]?.notes || ''" 
-                                >
+                                [postEventNotes]="service.timeWindows.bumpOut.timings[0]?.notes || ''">
                               </app-time-windows>
 
 

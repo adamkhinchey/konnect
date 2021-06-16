@@ -23,6 +23,7 @@ import { HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ManageCompanyComponent } from './components/manage-company/manage-company.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { SearchPlatformComponent } from './components/search-platform/search-platform.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ManageConnectionsComponent,
     EventsListingsComponent,
     ManageCompanyComponent,
+    SearchPlatformComponent,
   ],
   imports: [
     CommonModule,

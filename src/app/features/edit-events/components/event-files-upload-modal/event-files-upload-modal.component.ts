@@ -118,7 +118,7 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy, AfterV
               supplierId: this.eventFileSignedURLReq.serviceId,
               filesList: [{
                 mimeType: this.eventFileSignedURLReq.mimeType,
-                displayName: selectedFile.displayName,
+                displayName: selectedFile.displayName != '' ? selectedFile.displayName : actualFileName,
                 fileUrl: url
               }]
             });
