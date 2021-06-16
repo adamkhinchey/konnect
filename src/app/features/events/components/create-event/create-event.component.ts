@@ -61,7 +61,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   isVenuesSuppliersInvalid = true;
   isVenuesExhibitorsInvalid = true;
 
-
+ 
   constructor(
     private modalService: NgbModal,
     private toaster: ToastrService,
