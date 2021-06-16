@@ -1477,10 +1477,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             /*this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() => {
               this.router.navigate(['/home/event/create']);
             });*/
-            this.active = 6;
+            // this.active = 6;
             this.eventService.fetchEventFilesSubject.next(this.savedEventId);
             this.eventService.hideInfoBar = true;
-            this.router.navigate(['/home'], { replaceUrl: true });
+            // this.router.navigate(['/home'], { replaceUrl: true });
           }
         },
         error => {

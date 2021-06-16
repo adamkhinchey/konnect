@@ -19,7 +19,7 @@
                                                 <img [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): companyInfo?.company.companyProfileImage"
                                                     alt="" class="ui medium fluid image marginB10 userleftImgUpdate"
                                                     appImageFallback fallbackImage="../../assets/img/logo-ex-7.png">
-                                                <div class="ui button basic small compact blue fluid"
+                                                <div class="ui button basic small compact blue fluid"  *ngIf="!isView"
                                                     appFileUploadTrigger [fileUploadComponentRef]="fileUploadComponent">
                                                     Replace company image
                                                 </div>
@@ -35,7 +35,7 @@
                                 <div class="two fields">
                                     <div class="field required">
                                         <label>Company Name</label>
-                                        <input id="edit-company-profile-company-name" type="text"
+                                        <input [readonly]="isView" id="edit-company-profile-company-name" type="text"
                                             placeholder="Company Name" formControlName="companyName">
                                         <span *ngIf="editCompanyForm!.get('companyName')?.touched
                               && editCompanyForm!.get('companyName')?.errors?.required" class="text-danger">Company
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="field ">
                                         <label>Company/Tax Number</label>
-                                        <input id="edit-company-profile-tax-number" type="text"
+                                        <input [readonly]="isView" id="edit-company-profile-tax-number" type="text"
                                             placeholder="Company/Tax Number" formControlName="companyTaxNumber">
                                         <!-- <span *ngIf="editCompanyForm!.get('companyTaxNumber')?.touched
                                         && editCompanyForm!.get('companyTaxNumber')?.errors?.required"
@@ -55,7 +55,7 @@
                                 <div class="two fields">
                                     <div class="field ">
                                         <label>Street Address 1</label>
-                                        <input id="edit-company-profile-street-address-1" type="text"
+                                        <input [readonly]="isView" id="edit-company-profile-street-address-1" type="text"
                                             placeholder="Street Address 1" formControlName="streetAddress1">
                                         <!-- <span *ngIf="editCompanyForm!.get('streetAddress1')?.touched
                                         && editCompanyForm!.get('streetAddress1')?.errors?.required"
@@ -64,7 +64,7 @@
                                     </div>
                                     <div class="field ">
                                         <label>Street Address 2</label>
-                                        <input id="edit-company-profile-street-address-2" type="text"
+                                        <input [readonly]="isView" id="edit-company-profile-street-address-2" type="text"
                                             placeholder="Street Address 2" formControlName="streetAddress2">
                                         <!-- <span *ngIf="editCompanyForm!.get('streetAddress2')?.touched
                                         && editCompanyForm!.get('streetAddress2')?.errors?.required"
@@ -75,7 +75,7 @@
                                 <div class="two fields">
                                     <div class="field required">
                                         <label>City</label>
-                                        <input id="edit-company-profile-city" type="text" placeholder="City"
+                                        <input [readonly]="isView" id="edit-company-profile-city" type="text" placeholder="City"
                                             formControlName="city">
                                         <span *ngIf="editCompanyForm!.get('city')?.touched
                               && (
@@ -84,7 +84,7 @@
                                     </div>
                                     <div class="field ">
                                         <label>State/Province/Region</label>
-                                        <input id="edit-company-profile-state" type="text" placeholder="State"
+                                        <input [readonly]="isView" id="edit-company-profile-state" type="text" placeholder="State"
                                             formControlName="state">
                                         <!-- <span *ngIf="editCompanyForm!.get('state')?.touched
                                         && (
@@ -95,7 +95,7 @@
                                 <div class="two fields">
                                     <div class="field">
                                         <label>ZIP/Postcode</label>
-                                        <input id="edit-company-profile-post-code" maxlength="6" type="tel"
+                                        <input [readonly]="isView" id="edit-company-profile-post-code" maxlength="6" type="tel"
                                             placeholder="ZIP/Postcode" formControlName="postCode">
                                         <span *ngIf="(editCompanyForm!.get('postCode')?.dirty || editCompanyForm!.get('postCode')?.touched)
                                         && (
@@ -105,7 +105,7 @@
                                     <div class="field required">
                                         <label>Country</label>
                                         <div class="ui fluid selection" tabindex="0">
-                                            <select formControlName="countryId" required>
+                                            <select [attr.disabled]="isView" formControlName="countryId" required>
                                                 <option *ngFor="let cntr of countries" [ngValue]="cntr.val"
                                                     [disabled]="!cntr.val">{{ cntr.name }}</option>
                                             </select>
@@ -119,7 +119,7 @@
                                 <div class="two fields">
                                     <div class="field">
                                         <label>Phone</label>
-                                        <input id="edit-company-profile-phone" type="text" placeholder="Phone"
+                                        <input [readonly]="isView" id="edit-company-profile-phone" type="text" placeholder="Phone"
                                             formControlName="phone">
                                         <!-- <span *ngIf="editCompanyForm!.get('phone')?.touched
                                         && (
@@ -133,7 +133,7 @@
                                     </div>
                                     <div class="field required">
                                         <label>Website</label>
-                                        <input id="edit-company-profile-website" type="text" placeholder="Website"
+                                        <input [readonly]="isView" id="edit-company-profile-website" type="text" placeholder="Website"
                                             formControlName="website" required>
                                         <span *ngIf="editCompanyForm!.get('website')?.touched
                                         && (
@@ -148,7 +148,7 @@
                                 <div class="field required">
                                     <label>Category</label>
                                     <div class="ui fluid selection" tabindex="0" (click)="markCategoryTouched()">
-                                        <ng-multiselect-dropdown [ngModelOptions]="{standalone:true}"
+                                        <ng-multiselect-dropdown [disabled]="isView" [ngModelOptions]="{standalone:true}"
                                             [placeholder]="'Select one or more category'" [settings]="dropdownSettings"
                                             [data]="categories" [(ngModel)]="selectedCategory"
                                             (ngModelChange)="onCategoryChange($event)"></ng-multiselect-dropdown>
@@ -159,7 +159,7 @@
                                 </div>
                                 <div class="field">
                                     <label>Description</label>
-                                    <textarea rows="3" class="textarea" id="edit-company-profile-description"
+                                    <textarea [readonly]="isView" rows="3" class="textarea" id="edit-company-profile-description"
                                         placeholder="Description" formControlName="description"></textarea>
                                     <!-- <span *ngIf="editCompanyForm!.get('description')?.touched
                                     && (
@@ -173,7 +173,7 @@
                                     <div class="ui divider"></div>
                                 </div>
                                 <div class="ui grid">
-                                    <div class="sixteen wide column right aligned">
+                                    <div class="sixteen wide column right aligned"  *ngIf="!isView">
                                         <button class="ui button hideMobile"
                                             (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)">
                                             Save</button>
@@ -213,7 +213,7 @@
                                     </div>
                                 </div>
                                 <div class="marginT30"></div>
-                                <a href="IC-01.html" routerLink="/home/company/manage-colleagues"
+                                <a href="IC-01.html" routerLink="/home/company/manage-colleagues" *ngIf="!isView"
                                     routerLinkActive="router-link-active" class="ui button fluid">Manage Colleagues</a>
 
                             </div>

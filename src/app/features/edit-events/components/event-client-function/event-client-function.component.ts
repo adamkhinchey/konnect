@@ -150,4 +150,14 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
       console.log(err);
     })
   }
+
+  goToCompanyProfile() {
+    console.log(this.eventData.eventData.client.companyId);
+    if (this.eventData.eventData.client.companyId) {
+      localStorage.setItem('companyId', JSON.stringify(this.eventData.eventData.client.companyId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/company/manage-company', '_blank');
+    }
+  }
+
 }

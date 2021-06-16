@@ -22,7 +22,7 @@
                     [src]="getCompanyProfileImage() || 'assets/img/default_konnect_img.png'" appImageFallback
                       fallbackImage="assets/img/default_konnect_img.png">
                     <div class="header">
-                      <a>{{selectedCompany.companyName}}</a>
+                      <a (click)="goToCompanyProfile()">{{selectedCompany.companyName}}</a>
                     </div>
                     <div class="meta">
                       <!-- <a *ngIf="getCompanyWebsite()" [href]="getCompanyWebsite()"

@@ -42,6 +42,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   categoryList: any[] = [];
   dropdownSettings: IDropdownSettings = {
     singleSelection: false,
+    enableCheckAll: false,
     idField: 'id',
     textField: 'name',
     selectAllText: 'Select All',

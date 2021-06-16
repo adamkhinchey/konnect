@@ -85,6 +85,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   companyId: any;
   dropdownSettings: IDropdownSettings = {
     singleSelection: false,
+    enableCheckAll: false,
     idField: 'id',
     textField: 'name',
     selectAllText: 'Select All',
@@ -94,6 +95,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   };
   selectedCategory: any = [];
   company: any;
+  isView: any;
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -105,13 +107,26 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private fileUploadService: UploadFileService,
-    private userSettingsService: UserSettingsService) {
+    private userSettingsService: UserSettingsService,
+    public route: ActivatedRoute
+  ) {
+
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+
+    let companyId = localStorage.getItem('companyId');
+    this.isView = localStorage.getItem('isView');
     this.company = this.userSettingsService.settings.getValue();
-    if (this.company) {
-      this.companyId = this.company.defaultCompany.id
+    if (companyId != null) {
+      this.companyId = companyId
+      localStorage.removeItem('companyId');
+      localStorage.removeItem('isView');
+    }
+    else {
+      if (this.company) {
+        this.companyId = this.company.defaultCompany.id
+      }
     }
     this.getAndSetCountries();
   }
