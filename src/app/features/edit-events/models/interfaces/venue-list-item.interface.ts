@@ -18,4 +18,5 @@ export interface VenueListItemInterface {
   exhibitorList: EventExhibitorListInterface[];
   status?: null|number; 
   isStaffOrAdmin?: null|number; 
+  isViewPermission?: null|number; 
 }

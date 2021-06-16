@@ -300,6 +300,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   venueId: venue.venueId,
                   status: venue.status,
                   isStaffOrAdmin: venue.isStaffOrAdmin,
+                  isViewPermission: venue.isViewPermission,
                   contacts: venue.contacts.map((contact: any) => {
                     return {
                       id: contact.id,

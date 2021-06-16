@@ -113,7 +113,7 @@
                       </app-event-assign-function-cmp>
                       <app-event-assign-crew-function-cmp #venueCrewAssignCmp
                         [contactList]="panel.contacts?panel.contacts:[]" [permissionObj]="permissionObj"
-                        [isViewPermission]="1" [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
+                        [isViewPermission]="panel?.isViewPermission" [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
                         [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                         (modalOpen)="setOpenedModalRef($event)" (crewRemove)="removeVenueContact(i,$event)"
                         [isVenueEditable]="isVenueEditable" (isCrew)="setIsCrew($event)">
