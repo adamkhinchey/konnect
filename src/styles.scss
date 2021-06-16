@@ -497,7 +497,7 @@ button:focus {
 
 .igx-calendar__date { cursor: pointer; } 
 igx-days-view.igx-calendar {
-  border: 1px solid #0091e6 !important;
+  border: 1px solid #414a59 !important;
   margin-top: 0px !important;
   border-radius: 0px !important;
   margin: 0 0px 0 0 !important;
@@ -509,7 +509,10 @@ igx-days-view.igx-calendar {
 }
 .igx-calendar__body-row:first-of-type, .igx-calendar__body-row--wrap:first-of-type {
 	margin: 0px !important;
-	background: #0091e6;
+	background: #414a59;
+}
+.igx-calendar__label {
+	background: #414a59;
 }
 
 .igx-calendar__body-row, .igx-calendar__body-row--wrap {
@@ -539,7 +542,12 @@ igx-days-view.igx-calendar {
 	margin-left: 180px;
 }
 .igx-calendar__date--special .igx-calendar__date-content {
-	color: #7d7d7d !important;
+	background: #0a95e7 !important;
+	color: #000 !important;
+}
+.igx-calendar__date--special.igx-calendar__date--current  .igx-calendar__date-content {
+  background: #fdd200 !important;
+  border: 4px solid #0a95e7;
 }
 #timelineContainer .vis-range {
   border-color: #bfbfbf;
@@ -552,3 +560,18 @@ igx-days-view.igx-calendar {
 	margin-bottom: 3px !important;
 }
 .multiselect-dropdown .dropdown-btn { max-height: 140px; overflow: auto; }
+
+.calendar-wrapper .igx-calendar__header {
+  background: #414a59 !important;
+}
+.calendar-wrapper .igx-calendar-picker__date {
+	color: #000 !important;
+}
+.calendar-wrapper .igx-calendar-picker__prev, .calendar-wrapper .igx-calendar-picker__next {
+	color: #000 !important;
+}
+
+.igx-calendar__body .igx-calendar__date--selected, .igx-calendar__body .igx-calendar__date--selected .igx-calendar__date-content {
+	background: #0a95e7 !important;
+	color: #000 !important;
+}
