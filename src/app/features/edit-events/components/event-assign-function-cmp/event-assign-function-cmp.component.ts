@@ -1,10 +1,10 @@
-import {Component, Input, OnInit, Output, TemplateRef, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {Company} from '../../../users/models';
-import {FnCmpCntInterface, InviteFnCmpInterface} from '../../models/interfaces';
-import {InviteFnCmpClass} from '../../models/classes';
-import {devLogger} from '../../../../shared/utils';
-import {environment} from '../../../../../environments/environment';
+import { Component, Input, OnInit, Output, TemplateRef, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Company } from '../../../users/models';
+import { FnCmpCntInterface, InviteFnCmpInterface } from '../../models/interfaces';
+import { InviteFnCmpClass } from '../../models/classes';
+import { devLogger } from '../../../../shared/utils';
+import { environment } from '../../../../../environments/environment';
 import { cloneDeep } from 'lodash-es';
 
 @Component({
@@ -20,7 +20,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() clientCompanyModal: TemplateRef<any> | undefined;
   @Input() contactModal: TemplateRef<any> | undefined;
   @Output() modalOpen = new EventEmitter<NgbModalRef>();
-  @Input() isViewPermission: any; 
+  @Input() isViewPermission: any;
   @Output() contactRemove = new EventEmitter<number>();
   modalReference: NgbModalRef | undefined;
   editContactLabelModalReference: NgbModalRef | undefined;
@@ -34,7 +34,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() isVenueEditable: boolean = false;
   @Input() isServiceEditable: boolean = false;
   @Input() isExhibitorEditable: boolean = false;
-  @Input() permissionObj: any; 
+  @Input() permissionObj: any;
   @Output() isCrew = new EventEmitter<any>();
 
   constructor(private modalService: NgbModal) {
@@ -111,4 +111,14 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     this.editingContactLabelIndex = -1;
     this.currentContactLabelIdSelected = null;
   }
+
+  goToUserProfile(userId: any) {
+    console.log(userId);
+    if (this.eventData.eventData.client.companyId) {
+      localStorage.setItem('userId', JSON.stringify(userId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/edit-profile', '_blank');
+    }
+  }
+
 }

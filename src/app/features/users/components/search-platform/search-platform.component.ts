@@ -270,4 +270,14 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
     this.addConnSub?.unsubscribe();
     this.deleteConnSub?.unsubscribe();
   }
+
+  goToCompanyProfile(companyId:any) {
+    console.log(companyId);
+    if (companyId) {
+      localStorage.setItem('companyId', JSON.stringify(companyId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/company/manage-company', '_blank');
+    }
+  }
+
 }

@@ -162,16 +162,16 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     })
   }
 
-  private fetchUserInfo(): void {
-    this.userInfoSubscription = this.userInfoService.getInfo().subscribe((value) => {
-      this.userInfo = value;
-      console.log(this.userInfo);
-      this.populateFormValues();
-      this.userSettingsService.populateSettings(value);
-    }, err => {
-      devLogger('error', { err });
-    });
-  }
+  // private fetchUserInfo(): void {
+  //   this.userInfoSubscription = this.userInfoService.getInfo().subscribe((value) => {
+  //     this.userInfo = value;
+  //     console.log(this.userInfo);
+  //     this.populateFormValues();
+  //     this.userSettingsService.populateSettings(value);
+  //   }, err => {
+  //     devLogger('error', { err });
+  //   });
+  // }
 
   private populateCompanyFormValues(): void {
     this.editCompanyForm.get('companyId')?.setValue(this.companyInfo?.company.id);
@@ -287,7 +287,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         if (data) {
           this.toaster.success('Profile updated successfully');
-          this.fetchUserInfo();
+          // this.fetchUserInfo();
         }
       }, err => {
         devLogger('error', err);
@@ -311,7 +311,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
         this.companyIdToDissociate = null;
       },
       () => {
-        this.fetchUserInfo();
+        this.getCompanyDetails();
         this.companyIdToDissociate = null;
       }
     );

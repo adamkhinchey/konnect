@@ -287,6 +287,14 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
   }
   }
 
+  goToCompanyProfile(companyId:any) {
+    console.log(companyId);
+    if (companyId) {
+      localStorage.setItem('companyId', JSON.stringify(companyId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/company/manage-company', '_blank');
+    }
+  }
 
 
 }

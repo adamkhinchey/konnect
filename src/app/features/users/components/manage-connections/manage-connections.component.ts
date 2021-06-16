@@ -238,4 +238,13 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     this.deleteConnSub?.unsubscribe();
   }
 
+  goToCompanyProfile(companyId:any) {
+    console.log(companyId);
+    if (companyId) {
+      localStorage.setItem('companyId', JSON.stringify(companyId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/company/manage-company', '_blank');
+    }
+  }
+
 }
