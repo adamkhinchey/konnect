@@ -287,6 +287,17 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
   }
   }
 
+  getCompanyId(company: Company | InviteFnCmpClass | undefined): any {
+    if (!company) {
+      return null;
+    }
+    if (company instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return (company as Company)?.id;
+    }
+  }
+
   goToCompanyProfile(companyId:any) {
     console.log(companyId);
     if (companyId) {

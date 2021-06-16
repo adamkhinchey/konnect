@@ -132,7 +132,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
                                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
-                                        <a (click)="goToCompanyProfile(exhibitor.companyId)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
+                                        <a (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
                                         <a>

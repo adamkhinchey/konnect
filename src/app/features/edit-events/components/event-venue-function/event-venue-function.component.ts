@@ -196,6 +196,18 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   }
   }
 
+  getCompanyId(i: number): any {
+    if (this.selectedCompanies && this.selectedCompanies[i]) {
+      if (this.selectedCompanies[i] instanceof InviteFnCmpClass) {
+        return null;
+      } else {
+        return (this.selectedCompanies[i] as Company)?.id;
+      }
+    } else {
+      return null;
+    }
+  }
+
   goToCompanyProfile(companyId:any) {
     console.log(companyId);
     if (companyId) {

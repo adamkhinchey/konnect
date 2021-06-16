@@ -306,6 +306,16 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     }
   }
 
+  getCompanyId(company: Company | InviteFnCmpClass | undefined): any {
+    if (!company) {
+      return null;
+    }
+    if (company instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return (company as Company)?.id;
+    }
+  }
 
   goToCompanyProfile(companyId:any) {
     console.log(companyId);

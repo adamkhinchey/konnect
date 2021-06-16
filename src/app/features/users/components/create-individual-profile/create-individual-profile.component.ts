@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NgWizardConfig, NgWizardService, STEP_STATE, StepChangedArgs, StepValidationArgs, THEME} from 'ng-wizard';
-import {Observable, of, Subscription} from 'rxjs';
-import {CreateProfilePersonalDetails, LoginUserProfile, SignupUserProfile} from '../../../../shared/models';
-import {AuthService} from '../../../../core/services/auth.service';
-import {Router} from "@angular/router";
-import {UploadFileService} from "../../../../shared/services";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgWizardConfig, NgWizardService, STEP_STATE, StepChangedArgs, StepValidationArgs, THEME } from 'ng-wizard';
+import { Observable, of, Subscription } from 'rxjs';
+import { CreateProfilePersonalDetails, LoginUserProfile, SignupUserProfile } from '../../../../shared/models';
+import { AuthService } from '../../../../core/services/auth.service';
+import { ActivatedRoute, Router } from "@angular/router";
+import { UploadFileService } from "../../../../shared/services";
 
 @Component({
   selector: 'app-create-individual-profile',
@@ -19,7 +19,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   user: LoginUserProfile | SignupUserProfile | undefined;
   createCompanyMode: { status: boolean, type: { soleTrader: boolean, inc: boolean } } = {
     status: false,
-    type: {soleTrader: false, inc: false}
+    type: { soleTrader: false, inc: false }
   };
 
   stepStates = {
@@ -45,11 +45,17 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   };
 
   profileImage: File | null = null;
-
+  uid: any;
   constructor(private ngWizardService: NgWizardService,
-              private auth: AuthService,
-              private router: Router,
-              private uploadFileService: UploadFileService) {
+    private auth: AuthService,
+    private router: Router,
+    private uploadFileService: UploadFileService,
+    private aroute: ActivatedRoute) {
+
+    this.aroute.queryParams.subscribe(param => {
+      alert(param);
+      this.uid = param;
+    })
   }
 
   showPreviousStep(event?: Event): void {
@@ -90,16 +96,21 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.auth.getToken()) {
-      this.router.navigate(['home']);
-      return;
-    }
-    this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
-      if (value.status) {
-        this.user = value.user;
-        this.ngWizardService.next();
+    if (!this.uid) {
+      if (this.auth.getToken()) {
+        this.router.navigate(['home']);
+        return;
       }
-    });
+      this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
+        if (value.status) {
+          this.user = value.user;
+          this.ngWizardService.next();
+        }
+      });
+    }
+    // else if(){
+
+    // }
   }
 
   ngOnDestroy(): void {
