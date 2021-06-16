@@ -4,13 +4,12 @@
       <div class="sixteen wide column">
         <div class="companyContainer marginB20">
           <div class="ui dividing header">
-            <h3>Notes to All Venues <i class="cog icon"></i><i
-              class="sitemap icon"></i><i
-              class="map marker alternate icon"></i></h3>
+            <h3>Notes to All Venues <i class="cog icon"></i><i class="sitemap icon"></i><i
+                class="map marker alternate icon"></i></h3>
           </div>
           <div class="field" *ngIf="eventToBeSaved.venues">
             <textarea rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
-                      [ngModelOptions]="{standalone:true}"></textarea>
+              [ngModelOptions]="{standalone:true}"></textarea>
           </div>
         </div>
       </div>
@@ -19,32 +18,34 @@
   <div class="ui grid">
     <div class="sixteen wide column">
       <div class="marginT10"></div>
-      <div class="ui button compact addNewVenue addToPanel" (click)="addVenue()"><i
-        class="plus circle icon"></i><span class="hideMobile">Add Venue</span>
+      <div class="ui button compact addNewVenue addToPanel" (click)="addVenue()"><i class="plus circle icon"></i><span
+          class="hideMobile">Add Venue</span>
       </div>
       <h3 id="venuesAnchor" class="ui dividing header">Venues</h3>
       <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
 
-        <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
-                       [activeIds]="'venueListIndex-'+activeVenuePanel" [destroyOnHide]="false">
+        <!-- <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
+                       [activeIds]="'venueListIndex-'+activeVenuePanel" [destroyOnHide]="false"> -->
+
+        <ngb-accordion (panelChange)="panelChange($event)" #ngbAccordion [destroyOnHide]="false">
 
 
-          <ngb-panel *ngFor="let panel of eventToBeSaved.venues?.list; let i=index"
-                     [id]="'venueListIndex-'+i" (shown)="panelActivated(i)">
+          <ngb-panel *ngFor="let panel of eventToBeSaved.venues?.list; let i=index" [id]="'venueListIndex-'+i"
+            (shown)="panelActivated(i)">
             <ng-template ngbPanelTitle>
-              <i class="dropdown icon"></i>Venue {{i + 1}}: <span *ngIf="selectedCompanies && selectedCompanies[i]">{{selectedCompanies[i]!.companyName}}, {{selectedCompanies[i]!.city}}</span>
+              <i class="dropdown icon"></i>Venue {{i + 1}}: <span
+                *ngIf="selectedCompanies && selectedCompanies[i]">{{selectedCompanies[i]!.companyName}},
+                {{selectedCompanies[i]!.city}}</span>
             </ng-template>
             <ng-template ngbPanelContent>
               <div class="content active">
-                <form class="ui form visible"
-                      style="display: block !important;">
+                <form class="ui form visible" style="display: block !important;">
                   <div class="ui grid stackable">
                     <div class="seven wide column">
                       <div class="companyContainer marginB20">
                         <div class="ui dividing header">
-                          <h3>Venue Company <i
-                            class="globe icon"></i></h3>
+                          <h3>Venue Company <i class="globe icon"></i></h3>
                         </div>
 
                         <div class="kcpCardContainer">
@@ -53,14 +54,14 @@
                               <div class="ui fluid card">
                                 <div class="content">
                                   <img class="right floated mini ui image"
-                                       [src]="getCompanyProfileImage(i) || 'assets/img/default_konnect_img.png'"
-                                       appImageFallback fallbackImage="assets/img/default_konnect_img.png">
+                                    [src]="getCompanyProfileImage(i) || 'assets/img/default_konnect_img.png'"
+                                    appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                   <div class="header">
                                     <a>{{selectedCompanies[i]!.companyName}}</a>
                                   </div>
                                   <div class="meta">
-                                    <a *ngIf="getCompanyWebsite(i)" [href]="getCompanyWebsite(i)"
-                                       target="_blank"> {{getCompanyWebsite(i)}}</a>
+                                    <a *ngIf="getCompanyWebsite(i)" [href]="getCompanyWebsite(i)" target="_blank">
+                                      {{getCompanyWebsite(i)}}</a>
                                     <span *ngIf="getCompanyWebsite(i)">|</span>
                                     <a>
                                       <i class="map marker alternate icon"></i>{{selectedCompanies[i]!.city}}</a>
@@ -75,8 +76,8 @@
                                     </div>
                                     <div class="six wide column right aligned">
                                       <div (click)="removeSelectedCompany.emit(i)"
-                                           class="ui circular compact mini basic button confirmRemove hasModal"
-                                           data-modal="removeModal"><i class="trash alternate icon"></i>Remove
+                                        class="ui circular compact mini basic button confirmRemove hasModal"
+                                        data-modal="removeModal"><i class="trash alternate icon"></i>Remove
                                       </div>
                                     </div>
                                   </div>
@@ -86,14 +87,10 @@
                           </div>
                         </div>
                       </div>
-                      <app-event-assign-function-cmp #venueAssignCmp
-                                                     [clientCmpBtnLabel]="'Add Venue'"
-                                                     [contactListLabel]="'Venue Contacts'"
-                                                     [clientCompanyModal]="searchInviteCmpModal"
-                                                     [contactModal]="searchInviteFnCmpCntModal"
-                                                     (modalOpen)="setOpenedModalRef($event)"
-                                                     (contactRemove)="removeVenueContact(i,$event)"
-                      ></app-event-assign-function-cmp>
+                      <app-event-assign-function-cmp #venueAssignCmp [clientCmpBtnLabel]="'Add Venue'"
+                        [contactListLabel]="'Venue Contacts'" [clientCompanyModal]="searchInviteCmpModal"
+                        [contactModal]="searchInviteFnCmpCntModal" (modalOpen)="setOpenedModalRef($event)"
+                        (contactRemove)="removeVenueContact(i,$event)"></app-event-assign-function-cmp>
                       <!--<ng-content select="[assignFunctionCmp]"></ng-content>-->
                       <!--<div class="ui grid center aligned">
                         <div class="sixteen wide column">
@@ -129,43 +126,35 @@
                       <div class="field">
                         <div class="timeWindowsContainer">
                           <div class="ui dividing header">
-                            <h3>Venue Time Windows <i
-                              class="globe icon"></i></h3>
+                            <h3>Venue Time Windows <i class="globe icon"></i></h3>
                           </div>
-                          <app-time-windows
-                            [timeWindowFor]="eventTimeWindowType"
+                          <app-time-windows [timeWindowFor]="eventTimeWindowType"
                             [windowLabels]="['Pre Event Access', 'Event Time', 'Post Event Access']"
-                            (test)="testLogVenue()"
-                            [index]="i"
+                            (test)="testLogVenue()" [index]="i"
                             [preEventTimes]="eventToBeSaved.venues!.list[i].preEventAccessDateTimes"
                             [postEventTimes]="eventToBeSaved.venues!.list[i].postEventAccessDateTimes"
-                            [eventTimes]="eventToBeSaved.venues!.list[i].eventAccessDateTimes"
-                          ></app-time-windows>
+                            [eventTimes]="eventToBeSaved.venues!.list[i].eventAccessDateTimes"></app-time-windows>
                         </div>
                       </div>
                       <div class="ui dividing header">
-                        <h3>Venue Requirements <i
-                          class="cog icon"></i><i
-                          class="sitemap icon"></i><i
-                          class="map marker alternate icon"></i>
+                        <h3>Venue Requirements <i class="cog icon"></i><i class="sitemap icon"></i><i
+                            class="map marker alternate icon"></i>
                         </h3>
                       </div>
                       <div class="field">
                         <textarea rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues!.list[i].requirements"
-                                  [ngModelOptions]="{standalone:true}">
+                          [ngModelOptions]="{standalone:true}">
                         </textarea>
                       </div>
 
                     </div>
-                    <div
-                      class="sixteen wide column saveButtons paddingT0">
+                    <div class="sixteen wide column saveButtons paddingT0">
                       <div class="ui divider"></div>
                       <div class="ui grid stackable">
-                        <div
-                          class="sixteen wide column right aligned">
+                        <div class="sixteen wide column right aligned">
                           <div class="ui button hasModal"
-                               (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})"
-                               data-modal="inviteModal">Save &amp;
+                            (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})"
+                            data-modal="inviteModal">Save &amp;
                             Invite
                           </div>
                         </div>
@@ -185,4 +174,3 @@
     </div>
   </div>
 </div>
-

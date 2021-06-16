@@ -85,11 +85,16 @@
             </div>
           </div>
 
-          <ngb-accordion
+          <!-- <ngb-accordion
             [closeOthers]="true"
             (panelChange)="panelChange($event)"
             #ngbAccordion
             [activeIds]="'exhibitorListIndex-'+activeExhibitorPanel"
+            [destroyOnHide]="false"> -->
+
+            <ngb-accordion
+            (panelChange)="panelChange($event)"
+            #ngbAccordion
             [destroyOnHide]="false">
 
             <ng-container *ngIf="venue.exhibitorList[0]">
