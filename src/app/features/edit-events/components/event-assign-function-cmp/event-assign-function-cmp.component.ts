@@ -70,8 +70,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
       backdrop: 'static',
       keyboard: false
     });
-
-
     this.editingContactLabelIndex = i;
     this.currentContactLabelIdSelected = this.contactList[i].contactLabelId;
   }

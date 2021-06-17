@@ -45,6 +45,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log(this.isCrew);
+    alert(this.companyId)
   }
 
   searchForCompCnt(): void {

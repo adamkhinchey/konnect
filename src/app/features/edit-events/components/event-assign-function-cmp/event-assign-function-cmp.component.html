@@ -18,10 +18,10 @@
     <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
       <div class="column" *ngFor="let contact of contactList; let i=index">
         <ng-container *ngIf="!contact.isCrew || contact.isCrew == 0">
-          <div class="contactRole">{{contact.contactRole}}
-            <!-- <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal" (click)="editContactLabelModal(editContactDetail,i)">
+          <div class="contactRole">{{contactLabels.get(contact.contactLabelId) || '(Contact Label Not Assigned)'}}
+            <div *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable" class="hidden ui circular compact mini basic icon button editProfileBtn hasModal" (click)="editContactLabelModal(editContactDetail,i)">
             <i class="pencil alternate icon"></i>
-          </div> -->
+          </div>
           </div>
           <div class="ui fluid card">
             <div class="content">
