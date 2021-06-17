@@ -108,7 +108,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         }
       });
     }
-    else {
+    else if(this.uid && this.uid != '') {
       this.auth.getUserDataByUid(this.uid);
       this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
         if (value.status) {
