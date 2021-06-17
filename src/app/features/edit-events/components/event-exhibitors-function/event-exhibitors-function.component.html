@@ -100,7 +100,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                     <form class="ui form visible" style="display: block !important;">
                       <div class="ui grid stackable">
 
-                        <div class="sixteen wide column right aligned ">
+                        <!-- <div class="sixteen wide column right aligned ">
                           <div class="addNewService insideSelect float-right">
                             <div class=" selection">
                                 <select class="form-control" [ngModelOptions]="{standalone:true}"  [attr.disabled]="exhibitor.isStaffOrAdmin==1 && isExhibitorEdit ? null : true" (ngModelChange)="acceptDeclineService(exhibitor, $event)"  [(ngModel)]="exhibitor.status">
@@ -110,7 +110,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 </select>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
 
                         <div class="seven wide column">
                           <div class="companyContainer marginB20">
@@ -119,6 +119,17 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 <i class="cog icon"></i>
                                 <i class="sitemap icon"></i>
                                 <i class="building icon"></i>
+                                <div class="addNewService insideSelect float-right">
+                                  <div class=" selection">
+                                    <select class="form-control" [ngModelOptions]="{standalone:true}"
+                                      [attr.disabled]="exhibitor.isStaffOrAdmin==1 && isExhibitorEdit ? null : true"
+                                      (ngModelChange)="acceptDeclineService(exhibitor, $event)" [(ngModel)]="exhibitor.status">
+                                      <option [ngValue]=1>Confirm</option>
+                                      <option *ngIf="exhibitor.status==0" [ngValue]=0>Pending</option>
+                                      <option [ngValue]=2>Decline</option>
+                                    </select>
+                                  </div>
+                                </div>
                               </h3>
                             </div>
                             <div class="kcpCardContainer"
