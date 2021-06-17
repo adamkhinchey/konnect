@@ -664,3 +664,6 @@ igx-days-view.igx-calendar {
 	padding-top: 6px;
 	padding-right: 10px;
 }
+.actionBar header ul.mainMenu li.itemMenu a, .actionBar header ul.mainMenu li.itemMenu span {
+	min-height: 100%;
+}

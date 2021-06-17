@@ -4,7 +4,7 @@
       <div class="fifteen wide column right aligned hideMobile">
         <div class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i></div>
       </div>
-      <div class="eleven wide column right aligned visibleMobile">
+      <div class="thirteen wide column right aligned visibleMobile">
         <div class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i></div>
       </div>
       <div class="one wide column right aligned saveButtons hideMobile" (click)="edit()" *ngIf="!eventService.isEdit">
@@ -13,7 +13,7 @@
       <div class="one wide column right aligned saveButtons hideMobile" *ngIf="eventService.isEdit">
         <a (click)="eventService.triggerSaveOnly.next()" class="ui button">Save</a>
       </div>
-      <div class="one wide column right aligned saveButtons visibleMobile">
+      <div class="two wide column right aligned saveButtons visibleMobile">
         <a (click)="eventService.triggerSaveOnly.next()" class="ui button icon"><i class="save icon"></i></a>
       </div>
     </div>
