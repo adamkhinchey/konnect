@@ -108,9 +108,9 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         }
       });
     }
-    // else if(){
-
-    // }
+    else if(this.uid){
+    
+    }
   }
 
   ngOnDestroy(): void {

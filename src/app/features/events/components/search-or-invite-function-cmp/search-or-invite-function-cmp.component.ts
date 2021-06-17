@@ -46,7 +46,7 @@ export class SearchOrInviteFunctionCmpComponent implements OnInit, OnDestroy {
   }
 
   searchForCompany(): void {
-    if (this.searchKeyWord.trim().length > 0) {
+    if (this.searchKeyWord.trim().length >= 3) {
       this.cmpSearchSubscription = this.companiesService
         .search({
           searchKeyword: this.searchKeyWord,

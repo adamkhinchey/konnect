@@ -170,26 +170,31 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
 
   doConnectionSearch(event: string): void {
     const filterText = event.trim().toLocaleLowerCase();
-    if (this.isExternal === 0 &&
-      (this.connectionType === ConnectionType.USER && this.allIntrUserConnections.length > 0)) {
+    if (filterText.length >= 3) {
+      if (this.isExternal === 0 &&
+        (this.connectionType === ConnectionType.USER && this.allIntrUserConnections.length > 0)) {
 
-      this.userConnections = this.allIntrUserConnections.filter(val => {
-        return val.firstName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
-          val.lastName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
-          val.email?.trim().toLocaleLowerCase().indexOf(filterText) !== -1;
-      });
-    } else if (this.isExternal === 0 &&
-      (this.connectionType === ConnectionType.COMPANY && this.allIntrCmpConnections.length > 0)) {
-      this.companyConnections = this.allIntrCmpConnections.filter(val => {
-        return val.companyName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
-          val.website?.trim().toLocaleLowerCase().indexOf(filterText) !== -1;
-      });
-    } else if (this.isExternal === 0 && (this.allIntrUserConnections.length === 0 || this.allIntrCmpConnections.length === 0)) {
+        this.userConnections = this.allIntrUserConnections.filter(val => {
+          return val.firstName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
+            val.lastName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
+            val.email?.trim().toLocaleLowerCase().indexOf(filterText) !== -1;
+        });
+      } else if (this.isExternal === 0 &&
+        (this.connectionType === ConnectionType.COMPANY && this.allIntrCmpConnections.length > 0)) {
+        this.companyConnections = this.allIntrCmpConnections.filter(val => {
+          return val.companyName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
+            val.website?.trim().toLocaleLowerCase().indexOf(filterText) !== -1;
+        });
+      } else if (this.isExternal === 0 && (this.allIntrUserConnections.length === 0 || this.allIntrCmpConnections.length === 0)) {
+        this.getCompanyConnections();
+      } else if (this.isExternal === 1) {
+        this.userConnections = [];
+        this.companyConnections = [];
+        this.searchGlobally();
+      }
+    }
+    if (filterText.length === 0 && this.isExternal === 0) {
       this.getCompanyConnections();
-    } else if (this.isExternal === 1) {
-      this.userConnections = [];
-      this.companyConnections = [];
-      this.searchGlobally();
     }
   }
 
@@ -271,7 +276,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
     this.deleteConnSub?.unsubscribe();
   }
 
-  goToCompanyProfile(companyId:any) {
+  goToCompanyProfile(companyId: any) {
     console.log(companyId);
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));

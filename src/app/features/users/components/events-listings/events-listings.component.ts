@@ -131,4 +131,17 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
     })
   }
 
+  checkIsSame(startDate: any, endDate: any) {
+    if (startDate && endDate) {
+      let StartDate = moment(startDate).format('YYYY-MM-DD');
+      let EndDate = moment(endDate).format('YYYY-MM-DD');
+      if (moment(StartDate).isSame(EndDate)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return;
+  }
+
 }

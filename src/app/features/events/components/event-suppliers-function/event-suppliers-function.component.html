@@ -97,7 +97,7 @@
                                            [src]="getCompanyProfileImage(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || 'assets/img/default_konnect_img.png'"
                                            appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
-                                        <a>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
+                                        <a (click)="goToCompanyProfile(getCompanyId(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)))">{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
                                         <a

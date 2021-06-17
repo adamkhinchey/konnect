@@ -26,11 +26,17 @@
                                 <div class="ui grid stackable" id="september21">
                                     <div class="three wide column center aligned">
                                         <div class="ui statistic marginB0">
-                                            <div class="value">
+                                            <div class="value" *ngIf="checkIsSame(event.eventStartDate, event.eventEndDate)">
+                                                {{event.eventStartDate | date:'dd'}}
+                                            </div>
+                                            <div class="value" *ngIf="!checkIsSame(event.eventStartDate, event.eventEndDate)">
                                                 {{event.eventStartDate | date:'dd'}} - {{event.eventEndDate |
                                                 date:'dd'}}
                                             </div>
-                                            <div class="label">
+                                            <div class="label" *ngIf="checkIsSame(event.eventStartDate, event.eventEndDate)">
+                                                {{event.eventStartDate | date:'MMMM'}}
+                                            </div>
+                                            <div class="label" *ngIf="!checkIsSame(event.eventStartDate, event.eventEndDate)">
                                                 {{event.eventStartDate | date:'MMMM'}} {{event.eventEndDate ? '-' : ''}}
                                                 {{event.eventEndDate |
                                                 date:'MMMM'}}

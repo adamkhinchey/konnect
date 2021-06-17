@@ -199,4 +199,25 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
     this.exhCompanyAddedSub?.unsubscribe();
     this.exhCmpCntAddedSub?.unsubscribe();
   }
+
+  getCompanyId(company: Company | InviteFnCmpClass | undefined): any {
+    if (!company) {
+      return null;
+    }
+    if (company instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return (company as Company)?.id;
+    }
+  }
+
+  goToCompanyProfile(companyId:any) {
+    console.log(companyId);
+    if (companyId) {
+      localStorage.setItem('companyId', JSON.stringify(companyId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/company/manage-company', '_blank');
+    }
+  }
+
 }
