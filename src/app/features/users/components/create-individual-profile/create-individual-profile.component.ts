@@ -54,7 +54,8 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
 
     this.aroute.queryParams.subscribe(param => {
       console.log(param);
-      this.uid = param;
+      if (param)
+        this.uid = param;
     })
   }
 
@@ -108,7 +109,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         }
       });
     }
-    else if(this.uid && this.uid != '') {
+    else if (this.uid && this.uid != '') {
       this.auth.getUserDataByUid(this.uid);
       this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
         if (value.status) {
