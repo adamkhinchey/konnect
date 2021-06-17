@@ -5,6 +5,7 @@ import { CreateProfilePersonalDetails, LoginUserProfile, SignupUserProfile } fro
 import { AuthService } from '../../../../core/services/auth.service';
 import { ActivatedRoute, Router } from "@angular/router";
 import { UploadFileService } from "../../../../shared/services";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-create-individual-profile',
@@ -101,7 +102,8 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
       this.router.navigate(['home']);
       return;
     }
-    if (!this.uid) {
+    console.log(_.isEmpty(this.uid));
+    if (_.isEmpty(this.uid)) {
       this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
         if (value.status) {
           this.user = value.user;
@@ -109,7 +111,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         }
       });
     }
-    else if (this.uid && this.uid != '') {
+    else {
       this.auth.getUserDataByUid(this.uid);
       this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
         if (value.status) {
