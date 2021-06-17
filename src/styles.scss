@@ -442,7 +442,8 @@ button:focus {
     position: relative;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    overflow: hidden;
+    // overflow: hidden;
+    overflow: visible;
     min-height: 100%;
     -webkit-transition: -webkit-transform 500ms ease;
     /* transition: -webkit-transform 500ms ease; */
@@ -450,6 +451,65 @@ button:focus {
     transition: transform 500ms ease, -webkit-transform 500ms ease;
     z-index: 2;
   }
+  .pushable .ui.sidebar, .ui.right.visible.sidebar {
+    box-shadow: 0px 0px 20px rgba(34, 36, 38, 0.15);
+    transform: translate3d(-260px, 0, 0);
+  }
+  .sidebarContent .profileMobileDisplay img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+  }
+  .profileMenu.show { display: block;  }
+  .ui.dropdown.dropdownChangeCompany { margin-bottom: 15px; }
+  .visibleMobile .button.compact { margin: 0px !important; } 
+  .igx-calendar__body {
+    font-size: 0.6rem;
+  }
+  .sidebarContent .profileMobileDisplay { padding-top: 3rem; }
+  .ui.compact.buttons .button, .ui.compact.button {
+    padding: 0.58928571em 0.925em 0.58928571em;
+  }
+  .ui.container.visibleMobile { margin: 0px !important; }
+  .ui.grid.regionOptions > * {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+@media screen and (max-width:640px) {
+  .igx-calendar__body section + section {
+    width: 100%;
+    display: inline-block !important;
+}
+.ui.secondary.pointing.menu .item {
+	padding: 0.85714286em 1.243em;
+}
+.mainContent .ui.secondary.pointing.menu .item i {
+	margin-left: -10px;
+}
+.ui.grid > .column:not(.row), .ui.grid > .row > .column {
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
+.parentAccordionVenue .ui.form {
+	font-size: 0.8rem;
+}
+.ui.segment {
+	padding: 0.5em 0.5em;
+}
+.ui.grid {
+	margin-left: -0.5rem;
+	margin-right: -0.5rem;
+}
+.card-body {
+	padding: 0.45rem;
+}
+.infoBar .ui.container {
+  padding: 0px 0.5em !important;
+}
+.innerTabCont.tab-content {
+	padding: 10px;
+}
 }
 
 .pushable .actionBar .openMobileMenu {
@@ -578,4 +638,21 @@ igx-days-view.igx-calendar {
 
 .multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
 	right: 15px !important;
+}
+.mainContent .container {
+  padding: 0;
+}
+
+.addNewService.insideSelect {
+	max-width: 120px;
+	margin: -8px 0 0 0;
+}
+
+.addNewService.insideSelect select {
+	padding: 6px;
+}
+.popupNotes.ui.corner.label {
+	text-align: right;
+	padding-top: 6px;
+	padding-right: 10px;
 }

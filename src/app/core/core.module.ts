@@ -22,7 +22,7 @@ import {SharedModule} from "../shared/shared.module";
     FooterComponent,
     BodyComponent,
     LoginComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
   ],
   imports: [
     CommonModule,
