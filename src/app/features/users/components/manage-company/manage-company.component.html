@@ -18,7 +18,7 @@
                                             <div class="ten wide column marginT10">
                                                 <img [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): companyInfo?.company.companyProfileImage"
                                                     alt="" class="ui medium fluid image marginB10 userleftImgUpdate"
-                                                    appImageFallback fallbackImage="../../assets/img/logo-ex-7.png">
+                                                    appImageFallback fallbackImage="../../assets/img/default_konnect_img.png">
                                                 <div class="ui button basic small compact blue fluid"  *ngIf="!isView"
                                                     appFileUploadTrigger [fileUploadComponentRef]="fileUploadComponent">
                                                     Replace company image
