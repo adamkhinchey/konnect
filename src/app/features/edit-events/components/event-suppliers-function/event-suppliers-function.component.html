@@ -5,8 +5,9 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
     class="nav-tabs supplierInnerCont" [destroyOnHide]="false">
     <li ngbNavItem [ngbNavItem]="venueIndex" *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
       <a ngbNavLink><i class="map marker alternate icon"></i>
+        <span class="hideMobile">
         {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]?
-        venueCompanies[venueIndex]!.companyName+', '+venueCompanies[venueIndex]!.city:'Venue-'+(venueIndex + 1)}}</a>
+        venueCompanies[venueIndex]!.companyName+', '+venueCompanies[venueIndex]!.city:'Venue-'+(venueIndex + 1)}}</span></a>
       <ng-template ngbNavContent>
         <form class="ui form">
           <div class="ui grid stackable">

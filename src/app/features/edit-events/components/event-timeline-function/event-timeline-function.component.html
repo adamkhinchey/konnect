@@ -2,7 +2,7 @@
   <ul ngbNav #outerNav="ngbNav" [activeId]="venues[0].venueId" (activeIdChange)="setVenueId($event)"
       class="nav-tabs supplierInnerCont">
     <li *ngFor="let venue of venues; let i= index" [ngbNavItem]="venue.venueId">
-      <a ngbNavLink><i class="map marker alternate icon"></i>{{venue.venueName}}</a>
+      <a ngbNavLink><i class="map marker alternate icon"></i><span class="hideMobile">{{venue.venueName}}</span></a>
       <ng-template ngbNavContent>
         <ul ngbNav [activeId]="serviceTimeLineId" #nav="ngbNav" (navChange)="onNavChange($event)"
             class="nav-tabs ui pointing secondary menu ui timelineMenu">
