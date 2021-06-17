@@ -1,13 +1,13 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {InviteFnCmpCntInterface} from '../../models/interfaces/invite-fn-cmp-cnt.interface';
-import {Company} from '../../../users/models';
-import {FormBuilder, Validators} from '@angular/forms';
-import {CompaniesService} from '../../../users/services/companies.service';
-import {checkRxFormValidation, devLogger} from '../../../../shared/utils';
-import {environment} from '../../../../../environments/environment';
-import {ToastrService} from 'ngx-toastr';
-import {Subscription} from 'rxjs';
-import {FnCmpCntInterface} from '../../models/interfaces';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { InviteFnCmpCntInterface } from '../../models/interfaces/invite-fn-cmp-cnt.interface';
+import { Company } from '../../../users/models';
+import { FormBuilder, Validators } from '@angular/forms';
+import { CompaniesService } from '../../../users/services/companies.service';
+import { checkRxFormValidation, devLogger } from '../../../../shared/utils';
+import { environment } from '../../../../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { FnCmpCntInterface } from '../../models/interfaces';
 
 @Component({
   selector: 'app-search-or-invite-fn-cmp-cnt',
@@ -50,7 +50,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
     this.selectedContact = null;
     this.contactLabelId = null;
     if (this.companyId) {
-      if (this.searchKeyWord.trim().length > 0) {
+      if (this.searchKeyWord.trim().length >= 3) {
         this.cmpCntSearchSub = this.companiesService.searchCmpContacts({
           companyId: this.companyId, keyword: this.searchKeyWord
         }, this.searchKeyWord.trim().length === 1).subscribe(
@@ -60,8 +60,8 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
               this.cntSearchList = value.data?.user.filter((u: any) => {
                 return this.contactList.findIndex(cnt => cnt.id === u.userId) === -1
                   && this.alreadyInContactList.findIndex(cnt => cnt.id === u.userId) === -1
-                && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
-                && this.contactList.findIndex(cnt => cnt.email === u.email) === -1;
+                  && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
+                  && this.contactList.findIndex(cnt => cnt.email === u.email) === -1;
               }) || [];
               this.listDisplayCss = 'block !important';
               this.listDisplayOverFlow = 'auto';
@@ -144,7 +144,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   emitContactListAndClose(): void {
     if (!this.emittedContactList) {
-      devLogger('log', {cntList: this.contactList});
+      devLogger('log', { cntList: this.contactList });
       this.addedContactList.emit(this.contactList);
       this.emittedContactList = true;
     }

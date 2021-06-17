@@ -51,7 +51,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
     this.selectedContact = null;
     this.contactLabelId = null;
     if (this.companyId) {
-      if (this.searchKeyWord.trim().length > 0) {
+      if (this.searchKeyWord.trim().length >= 3) {
         this.cmpCntSearchSub = this.companiesService.searchCmpContacts({
           companyId: this.companyId, keyword: this.searchKeyWord
         }, this.searchKeyWord.trim().length === 1).subscribe(
