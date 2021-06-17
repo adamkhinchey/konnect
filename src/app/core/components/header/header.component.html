@@ -14,7 +14,7 @@
       </div>
      
       <h3>
-        <span class="userName">{{(userSettingsService.settings | async)!.firstName!}}</span>
+        <span class="userName">{{(userSettingsService.settings | async)!.firstName!}} {{(userSettingsService.settings | async)!.lastName!}}</span>
       </h3>
       <div class="ui dropdown dropdownChangeCompany" (click)="clickEvent2()" tabindex="0">
         <div class="text">{{(userSettingsService.settings | async)!.defaultCompany?.companyName || 'NO ASSOCIATED COMPANY!' }}</div>

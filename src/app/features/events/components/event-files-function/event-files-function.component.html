@@ -151,9 +151,12 @@
 
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
-    <ngb-accordion
+    <!-- <ngb-accordion
       *ngIf="eventFiles?.data?.files?.FFAV?.venuesFiles && eventFiles?.data?.files?.FFAV?.venuesFiles!.length>0"
-      [closeOthers]="true" [activeIds]="'venueId_' + eventFiles!.data!.files!.FFAV!.venuesFiles![0]!.venueId">
+      [closeOthers]="true" [activeIds]="'venueId_' + eventFiles!.data!.files!.FFAV!.venuesFiles![0]!.venueId"> -->
+
+      <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAV?.venuesFiles && eventFiles?.data?.files?.FFAV?.venuesFiles!.length>0">
 
 
       <ngb-panel [id]="'venueId_' + venueFileItem.venueId"
@@ -307,10 +310,13 @@
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
-    <ngb-accordion
+    <!-- <ngb-accordion
       *ngIf="eventFiles?.data?.files?.FFAS?.supplierFiles && eventFiles?.data?.files?.FFAS?.supplierFiles!.length>0"
       [closeOthers]="true"
-      [activeIds]="'serviceId_' + eventFiles!.data!.files!.FFAS!.supplierFiles![0]!.serviceId">
+      [activeIds]="'serviceId_' + eventFiles!.data!.files!.FFAS!.supplierFiles![0]!.serviceId"> -->
+
+      <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAS?.supplierFiles && eventFiles?.data?.files?.FFAS?.supplierFiles!.length>0">
 
 
       <ngb-panel [id]="'serviceId_' + supplierItem.serviceId"
@@ -438,9 +444,12 @@
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
-    <ngb-accordion
+    <!-- <ngb-accordion
       *ngIf="eventFiles?.data?.files?.FFAE?.exhibitorFiles && eventFiles?.data?.files?.FFAE?.exhibitorFiles!.length>0"
-      [closeOthers]="true" [activeIds]="'exhibitorId_' +eventFiles!.data!.files!.FFAE!.exhibitorFiles![0]!.exhibitorId">
+      [closeOthers]="true" [activeIds]="'exhibitorId_' +eventFiles!.data!.files!.FFAE!.exhibitorFiles![0]!.exhibitorId"> -->
+
+      <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAE?.exhibitorFiles && eventFiles?.data?.files?.FFAE?.exhibitorFiles!.length>0">
 
 
       <ngb-panel [id]="'exhibitorId_' + exhibitorFileItem.exhibitorId"

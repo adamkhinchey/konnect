@@ -113,6 +113,26 @@ export class AuthService {
     ).subscribe(this.loginObserver);
   }
 
+  getUserDataByUid(payload: { uid:any }): Observable<any> | void {
+    this.spinner.show();
+    this.loginSubscription = this.http.post<LoginResponse>(
+      `${this.apiBaseURL}/getUserDataByUID`,
+      {inviteUID: payload.uid}
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      take(1),
+      this.httpErrRespHandler.processError(true),
+      pluck('data', 'user'),
+      map(user => {
+        if (!user) {
+          throw new Error('Nondeterministic response');
+        } else {
+          return user as LoginUserProfile;
+        }
+      }),
+    ).subscribe(this.loginObserver);
+  }
+
   private saveToken(user: SignupUserProfile | LoginUserProfile): void {
     localStorage.setItem(this.jwtKey, user.authrizationToken);
     this.isLoggedIn.next({status: true, user});
