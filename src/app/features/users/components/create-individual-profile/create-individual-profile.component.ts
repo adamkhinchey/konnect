@@ -116,7 +116,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
       this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
         if (value.status) {
           this.user = value.user;
-          this.ngWizardService.next();
+          // this.ngWizardService.next();
         }
       });
     }
