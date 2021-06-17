@@ -10,7 +10,19 @@
   <link href="assets/css/semantic.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
 </head>
-<body>
+<body id="bodyMain" >
   <app-root></app-root>
+  
+  <script>
+    function sidebarToggle() {
+        var element = document.getElementById("bodyMain");
+        element.classList.toggle("pushable");
+    }
+    
+      function sidebarToggleHide() {
+          var element = document.getElementsById("bodyMain");
+          element.classList.remove("pushable");
+      }
+  </script>
 </body>
 </html>
