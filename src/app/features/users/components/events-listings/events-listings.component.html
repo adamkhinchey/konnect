@@ -2,7 +2,7 @@
     <div class="ui container">
         <div class="ui grid">
             <div class="sixteen wide column">
-                <h2 id="toScheduledEvents" class="ui dividing header">Scheduled Events</h2>
+                <h2 id="toScheduledEvents" class="ui dividing header">{{!isEventHistory ? 'Scheduled Events' : 'Event History'}}</h2>
                 <div class="visibleMobile">
                     <div class="ui grid">
                         <div class="eight wide column" (click)="eventHistory()">
@@ -58,7 +58,8 @@
                             </ng-container>
                         </ng-container>
                         <ng-template #noData>
-                            <h2>Your associated companies currently have no scheduled events</h2>
+                            <h2 *ngIf="!isEventHistory">Your associated companies currently have no scheduled events</h2>
+                            <h2 *ngIf="isEventHistory">Your event history is empty</h2>
                         </ng-template>
                     </div>
                 </div>

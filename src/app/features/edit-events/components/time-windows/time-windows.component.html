@@ -6,7 +6,8 @@
       <ng-template ngbPanelTitle>
         <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[0]}}</span>
         <span class="dateStartEndContainer" *ngFor="let dateTimes of preEventTimes; let timeIndex = index;">
-          {{dateTimes.startDateTime | date:'dd/MM/YYYY'}} {{dateTimes.startDateTime | date:'h:mm a'}} -
+          {{dateTimes.startDateTime | date:'dd/MM/YYYY'}}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} -
           {{dateTimes.endDateTime | date:'h:mm a'}}
         </span>
         <!-- <span class="dateStartEndContainer">Date, Start - End | Timezone</span> -->
@@ -74,7 +75,8 @@
       <ng-template ngbPanelTitle>
         <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[1]}}</span>
         <span class="dateStartEndContainer" *ngFor="let dateTimes of eventTimes; let timeIndex = index;">
-          {{dateTimes.startDateTime | date:'dd/MM/YYYY'}} {{dateTimes.startDateTime | date:'h:mm a'}} - {{dateTimes.endDateTime | date:'h:mm a'}}
+          {{dateTimes.startDateTime | date:'dd/MM/YYYY'}}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} - {{dateTimes.endDateTime | date:'h:mm a'}}
         </span>
         <!-- <span class="dateStartEndContainer">Date, Start - End | Timezone</span> -->
       </ng-template>
@@ -140,7 +142,8 @@
       <ng-template ngbPanelTitle>
         <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[2]}}</span>
         <span class="dateStartEndContainer" *ngFor="let dateTimes of postEventTimes; let timeIndex = index;">
-          {{dateTimes.startDateTime | date:'dd/MM/YYYY'}} {{dateTimes.startDateTime | date:'h:mm a'}} - {{dateTimes.endDateTime | date:'h:mm a'}}</span>
+          {{dateTimes.startDateTime | date:'dd/MM/YYYY'}}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} - {{dateTimes.endDateTime | date:'h:mm a'}}</span>
         <!-- <span class="dateStartEndContainer">Date, Start - End | Timezone</span> -->
       </ng-template>
       <ng-template ngbPanelContent>

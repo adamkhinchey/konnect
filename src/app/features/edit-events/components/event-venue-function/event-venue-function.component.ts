@@ -56,15 +56,14 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   @Input() venueContactLists: Array<Array<FnCmpCntInterface>> = [];
   @Input() setIsCrew: any;
 
-
   constructor(
     private eventService: EventService,
     private viewEventService: ViewEventService,
     private router: Router
-    ) {
+  ) {
   }
 
-  ngOnChanges(changes:SimpleChanges){
+  ngOnChanges(changes: SimpleChanges) {
     this.isVenueEdit = this.eventService.isEdit;
     this.isVenueEditable = this.eventService.isEdit;
   }
@@ -178,22 +177,22 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
 
   acceptDeclineService(tab: any, isAccept: any) {
     // console.log(tab.venueId);
-    console.log("isAccept", isAccept); 
-    if(tab.venueId && isAccept> 0){
+    console.log("isAccept", isAccept);
+    if (tab.venueId && isAccept > 0) {
       let payload = {
         eventId: this.eventData.eventData.eventId,
         tabId: tab.venueId,
         tabType: 3,
         isAccept: isAccept > 1 ? 0 : isAccept
       }
-      console.log("payload ** ", payload ); 
+      console.log("payload ** ", payload);
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
         console.log(res);
         // this.router.navigate(['home']);
       }, err => {
         devLogger('err', err)
       })
-  }
+    }
   }
 
   getCompanyId(i: number): any {
@@ -208,12 +207,23 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
-  goToCompanyProfile(companyId:any) {
+  goToCompanyProfile(companyId: any) {
     console.log(companyId);
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company', '_blank');
+    }
+  }
+
+  checkSelectedCompany() {
+    console.log(this.selectedCompanies);
+    if (this.selectedCompanies == [null]) {
+      console.log('in null')
+      return true;
+    } else {
+      console.log('in else')
+      return false;
     }
   }
 

@@ -48,11 +48,11 @@ import { SearchPlatformComponent } from './components/search-platform/search-pla
     SharedModule,
     FormsModule,
     NgbNavModule,
+    ReactiveFormsModule,
     FontAwesomeModule,
     IgxCalendarModule,
     IgxSnackbarModule,
     HammerModule,
-    BrowserAnimationsModule,
     NgMultiSelectDropDownModule,
   ],
   exports: [

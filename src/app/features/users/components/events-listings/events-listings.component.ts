@@ -15,6 +15,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   eventsCopy: any;
   dates: any = [];
   specialDates: DateRangeDescriptor[] = [];
+  isEventHistory: boolean = false;
   constructor(
     private cdRef: ChangeDetectorRef,
     private router: Router,
@@ -112,6 +113,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   }
 
   eventHistory() {
+    this.isEventHistory = true;
     this.eventListingSrvc.getEventsList(1).subscribe((res: any) => {
       console.log(res);
       this.eventsCopy = this.events = res;
@@ -122,6 +124,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   }
 
   reset() {
+    this.isEventHistory = false;
     this.eventListingSrvc.getEventsList(0).subscribe((res: any) => {
       console.log(res);
       this.eventsCopy = this.events = res;
