@@ -477,7 +477,9 @@ button:focus {
   }
 
   .companyContainer.marginB20 h3 { margin-top: 15px; }
-
+  .infoBar .container {
+    margin: 0 auto !important;
+  }
 }
 @media screen and (max-width:640px) {
   .igx-calendar__body section + section {
@@ -664,3 +666,54 @@ igx-days-view.igx-calendar {
 	padding-top: 6px;
 	padding-right: 10px;
 }
+.actionBar header ul.mainMenu li.itemMenu a, .actionBar header ul.mainMenu li.itemMenu span {
+	min-height: 100%;
+}
+.saveButtons.visibleMobile .downloadPDF { max-width: 50px; }
+
+
+.parentAccordion.parentAccordionVenue .popupNotes {
+  z-index: 9;
+}
+
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter {
+  display: none;
+	position: absolute;
+	z-index: 9;
+	right: 2.3rem;
+	top: -50px;
+	background: #fff;
+	border-radius: 5px;
+	width: 230px;
+	border: 1px solid #ddd;
+	padding: 10px;
+	font-weight: normal;
+	box-shadow: 0 0 7px 1px rgba(0,0,0,0.1);
+}
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter p { font-size: 12px; line-height: 18px; }
+.timeWindowsContainer .card { overflow: visible; }
+
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:after, .parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:before {
+	left: 100%;
+	top: 60px;
+	border: solid transparent;
+	content: "";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-left-color: #fff;
+	border-width: 10px;
+	margin-top: -10px;
+}
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:before {
+	border-color: rgba(221, 221, 221, 0);
+	border-left-color: #ddd;
+	border-width: 11px;
+	margin-top: -11px;
+}
+.parentAccordion.parentAccordionVenue .popupNotes:hover .tooltipOuter { display: block; }
