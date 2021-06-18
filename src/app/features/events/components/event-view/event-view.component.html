@@ -1,4 +1,4 @@
-<div class="infoBar">
+<!-- <div class="infoBar">
     <div class="ui container">
         <div class="ui grid">
             <div class="eleven wide column middle aligned">
@@ -12,12 +12,12 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <div class="mainContent">
     <div class="ui container">
         <div class="ui grid">
             <div class="eleven wide column middle aligned" *ngIf="data.commonData">
-                <div class="eventInfo"><b>{{data.commonData.title}}</b> for <p>{{data.commonData.clientCompanyName}}</p> {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}</div>
+                <div class="eventInfo"><b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span> {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}</div>
             </div>
             <div class="sixteen wide column maxWidth">
                 <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui"
