@@ -6,6 +6,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { ActivatedRoute, Router } from "@angular/router";
 import { UploadFileService } from "../../../../shared/services";
 import * as _ from 'lodash';
+import { UpdateUserProfileService } from '../../services/update-user-profile.service';
 
 @Component({
   selector: 'app-create-individual-profile',
@@ -51,7 +52,9 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private router: Router,
     private uploadFileService: UploadFileService,
-    private aroute: ActivatedRoute) {
+    private aroute: ActivatedRoute,
+    public updateUserSrvc: UpdateUserProfileService
+  ) {
 
     this.aroute.queryParams.subscribe(param => {
       alert(JSON.stringify(param));
@@ -113,14 +116,27 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
       });
     }
     else {
-      this.auth.getUserDataByUid(this.uid);
-      this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
-        alert(value);
-        if (value.status) {
-          this.user = value.user;
-          this.ngWizardService.next();
-        }
+      this.updateUserSrvc.getUserDataByUid(this.uid).subscribe((res: any) => {
+        console.log(res);
+        this.auth.saveToken(res);
+        this.ngWizardService.next();
+        // this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
+        //   alert(value);
+        //   if (value.status) {
+        //     this.user = value.user;
+        //     this.ngWizardService.next();
+        //   }
+        // });
+      }, err => {
+        console.log(err);
       });
+      // this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
+      //   alert(value);
+      //   if (value.status) {
+      //     this.user = value.user;
+      //     this.ngWizardService.next();
+      //   }
+      // });
     }
   }
 
