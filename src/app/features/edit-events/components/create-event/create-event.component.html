@@ -1,9 +1,9 @@
 <div class="ui container">
+  <div class="eleven wide column middle aligned" *ngIf="data.commonData">
+    <div class="eventInfo"><b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
+      {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}</div>
+  </div>
   <div class="ui grid">
-    <div class="eleven wide column middle aligned" *ngIf="data.commonData">
-      <div class="eventInfo"><b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
-        {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}</div>
-    </div>
     <div class="sixteen wide column maxWidth">
       <app-event-panel-nav [active]="active" [navChange]="onNavChange.bind(this)" [eventToBeSaved]="eventToBeSaved">
         <ng-container client *ngIf="data.eventData && data.eventData.client && !data.eventData.venues">

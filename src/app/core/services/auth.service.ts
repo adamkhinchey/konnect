@@ -114,10 +114,11 @@ export class AuthService {
   }
 
   getUserDataByUid(payload: { uid:any }): Observable<any> | void {
+    alert('payload: '+ payload);
     this.spinner.show();
     this.loginSubscription = this.http.post<LoginResponse>(
       `${this.apiBaseURL}/getUserDataByUID`,
-      {inviteUID: payload.uid}
+      {inviteUID: payload}
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       take(1),

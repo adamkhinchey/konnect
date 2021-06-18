@@ -54,9 +54,10 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
     private aroute: ActivatedRoute) {
 
     this.aroute.queryParams.subscribe(param => {
-      console.log(param);
-      if (param)
-        this.uid = param;
+      alert(JSON.stringify(param));
+      if (param.uid)
+        this.uid = param.uid;
+      alert(this.uid)
     })
   }
 
@@ -102,8 +103,8 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
       this.router.navigate(['home']);
       return;
     }
-    console.log(_.isEmpty(this.uid));
-    if (_.isEmpty(this.uid)) {
+    alert(this.uid);
+    if (!this.uid) {
       this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
         if (value.status) {
           this.user = value.user;
@@ -114,9 +115,10 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
     else {
       this.auth.getUserDataByUid(this.uid);
       this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
+        alert(value);
         if (value.status) {
           this.user = value.user;
-          // this.ngWizardService.next();
+          this.ngWizardService.next();
         }
       });
     }
