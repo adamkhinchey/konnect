@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { EventService } from "../../services/event.service";
 
 @Component({
@@ -8,9 +9,14 @@ import { EventService } from "../../services/event.service";
 })
 export class CreateEventInfoBarComponent implements OnInit {
   @Input() isEdit: boolean = false;
+  isEditEvents: boolean = false;
+  private subs2: Subscription | undefined;
   constructor(public eventService: EventService) { }
 
   ngOnInit(): void {
+    this.subs2 = this.eventService.isEditChange.subscribe((value) => {
+      this.isEditEvents = value;
+    })
   }
 
   edit() {

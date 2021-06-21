@@ -265,10 +265,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
                             <div class="six wide column right aligned hideMobile">
-                              <div class="ui button basic blue icon"><i class="file pdf icon"></i>
-                              </div>
-                              <div class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit"
-                                (click)="editExhibitorFn()">Edit</div>
+                              <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
+                              </button>
+                              <button [disabled]="eventData.eventData.isDeleted" class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit"
+                                (click)="editExhibitorFn()">Edit</button>
                               <div class="ui button hasModal ml-3" data-modal="inviteModal"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"
                                 *ngIf="isExhibitorEdit">Save &amp; Invite

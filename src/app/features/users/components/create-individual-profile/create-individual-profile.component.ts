@@ -115,8 +115,11 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
     else {
       this.updateUserSrvc.getUserDataByUid(this.uid).subscribe((res: any) => {
         console.log(res);
-        this.auth.saveToken(res);
-        this.user = res;
+        this.auth.saveToken((res) as LoginUserProfile);
+        this.auth.loggedIn = true;
+        this.user = (res) as LoginUserProfile;
+        console.log(this.user);
+        localStorage.setItem('userId', JSON.stringify(this.user.id));
         this.ngWizardService.next();
         // this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
         //   alert(value);

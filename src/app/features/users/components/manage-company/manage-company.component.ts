@@ -365,6 +365,8 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userInfoSubscription.unsubscribe();
+    localStorage.removeItem('companyId');
+    localStorage.removeItem('isView');
   }
 
   setSelectedImage(event: File): void {
