@@ -25,12 +25,7 @@ export default class AuthGuard implements CanActivate {
       return false;
     }
     try {
-      const user = {};
-      if (this.userId > 0) {
-        const user = await this.userInfoService.getInfo(this.userId).toPromise();
-      } else {
-        const user = await this.userInfoService.getInfo().toPromise();
-      }
+      const user = await this.userInfoService.getInfo().toPromise();
       if (user) {
         this.authService.setUserInfo(user);
         devLogger('log', { me: user });

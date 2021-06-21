@@ -217,5 +217,10 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
+  getSelectedCompany(index:any){
+  //@ts-ignore
+  return this.selectedCompanies[index];
+  }
+
 
 }

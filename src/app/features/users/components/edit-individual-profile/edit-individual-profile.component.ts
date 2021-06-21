@@ -81,10 +81,9 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userId = localStorage.getItem('userId');
     this.isView = localStorage.getItem('isView');
-    // localStorage.removeItem('userId');
+    localStorage.removeItem('userId');
     localStorage.removeItem('isView');
     this.getAndSetCountries();
-    console.log(this.userId);
   }
 
   private getAndSetCountries(): void {
@@ -93,12 +92,12 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     }, err => {
       devLogger('error', err);
     }, () => {
-      this.fetchUserInfo(this.userId);
+      this.fetchUserInfo();
     });
   }
 
-  private fetchUserInfo(userId:any): void {
-    this.userInfoSubscription = this.userInfoService.getInfo(userId).subscribe((value) => {
+  private fetchUserInfo(): void {
+    this.userInfoSubscription = this.userInfoService.getInfo(this.userId).subscribe((value) => {
       this.userInfo = value;
       console.log(this.userInfo);
       this.populateFormValues();
@@ -191,7 +190,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         if (data) {
           this.toaster.success('Profile updated successfully');
-          this.fetchUserInfo(this.userInfo.id);
+          this.fetchUserInfo();
         }
       }, err => {
         devLogger('error', err);
@@ -215,7 +214,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
         this.companyIdToDissociate = null;
       },
       () => {
-        this.fetchUserInfo(this.userInfo.id);
+        this.fetchUserInfo();
         this.companyIdToDissociate = null;
       }
     );

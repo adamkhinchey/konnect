@@ -1239,7 +1239,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         for (let i = 0; i < this.venueCompanies?.length; i++) {
           // @ts-ignore
           if (!(this.venueCompanies[i] instanceof InviteFnCmpClass) && (this.venueCompanies[i] as Company).id) {
-            const contactList = this.eventToBeSaved.venues?.list[i].contacts?.map(cnt => {
+            const contactList = this.venueContactLists[i]?.map(cnt => {
               console.log(cnt);
               return {
                 id: cnt.id,
