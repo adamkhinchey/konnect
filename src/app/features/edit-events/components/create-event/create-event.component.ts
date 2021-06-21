@@ -27,6 +27,7 @@ import { EventTimelineService } from '../../services/event-timeline.service';
 import { cloneDeep } from 'lodash-es';
 import { ViewEventService } from '../../services/view-event.service';
 import * as _ from 'lodash';
+import * as moment from 'moment'
 
 export interface VenuueCompany extends Company {
   venueId?: number;
@@ -1650,6 +1651,19 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       return this.isManagerEditable
     }
     return
+  }
+
+  checkIsSame(startDate: any, endDate: any) {
+    if (startDate && endDate) {
+      let StartDate = moment(startDate).format('YYYY-MM-DD');
+      let EndDate = moment(endDate).format('YYYY-MM-DD');
+      if (moment(StartDate).isSame(EndDate)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return;
   }
 
 }

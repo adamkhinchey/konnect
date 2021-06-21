@@ -23,6 +23,5 @@ export class EventPanelNavComponent implements OnInit {
 
   }
   navChanged(ev: any) {
-    alert('nav changed' + ev);
   }
 }

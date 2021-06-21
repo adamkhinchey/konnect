@@ -1,7 +1,13 @@
 <div class="ui container">
   <div class="ui grid">
     <div class="eleven wide column middle aligned topinfoOuterMar" *ngIf="data.commonData">
-      <div class="eventInfo"><b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
+      <div *ngIf="!checkIsSame(data.commonData.eventStartDate, data.commonData.eventEndDate)" class="eventInfo">
+        <b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
+        {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}} - {{data.commonData.eventEndDate |
+        date:'dd-MMMM-YYYY'}}</div>
+
+      <div *ngIf="checkIsSame(data.commonData.eventStartDate, data.commonData.eventEndDate)" class="eventInfo">
+        <b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
         {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}</div>
     </div>
     <div class="sixteen wide column maxWidth">
@@ -49,14 +55,17 @@
             [removeContact]="removeContact.bind(this)" [setIsCrew]="setIsCrew.bind(this)">
           </app-event-venue-function>
         </ng-container>
-        <ng-container suppliers *ngIf="active == 4 && data.eventData.venues && (data.eventData?.venues?.length || data.eventData?.venues?.length == 0)">
+        <ng-container suppliers
+          *ngIf="active == 4 && data.eventData.venues && (data.eventData?.venues?.length || data.eventData?.venues?.length == 0)">
           <app-event-suppliers-function #suppliersFn [eventData]="data" [venueCompanies]="venueCompanies"
             [eventToBeSaved]="eventToBeSaved" (saveAndInvite)="saveToDb($event)"
             [searchInviteCmpModal]="searchInviteCmpModal" [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
-            [setOpenedModalRef]="setOpenedModalRef.bind(this)" [permissionObj]="permissionObj" [setIsCrew]="setIsCrew.bind(this)">
+            [setOpenedModalRef]="setOpenedModalRef.bind(this)" [permissionObj]="permissionObj"
+            [setIsCrew]="setIsCrew.bind(this)">
           </app-event-suppliers-function>
         </ng-container>
-        <ng-container exhibitors *ngIf="active == 5 && data.eventData.venues && (data.eventData?.venues?.length || data.eventData?.venues?.length == 0)">
+        <ng-container exhibitors
+          *ngIf="active == 5 && data.eventData.venues && (data.eventData?.venues?.length || data.eventData?.venues?.length == 0)">
           <app-event-exhibitors-function #exhibitorsFn [eventData]="data" [venueCompanies]="venueCompanies"
             [permissionObj]="permissionObj" [eventToBeSaved]="eventToBeSaved" (saveAndInvite)="saveToDb($event)"
             [searchInviteCmpModal]="searchInviteCmpModal" [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
@@ -82,8 +91,9 @@
   </ng-template>
 
   <ng-template #searchInviteFnCmpCntModal let-modal>
-    <app-search-or-invite-fn-cmp-cnt (closed)="searchInviteContactModalClosed()" [companyId]="getCompanyId()" [isCrew]="emitedCrew"
-      (addedContactList)="setSelectedFnCompanyContacts($event)" [alreadyInContactList]="getFnContactList()">
+    <app-search-or-invite-fn-cmp-cnt (closed)="searchInviteContactModalClosed()" [companyId]="getCompanyId()"
+      [isCrew]="emitedCrew" (addedContactList)="setSelectedFnCompanyContacts($event)"
+      [alreadyInContactList]="getFnContactList()">
     </app-search-or-invite-fn-cmp-cnt>
   </ng-template>
 

@@ -64,7 +64,7 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy 
       this.companyList = [];
       return;
     }
-    const param = this.router.url === '/create-konnect-profile' ? {searchKeyword, domain, includePrivate: 1} : {searchKeyword, domain};
+    const param = this.router.url === '/create-konnect-profile' || this.router.url.indexOf('create-konnect-profile') != -1  ? {searchKeyword, domain, includePrivate: 1} : {searchKeyword, domain};
     this.cmpSearchSubscription = this.companiesService.search(param)
       .subscribe((value: { company: Company | null, companyList: Company[] | null } | null | undefined) => {
           devLogger('log', {value});
