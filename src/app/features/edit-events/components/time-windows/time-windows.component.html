@@ -74,6 +74,7 @@
                   <!-- <input type="text" placeholder="Date">-->
                   <app-date-time-picker #preEventEndDateTimes [freeze]="isPreEventTimesSameAsVenue"
                     [eventDateTime]="preEventTimes[i]?.endDateTime || null"
+                    [max]="preEventTimes[i]?.startDateTime || null"
                     [minimumDate]="getMinimumPreEventEndDateTime(i)" [index]="index"
                     (addNewDateTime)="pushPreEventEndDateTime($event,i)" [isEdit]="isEdit"></app-date-time-picker>
                 </div>

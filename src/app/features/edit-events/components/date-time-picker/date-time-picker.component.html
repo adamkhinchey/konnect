@@ -2,7 +2,7 @@
        [disabled]="true" placeholder="Date Time" (dateTimeChange)="setDateTime($event)" [value]="eventDateTime"
        [ngClass]="{'opacity-35': freeze}"> -->
 
-<input #inp class="shadow-input" [owlDateTime]="dt1" [min]="minimumDate" [readOnly]="true" [disabled]="true"
+<input #inp class="shadow-input" [owlDateTime]="dt1" [min]="minimumDate" [max]="max" [readOnly]="true" [disabled]="true"
        placeholder="Date Time" (dateTimeChange)="setDateTime($event)" [ngClass]="{'opacity-35': freeze}">
        
 <input type="text"class="timeWindowDate" [owlDateTimeTrigger]="dt1" [readOnly]="true" [disabled]="true"
