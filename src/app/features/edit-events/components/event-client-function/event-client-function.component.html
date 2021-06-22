@@ -87,13 +87,13 @@
       <div class="sixteen wide column saveButtons paddingT0">
         <div class="ui divider"></div>
         <div class="ui grid stackable">
-          <div class="ten wide column middle aligned" *ngIf="!eventData.eventData.isDeleted">
-            <div class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal"
+          <div class="ten wide column middle aligned">
+            <div *ngIf="!eventData.eventData.isDeleted" class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal"
               (click)="deleteEvent(eventData.eventData.eventId)"><i class="trash alternate icon"></i>Delete Event</div>
-            &nbsp;&nbsp;&nbsp;Event created by
+            &nbsp;&nbsp;&nbsp;<span  *ngIf="!eventData.eventData.isDeleted">Event created by
             {{eventToBeSaved.creatorCompanyName}},
             {{eventToBeSaved.eventCreatedDate | date:'dd-MM-YYYY'}}
-            {{eventToBeSaved.eventCreatedDate | date:'hh:mm'}}
+            {{eventToBeSaved.eventCreatedDate | date:'hh:mm'}}</span>
           </div>
           <div class="six wide column right aligned hideMobile">
             <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
