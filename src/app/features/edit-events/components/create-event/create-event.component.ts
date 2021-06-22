@@ -165,7 +165,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     if (this.eventId) {
-      this.getEventsById(1);
+      this.getEventsById(this.active);
     }
   }
 
@@ -1483,7 +1483,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             // this.active = 6;
             this.eventService.fetchEventFilesSubject.next(this.savedEventId);
             this.eventService.hideInfoBar = false;
-            window.location.reload();
+            // window.location.reload();
+            this.ngOnInit();
             // this.router.navigate(['/home'], { replaceUrl: true });
           }
         },
