@@ -20,7 +20,8 @@ export class CreateEventInfoBarComponent implements OnInit {
   }
 
   edit() {
-    this.eventService.isEdit = true;
+    if (!this.eventService.isDeleted)
+      this.eventService.isEdit = true;
   }
 
 }

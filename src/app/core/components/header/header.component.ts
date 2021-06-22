@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isHeaderDisable: boolean = false;
 
   activeMenu = '';
+  isView = false;
   private userSettingsSub: Subscription | undefined;
 
 
@@ -64,10 +65,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private actUsrMdlRouteService: ActivatedUserModuleRouteService,
     public userSettingsService: UserSettingsService
   ) {
+    this.route.queryParams.subscribe(param => {
+      console.log(JSON.stringify(param))
+      if (param.isView)
+        this.isView = param.isView;
+    })
+
   }
 
   ngOnInit(): void {
-    console.log(localStorage.getItem('isHeaderDisable'));
     this.userSettingsSub = this.userSettingsService.settings.subscribe((value) => {
       devLogger('log', { settingssss: value });
       if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany) {
@@ -82,9 +88,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   navToEditProfile(event: MouseEvent): boolean {
-    event.preventDefault();
-    this.router.navigate(['home', 'edit-profile']);
-    return true;
+    if (!this.isView) {
+      event.preventDefault();
+      this.router.navigate(['home', 'edit-profile']);
+      return true;
+    }
+    return false;
   }
 
   logout(event: MouseEvent): void {

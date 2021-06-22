@@ -67,24 +67,24 @@
   </ul> -->
   <ul>
     <li class="column center aligned middle aligned itemMenu">
-      <a  [attr.href]="isApproved ? 'dashboard-events-01.html' : null" [class.disabled]="!isApproved"><i
+      <a  [attr.href]="isApproved ? 'dashboard-events-01.html' : null" [class.disabled]="!isApproved || isView"><i
           class="home icon"></i>Dashboard</a>
     </li>
     <li class="column center aligned middle aligned itemMenu">
       <a  onclick="sidebarToggle()"  routerLink="/home/event/create" (click)="hideAllMenus()"
-        [class.disabled]="!isApproved"><i class="plus circle icon"></i>Create Event</a>
+        [class.disabled]="!isApproved || isView"><i class="plus circle icon"></i>Create Event</a>
     </li>
     <li class="column center aligned middle aligned itemMenu">
-      <a  onclick="sidebarToggle()"  routerLink="/home/search-platform" [class.disabled]="!isApproved"><i
+      <a  onclick="sidebarToggle()"  routerLink="/home/search-platform" [class.disabled]="!isApproved || isView"><i
           class="search icon"></i>Platform Search</a>
     </li>
     <li class="column center aligned middle aligned itemMenu">
-      <a  onclick="sidebarToggle()"  class="inviteByEmailBtn hasModal" routerLink="/home/company/manage-colleagues" data-modal="inviteByEmail" [class.disabled]="!isApproved"><i
+      <a  onclick="sidebarToggle()"  class="inviteByEmailBtn hasModal" routerLink="/home/company/manage-colleagues" data-modal="inviteByEmail" [class.disabled]="!isApproved || isView"><i
           class="user plus icon"></i>Invite
         Colleagues</a>
     </li>
     <li class="column center aligned middle aligned itemMenu">
-      <a  onclick="sidebarToggle()"  routerLink="/home/manage-connections" (click)="hideAllMenus()" [class.disabled]="!isApproved"><i
+      <a  onclick="sidebarToggle()"  routerLink="/home/manage-connections" (click)="hideAllMenus()" [class.disabled]="!isApproved || isView"><i
           class="address book icon"></i>Manage Connections</a>
     </li>
     <li class="column center aligned middle aligned itemMenu">
@@ -93,9 +93,9 @@
           class="building icon"></i>Manage Company</span>
       <ul class="subMenu" [ngClass]="status3 ? 'show' : 'd-none'" [@fade]="activeMenu==='manageCompany'">
         <li><a  onclick="sidebarToggle()"  routerLink="/home/company/manage-company" (click)="hideAllMenus()"
-            [class.disabled]="!isApproved">Company Profile</a></li>
+            [class.disabled]="!isApproved || isView">Company Profile</a></li>
         <li><a  onclick="sidebarToggle()"  routerLink="/home/company/manage-colleagues" (click)="hideAllMenus()"
-            [class.disabled]="!isApproved">Manage Colleagues</a></li>
+            [class.disabled]="!isApproved || isView">Manage Colleagues</a></li>
       </ul>
     </li>
   </ul>
@@ -111,24 +111,24 @@
         <div class="nine wide column paddingL0 paddingR0">
           <ul class="ui six column grid stackable mainMenu">
             <li class="column center aligned middle aligned itemMenu">
-              <a [attr.href]="isApproved ? 'dashboard-events-01.html' : null" [class.disabled]="!isApproved"><i
+              <a [attr.href]="isApproved ? 'dashboard-events-01.html' : null" [class.disabled]="!isApproved || isView"><i
                   class="home icon"></i>Dashboard</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
               <a   routerLink="/home/event/create" (click)="hideAllMenus()"
-                [class.disabled]="!isApproved"><i class="plus circle icon"></i>Create Event</a>
+                [class.disabled]="!isApproved || isView"><i class="plus circle icon"></i>Create Event</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
-              <a routerLink="/home/search-platform" [class.disabled]="!isApproved"><i
+              <a routerLink="/home/search-platform" [class.disabled]="!isApproved || isView"><i
                   class="search icon"></i>Platform Search</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
-              <a class="inviteByEmailBtn hasModal" routerLink="/home/company/manage-colleagues" data-modal="inviteByEmail" [class.disabled]="!isApproved"><i
+              <a class="inviteByEmailBtn hasModal" routerLink="/home/company/manage-colleagues" data-modal="inviteByEmail" [class.disabled]="!isApproved || isView"><i
                   class="user plus icon"></i>Invite
                 Colleagues</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
-              <a routerLink="/home/manage-connections" (click)="hideAllMenus()" [class.disabled]="!isApproved"><i
+              <a routerLink="/home/manage-connections" (click)="hideAllMenus()" [class.disabled]="!isApproved || isView"><i
                   class="address book icon"></i>Manage Connections</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
@@ -137,9 +137,9 @@
                   class="building icon"></i>Manage Company</span>
               <ul class="subMenu" [ngClass]="status3 ? 'show' : 'd-none'" [@fade]="activeMenu==='manageCompany'">
                 <li><a routerLink="/home/company/manage-company" (click)="hideAllMenus()"
-                    [class.disabled]="!isApproved">Company Profile</a></li>
+                    [class.disabled]="!isApproved || isView">Company Profile</a></li>
                 <li><a routerLink="/home/company/manage-colleagues" (click)="hideAllMenus()"
-                    [class.disabled]="!isApproved">Manage Colleagues</a></li>
+                    [class.disabled]="!isApproved || isView">Manage Colleagues</a></li>
               </ul>
             </li>
           </ul>
