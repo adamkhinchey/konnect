@@ -7,9 +7,9 @@
       <!-- <div class="thirteen wide column right aligned visibleMobile">
         
       </div> -->
-      <button [disabled]="eventService.isDeleted" class="one wide column right aligned saveButtons hideMobile" (click)="edit()" *ngIf="!isEditEvents">
+      <div class="one wide column right aligned saveButtons hideMobile" (click)="edit()" *ngIf="!isEditEvents">
         <a class="ui button">Edit</a>
-      </button>
+      </div>
       <div class="one wide column right aligned saveButtons hideMobile" *ngIf="isEditEvents">
         <a (click)="eventService.triggerSaveOnly.next()" class="ui button">Save</a>
       </div>
