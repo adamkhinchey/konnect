@@ -1,13 +1,13 @@
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {animate, style, transition, trigger} from '@angular/animations';
-import {AuthService} from "../../services/auth.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ActivatedUserModuleRouteService, UserSettingsService} from "../../../shared/services";
-import {devLogger} from "../../../shared/utils";
-import {WINDOW} from 'ngx-window-token';
-import {UserSettingsInterface} from "../../../shared/models";
-import {take} from "rxjs/operators";
-import {Subscription} from "rxjs";
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { AuthService } from "../../services/auth.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedUserModuleRouteService, UserSettingsService } from "../../../shared/services";
+import { devLogger } from "../../../shared/utils";
+import { WINDOW } from 'ngx-window-token';
+import { UserSettingsInterface } from "../../../shared/models";
+import { take } from "rxjs/operators";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-header',
@@ -16,11 +16,11 @@ import {Subscription} from "rxjs";
   animations: [
     trigger('fade', [
       transition('void => active', [ // using status here for transition
-        style({opacity: 0}),
-        animate(1000, style({opacity: 1}))
+        style({ opacity: 0 }),
+        animate(1000, style({ opacity: 1 }))
       ]),
       transition('* => void', [
-        animate(1000, style({opacity: 0}))
+        animate(1000, style({ opacity: 0 }))
       ])
     ])
   ]
@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   status2: boolean = false;
   status3: boolean = false;
   isApproved = false;
+  isHeaderDisable: boolean = false;
 
   activeMenu = '';
   private userSettingsSub: Subscription | undefined;
@@ -66,9 +67,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
-    this.userSettingsSub=this.userSettingsService.settings.subscribe((value) => {
-      devLogger('log', {settingssss: value});
+    console.log(localStorage.getItem('isHeaderDisable'));
+    this.userSettingsSub = this.userSettingsService.settings.subscribe((value) => {
+      devLogger('log', { settingssss: value });
       if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany) {
         this.isApproved = true;
       }

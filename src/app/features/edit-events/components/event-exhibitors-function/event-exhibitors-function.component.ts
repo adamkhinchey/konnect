@@ -62,6 +62,9 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   }
 
   ngOnInit(): void {
+    if (this.eventData.eventData.isDeleted == 1) {
+      this.eventService.isDeleted = true;
+    }
     this.exhCompanyAddedSub = this.eventService.exhibitorCompanyAddSubject
       .subscribe(value => {
         devLogger('log', 'exhCompanyAddedSub');
@@ -317,7 +320,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     }
   }
 
-  goToCompanyProfile(companyId:any) {
+  goToCompanyProfile(companyId: any) {
     console.log(companyId);
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));

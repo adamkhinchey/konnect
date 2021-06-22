@@ -26,18 +26,14 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
     var dateArray = new Array();
     var currentDate: any = moment(startDate).format('YYYY-MM-DD');
     stopDate = moment(stopDate).format('YYYY-MM-DD');
-    console.log(currentDate);
-    console.log(stopDate);
     while (currentDate <= stopDate) {
       dateArray.push(currentDate)
       currentDate = moment(currentDate).add(1, 'day').format('YYYY-MM-DD');
-      console.log(currentDate);
     }
     return dateArray;
   }
 
   ngOnInit(): void {
-    console.log(this.events);
     this.eventsCopy = this.events;
     this.fillSpecialDates();
   }
@@ -49,7 +45,6 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
       var results;
       startDate = moment(this.events[i].eventStartDate).format('YYYY-MM-DD');
       endDate = moment(this.events[i].eventEndDate).format('YYYY-MM-DD');
-      console.log(startDate);
       if (moment(startDate).isSame(endDate)) {
         this.dates.push(new Date(startDate));
       }
@@ -58,7 +53,6 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
         // this.dates.push(new Date(endDate));
         if (startDate != "Invalid date") {
           results = this.getDates(startDate, endDate);
-          console.log(results);
           if (results.length) {
             for (let d = 0; d < results.length; d++) {
               this.dates.push(new Date(results[d]));
@@ -87,17 +81,13 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   }
 
   public onSelection(dates: Date | Date[]) {
-    console.log(this.events);
-    console.log(dates);
     let date: any;
-    console.log(moment.utc(dates.toString()).format('YYYY-MM-DD'));
     date = moment.utc(dates.toString()).format('YYYY-MM-DD');
     this.eventsCopy = this.events.filter((val: any) => {
       var startDate;
       var endDate;
       startDate = moment(val.eventStartDate).format('YYYY-MM-DD');
       endDate = moment(val.eventEndDate).format('YYYY-MM-DD');
-      console.log(startDate);
       if (date == startDate || date == endDate) {
         console.log(val);
         return val;
@@ -115,7 +105,6 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   eventHistory() {
     this.isEventHistory = true;
     this.eventListingSrvc.getEventsList(1).subscribe((res: any) => {
-      console.log(res);
       this.eventsCopy = this.events = res;
       this.fillSpecialDates();
     }, err => {
@@ -126,7 +115,6 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   reset() {
     this.isEventHistory = false;
     this.eventListingSrvc.getEventsList(0).subscribe((res: any) => {
-      console.log(res);
       this.eventsCopy = this.events = res;
       this.fillSpecialDates();
     }, err => {

@@ -49,6 +49,9 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy, OnChang
       this.isEventEdit = value;
       this.editManager.emit(this.isEventEdit);
     })
+    if (this.eventData.eventData.isDeleted == 1) {
+      this.eventService.isDeleted = true;
+    }
 
     this.subs1 = this.eventService.setIsFnOwnCompany.subscribe(status => {
       this.isOwnCompany = !!status.get(EventFunctionTypes.EVENT_MANAGER);

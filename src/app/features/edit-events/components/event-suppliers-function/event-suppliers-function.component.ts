@@ -63,6 +63,9 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
 
   ngOnInit(): void {
     console.log('event Data: ', this.eventData)
+    if (this.eventData.eventData.isDeleted == 1) {
+      this.eventService.isDeleted = true;
+    }
     this.supplierCompanyAddedSub = this.eventService.supplierCompanyAddSubject
       .subscribe(value => {
         devLogger('log', 'supplierCompanyAddedSub');

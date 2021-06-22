@@ -89,6 +89,9 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
       this.isClientEdit = value;
       this.editClient.emit(this.isClientEdit);
     })
+    if (this.eventData.eventData.isDeleted == 1) {
+      this.eventService.isDeleted = true;
+    }
     /*this.subs1 = this.clientCmpToSelfSub?.subscribe(value => {
       if (value !== null) {
         this.isOwnCompany = value;
@@ -159,11 +162,12 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
     }
   }
 
-  goToCompanyProfile(companyId:any) {
+  goToCompanyProfile(companyId: any) {
     console.log(companyId);
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
+      localStorage.setItem('isHeaderDisable', JSON.stringify(true));
       window.open('/home/company/manage-company', '_blank');
     }
   }
