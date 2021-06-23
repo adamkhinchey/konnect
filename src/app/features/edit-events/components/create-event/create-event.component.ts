@@ -1573,6 +1573,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.isEventVenuesInvalid = false;
       return true;
+      // this.isEventVenuesInvalid = true;
+      // return false;
     }
     this.isEventVenuesInvalid = false;
     return true;

@@ -98,7 +98,9 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                   class="building icon"></i> 
                                   <div class="addNewService insideSelect float-right">
-                                    <div class=" selection">
+                                    <p *ngIf="service.status == 1 && !isServiceEdit"> <i class="ui icon circle green"></i> <b>Confirm</b> </p>
+                                    <p *ngIf="service.status == 0 && !isServiceEdit"> <i class="ui icon circle orange"></i> <b>Pending</b> </p>
+                                    <div class=" selection" *ngIf="isServiceEdit">
                                       <select class="form-control" [ngModelOptions]="{standalone:true}"
                                         [attr.disabled]="service.isStaffOrAdmin==1 && isServiceEdit ? null : true"
                                         (ngModelChange)="acceptDeclineService(service, $event)" [(ngModel)]="service.status">

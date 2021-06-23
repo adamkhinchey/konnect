@@ -71,9 +71,10 @@
                           <h3>Venue Company <i class="globe icon"></i>
                             <div class="addNewService insideSelect float-right">
                               
-                              <p> <i class="ui icon circle green"></i> <b>Confirm</b> </p>
+                              <p *ngIf="panel.status == 1 && !isVenueEdit"> <i class="ui icon circle green"></i> <b>Confirm</b> </p>
+                              <p *ngIf="panel.status == 0 && !isVenueEdit"> <i class="ui icon circle orange"></i> <b>Pending</b> </p>
                               
-                              <div class=" selection">
+                              <div class=" selection" *ngIf="isVenueEdit">
                                 <select class="form-control" [ngModelOptions]="{standalone:true}"
                                   [attr.disabled]="panel.isStaffOrAdmin==1 && isVenueEdit ? null : true"
                                   (ngModelChange)="acceptDeclineService(panel, $event)" [(ngModel)]="panel.status">

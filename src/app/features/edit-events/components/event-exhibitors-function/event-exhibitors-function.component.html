@@ -6,8 +6,9 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
     <li ngbNavItem [ngbNavItem]="venueIndex" *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
       <a ngbNavLink><i class="map marker alternate icon"></i>
         <span class="hideMobile">
-        {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]?
-        venueCompanies[venueIndex]!.companyName+', '+venueCompanies[venueIndex]!.city:'Venue-'+(venueIndex + 1)}}</span></a>
+          {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]?
+          venueCompanies[venueIndex]!.companyName+', '+venueCompanies[venueIndex]!.city:'Venue-'+(venueIndex +
+          1)}}</span></a>
       <ng-template ngbNavContent>
 
         <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
@@ -18,14 +19,16 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
               <div class="seven wide column" *ngIf="venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length">
                 <div class="ui dividing header">
-                  <h3>Notes to All Exhibitors 
-                    <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i>
-                    <i class="exhibitor icon"></i></h3>
+                  <h3>Notes to All Exhibitors
+                    <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+                    <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px"> </i>
+                    <i class="exhibitor icon"></i>
+                  </h3>
                 </div>
                 <div class="field"
                   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access">
-                  <textarea rows="3" class="textarea" *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
+                  <textarea rows="3" class="textarea"
+                    *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
                     [(ngModel)]="venue.exhibitorList[0].notesToAll" [ngModelOptions]="{standalone:true}"
                     [readonly]="!isExhibitorEdit"></textarea>
 
@@ -39,10 +42,11 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 <div class="field">
                   <div class="timeWindowsContainer">
                     <div class="ui dividing header">
-                      <h3>Exhibition Time windows 
-                        <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i>
-                        <i class="exhibitor icon"></i></h3>
+                      <h3>Exhibition Time windows
+                        <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+                        <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px"> </i>
+                        <i class="exhibitor icon"></i>
+                      </h3>
                     </div>
 
                     <app-time-windows
@@ -89,7 +93,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <!-- <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
             [activeIds]="'exhibitorListIndex-'+activeExhibitorPanel" [destroyOnHide]="false"> -->
 
-            <ngb-accordion (panelChange)="panelChange($event)" #ngbAccordion [destroyOnHide]="false">
+          <ngb-accordion (panelChange)="panelChange($event)" #ngbAccordion [destroyOnHide]="false">
 
             <ng-container *ngIf="venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length">
               <ngb-panel *ngFor="let exhibitor of venue.exhibitorList[0].exhibitors; let exhibitorIndex=index"
@@ -98,7 +102,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                 <ng-template ngbPanelTitle>
                   <i class="dropdown icon"></i>
-                  Exhibitor {{exhibitorIndex + 1}}: <span *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
+                  Exhibitor {{exhibitorIndex + 1}}: <span
+                    *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
                 </ng-template>
                 <ng-template ngbPanelContent>
                   <div class="content active">
@@ -121,14 +126,20 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="companyContainer marginB20">
                             <div class="ui dividing header">
                               <h3>Exhibitor Company
-                                <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i>
+                                <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+                                <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png"
+                                    width="15px"> </i>
                                 <i class="building icon"></i>
                                 <div class="addNewService insideSelect float-right">
-                                  <div class=" selection">
+                                  <p *ngIf="exhibitor.status == 1 && !isExhibitorEdit"> <i
+                                      class="ui icon circle green"></i> <b>Confirm</b> </p>
+                                  <p *ngIf="exhibitor.status == 0 && !isExhibitorEdit"> <i
+                                      class="ui icon circle orange"></i> <b>Pending</b> </p>
+                                  <div class=" selection" *ngIf="isExhibitorEdit">
                                     <select class="form-control" [ngModelOptions]="{standalone:true}"
                                       [attr.disabled]="exhibitor.isStaffOrAdmin==1 && isExhibitorEdit ? null : true"
-                                      (ngModelChange)="acceptDeclineService(exhibitor, $event)" [(ngModel)]="exhibitor.status">
+                                      (ngModelChange)="acceptDeclineService(exhibitor, $event)"
+                                      [(ngModel)]="exhibitor.status">
                                       <option [ngValue]=1>Confirm</option>
                                       <option *ngIf="exhibitor.status==0" [ngValue]=0>Pending</option>
                                       <option [ngValue]=2>Decline</option>
@@ -148,7 +159,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
                                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
-                                        <a (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
+                                        <a
+                                          (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
                                         <a>
@@ -207,9 +219,11 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                         <div class="nine wide column">
                           <div class="ui dividing header">
-                            <h3>Stand Number <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                              <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
-                                class="building icon"></i></h3>
+                            <h3>Stand Number <i class="icon"> <img src="../../../../../assets/img/client-icon.png"
+                                  width="15px"> </i>
+                              <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px">
+                              </i><i class="building icon"></i>
+                            </h3>
                           </div>
                           <div class="field"
                             *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
@@ -220,9 +234,11 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <ng-template #no_access>No access
                           </ng-template>
                           <div class="ui dividing header">
-                            <h3>Notes to Specific Exhibitor <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                              <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
-                                class="building icon"></i></h3>
+                            <h3>Notes to Specific Exhibitor <i class="icon"> <img
+                                  src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+                              <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px">
+                              </i><i class="building icon"></i>
+                            </h3>
                           </div>
                           <div class="field"
                             *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
@@ -234,8 +250,11 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="field">
                             <div class="timeWindowsContainer">
                               <div class="ui dividing header">
-                                <h3>Exhibitor Specific Time windows <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                  <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i class="building icon"></i></h3>
+                                <h3>Exhibitor Specific Time windows <i class="icon"> <img
+                                      src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+                                  <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png"
+                                      width="15px"> </i><i class="building icon"></i>
+                                </h3>
                               </div>
 
                               <app-time-windows
@@ -271,9 +290,11 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
                             <div class="six wide column right aligned hideMobile">
-                              <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
+                              <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i
+                                  class="file pdf icon"></i>
                               </button>
-                              <button [disabled]="eventData.eventData.isDeleted" class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit"
+                              <button [disabled]="eventData.eventData.isDeleted"
+                                class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit"
                                 (click)="editExhibitorFn()">Edit</button>
                               <div class="ui button hasModal ml-3" data-modal="inviteModal"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"
