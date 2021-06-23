@@ -396,7 +396,7 @@ button:focus {
   width: 22px;
 }
 
-.topinfoOuterMar { margin-top: -50px; }
+app-create-event-info-bar + .mainContent .topinfoOuterMar { margin-top: -50px; }
 @media screen and (max-width: 768px) {
   .pushable .ui.sidebar {
     -webkit-transform: translate3d(0, 0, 0);
@@ -481,7 +481,7 @@ button:focus {
   .infoBar .container {
     margin: 0 auto !important;
   }
-  .topinfoOuterMar { margin-top: -80px; }
+  app-create-event-info-bar + .mainContent .topinfoOuterMar  { margin-top: -80px; }
 }
 @media screen and (max-width:640px) {
   .igx-calendar__body section + section {
@@ -719,3 +719,40 @@ igx-days-view.igx-calendar {
 	margin-top: -11px;
 }
 .parentAccordion.parentAccordionVenue .popupNotes:hover .tooltipOuter { display: block; }
+custom-select-option {
+  padding-left: 30px !important;
+  position: relative;
+}
+
+custom-select-option[key='1']::before {
+  background: #f2711c;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  content: '';
+  left: 10px;
+  top: 14px;
+  border-radius: 10px;
+}
+
+custom-select-option[key='2']::before {
+  background: #21BA45 !important;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  content: '';
+  left: 10px;
+  top: 14px;
+  border-radius: 10px;
+}
+
+custom-select-option[key='3']::before {
+  background: #DB2828 !important;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  content: '';
+  left: 10px;
+  top: 14px;
+  border-radius: 10px;
+}

@@ -23,8 +23,10 @@
                 <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui"
                     (navChange)="onNavChange($event)">
                     <li [ngbNavItem]="1">
-                        <a ngbNavLink class="item tabAdmin"><i class="cog icon"></i><span
-                                class="hideMobile">CLIENT</span></a>
+                        <a ngbNavLink class="item tabAdmin">
+                            <!-- <i class="cog icon"></i> -->
+                            <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="18px" > </i>
+                            <span class="hideMobile">CLIENT</span></a>
                         <ng-template ngbNavContent>
                             <div class="ui segment" *ngIf="data.eventData && data.eventData.client && active == 1">
                                 <form class="ui form">
@@ -236,8 +238,10 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="2">
-                        <a ngbNavLink class="item tabAdmin"><i class="sitemap icon"></i><span class="hideMobile">EVENT
-                                MANAGER</span></a>
+                        <a ngbNavLink class="item tabAdmin">
+                            <!-- <i class="sitemap icon"></i> -->
+                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="18px" > </i>
+                            <span class="hideMobile">EVENT MANAGER</span></a>
                         <ng-template ngbNavContent>
                             <div class="ui segment" *ngIf="data.eventData && data.eventData.eventManager && active == 2">
                                 <form class="ui form">
