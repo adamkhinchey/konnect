@@ -4,9 +4,13 @@
       <div class="sixteen wide column">
         <div class="companyContainer marginB20">
           <div class="ui dividing header">
-            <h3>Notes to All Venues <i class="cog icon"></i><i class="sitemap icon"></i><i
-                class="map marker alternate icon"></i></h3>
+            <h3>Notes to All Venues 
+              <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+          <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i>
+              <i class="map marker alternate icon"></i></h3>
           </div>
+          
+          
           <div class="field" *ngIf="eventToBeSaved.venues">
             <textarea
               *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
@@ -155,8 +159,10 @@
                         </div>
                       </div>
                       <div class="ui dividing header">
-                        <h3>Venue Requirements <i class="cog icon"></i><i class="sitemap icon"></i><i
-                            class="map marker alternate icon"></i>
+                        <h3>Venue Requirements 
+                          <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+          <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i>
+                          <i class="map marker alternate icon"></i>
                         </h3>
                       </div>
                       <div class="field">

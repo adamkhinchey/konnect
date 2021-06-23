@@ -5,8 +5,8 @@
         <div class="ui grid">
           <div class="ten wide column middle aligned">
             <h3>Client/Event Manager Shared Files
-              <i class="cog icon"></i>
-              <i class="sitemap icon"></i></h3>
+              <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i></h3>
           </div>
           <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager" >
             <div class="ui button compact mini basic circular addDocuments hasModal"
@@ -37,7 +37,8 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Client Internal Files <i class="cog icon"></i></h3>
+            <h3>Client Internal Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i></h3>
+
           </div>
           <div class="six wide column right aligned"  *ngIf="permissionObj.isClient"  >
             <div class="ui button compact mini basic circular addDocuments hasModal"
@@ -66,8 +67,9 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Event Management Internal Files <i class="sitemap icon"></i></h3>
+            <h3>Event Management Internal Files <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i></h3>
           </div>
+          
           <div class="six wide column right aligned"  *ngIf="permissionObj.isEventManager" >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.EVENT_MANAGEMENT_INTERNAL_FILES)"><i class="upload icon"></i>Upload
@@ -124,7 +126,8 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Files for All Venues <i class="cog icon"></i><i class="sitemap icon"></i><i
+            <h3>Files for All Venues <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
               class="map marker alternate icon"></i></h3>
           </div>
           <div class="six wide column right aligned"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue"  >
@@ -202,7 +205,8 @@
                   <div class="ui dividing header">
                     <div class="ui grid">
                       <div class="ten wide column middle aligned">
-                        <h3>Venue Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
+                        <h3>Venue Shared Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                           class="building icon"></i></h3>
                       </div>
                       <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isVenue && venueFileItem?.isViewPermission==1)" >
@@ -282,7 +286,8 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Files for All Suppliers <i class="cog icon"></i><i class="sitemap icon"></i><i class="truck icon"></i>
+            <h3>Files for All Suppliers <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i class="truck icon"></i>
             </h3>
           </div>
           <div class="six wide column right aligned"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isService"  >
@@ -334,7 +339,8 @@
                     <div class="ui dividing header">
                       <div class="ui grid">
                         <div class="ten wide column middle aligned">
-                          <h3>Supplier Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
+                          <h3>Supplier Shared Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                             class="building icon"></i></h3>
                         </div>
                         <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isService && supplierItem?.isViewPermission==1)">
@@ -417,7 +423,8 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Files for All Exhibitors <i class="cog icon"></i><i class="sitemap icon"></i><i class="exhibitor icon"></i>
+            <h3>Files for All Exhibitors <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i class="exhibitor icon"></i>
             </h3>
           </div>
           <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor"  >
@@ -467,7 +474,8 @@
                     <div class="ui dividing header">
                       <div class="ui grid">
                         <div class="ten wide column middle aligned">
-                          <h3>Exhibitor Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
+                          <h3>Exhibitor Shared Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                             class="building icon"></i></h3>
                         </div>
                         <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1)" >

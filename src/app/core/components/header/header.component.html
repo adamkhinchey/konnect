@@ -9,10 +9,10 @@
       <div class="imgContainer">
           <img [src]="(userSettingsService.settings | async)!.profileImage! || '../../assets/img/profile.png'" alt="" >
           <div class="ui button mini circular icon showProfileMenu" (click)="clickEvent()">
-              <i class="cog icon"></i>
+            <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="18px" > </i>
             </div>
       </div>
-     
+      
       <h3>
         <span class="userName">{{(userSettingsService.settings | async)!.firstName!}} {{(userSettingsService.settings | async)!.lastName!}}</span>
       </h3>
