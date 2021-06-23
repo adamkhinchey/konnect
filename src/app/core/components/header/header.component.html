@@ -19,7 +19,7 @@
       <div class="ui dropdown dropdownChangeCompany" (click)="clickEvent2()" tabindex="0">
         <div class="text">{{(userSettingsService.settings | async)!.defaultCompany?.companyName || 'NO ASSOCIATED COMPANY!' }}</div>
         <i class="dropdown icon"></i>
-        <div class="menu transition" [ngClass]="status2 ? 'show' : 'd-none'" tabindex="-1">
+        <div class="menu transition" [ngClass]="status2 && !isView ? 'show' : 'd-none'" tabindex="-1">
           <div class="item"
             *ngFor="let company of (userSettingsService.settings | async)!.associatedCompanies; index as i"
             (click)="switchCompany($event, company)">
@@ -28,7 +28,7 @@
       </div>
       
 
-    <div class="profileMenu" [ngClass]="status ? 'show' : 'd-none'" >
+    <div class="profileMenu" [ngClass]="status && !isView ? 'show' : 'd-none'" >
         <ul class="subMenu">
           <li (click)="navToEditProfile($event) && hideAllMenus()">
             <a  class="cursor-pointer">Edit Profile</a>
@@ -89,11 +89,11 @@
     </li>
     <li class="column center aligned middle aligned itemMenu">
       <span class="displaySubMenu" (click)="isApproved && clickEvent3()"
-        [ngStyle]="{'color':isApproved?'#fdd200':'gray', 'cursor':isApproved?'pointer':'not-allowed'}"><i
+        [ngStyle]="{'color':isApproved && !isView?'#fdd200':'gray', 'cursor':isApproved && !isView?'pointer':'not-allowed'}"><i
           class="building icon"></i>Manage Company</span>
       <ul class="subMenu" [ngClass]="status3 ? 'show' : 'd-none'" [@fade]="activeMenu==='manageCompany'">
         <li><a  onclick="sidebarToggle()"  routerLink="/home/company/manage-company" (click)="hideAllMenus()"
-            [class.disabled]="!isApproved">Company Profile</a></li>
+            [class.disabled]="!isApproved || isView">Company Profile</a></li>
         <li><a  onclick="sidebarToggle()"  routerLink="/home/company/manage-colleagues" (click)="hideAllMenus()"
             [class.disabled]="!isApproved || isView">Manage Colleagues</a></li>
       </ul>
@@ -106,7 +106,8 @@
     <header class="hideMobile">
       <div class="ui grid">
         <div class="three wide column center aligned middle aligned">
-          <h1><a href="dashboard-events-01.html">konnect</a></h1>
+          <h1 *ngIf="!isView"><a href="dashboard-events-01.html">konnect</a></h1>
+          <h1 *ngIf="isView"><a>konnect</a></h1>
         </div>
         <div class="nine wide column paddingL0 paddingR0">
           <ul class="ui six column grid stackable mainMenu">
@@ -133,7 +134,7 @@
             </li>
             <li class="column center aligned middle aligned itemMenu">
               <span class="displaySubMenu" (click)="isApproved && clickEvent3()"
-                [ngStyle]="{'color':isApproved?'#fdd200':'gray', 'cursor':isApproved?'pointer':'not-allowed'}"><i
+                [ngStyle]="{'color':isApproved && !isView?'#fdd200':'gray', 'cursor':isApproved && !isView?'pointer':'not-allowed'}"><i
                   class="building icon"></i>Manage Company</span>
               <ul class="subMenu" [ngClass]="status3 ? 'show' : 'd-none'" [@fade]="activeMenu==='manageCompany'">
                 <li><a routerLink="/home/company/manage-company" (click)="hideAllMenus()"
@@ -153,7 +154,7 @@
               <div class="ui dropdown dropdownChangeCompany" (click)="clickEvent2()" tabindex="0">
                 <div class="text">{{(userSettingsService.settings | async)!.defaultCompany?.companyName || 'NO ASSOCIATED COMPANY!' }}</div>
                 <i class="dropdown icon"></i>
-                <div class="menu transition" [ngClass]="status2 ? 'show' : 'd-none'" tabindex="-1">
+                <div class="menu transition" [ngClass]="status2 && !isView  ? 'show' : 'd-none'" tabindex="-1">
                   <div class="item"
                     *ngFor="let company of (userSettingsService.settings | async)!.associatedCompanies; index as i"
                     (click)="switchCompany($event, company)">
@@ -165,7 +166,7 @@
               <i class="cog icon"></i>
             </div>
           </div>
-          <ul class="subMenu" [ngClass]="status ? 'show' : 'd-none'">
+          <ul class="subMenu" [ngClass]="status && !isView ? 'show' : 'd-none'">
             <li (click)="navToEditProfile($event) && hideAllMenus()">
               <a  class="cursor-pointer">Edit Profile</a>
             </li>
@@ -179,7 +180,8 @@
       <div class="ui grid">
           <div class="sixteen wide column center aligned">
               <a href="javaScript:void(0)" class="openMobileMenu visibleMobile" onclick="sidebarToggle()" ><i class="ui bars icon"></i></a>
-              <h1><a href="javascript:void()">konnect</a></h1>
+              <h1 *ngIf="!isView"><a href="javascript:void()">konnect</a></h1>
+              <h1 *ngIf="isView"><a>konnect</a></h1>
           </div>
       </div>
   </div>

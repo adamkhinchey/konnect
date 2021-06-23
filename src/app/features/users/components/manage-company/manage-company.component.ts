@@ -107,17 +107,21 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     private companyService: CompaniesService,
     private authService: AuthService,
     private router: Router,
+    public aroute:ActivatedRoute,
     private fileUploadService: UploadFileService,
     private userSettingsService: UserSettingsService,
     public route: ActivatedRoute
   ) {
-
+    this.aroute.queryParams.subscribe(param => {
+      if (param.isView)
+        this.isView = param.isView;
+    })
   }
 
   ngOnInit() {
 
     let companyId = localStorage.getItem('companyId');
-    this.isView = localStorage.getItem('isView');
+    // this.isView = localStorage.getItem('isView');
     this.company = this.userSettingsService.settings.getValue();
     if (companyId != null) {
       this.companyId = companyId

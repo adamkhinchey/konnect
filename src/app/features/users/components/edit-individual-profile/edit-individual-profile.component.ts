@@ -74,13 +74,18 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     private companyService: CompaniesService,
     private authService: AuthService,
     private router: Router,
+    public aroute:ActivatedRoute,
     private fileUploadService: UploadFileService,
     private userSettingsService: UserSettingsService) {
+      this.aroute.queryParams.subscribe(param => {
+        if (param.isView)
+          this.isView = param.isView;
+      })
   }
 
   ngOnInit(): void {
     this.userId = localStorage.getItem('userId');
-    this.isView = localStorage.getItem('isView');
+    // this.isView = localStorage.getItem('isView');
     localStorage.removeItem('userId');
     localStorage.removeItem('isView');
     this.getAndSetCountries();
