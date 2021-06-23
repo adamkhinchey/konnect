@@ -26,7 +26,7 @@ const routes: Routes = [
       {
         path: 'company', children: [
           { path: 'manage-colleagues', component: ManageColleaguesComponent },
-          { path: 'manage-company', component: ManageCompanyComponent }
+          { path: 'manage-company', component: ManageCompanyComponent },
         ]
       },
       { path: 'join-company', component: CompanyDetailsTabComponent },

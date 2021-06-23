@@ -168,7 +168,7 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       localStorage.setItem('isHeaderDisable', JSON.stringify(true));
-      window.open('/home/company/manage-company', '_blank');
+      window.open('/home/company/manage-company?isView=' + true);
     }
   }
 

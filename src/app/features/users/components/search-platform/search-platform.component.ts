@@ -281,7 +281,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
-      window.open('/home/company/manage-company', '_blank');
+      window.open('/home/company/manage-company?isView=' + true);
     }
   }
 
@@ -290,7 +290,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
     if (userId) {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));
-      window.open('/home/edit-profile', '_blank');
+      window.open('/home/edit-profile?isView=' + true);
     }
   }
 

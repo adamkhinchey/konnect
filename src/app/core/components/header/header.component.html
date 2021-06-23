@@ -93,7 +93,7 @@
           class="building icon"></i>Manage Company</span>
       <ul class="subMenu" [ngClass]="status3 ? 'show' : 'd-none'" [@fade]="activeMenu==='manageCompany'">
         <li><a  onclick="sidebarToggle()"  routerLink="/home/company/manage-company" (click)="hideAllMenus()"
-            [class.disabled]="!isApproved || isView">Company Profile</a></li>
+            [class.disabled]="!isApproved">Company Profile</a></li>
         <li><a  onclick="sidebarToggle()"  routerLink="/home/company/manage-colleagues" (click)="hideAllMenus()"
             [class.disabled]="!isApproved || isView">Manage Colleagues</a></li>
       </ul>

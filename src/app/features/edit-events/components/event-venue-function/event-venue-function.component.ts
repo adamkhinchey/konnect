@@ -216,7 +216,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
-      window.open('/home/company/manage-company', '_blank');
+      window.open('/home/company/manage-company?isView=' + true);
     }
   }
 
