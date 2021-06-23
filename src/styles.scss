@@ -756,3 +756,11 @@ custom-select-option[key='3']::before {
   top: 14px;
   border-radius: 10px;
 }
+
+.addNewService.insideSelect p b { font-size: 14px; }
+.addNewService.insideSelect p {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1px 3px 4px 3px;
+  font-size: 16px;
+}
