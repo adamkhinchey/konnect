@@ -1,5 +1,5 @@
-import {Component, Input, OnInit, Output, EventEmitter, OnDestroy} from '@angular/core';
-import {devLogger} from '../../utils';
+import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { devLogger } from '../../utils';
 
 @Component({
   selector: 'app-company-search',
@@ -19,10 +19,12 @@ export class CompanySearchComponent implements OnInit, OnDestroy {
   }
 
   onChange(event: any): void {
-    devLogger('log', {search: event});
-    if (event.trim() !== this.lastSearch) {
-      this.searchChange.emit(event.trim());
-      this.lastSearch = event.trim();
+    devLogger('log', { search: event });
+    if (this.search.length > 2) {
+      if (event.trim() !== this.lastSearch) {
+        this.searchChange.emit(event.trim());
+        this.lastSearch = event.trim();
+      }
     }
   }
 
