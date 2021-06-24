@@ -24,6 +24,7 @@ type FetchedVenueExCmpCnts = { contactList: InviteFnCmpCntInterface[], venueInde
 })
 export class EventService {
   public isDeleted: boolean = false;
+  public isSaveDisabled: boolean = false;
   private _isEdit: boolean = false;
   isEditChange = new Subject<boolean>();
   set isEdit(value: boolean) {

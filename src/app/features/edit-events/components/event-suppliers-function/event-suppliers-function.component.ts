@@ -49,7 +49,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
   ) {
   }
 
-  ngOnChanges(changes:SimpleChanges){
+  ngOnChanges(changes: SimpleChanges) {
     this.isServiceEdit = this.eventService.isEdit;
     this.isServiceEditable = this.eventService.isEdit;
   }
@@ -95,7 +95,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
       this.setContacts(value);
     });
 
-    this.eventService.navigatesToSuppliers.subscribe(()=>{
+    this.eventService.navigatesToSuppliers.subscribe(() => {
       this.eventService.getFetchedVenueSrvcsCmp().forEach((param, index) => {
         this.eventService.activeServicePanel = { venueIndex: param.venueIndex, serviceIndex: param.serviceIndex };
         if (param.company) {
@@ -273,21 +273,21 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
   acceptDeclineService(tab: any, isAccept: any) {
     // console.log(tab.venueId);
     console.log("isAccept", isAccept);
-    if(tab.supplierId && isAccept> 0){
+    if (tab.supplierId && isAccept > 0) {
       let payload = {
         eventId: this.eventData.eventData.eventId,
         tabId: tab.supplierId,
         tabType: 4,
         isAccept: isAccept > 1 ? 0 : isAccept
       }
-      console.log("payload ** ", payload );
+      console.log("payload ** ", payload);
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
         console.log(res);
         // this.router.navigate(['home']);
       }, err => {
         devLogger('err', err)
       })
-  }
+    }
   }
 
   getCompanyId(company: Company | InviteFnCmpClass | undefined): any {
@@ -301,7 +301,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     }
   }
 
-  goToCompanyProfile(companyId:any) {
+  goToCompanyProfile(companyId: any) {
     console.log(companyId);
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
@@ -310,5 +310,18 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     }
   }
 
+  checkSelectedCompany(company: Company | InviteFnCmpClass | undefined): boolean {
+    if (!company) {
+      this.eventService.isSaveDisabled = true;
+      return true;
+    }
+    if (company instanceof InviteFnCmpClass) {
+      this.eventService.isSaveDisabled = true;
+      return true;
+    } else {
+      this.eventService.isSaveDisabled = false;
+      return false;
+    }
+  }
 
 }

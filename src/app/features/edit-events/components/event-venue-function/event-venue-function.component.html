@@ -4,13 +4,14 @@
       <div class="sixteen wide column">
         <div class="companyContainer marginB20">
           <div class="ui dividing header">
-            <h3>Notes to All Venues 
-              <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-          <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i>
-              <i class="map marker alternate icon"></i></h3>
+            <h3>Notes to All Venues
+              <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+              <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px"> </i>
+              <i class="map marker alternate icon"></i>
+            </h3>
           </div>
-          
-          
+
+
           <div class="field" *ngIf="eventToBeSaved.venues">
             <textarea
               *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
@@ -70,10 +71,12 @@
                         <div class="ui dividing header">
                           <h3>Venue Company <i class="globe icon"></i>
                             <div class="addNewService insideSelect float-right">
-                              
-                              <p *ngIf="panel.status == 1 && !isVenueEdit"> <i class="ui icon circle green"></i> <b>Confirm</b> </p>
-                              <p *ngIf="panel.status == 0 && !isVenueEdit"> <i class="ui icon circle orange"></i> <b>Pending</b> </p>
-                              
+
+                              <p *ngIf="panel.status == 1 && !isVenueEdit"> <i class="ui icon circle green"></i>
+                                <b>Confirm</b> </p>
+                              <p *ngIf="panel.status == 0 && !isVenueEdit"> <i class="ui icon circle orange"></i>
+                                <b>Pending</b> </p>
+
                               <div class=" selection" *ngIf="isVenueEdit">
                                 <select class="form-control" [ngModelOptions]="{standalone:true}"
                                   [attr.disabled]="panel.isStaffOrAdmin==1 && isVenueEdit ? null : true"
@@ -127,8 +130,7 @@
                           </div>
                         </div>
                       </div>
-                      <app-event-assign-function-cmp #venueAssignCmp
-                        [selectedCompany]="getSelectedCompany(i)"
+                      <app-event-assign-function-cmp #venueAssignCmp [selectedCompany]="getSelectedCompany(i)"
                         [contactList]="panel.contacts?panel.contacts:[]" [permissionObj]="permissionObj"
                         [isViewPermission]="1" [clientCmpBtnLabel]="'Add Venue'" [contactListLabel]="'Venue Contacts'"
                         [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
@@ -163,9 +165,10 @@
                         </div>
                       </div>
                       <div class="ui dividing header">
-                        <h3>Venue Requirements 
-                          <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-          <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i>
+                        <h3>Venue Requirements
+                          <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+                          <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px">
+                          </i>
                           <i class="map marker alternate icon"></i>
                         </h3>
                       </div>
@@ -192,11 +195,11 @@
                             (click)="editVenueFn()">
                             Edit
                           </button>
-                          <div class="ui button hasModal ml-3"
+                          <button [disabled]="checkSelectedCompany(i)" class="ui button hasModal ml-3"
                             (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})"
                             data-modal="inviteModal" *ngIf="isVenueEdit">Save &amp;
                             Invite
-                          </div>
+                          </button>
                         </div>
                       </div>
                     </div>

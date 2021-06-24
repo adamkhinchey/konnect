@@ -61,10 +61,10 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     private eventService: EventService,
     private viewEventService: ViewEventService,
     private router: Router
-    ) {
+  ) {
   }
 
-  ngOnChanges(changes:SimpleChanges){
+  ngOnChanges(changes: SimpleChanges) {
     this.isVenueEdit = this.eventService.isEdit;
     this.isVenueEditable = this.eventService.isEdit;
   }
@@ -181,22 +181,22 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
 
   acceptDeclineService(tab: any, isAccept: any) {
     // console.log(tab.venueId);
-    console.log("isAccept", isAccept); 
-    if(tab.venueId && isAccept> 0){
+    console.log("isAccept", isAccept);
+    if (tab.venueId && isAccept > 0) {
       let payload = {
         eventId: this.eventData.eventData.eventId,
         tabId: tab.venueId,
         tabType: 3,
         isAccept: isAccept > 1 ? 0 : isAccept
       }
-      console.log("payload ** ", payload ); 
+      console.log("payload ** ", payload);
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
         console.log(res);
         // this.router.navigate(['home']);
       }, err => {
         devLogger('err', err)
       })
-  }
+    }
   }
 
   getCompanyId(i: number): any {
@@ -211,7 +211,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
-  goToCompanyProfile(companyId:any) {
+  goToCompanyProfile(companyId: any) {
     console.log(companyId);
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
@@ -220,10 +220,20 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
-  getSelectedCompany(index:any){
-  //@ts-ignore
-  return this.selectedCompanies[index];
+  getSelectedCompany(index: any) {
+    //@ts-ignore
+    return this.selectedCompanies[index];
   }
 
+  checkSelectedCompany(index: any) {
+    //@ts-ignore
+    if (this.selectedCompanies[index] != null) {
+      this.eventService.isSaveDisabled = false;
+      return false
+    } else {
+      this.eventService.isSaveDisabled = true;
+      return true
+    }
+  }
 
 }

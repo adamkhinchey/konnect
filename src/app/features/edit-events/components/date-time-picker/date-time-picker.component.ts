@@ -12,6 +12,7 @@ import {
 import { devLogger } from "../../../../shared/utils";
 import { Moment } from 'moment';
 import { OwlDateTimeComponent } from "@danielmoncada/angular-datetime-picker";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-date-time-picker',
@@ -35,7 +36,12 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-   
+    if (this.max) {
+      let date: any = moment(this.max).format('YYYY-MM-DD');
+      console.log(date);
+      date = moment.utc(date).add(24, 'hours');
+      console.log(moment.utc(date));
+    }
   }
 
   ngAfterViewInit(): void {

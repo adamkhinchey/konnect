@@ -329,6 +329,19 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     }
   }
 
+  checkSelectedCompany(company: Company | InviteFnCmpClass | undefined): boolean {
+    if (!company) {
+      this.eventService.isSaveDisabled = true;
+      return true;
+    }
+    if (company instanceof InviteFnCmpClass) {
+      this.eventService.isSaveDisabled = true;
+      return true;
+    } else {
+      this.eventService.isSaveDisabled = false;
+      return false;
+    }
+  }
 
 
 }
