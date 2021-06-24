@@ -97,6 +97,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   selectedCategory: any = [];
   company: any;
   isView: any;
+  private userSettingsSub: Subscription | undefined;
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -107,7 +108,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     private companyService: CompaniesService,
     private authService: AuthService,
     private router: Router,
-    public aroute:ActivatedRoute,
+    public aroute: ActivatedRoute,
     private fileUploadService: UploadFileService,
     private userSettingsService: UserSettingsService,
     public route: ActivatedRoute
@@ -122,18 +123,25 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
 
     let companyId = localStorage.getItem('companyId');
     // this.isView = localStorage.getItem('isView');
-    this.company = this.userSettingsService.settings.getValue();
+    // this.company = this.userSettingsService.settings.getValue();
     if (companyId != null) {
+      console.log('company id not null')
       this.companyId = companyId
       localStorage.removeItem('companyId');
       localStorage.removeItem('isView');
+      this.getAndSetCountries();
     }
     else {
-      if (this.company) {
-        this.companyId = this.company.defaultCompany.id
-      }
+      this.userSettingsSub = this.userSettingsService.settings.subscribe((value) => {
+        console.log(value);
+        this.company = value
+        if (this.company) {
+          console.log('in if')
+          this.companyId = this.company.defaultCompany.id
+          this.getAndSetCountries();
+        }
+      });
     }
-    this.getAndSetCountries();
   }
 
   getCompanyDetails() {
@@ -369,6 +377,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userInfoSubscription.unsubscribe();
+    this.userSettingsSub?.unsubscribe();
     localStorage.removeItem('companyId');
     localStorage.removeItem('isView');
   }
