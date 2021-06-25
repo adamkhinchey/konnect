@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { SaveEventClass } from "../../models/classes/saveEvent.class";
 import { NgbAccordion, NgbNav, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { devLogger } from "../../../../shared/utils";
@@ -19,9 +19,10 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-event-suppliers-function',
   templateUrl: './event-suppliers-function.component.html',
-  styleUrls: ['./event-suppliers-function.component.scss']
+  styleUrls: ['./event-suppliers-function.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
-export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnChanges {
+export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnChanges, AfterViewChecked {
   // @ts-ignore
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
   @Input() eventData: any;
@@ -45,7 +46,8 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
   constructor(
     public eventService: EventService,
     private viewEventService: ViewEventService,
-    private router: Router
+    private router: Router,
+    public _cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -310,18 +312,20 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     }
   }
 
-  checkSelectedCompany(company: Company | InviteFnCmpClass | undefined): boolean {
+  checkSelectedSupplierCompany(company: Company | InviteFnCmpClass | undefined): boolean {
     if (!company) {
       this.eventService.isSaveDisabled = true;
       return true;
     }
-    if (company instanceof InviteFnCmpClass) {
-      this.eventService.isSaveDisabled = true;
-      return true;
-    } else {
+    else {
       this.eventService.isSaveDisabled = false;
       return false;
     }
+  }
+  
+
+  ngAfterViewChecked() {
+    this._cdr.detectChanges();
   }
 
 }

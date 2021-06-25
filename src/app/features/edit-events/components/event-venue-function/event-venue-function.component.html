@@ -195,7 +195,7 @@
                             (click)="editVenueFn()">
                             Edit
                           </button>
-                          <button [disabled]="checkSelectedCompany(i)" class="ui button hasModal ml-3"
+                          <button class="ui button hasModal ml-3"
                             (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})"
                             data-modal="inviteModal" *ngIf="isVenueEdit">Save &amp;
                             Invite

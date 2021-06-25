@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EventPanelNavComponent } from '../event-panel-nav/event-panel-nav.component';
 import { Company } from '../../../users/models';
@@ -38,7 +38,8 @@ export interface VenuueCompany extends Company {
 @Component({
   selector: 'app-create-event',
   templateUrl: './create-event.component.html',
-  styleUrls: ['./create-event.component.scss']
+  styleUrls: ['./create-event.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() eventId: any;
@@ -98,6 +99,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private eventTimelineService: EventTimelineService,
     private viewEvSrvc: ViewEventService,
+    public _cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -762,6 +764,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isServiceEditable = false;
     this.isExhibitorEditable = false;
     this.eventService.isEdit = false;
+    this.eventService.isSaveDisabled = false;
     this.getEventsById(changeEvent.nextId);
     this.active = changeEvent.nextId;
     // null means navigated to first time
@@ -1269,8 +1272,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.eventToBeSaved.venues!.list[i].invited = (this.venueCompanies[i] as InviteFnCmpClass);
           }
         }
-      } else {
-        this.eventToBeSaved.venues = null;
       }
     }
 
@@ -1540,9 +1541,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private isVenuesValid(): boolean {
+    console.log(cloneDeep(this.venueCompanies));
+    console.log(cloneDeep(this.venueContactLists))
+    this.venueCompanies = cloneDeep(this.venueCompanies);
+    this.venueContactLists = cloneDeep(this.venueContactLists);
     if (this.venueCompanies && this.venueCompanies.length > 0) {
-      console.log(cloneDeep(this.venueCompanies));
-      console.log(cloneDeep(this.venueContactLists))
       /*
       * clean venue companies and there corresponding contacts
       * which are removed i.e venueCompany===null
@@ -1557,12 +1560,20 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
       this.venueCompanies = this.venueCompanies.filter(vc => vc !== null);
+    } else {
+      this.toaster.error('Please select venue company and contacts');
+      this.isEventVenuesInvalid = true;
+      return false;
     }
 
     if (this.venueCompanies && this.venueCompanies.length > 0) {
       for (let i = 0; i < this.venueCompanies.length; i++) {
         if (this.venueCompanies[i] instanceof InviteFnCmpClass) {
-          continue;
+          console.log('In If Condition')
+          this.toaster.error('Please select venue company and contacts');
+          this.isEventVenuesInvalid = true;
+          return false;
+          // continue;
         }
         if (!this.venueContactLists[i] || (this.venueContactLists[i] && this.venueContactLists[i].length === 0)) {
           this.toaster.error('Please select contacts for assigned selected venue companies');
@@ -1571,10 +1582,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     } else {
-      this.isEventVenuesInvalid = false;
-      return true;
-      // this.isEventVenuesInvalid = true;
-      // return false;
+      // this.isEventVenuesInvalid = false;
+      // return true;
+      this.toaster.error('Please select venue company and contacts');
+      this.isEventVenuesInvalid = true;
+      return false;
     }
     this.isEventVenuesInvalid = false;
     return true;
@@ -1589,7 +1601,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           let j = 0;
           for (const venueService of venueServices) {
             if (venueService.companyId === null) {
-              continue;
+              this.toaster.error('Please select supplier company and contacts');
+              this.isVenuesSuppliersInvalid = true;
+              return false;
+              // continue;
             }
             if (!venueService.contacts || (venueService.contacts && venueService.contacts.length <= 0)) {
               this.toaster.error('Please select contacts for assigned selected supplier company',
@@ -1619,7 +1634,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             let j = 0;
             for (const venueExhibitor of venueExhibitors) {
               if (venueExhibitor.companyId === null) {
-                continue;
+                this.toaster.error('Please select exhibitor company and contacts');
+                this.isVenuesExhibitorsInvalid = true;
+                return false;
+                // continue;
               }
               if (!venueExhibitor.contacts || (venueExhibitor.contacts && venueExhibitor.contacts.length <= 0)) {
                 this.toaster.error('Please select contacts for assigned selected exhibitor company',

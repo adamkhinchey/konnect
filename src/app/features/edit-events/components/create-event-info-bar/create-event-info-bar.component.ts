@@ -10,12 +10,18 @@ import { EventService } from "../../services/event.service";
 export class CreateEventInfoBarComponent implements OnInit {
   @Input() isEdit: boolean = false;
   isEditEvents: boolean = false;
+  isSaveDisable: boolean = false;
+  private subs1: Subscription | undefined;
   private subs2: Subscription | undefined;
   constructor(public eventService: EventService) { }
 
   ngOnInit(): void {
-    this.subs2 = this.eventService.isEditChange.subscribe((value) => {
+    this.eventService.isEditChange.subscribe((value) => {
       this.isEditEvents = value;
+    })
+    this.eventService.isSaveDisabledChange.subscribe((value) => {
+      console.log('isSaveDisableValue: ', value)
+      this.isSaveDisable = value;
     })
   }
 

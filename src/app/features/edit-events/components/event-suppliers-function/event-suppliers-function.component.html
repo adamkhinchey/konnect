@@ -243,7 +243,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </button>
                               <button [disabled]="eventData.eventData.isDeleted" class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit"
                                 (click)="editServiceFn()">Edit</button>
-                              <button [disabled]="checkSelectedCompany(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))" class="ui button hasModal ml-3" data-modal="inviteModal"
+                              <button class="ui button hasModal ml-3" data-modal="inviteModal"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})"
                                 *ngIf="isServiceEdit">Save &amp; Invite
                               </button>

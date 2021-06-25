@@ -36,12 +36,6 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    if (this.max) {
-      let date: any = moment(this.max).format('YYYY-MM-DD');
-      console.log(date);
-      date = moment.utc(date).add(24, 'hours');
-      console.log(moment.utc(date));
-    }
   }
 
   ngAfterViewInit(): void {
