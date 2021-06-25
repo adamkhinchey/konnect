@@ -63,7 +63,7 @@
     *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable">
     <div class="sixteen wide column">
       <div class="ui basic button blue fluid addContacts hasModal" (click)="openVerticallyCentered(contactModal)"
-        data-modal="contacts">
+        data-modal="contacts" [ngClass]="{disabled: disableAddContacts }">
         <i class="plus circle icon"></i>Add Contact
       </div>
     </div>
