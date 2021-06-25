@@ -1561,8 +1561,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.venueCompanies = this.venueCompanies.filter(vc => vc !== null);
     } else {
+      console.log(cloneDeep('in first else'))
       this.toaster.error('Please select venue company and contacts');
       this.isEventVenuesInvalid = true;
+      this.ngOnInit();
       return false;
     }
 
@@ -1582,10 +1584,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     } else {
-      // this.isEventVenuesInvalid = false;
-      // return true;
       this.toaster.error('Please select venue company and contacts');
       this.isEventVenuesInvalid = true;
+      this.ngOnInit();
       return false;
     }
     this.isEventVenuesInvalid = false;
@@ -1603,6 +1604,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             if (venueService.companyId === null) {
               this.toaster.error('Please select supplier company and contacts');
               this.isVenuesSuppliersInvalid = true;
+              this.ngOnInit();
               return false;
               // continue;
             }
@@ -1636,6 +1638,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               if (venueExhibitor.companyId === null) {
                 this.toaster.error('Please select exhibitor company and contacts');
                 this.isVenuesExhibitorsInvalid = true;
+                this.ngOnInit();
                 return false;
                 // continue;
               }
