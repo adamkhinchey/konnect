@@ -1272,6 +1272,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.eventToBeSaved.venues!.list[i].invited = (this.venueCompanies[i] as InviteFnCmpClass);
           }
         }
+      } else {
+        this.eventToBeSaved.venues = null;
       }
     }
 
@@ -1541,11 +1543,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private isVenuesValid(): boolean {
-    console.log(cloneDeep(this.venueCompanies));
-    console.log(cloneDeep(this.venueContactLists))
-    this.venueCompanies = cloneDeep(this.venueCompanies);
-    this.venueContactLists = cloneDeep(this.venueContactLists);
     if (this.venueCompanies && this.venueCompanies.length > 0) {
+      console.log(cloneDeep(this.venueCompanies));
+      console.log(cloneDeep(this.venueContactLists))
       /*
       * clean venue companies and there corresponding contacts
       * which are removed i.e venueCompany===null
@@ -1560,22 +1560,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
       this.venueCompanies = this.venueCompanies.filter(vc => vc !== null);
-    } else {
-      console.log(cloneDeep('in first else'))
-      this.toaster.error('Please select venue company and contacts');
-      this.isEventVenuesInvalid = true;
-      this.ngOnInit();
-      return false;
     }
 
     if (this.venueCompanies && this.venueCompanies.length > 0) {
       for (let i = 0; i < this.venueCompanies.length; i++) {
         if (this.venueCompanies[i] instanceof InviteFnCmpClass) {
-          console.log('In If Condition')
-          this.toaster.error('Please select venue company and contacts');
-          this.isEventVenuesInvalid = true;
-          return false;
-          // continue;
+          continue;
         }
         if (!this.venueContactLists[i] || (this.venueContactLists[i] && this.venueContactLists[i].length === 0)) {
           this.toaster.error('Please select contacts for assigned selected venue companies');
@@ -1584,10 +1574,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     } else {
-      this.toaster.error('Please select venue company and contacts');
-      this.isEventVenuesInvalid = true;
-      this.ngOnInit();
-      return false;
+      this.isEventVenuesInvalid = false;
+      return true;
+      // this.isEventVenuesInvalid = true;
+      // return false;
     }
     this.isEventVenuesInvalid = false;
     return true;
@@ -1602,11 +1592,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           let j = 0;
           for (const venueService of venueServices) {
             if (venueService.companyId === null) {
-              this.toaster.error('Please select supplier company and contacts');
-              this.isVenuesSuppliersInvalid = true;
-              this.ngOnInit();
-              return false;
-              // continue;
+              continue;
             }
             if (!venueService.contacts || (venueService.contacts && venueService.contacts.length <= 0)) {
               this.toaster.error('Please select contacts for assigned selected supplier company',
@@ -1636,11 +1622,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             let j = 0;
             for (const venueExhibitor of venueExhibitors) {
               if (venueExhibitor.companyId === null) {
-                this.toaster.error('Please select exhibitor company and contacts');
-                this.isVenuesExhibitorsInvalid = true;
-                this.ngOnInit();
-                return false;
-                // continue;
+                continue;
               }
               if (!venueExhibitor.contacts || (venueExhibitor.contacts && venueExhibitor.contacts.length <= 0)) {
                 this.toaster.error('Please select contacts for assigned selected exhibitor company',
