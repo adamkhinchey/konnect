@@ -1543,6 +1543,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private isVenuesValid(): boolean {
+    this.venueCompanies = cloneDeep(this.venueCompanies);
+    this.venueContactLists = cloneDeep(this.venueContactLists)
     if (this.venueCompanies && this.venueCompanies.length > 0) {
       console.log(cloneDeep(this.venueCompanies));
       console.log(cloneDeep(this.venueContactLists))
@@ -1574,10 +1576,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     } else {
-      this.isEventVenuesInvalid = false;
-      return true;
-      // this.isEventVenuesInvalid = true;
-      // return false;
+      // this.isEventVenuesInvalid = false;
+      // return true;
+      this.toaster.error('Please select venue company and contacts');
+      this.isEventVenuesInvalid = true;
+      return false;
     }
     this.isEventVenuesInvalid = false;
     return true;
@@ -1592,6 +1595,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           let j = 0;
           for (const venueService of venueServices) {
             if (venueService.companyId === null) {
+              this.toaster.error('Please select supplier company and contacts');
+              this.isVenuesSuppliersInvalid = true;
+              return false;
               continue;
             }
             if (!venueService.contacts || (venueService.contacts && venueService.contacts.length <= 0)) {
@@ -1622,6 +1628,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             let j = 0;
             for (const venueExhibitor of venueExhibitors) {
               if (venueExhibitor.companyId === null) {
+                this.toaster.error('Please select exhibitor company and contacts');
+                this.isVenuesExhibitorsInvalid = true;
+                return false;
                 continue;
               }
               if (!venueExhibitor.contacts || (venueExhibitor.contacts && venueExhibitor.contacts.length <= 0)) {
