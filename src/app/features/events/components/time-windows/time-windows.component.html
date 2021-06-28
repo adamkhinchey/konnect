@@ -73,6 +73,7 @@
                     #preEventEndDateTimes
                     [freeze]="isPreEventTimesSameAsVenue"
                     [eventDateTime]="preEventTimes[i]?.endDateTime || null"
+                    [max]="getMax(preEventTimes[i]?.startDateTime)"
                     [minimumDate]="getMinimumPreEventEndDateTime(i)"
                     [index]="index"
                     (addNewDateTime)="pushPreEventEndDateTime($event,i)"></app-date-time-picker>
@@ -171,6 +172,7 @@
                     #eventEndDateTimes
                     [freeze]="isEventTimesSameAsVenue"
                     [eventDateTime]="eventTimes[i]?.endDateTime || null"
+                    [max]="getMax(eventTimes[i]?.startDateTime)"
                     [minimumDate]="getMinimumEventEndDateTime(i)"
                     [index]="index"
                     (addNewDateTime)="pushEventEndDateTime($event,i)"
@@ -268,6 +270,7 @@
                     #postEventEndDateTimes
                     [freeze]="isPostEventTimesSameAsVenue"
                     [eventDateTime]="postEventTimes[i]?.endDateTime || null"
+                    [max]="getMax(postEventTimes[i]?.startDateTime)"
                     [minimumDate]="getMinimumPostEventEndDateTime(i)"
                     [index]="index"
                     (addNewDateTime)="pushPostEventEndDateTime($event,i)">

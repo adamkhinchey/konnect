@@ -68,7 +68,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   private venuePostEventTimeChangeSub: Subscription | undefined;
   isPostEventTimesSameAsVenue = false;
-
+  private timeZone = moment.tz.guess();
   constructor(private toaster: ToastrService, private eventService: EventService) {
   }
 
@@ -469,6 +469,18 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
     const len = this.postEventTimes.length;
     for (let i = 0; i < len; i++) {
       this.postEventTimes.pop();
+    }
+  }
+
+  getMax(max: any) {
+    let maxDate;
+    if (max) {
+      console.log(max)
+      console.log(moment.tz(max, this.timeZone).hours(23).minutes(59).seconds(59).toDate());
+      maxDate = moment.tz(max, this.timeZone).hours(23).minutes(59).seconds(59).toDate();
+      return maxDate
+    } else {
+      return null
     }
   }
 
