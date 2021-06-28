@@ -1,17 +1,17 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {v4 as uuidV4} from 'uuid';
-import {ColleagueInviteInterface, UserSettingsInterface} from '../../../../shared/models';
-import {UserSettingsService} from '../../../../shared/services';
-import {devLogger} from '../../../../shared/utils';
-import {CompaniesService} from '../../services/companies.service';
-import {Subscription} from 'rxjs';
-import {AuthService} from '../../../../core/services/auth.service';
-import {ToastrService} from 'ngx-toastr';
-import {AbstractControl, FormArray, FormBuilder, FormGroup} from '@angular/forms';
-import {InviteColleaguesComponent} from '../../../../shared/components/modals/invite-colleagues/invite-colleagues.component';
-import {RemoveType} from '../../../../shared/models';
-import {RemoveModalComponent} from '../../../../shared/components/modals/remove-modal/remove-modal.component';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { v4 as uuidV4 } from 'uuid';
+import { ColleagueInviteInterface, UserSettingsInterface } from '../../../../shared/models';
+import { UserSettingsService } from '../../../../shared/services';
+import { devLogger } from '../../../../shared/utils';
+import { CompaniesService } from '../../services/companies.service';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../../../core/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { InviteColleaguesComponent } from '../../../../shared/components/modals/invite-colleagues/invite-colleagues.component';
+import { RemoveType } from '../../../../shared/models';
+import { RemoveModalComponent } from '../../../../shared/components/modals/remove-modal/remove-modal.component';
 
 
 @Component({
@@ -29,7 +29,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
   public usersFirstName: any;
   private userSettingsSubscription: Subscription | undefined;
   public companyColleaguesData: { invitesPending: any[], admins: any[], colleagues: any[], joinRequests: any[] } =
-    {invitesPending: [], admins: [], colleagues: [], joinRequests: []};
+    { invitesPending: [], admins: [], colleagues: [], joinRequests: [] };
   public isUserAdmin = false;
   private approveReqSub: Subscription | undefined;
   private declineReqSub: Subscription | undefined;
@@ -73,13 +73,13 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
 
 
   openInviteColleagueModal(event: MouseEvent): void {
-    if(this.defaultCompany && this.defaultCompany.id) {
+    if (this.defaultCompany && this.defaultCompany.id) {
       this.inviteUID = uuidV4();
       this.modalReference = this.modalService.open(this.inviteColleaguesModal?.content, {
         centered: true,
         size: 'lg',
       });
-    }else{
+    } else {
       this.toaster.error('No Company is associated or selected');
     }
 
@@ -96,7 +96,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
 
   private getCompanyColleagues(): void {
     if (this.defaultCompany && this.defaultCompany.id) {
-      this.getCmpColleaguesSub = this.companiesService.getCompanyColleagues({companyId: this.defaultCompany.id})
+      this.getCmpColleaguesSub = this.companiesService.getCompanyColleagues({ companyId: this.defaultCompany.id })
         .subscribe(value => {
           if (value) {
             this.companyColleaguesData = value;
@@ -116,15 +116,15 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
   }
 
   private populatePositionsModel(p: any[]): void {
-    p.forEach(({userId, position}) => {
-      this.colleaguePositionsModelMap.set(userId, {colleagueID: userId, value: position});
+    p.forEach(({ userId, position }) => {
+      this.colleaguePositionsModelMap.set(userId, { colleagueID: userId, value: position });
     });
 
   }
 
   private patchAndBindPositionInpCtrlArray(param: any[]): void {
-    param.forEach(({userId, position}) => {
-      this.positionInpCtlArray?.push(this.patchPositions({colleagueID: userId, value: position}));
+    param.forEach(({ userId, position }) => {
+      this.positionInpCtlArray?.push(this.patchPositions({ colleagueID: userId, value: position }));
     });
   }
 
@@ -194,7 +194,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
     const target = event.target as HTMLInputElement;
     const isAdmin = target.checked ? 1 : 0;
     this.toggleAdminSub = this.companiesService
-      .toggleAdmin({companyId: this.defaultCompany.id, userId, isAdmin})
+      .toggleAdmin({ companyId: this.defaultCompany.id, userId, isAdmin })
       .subscribe((value) => {
         this.toaster.success(isAdmin ? 'Made admin successfully' : 'Removed from admins successfully');
         this.getCompanyColleagues();
@@ -286,9 +286,9 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
     this.colleagueRemoveReqSub?.unsubscribe();
   }
 
-  goToUserProfile(userId: any) {
+  goToUserProfile(userId: any, isPrivate: any) {
     console.log(userId);
-    if (userId) {
+    if (userId && isPrivate == 0) {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/edit-profile?isView=' + true);

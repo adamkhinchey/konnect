@@ -187,7 +187,7 @@
                                  [src]="company.companyProfileImage || '../../assets/img/default_konnect_img.png'"
                             appImageFallback  fallbackImage="../../assets/img/default_konnect_img.png">
                             <div class="header">
-                              <a (click)="goToCompanyProfile(company.id)">{{company.companyName}}</a>
+                              <a (click)="goToCompanyProfile(company.id, company.isPrivate)">{{company.companyName}}</a>
                             </div>
                             <div class="meta">
                               <b>{{company.position}}</b>

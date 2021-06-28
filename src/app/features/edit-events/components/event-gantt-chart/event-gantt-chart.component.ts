@@ -113,12 +113,13 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
             preTimeData.services?.forEach((servicesData) => {
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
-                content: 'BI',
-                title: `<b>${servicesData.content} Bump In </b><br/>
+                content: servicesData.content || '',
+                title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
-${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}`,
-                start: servicesData.startDateTime,
-                end: servicesData.endDateTime,
+${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p>
+<b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite || ''}</small>`,
+                start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
+                end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
               });
             });
@@ -126,12 +127,13 @@ ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}`,
             preTimeData.exhibitors?.forEach((exhibitorsData) => {
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
-                content: 'BI',
-                title: `<b>${exhibitorsData.content} Bump In </b><br/>
+                content: exhibitorsData.content || '',
+                title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName || exhibitorsData.companyName}<br/>
 ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
-${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`,
+${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}</p>
+<b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite || ''}</small>`,
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
-                end: moment(exhibitorsData.endDateTime, this.timeZone).toDate(),
+                end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
               });
             });
@@ -192,10 +194,11 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
             postTimeData.services?.forEach((servicesData) => {
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
-                content: 'BO',
-                title: `${servicesData.content} Bump Out
-                ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
-                ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}`,
+                content: servicesData.content || '',
+                title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
+${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
+${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p>
+<b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite || ''}</small>`,
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
@@ -205,10 +208,11 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
             postTimeData.exhibitors?.forEach((exhibitorsData) => {
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
-                content: 'BO',
-                title: `${exhibitorsData.content} Bump Out
-                ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
-                ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`,
+                content: exhibitorsData.content || '',
+                title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName || exhibitorsData.companyName}<br/>
+${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
+${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}</p>
+<b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite || ''}</small>`,
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,

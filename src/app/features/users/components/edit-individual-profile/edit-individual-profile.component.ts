@@ -74,13 +74,13 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     private companyService: CompaniesService,
     private authService: AuthService,
     private router: Router,
-    public aroute:ActivatedRoute,
+    public aroute: ActivatedRoute,
     private fileUploadService: UploadFileService,
     private userSettingsService: UserSettingsService) {
-      this.aroute.queryParams.subscribe(param => {
-        if (param.isView)
-          this.isView = param.isView;
-      })
+    this.aroute.queryParams.subscribe(param => {
+      if (param.isView)
+        this.isView = param.isView;
+    })
   }
 
   ngOnInit(): void {
@@ -282,9 +282,9 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     devLogger('log', { FILEEEEE: event });
   }
 
-  goToCompanyProfile(companyId: any) {
+  goToCompanyProfile(companyId: any, isPrivate: any) {
     console.log(companyId);
-    if (companyId) {
+    if (companyId && isPrivate == 0) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);

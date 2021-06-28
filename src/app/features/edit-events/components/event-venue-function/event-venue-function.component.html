@@ -73,9 +73,11 @@
                             <div class="addNewService insideSelect float-right">
 
                               <p *ngIf="panel.status == 1 && !isVenueEdit"> <i class="ui icon circle green"></i>
-                                <b>Confirm</b> </p>
+                                <b>Confirm</b>
+                              </p>
                               <p *ngIf="panel.status == 0 && !isVenueEdit"> <i class="ui icon circle orange"></i>
-                                <b>Pending</b> </p>
+                                <b>Pending</b>
+                              </p>
 
                               <div class=" selection" *ngIf="isVenueEdit">
                                 <select class="form-control" [ngModelOptions]="{standalone:true}"
@@ -100,7 +102,7 @@
                                     appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                   <div class="header">
                                     <a
-                                      (click)="goToCompanyProfile(getCompanyId(i))">{{selectedCompanies[i]!.companyName}}</a>
+                                      (click)="goToCompanyProfile(getCompanyId(i),getIsPrivate(i))">{{selectedCompanies[i]!.companyName}}</a>
                                   </div>
                                   <div class="meta">
                                     <!-- <a *ngIf="getCompanyWebsite(i)" [href]="getCompanyWebsite(i)"

@@ -211,9 +211,21 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
-  goToCompanyProfile(companyId: any) {
+  getIsPrivate(i: number): any {
+    if (this.selectedCompanies && this.selectedCompanies[i]) {
+      if (this.selectedCompanies[i] instanceof InviteFnCmpClass) {
+        return null;
+      } else {
+        return (this.selectedCompanies[i] as Company)?.isPrivate;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  goToCompanyProfile(companyId: any, isPrivate: any) {
     console.log(companyId);
-    if (companyId) {
+    if (companyId && isPrivate == 0) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);

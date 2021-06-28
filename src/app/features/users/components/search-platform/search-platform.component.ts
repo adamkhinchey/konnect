@@ -276,18 +276,18 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
     this.deleteConnSub?.unsubscribe();
   }
 
-  goToCompanyProfile(companyId: any) {
+  goToCompanyProfile(companyId: any, isPrivate: any) {
     console.log(companyId);
-    if (companyId) {
+    if (companyId && isPrivate == 0) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
     }
   }
 
-  goToUserProfile(userId: any) {
+  goToUserProfile(userId: any, isPrivate: any) {
     console.log(userId);
-    if (userId) {
+    if (userId && isPrivate == 0) {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/edit-profile?isView=' + true);

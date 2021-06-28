@@ -160,7 +160,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
                                         <a
-                                          (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
+                                          (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)), getIsPrivate(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
                                         <a>

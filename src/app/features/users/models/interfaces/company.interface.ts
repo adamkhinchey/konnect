@@ -19,5 +19,6 @@ export interface Company {
     canClaim: number;
     canJoin: number;
     isViewPermission?:any;
+    isPrivate?:any;
 }
 

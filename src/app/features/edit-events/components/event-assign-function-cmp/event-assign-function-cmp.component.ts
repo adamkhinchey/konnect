@@ -110,9 +110,9 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     this.currentContactLabelIdSelected = null;
   }
 
-  goToUserProfile(userId: any) {
+  goToUserProfile(userId: any, isPrivate: any) {
     console.log(userId);
-    if (userId) {
+    if (userId && isPrivate == 0) {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/edit-profile?isView=' + true);

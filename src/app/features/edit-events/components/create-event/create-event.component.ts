@@ -200,7 +200,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               companyUID: '',
               companyType: '',
               canClaim: 0,
-              canJoin: 0
+              canJoin: 0,
+              isPrivate: this.data.eventData.client.isPrivate || 0
             } as Company);
             this.eventToBeSaved = ({
               title: this.data.eventData.title,
@@ -227,7 +228,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 contactRole: contacts[i].contactRole,
                 profileImage: contacts[i].profileImage,
                 mobile: contacts[i].mobile,
-                isCrew: contacts.isCrew || 0
+                isCrew: contacts.isCrew || 0,
+                isPrivate: contacts[i].isPrivate || 0
               });
             }
           }
@@ -257,7 +259,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               companyUID: '',
               companyType: '',
               canClaim: 0,
-              canJoin: 0
+              canJoin: 0,
+              isPrivate: this.data.eventData.client.isPrivate || 0
             } as Company);
             this.eventToBeSaved = ({
               title: this.data.eventData.title,
@@ -286,7 +289,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 contactRole: contacts[i].contactRole,
                 profileImage: contacts[i].profileImage,
                 mobile: contacts[i].mobile,
-                isCrew: contacts[i].isCrew || 0
+                isCrew: contacts[i].isCrew || 0,
+                isPrivate: contacts[i].isPrivate || 0
               });
             }
           }
@@ -304,6 +308,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   status: venue.status,
                   isStaffOrAdmin: venue.isStaffOrAdmin,
                   isViewPermission: venue.isViewPermission,
+                  isPrivate: venue.isPrivate || 0,
                   contacts: venue.contacts.map((contact: any) => {
                     return {
                       id: contact.id,
@@ -316,7 +321,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                       contactRole: contact.contactRole,
                       profileImage: contact.profileImage,
                       mobile: contact.mobile,
-                      isCrew: contact.isCrew || 0
+                      isCrew: contact.isCrew || 0,
+                      isPrivate: contact.isPrivate || 0
                     };
                   }),
                   preEventAccessDateTimes: venue.preEventTime,
@@ -356,7 +362,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyUID: '',
                   companyType: '',
                   canClaim: 0,
-                  canJoin: 0
+                  canJoin: 0,
+                  isPrivate: venues[i].isPrivate || 0
                 } as Company));
               }
               const contacts: any = venues[i].contacts.map((contact: any) => {
@@ -371,7 +378,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   contactRole: contact.contactRole,
                   profileImage: contact.profileImage,
                   mobile: contact.mobile,
-                  isCrew: contact.isCrew || 0
+                  isCrew: contact.isCrew || 0,
+                  isPrivate: contact.isPrivate || 0
                 };
               });
               if (!findVenueId && findVenueId == undefined) {
@@ -393,6 +401,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 return {
                   companyId: venue.venueCompanyId,
                   venueId: venue.venueId,
+                  isPrivate: venue.isPrivate || 0,
                   contacts: venue.contacts.map((contact: any) => {
                     return {
                       id: contact.id,
@@ -405,7 +414,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                       contactRole: contact.contactRole,
                       profileImage: contact.profileImage,
                       mobile: contact.mobile,
-                      isCrew: contact.isCrew || 0
+                      isCrew: contact.isCrew || 0,
+                      isPrivate: contact.isPrivate || 0
                     };
                   }),
                   preEventAccessDateTimes: venue.preEventTime,
@@ -439,7 +449,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           companyUID: '',
                           companyType: '',
                           canClaim: 0,
-                          canJoin: 0
+                          canJoin: 0,
+                          isPrivate: service.isPrivate || 0
                         } as Company);
                         this.eventService.addFetchedVenueSrvcCmp({ venueIndex, serviceIndex, company: serviceCompany });
                         const contacts = service.contacts.map((contact: any) => {
@@ -454,7 +465,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             contactRole: contact.contactRole,
                             profileImage: contact.profileImage,
                             mobile: contact.mobile,
-                            isCrew: contact.isCrew || 0
+                            isCrew: contact.isCrew || 0,
+                            isPrivate: contact.isPrivate || 0
                           };
                         });
                         console.log('contacts: ', cloneDeep(contacts));
@@ -468,6 +480,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           isViewPermission: service.isViewPermission,
                           status: service.status,
                           isStaffOrAdmin: service.isStaffOrAdmin,
+                          isPrivate: service.isPrivate || 0,
                           timeWindows: {
                             bumpIn: {
                               sameAsVenue: 0,
@@ -516,7 +529,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyUID: '',
                   companyType: '',
                   canClaim: 0,
-                  canJoin: 0
+                  canJoin: 0,
+                  isPrivate: venues[i].isPrivate || 0
                 } as Company));
               }
               const contacts: any = venues[i].contacts.map((contact: any) => {
@@ -531,7 +545,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   contactRole: contact.contactRole,
                   profileImage: contact.profileImage,
                   mobile: contact.mobile,
-                  isCrew: contact.isCrew || 0
+                  isCrew: contact.isCrew || 0,
+                  isPrivate: contact.isPrivate || 0
                 };
               });
               if (!findVenueId && findVenueId == undefined) {
@@ -555,6 +570,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 return {
                   companyId: venue.venueCompanyId,
                   venueId: venue.venueId,
+                  isPrivate: venue.isPrivate || 0,
                   contacts: venue.contacts.map((contact: any) => {
                     return {
                       id: contact.id,
@@ -567,7 +583,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                       contactRole: contact.contactRole,
                       profileImage: contact.profileImage,
                       mobile: contact.mobile,
-                      isCrew: contact.isCrew || 0
+                      isCrew: contact.isCrew || 0,
+                      isPrivate: contact.isPrivate || 0
                     };
                   }),
                   preEventAccessDateTimes: venue.preEventTime,
@@ -617,7 +634,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             companyUID: '',
                             companyType: '',
                             canClaim: 0,
-                            canJoin: 0
+                            canJoin: 0,
+                            isPrivate: exhibitor.isPrivate || 0
                           } as Company);
                           this.eventService.addFetchedVenueExCmp({ venueIndex, exhibitorIndex, company: exhibitorCompany });
 
@@ -633,7 +651,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                               contactRole: contact.contactRole,
                               profileImage: contact.profileImage,
                               mobile: contact.mobile,
-                              isCrew: contact.isCrew || 0
+                              isCrew: contact.isCrew || 0,
+                              isPrivate: contact.isPrivate || 0
                             };
                           });
                           this.eventService.addFetchedVenueExCmpCnt({ contactList: contacts, exhibitorIndex, venueIndex });
@@ -647,6 +666,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             exhibitorId: exhibitor.exhibitorId,
                             status: exhibitor.status,
                             isStaffOrAdmin: exhibitor.isStaffOrAdmin,
+                            isPrivate: exhibitor.isPrivate || 0,
                             timeWindows: {
                               bumpIn: {
                                 sameAsVenue: 0,
@@ -693,7 +713,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyUID: '',
                   companyType: '',
                   canClaim: 0,
-                  canJoin: 0
+                  canJoin: 0,
+                  isPrivate: venues[i].isPrivate || 0
                 } as Company));
               }
               const contacts: any = venues[i].contacts.map((contact: any) => {
@@ -708,7 +729,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   contactRole: contact.contactRole,
                   profileImage: contact.profileImage,
                   mobile: contact.mobile,
-                  isCrew: contact.isCrew || 0
+                  isCrew: contact.isCrew || 0,
+                  isPrivate: contact.isPrivate || 0
                 };
               });
               if (!findVenueId && findVenueId == undefined) {

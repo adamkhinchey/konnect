@@ -477,4 +477,18 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
     this.venuePreEventTimeChangeSub?.unsubscribe();
     this.venueEventTimeChangeSub?.unsubscribe();
   }
+
+  getMax(max: any) {
+    if (max) {
+      // console.log(moment(max).hours());
+      // let hour = moment(max).hours();
+      // hour = 23 - hour;
+      // console.log(hour)
+      // return moment(max).add(hour, 'hours').format('h:mm a');
+      return max
+    } else {
+      return null
+    }
+  }
+
 }

@@ -320,9 +320,20 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     }
   }
 
-  goToCompanyProfile(companyId: any) {
+  getIsPrivate(company: Company | InviteFnCmpClass | undefined): any {
+    if (!company) {
+      return null;
+    }
+    if (company instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return (company as Company)?.isPrivate;
+    }
+  }
+
+  goToCompanyProfile(companyId: any, isPrivate:any) {
     console.log(companyId);
-    if (companyId) {
+    if (companyId && isPrivate == 0) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);

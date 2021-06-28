@@ -5,7 +5,7 @@
 <input #inp class="shadow-input" [owlDateTime]="dt1" [max]="max" [min]="minimumDate" [readOnly]="true" [disabled]="true"
        placeholder="Date Time" (dateTimeChange)="setDateTime($event)" [ngClass]="{'opacity-35': freeze}">
        
-<input type="text"class="timeWindowDate" [owlDateTimeTrigger]="dt1" [readOnly]="true" [disabled]="true"
+<input type="text"class="timeWindowDate" [owlDateTimeTrigger]="dt1" [max]="max" [readOnly]="true" [disabled]="true"
        placeholder="Date Time" (dateTimeChange)="setDateTime($event)"
        [value]="eventDateTime | dateFilter: 'dd/MM/YYYY, h:mm a'" [ngClass]="{'opacity-35': freeze}">
 

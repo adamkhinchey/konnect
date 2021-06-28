@@ -28,7 +28,7 @@
               <img class="right floated mini ui image" [src]="contact.profileImage" appImageFallback
                 fallbackImage="assets/img/default_konnect_individual_img.png">
               <div class="header">
-                <a (click)="goToUserProfile(contact.id)">{{contact.firstName + ' '+ (contact.lastName || '')}}</a>
+                <a (click)="goToUserProfile(contact.id, contact.isPrivate)">{{contact.firstName + ' '+ (contact.lastName || '')}}</a>
               </div>
               <div class="meta">
                 {{contact.contactPosition}}

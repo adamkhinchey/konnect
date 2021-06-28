@@ -243,9 +243,9 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     this.deleteConnSub?.unsubscribe();
   }
 
-  goToCompanyProfile(companyId: any) {
+  goToCompanyProfile(companyId: any, isPrivate: any) {
     console.log(companyId);
-    if (companyId) {
+    if (companyId && isPrivate == 0) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
@@ -254,12 +254,10 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
 
   goToUserProfile(userId: any, isPrivate: any) {
     console.log(userId);
-    if (isPrivate != true) {
-      if (userId) {
-        localStorage.setItem('userId', JSON.stringify(userId));
-        localStorage.setItem('isView', JSON.stringify(true));
-        window.open('/home/edit-profile?isView=' + true);
-      }
+    if (userId && isPrivate == 0) {
+      localStorage.setItem('userId', JSON.stringify(userId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/edit-profile?isView=' + true);
     }
   }
 

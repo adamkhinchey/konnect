@@ -37,7 +37,7 @@
                       <div class="content">
                         <img class="right floated mini ui image circular"
                              [src]="admin.profileImage ||'../../assets/img/default_konnect_img.png'">
-                        <div class="header" (click)="goToUserProfile(admin.userId)">
+                        <div class="header" (click)="goToUserProfile(admin.userId, admin.isPrivate)">
                           <a target="_blank">{{admin.firstName + ' ' + admin.lastName}}</a>
                         </div>
                         <div class="meta">
@@ -88,7 +88,7 @@
                       <div class="content">
                         <img class="right floated mini ui image circular"
                              [src]="colleague.profileImage || '../../assets/img/default_konnect_img.png'">
-                        <div class="header" (click)="goToUserProfile(colleague.userId)">
+                        <div class="header" (click)="goToUserProfile(colleague.userId, colleague.isPrivate)">
                           <a>{{colleague.firstName + ' ' + colleague.lastName}}</a>
                         </div>
                         <div class="meta">
@@ -205,7 +205,7 @@
                       <div class="content">
                         <img class="right floated mini ui image circular"
                              [src]="request.profileImage || ' ../../assets/img/default_konnect_img.png'">
-                        <div class="header" (click)="goToUserProfile(request.userId)">
+                        <div class="header" (click)="goToUserProfile(request.userId, request.isPrivate)">
                           <a>{{request.firstName + ' ' + request.lastName}}</a>
                         </div>
                         <div class="meta">

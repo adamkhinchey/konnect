@@ -36,6 +36,7 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+
   }
 
   ngAfterViewInit(): void {
