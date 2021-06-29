@@ -4,4 +4,5 @@ export interface InviteFnCmpCntInterface {
   firstName: string;
   contactLabelId: number | null;
   isCrew?: any;
+  isPrivate?:any;
 }
