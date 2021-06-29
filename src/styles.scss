@@ -500,8 +500,9 @@ app-create-event-info-bar + .mainContent .topinfoOuterMar {
   .infoBar .container {
     margin: 0 auto !important;
   }
-  app-create-event-info-bar + .mainContent .topinfoOuterMar {
-    margin-top: -80px;
+  app-create-event-info-bar + .mainContent .topinfoOuterMar  { margin-top: -80px; }
+  .sidebarContent .imgContainer .showProfileMenu {
+    background-color: #0091e6 !important;
   }
 }
 @media screen and (max-width: 640px) {
@@ -811,4 +812,7 @@ custom-select-option[key="3"]::before {
   border-radius: 4px;
   padding: 1px 3px 4px 3px;
   font-size: 16px;
+}
+.sidebarContent .imgContainer .showProfileMenu {
+  background-color: #0091e6 !important;
 }
