@@ -26,6 +26,10 @@
                 (inviteColleagueForm?.get('email')?.errors?.email || inviteColleagueForm?.get('email')?.errors?.required)">
                   A valid email address is required
                 </span>
+                <span *ngIf="inviteColleagueForm!.get('email')?.touched
+                && (
+                  inviteColleagueForm!.get('email')?.hasError('pattern')
+                )" class="text-danger">Invalid email</span>
               </div>
             </div>
             <div class="field required">

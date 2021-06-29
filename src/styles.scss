@@ -17,7 +17,7 @@
 
 a,
 a:hover {
-  color: #000;
+  color: #0091e6;
 }
 
 .minheight100vh {
@@ -353,6 +353,9 @@ ul.secondary.menu {
 .actionBar header .profileInfo .headerCompanySelector .dropdownChangeCompany {
   width: 100%;
 }
+.actionBar header .profileInfo .displaySettings {
+  background-color: #0091e6 !important;
+}
 .headerCompanySelector .dropdownChangeCompany .text {
   max-width: calc(100% - 20px);
   white-space: nowrap;
@@ -396,7 +399,9 @@ button:focus {
   width: 22px;
 }
 
-app-create-event-info-bar + .mainContent .topinfoOuterMar { margin-top: -50px; }
+app-create-event-info-bar + .mainContent .topinfoOuterMar {
+  margin-top: -50px;
+}
 @media screen and (max-width: 768px) {
   .pushable .ui.sidebar {
     -webkit-transform: translate3d(0, 0, 0);
@@ -452,7 +457,8 @@ app-create-event-info-bar + .mainContent .topinfoOuterMar { margin-top: -50px; }
     transition: transform 500ms ease, -webkit-transform 500ms ease;
     z-index: 2;
   }
-  .pushable .ui.sidebar, .ui.right.visible.sidebar {
+  .pushable .ui.sidebar,
+  .ui.right.visible.sidebar {
     box-shadow: 0px 0px 20px rgba(34, 36, 38, 0.15);
     transform: translate3d(-260px, 0, 0);
   }
@@ -461,67 +467,82 @@ app-create-event-info-bar + .mainContent .topinfoOuterMar { margin-top: -50px; }
     width: 100px;
     height: 100px;
   }
-  .profileMenu.show { display: block;  }
-  .ui.dropdown.dropdownChangeCompany { margin-bottom: 15px; }
-  .visibleMobile .button.compact { margin: 0px !important; } 
+  .profileMenu.show {
+    display: block;
+  }
+  .ui.dropdown.dropdownChangeCompany {
+    margin-bottom: 15px;
+  }
+  .visibleMobile .button.compact {
+    margin: 0px !important;
+  }
   .igx-calendar__body {
     font-size: 0.6rem;
   }
-  .sidebarContent .profileMobileDisplay { padding-top: 3rem; }
-  .ui.compact.buttons .button, .ui.compact.button {
+  .sidebarContent .profileMobileDisplay {
+    padding-top: 3rem;
+  }
+  .ui.compact.buttons .button,
+  .ui.compact.button {
     padding: 0.58928571em 0.925em 0.58928571em;
   }
-  .ui.container.visibleMobile { margin: 0px !important; }
+  .ui.container.visibleMobile {
+    margin: 0px !important;
+  }
   .ui.grid.regionOptions > * {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
 
-  .companyContainer.marginB20 h3 { margin-top: 15px; }
+  .companyContainer.marginB20 h3 {
+    margin-top: 15px;
+  }
   .infoBar .container {
     margin: 0 auto !important;
   }
-  app-create-event-info-bar + .mainContent .topinfoOuterMar  { margin-top: -80px; }
+  app-create-event-info-bar + .mainContent .topinfoOuterMar {
+    margin-top: -80px;
+  }
 }
-@media screen and (max-width:640px) {
+@media screen and (max-width: 640px) {
   .igx-calendar__body section + section {
     width: 100%;
     display: inline-block !important;
-}
-.ui.secondary.pointing.menu .item {
-	padding: 0.85714286em 1.043em;
-}
-.mainContent .ui.secondary.pointing.menu .item i {
-	margin-left: -10px;
-}
-.ui.grid > .column:not(.row), .ui.grid > .row > .column {
-	padding-left: 0.5rem;
-	padding-right: 0.5rem;
-}
-.parentAccordionVenue .ui.form {
-	font-size: 0.8rem;
-}
-.ui.segment {
-	padding: 0.5em 0.5em;
-}
-.ui.grid {
-	margin-left: -0.5rem;
-	margin-right: -0.5rem;
-}
-.card-body {
-	padding: 0.45rem;
-}
-.infoBar .ui.container {
-  padding: 0px 0.5em !important;
-}
-.innerTabCont.tab-content {
-	padding: 20px 10px;
-}
+  }
+  .ui.secondary.pointing.menu .item {
+    padding: 0.85714286em 1.043em;
+  }
+  .mainContent .ui.secondary.pointing.menu .item i {
+    margin-left: -10px;
+  }
+  .ui.grid > .column:not(.row),
+  .ui.grid > .row > .column {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .parentAccordionVenue .ui.form {
+    font-size: 0.8rem;
+  }
+  .ui.segment {
+    padding: 0.5em 0.5em;
+  }
+  .ui.grid {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+  .card-body {
+    padding: 0.45rem;
+  }
+  .infoBar .ui.container {
+    padding: 0px 0.5em !important;
+  }
+  .innerTabCont.tab-content {
+    padding: 20px 10px;
+  }
 
-.igx-calendar__body {
-	font-size: 0.9rem;
-}
-
+  .igx-calendar__body {
+    font-size: 0.9rem;
+  }
 }
 
 .pushable .actionBar .openMobileMenu {
@@ -560,14 +581,16 @@ app-create-event-info-bar + .mainContent .topinfoOuterMar { margin-top: -50px; }
 }
 
 .parentAccordionVenue .card-header .btn {
-	// width: calc(100% - 200px);
-	width: 100%;
+  // width: calc(100% - 200px);
+  width: 100%;
 }
 .card-header .addToPanel.addNewService {
-	top: 0.6em;
+  top: 0.6em;
 }
 
-.igx-calendar__date { cursor: pointer; } 
+.igx-calendar__date {
+  cursor: pointer;
+}
 igx-days-view.igx-calendar {
   border: 1px solid #414a59 !important;
   margin-top: 0px !important;
@@ -579,100 +602,115 @@ igx-days-view.igx-calendar {
   color: rgb(255, 255, 255) !important;
   border-radius: 0;
 }
-.igx-calendar__body-row:first-of-type, .igx-calendar__body-row--wrap:first-of-type {
-	margin: 0px !important;
-	background: #414a59;
+.igx-calendar__body-row:first-of-type,
+.igx-calendar__body-row--wrap:first-of-type {
+  margin: 0px !important;
+  background: #414a59;
 }
 .igx-calendar__label {
-	background: #414a59;
+  background: #414a59;
 }
 
-.igx-calendar__body-row, .igx-calendar__body-row--wrap {
-	margin: 0 !important;
-	padding: 0;
+.igx-calendar__body-row,
+.igx-calendar__body-row--wrap {
+  margin: 0 !important;
+  padding: 0;
 }
-.igx-calendar__date--single, .igx-calendar__date--selected.igx-calendar__date--first.igx-calendar__date--last {
-	background: transparent;
-	border: 1px solid rgba(0,0,0,.1);
+.igx-calendar__date--single,
+.igx-calendar__date--selected.igx-calendar__date--first.igx-calendar__date--last {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 .igx-calendar__date-content {
-	width: 100% !important;
+  width: 100% !important;
 }
-.igx-calendar__date, .igx-calendar__date--inactive { padding: 0px !important; }
+.igx-calendar__date,
+.igx-calendar__date--inactive {
+  padding: 0px !important;
+}
 .igx-calendar__date-content::after {
-	position: absolute;
-	content: "";
-	width: 100%  !important;
-	height: 100% !important;
-	top: 0px !important;
-	left: 0px !important;
-	border-radius: inherit;
-	z-index: -1;
+  position: absolute;
+  content: "";
+  width: 100% !important;
+  height: 100% !important;
+  top: 0px !important;
+  left: 0px !important;
+  border-radius: inherit;
+  z-index: -1;
 }
 
 .dateStartEndContainer {
-	margin-left: 180px;
+  margin-left: 180px;
 }
 .igx-calendar__date--special .igx-calendar__date-content {
-	background: #0a95e7 !important;
-	color: #000 !important;
+  background: #0a95e7 !important;
+  color: #000 !important;
 }
-.igx-calendar__date--special.igx-calendar__date--current  .igx-calendar__date-content {
+.igx-calendar__date--special.igx-calendar__date--current .igx-calendar__date-content {
   background: #fdd200 !important;
   border: 4px solid #0a95e7;
 }
 #timelineContainer .vis-range {
   border-color: #bfbfbf;
-  min-width:30px;
+  min-width: 30px;
 }
 
-.addNewService.insideSelect { max-width: 130px; }
-.multiselect-dropdown .dropdown-btn .selected-item {
-	max-width: none !important;
-	margin-bottom: 3px !important;
+.addNewService.insideSelect {
+  max-width: 130px;
 }
-.multiselect-dropdown .dropdown-btn { max-height: 140px; overflow: auto; }
+.multiselect-dropdown .dropdown-btn .selected-item {
+  max-width: none !important;
+  margin-bottom: 3px !important;
+}
+.multiselect-dropdown .dropdown-btn {
+  max-height: 140px;
+  overflow: auto;
+}
 
 .calendar-wrapper .igx-calendar__header {
   background: #414a59 !important;
 }
 .calendar-wrapper .igx-calendar-picker__date {
-	color: #000 !important;
+  color: #000 !important;
 }
-.calendar-wrapper .igx-calendar-picker__prev, .calendar-wrapper .igx-calendar-picker__next {
-	color: #000 !important;
+.calendar-wrapper .igx-calendar-picker__prev,
+.calendar-wrapper .igx-calendar-picker__next {
+  color: #000 !important;
 }
 
-.igx-calendar__body .igx-calendar__date--selected, .igx-calendar__body .igx-calendar__date--selected .igx-calendar__date-content {
-	background: #0a95e7 !important;
-	color: #000 !important;
+.igx-calendar__body .igx-calendar__date--selected,
+.igx-calendar__body .igx-calendar__date--selected .igx-calendar__date-content {
+  background: #0a95e7 !important;
+  color: #000 !important;
 }
 
 .multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
-	right: 15px !important;
+  right: 15px !important;
 }
 .mainContent .container {
   padding: 0;
 }
 
 .addNewService.insideSelect {
-	max-width: 120px;
-	margin: -8px 0 0 0;
+  max-width: 120px;
+  margin: -8px 0 0 0;
 }
 
 .addNewService.insideSelect select {
-	padding: 6px;
+  padding: 6px;
 }
 .popupNotes.ui.corner.label {
-	text-align: right;
-	padding-top: 6px;
-	padding-right: 10px;
+  text-align: right;
+  padding-top: 6px;
+  padding-right: 10px;
 }
-.actionBar header ul.mainMenu li.itemMenu a, .actionBar header ul.mainMenu li.itemMenu span {
-	min-height: 100%;
+.actionBar header ul.mainMenu li.itemMenu a,
+.actionBar header ul.mainMenu li.itemMenu span {
+  min-height: 100%;
 }
-.saveButtons.visibleMobile .downloadPDF { max-width: 50px; }
-
+.saveButtons.visibleMobile .downloadPDF {
+  max-width: 50px;
+}
 
 .parentAccordion.parentAccordionVenue .popupNotes {
   z-index: 9;
@@ -680,84 +718,94 @@ igx-days-view.igx-calendar {
 
 .parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter {
   display: none;
-	position: absolute;
-	z-index: 9;
-	right: 2.3rem;
-	top: -50px;
-	background: #fff;
-	border-radius: 5px;
-	width: 230px;
-	border: 1px solid #ddd;
-	padding: 10px;
-	font-weight: normal;
-	box-shadow: 0 0 7px 1px rgba(0,0,0,0.1);
+  position: absolute;
+  z-index: 9;
+  right: 2.3rem;
+  top: -50px;
+  background: #fff;
+  border-radius: 5px;
+  width: 230px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-weight: normal;
+  box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.1);
 }
-.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter p { font-size: 12px; line-height: 18px; }
-.timeWindowsContainer .card { overflow: visible; }
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter p {
+  font-size: 12px;
+  line-height: 18px;
+}
+.timeWindowsContainer .card {
+  overflow: visible;
+}
 
-.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:after, .parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:before {
-	left: 100%;
-	top: 60px;
-	border: solid transparent;
-	content: "";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:after,
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:before {
+  left: 100%;
+  top: 60px;
+  border: solid transparent;
+  content: "";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
 }
 
 .parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:after {
-	border-color: rgba(255, 255, 255, 0);
-	border-left-color: #fff;
-	border-width: 10px;
-	margin-top: -10px;
+  border-color: rgba(255, 255, 255, 0);
+  border-left-color: #fff;
+  border-width: 10px;
+  margin-top: -10px;
 }
 .parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:before {
-	border-color: rgba(221, 221, 221, 0);
-	border-left-color: #ddd;
-	border-width: 11px;
-	margin-top: -11px;
+  border-color: rgba(221, 221, 221, 0);
+  border-left-color: #ddd;
+  border-width: 11px;
+  margin-top: -11px;
 }
-.parentAccordion.parentAccordionVenue .popupNotes:hover .tooltipOuter { display: block; }
+.parentAccordion.parentAccordionVenue .popupNotes:hover .tooltipOuter {
+  display: block;
+}
 custom-select-option {
   padding-left: 30px !important;
   position: relative;
 }
 
-custom-select-option[key='1']::before {
+custom-select-option[key="1"]::before {
   background: #f2711c;
   height: 14px;
   width: 14px;
   position: absolute;
-  content: '';
+  content: "";
   left: 10px;
   top: 14px;
   border-radius: 10px;
 }
 
-custom-select-option[key='2']::before {
-  background: #21BA45 !important;
+custom-select-option[key="2"]::before {
+  background: #21ba45 !important;
   height: 14px;
   width: 14px;
   position: absolute;
-  content: '';
+  content: "";
   left: 10px;
   top: 14px;
   border-radius: 10px;
 }
 
-custom-select-option[key='3']::before {
-  background: #DB2828 !important;
+custom-select-option[key="3"]::before {
+  background: #db2828 !important;
   height: 14px;
   width: 14px;
   position: absolute;
-  content: '';
+  content: "";
   left: 10px;
   top: 14px;
   border-radius: 10px;
 }
 
-.addNewService.insideSelect p b { font-size: 14px; }
+.addNewService.insideSelect p b {
+  font-size: 14px;
+}
 .addNewService.insideSelect p {
   border: 1px solid #ddd;
   border-radius: 4px;

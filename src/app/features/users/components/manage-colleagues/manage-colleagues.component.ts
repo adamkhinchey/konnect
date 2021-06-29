@@ -99,6 +99,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
       this.getCmpColleaguesSub = this.companiesService.getCompanyColleagues({ companyId: this.defaultCompany.id })
         .subscribe(value => {
           if (value) {
+            console.log(value);
             this.companyColleaguesData = value;
             this.populatePositionsModel([...this.companyColleaguesData.colleagues, ...this.companyColleaguesData.admins]);
             this.patchAndBindPositionInpCtrlArray(
@@ -288,6 +289,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
 
   goToUserProfile(userId: any, isPrivate: any) {
     console.log(userId);
+    console.log(isPrivate);
     if (userId && isPrivate == 0) {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));

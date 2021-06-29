@@ -7,3 +7,9 @@ a.disabled {
 .cursor-pointer{
   cursor: pointer;
 }
+
+.aligned-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

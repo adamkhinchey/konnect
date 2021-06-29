@@ -207,7 +207,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     this.editCompanyForm.get('website')?.setValue(this.companyInfo?.company.website);
     this.editCompanyForm.get('category')?.setValue(this.companyInfo?.company.category);
     this.editCompanyForm.get('description')?.setValue(this.companyInfo?.company.description);
-    for (let i = 0; i < this.companyInfo?.company.category.length; i++) {
+    for (let i = 0; i < this.companyInfo?.company?.category?.length; i++) {
       let data = this.categories.filter((val: any) => {
         return val.id == this.companyInfo?.company.category[i];
       })
