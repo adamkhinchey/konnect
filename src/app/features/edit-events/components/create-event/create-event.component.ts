@@ -260,7 +260,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               companyType: '',
               canClaim: 0,
               canJoin: 0,
-              isPrivate: this.data.eventData.client.isPrivate || 0
+              isPrivate: this.data.eventData.eventManager.isPrivate || 0
             } as Company);
             this.eventToBeSaved = ({
               title: this.data.eventData.title,
