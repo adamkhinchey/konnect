@@ -229,7 +229,7 @@ ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}<
       this.timeline = new Timeline(
         nativeElement,
         this.items,
-        // this.groups,
+        this.groups,
         this.options
       );
 
