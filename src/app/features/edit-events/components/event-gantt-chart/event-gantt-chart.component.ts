@@ -113,7 +113,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
             preTimeData.services?.forEach((servicesData) => {
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
-                content: servicesData.content || '',
+                content: 'BI',
                 title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
 ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
@@ -128,7 +128,7 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
             preTimeData.exhibitors?.forEach((exhibitorsData) => {
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
-                content: exhibitorsData.content || '',
+                content: 'BI',
                 title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName || exhibitorsData.companyName}<br/>
 ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
 ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
@@ -198,7 +198,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
             postTimeData.services?.forEach((servicesData) => {
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
-                content: servicesData.content || '',
+                content: 'BO',
                 title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
 ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
@@ -213,7 +213,7 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
             postTimeData.exhibitors?.forEach((exhibitorsData) => {
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
-                content: exhibitorsData.content || '',
+                content: 'BO',
                 title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName || exhibitorsData.companyName}<br/>
 ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
 ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
