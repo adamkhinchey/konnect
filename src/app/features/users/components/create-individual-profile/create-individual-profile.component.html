@@ -8,6 +8,7 @@
         <app-personal-details-tab
           (moveToCompanyDetailsTab)="showNextStep($event)"
           (profileImageChangeEvent)="profileImage=$event"
+          [personalDetails]="getPersonalDetails()"
         ></app-personal-details-tab>
       </ng-wizard-step>
       <ng-wizard-step [title]="'Company Details'">

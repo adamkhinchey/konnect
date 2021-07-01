@@ -118,16 +118,11 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         this.auth.saveToken((res) as LoginUserProfile);
         this.auth.loggedIn = true;
         this.user = (res) as LoginUserProfile;
-        console.log(this.user);
+        this.user!.inviteUID = this.uid
         localStorage.setItem('userId', JSON.stringify(this.user.id));
-        this.ngWizardService.next();
-        // this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
-        //   alert(value);
-        //   if (value.status) {
-        //     this.user = value.user;
-        //     this.ngWizardService.next();
-        //   }
-        // });
+        this.personalDetails = this.user as CreateProfilePersonalDetails;
+        console.log(this.personalDetails);
+        // this.ngWizardService.next();
       }, err => {
         console.log(err);
       });
@@ -138,6 +133,14 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
       //     this.ngWizardService.next();
       //   }
       // });
+    }
+  }
+
+  getPersonalDetails() {
+    if (this.personalDetails?.email != undefined || this.personalDetails?.email != '') {
+      return this.personalDetails
+    } else {
+      return undefined;
     }
   }
 
