@@ -72,10 +72,16 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         personalDetails.profileImage = url;
         this.auth.signup(personalDetails);
         this.personalDetails = personalDetails;
+        if(this.uid){
+          this.ngWizardService.next();
+        }
       });
     } else {
       this.auth.signup(personalDetails);
       this.personalDetails = personalDetails;
+      if(this.uid){
+        this.ngWizardService.next();
+      }
     }
   }
 
