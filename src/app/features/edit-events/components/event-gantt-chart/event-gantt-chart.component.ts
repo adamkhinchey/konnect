@@ -116,7 +116,8 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                 content: servicesData.content || '',
                 title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
-${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p>
+${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(servicesData.endDateTime, this.timeZone).format('HH:mm A')}</p>
 <b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite || ''}</small>`,
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
@@ -130,7 +131,8 @@ ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p
                 content: exhibitorsData.content || '',
                 title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName || exhibitorsData.companyName}<br/>
 ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
-${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}</p>
+${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(exhibitorsData.endDateTime, this.timeZone).format('HH:mm A')}</p>
 <b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite || ''}</small>`,
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
@@ -157,7 +159,8 @@ ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}<
                 content: servicesData.content || '',
                 title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
-${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p>
+${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(servicesData.endDateTime, this.timeZone).format('HH:mm A')}</p>
 <b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite || ''}</small>`,
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
@@ -170,7 +173,8 @@ ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p
                 id: `${exhibitorsData.id}_${uuidV4()}`,
                 content: exhibitorsData.content || '',
                 title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName}<br/>
-${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}</p>
+${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}<br/>
+${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(exhibitorsData.endDateTime, this.timeZone).format('HH:mm A')}</p>
 <b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite}</small>`,
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
@@ -197,7 +201,8 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
                 content: servicesData.content || '',
                 title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
-${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p>
+${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(servicesData.endDateTime, this.timeZone).format('HH:mm A')}</p>
 <b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite || ''}</small>`,
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
@@ -211,7 +216,8 @@ ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p
                 content: exhibitorsData.content || '',
                 title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName || exhibitorsData.companyName}<br/>
 ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
-${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}</p>
+${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(exhibitorsData.endDateTime, this.timeZone).format('HH:mm A')}</p>
 <b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite || ''}</small>`,
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
