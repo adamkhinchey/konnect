@@ -475,8 +475,6 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
   getMax(max: any) {
     let maxDate;
     if (max) {
-      console.log(max)
-      console.log(moment.tz(max, this.timeZone).hours(23).minutes(59).seconds(59).toDate());
       maxDate = moment.tz(max, this.timeZone).hours(23).minutes(59).seconds(59).toDate();
       return maxDate
     } else {
