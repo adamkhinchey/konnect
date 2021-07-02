@@ -108,12 +108,12 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
       notes: this.preEventNotes
     };
 
-    if (moment(this.preEventTimes[i].startDateTime).isAfter(this.preEventTimes[i].endDateTime) ||
-      !this.preEventTimes[i].endDateTime) {
+    // if (moment(this.preEventTimes[i].startDateTime).isAfter(this.preEventTimes[i].endDateTime) ||
+    //   !this.preEventTimes[i].endDateTime) {
       this.preEventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
         this.preEventTimes[i].startDateTime
       );
-    }
+    // }
 
     if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
       this.eventService.venuePreEventTimeChange.next({
@@ -207,12 +207,12 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
       notes: this.eventNotes
     };
 
-    if (moment(this.eventTimes[i].startDateTime).isAfter(this.eventTimes[i].endDateTime) ||
-      !this.eventTimes[i].endDateTime) {
+    // if (moment(this.eventTimes[i].startDateTime).isAfter(this.eventTimes[i].endDateTime) ||
+    //   !this.eventTimes[i].endDateTime) {
       this.eventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
         this.eventTimes[i].startDateTime
       );
-    }
+    // }
 
     if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
       this.eventService.venueEventTimeChange.next({
@@ -297,12 +297,12 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
       notes: this.postEventNotes
     };
 
-    if (moment(this.postEventTimes[i].startDateTime).isAfter(this.postEventTimes[i].endDateTime) ||
-      !this.postEventTimes[i].endDateTime) {
+    // if (moment(this.postEventTimes[i].startDateTime).isAfter(this.postEventTimes[i].endDateTime) ||
+    //   !this.postEventTimes[i].endDateTime) {
       this.postEventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
         this.postEventTimes[i].startDateTime
       );
-    }
+    // }
 
     if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
       this.eventService.venuePostEventTimeChange.next({
