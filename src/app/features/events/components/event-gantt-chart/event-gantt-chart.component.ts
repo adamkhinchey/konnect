@@ -116,7 +116,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                 content: 'BI',
                 title: `<b>${servicesData.content} Bump In </b><br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
-${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}`,
+${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>`,
                 start: servicesData.startDateTime,
                 end: servicesData.endDateTime,
                 group: servicesData.group,
@@ -129,7 +129,7 @@ ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}`,
                 content: 'BI',
                 title: `<b>${exhibitorsData.content} Bump In </b><br/>
 ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
-${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`,
+${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}<br/>`,
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
@@ -156,7 +156,7 @@ ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`
                 title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
 ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p>
-<b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite || ''}</small>`,
+<b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite || ''}</small><br/>`,
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
@@ -169,7 +169,7 @@ ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p
                 content: exhibitorsData.content || '',
                 title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName}<br/>
 ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}</p>
-<b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite}</small>`,
+<b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite}</small><br/>`,
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
@@ -195,7 +195,7 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
                 content: 'BO',
                 title: `${servicesData.content} Bump Out
                 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
-                ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}`,
+                ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>`,
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
@@ -208,7 +208,7 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
                 content: 'BO',
                 title: `${exhibitorsData.content} Bump Out
                 ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
-                ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`,
+                ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}<br/>`,
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
