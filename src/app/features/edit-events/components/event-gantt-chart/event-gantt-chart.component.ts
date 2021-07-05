@@ -98,6 +98,29 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
       };
 
       const items: vis.DataItemCollectionType = [];
+      let preServiceCount = 0;
+      let preServiceMargin = 15
+      let preDefaultMargin = 0;
+
+      let preExhibitorCount = 0;
+      let preExhibitorMargin = 15
+      let preExhibitorDefaultMargin = 0;
+
+      let eventServiceCount = 0;
+      let eventServiceMargin = 15
+      let eventDefaultMargin = 0;
+
+      let eventExhibitorCount = 0;
+      let eventExhibitorMargin = 15
+      let eventExhibitorDefaultMargin = 0;
+
+      let postServiceCount = 0;
+      let postServiceMargin = 15
+      let postDefaultMargin = 0;
+
+      let postExhibitorCount = 0;
+      let postExhibitorMargin = 15
+      let postExhibitorDefaultMargin = 0;      
       this.timelineData.groups.forEach((groupData) => {
         groupData.data.preTime.forEach(preTimeData => {
           items.push({
@@ -106,14 +129,18 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
             start: moment.tz(preTimeData.startDateTime, this.timeZone).toDate(),
             end: moment.tz(preTimeData.endDateTime, this.timeZone).toDate(),
             type: 'background',
-            className: 'bumpIn'
+            className: 'bumpIn',
           });
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             preTimeData.services?.forEach((servicesData) => {
+              if(preServiceCount)
+              preDefaultMargin = 20
+              preServiceCount++;
+              preServiceMargin = (preServiceMargin * preServiceCount) + preDefaultMargin;
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
-                content: 'BI',
+                content: `${'BI'}<br/>`,
                 title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
 ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
@@ -122,13 +149,18 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
+                style: "margin-top:" + preServiceMargin + "px",
               });
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             preTimeData.exhibitors?.forEach((exhibitorsData) => {
+              if(preExhibitorCount)
+              preExhibitorDefaultMargin = 20
+              preExhibitorCount++;
+              preExhibitorMargin = (preExhibitorMargin * preExhibitorCount) + preExhibitorDefaultMargin;
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
-                content: 'BI',
+                content: `${'BI'}<br/>`,
                 title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName || exhibitorsData.companyName}<br/>
 ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
 ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
@@ -137,6 +169,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
+                style: "margin-top:" + preExhibitorMargin + "px",
               });
             });
           }
@@ -154,9 +187,13 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             eventTimeData.services?.forEach((servicesData) => {
+              if(eventServiceCount)
+              eventDefaultMargin = 20
+              eventServiceCount++;
+              eventServiceMargin = (eventServiceMargin * eventServiceCount) + eventDefaultMargin;
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
-                content: servicesData.content || '',
+                content: `${servicesData.content || ''}<br/>`,
                 title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
 ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
@@ -165,13 +202,18 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
+                style: "margin-top:" + eventServiceMargin + "px",
               });
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             eventTimeData.exhibitors?.forEach((exhibitorsData) => {
+              if(eventExhibitorCount)
+              eventExhibitorDefaultMargin = 20
+              eventExhibitorCount++;
+              eventExhibitorMargin = (eventExhibitorMargin * eventExhibitorCount) + eventExhibitorDefaultMargin;
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
-                content: exhibitorsData.content || '',
+                content: `${exhibitorsData.content || ''}<br/>`,
                 title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName}<br/>
 ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}<br/>
 ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(exhibitorsData.endDateTime, this.timeZone).format('HH:mm A')}</p>
@@ -179,6 +221,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
+                style: "margin-top:" + eventExhibitorMargin + "px",
               });
             });
           }
@@ -196,9 +239,13 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             postTimeData.services?.forEach((servicesData) => {
+              if(postServiceCount)
+              postDefaultMargin = 20
+              postServiceCount++;
+              postServiceMargin = (postServiceMargin * postServiceCount) + postDefaultMargin;
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
-                content: 'BO',
+                content: `${'BO'}<br/>`,
                 title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
 ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
@@ -207,13 +254,18 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
+                style: "margin-top:" + postServiceMargin + "px",
               });
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             postTimeData.exhibitors?.forEach((exhibitorsData) => {
+              if(postExhibitorCount)
+              postExhibitorDefaultMargin = 20
+              postExhibitorCount++;
+              postExhibitorMargin = (postExhibitorMargin * postExhibitorCount) + postExhibitorDefaultMargin;
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
-                content: 'BO',
+                content: `${'BO'}<br/>`,
                 title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName || exhibitorsData.companyName}<br/>
 ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
 ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
@@ -222,6 +274,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
+                style: "margin-top:" + postExhibitorMargin + "px",
               });
             });
           }
@@ -235,12 +288,23 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
       this.timeline = new Timeline(
         nativeElement,
         this.items,
-        this.groups,
+        // this.groups,
         this.options
       );
-
       this.chdRef.detectChanges();
     }
+    //@ts-ignore
+    var className = $('.preServiceMargin').attr('class');
+    // alert(className);
+
+      // var j = $('.preServiceMargin').length;
+      // alert(j)
+      // for (var i = 0; i < j; i++) {
+      //   //alert($('#parent> div').children().eq(i).attr('class')); 
+      //   if (!$('#parent> div').children().eq(i).hasClass('the-one')) {
+      //     $('#parent> div').children().eq(i).css('background', 'yellow')
+      //   }
+      // }
   }
 
   ngOnDestroy(): void {
