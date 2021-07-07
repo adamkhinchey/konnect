@@ -135,9 +135,9 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
           if (this.timelineType === EventTimelineType.SERVICES) {
             preTimeData.services?.forEach((servicesData) => {
               if (preServiceCount)
-                preDefaultMargin = 20
+                preDefaultMargin = 18
               preServiceCount++;
-              preServiceMargin = (preServiceMargin * preServiceCount) + preDefaultMargin;
+              let preServiceMarginFinal = (preServiceMargin * preServiceCount) + preDefaultMargin * preServiceCount;
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
                 content: `${'BI'}<br/>`,
@@ -149,15 +149,16 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
-                style: "margin-top:" + preServiceMargin + "px",
+                style: "margin-top:" + preServiceMarginFinal + "px",
               });
             });
+            // preServiceMargin = 15;
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             preTimeData.exhibitors?.forEach((exhibitorsData) => {
               if (preExhibitorCount)
-                preExhibitorDefaultMargin = 20
+                preExhibitorDefaultMargin = 18
               preExhibitorCount++;
-              preExhibitorMargin = (preExhibitorMargin * preExhibitorCount) + preExhibitorDefaultMargin;
+              let preExhibitorMarginFinal = (preExhibitorMargin * preExhibitorCount) + preExhibitorDefaultMargin * preExhibitorCount;
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
                 content: `${'BI'}<br/>`,
@@ -169,7 +170,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
-                style: "margin-top:" + preExhibitorMargin + "px",
+                style: "margin-top:" + preExhibitorMarginFinal + "px",
               });
             });
           }
@@ -188,9 +189,9 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
           if (this.timelineType === EventTimelineType.SERVICES) {
             eventTimeData.services?.forEach((servicesData) => {
               if (eventServiceCount)
-                eventDefaultMargin = 20
+                eventDefaultMargin = 18
               eventServiceCount++;
-              eventServiceMargin = (eventServiceMargin * eventServiceCount) + eventDefaultMargin;
+              let eventServiceMarginFinal = (eventServiceMargin * eventServiceCount) + eventDefaultMargin * eventServiceCount;
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
                 content: `${servicesData.content || ''}<br/>`,
@@ -202,15 +203,15 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
-                style: "margin-top:" + eventServiceMargin + "px",
+                style: "margin-top:" + eventServiceMarginFinal + "px",
               });
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             eventTimeData.exhibitors?.forEach((exhibitorsData) => {
               if (eventExhibitorCount)
-                eventExhibitorDefaultMargin = 20
+                eventExhibitorDefaultMargin = 18
               eventExhibitorCount++;
-              eventExhibitorMargin = (eventExhibitorMargin * eventExhibitorCount) + eventExhibitorDefaultMargin;
+              let eventExhibitorMarginFinal = (eventExhibitorMargin * eventExhibitorCount) + eventExhibitorDefaultMargin * eventExhibitorCount;
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
                 content: `${exhibitorsData.content || ''}<br/>`,
@@ -221,7 +222,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
-                style: "margin-top:" + eventExhibitorMargin + "px",
+                style: "margin-top:" + eventExhibitorMarginFinal + "px",
               });
             });
           }
@@ -240,9 +241,9 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
           if (this.timelineType === EventTimelineType.SERVICES) {
             postTimeData.services?.forEach((servicesData) => {
               if (postServiceCount)
-                postDefaultMargin = 20
+                postDefaultMargin = 18
               postServiceCount++;
-              postServiceMargin = (postServiceMargin * postServiceCount) + postDefaultMargin;
+              let postServiceMarginFinal = (postServiceMargin * postServiceCount) + postDefaultMargin * postServiceCount;
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
                 content: `${'BO'}<br/>`,
@@ -254,15 +255,15 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
-                style: "margin-top:" + postServiceMargin + "px",
+                style: "margin-top:" + postServiceMarginFinal + "px",
               });
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             postTimeData.exhibitors?.forEach((exhibitorsData) => {
               if (postExhibitorCount)
-                postExhibitorDefaultMargin = 20
+                postExhibitorDefaultMargin = 18
               postExhibitorCount++;
-              postExhibitorMargin = (postExhibitorMargin * postExhibitorCount) + postExhibitorDefaultMargin;
+              let postExhibitorMarginFinal = (postExhibitorMargin * postExhibitorCount) + postExhibitorDefaultMargin * postExhibitorCount;
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
                 content: `${'BO'}<br/>`,
@@ -274,7 +275,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
-                style: "margin-top:" + postExhibitorMargin + "px",
+                style: "margin-top:" + postExhibitorMarginFinal + "px",
               });
             });
           }
