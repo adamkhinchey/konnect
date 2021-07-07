@@ -656,12 +656,10 @@ igx-days-view.igx-calendar {
   min-width: 30px;
 }
 
-#timelineContainer .preServiceMargin-117{
-  margin-top: 50px!important;
-}
-
-#timelineContainer .preServiceMargin-116{
-  margin-top: 50px!important;
+.vis-panel.vis-center,
+.vis-panel.vis-left,
+.vis-panel.vis-right {
+  overflow: scroll !important;
 }
 
 .addNewService.insideSelect {
