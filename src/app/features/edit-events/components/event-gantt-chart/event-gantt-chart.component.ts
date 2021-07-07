@@ -78,7 +78,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
         max: moment.tz(this.timelineData.maxDateTime, this.timeZone).hours(23).minutes(59).seconds(59).toDate(),
         margin: {
           item: {
-            vertical: 15,
+            vertical: 0,
           },
           axis: 260,
         },
@@ -120,7 +120,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
 
       let postExhibitorCount = 0;
       let postExhibitorMargin = 15
-      let postExhibitorDefaultMargin = 0;      
+      let postExhibitorDefaultMargin = 0;
       this.timelineData.groups.forEach((groupData) => {
         groupData.data.preTime.forEach(preTimeData => {
           items.push({
@@ -134,8 +134,8 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             preTimeData.services?.forEach((servicesData) => {
-              if(preServiceCount)
-              preDefaultMargin = 20
+              if (preServiceCount == 0)
+                preDefaultMargin = 20
               preServiceCount++;
               preServiceMargin = (preServiceMargin * preServiceCount) + preDefaultMargin;
               items.push({
@@ -154,8 +154,8 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             preTimeData.exhibitors?.forEach((exhibitorsData) => {
-              if(preExhibitorCount)
-              preExhibitorDefaultMargin = 20
+              if (preExhibitorCount == 0)
+                preExhibitorDefaultMargin = 20
               preExhibitorCount++;
               preExhibitorMargin = (preExhibitorMargin * preExhibitorCount) + preExhibitorDefaultMargin;
               items.push({
@@ -187,8 +187,8 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             eventTimeData.services?.forEach((servicesData) => {
-              if(eventServiceCount)
-              eventDefaultMargin = 20
+              if (eventServiceCount == 0)
+                eventDefaultMargin = 20
               eventServiceCount++;
               eventServiceMargin = (eventServiceMargin * eventServiceCount) + eventDefaultMargin;
               items.push({
@@ -207,8 +207,8 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             eventTimeData.exhibitors?.forEach((exhibitorsData) => {
-              if(eventExhibitorCount)
-              eventExhibitorDefaultMargin = 20
+              if (eventExhibitorCount == 0)
+                eventExhibitorDefaultMargin = 20
               eventExhibitorCount++;
               eventExhibitorMargin = (eventExhibitorMargin * eventExhibitorCount) + eventExhibitorDefaultMargin;
               items.push({
@@ -239,8 +239,8 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             postTimeData.services?.forEach((servicesData) => {
-              if(postServiceCount)
-              postDefaultMargin = 20
+              if (postServiceCount == 0)
+                postDefaultMargin = 20
               postServiceCount++;
               postServiceMargin = (postServiceMargin * postServiceCount) + postDefaultMargin;
               items.push({
@@ -259,8 +259,8 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             postTimeData.exhibitors?.forEach((exhibitorsData) => {
-              if(postExhibitorCount)
-              postExhibitorDefaultMargin = 20
+              if (postExhibitorCount == 0)
+                postExhibitorDefaultMargin = 20
               postExhibitorCount++;
               postExhibitorMargin = (postExhibitorMargin * postExhibitorCount) + postExhibitorDefaultMargin;
               items.push({
@@ -297,14 +297,14 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
     var className = $('.preServiceMargin').attr('class');
     // alert(className);
 
-      // var j = $('.preServiceMargin').length;
-      // alert(j)
-      // for (var i = 0; i < j; i++) {
-      //   //alert($('#parent> div').children().eq(i).attr('class')); 
-      //   if (!$('#parent> div').children().eq(i).hasClass('the-one')) {
-      //     $('#parent> div').children().eq(i).css('background', 'yellow')
-      //   }
-      // }
+    // var j = $('.preServiceMargin').length;
+    // alert(j)
+    // for (var i = 0; i < j; i++) {
+    //   //alert($('#parent> div').children().eq(i).attr('class')); 
+    //   if (!$('#parent> div').children().eq(i).hasClass('the-one')) {
+    //     $('#parent> div').children().eq(i).css('background', 'yellow')
+    //   }
+    // }
   }
 
   ngOnDestroy(): void {
