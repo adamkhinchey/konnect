@@ -134,10 +134,10 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             preTimeData.services?.forEach((servicesData) => {
-              if (preServiceCount == 0)
+              if (preServiceCount)
                 preDefaultMargin = 20
               preServiceCount++;
-              preServiceMargin = (preServiceMargin * preServiceCount) + preDefaultMargin;
+              preServiceMargin = (preServiceMargin * preServiceCount);
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
                 content: `${'BI'}<br/>`,
@@ -154,10 +154,10 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             preTimeData.exhibitors?.forEach((exhibitorsData) => {
-              if (preExhibitorCount == 0)
+              if (preExhibitorCount)
                 preExhibitorDefaultMargin = 20
               preExhibitorCount++;
-              preExhibitorMargin = (preExhibitorMargin * preExhibitorCount) + preExhibitorDefaultMargin;
+              preExhibitorMargin = (preExhibitorMargin * preExhibitorCount);
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
                 content: `${'BI'}<br/>`,
@@ -187,10 +187,10 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             eventTimeData.services?.forEach((servicesData) => {
-              if (eventServiceCount == 0)
+              if (eventServiceCount)
                 eventDefaultMargin = 20
               eventServiceCount++;
-              eventServiceMargin = (eventServiceMargin * eventServiceCount) + eventDefaultMargin;
+              eventServiceMargin = (eventServiceMargin * eventServiceCount);
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
                 content: `${servicesData.content || ''}<br/>`,
@@ -207,10 +207,10 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             eventTimeData.exhibitors?.forEach((exhibitorsData) => {
-              if (eventExhibitorCount == 0)
+              if (eventExhibitorCount)
                 eventExhibitorDefaultMargin = 20
               eventExhibitorCount++;
-              eventExhibitorMargin = (eventExhibitorMargin * eventExhibitorCount) + eventExhibitorDefaultMargin;
+              eventExhibitorMargin = (eventExhibitorMargin * eventExhibitorCount);
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
                 content: `${exhibitorsData.content || ''}<br/>`,
@@ -239,10 +239,10 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             postTimeData.services?.forEach((servicesData) => {
-              if (postServiceCount == 0)
+              if (postServiceCount)
                 postDefaultMargin = 20
               postServiceCount++;
-              postServiceMargin = (postServiceMargin * postServiceCount) + postDefaultMargin;
+              postServiceMargin = (postServiceMargin * postServiceCount);
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
                 content: `${'BO'}<br/>`,
@@ -259,10 +259,10 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             postTimeData.exhibitors?.forEach((exhibitorsData) => {
-              if (postExhibitorCount == 0)
+              if (postExhibitorCount)
                 postExhibitorDefaultMargin = 20
               postExhibitorCount++;
-              postExhibitorMargin = (postExhibitorMargin * postExhibitorCount) + postExhibitorDefaultMargin;
+              postExhibitorMargin = (postExhibitorMargin * postExhibitorCount);
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
                 content: `${'BO'}<br/>`,

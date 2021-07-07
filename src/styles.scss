@@ -500,7 +500,9 @@ app-create-event-info-bar + .mainContent .topinfoOuterMar {
   .infoBar .container {
     margin: 0 auto !important;
   }
-  app-create-event-info-bar + .mainContent .topinfoOuterMar  { margin-top: -80px; }
+  app-create-event-info-bar + .mainContent .topinfoOuterMar {
+    margin-top: -80px;
+  }
   .sidebarContent .imgContainer .showProfileMenu {
     background-color: #0091e6 !important;
   }
@@ -660,6 +662,18 @@ igx-days-view.igx-calendar {
 .vis-panel.vis-left,
 .vis-panel.vis-right {
   overflow: scroll !important;
+}
+
+#timelineContainer .vis-background .bumpIn {
+  height: 1000px !important;
+}
+
+#timelineContainer .vis-background .eventTimes{
+  height: 1000px !important;
+}
+
+#timelineContainer .vis-background .bumpOut {
+  height: 1000px !important;
 }
 
 .addNewService.insideSelect {
