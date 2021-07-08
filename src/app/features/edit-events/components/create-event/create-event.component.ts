@@ -1581,10 +1581,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           devLogger('log', { [`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i]) });
           this.eventToBeSaved.venues?.list.splice(i, 1);
         } else {
-          if (this.eventToBeSaved.venues?.list[i].contacts && this.eventToBeSaved.venues?.list[i].contacts?.length) {
-            //@ts-ignore
-            this.venueContactLists[i] = this.eventToBeSaved.venues?.list[i].contacts;
-          }
+          // if (this.eventToBeSaved.venues?.list[i].contacts && this.eventToBeSaved.venues?.list[i].contacts?.length) {
+          //   //@ts-ignore
+          //   this.venueContactLists[i] = this.eventToBeSaved.venues?.list[i].contacts;
+          // }
           devLogger('log', { [`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i]) });
         }
       }
