@@ -133,14 +133,14 @@
                         </div>
                       </div>
                       <app-event-assign-function-cmp #venueAssignCmp [selectedCompany]="getSelectedCompany(i)"
-                        [contactList]="panel.contacts?panel.contacts:[]" [permissionObj]="permissionObj"
+                        [contactList]="getVenueContacts(i)" [permissionObj]="permissionObj"
                         [isViewPermission]="1" [clientCmpBtnLabel]="'Add Venue'" [contactListLabel]="'Venue Contacts'"
                         [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                         (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)"
                         (contactRemove)="removeVenueContact(i,$event)" [isVenueEditable]="isVenueEditable">
                       </app-event-assign-function-cmp>
                       <app-event-assign-crew-function-cmp #venueCrewAssignCmp
-                        [contactList]="panel.contacts?panel.contacts:[]" [permissionObj]="permissionObj"
+                        [contactList]="getVenueContacts(i)" [permissionObj]="permissionObj"
                         [isViewPermission]="panel?.isViewPermission" [clientCmpBtnLabel]="'Add Crew'"
                         [contactListLabel]="'Assigned Crew'" [clientCompanyModal]="searchInviteCmpModal"
                         [contactModal]="searchInviteFnCmpCntModal" (modalOpen)="setOpenedModalRef($event)"

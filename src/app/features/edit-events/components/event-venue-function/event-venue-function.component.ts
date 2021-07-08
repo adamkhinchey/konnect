@@ -233,8 +233,17 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   }
 
   getSelectedCompany(index: any) {
+    console.log(this.venueContactLists);
     //@ts-ignore
     return this.selectedCompanies[index];
+  }
+
+  getVenueContacts(index: any) {
+    if (this.venueContactLists.length) {
+      return this.venueContactLists[index];
+    } else {
+      return [];
+    }
   }
 
   checkSelectedCompany(index: any) {
