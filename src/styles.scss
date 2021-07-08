@@ -658,10 +658,8 @@ igx-days-view.igx-calendar {
   min-width: 30px;
 }
 
-.vis-panel.vis-center,
-.vis-panel.vis-left,
-.vis-panel.vis-right {
-  // overflow: scroll !important;
+.vis-panel.vis-bottom, .vis-panel.vis-center, .vis-panel.vis-top {
+  // overflow-y: scroll !important;
 }
 
 #timelineContainer .vis-background .bumpIn {
