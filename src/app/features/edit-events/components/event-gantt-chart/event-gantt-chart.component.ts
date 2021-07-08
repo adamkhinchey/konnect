@@ -60,7 +60,17 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
     devLogger('log', { timelineData: this.timelineData });
 
     if (this.timelineData && !isEmpty(this.timelineData)) {
-
+      let serviceExhibitorLength: any = 0;
+      for (let i = 0; i < this.timelineData.groups.length; i++) {
+        if(this.timelineData.groups[i].data.preTime[0].services){
+        //@ts-ignore
+        serviceExhibitorLength = (serviceExhibitorLength + this.timelineData.groups[i].data.preTime[0].services?.length)
+      }else if(this.timelineData.groups[i].data.preTime[0].exhibitors){
+        //@ts-ignore
+        serviceExhibitorLength = (serviceExhibitorLength + this.timelineData.groups[i].data.preTime[0].exhibitors?.length)
+      }
+      }
+      console.log(serviceExhibitorLength);
 
       this.groups = new DataSet<any>(this.timelineData.groups.map(group => ({ id: group.date })));
 
@@ -135,7 +145,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
           if (this.timelineType === EventTimelineType.SERVICES) {
             preTimeData.services?.forEach((servicesData) => {
               // if (preServiceCount)
-                preDefaultMargin = 18
+              preDefaultMargin = 18
               preServiceCount++;
               let preServiceMarginFinal = (preServiceMargin * preServiceCount) + preDefaultMargin * preServiceCount;
               items.push({
@@ -156,7 +166,7 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             preTimeData.exhibitors?.forEach((exhibitorsData) => {
               // if (preExhibitorCount)
-                preExhibitorDefaultMargin = 18
+              preExhibitorDefaultMargin = 18
               preExhibitorCount++;
               let preExhibitorMarginFinal = (preExhibitorMargin * preExhibitorCount) + preExhibitorDefaultMargin * preExhibitorCount;
               items.push({
@@ -189,7 +199,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
           if (this.timelineType === EventTimelineType.SERVICES) {
             eventTimeData.services?.forEach((servicesData) => {
               // if (eventServiceCount)
-                eventDefaultMargin = 18
+              eventDefaultMargin = 18
               eventServiceCount++;
               let eventServiceMarginFinal = (eventServiceMargin * eventServiceCount) + eventDefaultMargin * eventServiceCount;
               items.push({
@@ -209,7 +219,7 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             eventTimeData.exhibitors?.forEach((exhibitorsData) => {
               // if (eventExhibitorCount)
-                eventExhibitorDefaultMargin = 18
+              eventExhibitorDefaultMargin = 18
               eventExhibitorCount++;
               let eventExhibitorMarginFinal = (eventExhibitorMargin * eventExhibitorCount) + eventExhibitorDefaultMargin * eventExhibitorCount;
               items.push({
@@ -241,7 +251,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
           if (this.timelineType === EventTimelineType.SERVICES) {
             postTimeData.services?.forEach((servicesData) => {
               // if (postServiceCount)
-                postDefaultMargin = 18
+              postDefaultMargin = 18
               postServiceCount++;
               let postServiceMarginFinal = (postServiceMargin * postServiceCount) + postDefaultMargin * postServiceCount;
               items.push({
@@ -261,7 +271,7 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             postTimeData.exhibitors?.forEach((exhibitorsData) => {
               // if (postExhibitorCount)
-                postExhibitorDefaultMargin = 18
+              postExhibitorDefaultMargin = 18
               postExhibitorCount++;
               let postExhibitorMarginFinal = (postExhibitorMargin * postExhibitorCount) + postExhibitorDefaultMargin * postExhibitorCount;
               items.push({
