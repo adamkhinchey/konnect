@@ -90,7 +90,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
           item: {
             vertical: 0,
           },
-          axis: 250,
+          axis: 40 * serviceExhibitorLength + 50,
         },
         timeAxis: {
           scale: 'hour',

@@ -114,12 +114,13 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
 
   reset() {
     this.isEventHistory = false;
-    this.eventListingSrvc.getEventsList(0).subscribe((res: any) => {
-      this.eventsCopy = this.events = res;
-      this.fillSpecialDates();
-    }, err => {
-      console.log(err);
-    })
+    // this.eventListingSrvc.getEventsList(0).subscribe((res: any) => {
+    //   this.eventsCopy = this.events = res;
+    //   this.fillSpecialDates();
+    // }, err => {
+    //   console.log(err);
+    // })
+    window.location.reload()
   }
 
   checkIsSame(startDate: any, endDate: any) {
