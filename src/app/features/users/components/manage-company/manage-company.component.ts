@@ -395,7 +395,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
         .subscribe((data) => {
           if (data) {
             this.toaster.success('Company profile updated successfully');
-            this.router.navigate(['home']);
+            // this.router.navigate(['home']);
           }
         }, err => {
           devLogger('error', err);
