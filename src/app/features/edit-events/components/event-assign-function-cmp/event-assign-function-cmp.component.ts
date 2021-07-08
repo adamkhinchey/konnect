@@ -64,6 +64,8 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   editContactLabelModal(editContactDetail: any, i: number): void {
+    console.log('contact detail: ', editContactDetail);
+    console.log('index: ', i);
     this.editContactLabelModalReference = this.modalService.open(editContactDetail, {
       centered: true,
       size: 'md',
@@ -104,7 +106,9 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   closeAndChangeContactLabelId(shouldChange: boolean = true): void {
     if (this.editingContactLabelIndex !== -1 && shouldChange) {
       this.contactList[this.editingContactLabelIndex].contactLabelId = this.currentContactLabelIdSelected;
+      console.log('contact label id in if: ', this.contactList[this.editingContactLabelIndex].contactLabelId);
     }
+    console.log('contact label id: ', this.contactList[this.editingContactLabelIndex].contactLabelId);
     this.editContactLabelModalReference?.close();
     this.editingContactLabelIndex = -1;
     this.currentContactLabelIdSelected = null;

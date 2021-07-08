@@ -290,9 +290,9 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
                             <div class="six wide column right aligned hideMobile">
-                              <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i
+                              <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i
                                   class="file pdf icon"></i>
-                              </button>
+                              </button> -->
                               <button [disabled]="eventData.eventData.isDeleted"
                                 class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit"
                                 (click)="editExhibitorFn()">Edit</button>

@@ -1574,12 +1574,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       * clean venue companies and there corresponding contacts
       * which are removed i.e venueCompany===null
        */
+      console.log(this.venueContactLists);
       for (let i = 0; i < this.venueCompanies.length; i++) {
         if (this.venueCompanies[i] === null) {
           this.venueContactLists.splice(i, 1);
           devLogger('log', { [`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i]) });
           this.eventToBeSaved.venues?.list.splice(i, 1);
         } else {
+          //@ts-ignore
+          this.venueContactLists[i] = this.eventToBeSaved.venues?.list[i].contacts;
           devLogger('log', { [`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i]) });
         }
       }

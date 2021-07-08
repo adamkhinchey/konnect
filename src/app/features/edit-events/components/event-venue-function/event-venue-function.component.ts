@@ -81,7 +81,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   }
 
   ngOnInit(): void {
-    if (this.eventData.eventData.isDeleted == 1) {
+    if (this.eventData?.eventData?.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
     // console.log("permissionObj ** ", this.permissionObj); 
