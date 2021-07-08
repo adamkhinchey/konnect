@@ -80,7 +80,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
           item: {
             vertical: 0,
           },
-          axis: 260,
+          axis: 250,
         },
         timeAxis: {
           scale: 'hour',
@@ -134,7 +134,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             preTimeData.services?.forEach((servicesData) => {
-              if (preServiceCount)
+              // if (preServiceCount)
                 preDefaultMargin = 18
               preServiceCount++;
               let preServiceMarginFinal = (preServiceMargin * preServiceCount) + preDefaultMargin * preServiceCount;
@@ -155,7 +155,7 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
             // preServiceMargin = 15;
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             preTimeData.exhibitors?.forEach((exhibitorsData) => {
-              if (preExhibitorCount)
+              // if (preExhibitorCount)
                 preExhibitorDefaultMargin = 18
               preExhibitorCount++;
               let preExhibitorMarginFinal = (preExhibitorMargin * preExhibitorCount) + preExhibitorDefaultMargin * preExhibitorCount;
@@ -188,7 +188,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             eventTimeData.services?.forEach((servicesData) => {
-              if (eventServiceCount)
+              // if (eventServiceCount)
                 eventDefaultMargin = 18
               eventServiceCount++;
               let eventServiceMarginFinal = (eventServiceMargin * eventServiceCount) + eventDefaultMargin * eventServiceCount;
@@ -208,7 +208,7 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             eventTimeData.exhibitors?.forEach((exhibitorsData) => {
-              if (eventExhibitorCount)
+              // if (eventExhibitorCount)
                 eventExhibitorDefaultMargin = 18
               eventExhibitorCount++;
               let eventExhibitorMarginFinal = (eventExhibitorMargin * eventExhibitorCount) + eventExhibitorDefaultMargin * eventExhibitorCount;
@@ -240,7 +240,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             postTimeData.services?.forEach((servicesData) => {
-              if (postServiceCount)
+              // if (postServiceCount)
                 postDefaultMargin = 18
               postServiceCount++;
               let postServiceMarginFinal = (postServiceMargin * postServiceCount) + postDefaultMargin * postServiceCount;
@@ -260,7 +260,7 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             postTimeData.exhibitors?.forEach((exhibitorsData) => {
-              if (postExhibitorCount)
+              // if (postExhibitorCount)
                 postExhibitorDefaultMargin = 18
               postExhibitorCount++;
               let postExhibitorMarginFinal = (postExhibitorMargin * postExhibitorCount) + postExhibitorDefaultMargin * postExhibitorCount;

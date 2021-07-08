@@ -661,19 +661,19 @@ igx-days-view.igx-calendar {
 .vis-panel.vis-center,
 .vis-panel.vis-left,
 .vis-panel.vis-right {
-  overflow: scroll !important;
+  // overflow: scroll !important;
 }
 
 #timelineContainer .vis-background .bumpIn {
-  height: 1000px !important;
+  min-height: 250px !important;
 }
 
 #timelineContainer .vis-background .eventTimes{
-  height: 1000px !important;
+  min-height: 250px !important;
 }
 
 #timelineContainer .vis-background .bumpOut {
-  height: 1000px !important;
+  min-height: 250px !important;
 }
 
 .addNewService.insideSelect {
