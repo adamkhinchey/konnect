@@ -834,3 +834,8 @@ custom-select-option[key="3"]::before {
 .sidebarContent .imgContainer .showProfileMenu {
   background-color: #0091e6 !important;
 }
+
+.igx-calendar__date--selected {
+	width: 100% !important;
+	padding: 0 !important;
+}
