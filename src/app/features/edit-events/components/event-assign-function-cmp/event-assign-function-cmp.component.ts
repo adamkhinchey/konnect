@@ -106,9 +106,8 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   closeAndChangeContactLabelId(shouldChange: boolean = true): void {
     if (this.editingContactLabelIndex !== -1 && shouldChange) {
       this.contactList[this.editingContactLabelIndex].contactLabelId = this.currentContactLabelIdSelected;
-      console.log('contact label id in if: ', this.contactList[this.editingContactLabelIndex].contactLabelId);
     }
-    console.log('contact label id: ', this.contactList[this.editingContactLabelIndex].contactLabelId);
+    console.log('contact list: ', this.contactList);
     this.editContactLabelModalReference?.close();
     this.editingContactLabelIndex = -1;
     this.currentContactLabelIdSelected = null;

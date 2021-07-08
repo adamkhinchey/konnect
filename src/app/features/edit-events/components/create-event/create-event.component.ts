@@ -1440,6 +1440,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         // });
         break;
       case EventFunctionTypes.VENUE:
+        console.log('contact list in venue: ', this.venueContactLists)
         // this.saveClient(false);
         // this.saveEvMgr(false);
         if (typeof param !== 'boolean') {
