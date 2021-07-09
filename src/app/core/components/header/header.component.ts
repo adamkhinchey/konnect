@@ -93,6 +93,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (!this.isView) {
       event.preventDefault();
       this.router.navigate(['home', 'edit-profile']);
+      var element = document.getElementById("bodyMain");
+      element!.classList.remove("pushable");
       return true;
     }
     return false;
