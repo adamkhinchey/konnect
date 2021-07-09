@@ -15,8 +15,8 @@
       </div>
       <div class="sixteen wide column right aligned saveButtons visibleMobile">
         <!-- <div class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i></div> -->
-
-        <a (click)="eventService.triggerSaveOnly.next()" class="ui button icon ml-2"><i class="save icon"></i></a>
+        <button *ngIf="!isEditEvents" [disabled]="eventService.isDeleted" (click)="edit()" class="ui button">Edit</button>
+        <a *ngIf="isEditEvents" (click)="eventService.triggerSaveOnly.next()" class="ui button icon ml-2"><i class="save icon"></i></a>
       </div>
     </div>
   </div>
