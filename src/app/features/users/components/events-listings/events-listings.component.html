@@ -58,8 +58,8 @@
                             </ng-container>
                         </ng-container>
                         <ng-template #noData>
-                            <h2 *ngIf="!isEventHistory">Your associated companies currently have no scheduled events</h2>
-                            <h2 *ngIf="isEventHistory">Your event history is empty</h2>
+                            <h2 *ngIf="!isEventHistory">{{noDataMsg}}</h2>
+                            <h2 *ngIf="isEventHistory">{{noDataMsg}}</h2>
                         </ng-template>
                     </div>
                 </div>

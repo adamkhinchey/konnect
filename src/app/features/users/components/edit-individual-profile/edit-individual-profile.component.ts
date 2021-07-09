@@ -41,7 +41,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     email: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEX)]],
     recoveryEmail: ['', [Validators.pattern(this.EMAIL_REGEX)]],
     timeZone: [null, [Validators.required]],
-    mobileNumber: ['', [Validators.pattern(this.MOBILE_REGEX)]],
+    mobileNumber: [''],
     city: ['', [Validators.required]],
     countryId: ['', [Validators.required]],
     id: [null, [Validators.required]],
