@@ -78,6 +78,12 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   changeToTodaysView() {
     let currentDate = new Date();
     this.calendar.changeMonth(currentDate);
+    this.eventListingSrvc.getEventsList(0).subscribe((res: any) => {
+      this.eventsCopy = this.events = res;
+      this.fillSpecialDates();
+    }, err => {
+      console.log(err);
+    })
   }
 
   public onSelection(dates: Date | Date[]) {
