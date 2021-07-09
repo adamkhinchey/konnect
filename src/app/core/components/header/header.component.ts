@@ -8,6 +8,7 @@ import { WINDOW } from 'ngx-window-token';
 import { UserSettingsInterface } from "../../../shared/models";
 import { take } from "rxjs/operators";
 import { Subscription } from "rxjs";
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -59,6 +60,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     // tslint:disable-next-line:variable-name
     @Inject(WINDOW) private _window: any,
+    @Inject(DOCUMENT) private document: Document,
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
@@ -102,6 +104,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userSettingsService.reset();
     this.isApproved = false;
     this.hideAllMenus();
+    var element = document.getElementById("bodyMain");
+    element!.classList.remove("pushable");
   }
 
   hideAllMenus(): void {
