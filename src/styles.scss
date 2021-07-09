@@ -506,6 +506,11 @@ app-create-event-info-bar + .mainContent .topinfoOuterMar {
   .sidebarContent .imgContainer .showProfileMenu {
     background-color: #0091e6 !important;
   }
+
+  .mainContent .manageMenuOuter .ui.secondary.pointing.menu .item {
+    width: auto !important;
+  }
+
 }
 @media screen and (max-width: 640px) {
   .igx-calendar__body section + section {

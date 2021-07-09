@@ -185,24 +185,24 @@
                       </div>
 
                     </div>
-                    <div class="sixteen wide column saveButtons paddingT0">
-                      <div class="ui divider"></div>
-                      <div class="ui grid stackable">
-                        <div class="sixteen wide column right aligned">
-                          <!-- <button [disabled]="eventData.eventData.isDeleted"
-                            class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i>
-                          </button> -->
-                          <button [disabled]="eventData.eventData.isDeleted"
-                            class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="!isVenueEdit"
-                            (click)="editVenueFn()">
-                            Edit
-                          </button>
-                          <button class="ui button hasModal ml-3"
-                            (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})"
-                            data-modal="inviteModal" *ngIf="isVenueEdit">Save &amp;
-                            Invite
-                          </button>
-                        </div>
+                  </div>
+                  <div class="sixteen wide column saveButtons paddingT0">
+                    <div class="ui divider"></div>
+                    <div class="ui grid stackable">
+                      <div class="sixteen wide column right aligned">
+                        <!-- <button [disabled]="eventData.eventData.isDeleted"
+                          class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i>
+                        </button> -->
+                        <button [disabled]="eventData.eventData.isDeleted"
+                          class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="!isVenueEdit"
+                          (click)="editVenueFn()">
+                          Edit
+                        </button>
+                        <button class="ui button hasModal ml-3"
+                          (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})"
+                          data-modal="inviteModal" *ngIf="isVenueEdit">Save &amp;
+                          Invite
+                        </button>
                       </div>
                     </div>
                   </div>

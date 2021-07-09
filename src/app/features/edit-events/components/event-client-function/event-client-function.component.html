@@ -95,7 +95,7 @@
             {{eventToBeSaved.eventCreatedDate | date:'dd-MM-YYYY'}}
             {{eventToBeSaved.eventCreatedDate | date:'hh:mm'}}</span>
           </div>
-          <div class="six wide column right aligned hideMobile">
+          <div class="six wide column right aligned">
             <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
             </button> -->
             <button class="ui button triggerEditableOptions ml-3" *ngIf="!isClientEdit" [disabled]="eventData.eventData.isDeleted" (click)="editClientEvent()">Edit</button>
