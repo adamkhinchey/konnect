@@ -512,46 +512,6 @@ app-create-event-info-bar + .mainContent .topinfoOuterMar {
   }
 
 }
-@media screen and (max-width: 640px) {
-  .igx-calendar__body section + section {
-    width: 100%;
-    display: inline-block !important;
-  }
-  .ui.secondary.pointing.menu .item {
-    padding: 0.85714286em 1.043em;
-  }
-  .mainContent .ui.secondary.pointing.menu .item i {
-    margin-left: -10px;
-  }
-  .ui.grid > .column:not(.row),
-  .ui.grid > .row > .column {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-  .parentAccordionVenue .ui.form {
-    font-size: 0.8rem;
-  }
-  .ui.segment {
-    padding: 0.5em 0.5em;
-  }
-  .ui.grid {
-    margin-left: -0.5rem;
-    margin-right: -0.5rem;
-  }
-  .card-body {
-    padding: 0.45rem;
-  }
-  .infoBar .ui.container {
-    padding: 0px 0.5em !important;
-  }
-  .innerTabCont.tab-content {
-    padding: 20px 10px;
-  }
-
-  .igx-calendar__body {
-    font-size: 0.9rem;
-  }
-}
 
 .pushable .actionBar .openMobileMenu {
   position: fixed;
@@ -843,4 +803,53 @@ custom-select-option[key="3"]::before {
 .igx-calendar__date--selected {
 	width: 100% !important;
 	padding: 0 !important;
+}
+
+
+@media screen and (max-width: 640px) {
+  .igx-calendar__body section + section {
+    width: 100%;
+    display: inline-block !important;
+  }
+  .ui.secondary.pointing.menu .item {
+    padding: 0.85714286em 1.043em;
+  }
+  .mainContent .ui.secondary.pointing.menu .item i {
+    margin-left: -10px;
+  }
+  .ui.grid > .column:not(.row),
+  .ui.grid > .row > .column {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .parentAccordionVenue .ui.form {
+    font-size: 0.8rem;
+  }
+  .ui.segment {
+    padding: 0.5em 0.5em;
+  }
+  .ui.grid {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+  .card-body {
+    padding: 0.45rem;
+  }
+  .infoBar .ui.container {
+    padding: 0px 0.5em !important;
+  }
+  .innerTabCont.tab-content {
+    padding: 20px 10px;
+  }
+
+  .igx-calendar__body {
+    font-size: 0.9rem;
+  }
+
+  
+  .igx-calendar-picker__dates { width: 100% !important; }
+  .igx-calendar-picker__dates + .igx-calendar-picker__dates {width: 100% !important;  position: absolute;  top: 290px; }
+  .igx-calendar-picker__dates + .igx-calendar-picker__dates + .igx-calendar-picker__dates { width: 100% !important;  position: absolute;  top: 560px; }
+  igx-days-view.igx-calendar { margin: 0 0px 40px 0 !important; }
+
 }
