@@ -1513,6 +1513,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.ngOnInit();
             if (EventFunctionTypes.VENUE) {
               this.eventService.reset();
+              this.ngOnInit();
               // this.router.navigate(['/home'], { replaceUrl: true });
             }
           }
