@@ -9,15 +9,16 @@
 <div class="contactsContainer">
     <div class="ui dividing header">
         <h3>{{contactListLabel}} <i class="building icon"></i></h3>
-    </div> 
-    <div class="kipCardContainer"   *ngIf=" isViewPermission == 1 ; else no_access">
+    </div>
+    <div class="kipCardContainer" *ngIf=" isViewPermission == 1 ; else no_access">
         <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
             <div class="column" *ngFor="let contact of contactList; let i=index">
                 <ng-container *ngIf="contact.isCrew == 1">
                     <div class="contactRole">{{contact.contactRole}}
-                        <!-- <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal" (click)="editContactLabelModal(editContactDetail,i)">
-              <i class="pencil alternate icon"></i>
-            </div> -->
+                        <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal"
+                            (click)="editContactLabelModal(editContactDetail,i)">
+                            <i class="pencil alternate icon"></i>
+                        </div>
                     </div>
                     <div class="ui fluid card">
                         <div class="content">
@@ -54,17 +55,17 @@
     </div>
     <ng-template #no_access>No access
     </ng-template>
-  
-    <ng-container  *ngIf="isViewPermission == 1">
 
-    <div class="ui grid center aligned" *ngIf="isVenueEditable || isServiceEditable || isExhibitorEditable">
-        <div class="sixteen wide column">
-            <div class="ui basic button blue fluid addContacts hasModal"
-                (click)="openVerticallyCentered(contactModal,1)" data-modal="contacts">
-                <i class="plus circle icon"></i>Add Crew
+    <ng-container *ngIf="isViewPermission == 1">
+
+        <div class="ui grid center aligned" *ngIf="isVenueEditable || isServiceEditable || isExhibitorEditable">
+            <div class="sixteen wide column">
+                <div class="ui basic button blue fluid addContacts hasModal"
+                    (click)="openVerticallyCentered(contactModal,1)" data-modal="contacts">
+                    <i class="plus circle icon"></i>Add Crew
+                </div>
             </div>
         </div>
-    </div>
 
     </ng-container>
     <ng-template #editContactDetail let-modal>
