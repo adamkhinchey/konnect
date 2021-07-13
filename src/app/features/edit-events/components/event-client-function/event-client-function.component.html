@@ -83,6 +83,19 @@
             <label>Event has exhibitors</label>
           </div>
         </div>
+
+        <div class="nine wide column">
+          <div class="ui dividing header">
+            <h3>Client Internal Notes <i class="building icon"></i></h3>
+          </div>
+          <div class="field">
+            <textarea *ngIf="permissionObj.isClient; else no_access" rows="3" class="textarea" [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.description"
+            [ngModelOptions]="{standalone:true}"></textarea>
+            <ng-template #no_access>No access
+            </ng-template>
+          </div>
+        </div>
+
       </div>
       <div class="sixteen wide column saveButtons paddingT0">
         <div class="ui divider"></div>

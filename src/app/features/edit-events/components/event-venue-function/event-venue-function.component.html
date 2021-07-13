@@ -184,6 +184,16 @@
                         </ng-template>
                       </div>
 
+                        <div class="ui dividing header">
+                          <h3>Venue Internal Notes <i class="building icon"></i></h3>
+                        </div>
+                        <div class="field">
+                          <textarea *ngIf="permissionObj.isVenue; else no_access" rows="3" class="textarea" [readonly]="!isVenueEdit" [(ngModel)]="panel.requirements"
+                          [ngModelOptions]="{standalone:true}"></textarea>
+                          <ng-template #no_access>No access
+                          </ng-template>
+                        </div>
+
                     </div>
                   </div>
                   <div class="sixteen wide column saveButtons paddingT0">

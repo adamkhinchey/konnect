@@ -25,7 +25,7 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
   private subs3: Subscription | undefined;
   @Input() eventData: any;
   @Output() editClient = new EventEmitter<boolean>();
-
+  @Input() permissionObj: any;
 
   isSupplier: boolean = false;
   modalReference: any;

@@ -61,7 +61,7 @@
     <div class="sixteen wide column maxWidth">
       <app-event-panel-nav [active]="active" [navChange]="onNavChange.bind(this)" [eventToBeSaved]="eventToBeSaved">
         <ng-container client *ngIf="data.eventData && data.eventData.client && !data.eventData.venues">
-          <app-event-client-function [eventData]="data" [selectedCompany]="clientCompany"
+          <app-event-client-function [eventData]="data" [selectedCompany]="clientCompany" [permissionObj]="permissionObj"
             (removeSelectedCompany)="unsetClientCompany()" [eventToBeSaved]="eventToBeSaved"
             (saveAndInvite)="saveToDb($event)" (editClient)="isClientEditable = $event"
             [isOwnCompany]="data.eventData.client.isOwnCompany === 1">
