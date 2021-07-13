@@ -230,7 +230,7 @@ igx-days-view.igx-calendar {
   opacity: 1 !important;
 }
 
-.ui.form input.shadow-input {
+.ui.form input[disabled].shadow-input {
   position: absolute;
   opacity: 0 !important;
   pointer-events: none;
@@ -265,6 +265,7 @@ ul.secondary.menu {
 }
 .infoBar .ui.container {
   padding: 0px !important;
+  margin: 0px !important;
 }
 .ui.divider {
   margin: 1rem 0rem;
@@ -284,7 +285,7 @@ ul.secondary.menu {
 }
 
 .mainContent .container {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .manageMenuOuter li {
@@ -868,3 +869,4 @@ custom-select-option[key="3"]::before {
 select.ui.dropdown {
 	padding-right: 25px !important;
 }
+.width100 { width: 100%; }
