@@ -717,7 +717,7 @@ igx-days-view.igx-calendar {
   position: absolute;
   z-index: 9;
   right: 2.3rem;
-  top: -50px;
+  top: -20px;
   background: #fff;
   border-radius: 5px;
   width: 230px;
@@ -725,6 +725,7 @@ igx-days-view.igx-calendar {
   padding: 10px;
   font-weight: normal;
   box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.1);
+  min-height:60px;
 }
 .parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter p {
   font-size: 12px;
@@ -737,7 +738,7 @@ igx-days-view.igx-calendar {
 .parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:after,
 .parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:before {
   left: 100%;
-  top: 60px;
+  top: 30px;
   border: solid transparent;
   content: "";
   height: 0;
