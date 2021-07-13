@@ -78,6 +78,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   isVenuesExhibitorsInvalid = true;
 
   data: any = {};
+  isEditEvents: boolean = false;
+  isSaveDisable: boolean = false;
 
   permissionObj = { isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
   public isClientEditable = false;
@@ -91,16 +93,20 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   public emitedCrew: number = 0;
 
   constructor(
-    private modalService: NgbModal,
-    private toaster: ToastrService,
-    private userSettings: UserSettingsService,
-    private authService: AuthService,
-    private eventService: EventService,
-    private router: Router,
-    private eventTimelineService: EventTimelineService,
-    private viewEvSrvc: ViewEventService,
+    // public modalService: NgbModal,
+    public toaster: ToastrService,
+    public userSettings: UserSettingsService,
+    public authService: AuthService,
+    public eventService: EventService,
+    public router: Router,
+    public eventTimelineService: EventTimelineService,
+    public viewEvSrvc: ViewEventService,
     public _cdr: ChangeDetectorRef,
   ) {
+  }
+
+  edit() {
+    this.eventService.isEdit = true;
   }
 
   ngOnInit(): void {
@@ -149,25 +155,55 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    this.saveOnlySub = this.eventService.triggerSaveOnly.subscribe(() => {
-      switch (this.selectedFunction) {
-        case EventFunctionTypes.CLIENT:
-        case EventFunctionTypes.EVENT_MANAGER:
-          this.saveToDb(false);
-          break;
-        case EventFunctionTypes.VENUE:
-          this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
-          break;
-        case EventFunctionTypes.SUPPLIERS:
-          this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
-          break;
-        case EventFunctionTypes.EXHIBITORS:
-          this.saveToDb({ venueIndex: null, exhibitorIndex: null, shouldInvite: false });
-          break;
-      }
-    });
+    this.eventService.isEditChange.subscribe((value) => {
+      this.isEditEvents = value;
+    })
+    this.eventService.isSaveDisabledChange.subscribe((value) => {
+      console.log('isSaveDisableValue: ', value)
+      this.isSaveDisable = value;
+    })
+
+    // this.saveOnlySub = this.eventService.triggerSaveOnly.subscribe(() => {
+    //   switch (this.selectedFunction) {
+    //     case EventFunctionTypes.CLIENT:
+    //       this.saveToDb(false);
+    //       break;
+    //     case EventFunctionTypes.EVENT_MANAGER:
+    //       this.saveToDb(false);
+    //       break;
+    //     case EventFunctionTypes.VENUE:
+    //       this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
+    //       break;
+    //     case EventFunctionTypes.SUPPLIERS:
+    //       this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
+    //       break;
+    //     case EventFunctionTypes.EXHIBITORS:
+    //       this.saveToDb({ venueIndex: null, exhibitorIndex: null, shouldInvite: false });
+    //       break;
+    //   }
+    // });
     if (this.eventId) {
       this.getEventsById(this.active);
+    }
+  }
+
+  onlySave() {
+    switch (this.selectedFunction) {
+      case EventFunctionTypes.CLIENT:
+        this.saveToDb(false);
+        break;
+      case EventFunctionTypes.EVENT_MANAGER:
+        this.saveToDb(false);
+        break;
+      case EventFunctionTypes.VENUE:
+        this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
+        break;
+      case EventFunctionTypes.SUPPLIERS:
+        this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
+        break;
+      case EventFunctionTypes.EXHIBITORS:
+        this.saveToDb({ venueIndex: null, exhibitorIndex: null, shouldInvite: false });
+        break;
     }
   }
 
@@ -822,13 +858,13 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  openVerticallyCentered(content: any): void {
-    this.modalReference = this.modalService.open(content, {
-      centered: true,
-      size: 'lg',
-    });
+  // openVerticallyCentered(content: any): void {
+  //   this.modalReference = this.modalService.open(content, {
+  //     centered: true,
+  //     size: 'lg',
+  //   });
 
-  }
+  // }
 
 
   private setFnCompanyToSelf(defaultCompany: any): void {
@@ -1498,7 +1534,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.isEventClientInvalid && !this.isEventMgrInvalid && !this.isEventVenuesInvalid &&
       !this.isVenuesSuppliersInvalid && !this.isVenuesExhibitorsInvalid) {
       this.postProcessVenues();
-      this.saveEventSub = this.eventService.updateToDb(this.eventToBeSaved, this.data.eventData.eventId).subscribe(
+      this.eventService.updateToDb(this.eventToBeSaved, this.data.eventData.eventId).subscribe(
         value => {
           if (value) {
             this.toaster.success('Event updated successfully');
