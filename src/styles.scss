@@ -229,6 +229,17 @@ igx-days-view.igx-calendar {
 .ui.form .field :disabled {
   opacity: 1 !important;
 }
+
+.ui.form input.shadow-input {
+  position: absolute;
+  opacity: 0 !important;
+  pointer-events: none;
+  top: 22px;
+  width: 0px;
+  height: 0px;
+  border: none;
+}
+
 .image {
   width: auto;
   max-height: none;
