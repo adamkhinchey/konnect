@@ -15,10 +15,10 @@
             <div class="column" *ngFor="let contact of contactList; let i=index">
                 <ng-container *ngIf="contact.isCrew == 1">
                     <div class="contactRole">{{contact.contactRole}}
-                        <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal"
+                        <!-- <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal"
                             (click)="editContactLabelModal(editContactDetail,i)">
                             <i class="pencil alternate icon"></i>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="ui fluid card">
                         <div class="content">
