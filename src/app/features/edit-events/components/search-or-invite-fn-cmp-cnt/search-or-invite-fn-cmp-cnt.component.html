@@ -14,16 +14,16 @@
             <div class="ui search searchPeople focus">
               <div class="ui fluid icon input">
                 <input [(ngModel)]="searchKeyWord" (ngModelChange)="searchForCompCnt()"
-                       [ngModelOptions]="{standalone:true}"
-                       class="prompt" type="text" placeholder="Search" autocomplete="off">
+                  [ngModelOptions]="{standalone:true}" class="prompt" type="text" placeholder="Search"
+                  autocomplete="off">
                 <i class="search icon"></i>
               </div>
               <div [ngClass]="cntSearchList.length>0?'results transition visible':'results transition hidden'"
-                   [style.display]="listDisplayCss" [style.overflowY]="listDisplayOverFlow" [style.maxHeight]="'1290%'">
+                [style.display]="listDisplayCss" [style.overflowY]="listDisplayOverFlow" [style.maxHeight]="'1290%'">
                 <a class="result" *ngFor="let contact of cntSearchList" (click)="selectCnt(contact)">
                   <div class="image">
-                    <img alt="user profile pic" [src]="contact.profileImage"
-                         appImageFallback fallbackImage="assets/img/profile.png"/>
+                    <img alt="user profile pic" [src]="contact.profileImage" appImageFallback
+                      fallbackImage="assets/img/profile.png" />
                   </div>
                   <div class="content">
                     <div class="title">{{contact.firstName + ' ' + contact.lastName}}</div>
@@ -33,10 +33,10 @@
               </div>
             </div>
           </div>
-          <div class="field required">
+          <div class="field required" *ngIf="isCrew==0">
             <label>Select Contact Label</label>
-            <select class="ui dropdown selection" [style.padding]="'initial'"
-                    [(ngModel)]="contactLabelId" [ngModelOptions]="{standalone:true}">
+            <select class="ui dropdown selection" [style.padding]="'initial'" [(ngModel)]="contactLabelId"
+              [ngModelOptions]="{standalone:true}">
               <option class="item" [value]="5">Primary Contact</option>
               <option class="item" [value]="6">Secondary Contact</option>
               <option class="item" [value]="7">Technical Director</option>
@@ -47,22 +47,12 @@
               <option class="item" [value]="12">Legal Contact</option>
               <option class="item" [value]="13">Finance Contact</option>
             </select>
-            <!--<div class="ui selection dropdown" tabindex="0">
-              <input type="hidden" class="noselection">
-              <i class="dropdown icon"></i>
-              <div class="default text">Select Contact Label</div>
-              <div class="menu hidden transition" tabindex="-1">
-                <div class="item" data-value="1">Primary Contact</div>
-                <div class="item" data-value="2">Secondary Contact</div>
-                <div class="item" data-value="3">Technical Director</div>
-                <div class="item" data-value="4">Technical Contact</div>
-                <div class="item" data-value="5">Onsite Contact</div>
-                <div class="item" data-value="6">IT Contact</div>
-                <div class="item" data-value="7">Access Contact</div>
-                <div class="item" data-value="8">Legal Contact</div>
-                <div class="item" data-value="9">Finance Contact</div>
-              </div>
-            </div>-->
+          </div>
+
+          <div class="field" *ngIf="isCrew==1">
+            <div class="ui fluid icon input">
+              <input class="prompt" type="text" placeholder="Add Role">
+            </div>
           </div>
 
           <div class="ui grid">
@@ -83,11 +73,8 @@
                 <div class="field required">
                   <label>Name</label>
                   <input type="text" placeholder="Name" formControlName="firstName">
-                  <span
-                    *ngIf="inviteCmpCntForm!.get('firstName')?.touched
-          && inviteCmpCntForm!.get('firstName')?.errors?.required"
-                    class="text-danger"
-                  >Name is Required</span>
+                  <span *ngIf="inviteCmpCntForm!.get('firstName')?.touched
+          && inviteCmpCntForm!.get('firstName')?.errors?.required" class="text-danger">Name is Required</span>
                 </div>
                 <div class="field required">
                 </div>
@@ -96,9 +83,8 @@
                   <input type="email" placeholder="Email" formControlName="email">
                   <span *ngIf="inviteCmpCntForm!.get('email')?.touched && (
                   inviteCmpCntForm!.get('email')?.errors?.required ||
-                  inviteCmpCntForm!.get('email')?.errors?.pattern)"
-                    class="text-danger"
-                  >A valid email is required</span>
+                  inviteCmpCntForm!.get('email')?.errors?.pattern)" class="text-danger">A valid email is
+                    required</span>
                 </div>
               </div>
               <div class="ui grid">
@@ -106,7 +92,8 @@
                   <span class="smallText">*compulsory fields</span>
                 </div>
                 <div class="sixteen wide column center aligned paddingT0 right aligned">
-                  <div class="ui button addTotheList" (click)="validateFields() && addCmpCntToList(true)">Add to the contact
+                  <div class="ui button addTotheList" (click)="validateFields() && addCmpCntToList(true)">Add to the
+                    contact
                     list
                   </div>
                 </div>
@@ -124,12 +111,13 @@
             <ng-container *ngFor="let contact of contactList; let i=index">
               <div class="thirteen wide column paddingB0">
                 <div class="ui circular compact mini basic button fluid">
-                  <i
-                    class="user icon"></i>{{contact.firstName + ' - ' + (contactLabels.get(contact.contactLabelId) || '')}}
+                  <i class="user icon"></i>{{contact.firstName + ' - ' + (contactLabels.get(contact.contactLabelId) ||
+                  '')}}
                 </div>
               </div>
               <div class="three wide column right aligned paddingB0">
-                <div (click)="removeContactFromList(i)" class="ui circular compact mini basic icon button removeFromTheList">
+                <div (click)="removeContactFromList(i)"
+                  class="ui circular compact mini basic icon button removeFromTheList">
                   <i class="trash icon"></i>
                 </div>
               </div>
@@ -144,7 +132,8 @@
   <div class="actions">
     <div class="ui grid">
       <div class="sixteen wide column right aligned">
-        <div class="ui button positive" [ngClass]="{'disabled':contactList.length===0}" (click)="emitContactListAndClose()">Finish and save</div>
+        <div class="ui button positive" [ngClass]="{'disabled':contactList.length===0}"
+          (click)="emitContactListAndClose()">Finish and save</div>
       </div>
     </div>
   </div>
