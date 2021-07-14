@@ -248,7 +248,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               createrUserId: this.data.eventData.createrUserId,
               creatorFromCompanyId: this.data.eventData.creatorFromCompanyId,
               client: {
-                isOwnCompany: this.data.eventData.client.isOwnCompany
+                isOwnCompany: this.data.eventData.client.isOwnCompany,
+                internalCmpNotes: this.data.eventData.client.internalCmpNotes
               }
             } as SaveEventClass);
             const contacts: any = this.data.eventData.client.contacts;
@@ -365,6 +366,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   eventAccessDateTimes: venue.eventTime,
                   postEventAccessDateTimes: venue.postEventTime,
                   requirements: venue.venueRequirements,
+                  internalCmpNotes: venue.internalCmpNotes,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [],
@@ -458,6 +460,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   eventAccessDateTimes: venue.eventTime,
                   postEventAccessDateTimes: venue.postEventTime,
                   requirements: venue.venueRequirements,
+                  internalCmpNotes:venue.internalCmpNotes,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [{
@@ -510,6 +513,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                         return {
                           name: service.serviceName,
                           requirement: service.serviceRequirements,
+                          internalCmpNotes:service.internalCmpNotes,
                           contacts,
                           companyId: service.serviceCompanyId,
                           supplierId: service.serviceId,
@@ -627,6 +631,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   eventAccessDateTimes: venue.eventTime,
                   postEventAccessDateTimes: venue.postEventTime,
                   requirements: venue.venueRequirements,
+                  internalCmpNotes:venue.internalCmpNotes,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [],
@@ -695,6 +700,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           return {
                             name: exhibitor.exhibitorName,
                             requirement: exhibitor.exhibitorRequirements,
+                            internalCmpNotes:exhibitor.internalCmpNotes,
                             companyId: exhibitor.exhibitorCompanyId,
                             standNumber: exhibitor.standNumber,
                             isViewPermission: exhibitor.isViewPermission,
@@ -1158,6 +1164,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           shouldInvite: shouldInvite ? 1 : 0,
           isOwnCompany: !!this.eventToBeSaved.client?.isOwnCompany,
           invited: null,
+          internalCmpNotes: this.eventToBeSaved.client?.internalCmpNotes
         };
 
       } else {
@@ -1167,6 +1174,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           shouldInvite: shouldInvite ? 1 : 0,
           isOwnCompany: false,
           invited: (this.clientCompany as InviteFnCmpClass),
+          internalCmpNotes: null
         };
 
       }

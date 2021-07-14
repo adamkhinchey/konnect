@@ -72,14 +72,14 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         personalDetails.profileImage = url;
         this.auth.signup(personalDetails);
         this.personalDetails = personalDetails;
-        if(this.uid){
+        if (this.uid) {
           this.ngWizardService.next();
         }
       });
     } else {
       this.auth.signup(personalDetails);
       this.personalDetails = personalDetails;
-      if(this.uid){
+      if (this.uid) {
         this.ngWizardService.next();
       }
     }
@@ -106,7 +106,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.auth.getToken()) {
+    if (this.auth.getToken() && !this.uid) {
       this.router.navigate(['home']);
       return;
     }
@@ -121,6 +121,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
     else {
       this.updateUserSrvc.getUserDataByUid(this.uid).subscribe((res: any) => {
         console.log(res);
+        if(res.isPrivate == 1){
         this.auth.saveToken((res) as LoginUserProfile);
         this.auth.loggedIn = true;
         this.user = (res) as LoginUserProfile;
@@ -129,6 +130,9 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         this.personalDetails = this.user as CreateProfilePersonalDetails;
         console.log(this.personalDetails);
         // this.ngWizardService.next();
+      }else{
+        this.auth.logout();
+      }
       }, err => {
         console.log(err);
       });

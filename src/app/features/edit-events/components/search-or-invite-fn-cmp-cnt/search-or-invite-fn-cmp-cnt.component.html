@@ -33,7 +33,7 @@
               </div>
             </div>
           </div>
-          <div class="field required" *ngIf="isCrew==0">
+          <div class="field required">
             <label>Select Contact Label</label>
             <select class="ui dropdown selection" [style.padding]="'initial'" [(ngModel)]="contactLabelId"
               [ngModelOptions]="{standalone:true}">
@@ -49,11 +49,11 @@
             </select>
           </div>
 
-          <div class="field" *ngIf="isCrew==1">
+          <!-- <div class="field" *ngIf="isCrew==1">
             <div class="ui fluid icon input">
               <input class="prompt" type="text" placeholder="Add Role">
             </div>
-          </div>
+          </div> -->
 
           <div class="ui grid">
             <div class="sixteen wide column right aligned">

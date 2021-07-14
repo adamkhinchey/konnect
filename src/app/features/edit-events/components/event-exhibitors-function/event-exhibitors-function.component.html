@@ -285,7 +285,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             <h3>Exhibitor Internal Notes <i class="building icon"></i></h3>
                           </div>
                           <div class="field">
-                            <textarea *ngIf="permissionObj.isExhibitor; else no_access" rows="3" class="textarea" [readonly]="!isExhibitorEdit" [(ngModel)]="exhibitor.requirement"
+                            <textarea *ngIf="exhibitor?.isViewPermission==1; else no_access" rows="3" class="textarea" [readonly]="!isExhibitorEdit" [(ngModel)]="exhibitor.internalCmpNotes"
                             [ngModelOptions]="{standalone:true}"></textarea>
                             <ng-template #no_access>No access
                             </ng-template>

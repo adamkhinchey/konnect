@@ -188,7 +188,7 @@
                           <h3>Venue Internal Notes <i class="building icon"></i></h3>
                         </div>
                         <div class="field">
-                          <textarea *ngIf="permissionObj.isVenue; else no_access" rows="3" class="textarea" [readonly]="!isVenueEdit" [(ngModel)]="panel.requirements"
+                          <textarea *ngIf="panel?.isViewPermission == 1; else no_access" rows="3" class="textarea" [readonly]="!isVenueEdit" [(ngModel)]="panel!.internalCmpNotes"
                           [ngModelOptions]="{standalone:true}"></textarea>
                           <ng-template #no_access>No access
                           </ng-template>

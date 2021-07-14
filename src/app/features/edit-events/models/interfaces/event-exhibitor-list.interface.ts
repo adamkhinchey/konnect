@@ -5,6 +5,7 @@ import { InviteFnCmpInterface } from "./invite-fn-cmp-interface";
 export interface ExhibitorInterface {
   name: string;
   requirement: string;
+  internalCmpNotes?: null | string;
   companyId: number | null;
   contacts: null | InviteFnCmpCntInterface[];
   shouldInvite: null | number;
@@ -13,8 +14,8 @@ export interface ExhibitorInterface {
   timeWindows: SuppExhTimeWindowFormatInterface;
   exhibitorId?: any;
   isViewPermission?: any;
-  status?:  number | null;
-  isStaffOrAdmin?:  number | null;
+  status?: number | null;
+  isStaffOrAdmin?: number | null;
 }
 
 

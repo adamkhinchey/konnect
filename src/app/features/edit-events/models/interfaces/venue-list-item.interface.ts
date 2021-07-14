@@ -12,6 +12,7 @@ export interface VenueListItemInterface {
   eventAccessDateTimes: TimeWindowFormatInterface[];
   postEventAccessDateTimes: TimeWindowFormatInterface[];
   requirements: '';
+  internalCmpNotes?: null | string;
   shouldInvite: null | number;
   invited: null | InviteFnCmpInterface;
   suppliers: EventSuppliersInterface[];
