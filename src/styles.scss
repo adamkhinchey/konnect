@@ -229,6 +229,17 @@ igx-days-view.igx-calendar {
 .ui.form .field :disabled {
   opacity: 1 !important;
 }
+
+.ui.form input[disabled].shadow-input {
+  position: absolute;
+  opacity: 0 !important;
+  pointer-events: none;
+  top: 22px;
+  width: 0px;
+  height: 0px;
+  border: none;
+}
+
 .image {
   width: auto;
   max-height: none;
@@ -254,6 +265,7 @@ ul.secondary.menu {
 }
 .infoBar .ui.container {
   padding: 0px !important;
+  margin: 0px !important;
 }
 .ui.divider {
   margin: 1rem 0rem;
@@ -273,7 +285,7 @@ ul.secondary.menu {
 }
 
 .mainContent .container {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .manageMenuOuter li {
@@ -506,46 +518,11 @@ app-create-event-info-bar + .mainContent .topinfoOuterMar {
   .sidebarContent .imgContainer .showProfileMenu {
     background-color: #0091e6 !important;
   }
-}
-@media screen and (max-width: 640px) {
-  .igx-calendar__body section + section {
-    width: 100%;
-    display: inline-block !important;
-  }
-  .ui.secondary.pointing.menu .item {
-    padding: 0.85714286em 1.043em;
-  }
-  .mainContent .ui.secondary.pointing.menu .item i {
-    margin-left: -10px;
-  }
-  .ui.grid > .column:not(.row),
-  .ui.grid > .row > .column {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-  .parentAccordionVenue .ui.form {
-    font-size: 0.8rem;
-  }
-  .ui.segment {
-    padding: 0.5em 0.5em;
-  }
-  .ui.grid {
-    margin-left: -0.5rem;
-    margin-right: -0.5rem;
-  }
-  .card-body {
-    padding: 0.45rem;
-  }
-  .infoBar .ui.container {
-    padding: 0px 0.5em !important;
-  }
-  .innerTabCont.tab-content {
-    padding: 20px 10px;
+
+  .mainContent .manageMenuOuter .ui.secondary.pointing.menu .item {
+    width: auto !important;
   }
 
-  .igx-calendar__body {
-    font-size: 0.9rem;
-  }
 }
 
 .pushable .actionBar .openMobileMenu {
@@ -658,10 +635,20 @@ igx-days-view.igx-calendar {
   min-width: 30px;
 }
 
-.vis-panel.vis-center,
-.vis-panel.vis-left,
-.vis-panel.vis-right {
-  overflow: scroll !important;
+.vis-panel.vis-bottom, .vis-panel.vis-center, .vis-panel.vis-top {
+  // overflow-y: scroll !important;
+}
+
+#timelineContainer .vis-background .bumpIn {
+  min-height: 250px !important;
+}
+
+#timelineContainer .vis-background .eventTimes{
+  min-height: 250px !important;
+}
+
+#timelineContainer .vis-background .bumpOut {
+  min-height: 250px !important;
 }
 
 .addNewService.insideSelect {
@@ -730,7 +717,7 @@ igx-days-view.igx-calendar {
   position: absolute;
   z-index: 9;
   right: 2.3rem;
-  top: -50px;
+  top: -20px;
   background: #fff;
   border-radius: 5px;
   width: 230px;
@@ -738,6 +725,7 @@ igx-days-view.igx-calendar {
   padding: 10px;
   font-weight: normal;
   box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.1);
+  min-height:60px;
 }
 .parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter p {
   font-size: 12px;
@@ -750,7 +738,7 @@ igx-days-view.igx-calendar {
 .parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:after,
 .parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:before {
   left: 100%;
-  top: 60px;
+  top: 30px;
   border: solid transparent;
   content: "";
   height: 0;
@@ -824,3 +812,62 @@ custom-select-option[key="3"]::before {
 .sidebarContent .imgContainer .showProfileMenu {
   background-color: #0091e6 !important;
 }
+
+.igx-calendar__date--selected {
+	width: 100% !important;
+	padding: 0 !important;
+}
+
+
+@media screen and (max-width: 640px) {
+  .igx-calendar__body section + section {
+    width: 100%;
+    display: inline-block !important;
+  }
+  .ui.secondary.pointing.menu .item {
+    padding: 0.85714286em 1.043em;
+  }
+  .mainContent .ui.secondary.pointing.menu .item i {
+    margin-left: -10px;
+  }
+  .ui.grid > .column:not(.row),
+  .ui.grid > .row > .column {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .parentAccordionVenue .ui.form {
+    font-size: 0.8rem;
+  }
+  .ui.segment {
+    padding: 0.5em 0.5em;
+  }
+  .ui.grid {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+  .card-body {
+    padding: 0.45rem;
+  }
+  .infoBar .ui.container {
+    padding: 0px 0.5em !important;
+  }
+  .innerTabCont.tab-content {
+    padding: 20px 10px;
+  }
+
+  .igx-calendar__body {
+    font-size: 0.9rem;
+  }
+
+  
+  .igx-calendar-picker__dates { width: 100% !important; }
+  .igx-calendar-picker__dates + .igx-calendar-picker__dates {width: 100% !important;  position: absolute;  top: 290px; }
+  .igx-calendar-picker__dates + .igx-calendar-picker__dates + .igx-calendar-picker__dates { width: 100% !important;  position: absolute;  top: 560px; }
+  igx-days-view.igx-calendar { margin: 0 0px 40px 0 !important; }
+
+}
+
+select.ui.dropdown {
+	padding-right: 25px !important;
+}
+.width100 { width: 100%; }

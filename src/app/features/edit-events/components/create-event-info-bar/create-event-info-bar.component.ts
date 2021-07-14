@@ -1,6 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { UserSettingsService } from 'src/app/shared/services';
+import { EventTimelineService } from '../../services/event-timeline.service';
 import { EventService } from "../../services/event.service";
+import { ViewEventService } from '../../services/view-event.service';
+import { CreateEventComponent } from '../create-event/create-event.component';
 
 @Component({
   selector: 'app-create-event-info-bar',
@@ -27,6 +35,12 @@ export class CreateEventInfoBarComponent implements OnInit {
 
   edit() {
     this.eventService.isEdit = true;
+  }
+
+  trigerSaveOnly() {
+    // let createComp = new CreateEventComponent();
+    // createComp.saveToDb();
+    // this.eventService.triggerSaveOnly.next();
   }
 
 }

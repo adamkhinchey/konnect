@@ -50,7 +50,7 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy, OnChanges
         Validators.minLength(6),
         Validators.maxLength(12)]],
       timeZone: [this.timeZones[0].val, [Validators.required]],
-      mobileNumber: ['', [Validators.pattern(this.MOBILE_REGEX)]],
+      mobileNumber: [''],
       city: ['', [Validators.required]],
       countryId: ['', [Validators.required]],
       inviteUID: ['']

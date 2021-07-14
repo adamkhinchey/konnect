@@ -83,6 +83,19 @@
             <label>Event has exhibitors</label>
           </div>
         </div>
+
+        <div class="nine wide column">
+          <div class="ui dividing header">
+            <h3>Client Internal Notes <i class="building icon"></i></h3>
+          </div>
+          <div class="field">
+            <textarea *ngIf="permissionObj.isClient; else no_access" rows="3" class="textarea" [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes"
+            [ngModelOptions]="{standalone:true}"></textarea>
+            <ng-template #no_access>No access
+            </ng-template>
+          </div>
+        </div>
+
       </div>
       <div class="sixteen wide column saveButtons paddingT0">
         <div class="ui divider"></div>
@@ -95,9 +108,9 @@
             {{eventToBeSaved.eventCreatedDate | date:'dd-MM-YYYY'}}
             {{eventToBeSaved.eventCreatedDate | date:'hh:mm'}}</span>
           </div>
-          <div class="six wide column right aligned hideMobile">
-            <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
-            </button>
+          <div class="six wide column right aligned">
+            <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
+            </button> -->
             <button class="ui button triggerEditableOptions ml-3" *ngIf="!isClientEdit" [disabled]="eventData.eventData.isDeleted" (click)="editClientEvent()">Edit</button>
             <button class="ui button hasModal ml-3"
                     data-modal="inviteModal" (click)="saveAndInvite.emit(true)" *ngIf="isClientEdit">Save &amp; Invite

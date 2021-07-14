@@ -16,6 +16,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   dates: any = [];
   specialDates: DateRangeDescriptor[] = [];
   isEventHistory: boolean = false;
+  noDataMsg: any;
   constructor(
     private cdRef: ChangeDetectorRef,
     private router: Router,
@@ -36,6 +37,11 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.eventsCopy = this.events;
     this.fillSpecialDates();
+    if (!this.isEventHistory) {
+      this.noDataMsg = "Your associated companies currently have no scheduled events"
+    }else{
+      this.noDataMsg = "Your event history is empty"
+    }
   }
 
   fillSpecialDates() {
@@ -78,6 +84,12 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   changeToTodaysView() {
     let currentDate = new Date();
     this.calendar.changeMonth(currentDate);
+    this.eventListingSrvc.getEventsList(0).subscribe((res: any) => {
+      this.eventsCopy = this.events = res;
+      this.fillSpecialDates();
+    }, err => {
+      console.log(err);
+    })
   }
 
   public onSelection(dates: Date | Date[]) {
@@ -96,6 +108,9 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
         return val;
       }
     })
+    if(this.eventsCopy && !this.eventsCopy.length && !this.isEventHistory){
+      this.noDataMsg = "Your associated companies have no scheduled events on the selected date"
+    }
   }
 
   viewEvent(eventId: any) {
@@ -114,12 +129,13 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
 
   reset() {
     this.isEventHistory = false;
-    this.eventListingSrvc.getEventsList(0).subscribe((res: any) => {
-      this.eventsCopy = this.events = res;
-      this.fillSpecialDates();
-    }, err => {
-      console.log(err);
-    })
+    // this.eventListingSrvc.getEventsList(0).subscribe((res: any) => {
+    //   this.eventsCopy = this.events = res;
+    //   this.fillSpecialDates();
+    // }, err => {
+    //   console.log(err);
+    // })
+    window.location.reload()
   }
 
   checkIsSame(startDate: any, endDate: any) {

@@ -229,24 +229,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
                             <input type="text" [(ngModel)]="exhibitor.standNumber" [ngModelOptions]="{standalone:true}"
                               placeholder="Stand Number" [readonly]="!isExhibitorEdit">
+                              <ng-template #no_access>No access
+                              </ng-template>
+                          </div>
 
-                          </div>
-                          <ng-template #no_access>No access
-                          </ng-template>
-                          <div class="ui dividing header">
-                            <h3>Notes to Specific Exhibitor <i class="icon"> <img
-                                  src="../../../../../assets/img/client-icon.png" width="15px"> </i>
-                              <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px">
-                              </i><i class="building icon"></i>
-                            </h3>
-                          </div>
-                          <div class="field"
-                            *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
-                            <textarea rows="3" class="textarea" [(ngModel)]="exhibitor.requirement"
-                              [ngModelOptions]="{standalone:true}" [readonly]="!isExhibitorEdit"></textarea>
-                          </div>
-                          <ng-template #no_access>No access
-                          </ng-template>
                           <div class="field">
                             <div class="timeWindowsContainer">
                               <div class="ui dividing header">
@@ -280,6 +266,31 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             </div>
                           </div>
 
+                          <div class="ui dividing header">
+                            <h3>Notes to Specific Exhibitor <i class="icon"> <img
+                                  src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+                              <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px">
+                              </i><i class="building icon"></i>
+                            </h3>
+                          </div>
+                          <div class="field"
+                            *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
+                            <textarea rows="3" class="textarea" [(ngModel)]="exhibitor.requirement"
+                              [ngModelOptions]="{standalone:true}" [readonly]="!isExhibitorEdit"></textarea>
+                              <ng-template #no_access>No access
+                              </ng-template>
+                          </div>
+
+                          <div class="ui dividing header">
+                            <h3>Exhibitor Internal Notes <i class="building icon"></i></h3>
+                          </div>
+                          <div class="field">
+                            <textarea *ngIf="exhibitor?.isViewPermission==1; else no_access" rows="3" class="textarea" [readonly]="!isExhibitorEdit" [(ngModel)]="exhibitor.internalCmpNotes"
+                            [ngModelOptions]="{standalone:true}"></textarea>
+                            <ng-template #no_access>No access
+                            </ng-template>
+                          </div>
+
                         </div>
                         <div class="sixteen wide column saveButtons paddingT0">
                           <div class="ui divider"></div>
@@ -289,10 +300,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
-                            <div class="six wide column right aligned hideMobile">
-                              <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i
+                            <div class="six wide column right aligned">
+                              <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i
                                   class="file pdf icon"></i>
-                              </button>
+                              </button> -->
                               <button [disabled]="eventData.eventData.isDeleted"
                                 class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit"
                                 (click)="editExhibitorFn()">Edit</button>

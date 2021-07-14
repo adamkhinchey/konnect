@@ -23,7 +23,8 @@ export class SaveEventClass {
     contacts: null | InviteFnCmpCntInterface[],
     isOwnCompany: boolean,
     shouldInvite: null | number,
-    invited: null | InviteFnCmpInterface
+    invited: null | InviteFnCmpInterface,
+    internalCmpNotes?: null | string
   };
   // @ts-ignore
   eventManager: null | {

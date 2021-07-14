@@ -182,19 +182,6 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                         </div>
 
                         <div class="nine wide column">
-                          <div class="ui dividing header">
-                            <h3>Service Requirements <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
-                                class="building icon"></i></h3>
-                          </div>
-                          <div class="field">
-                            <textarea
-                              *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service?.isViewPermission==1; else no_access"
-                              [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}" rows="3"
-                              class="textarea" [readonly]="!isServiceEdit"></textarea>
-                            <ng-template #no_access>No access
-                            </ng-template>
-                          </div>
                           <div class="field">
                             <div class="timeWindowsContainer">
                               <div class="ui dividing header">
@@ -229,6 +216,30 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             </div>
                           </div>
 
+                          <div class="ui dividing header">
+                            <h3>Service Requirements <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                class="building icon"></i></h3>
+                          </div>
+                          <div class="field">
+                            <textarea
+                              *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service?.isViewPermission==1; else no_access"
+                              [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}" rows="3"
+                              class="textarea" [readonly]="!isServiceEdit"></textarea>
+                            <ng-template #no_access>No access
+                            </ng-template>
+                          </div>
+
+                          <div class="ui dividing header">
+                            <h3>Supplier Internal Notes <i class="building icon"></i></h3>
+                          </div>
+                          <div class="field">
+                            <textarea *ngIf="service?.isViewPermission==1; else no_access" rows="3" class="textarea" [readonly]="!isServiceEdit" [(ngModel)]="service.internalCmpNotes"
+                            [ngModelOptions]="{standalone:true}"></textarea>
+                            <ng-template #no_access>No access
+                            </ng-template>
+                          </div>
+
                         </div>
                         <div class="sixteen wide column saveButtons paddingT0">
                           <div class="ui divider"></div>
@@ -238,9 +249,9 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
-                            <div class="six wide column right aligned hideMobile">
-                              <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
-                              </button>
+                            <div class="six wide column right aligned">
+                              <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
+                              </button> -->
                               <button [disabled]="eventData.eventData.isDeleted" class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit"
                                 (click)="editServiceFn()">Edit</button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal"

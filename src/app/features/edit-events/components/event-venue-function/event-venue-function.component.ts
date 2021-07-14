@@ -81,7 +81,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   }
 
   ngOnInit(): void {
-    if (this.eventData.eventData.isDeleted == 1) {
+    if (this.eventData?.eventData?.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
     // console.log("permissionObj ** ", this.permissionObj); 
@@ -235,6 +235,14 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   getSelectedCompany(index: any) {
     //@ts-ignore
     return this.selectedCompanies[index];
+  }
+
+  getVenueContacts(index: any) {
+    if (this.venueContactLists.length) {
+      return this.venueContactLists[index];
+    } else {
+      return [];
+    }
   }
 
   checkSelectedCompany(index: any) {

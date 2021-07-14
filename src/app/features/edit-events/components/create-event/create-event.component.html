@@ -1,6 +1,6 @@
 <div class="ui container">
   <div class="ui grid">
-    <div class="eleven wide column middle aligned topinfoOuterMar" *ngIf="data.commonData">
+    <!-- <div class="eleven wide column middle aligned topinfoOuterMar" *ngIf="data.commonData">
       <div *ngIf="!checkIsSame(data.commonData.eventStartDate, data.commonData.eventEndDate)" class="eventInfo">
         <b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
         {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}} - {{data.commonData.eventEndDate |
@@ -9,14 +9,66 @@
       <div *ngIf="checkIsSame(data.commonData.eventStartDate, data.commonData.eventEndDate)" class="eventInfo">
         <b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
         {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}</div>
+    </div> -->
+
+    <!-- <div class="infoBar">
+      <div class="ui container">
+        <div class="ui grid">
+          <div class="fifteen wide column right aligned hideMobile">
+          </div>
+          <div class="one wide column right aligned saveButtons hideMobile" *ngIf="!isEditEvents">
+            <button [disabled]="eventService.isDeleted" class="ui button">Edit</button>
+          </div>
+          <div class="one wide column right aligned saveButtons hideMobile" *ngIf="isEditEvents">
+            <button class="ui button">Save</button>
+          </div>
+          <div class="sixteen wide column right aligned saveButtons visibleMobile">
+            <button *ngIf="!isEditEvents" [disabled]="eventService.isDeleted" class="ui button">Edit</button>
+            <a *ngIf="isEditEvents" class="ui button icon ml-2"><i class="save icon"></i></a>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="width100">
+      <div class="infoBar">
+        <div class="ui container">
+          <div class="ui grid">
+            <div class="eleven wide column middle aligned" *ngIf="data.commonData">
+              <div *ngIf="!checkIsSame(data.commonData.eventStartDate, data.commonData.eventEndDate)" class="eventInfo">
+                <b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
+                {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}} - {{data.commonData.eventEndDate |
+                date:'dd-MMMM-YYYY'}}
+              </div>
+
+              <div *ngIf="checkIsSame(data.commonData.eventStartDate, data.commonData.eventEndDate)" class="eventInfo">
+                <b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
+                {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}
+              </div>
+
+            </div>
+            <div class="five wide column right aligned saveButtons hideMobile" *ngIf="active != 6 && active !=7">
+              <button *ngIf="!isEditEvents" [disabled]="eventService.isDeleted" class="ui button triggerEditableOptions"
+                (click)="edit()">Edit</button>
+              <button *ngIf="isEditEvents" class="ui button triggerEditableOptions" (click)="onlySave()">Save</button>
+            </div>
+            <div class="five wide column right aligned saveButtons visibleMobile" *ngIf="active != 6 && active !=7">
+              <button *ngIf="!isEditEvents" [disabled]="eventService.isDeleted"
+                class="ui button triggerEditableOptions icon" (click)="edit()"><i
+                  class="pencil alternate icon"></i></button>
+              <button *ngIf="isEditEvents" class="ui button triggerEditableOptions icon" (click)="onlySave()"><i
+                  class="save icon"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="sixteen wide column maxWidth">
       <app-event-panel-nav [active]="active" [navChange]="onNavChange.bind(this)" [eventToBeSaved]="eventToBeSaved">
         <ng-container client *ngIf="data.eventData && data.eventData.client && !data.eventData.venues">
           <app-event-client-function [eventData]="data" [selectedCompany]="clientCompany"
-            (removeSelectedCompany)="unsetClientCompany()" [eventToBeSaved]="eventToBeSaved"
-            (saveAndInvite)="saveToDb($event)" (editClient)="isClientEditable = $event"
-            [isOwnCompany]="data.eventData.client.isOwnCompany === 1">
+            [permissionObj]="permissionObj" (removeSelectedCompany)="unsetClientCompany()"
+            [eventToBeSaved]="eventToBeSaved" (saveAndInvite)="saveToDb($event)"
+            (editClient)="isClientEditable = $event" [isOwnCompany]="data.eventData.client.isOwnCompany === 1">
             <ng-container assignFunctionCmp>
               <app-event-assign-function-cmp [permissionObj]="permissionObj" [isViewPermission]="1"
                 [clientCmpBtnLabel]="'Add Client'" [contactListLabel]="'Client Contacts'" [eventData]="data"

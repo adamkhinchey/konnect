@@ -40,3 +40,28 @@
 app-date-time-picker { width: 100%; }
 app-date-time-picker input { width: 100% !important; }
 .cdk-overlay-pane.owl-dt-popup { bottom: 30px !important; }
+
+@media screen and (max-width:768px) {
+	.mainContent .manageMenuOuter.ui.secondary.pointing.menu .item {
+		width: auto !important;
+	  }
+	  .dateStartEndContainer {
+		margin-left: 0 !important;
+	}
+}
+@media screen and (max-width:573px) {
+	.addNewService.insideSelect {
+		max-width: 120px;
+		margin: 2px 0 0 0 !important;
+	}
+	.companyContainer.marginB20 h3 {
+		margin-top: 15px;
+		display: inline-block;
+		width: 100%;
+	}
+	.mainContent h3 {
+		font-size: 1.1rem;
+	}
+
+	.cdk-overlay-pane.owl-dt-popup { right: auto !important; left: 30px !important; }
+}

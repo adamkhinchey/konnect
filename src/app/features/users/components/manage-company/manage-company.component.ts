@@ -64,7 +64,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     state: [''],
     postCode: ['', [Validators.pattern("^[0-9]*$")]],
     countryId: ['', [Validators.required]],
-    phone: ['', [Validators.pattern(this.MOBILE_REGEX)]],
+    phone: [''],
     website: ['', [Validators.required, Validators.pattern(this.WEBSITE_REGEX)]],
     category: [null, [Validators.required]],
     description: [''],
@@ -395,7 +395,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
         .subscribe((data) => {
           if (data) {
             this.toaster.success('Company profile updated successfully');
-            this.router.navigate(['home']);
+            // this.router.navigate(['home']);
           }
         }, err => {
           devLogger('error', err);

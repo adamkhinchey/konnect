@@ -60,7 +60,17 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
     devLogger('log', { timelineData: this.timelineData });
 
     if (this.timelineData && !isEmpty(this.timelineData)) {
-
+      let serviceExhibitorLength: any = 0;
+      for (let i = 0; i < this.timelineData.groups.length; i++) {
+        if(this.timelineData.groups[i].data.preTime[0].services){
+        //@ts-ignore
+        serviceExhibitorLength = (serviceExhibitorLength + this.timelineData.groups[i].data.preTime[0].services?.length)
+      }else if(this.timelineData.groups[i].data.preTime[0].exhibitors){
+        //@ts-ignore
+        serviceExhibitorLength = (serviceExhibitorLength + this.timelineData.groups[i].data.preTime[0].exhibitors?.length)
+      }
+      }
+      console.log(serviceExhibitorLength);
 
       this.groups = new DataSet<any>(this.timelineData.groups.map(group => ({ id: group.date })));
 
@@ -78,9 +88,9 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
         max: moment.tz(this.timelineData.maxDateTime, this.timeZone).hours(23).minutes(59).seconds(59).toDate(),
         margin: {
           item: {
-            vertical: 15,
+            vertical: 0,
           },
-          axis: 260,
+          axis: 40 * serviceExhibitorLength + 50,
         },
         timeAxis: {
           scale: 'hour',
@@ -120,7 +130,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
 
       let postExhibitorCount = 0;
       let postExhibitorMargin = 15
-      let postExhibitorDefaultMargin = 0;      
+      let postExhibitorDefaultMargin = 0;
       this.timelineData.groups.forEach((groupData) => {
         groupData.data.preTime.forEach(preTimeData => {
           items.push({
@@ -134,10 +144,10 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             preTimeData.services?.forEach((servicesData) => {
-              if(preServiceCount)
-              preDefaultMargin = 20
+              // if (preServiceCount)
+              preDefaultMargin = 18
               preServiceCount++;
-              preServiceMargin = (preServiceMargin * preServiceCount) + preDefaultMargin;
+              let preServiceMarginFinal = (preServiceMargin * preServiceCount) + preDefaultMargin * preServiceCount;
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
                 content: `${'BI'}<br/>`,
@@ -149,15 +159,16 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
-                style: "margin-top:" + preServiceMargin + "px",
+                style: "margin-top:" + preServiceMarginFinal + "px",
               });
             });
+            // preServiceMargin = 15;
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             preTimeData.exhibitors?.forEach((exhibitorsData) => {
-              if(preExhibitorCount)
-              preExhibitorDefaultMargin = 20
+              // if (preExhibitorCount)
+              preExhibitorDefaultMargin = 18
               preExhibitorCount++;
-              preExhibitorMargin = (preExhibitorMargin * preExhibitorCount) + preExhibitorDefaultMargin;
+              let preExhibitorMarginFinal = (preExhibitorMargin * preExhibitorCount) + preExhibitorDefaultMargin * preExhibitorCount;
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
                 content: `${'BI'}<br/>`,
@@ -169,7 +180,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
-                style: "margin-top:" + preExhibitorMargin + "px",
+                style: "margin-top:" + preExhibitorMarginFinal + "px",
               });
             });
           }
@@ -187,10 +198,10 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             eventTimeData.services?.forEach((servicesData) => {
-              if(eventServiceCount)
-              eventDefaultMargin = 20
+              // if (eventServiceCount)
+              eventDefaultMargin = 18
               eventServiceCount++;
-              eventServiceMargin = (eventServiceMargin * eventServiceCount) + eventDefaultMargin;
+              let eventServiceMarginFinal = (eventServiceMargin * eventServiceCount) + eventDefaultMargin * eventServiceCount;
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
                 content: `${servicesData.content || ''}<br/>`,
@@ -202,15 +213,15 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
-                style: "margin-top:" + eventServiceMargin + "px",
+                style: "margin-top:" + eventServiceMarginFinal + "px",
               });
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             eventTimeData.exhibitors?.forEach((exhibitorsData) => {
-              if(eventExhibitorCount)
-              eventExhibitorDefaultMargin = 20
+              // if (eventExhibitorCount)
+              eventExhibitorDefaultMargin = 18
               eventExhibitorCount++;
-              eventExhibitorMargin = (eventExhibitorMargin * eventExhibitorCount) + eventExhibitorDefaultMargin;
+              let eventExhibitorMarginFinal = (eventExhibitorMargin * eventExhibitorCount) + eventExhibitorDefaultMargin * eventExhibitorCount;
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
                 content: `${exhibitorsData.content || ''}<br/>`,
@@ -221,7 +232,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
-                style: "margin-top:" + eventExhibitorMargin + "px",
+                style: "margin-top:" + eventExhibitorMarginFinal + "px",
               });
             });
           }
@@ -239,10 +250,10 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             postTimeData.services?.forEach((servicesData) => {
-              if(postServiceCount)
-              postDefaultMargin = 20
+              // if (postServiceCount)
+              postDefaultMargin = 18
               postServiceCount++;
-              postServiceMargin = (postServiceMargin * postServiceCount) + postDefaultMargin;
+              let postServiceMarginFinal = (postServiceMargin * postServiceCount) + postDefaultMargin * postServiceCount;
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
                 content: `${'BO'}<br/>`,
@@ -254,15 +265,15 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
-                style: "margin-top:" + postServiceMargin + "px",
+                style: "margin-top:" + postServiceMarginFinal + "px",
               });
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             postTimeData.exhibitors?.forEach((exhibitorsData) => {
-              if(postExhibitorCount)
-              postExhibitorDefaultMargin = 20
+              // if (postExhibitorCount)
+              postExhibitorDefaultMargin = 18
               postExhibitorCount++;
-              postExhibitorMargin = (postExhibitorMargin * postExhibitorCount) + postExhibitorDefaultMargin;
+              let postExhibitorMarginFinal = (postExhibitorMargin * postExhibitorCount) + postExhibitorDefaultMargin * postExhibitorCount;
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
                 content: `${'BO'}<br/>`,
@@ -274,7 +285,7 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
-                style: "margin-top:" + postExhibitorMargin + "px",
+                style: "margin-top:" + postExhibitorMarginFinal + "px",
               });
             });
           }
@@ -297,14 +308,14 @@ ${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${
     var className = $('.preServiceMargin').attr('class');
     // alert(className);
 
-      // var j = $('.preServiceMargin').length;
-      // alert(j)
-      // for (var i = 0; i < j; i++) {
-      //   //alert($('#parent> div').children().eq(i).attr('class')); 
-      //   if (!$('#parent> div').children().eq(i).hasClass('the-one')) {
-      //     $('#parent> div').children().eq(i).css('background', 'yellow')
-      //   }
-      // }
+    // var j = $('.preServiceMargin').length;
+    // alert(j)
+    // for (var i = 0; i < j; i++) {
+    //   //alert($('#parent> div').children().eq(i).attr('class')); 
+    //   if (!$('#parent> div').children().eq(i).hasClass('the-one')) {
+    //     $('#parent> div').children().eq(i).css('background', 'yellow')
+    //   }
+    // }
   }
 
   ngOnDestroy(): void {
