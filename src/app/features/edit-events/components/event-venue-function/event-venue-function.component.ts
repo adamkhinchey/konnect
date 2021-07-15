@@ -21,6 +21,7 @@ import { EventTimeWindowTypes } from "../../models/types";
 import { FnCmpCntInterface } from '../../models/interfaces';
 import { ViewEventService } from '../../services/view-event.service';
 import { Router } from '@angular/router';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -127,6 +128,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     this.activeVenuePanel = this.eventToBeSaved.venues.list.length - 1;
     this.eventService.activeVenuePanelIndex = this.activeVenuePanel;
     devLogger('log', { selectedCompanies: this.selectedCompanies });
+    this.removeSelectedCompany.emit(this.activeVenuePanel)
   }
 
   getCompanyProfileImage(i: number): string | null | undefined {

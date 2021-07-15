@@ -460,7 +460,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   eventAccessDateTimes: venue.eventTime,
                   postEventAccessDateTimes: venue.postEventTime,
                   requirements: venue.venueRequirements,
-                  internalCmpNotes:venue.internalCmpNotes,
+                  internalCmpNotes: venue.internalCmpNotes,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [{
@@ -513,7 +513,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                         return {
                           name: service.serviceName,
                           requirement: service.serviceRequirements,
-                          internalCmpNotes:service.internalCmpNotes,
+                          internalCmpNotes: service.internalCmpNotes,
                           contacts,
                           companyId: service.serviceCompanyId,
                           supplierId: service.serviceId,
@@ -631,7 +631,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   eventAccessDateTimes: venue.eventTime,
                   postEventAccessDateTimes: venue.postEventTime,
                   requirements: venue.venueRequirements,
-                  internalCmpNotes:venue.internalCmpNotes,
+                  internalCmpNotes: venue.internalCmpNotes,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [],
@@ -700,7 +700,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           return {
                             name: exhibitor.exhibitorName,
                             requirement: exhibitor.exhibitorRequirements,
-                            internalCmpNotes:exhibitor.internalCmpNotes,
+                            internalCmpNotes: exhibitor.internalCmpNotes,
                             companyId: exhibitor.exhibitorCompanyId,
                             standNumber: exhibitor.standNumber,
                             isViewPermission: exhibitor.isViewPermission,
@@ -847,7 +847,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.eventService.hideInfoBar = false;
     }
-
   }
   getData(tabType: any): any {
     if (tabType == 5 && this.data.eventData?.venues && this.data.eventData?.venues.length) {
