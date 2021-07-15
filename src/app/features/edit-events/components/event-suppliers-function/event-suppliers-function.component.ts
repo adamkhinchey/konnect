@@ -161,6 +161,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
           contacts: null,
           companyId: null,
           requirement: '',
+          internalCmpNotes: null,
           timeWindows
         }]
       };
@@ -177,6 +178,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
         contacts: null,
         companyId: null,
         requirement: '',
+        internalCmpNotes: null,
         timeWindows
       });
     }

@@ -163,6 +163,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
           contacts: null,
           companyId: null,
           requirement: '',
+          internalCmpNotes: null,
           timeWindows
         }]
       };
@@ -194,6 +195,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
         contacts: null,
         companyId: null,
         requirement: '',
+        internalCmpNotes: null,
         timeWindows
       });
     }
@@ -331,7 +333,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     }
   }
 
-  goToCompanyProfile(companyId: any, isPrivate:any) {
+  goToCompanyProfile(companyId: any, isPrivate: any) {
     console.log(companyId);
     if (companyId && isPrivate == 0) {
       localStorage.setItem('companyId', JSON.stringify(companyId));

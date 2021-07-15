@@ -96,6 +96,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
         list: [{
           companyId: null,
           requirements: '',
+          internalCmpNotes: null,
           eventAccessDateTimes: [],
           preEventAccessDateTimes: [],
           postEventAccessDateTimes: [],
@@ -111,6 +112,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       this.eventToBeSaved.venues.list.push({
         companyId: null,
         requirements: '',
+        internalCmpNotes: null,
         eventAccessDateTimes: [],
         preEventAccessDateTimes: [],
         postEventAccessDateTimes: [],
