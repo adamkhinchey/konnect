@@ -18,7 +18,7 @@ import {ToastrService} from 'ngx-toastr';
 import {AuthService} from "../../../core/services/auth.service";
 import {map} from "rxjs/operators";
 
-const WEBSITE_REGEX = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,}(\/\S*)?$/ig
+const WEBSITE_REGEX = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,3}(\/\S*)?$/ig
 
 @Component({
   selector: 'app-create-company',
@@ -78,7 +78,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     this.createCompanyForm = this.fb.group({
       companyProfileImage: [null],
       companyName: [null, [Validators.required]],
-      countryId: [null, [Validators.required]],
+      countryId: ['', [Validators.required]],
       city: [null, [Validators.required]],
       categoryIds: [null, [Validators.required]],
       website: [null, [Validators.pattern(WEBSITE_REGEX)]],

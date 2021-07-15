@@ -4,41 +4,28 @@
       <div class="eight wide column text-center">
         <div class="uploadImage">
           <i *ngIf="!selectedImageSrc" class="upload icon"></i>
-          <img *ngIf="selectedImageSrc" [src]="selectedImageSrc | safeUrlPipe"
-               alt="profile-image" class="uploadImage"/>
+          <img *ngIf="selectedImageSrc" [src]="selectedImageSrc | safeUrlPipe" alt="profile-image"
+            class="uploadImage" />
         </div>
         <div class="ui button basic small compact blue" appFileUploadTrigger
-             [fileUploadComponentRef]="fileUploadComponent"
-        >Choose profile image
+          [fileUploadComponentRef]="fileUploadComponent">Choose profile image
         </div>
-        <app-file-upload #fileUploadComponent
-                         [config]="profileImageConfig"
-                         (fileChange)="setSelectedImage($event)"
-        ></app-file-upload>
+        <app-file-upload #fileUploadComponent [config]="profileImageConfig" (fileChange)="setSelectedImage($event)">
+        </app-file-upload>
       </div>
     </div>
     <div class="eight wide column left aligned">
       <div class="field required">
         <label for="create-profile-first-name">First Name</label>
-        <input id="create-profile-first-name"
-               type="text"
-               placeholder="First Name"
-               formControlName="firstName"
-               required>
-        <span
-          *ngIf="personalDetailsForm!.get('firstName')?.touched
-          && personalDetailsForm!.get('firstName')?.errors?.required"
-          class="text-danger"
-        >First Name is Required</span>
+        <input id="create-profile-first-name" type="text" placeholder="First Name" formControlName="firstName" required>
+        <span *ngIf="personalDetailsForm!.get('firstName')?.touched
+          && personalDetailsForm!.get('firstName')?.errors?.required" class="text-danger">First Name is Required</span>
       </div>
     </div>
     <div class="eight wide column left aligned">
       <div class="field">
         <label for="create-profile-last-name">Last Name</label>
-        <input id="create-profile-last-name"
-               type="text"
-               placeholder="Last Name"
-               formControlName="lastName">
+        <input id="create-profile-last-name" type="text" placeholder="Last Name" formControlName="lastName">
       </div>
     </div>
     <div class="sixteen wide column left aligned">
@@ -53,54 +40,41 @@
         </div>
       </div>
       <div class="field">
-        <input id="create-profile-email"
-               type="email"
-               placeholder="Email Address"
-               formControlName="email"
-               required>
-        <span
-          *ngIf="personalDetailsForm!.get('email')?.touched
+        <input id="create-profile-email" type="email" placeholder="Email Address" formControlName="email" required>
+        <span *ngIf="personalDetailsForm!.get('email')?.touched
           && (
           personalDetailsForm!.get('email')?.errors?.required ||
           personalDetailsForm!.get('email')?.errors?.pattern
-          )"
-          class="text-danger"
-        >A valid email is required</span>
+          )" class="text-danger">A valid email is required</span>
       </div>
     </div>
     <div class="sixteen wide column left aligned">
       <div class="field required">
         <label for="create-profile-password">Password</label>
         <input id="create-profile-password" type="password" placeholder="Password" formControlName="password">
-        <span
-          *ngIf="personalDetailsForm!.get('password')?.touched
+        <span *ngIf="personalDetailsForm!.get('password')?.touched
           && (
           personalDetailsForm!.get('password')?.errors?.required ||
           personalDetailsForm!.get('password')?.hasError('maxlength') ||
           personalDetailsForm!.get('password')?.hasError('minlength')
-          )"
-          class="text-danger"
-        >Password length must be 6 to 12 characters, password is required</span>
+          )" class="text-danger">Password length must be 6 to 12 characters, password is required</span>
       </div>
     </div>
     <div class="sixteen wide column left aligned">
       <div class="field required">
         <label>Time Zone</label>
-        <div class="CusSelectArrow" >
-          <select class="ui fluid dropdown"
-                  formControlName="timeZone">
-            <option *ngFor="let timeZone of timeZones" [ngValue]="timeZone" [disabled]="!timeZone.val">
+        <div class="CusSelectArrow">
+          <select class="ui fluid dropdown" formControlName="timeZone">
+            <option *ngFor="let timeZone of timeZones" [ngValue]="timeZone"
+              [disabled]="!timeZone.val || timeZone.val == '-1'">
               {{ timeZone.name }}
             </option>
           </select>
         </div>
-        <span
-          *ngIf="personalDetailsForm!.get('timeZone')?.touched
+        <span *ngIf="personalDetailsForm!.get('timeZone')?.touched
           && (
           personalDetailsForm!.get('timeZone')?.hasError('required')
-          )"
-          class="text-danger"
-        >Time-zone is required</span>
+          )" class="text-danger">Time-zone is required</span>
       </div>
     </div>
     <div class="sixteen wide column left aligned">
@@ -120,34 +94,26 @@
       <div class="field required">
         <label>City</label>
         <input type="text" placeholder="City" formControlName="city">
-        <span
-          *ngIf="personalDetailsForm!.get('city')?.touched
+        <span *ngIf="personalDetailsForm!.get('city')?.touched
           && (
           personalDetailsForm!.get('city')?.hasError('required')
-          )"
-          class="text-danger"
-        >City is required</span>
+          )" class="text-danger">City is required</span>
       </div>
     </div>
     <div class="eight wide column left aligned">
       <div class="field required">
         <label for="select-profile-country">Country</label>
-        <div class="CusSelectArrow" >
-          <select id="select-profile-country"
-                  class="ui fluid dropdown selection"
-                  formControlName="countryId" required>
+        <div class="CusSelectArrow">
+          <select id="select-profile-country" class="ui fluid dropdown selection" formControlName="countryId" required>
             <option *ngFor="let cntr of countries$ | async" [ngValue]="cntr.val" [disabled]="!cntr.val">
               {{ cntr.name }}
             </option>
           </select>
         </div>
-        <span
-          *ngIf="personalDetailsForm!.get('countryId')?.touched
+        <span *ngIf="personalDetailsForm!.get('countryId')?.touched
           && (
           personalDetailsForm!.get('countryId')?.hasError('required')
-          )"
-          class="text-danger"
-        >Country is required</span>
+          )" class="text-danger">Country is required</span>
         <p class="textRight marginT10 smallText">*compulsory fields</p>
       </div>
     </div>
@@ -155,8 +121,7 @@
       <div class="ui divider"></div>
     </div>
     <div class="sixteen wide column right aligned saveButtons paddingT0">
-      <div class="ui button"
-           (click)="checkValidation() && moveToCompanyDetailsTab.emit(personalDetailsForm.value)">
+      <div class="ui button" (click)="checkValidation() && moveToCompanyDetailsTab.emit(personalDetailsForm.value)">
         Next
       </div>
     </div>
