@@ -18,7 +18,7 @@ import {ToastrService} from 'ngx-toastr';
 import {AuthService} from "../../../core/services/auth.service";
 import {map} from "rxjs/operators";
 
-const WEBSITE_REGEX = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,3}(\/\S*)?$/ig
+const WEBSITE_REGEX = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,3}(\/\S*)?$/
 
 @Component({
   selector: 'app-create-company',
