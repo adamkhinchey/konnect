@@ -33,7 +33,7 @@
               </div>
             </div>
           </div>
-          <div class="field required">
+          <div class="field required" *ngIf="isCrew==0">
             <label>Select Contact Label</label>
             <select class="ui dropdown selection" [style.padding]="'initial'" [(ngModel)]="contactLabelId"
               [ngModelOptions]="{standalone:true}">
@@ -49,15 +49,15 @@
             </select>
           </div>
 
-          <!-- <div class="field" *ngIf="isCrew==1">
+          <div class="field" *ngIf="isCrew==1">
             <div class="ui fluid icon input">
-              <input class="prompt" type="text" placeholder="Add Role">
+              <input class="prompt" type="text" [(ngModel)]="contactRole" [ngModelOptions]="{standalone:true}" placeholder="Add Role">
             </div>
-          </div> -->
+          </div>
 
           <div class="ui grid">
             <div class="sixteen wide column right aligned">
-              <div class="ui button addTotheList" (click)="addCmpCntToList()">Add to the contact list</div>
+              <div class="ui button addTotheList" (click)="addCmpCntToList()">{{isCrew == 0 ? 'Add to the contact list' : 'Add Selected As Crew'}}</div>
             </div>
             <div class="sixteen wide column">
               <p>If you cannot find the contact you are searching for they probably do not have a profile in
@@ -92,9 +92,7 @@
                   <span class="smallText">*compulsory fields</span>
                 </div>
                 <div class="sixteen wide column center aligned paddingT0 right aligned">
-                  <div class="ui button addTotheList" (click)="validateFields() && addCmpCntToList(true)">Add to the
-                    contact
-                    list
+                  <div class="ui button addTotheList" (click)="validateFields() && addCmpCntToList(true)">{{isCrew == 0 ? 'Add to the contact list' : 'Add As Crew'}}
                   </div>
                 </div>
               </div>

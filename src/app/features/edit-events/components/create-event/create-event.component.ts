@@ -1314,7 +1314,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 email: cnt.email,
                 firstName: cnt.firstName,
                 contactLabelId: cnt.contactLabelId,
-                isCrew: cnt.isCrew ? cnt.isCrew : 0
+                isCrew: cnt.isCrew ? cnt.isCrew : 0,
+                contactRole: cnt.contactRole || null
               };
             }) || null;
             // @ts-ignore
