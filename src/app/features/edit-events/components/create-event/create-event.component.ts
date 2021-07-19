@@ -1186,7 +1186,14 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     const wasOwnCompany = !clientCompanyInstOfInviteFnCmp && (this.clientCompany as Company).id === this.defaultCompany.id;
     this.clientCompany = null;
     this.clientContactList = [];
-    this.eventToBeSaved.client = null;
+    this.eventToBeSaved.client = {
+      id: null ,
+      contacts: null,
+      isOwnCompany: false,
+      shouldInvite: null,
+      invited: null,
+      internalCmpNotes: this.eventToBeSaved.client!.internalCmpNotes
+    };
     if (wasOwnCompany) {
       const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
       tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
