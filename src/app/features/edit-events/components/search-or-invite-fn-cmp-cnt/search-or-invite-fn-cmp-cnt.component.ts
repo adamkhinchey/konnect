@@ -166,5 +166,6 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.cmpCntSearchSub?.unsubscribe();
+    this.isCrew = 0;
   }
 }

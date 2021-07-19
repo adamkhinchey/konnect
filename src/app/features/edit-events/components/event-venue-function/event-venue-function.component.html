@@ -177,7 +177,7 @@
 
                     </div>
                   </div>
-                  <div class="sixteen wide column saveButtons paddingT0">
+                  <div class="sixteen wide column saveButtons paddingT0" *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1 || eventData.userPermission.isVenue == 1)">
                     <div class="ui divider"></div>
                     <div class="ui grid stackable">
                       <div class="sixteen wide column right aligned">

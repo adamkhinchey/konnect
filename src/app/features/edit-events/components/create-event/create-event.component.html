@@ -46,12 +46,12 @@
               </div>
 
             </div>
-            <div class="five wide column right aligned saveButtons hideMobile" *ngIf="active != 6 && active !=7">
+            <div class="five wide column right aligned saveButtons hideMobile" *ngIf="data.userPermission && (active != 6 && active !=7) && (data.userPermission.isClient == 1 || data.userPermission.isEventManager == 1) || (active == 3 && data.userPermission.isVenue == 1) || (active == 4 && data.userPermission.isService == 1) || (active == 5 && data.userPermission.isExhibitor == 1)">
               <button *ngIf="!isEditEvents" [disabled]="eventService.isDeleted" class="ui button triggerEditableOptions"
                 (click)="edit()">Edit</button>
               <button *ngIf="isEditEvents" class="ui button triggerEditableOptions" (click)="onlySave()">Save</button>
             </div>
-            <div class="five wide column right aligned saveButtons visibleMobile" *ngIf="active != 6 && active !=7">
+            <div class="five wide column right aligned saveButtons visibleMobile" *ngIf="data.userPermission && (active != 6 && active !=7) && (data.userPermission.isClient == 1 || data.userPermission.isEventManager == 1) || (active == 3 && data.userPermission.isVenue == 1) || (active == 4 && data.userPermission.isService == 1) || (active == 5 && data.userPermission.isExhibitor == 1)">
               <button *ngIf="!isEditEvents" [disabled]="eventService.isDeleted"
                 class="ui button triggerEditableOptions icon" (click)="edit()"><i
                   class="pencil alternate icon"></i></button>
@@ -75,7 +75,7 @@
                 [selectedCompany]="clientCompany" [clientCompanyModal]="searchInviteCmpModal"
                 [contactModal]="searchInviteFnCmpCntModal" (modalOpen)="setOpenedModalRef($event)"
                 (contactRemove)="removeContact($event)" [contactList]="clientContactList"
-                [isClientEditable]="isClientEditable">
+                [isClientEditable]="isClientEditable" (isCrew)="setIsCrew($event)">
               </app-event-assign-function-cmp>
             </ng-container>
           </app-event-client-function>
@@ -92,7 +92,7 @@
                 [contactListLabel]="'Event Management Company Contacts'" [selectedCompany]="eventMgrCmp"
                 [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                 (modalOpen)="setOpenedModalRef($event)" (contactRemove)="removeContact($event)"
-                [contactList]="eventMgrContactList" [isManagerEditable]="isManagerEditable">
+                [contactList]="eventMgrContactList" [isManagerEditable]="isManagerEditable" (isCrew)="setIsCrew($event)">
               </app-event-assign-function-cmp>
             </ng-container>
           </app-event-manager-function>

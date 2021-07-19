@@ -1196,7 +1196,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     if (wasOwnCompany) {
       const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
-      tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
+      // tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
+      tempMap.set(EventFunctionTypes.CLIENT, false);
       this.eventService.setIsFnOwnCompany.next(tempMap);
     }
   }
@@ -1248,7 +1249,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     if (wasOwnCompany) {
       const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
-      tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
+      // tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
+      tempMap.set(EventFunctionTypes.EVENT_MANAGER, false);
       this.eventService.setIsFnOwnCompany.next(tempMap);
     }
   }
