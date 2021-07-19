@@ -1,5 +1,5 @@
-import { Component, ComponentRef, Input, OnInit, ViewChild } from '@angular/core';
-import { NgbNav, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { SaveEventClass } from "../../models/classes";
 
 @Component({

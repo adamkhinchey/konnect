@@ -1,18 +1,4 @@
-<!-- <div class="infoBar">
-    <div class="ui container">
-        <div class="ui grid">
-            <div class="eleven wide column middle aligned">
 
-            </div>
-            <div class="five wide column right aligned saveButtons hideMobile">
-                <a href="CE-08.html" class="ui button">Save</a>
-            </div>
-            <div class="five wide column right aligned saveButtons visibleMobile">
-                <a href="CE-08.html" class="ui button icon"><i class="save icon"></i></a>
-            </div>
-        </div>
-    </div>
-</div> -->
 <div class="mainContent">
     <div class="ui container">
         <div class="ui grid">
@@ -24,7 +10,6 @@
                     (navChange)="onNavChange($event)">
                     <li [ngbNavItem]="1">
                         <a ngbNavLink class="item tabAdmin">
-                            <!-- <i class="cog icon"></i> -->
                             <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="18px" > </i>
                             <span class="hideMobile">CLIENT</span></a>
                         <ng-template ngbNavContent>
@@ -129,35 +114,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- <div class="column">
-                                                            <div class="contactRole">ContactLabel <div class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive hasModal" data-modal="editProfile"><i class="pencil alternate icon"></i></div>
-                                                            </div>
-                                                            <div class="ui fluid card">
-                                                                <div class="content">
-                                                                    <img class="right floated mini ui image" src="../../assets/img/joe.jpg">
-                                                                    <div class="header">
-                                                                        <a href="/VPP.html" target="_blank">Jenny Hess</a>
-                                                                    </div>
-                                                                    <div class="meta">
-                                                                        Position
-                                                                    </div>
-                                                                    <div class="description">
-                                                                        mail@mail.com<br>
-                                                                        1234 5678
-                                                                    </div>
-                                                                </div>
-                                                                <div class="extra content editableObject">
-                                                                    <div class="ui grid">
-                                                                        <div class="eight wide column">
-
-                                                                        </div>
-                                                                        <div class="eight wide column right aligned">
-                                                                            <div class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
                                                     </div>
                                                 </div>
                                                 <div class="ui grid stackable center aligned" *ngIf="isClientEdit">
@@ -210,8 +166,6 @@
                                                     {{data.eventData.eventCreatedDate | date:'hh:mm'}}
                                                 </div>
                                                 <div class="six wide column right aligned hideMobile">
-                                                    <!-- <div class="ui button basic blue icon"><i class="file pdf icon"></i>
-                                                    </div> -->
                                                     <div *ngIf="!isClientEdit"
                                                         class="ui button triggerEditableOptions ml-3"
                                                         (click)="editClientEvent()">Edit</div>
@@ -220,8 +174,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="six wide column right aligned visibleMobile">
-                                                    <!-- <div class="ui button basic blue icon downloadPDF halfWidth"><i
-                                                            class="file pdf icon"></i></div> -->
                                                     <div *ngIf="!isClientEdit"
                                                         class="ui button triggerEditableOptions halfWidth ml-3"
                                                         (click)="editClientEvent()">Edit
@@ -239,7 +191,6 @@
                     </li>
                     <li [ngbNavItem]="2">
                         <a ngbNavLink class="item tabAdmin">
-                            <!-- <i class="sitemap icon"></i> -->
                             <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="18px" > </i>
                             <span class="hideMobile">EVENT MANAGER</span></a>
                         <ng-template ngbNavContent>
@@ -344,43 +295,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!-- <div class="column">
-                                                            <div class="contactRole">ContactLabel<div
-                                                                    class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive hasModal"
-                                                                    data-modal="editProfile"><i
-                                                                        class="pencil alternate icon"></i></div>
-                                                            </div>
-                                                            <div class="ui fluid card">
-                                                                <div class="content">
-                                                                    <img class="right floated mini ui image"
-                                                                        src="../../assets/img/jenny.jpg">
-                                                                    <div class="header">
-                                                                        <a href="/VPP.html" target="_blank">Jenny
-                                                                            Hess</a>
-                                                                    </div>
-                                                                    <div class="meta">
-                                                                        Position
-                                                                    </div>
-                                                                    <div class="description">
-                                                                        mail@mail.com<br>
-                                                                        1234 5678
-                                                                    </div>
-                                                                </div>
-                                                                <div class="extra content editableObject">
-                                                                    <div class="ui grid">
-                                                                        <div class="eight wide column">
-
-                                                                        </div>
-                                                                        <div class="eight wide column right aligned">
-                                                                            <div class="ui circular compact mini basic button confirmRemove hasModal"
-                                                                                data-modal="removeModal"><i
-                                                                                    class="trash alternate icon"></i>Remove
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
                                                     </div>
                                                 </div>
                                                 <div class="ui grid stackable center aligned" *ngIf="isEventEdit">
@@ -414,8 +328,6 @@
                                             <div class="ui divider"></div>
                                             <div class="ui grid stackable">
                                                 <div class="sixteen wide column right aligned hideMobile">
-                                                    <!-- <div class="ui button basic blue icon"><i class="file pdf icon"></i>
-                                                    </div> -->
                                                     <div class="ui button triggerEditableOptions ml-3"
                                                         *ngIf="!isEventEdit" (click)="editEventManager()">Edit</div>
                                                     <div class="ui button hasModal saveActions ml-3"
@@ -423,8 +335,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="six wide column right aligned visibleMobile">
-                                                    <!-- <div class="ui button basic blue icon downloadPDF halfWidth"><i
-                                                            class="file pdf icon"></i></div> -->
                                                     <div class="ui button triggerEditableOptions halfWidth ml-3"
                                                         *ngIf="!isEventEdit" (click)="editEventManager()">Edit
                                                     </div>
@@ -665,9 +575,7 @@
                                                                             </div>
                                                                             <div
                                                                                 class="six wide column right aligned hideMobile">
-                                                                                <!-- <div class="ui button basic blue icon">
-                                                                                    <i class="file pdf icon"></i>
-                                                                                </div> -->
+                                                                        
                                                                                 <div *ngIf="!isVenueEdit"
                                                                                     class="ui button triggerEditableOptions ml-3"
                                                                                     (click)="editVenue()">Edit
@@ -680,10 +588,7 @@
                                                                             </div>
                                                                             <div
                                                                                 class="six wide column right aligned visibleMobile">
-                                                                                <!-- <div
-                                                                                    class="ui button basic blue icon downloadPDF halfWidth">
-                                                                                    <i class="file pdf icon"></i>
-                                                                                </div> -->
+                                                               
                                                                                 <div *ngIf="!isVenueEdit"
                                                                                     class="ui button triggerEditableOptions halfWidth ml-3"
                                                                                     (click)="editVenue()">Edit
@@ -987,9 +892,7 @@
                                                                             </div>
                                                                             <div
                                                                                 class="six wide column right aligned hideMobile">
-                                                                                <!-- <div class="ui button basic blue icon">
-                                                                                    <i class="file pdf icon"></i>
-                                                                                </div> -->
+                                                                  
                                                                                 <div *ngIf="!isSupplierEdit"
                                                                                     class="ui button triggerEditableOptions ml-3"
                                                                                     (click)="editSupplier()">Edit
@@ -1002,10 +905,7 @@
                                                                             </div>
                                                                             <div
                                                                                 class="six wide column right aligned visibleMobile">
-                                                                                <!-- <div
-                                                                                    class="ui button basic blue icon downloadPDF halfWidth">
-                                                                                    <i class="file pdf icon"></i>
-                                                                                </div> -->
+                                                    
                                                                                 <div *ngIf="!isSupplierEdit"
                                                                                     class="ui button triggerEditableOptions halfWidth ml-3"
                                                                                     (click)="editSupplier()">Edit
@@ -1358,11 +1258,7 @@
                                                                                     </div>
                                                                                     <div
                                                                                         class="six wide column right aligned hideMobile">
-                                                                                        <!-- <div
-                                                                                            class="ui button basic blue icon">
-                                                                                            <i
-                                                                                                class="file pdf icon"></i>
-                                                                                        </div> -->
+                                                             
                                                                                         <div *ngIf="!isExhibitorEdit"
                                                                                             class="ui button triggerEditableOptions ml-3"
                                                                                             (click)="editExhibitor()">
@@ -1377,11 +1273,6 @@
                                                                                     </div>
                                                                                     <div
                                                                                         class="six wide column right aligned visibleMobile">
-                                                                                        <!-- <div
-                                                                                            class="ui button basic blue icon downloadPDF halfWidth">
-                                                                                            <i
-                                                                                                class="file pdf icon"></i>
-                                                                                        </div> -->
                                                                                         <div *ngIf="!isExhibitorEdit"
                                                                                             class="ui button triggerEditableOptions halfWidth ml-3"
                                                                                             (click)="editExhibitor()">

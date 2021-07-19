@@ -1,7 +1,5 @@
-import {
-  AfterContentInit, AfterViewInit,
+import {AfterViewInit,
   Component,
-  ContentChildren,
   EventEmitter,
   Input,
   OnChanges,
@@ -42,8 +40,6 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   @Input() eventToBeSaved = new SaveEventClass();
   @Output() saveAndInvite = new EventEmitter<{ venueIndex: number, shouldInvite: boolean }>();
   isOwnCompany = false;
-  private subs1: Subscription | undefined;
-  private subs2: Subscription | undefined;
   activeVenuePanel = 0;
   @Input() searchInviteCmpModal: any;
   @Input() searchInviteFnCmpCntModal: any;
@@ -61,7 +57,6 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   constructor(
     private eventService: EventService,
     private viewEventService: ViewEventService,
-    private router: Router
   ) {
   }
 
@@ -74,7 +69,6 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     this.eventService.isEdit = true;
     this.isVenueEdit = true;
     this.isVenueEditable = true;
-    // this.editVenue.emit(this.isVenueEdit);
   }
 
   ngAfterViewInit(): void {
@@ -85,7 +79,6 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     if (this.eventData?.eventData?.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
-    // console.log("permissionObj ** ", this.permissionObj); 
   }
 
 
@@ -184,7 +177,6 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
 
 
   acceptDeclineService(tab: any, isAccept: any) {
-    // console.log(tab.venueId);
     console.log("isAccept", isAccept);
     if (tab.venueId && isAccept > 0) {
       let payload = {
@@ -196,7 +188,6 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       console.log("payload ** ", payload);
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
         console.log(res);
-        // this.router.navigate(['home']);
       }, err => {
         devLogger('err', err)
       })

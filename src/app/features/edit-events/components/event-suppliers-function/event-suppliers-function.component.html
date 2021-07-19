@@ -64,11 +64,6 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 <ng-template ngbPanelContent>
                   <div class="content active">
                     <form class="ui form visible" style="display: block !important;">
-                      <!-- <div class="ui grid stackable">
-                        <div class="sixteen wide column right aligned ">
-                          
-                        </div>
-                      </div> -->
 
 
                       <div class="ui grid stackable">
@@ -250,8 +245,6 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
                             <div class="six wide column right aligned">
-                              <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
-                              </button> -->
                               <button [disabled]="eventData.eventData.isDeleted" class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit"
                                 (click)="editServiceFn()">Edit</button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal"

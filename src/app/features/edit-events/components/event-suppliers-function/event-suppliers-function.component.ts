@@ -1,12 +1,10 @@
 import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { SaveEventClass } from "../../models/classes/saveEvent.class";
-import { NgbAccordion, NgbNav, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
+import { NgbAccordion, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { devLogger } from "../../../../shared/utils";
 import {
-  EventSuppliersInterface,
   InviteFnCmpCntInterface,
-  InviteFnCmpInterface, SuppExhTimeWindowFormatInterface,
-  TimeWindowFormatInterface, VenueListItemInterface
+  InviteFnCmpInterface, SuppExhTimeWindowFormatInterface, VenueListItemInterface
 } from '../../models/interfaces';
 import { EventService } from "../../services/event.service";
 import { Subscription } from "rxjs";
@@ -60,7 +58,6 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     this.eventService.isEdit = !this.isServiceEdit;
     this.isServiceEdit = !this.isServiceEdit;
     this.isServiceEditable = !this.isServiceEditable;
-    // this.editVenue.emit(this.isVenueEdit);
   }
 
   ngOnInit(): void {
@@ -185,8 +182,6 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     this.ngbAccordion.collapseAll();
     this.activeServicePanel = venue.suppliers[0].services.length - 1;
     this.eventService.activeServicePanel = { venueIndex, serviceIndex: this.activeServicePanel };
-    //devLogger('log', {selectedCompanies: this.selectedCompanies});
-
   }
 
   servicePanelActivated(venueIndex: number, serviceIndex: number): void {
@@ -275,7 +270,6 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
 
 
   acceptDeclineService(tab: any, isAccept: any) {
-    // console.log(tab.venueId);
     console.log("isAccept", isAccept);
     if (tab.supplierId && isAccept > 0) {
       let payload = {
@@ -287,7 +281,6 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
       console.log("payload ** ", payload);
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
         console.log(res);
-        // this.router.navigate(['home']);
       }, err => {
         devLogger('err', err)
       })

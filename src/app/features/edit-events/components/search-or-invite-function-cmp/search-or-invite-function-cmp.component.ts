@@ -6,7 +6,6 @@ import {Subscription} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {GetRegionAndCountriesService} from "../../../../shared/services";
-import {InviteFnCmpInterface} from "../../models/interfaces";
 import {InviteFnCmpClass} from "../../models/classes";
 
 @Component({

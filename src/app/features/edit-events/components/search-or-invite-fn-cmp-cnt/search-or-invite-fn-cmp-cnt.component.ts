@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { InviteFnCmpCntInterface } from '../../models/interfaces/invite-fn-cmp-cnt.interface';
-import { Company } from '../../../users/models';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CompaniesService } from '../../../users/services/companies.service';
 import { checkRxFormValidation, devLogger } from '../../../../shared/utils';
@@ -94,7 +92,6 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   }
 
   addCmpCntToList(inviteType = false): void {
-    alert(this.contactRole)
     if (this.isCrew == 0) {
       if (this.selectedContact && !this.contactLabelId) {
         this.toaster.error('Please select a contact label');

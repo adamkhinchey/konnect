@@ -7,7 +7,6 @@ import { EventService } from '../../services/event.service';
 import { EventTimeSlotTypes, EventTimeWindowTypes } from '../../models/types';
 import { Subscription } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
-import { devLogger } from "../../../../shared/utils";
 
 @Component({
   selector: 'app-time-windows',
@@ -77,9 +76,6 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
   }
 
   getMinimumPreEventStartDateTime(i: number): Date {
-    // if (this.eventView && this.preEventTimes && this.preEventTimes.length){
-    //   return moment(this.preEventTimes[i].startDateTime).toDate();
-    // }
     return moment().set('second', 0).set('millisecond', 0).toDate();
   }
 
@@ -109,12 +105,10 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
       notes: this.preEventNotes
     };
 
-    // if (moment(this.preEventTimes[i].startDateTime).isAfter(this.preEventTimes[i].endDateTime) ||
     //   !this.preEventTimes[i].endDateTime) {
       this.preEventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
         this.preEventTimes[i].startDateTime
       );
-    // }
 
     if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
       this.eventService.venuePreEventTimeChange.next({
@@ -391,19 +385,16 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
       if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
         this.preEventTimesCount = 1;
         this.emptyPreEventTimes();
-        //this.preEventTimes = [];
         this.isPreEventTimesSameAsVenue = false;
         this.venuePreEventTimeChangeSub?.unsubscribe();
       } else if (slotsType === EventTimeSlotTypes.EVENT_ACCESS) {
         this.eventTimesCount = 1;
         this.emptyEventTimes();
-        //this.eventTimes = [];
         this.isEventTimesSameAsVenue = false;
         this.venueEventTimeChangeSub?.unsubscribe();
       } else if (slotsType === EventTimeSlotTypes.POST_EVENT_ACCESS) {
         this.postEventTimesCount = 1;
         this.emptyPostEventTimes();
-        //this.postEventTimes = [];
         this.isPostEventTimesSameAsVenue = false;
         this.venuePostEventTimeChangeSub?.unsubscribe();
       }
@@ -417,7 +408,6 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
     if (this.isVenueDependent) {
       if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
         this.preEventTimesCount = timeWindows.length || 1;
-        //this.preEventTimes = [];
         this.emptyPreEventTimes();
         timeWindows.forEach(timeSlot => {
           this.preEventTimes.push({
@@ -428,7 +418,6 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
         });
       } else if (slotsType === EventTimeSlotTypes.EVENT_ACCESS) {
         this.eventTimesCount = timeWindows.length || 1;
-        //this.eventTimes = [];
         this.emptyEventTimes();
         timeWindows.forEach(timeSlot => {
           this.eventTimes.push({
@@ -439,7 +428,6 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
         });
       } else if (slotsType === EventTimeSlotTypes.POST_EVENT_ACCESS) {
         this.postEventTimesCount = timeWindows.length || 1;
-        //this.postEventTimes = [];
         this.emptyPostEventTimes();
         timeWindows.forEach(timeSlot => {
           this.postEventTimes.push({

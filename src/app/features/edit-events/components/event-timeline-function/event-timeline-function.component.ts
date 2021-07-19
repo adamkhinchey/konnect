@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {EventGanttChartComponent} from "../event-gantt-chart/event-gantt-chart.component";
 import {EventTimelineService} from "../../services/event-timeline.service";
 import {devLogger} from "../../../../shared/utils";

@@ -4,13 +4,6 @@
 
     <ngb-panel id="static-3">
       <ng-template ngbPanelTitle>
-        <!-- <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[0]}}</span>
-        <span class="dateStartEndContainer" *ngFor="let dateTimes of preEventTimes; let timeIndex = index;">
-          {{dateTimes.startDateTime | date:'dd/MM/YYYY'}} | {{dateTimes.startDateTime | date:'h:mm a'}}  - {{dateTimes.endDateTime | date:'dd/MM/YYYY'}} |
-          {{dateTimes.endDateTime | date:'h:mm a'}}</span> -->
-        <!-- <span class="dateStartEndContainer">Date, Start - End | Timezone</span> -->
-
-
         <div class="disabledAccordionContainer">
           <div class="popupNotes"><i class="edit icon"></i>
 
@@ -28,8 +21,6 @@
                   {{dateTimes.startDateTime | date:'dd/MM/YYYY'}}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} -
                   {{dateTimes.endDateTime | date:'h:mm a'}}</span>
-                <!-- <span class="dateStartEndContainer" *ngFor="let dateTimes of preEventTimes; let timeIndex = index;"> {{dateTimes.endDateTime | date:'dd/MM/YYYY'}} |
-                        {{dateTimes.endDateTime | date:'h:mm a'}}</span> -->
 
               </div>
             </div>
@@ -58,7 +49,6 @@
                   <div class="ui popup calendar">
                   </div>
                   <i class="calendar icon"></i>
-                  <!-- <input type="text" placeholder="Date">-->
                   <app-date-time-picker #preEventStartDateTimes [freeze]="isPreEventTimesSameAsVenue"
                     [eventDateTime]="preEventTimes[i]?.startDateTime || null"
                     [minimumDate]="getMinimumPreEventStartDateTime(i)" [index]="index"
@@ -73,7 +63,6 @@
                   <div class="ui popup calendar">
                   </div>
                   <i class="calendar icon"></i>
-                  <!-- <input type="text" placeholder="Date">-->
                   <app-date-time-picker #preEventEndDateTimes [freeze]="isPreEventTimesSameAsVenue"
                     [eventDateTime]="preEventTimes[i]?.endDateTime || null"
                     [max]="getMax(preEventTimes[i]?.startDateTime)" [minimumDate]="getMinimumPreEventEndDateTime(i)"
@@ -101,13 +90,6 @@
     </ngb-panel>
     <ngb-panel id="static-4">
       <ng-template ngbPanelTitle>
-        <!-- <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[1]}}</span>
-        <span class="dateStartEndContainer" *ngFor="let dateTimes of eventTimes; let timeIndex = index;">
-          {{dateTimes.startDateTime | date:'dd/MM/YYYY'}} | {{dateTimes.startDateTime | date:'h:mm a'}}  - {{dateTimes.endDateTime | date:'dd/MM/YYYY'}} |
-          {{dateTimes.endDateTime | date:'h:mm a'}}
-        </span> -->
-        <!-- <span class="dateStartEndContainer">Date, Start - End | Timezone</span> -->
-
 
         <div class="disabledAccordionContainer">
           <div class="popupNotes"><i class="edit icon"></i>
@@ -127,9 +109,6 @@
                   {{dateTimes.startDateTime | date:'dd/MM/YYYY'}}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} -
                   {{dateTimes.endDateTime | date:'h:mm a'}}</span>
-                <!-- <span class="dateStartEndContainer" *ngFor="let dateTimes of eventTimes; let timeIndex = index;"> {{dateTimes.endDateTime | date:'dd/MM/YYYY'}} |
-                        {{dateTimes.endDateTime | date:'h:mm a'}}</span> -->
-
               </div>
             </div>
 
@@ -155,7 +134,6 @@
                   <div class="ui popup calendar">
                   </div>
                   <i class="calendar icon"></i>
-                  <!--<input type="text" placeholder="Date">-->
                   <app-date-time-picker #eventStartDateTimes [freeze]="isEventTimesSameAsVenue"
                     [eventDateTime]="eventTimes[i]?.startDateTime || null"
                     [minimumDate]="getMinimumEventStartDateTime(i)" [index]="index"
@@ -171,7 +149,6 @@
                   <div class="ui popup calendar">
                   </div>
                   <i class="calendar icon"></i>
-                  <!--<input type="text" placeholder="Date">-->
                   <app-date-time-picker #eventEndDateTimes [freeze]="isEventTimesSameAsVenue"
                     [max]="getMax(eventTimes[i]?.startDateTime)" [eventDateTime]="eventTimes[i]?.endDateTime || null"
                     [minimumDate]="getMinimumEventEndDateTime(i)" [index]="index"
@@ -198,12 +175,6 @@
     </ngb-panel>
     <ngb-panel id="static-5">
       <ng-template ngbPanelTitle>
-        <!-- <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[2]}}</span>
-        <span class="dateStartEndContainer" *ngFor="let dateTimes of postEventTimes; let timeIndex = index;">
-          {{dateTimes.startDateTime | date:'dd/MM/YYYY'}} | {{dateTimes.startDateTime | date:'h:mm a'}}  - {{dateTimes.endDateTime | date:'dd/MM/YYYY'}} |
-          {{dateTimes.endDateTime | date:'h:mm a'}}</span> -->
-        <!-- <span class="dateStartEndContainer">Date, Start - End | Timezone</span> -->
-
         <div class="disabledAccordionContainer">
           <div class="popupNotes"><i class="edit icon"></i>
 
@@ -222,9 +193,6 @@
                   date:'dd/MM/YYYY'}}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} -
                   {{dateTimes.endDateTime | date:'h:mm a'}}</span>
-                <!-- <span class="dateStartEndContainer" *ngFor="let dateTimes of postEventTimes; let timeIndex = index;">{{dateTimes.endDateTime | date:'dd/MM/YYYY'}} |
-                        {{dateTimes.endDateTime | date:'h:mm a'}}</span> -->
-
               </div>
             </div>
 
@@ -252,7 +220,6 @@
                   <div class="ui popup calendar">
                   </div>
                   <i class="calendar icon"></i>
-                  <!--<input type="text" placeholder="Date">-->
                   <app-date-time-picker #postEventStartDateTimes [freeze]="isPostEventTimesSameAsVenue"
                     [eventDateTime]="postEventTimes[i]?.startDateTime || null"
                     [minimumDate]="getMinimumPostEventStartDateTime(i)" [index]="index"
@@ -267,7 +234,6 @@
                   <div class="ui popup calendar">
                   </div>
                   <i class="calendar icon"></i>
-                  <!--<input type="text" placeholder="Date">-->
                   <app-date-time-picker #postEventEndDateTimes [freeze]="isPostEventTimesSameAsVenue"
                     [eventDateTime]="postEventTimes[i]?.endDateTime || null"
                     [max]="getMax(postEventTimes[i]?.startDateTime)"

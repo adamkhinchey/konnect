@@ -34,8 +34,6 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy, OnChang
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // this.isEventEdit = this.eventService.isEdit;
-    // this.editClient.emit(this.isEventEdit);
   }
 
   editEventManager() {
