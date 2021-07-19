@@ -35,8 +35,15 @@
       <ng-content select="[suppliers]"></ng-content>
     </ng-template>
   </li>
-  <li [ngbNavItem]="5" [disabled]="!eventToBeSaved!.hasExhibitors">
+  <!-- <li [ngbNavItem]="5" [disabled]="!eventToBeSaved!.hasExhibitors">
     <a ngbNavLink class="item tabAdmin"><i class="exhibitor icon" [ngClass]="{disabled:!eventToBeSaved!.hasExhibitors}"></i><span
+      class="hideMobile">EXHIBITORS</span></a>
+    <ng-template ngbNavContent>
+    <ng-content select="[exhibitors]"></ng-content>
+    </ng-template>
+  </li> -->
+  <li [ngbNavItem]="5">
+    <a ngbNavLink class="item tabAdmin"><i class="exhibitor icon"></i><span
       class="hideMobile">EXHIBITORS</span></a>
     <ng-template ngbNavContent>
     <ng-content select="[exhibitors]"></ng-content>
