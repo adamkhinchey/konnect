@@ -334,4 +334,12 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     this._cdr.detectChanges();
   }
 
+  checkPermission(isViewPermission:any) {
+    if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
+      return false
+    } else {
+      return true
+    }
+  }
+
 }

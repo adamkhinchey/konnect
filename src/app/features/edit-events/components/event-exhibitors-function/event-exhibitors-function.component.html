@@ -80,7 +80,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <div class="ui grid">
             <div class="sixteen wide column">
               <div class="marginT10"></div>
-              <div *ngIf="(venue.exhibitorList[0] && !venue.exhibitorList[0].exhibitors.length) || isExhibitorEdit"
+              <!-- <div *ngIf="(venue.exhibitorList[0] && !venue.exhibitorList[0].exhibitors.length) || isExhibitorEdit" -->
+              <div *ngIf="permissionObj.isClient || permissionObj.isEventManager"
                 class="ui button compact addNewService addToPanel" (click)="addExhibitor(venue, venueIndex)">
                 <i class="plus circle icon"></i>
                 <span>Add Exhibitor</span>
@@ -280,7 +281,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           </div>
 
                         </div>
-                        <div class="sixteen wide column saveButtons paddingT0" *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1 || eventData.userPermission.isExhibitor == 1)">
+                        <div class="sixteen wide column saveButtons paddingT0">
                           <div class="ui divider"></div>
                           <div class="ui grid stackable">
                             <div class="ten wide column middle aligned">
@@ -293,7 +294,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   class="file pdf icon"></i>
                               </button> -->
                               <button [disabled]="eventData.eventData.isDeleted"
-                                class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit"
+                                class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit || checkPermission(exhibitor.isViewPermission)"
                                 (click)="editExhibitorFn()">Edit</button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"

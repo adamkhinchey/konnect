@@ -1,4 +1,5 @@
-import {AfterViewInit,
+import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -58,6 +59,31 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     private eventService: EventService,
     private viewEventService: ViewEventService,
   ) {
+  }
+
+  checkPermission(isViewPermission:any) {
+    if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
+      return false
+    } else {
+      return true
+    }
+  }
+
+  checkPermission1(isViewPermission:any) {
+    if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
+      return true
+    } else {
+      return false
+    }
+  }
+  
+
+  checkIsVenueEditable(isViewPermission:any){
+    if ((this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1) && isViewPermission == 1) {
+      return true
+    } else {
+      return false
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {

@@ -109,6 +109,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eventService.isEdit = true;
   }
 
+  checkVenuePermission(){
+    console.log(this.eventService.activeVenuePanelIndex)
+  }
+
   ngOnInit(): void {
     this.eventService.reset();
     this.userSettingsSub = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
