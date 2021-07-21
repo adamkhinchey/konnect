@@ -101,7 +101,7 @@
         <div class="ui divider"></div>
         <div class="ui grid stackable">
           <div class="ten wide column middle aligned">
-            <div *ngIf="!eventData.eventData.isDeleted" class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal"
+            <div *ngIf="!eventData.eventData.isDeleted && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)" class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal"
               (click)="deleteEvent(eventData.eventData.eventId)"><i class="trash alternate icon"></i>Delete Event</div>
             &nbsp;&nbsp;&nbsp;<span  *ngIf="!eventData.eventData.isDeleted">Event created by
             {{eventToBeSaved.creatorCompanyName}},
