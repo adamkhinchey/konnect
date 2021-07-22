@@ -109,10 +109,10 @@
                                           target="_blank"> {{getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))}}</a>
                                         <span
                                           *ngIf="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))">|</span>
-                                        <a>
+                                        <span class="m-0">
                                           <i
                                             class="map marker alternate icon"></i>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.city}}
-                                        </a>
+                                        </span>
                                         <span>|</span>
                                         <i
                                           class="phone icon"></i>{{ (venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex) &&

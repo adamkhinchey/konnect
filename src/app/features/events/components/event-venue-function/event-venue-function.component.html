@@ -64,8 +64,8 @@
                                     <a *ngIf="getCompanyWebsite(i)" [href]="getCompanyWebsite(i)" target="_blank">
                                       {{getCompanyWebsite(i)}}</a>
                                     <span *ngIf="getCompanyWebsite(i)">|</span>
-                                    <a>
-                                      <i class="map marker alternate icon"></i>{{selectedCompanies[i]!.city}}</a>
+                                    <span class="m-0">
+                                      <i class="map marker alternate icon"></i>{{selectedCompanies[i]!.city}}</span>
                                     <span>|</span>
                                     <i class="phone icon"></i>{{getCompanyPhone(i) || ''}}
                                   </div>

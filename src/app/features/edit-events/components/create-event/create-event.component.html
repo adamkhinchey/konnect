@@ -1,34 +1,5 @@
 <div class="ui container">
   <div class="ui grid">
-    <!-- <div class="eleven wide column middle aligned topinfoOuterMar" *ngIf="data.commonData">
-      <div *ngIf="!checkIsSame(data.commonData.eventStartDate, data.commonData.eventEndDate)" class="eventInfo">
-        <b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
-        {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}} - {{data.commonData.eventEndDate |
-        date:'dd-MMMM-YYYY'}}</div>
-
-      <div *ngIf="checkIsSame(data.commonData.eventStartDate, data.commonData.eventEndDate)" class="eventInfo">
-        <b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
-        {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}</div>
-    </div> -->
-
-    <!-- <div class="infoBar">
-      <div class="ui container">
-        <div class="ui grid">
-          <div class="fifteen wide column right aligned hideMobile">
-          </div>
-          <div class="one wide column right aligned saveButtons hideMobile" *ngIf="!isEditEvents">
-            <button [disabled]="eventService.isDeleted" class="ui button">Edit</button>
-          </div>
-          <div class="one wide column right aligned saveButtons hideMobile" *ngIf="isEditEvents">
-            <button class="ui button">Save</button>
-          </div>
-          <div class="sixteen wide column right aligned saveButtons visibleMobile">
-            <button *ngIf="!isEditEvents" [disabled]="eventService.isDeleted" class="ui button">Edit</button>
-            <a *ngIf="isEditEvents" class="ui button icon ml-2"><i class="save icon"></i></a>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div class="width100">
       <div class="infoBar">
         <div class="ui container">
@@ -46,7 +17,7 @@
               </div>
 
             </div>
-            <div class="five wide column right aligned saveButtons hideMobile" *ngIf="data.userPermission && data.userPermission.isClient && (active != 3 && active !=4 && active != 5 && active != 6 && active !=7) || (active == 1 && (data.userPermission.isClient == 1 || data.userPermission.isEventManager == 1)) || (active == 2 && (data.userPermission.isClient == 1 || data.userPermission.isEventManager == 1))">
+            <!-- <div class="five wide column right aligned saveButtons hideMobile" *ngIf="data.userPermission && data.userPermission.isClient && (active != 3 && active !=4 && active != 5 && active != 6 && active !=7) || (active == 1 && (data.userPermission.isClient == 1 || data.userPermission.isEventManager == 1)) || (active == 2 && (data.userPermission.isClient == 1 || data.userPermission.isEventManager == 1))">
               <button *ngIf="!isEditEvents" [disabled]="eventService.isDeleted" class="ui button triggerEditableOptions"
                 (click)="edit()">Edit</button>
               <button *ngIf="isEditEvents" class="ui button triggerEditableOptions" (click)="onlySave()">Save</button>
@@ -57,7 +28,7 @@
                   class="pencil alternate icon"></i></button>
               <button *ngIf="isEditEvents" class="ui button triggerEditableOptions icon" (click)="onlySave()"><i
                   class="save icon"></i></button>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

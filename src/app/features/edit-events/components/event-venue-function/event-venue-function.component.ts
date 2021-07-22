@@ -186,6 +186,42 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
+  getCompanyAdd1(i: number): string | null | undefined {
+    if (this.selectedCompanies && this.selectedCompanies[i]) {
+      if (this.selectedCompanies[i] instanceof InviteFnCmpClass) {
+        return null;
+      } else {
+        return (this.selectedCompanies[i] as Company)?.streetAddress1;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  getCompanyAdd2(i: number): string | null | undefined {
+    if (this.selectedCompanies && this.selectedCompanies[i]) {
+      if (this.selectedCompanies[i] instanceof InviteFnCmpClass) {
+        return null;
+      } else {
+        return (this.selectedCompanies[i] as Company)?.streetAddress2;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  getCompanyState(i: number): string | null | undefined {
+    if (this.selectedCompanies && this.selectedCompanies[i]) {
+      if (this.selectedCompanies[i] instanceof InviteFnCmpClass) {
+        return null;
+      } else {
+        return (this.selectedCompanies[i] as Company)?.state;
+      }
+    } else {
+      return null;
+    }
+  }
+
   panelChange(event: NgbPanelChangeEvent): void {
   }
 

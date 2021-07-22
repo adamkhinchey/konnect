@@ -148,10 +148,10 @@
                                         </a>
                                         <span
                                           *ngIf="getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))">|</span>
-                                        <a>
+                                        <span class="m-0">
                                           <i
                                             class="map marker alternate icon"></i>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.city}}
-                                        </a>
+                                        </span>
                                         <span>|</span>
                                         <i
                                           class="phone icon"></i>{{ (venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex) &&

@@ -25,8 +25,8 @@
                       <a  (click)="goToCompanyProfile(getCompanyId())">{{selectedCompany.companyName}}</a>
                     </div>
                     <div class="meta">
-                      <a>
-                        <i class="map marker alternate icon"></i>{{selectedCompany.city}}</a>
+                      <span class="m-0">
+                        <i class="map marker alternate icon"></i>{{selectedCompany.city}}</span>
                       <span>|</span>
                       <i class="phone icon"></i>{{getCompanyPhone() || ''}}
                     </div>

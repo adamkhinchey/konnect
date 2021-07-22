@@ -123,10 +123,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                           (click)="goToCompanyProfile(getCompanyId(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)), getIsPrivate(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)))">{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
-                                        <a>
+                                        <span class="m-0">
                                           <i
                                             class="map marker alternate icon"></i>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.city}}
-                                        </a>
+                                        </span>
                                         <span>|</span>
                                         <i
                                           class="phone icon"></i>{{getCompanyPhone(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))

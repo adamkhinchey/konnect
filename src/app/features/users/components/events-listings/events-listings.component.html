@@ -46,7 +46,7 @@
                                     <div class="nine wide column">
                                         <h2 class="marginT10" style="cursor: pointer;"><a (click)="viewEvent(event.eventId)">{{event.title}}</a></h2>
                                         <h4>{{event.clientCompanyName}}</h4>
-                                        <h4>{{event.clientCompanyCity}}, {{event.clientCompanyState}}</h4>
+                                        <h4>{{event.venues[0].venueCompanyName}}<span *ngIf="event.venues[0].streetAddress1 && event.venues[0].streetAddress1 != ''">, {{event.venues[0].streetAddress1}}</span><span *ngIf="event.venues[0].streetAddress2 && event.venues[0].streetAddress2 != ''">, {{event.venues[0].streetAddress2}}</span><span *ngIf="event.venues[0].venueState && event.venues[0].venueState != ''">, {{event.venues[0].venueState}}</span><span *ngIf="event.venues[0].venueCity && event.venues[0].venueCity != ''">, {{event.venues[0].venueCity}}</span></h4>
                                     </div>
                                     <div class="four wide column">
                                         <h4 class="columnTitle">My roles</h4>
