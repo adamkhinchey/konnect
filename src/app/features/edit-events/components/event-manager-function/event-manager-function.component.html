@@ -77,7 +77,8 @@
             <button [disabled]="eventData.eventData.isDeleted" class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="!isEventEdit" (click)="editEventManager()">
               Edit
             </button>
-            <button class="ui button hasModal ml-3" (click)="this.saveAndInvite.emit(true)" *ngIf="isEventEdit">Save &amp; Invite
+            <button class="ui button hasModal ml-3" (click)="this.saveAndInvite.emit(true)" *ngIf="isEventEdit">Save 
+              <!-- &amp; Invite -->
             </button>
           </div>
         </div>

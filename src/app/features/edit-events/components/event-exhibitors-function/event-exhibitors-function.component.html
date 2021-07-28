@@ -298,7 +298,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 (click)="editExhibitorFn()">Edit</button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"
-                                *ngIf="isExhibitorEdit">Save &amp; Invite
+                                *ngIf="isExhibitorEdit">Save 
+                                <!-- &amp; Invite -->
                               </button>
                             </div>
                           </div>

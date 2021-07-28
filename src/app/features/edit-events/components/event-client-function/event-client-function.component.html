@@ -113,7 +113,8 @@
             </button> -->
             <button class="ui button triggerEditableOptions ml-3" *ngIf="!isClientEdit" [disabled]="eventData.eventData.isDeleted" (click)="editClientEvent()">Edit</button>
             <button class="ui button hasModal ml-3"
-                    data-modal="inviteModal" (click)="saveAndInvite.emit(true)" *ngIf="isClientEdit">Save &amp; Invite
+                    data-modal="inviteModal" (click)="saveAndInvite.emit(true)" *ngIf="isClientEdit">Save 
+                    <!-- &amp; Invite -->
             </button>
           </div>
         </div>

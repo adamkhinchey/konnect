@@ -191,8 +191,9 @@
                         </button>
                         <button class="ui button hasModal ml-3" [disabled]="eventData.eventData.isDeleted || checkPermission(panel.isViewPermission)"
                           (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})"
-                          data-modal="inviteModal" *ngIf="isVenueEdit">Save &amp;
-                          Invite
+                          data-modal="inviteModal" *ngIf="isVenueEdit">Save 
+                          <!-- &amp;
+                          Invite -->
                         </button>
                       </div>
                     </div>
