@@ -247,7 +247,7 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
               servicesData?.data?.forEach((multiData) => {
                 items.push({
                   id: `${multiData.id}_${uuidV4()}`,
-                  content: `${'BI'}<br/>`,
+                  content: `${multiData.content || ''}<br/>`,
                   title: `<b>${multiData.content}</b><p>${multiData.companyName || multiData.companyName}<br/>
   ${moment.tz(multiData.startDateTime, this.timeZone).toDate().toDateString()} -
   ${moment.tz(multiData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
@@ -328,7 +328,7 @@ ${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${mo
               servicesData?.data?.forEach((multiData) => {
                 items.push({
                   id: `${multiData.id}_${uuidV4()}`,
-                  content: `${'BI'}<br/>`,
+                  content: `${'BO'}<br/>`,
                   title: `<b>${multiData.content}</b><p>${multiData.companyName || multiData.companyName}<br/>
   ${moment.tz(multiData.startDateTime, this.timeZone).toDate().toDateString()} -
   ${moment.tz(multiData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
