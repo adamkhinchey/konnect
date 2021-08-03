@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, HostListener } from '@angular/core';
 import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { SaveEventClass } from "../../models/classes";
 
@@ -12,11 +12,16 @@ export class EventPanelNavComponent implements OnInit {
   @Input() active = 1;
   @Input() content: any;
   @Input() eventToBeSaved: SaveEventClass | undefined;
-
+  isSticky: boolean = false;
   constructor() {
   }
 
   ngOnInit(): void {
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  checkScroll() {
+    this.isSticky = window.pageYOffset >= 200;
   }
 
   openVerticallyCentered(content: any) {

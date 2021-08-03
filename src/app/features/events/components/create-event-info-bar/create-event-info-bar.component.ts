@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import {EventService} from "../../services/event.service";
 
 @Component({
@@ -9,8 +9,13 @@ import {EventService} from "../../services/event.service";
 export class CreateEventInfoBarComponent implements OnInit {
 
   constructor(public eventService: EventService) { }
+  isSticky: boolean = false;
 
   ngOnInit(): void {
+  }
+  @HostListener('window:scroll', ['$event'])
+  checkScroll() {
+    this.isSticky = window.pageYOffset >= 200;
   }
 
 }
