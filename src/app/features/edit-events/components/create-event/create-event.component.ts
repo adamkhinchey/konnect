@@ -109,7 +109,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eventService.isEdit = true;
   }
 
-  checkVenuePermission(){
+  checkVenuePermission() {
     console.log(this.eventService.activeVenuePanelIndex)
   }
 
@@ -373,7 +373,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   internalCmpNotes: venue.internalCmpNotes,
                   streetAddress1: venue.streetAddress1 || null,
                   streetAddress2: venue.streetAddress2 || null,
-                  state:venue.companyState || null,
+                  state: venue.companyState || null,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [],
@@ -470,7 +470,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   internalCmpNotes: venue.internalCmpNotes,
                   streetAddress1: venue.streetAddress1 || null,
                   streetAddress2: venue.streetAddress2 || null,
-                  state:venue.companyState || null,
+                  state: venue.companyState || null,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [{
@@ -644,7 +644,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   internalCmpNotes: venue.internalCmpNotes,
                   streetAddress1: venue.streetAddress1 || null,
                   streetAddress2: venue.streetAddress2 || null,
-                  state:venue.companyState || null,
+                  state: venue.companyState || null,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [],
@@ -1200,7 +1200,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.clientCompany = null;
     this.clientContactList = [];
     this.eventToBeSaved.client = {
-      id: null ,
+      id: null,
       contacts: null,
       isOwnCompany: false,
       shouldInvite: null,
@@ -1577,6 +1577,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.eventService.hideInfoBar = false;
             // window.location.reload();
             this.ngOnInit();
+            if (EventFunctionTypes.CLIENT || EventFunctionTypes.EVENT_MANAGER || EventFunctionTypes.VENUE || EventFunctionTypes.SUPPLIERS || EventFunctionTypes.EXHIBITORS) {
+              this.isClientEditable = false;
+              this.isManagerEditable = false;
+              this.eventService.isEdit = false;
+            }
             if (EventFunctionTypes.VENUE) {
               this.eventService.reset();
               this.ngOnInit();
