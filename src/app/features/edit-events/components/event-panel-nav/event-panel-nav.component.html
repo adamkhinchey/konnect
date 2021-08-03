@@ -1,3 +1,5 @@
+<div [ngClass]="{'tabmenufixedOuter' : true, 'fixedMenu active' : isSticky}" >
+
 <ul ngbNav #nav="ngbNav"  [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui"
     (navChange)="navChange($event)">
   <li [ngbNavItem]="1">
@@ -62,4 +64,6 @@
     </ng-template>
   </li>
 </ul>
+  
+</div>
 <div [ngbNavOutlet]="nav" class="mt-2"></div>

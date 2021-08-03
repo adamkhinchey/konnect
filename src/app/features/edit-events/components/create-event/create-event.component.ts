@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
 import { NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EventPanelNavComponent } from '../event-panel-nav/event-panel-nav.component';
 import { Company } from '../../../users/models';
@@ -91,6 +91,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   public supplierCount: number = 0;
   public exhibitorCount: number = 0;
   public emitedCrew: number = 0;
+  isSticky: boolean = false;
 
   constructor(
     // public modalService: NgbModal,
@@ -112,6 +113,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   checkVenuePermission() {
     console.log(this.eventService.activeVenuePanelIndex)
   }
+
+  @HostListener('window:scroll', ['$event'])
+  checkScroll() {
+    this.isSticky = window.pageYOffset >= 200;
+  }
+
 
   ngOnInit(): void {
     this.eventService.reset();

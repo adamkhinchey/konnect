@@ -896,3 +896,14 @@ select.ui.dropdown {
 .content .meta span.m-0 {
   margin: 0 !important;
 }
+
+
+.fixedMenu .ui.secondary.pointing.menu {
+	max-width: 1127px;
+  margin: auto;
+}
+
+.fixedMenu {
+	box-shadow: 0 3px 4px 1px rgba(0,0,0,.1);
+}
+.fixedMenu.active.tabmenufixedOuter { top: 63px; }
