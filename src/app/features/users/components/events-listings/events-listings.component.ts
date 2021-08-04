@@ -122,6 +122,9 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
     this.eventListingSrvc.getEventsList(1).subscribe((res: any) => {
       this.eventsCopy = this.events = res;
       this.fillSpecialDates();
+      if(!this.eventsCopy.length){
+        this.noDataMsg = "Your associated companies have no event history."
+      }
     }, err => {
       console.log(err);
     })
