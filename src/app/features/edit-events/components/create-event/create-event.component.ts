@@ -116,7 +116,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
-    this.isSticky = window.pageYOffset >= 200;
+    this.isSticky = window.pageYOffset >= 300;
   }
 
 

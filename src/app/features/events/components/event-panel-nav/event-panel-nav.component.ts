@@ -22,7 +22,7 @@ export class EventPanelNavComponent implements OnInit {
   }
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
-    this.isSticky = window.pageYOffset >= 200;
+    this.isSticky = window.pageYOffset >= 300;
   }
   openVerticallyCentered(content: any) {
 
