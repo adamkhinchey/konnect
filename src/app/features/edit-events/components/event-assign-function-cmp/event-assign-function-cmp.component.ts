@@ -122,4 +122,16 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     }
   }
 
+  checkViewPermission(listLabel: any) {
+    if (listLabel === 'Add Venue') {
+      return true
+    } else {
+      if (this.permissionObj.isClient || this.permissionObj.isEventManager || this.isViewPermission) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
 }

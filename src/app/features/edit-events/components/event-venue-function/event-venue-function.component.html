@@ -157,13 +157,14 @@
                           <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
                           <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px">
                           </i>
-                          <i class="map marker alternate icon"></i>
+                          <i class="building icon"></i>
                         </h3>
                       </div>
                       <div class="field">
-                        <textarea *ngIf="panel.isViewPermission == 1; else no_access" rows="3" class="textarea"
-                          [(ngModel)]="panel.requirements" [ngModelOptions]="{standalone:true}"
-                          [readonly]="!isVenueEdit">
+                        <textarea
+                          *ngIf="panel.isViewPermission == 1 || permissionObj.isClient == 1 || permissionObj.isEventManager == 1; else no_access"
+                          rows="3" class="textarea" [(ngModel)]="panel.requirements"
+                          [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit">
                         </textarea>
                         <ng-template #no_access>No access
                         </ng-template>
