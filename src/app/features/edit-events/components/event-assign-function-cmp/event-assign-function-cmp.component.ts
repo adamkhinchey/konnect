@@ -123,7 +123,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   checkViewPermission(listLabel: any) {
-    console.log(listLabel);
     if (listLabel === 'Venue Contacts') {
       return true;
     } else {
