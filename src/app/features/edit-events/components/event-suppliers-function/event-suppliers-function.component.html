@@ -240,7 +240,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                         <div class="sixteen wide column saveButtons paddingT0">
                           <div class="ui divider"></div>
                           <div class="ui grid stackable">
-                            <div class="ten wide column middle aligned">
+                            <div class="ten wide column middle aligned" *ngIf="!eventData.eventData.isDeleted && !checkPermission(service.isViewPermission)">
                               <div (click)="removeDeclineService(service?.supplierId, 0)"
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
