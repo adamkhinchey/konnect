@@ -21,8 +21,7 @@
       </span>
     </h3>
   </div>
-  <div class="kipCardContainer"
-    *ngIf="checkViewPermission(contactListLabel); else no_access">
+  <div class="kipCardContainer" *ngIf="checkViewPermission(contactListLabel); else no_access">
     <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
       <div class="column" *ngFor="let contact of contactList; let i=index">
         <ng-container *ngIf="!contact.isCrew || contact.isCrew == 0">
@@ -36,6 +35,11 @@
           </div>
           <div class="ui fluid card">
             <div class="content">
+              <span *ngIf="contact.isPrivate" class="ui blue right corner label popupNotes adjustTri"
+                data-content="Private Contact">
+                <!--<i class="address card outline icon"></i>-->
+                <fa-icon [icon]="addressCardIcon"></fa-icon>
+              </span>
               <img class="right floated mini ui image" [src]="contact.profileImage" appImageFallback
                 fallbackImage="assets/img/default_konnect_individual_img.png">
               <div class="header">

@@ -907,3 +907,9 @@ select.ui.dropdown {
 	box-shadow: 0 3px 4px 1px rgba(0,0,0,.1);
 }
 .fixedMenu.active.tabmenufixedOuter { top: 63px; }
+
+.popupNotes.ui.corner.label.adjustTri {
+  top: -5px!important;
+  right: -2px!important;
+  line-height: 20px!important;
+}

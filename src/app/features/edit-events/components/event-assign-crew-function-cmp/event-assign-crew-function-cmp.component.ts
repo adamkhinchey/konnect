@@ -6,12 +6,14 @@ import { InviteFnCmpClass } from '../../models/classes';
 import { devLogger } from '../../../../shared/utils';
 import { environment } from '../../../../../environments/environment';
 import * as _ from 'lodash';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 @Component({
   selector: 'app-event-assign-crew-function-cmp',
   templateUrl: './event-assign-crew-function-cmp.component.html',
   styleUrls: ['./event-assign-crew-function-cmp.component.scss']
 })
 export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
+  addressCardIcon = faAddressCard;
   @Input() eventData: any;
   @Input() clientCmpBtnLabel = '';
   @Input() contactListLabel = '';

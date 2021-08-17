@@ -58,10 +58,11 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   constructor(
     private eventService: EventService,
     private viewEventService: ViewEventService,
+    private router: Router
   ) {
   }
 
-  checkPermission(isViewPermission:any) {
+  checkPermission(isViewPermission: any) {
     if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
       return false
     } else {
@@ -69,16 +70,16 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
-  checkPermission1(isViewPermission:any) {
+  checkPermission1(isViewPermission: any) {
     if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
       return true
     } else {
       return false
     }
   }
-  
 
-  checkIsVenueEditable(isViewPermission:any){
+
+  checkIsVenueEditable(isViewPermission: any) {
     if ((this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1) && isViewPermission == 1) {
       return true
     } else {
@@ -311,6 +312,23 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       this.eventService.isSaveDisabled = true;
       return true
     }
+  }
+
+  removeDeclineService(venueId: any, isAccept: any) {
+    console.log(venueId);
+    let payload = {
+      eventId: this.eventData.eventData.eventId,
+      tabId: venueId,
+      tabType: 3,
+      isAccept: isAccept
+    }
+    this.viewEventService.removeDecline(payload).subscribe((res: any) => {
+      console.log(res);
+      if (res.code == 200)
+        this.router.navigate(['home']);
+    }, err => {
+      devLogger('err', err)
+    })
   }
 
 }

@@ -61,6 +61,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
   }
 
   ngOnInit(): void {
+    console.log(this.eventTimeWindowType)
     console.log('event Data: ', this.eventData)
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
@@ -261,6 +262,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     }
     this.viewEventService.removeDecline(payload).subscribe((res: any) => {
       console.log(res);
+      if(res.code == 200)
       this.router.navigate(['home']);
     }, err => {
       devLogger('err', err)

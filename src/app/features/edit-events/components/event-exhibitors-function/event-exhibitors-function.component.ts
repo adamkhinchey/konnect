@@ -62,6 +62,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   }
 
   ngOnInit(): void {
+    console.log(this.eventToBeSaved)
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
@@ -142,6 +143,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     this.isExhibitorEditable = true;
     console.log(venue.exhibitorList[0])
     if (!venue.exhibitorList[0]) {
+      console.log('in if condition');
       const timeWindowsToAll: SuppExhTimeWindowFormatInterface = {
         bumpIn: { sameAsVenue: null, timings: [] },
         bumpOut: { sameAsVenue: null, timings: [] },
@@ -168,12 +170,12 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
         }]
       };
     } else {
-
-      const timeWindowsToAll: SuppExhTimeWindowFormatInterface = {
-        bumpIn: { sameAsVenue: null, timings: [] },
-        bumpOut: { sameAsVenue: null, timings: [] },
-        eventTime: { sameAsVenue: null, timings: [] }
-      };
+      console.log('in else condition');
+      // const timeWindowsToAll: SuppExhTimeWindowFormatInterface = {
+      //   bumpIn: { sameAsVenue: null, timings: [] },
+      //   bumpOut: { sameAsVenue: null, timings: [] },
+      //   eventTime: { sameAsVenue: null, timings: [] }
+      // };
 
       const timeWindows: SuppExhTimeWindowFormatInterface = {
         bumpIn: { sameAsVenue: null, timings: [] },
@@ -182,10 +184,20 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
       };
 
       venue.exhibitorList[0] = {
-        notesToAll: '',
-        timeWindowsToAll,
+        notesToAll: venue.exhibitorList[0].notesToAll,
+        timeWindowsToAll: venue.exhibitorList[0].timeWindowsToAll,
         exhibitors: venue.exhibitorList[0].exhibitors
       };
+
+      if (venue.exhibitorList[0].timeWindowsToAll.bumpIn.timings == undefined) {
+        venue.exhibitorList[0].timeWindowsToAll.bumpIn.timings = []
+      }
+      if (venue.exhibitorList[0].timeWindowsToAll.bumpOut.timings == undefined) {
+        venue.exhibitorList[0].timeWindowsToAll.bumpOut.timings = []
+      }
+      if (venue.exhibitorList[0].timeWindowsToAll.eventTime.timings == undefined) {
+        venue.exhibitorList[0].timeWindowsToAll.eventTime.timings = []
+      }
 
       venue.exhibitorList[0].exhibitors.push({
         standNumber: null,
@@ -356,7 +368,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     }
   }
 
-  checkPermission(isViewPermission:any) {
+  checkPermission(isViewPermission: any) {
     if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
       return false
     } else {

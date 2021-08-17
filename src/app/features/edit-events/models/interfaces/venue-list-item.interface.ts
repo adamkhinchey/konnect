@@ -23,4 +23,5 @@ export interface VenueListItemInterface {
   streetAddress1?: null | string;
   streetAddress2?: null | string;
   state?: null | string;
+  venueId?: null | number;
 }
