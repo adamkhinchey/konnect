@@ -13,6 +13,7 @@ import { Company } from "../../../users/models";
 import { EventTimeWindowTypes } from "../../models/types";
 import { ViewEventService } from '../../services/view-event.service';
 import { Router } from '@angular/router';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-event-suppliers-function',
@@ -21,6 +22,7 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnChanges, AfterViewChecked {
+  addressCardIcon = faAddressCard;
   // @ts-ignore
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
   @Input() eventData: any;

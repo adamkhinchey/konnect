@@ -85,6 +85,12 @@
                             <div class="column">
                               <div class="ui fluid card">
                                 <div class="content">
+                                  <span *ngIf="selectedCompanies[i]!.isPrivate"
+                                    class="ui blue right corner label popupNotes adjustTri"
+                                    data-content="Private Contact">
+                                    <!--<i class="address card outline icon"></i>-->
+                                    <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                  </span>
                                   <img class="right floated mini ui image"
                                     [src]="getCompanyProfileImage(i) || 'assets/img/default_konnect_img.png'"
                                     appImageFallback fallbackImage="assets/img/default_konnect_img.png">
@@ -188,9 +194,10 @@
                     <div class="ui divider"></div>
                     <div class="ui grid stackable">
                       <div class="ten wide column middle aligned">
-                        <div (click)="removeDeclineService(panel?.venueId, 0)" *ngIf="!eventData.eventData.isDeleted && !checkPermission(panel.isViewPermission)"
-                          class="ui circular compact mini basic button confirmRemove hasModal"
-                          data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
+                        <div (click)="removeDeclineService(panel?.venueId, 0)"
+                          *ngIf="!eventData.eventData.isDeleted && !checkPermission(panel.isViewPermission)"
+                          class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal">
+                          <i class="trash alternate icon"></i>Remove</div>
                       </div>
                       <div class="six wide column right aligned">
                         <button [disabled]="eventData.eventData.isDeleted || checkPermission(panel.isViewPermission)"

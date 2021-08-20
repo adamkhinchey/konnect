@@ -15,6 +15,7 @@ import { InviteFnCmpClass } from '../../models/classes';
 import { EventTimeWindowTypes } from "../../models/types";
 import { ViewEventService } from '../../services/view-event.service';
 import { Router } from '@angular/router';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-event-exhibitors-function',
@@ -22,6 +23,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./event-exhibitors-function.component.scss']
 })
 export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnChanges {
+  addressCardIcon = faAddressCard;
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion | undefined;
   @Input() eventData: any;
   @Input() eventToBeSaved = new SaveEventClass();

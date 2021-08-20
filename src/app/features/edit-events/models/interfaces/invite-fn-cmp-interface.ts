@@ -4,4 +4,5 @@ export interface InviteFnCmpInterface {
   city: string;
   contactName: string;
   contactEmail: string;
+  isPrivate?: any;
 }

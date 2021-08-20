@@ -21,6 +21,7 @@ import { FnCmpCntInterface } from '../../models/interfaces';
 import { ViewEventService } from '../../services/view-event.service';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 
 @Component({
@@ -29,7 +30,7 @@ import * as _ from 'lodash';
   styleUrls: ['./event-venue-function.component.scss']
 })
 export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnChanges {
-
+  addressCardIcon = faAddressCard;
   @ViewChildren('venueAssignCmp') venueAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
   @ViewChildren('venueCrewAssignCmp') venueCrewAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
   // @ts-ignore

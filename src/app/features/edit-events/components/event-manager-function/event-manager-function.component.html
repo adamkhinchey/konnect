@@ -18,6 +18,11 @@
               <div class="column">
                 <div class="ui fluid card">
                   <div class="content">
+                    <span *ngIf="selectedCompany.isPrivate" class="ui blue right corner label popupNotes adjustTri"
+                    data-content="Private Contact">
+                    <!--<i class="address card outline icon"></i>-->
+                    <fa-icon [icon]="addressCardIcon"></fa-icon>
+                  </span>
                     <img class="right floated mini ui image"
                     [src]="getCompanyProfileImage() || 'assets/img/default_konnect_img.png'"
                     appImageFallback fallbackImage="assets/img/default_konnect_img.png">

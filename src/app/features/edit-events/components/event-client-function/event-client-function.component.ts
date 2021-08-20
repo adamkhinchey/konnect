@@ -7,6 +7,7 @@ import { EventService } from "../../services/event.service";
 import { EventFunctionTypes } from "../../models/types";
 import { Router } from '@angular/router';
 import { ViewEventService } from '../../services/view-event.service';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-event-client-function',
@@ -14,6 +15,7 @@ import { ViewEventService } from '../../services/view-event.service';
   styleUrls: ['./event-client-function.component.scss'],
 })
 export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChanges {
+  addressCardIcon = faAddressCard;
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
   @Input() content: any;
   @Output() removeSelectedCompany = new EventEmitter<any>();
