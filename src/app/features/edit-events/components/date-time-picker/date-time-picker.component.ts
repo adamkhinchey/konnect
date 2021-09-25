@@ -9,9 +9,10 @@ import {
   TemplateRef,
   ElementRef
 } from '@angular/core';
-import {devLogger} from "../../../../shared/utils";
-import {Moment} from 'moment';
-import {OwlDateTimeComponent} from "@danielmoncada/angular-datetime-picker";
+import { devLogger } from "../../../../shared/utils";
+import { Moment } from 'moment';
+import { OwlDateTimeComponent } from "@danielmoncada/angular-datetime-picker";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-date-time-picker',
@@ -20,18 +21,22 @@ import {OwlDateTimeComponent} from "@danielmoncada/angular-datetime-picker";
 })
 export class DateTimePickerComponent implements OnInit, AfterViewInit {
 
+
   @ViewChild('dt1') owlDateTime: OwlDateTimeComponent<any> | undefined;
   @ViewChild('inp') dateTimeInput: ElementRef | undefined;
   @Input() minimumDate: Date | undefined;
+  @Input() max: any = null;
   @Input() index: any;
   @Input() eventDateTime: any;
   @Input() freeze = false;
+  @Input() isEdit: boolean = false;
   @Output() addNewDateTime = new EventEmitter<Date>();
 
   constructor() {
   }
 
   ngOnInit(): void {
+
   }
 
   ngAfterViewInit(): void {

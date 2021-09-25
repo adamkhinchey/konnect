@@ -23,7 +23,7 @@
             <img class="right floated mini ui image" [src]="contact.profileImage || 'assets/img/profile.png'"
                  appImageFallback fallbackImage="assets/img/profile.png">
             <div class="header">
-              <a>{{contact.firstName + ' '+ (contact.lastName || '')}}</a>
+              <a  (click)="goToUserProfile(contact.id)">{{contact.firstName + ' '+ (contact.lastName || '')}}</a>
             </div>
             <div class="meta">
               {{contact.position}}

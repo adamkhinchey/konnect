@@ -5,8 +5,8 @@
         <div class="ui grid">
           <div class="ten wide column middle aligned">
             <h3>Client/Event Manager Shared Files
-              <i class="cog icon"></i>
-              <i class="sitemap icon"></i></h3>
+              <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+          <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i></h3>
           </div>
           <div class="six wide column right aligned">
             <div class="ui button compact mini basic circular addDocuments hasModal"
@@ -37,7 +37,7 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Client Internal Files <i class="cog icon"></i></h3>
+            <h3>Client Internal Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i></h3>
           </div>
           <div class="six wide column right aligned">
             <div class="ui button compact mini basic circular addDocuments hasModal"
@@ -66,8 +66,9 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Event Management Internal Files <i class="sitemap icon"></i></h3>
+            <h3>Event Management Internal Files <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i></h3>
           </div>
+          
           <div class="six wide column right aligned">
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.EVENT_MANAGEMENT_INTERNAL_FILES)"><i class="upload icon"></i>Upload
@@ -124,7 +125,8 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Files for All Venues <i class="cog icon"></i><i class="sitemap icon"></i><i
+            <h3>Files for All Venues <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+              <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
               class="map marker alternate icon"></i></h3>
           </div>
           <div class="six wide column right aligned">
@@ -151,9 +153,12 @@
 
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
-    <ngb-accordion
+    <!-- <ngb-accordion
       *ngIf="eventFiles?.data?.files?.FFAV?.venuesFiles && eventFiles?.data?.files?.FFAV?.venuesFiles!.length>0"
-      [closeOthers]="true" [activeIds]="'venueId_' + eventFiles!.data!.files!.FFAV!.venuesFiles![0]!.venueId">
+      [closeOthers]="true" [activeIds]="'venueId_' + eventFiles!.data!.files!.FFAV!.venuesFiles![0]!.venueId"> -->
+
+      <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAV?.venuesFiles && eventFiles?.data?.files?.FFAV?.venuesFiles!.length>0">
 
 
       <ngb-panel [id]="'venueId_' + venueFileItem.venueId"
@@ -199,7 +204,8 @@
                   <div class="ui dividing header">
                     <div class="ui grid">
                       <div class="ten wide column middle aligned">
-                        <h3>Venue Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
+                        <h3>Venue Shared Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                          <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                           class="building icon"></i></h3>
                       </div>
                       <div class="six wide column right aligned">
@@ -279,7 +285,8 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Files for All Suppliers <i class="cog icon"></i><i class="sitemap icon"></i><i class="truck icon"></i>
+            <h3>Files for All Suppliers <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+              <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i class="truck icon"></i>
             </h3>
           </div>
           <div class="six wide column right aligned">
@@ -307,10 +314,13 @@
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
-    <ngb-accordion
+    <!-- <ngb-accordion
       *ngIf="eventFiles?.data?.files?.FFAS?.supplierFiles && eventFiles?.data?.files?.FFAS?.supplierFiles!.length>0"
       [closeOthers]="true"
-      [activeIds]="'serviceId_' + eventFiles!.data!.files!.FFAS!.supplierFiles![0]!.serviceId">
+      [activeIds]="'serviceId_' + eventFiles!.data!.files!.FFAS!.supplierFiles![0]!.serviceId"> -->
+
+      <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAS?.supplierFiles && eventFiles?.data?.files?.FFAS?.supplierFiles!.length>0">
 
 
       <ngb-panel [id]="'serviceId_' + supplierItem.serviceId"
@@ -328,7 +338,8 @@
                     <div class="ui dividing header">
                       <div class="ui grid">
                         <div class="ten wide column middle aligned">
-                          <h3>Supplier Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
+                          <h3>Supplier Shared Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                             class="building icon"></i></h3>
                         </div>
                         <div class="six wide column right aligned">
@@ -411,7 +422,8 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Files for All Exhibitors <i class="cog icon"></i><i class="sitemap icon"></i><i class="exhibitor icon"></i>
+            <h3>Files for All Exhibitors <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+              <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i class="exhibitor icon"></i>
             </h3>
           </div>
           <div class="six wide column right aligned">
@@ -438,9 +450,12 @@
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
-    <ngb-accordion
+    <!-- <ngb-accordion
       *ngIf="eventFiles?.data?.files?.FFAE?.exhibitorFiles && eventFiles?.data?.files?.FFAE?.exhibitorFiles!.length>0"
-      [closeOthers]="true" [activeIds]="'exhibitorId_' +eventFiles!.data!.files!.FFAE!.exhibitorFiles![0]!.exhibitorId">
+      [closeOthers]="true" [activeIds]="'exhibitorId_' +eventFiles!.data!.files!.FFAE!.exhibitorFiles![0]!.exhibitorId"> -->
+
+      <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAE?.exhibitorFiles && eventFiles?.data?.files?.FFAE?.exhibitorFiles!.length>0">
 
 
       <ngb-panel [id]="'exhibitorId_' + exhibitorFileItem.exhibitorId"
@@ -458,7 +473,8 @@
                     <div class="ui dividing header">
                       <div class="ui grid">
                         <div class="ten wide column middle aligned">
-                          <h3>Exhibitor Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
+                          <h3>Exhibitor Shared Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                             class="building icon"></i></h3>
                         </div>
                         <div class="six wide column right aligned">

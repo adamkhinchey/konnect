@@ -11,4 +11,5 @@ export interface CreateProfilePersonalDetails {
     val: string
   } | string;
   mobileNumber: string;
+  inviteUID?:any;
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
 import { NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EventPanelNavComponent } from '../event-panel-nav/event-panel-nav.component';
 import { Company } from '../../../users/models';
@@ -27,6 +27,7 @@ import { EventTimelineService } from '../../services/event-timeline.service';
 import { cloneDeep } from 'lodash-es';
 import { ViewEventService } from '../../services/view-event.service';
 import * as _ from 'lodash';
+import * as moment from 'moment'
 
 export interface VenuueCompany extends Company {
   venueId?: number;
@@ -37,7 +38,8 @@ export interface VenuueCompany extends Company {
 @Component({
   selector: 'app-create-event',
   templateUrl: './create-event.component.html',
-  styleUrls: ['./create-event.component.scss']
+  styleUrls: ['./create-event.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() eventId: any;
@@ -76,6 +78,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   isVenuesExhibitorsInvalid = true;
 
   data: any = {};
+  isEditEvents: boolean = false;
+  isSaveDisable: boolean = false;
 
   permissionObj = { isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
   public isClientEditable = false;
@@ -87,18 +91,34 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   public supplierCount: number = 0;
   public exhibitorCount: number = 0;
   public emitedCrew: number = 0;
+  isSticky: boolean = false;
 
   constructor(
-    private modalService: NgbModal,
-    private toaster: ToastrService,
-    private userSettings: UserSettingsService,
-    private authService: AuthService,
-    private eventService: EventService,
-    private router: Router,
-    private eventTimelineService: EventTimelineService,
-    private viewEvSrvc: ViewEventService,
+    // public modalService: NgbModal,
+    public toaster: ToastrService,
+    public userSettings: UserSettingsService,
+    public authService: AuthService,
+    public eventService: EventService,
+    public router: Router,
+    public eventTimelineService: EventTimelineService,
+    public viewEvSrvc: ViewEventService,
+    public _cdr: ChangeDetectorRef,
   ) {
   }
+
+  edit() {
+    this.eventService.isEdit = true;
+  }
+
+  checkVenuePermission() {
+    console.log(this.eventService.activeVenuePanelIndex)
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  checkScroll() {
+    this.isSticky = window.pageYOffset >= 100;
+  }
+
 
   ngOnInit(): void {
     this.eventService.reset();
@@ -122,14 +142,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.unsetFnCompanyToSelf();
           }
           break;
-        // case EventFunctionTypes.VENUE:
-
-        //   break;
-        // case EventFunctionTypes.SUPPLIERS:
-
-        //   break;
-        // case EventFunctionTypes.EXHIBITORS:
-
       }
     });
 
@@ -151,36 +163,58 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.unsetFnCompanyToSelf();
           }
           break;
-        // case EventFunctionTypes.VENUE:
-
-        //   break;
-        // case EventFunctionTypes.SUPPLIERS:
-
-        //   break;
-        // case EventFunctionTypes.EXHIBITORS:
-
       }
     });
 
-    this.saveOnlySub = this.eventService.triggerSaveOnly.subscribe(() => {
-      switch (this.selectedFunction) {
-        case EventFunctionTypes.CLIENT:
-        case EventFunctionTypes.EVENT_MANAGER:
-          this.saveToDb(false);
-          break;
-        case EventFunctionTypes.VENUE:
-          this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
-          break;
-        case EventFunctionTypes.SUPPLIERS:
-          this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
-          break;
-        case EventFunctionTypes.EXHIBITORS:
-          this.saveToDb({ venueIndex: null, exhibitorIndex: null, shouldInvite: false });
-          break;
-      }
-    });
+    this.eventService.isEditChange.subscribe((value) => {
+      this.isEditEvents = value;
+    })
+    this.eventService.isSaveDisabledChange.subscribe((value) => {
+      console.log('isSaveDisableValue: ', value)
+      this.isSaveDisable = value;
+    })
+
+    // this.saveOnlySub = this.eventService.triggerSaveOnly.subscribe(() => {
+    //   switch (this.selectedFunction) {
+    //     case EventFunctionTypes.CLIENT:
+    //       this.saveToDb(false);
+    //       break;
+    //     case EventFunctionTypes.EVENT_MANAGER:
+    //       this.saveToDb(false);
+    //       break;
+    //     case EventFunctionTypes.VENUE:
+    //       this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
+    //       break;
+    //     case EventFunctionTypes.SUPPLIERS:
+    //       this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
+    //       break;
+    //     case EventFunctionTypes.EXHIBITORS:
+    //       this.saveToDb({ venueIndex: null, exhibitorIndex: null, shouldInvite: false });
+    //       break;
+    //   }
+    // });
     if (this.eventId) {
-      this.getEventsById(1);
+      this.getEventsById(this.active);
+    }
+  }
+
+  onlySave() {
+    switch (this.selectedFunction) {
+      case EventFunctionTypes.CLIENT:
+        this.saveToDb(false);
+        break;
+      case EventFunctionTypes.EVENT_MANAGER:
+        this.saveToDb(false);
+        break;
+      case EventFunctionTypes.VENUE:
+        this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
+        break;
+      case EventFunctionTypes.SUPPLIERS:
+        this.saveToDb({ venueIndex: null, serviceIndex: null, shouldInvite: false });
+        break;
+      case EventFunctionTypes.EXHIBITORS:
+        this.saveToDb({ venueIndex: null, exhibitorIndex: null, shouldInvite: false });
+        break;
     }
   }
 
@@ -188,291 +222,294 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.viewEvSrvc.getEventsByEventId(this.eventId, tabType).subscribe((res: any) => {
       console.log(res);
       if (res && res.eventData) {
-        this.data.eventData = res.eventData;
-      }
-      if (res && res.userPermission) {
-        this.data.userPermission = res.userPermission;
-        this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
-        this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
-        this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
-        this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
-        this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
-
-        // this.permissionObj.isClient = false;
-        // this.permissionObj.isEventManager = false;
-        // this.permissionObj.isVenue = false;
-        // this.permissionObj.isService = false;
-        // this.permissionObj.isExhibitor = false;
-
-      }
-      if (res && res.commonData) {
-        this.data.commonData = res.commonData;
-      }
-
-      // console.log("permissionObj", this.permissionObj);
-
-
-      console.log(this.data);
-      if (tabType === 1) {
-        const tempMap = new Map<EventFunctionTypes, null | boolean | boolean[]>(this.eventService.setIsFnOwnCompany.getValue());
-        tempMap.set(EventFunctionTypes.CLIENT, this.data.eventData.client.isOwnCompany === 1);
-        this.eventService.setIsFnOwnCompany.next(tempMap);
-        if (this.data && this.data.eventData) {
-          this.clientCompany = ({
-            id: this.data.eventData.client.companyId,
-            companyName: this.data.eventData.client.clientCompanyName,
-            city: this.data.eventData.client.clientCompanyCity,
-            phone: this.data.eventData.client.clientCompanyPhone,
-            companyProfileImage: this.data.eventData.client.clientCompanyProfileImage,
-            state: this.data.eventData.client.clientCompanyState,
-            website: this.data.eventData.client.clientCompanyWebsite,
-            companyTaxNumber: '',
-            streetAddress_1: '',
-            streetAddress_2: '',
-            countryId: 0,
-            postcode: '',
-            description: '',
-            createdDate: '',
-            updatedDate: '',
-            companyUID: '',
-            companyType: '',
-            canClaim: 0,
-            canJoin: 0
-          } as Company);
-          this.eventToBeSaved = ({
-            title: this.data.eventData.title,
-            description: this.data.eventData.description,
-            hasExhibitors: this.data.eventData.hasExhibitors,
-            creatorCompanyName: this.data.eventData.creatorCompanyName,
-            eventCreatedDate: this.data.eventData.eventCreatedDate,
-            createrUserId: this.data.eventData.createrUserId,
-            creatorFromCompanyId: this.data.eventData.createrUserId,
-            client: {
-              isOwnCompany: this.data.eventData.client.isOwnCompany
-            }
-          } as SaveEventClass);
-          const contacts: any = this.data.eventData.client.contacts;
-          for (let i = 0; i < contacts.length; i++) {
-            this.clientContactList.push({
-              id: contacts[i].id,
-              email: contacts[i].email,
-              firstName: contacts[i].firstName,
-              lastName: contacts[i].lastName || '',
-              contactLabelId: contacts[i].contactLabelId || null,
-              position: '',
-              contactPosition: contacts[i].contactPosition,
-              contactRole: contacts[i].contactRole,
-              profileImage: contacts[i].profileImage,
-              mobile: contacts[i].mobile,
-              isCrew: contacts.isCrew || 0
-            });
-          }
-        }
-      }
-      if (tabType === 2) {
-        const tempMap = new Map<EventFunctionTypes, null | boolean | boolean[]>(this.eventService.setIsFnOwnCompany.getValue());
-        tempMap.set(EventFunctionTypes.EVENT_MANAGER, this.data.eventData.eventManager.isOwnCompany === 1);
-        this.eventService.setIsFnOwnCompany.next(tempMap);
-        if (this.data && this.data.eventData) {
-          this.eventMgrCmp = ({
-            id: this.data.eventData.eventManager.companyId,
-            companyName: this.data.eventData.eventManager.emCompanyName,
-            city: this.data.eventData.eventManager.emCompanyCity,
-            phone: this.data.eventData.eventManager.emCompanyPhone,
-            companyProfileImage: this.data.eventData.eventManager.emCompanyProfileImage,
-            state: this.data.eventData.eventManager.emCompanyState,
-            website: this.data.eventData.eventManager.emCompanyWebsite,
-            companyTaxNumber: '',
-            streetAddress_1: '',
-            streetAddress_2: '',
-            countryId: 0,
-            postcode: '',
-            description: '',
-            createdDate: '',
-            updatedDate: '',
-            companyUID: '',
-            companyType: '',
-            canClaim: 0,
-            canJoin: 0
-          } as Company);
-          this.eventToBeSaved = ({
-            title: this.data.eventData.title,
-            description: this.data.eventData.description,
-            hasExhibitors: this.data.eventData.hasExhibitors,
-            creatorCompanyName: this.data.eventData.creatorCompanyName,
-            eventCreatedDate: this.data.eventData.eventCreatedDate,
-            createrUserId: this.data.eventData.createrUserId,
-            creatorFromCompanyId: this.data.eventData.createrUserId,
-            eventManager: {
-              requirements: this.data.eventData.eventManager.requirements,
-              emInternalNotes: this.data.eventData.eventManager.emInternalNotes,
-              isOwnCompany: this.data.eventData.eventManager.isOwnCompany
-            }
-          } as SaveEventClass);
-          const contacts: any = this.data.eventData.eventManager.contacts;
-          for (let i = 0; i < contacts.length; i++) {
-            this.eventMgrContactList.push({
-              id: contacts[i].id,
-              email: contacts[i].email,
-              firstName: contacts[i].firstName,
-              lastName: contacts[i].lastName || '',
-              contactLabelId: contacts[i].contactLabelId || null,
-              position: '',
-              contactPosition: contacts[i].contactPosition,
-              contactRole: contacts[i].contactRole,
-              profileImage: contacts[i].profileImage,
-              mobile: contacts[i].mobile,
-              isCrew: contacts[i].isCrew || 0
-            });
-          }
-        }
-      }
-      if (tabType === 3) {
-        if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
-          this.eventService.activeVenuePanelIndex = 0;
-          this.eventToBeSaved.venues = {
-            notesToAll: this.data.eventData.venues[0].venueNotesToAll,
-            list: (this.data.eventData.venues.map((venue: any) => {
-              return {
-                companyId: venue.venueCompanyId,
-                venueId: venue.venueId,
-                contacts: venue.contacts.map((contact: any) => {
-                  return {
-                    id: contact.id,
-                    email: contact.email,
-                    firstName: contact.firstName,
-                    lastName: contact.lastName || '',
-                    contactLabelId: contact.contactLabelId || null,
-                    position: '',
-                    contactPosition: contact.contactPosition,
-                    contactRole: contact.contactRole,
-                    profileImage: contact.profileImage,
-                    mobile: contact.mobile,
-                    isCrew: contact.isCrew || 0
-                  };
-                }),
-                preEventAccessDateTimes: venue.preEventTime,
-                eventAccessDateTimes: venue.eventTime,
-                postEventAccessDateTimes: venue.postEventTime,
-                requirements: venue.venueRequirements,
-                shouldInvite: null,
-                invited: null,
-                suppliers: [],
-                exhibitorList: []
-              };
-            }) as VenueListItemInterface[])
-          };
-
-          const venues = this.data.eventData.venues;
-          for (let i = 0; i < venues.length; i++) {
-            let venueId: number = venues[i].venueId;
-            let findVenueId = _.find(this.venueCompanies, { venueId });
-            if (!findVenueId && findVenueId == undefined) {
-              this.venueCompanies?.push(({
-                venueId: venues[i].venueId,
-                id: venues[i].venueCompanyId,
-                companyName: venues[i].venueCompanyName,
-                city: venues[i].companyCity,
-                phone: venues[i].companyPhone,
-                companyProfileImage: venues[i].companyProfileImage,
-                state: venues[i].companyState,
-                website: venues[i].companyWebsite,
-                companyTaxNumber: '',
-                streetAddress_1: '',
-                streetAddress_2: '',
-                countryId: 0,
-                postcode: '',
-                description: '',
-                createdDate: '',
-                updatedDate: '',
-                companyUID: '',
-                companyType: '',
-                canClaim: 0,
-                canJoin: 0
-              } as Company));
-            }
-            const contacts: any = venues[i].contacts.map((contact: any) => {
-              return {
-                id: contact.id,
-                email: contact.email,
-                firstName: contact.firstName,
-                lastName: contact.lastName || '',
-                contactLabelId: contact.contactLabelId || null,
+        if (tabType === 1) {
+          this.data.eventData = res.eventData;
+          if (this.data && this.data.eventData && this.data.eventData.client) {
+            const tempMap = new Map<EventFunctionTypes, null | boolean | boolean[]>(this.eventService.setIsFnOwnCompany.getValue());
+            tempMap.set(EventFunctionTypes.CLIENT, this.data.eventData.client.isOwnCompany === 1);
+            this.eventService.setIsFnOwnCompany.next(tempMap);
+            this.clientCompany = ({
+              id: this.data.eventData.client.companyId,
+              companyName: this.data.eventData.client.clientCompanyName,
+              city: this.data.eventData.client.clientCompanyCity,
+              phone: this.data.eventData.client.clientCompanyPhone,
+              companyProfileImage: this.data.eventData.client.clientCompanyProfileImage,
+              state: this.data.eventData.client.clientCompanyState || null,
+              website: this.data.eventData.client.clientCompanyWebsite,
+              companyTaxNumber: '',
+              streetAddress1: this.data.eventData.client.streetAddress1 || null,
+              streetAddress2: this.data.eventData.client.streetAddress2 || null,
+              countryId: 0,
+              postcode: '',
+              description: '',
+              createdDate: '',
+              updatedDate: '',
+              companyUID: '',
+              companyType: '',
+              canClaim: 0,
+              canJoin: 0,
+              isPrivate: this.data.eventData.client.isPrivate || 0
+            } as Company);
+            this.eventToBeSaved = ({
+              title: this.data.eventData.title,
+              description: this.data.eventData.description,
+              hasExhibitors: this.data.eventData.hasExhibitors,
+              creatorCompanyName: this.data.eventData.creatorCompanyName,
+              eventCreatedDate: this.data.eventData.eventCreatedDate,
+              createrUserId: this.data.eventData.createrUserId,
+              creatorFromCompanyId: this.data.eventData.creatorFromCompanyId,
+              client: {
+                isOwnCompany: this.data.eventData.client.isOwnCompany,
+                internalCmpNotes: this.data.eventData.client.internalCmpNotes
+              }
+            } as SaveEventClass);
+            const contacts: any = this.data.eventData.client.contacts;
+            for (let i = 0; i < contacts.length; i++) {
+              this.clientContactList.push({
+                id: contacts[i].id,
+                email: contacts[i].email,
+                firstName: contacts[i].firstName,
+                lastName: contacts[i].lastName || '',
+                contactLabelId: contacts[i].contactLabelId || null,
                 position: '',
-                contactPosition: contact.contactPosition,
-                contactRole: contact.contactRole,
-                profileImage: contact.profileImage,
-                mobile: contact.mobile,
-                isCrew: contact.isCrew || 0
-              };
-            });
-            this.venueContactLists.push(contacts);
-
+                contactPosition: contacts[i].contactPosition,
+                contactRole: contacts[i].contactRole,
+                profileImage: contacts[i].profileImage,
+                mobile: contacts[i].mobile,
+                isCrew: contacts.isCrew || 0,
+                isPrivate: contacts[i].isPrivate || 0
+              });
+            }
           }
-          console.log(this.eventToBeSaved);
         }
-      }
-      if (tabType === 4) {
-        if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
+        if (tabType === 2) {
+          this.data.eventData = res.eventData;
+          if (this.data && this.data.eventData && this.data.eventData.eventManager) {
+            const tempMap = new Map<EventFunctionTypes, null | boolean | boolean[]>(this.eventService.setIsFnOwnCompany.getValue());
+            tempMap.set(EventFunctionTypes.EVENT_MANAGER, this.data.eventData.eventManager.isOwnCompany === 1);
+            this.eventService.setIsFnOwnCompany.next(tempMap);
+            this.eventMgrCmp = ({
+              id: this.data.eventData.eventManager.companyId,
+              companyName: this.data.eventData.eventManager.emCompanyName,
+              city: this.data.eventData.eventManager.emCompanyCity,
+              phone: this.data.eventData.eventManager.emCompanyPhone,
+              companyProfileImage: this.data.eventData.eventManager.emCompanyProfileImage,
+              state: this.data.eventData.eventManager.emCompanyState || null,
+              website: this.data.eventData.eventManager.emCompanyWebsite,
+              companyTaxNumber: '',
+              streetAddress1: this.data.eventData.eventManager.streetAddress1 || null,
+              streetAddress2: this.data.eventData.eventManager.streetAddress2 || null,
+              countryId: 0,
+              postcode: '',
+              description: '',
+              createdDate: '',
+              updatedDate: '',
+              companyUID: '',
+              companyType: '',
+              canClaim: 0,
+              canJoin: 0,
+              isPrivate: this.data.eventData.eventManager.isPrivate || 0
+            } as Company);
+            this.eventToBeSaved = ({
+              title: this.data.eventData.title,
+              description: this.data.eventData.description,
+              hasExhibitors: this.data.eventData.hasExhibitors,
+              creatorCompanyName: this.data.eventData.creatorCompanyName,
+              eventCreatedDate: this.data.eventData.eventCreatedDate,
+              createrUserId: this.data.eventData.createrUserId,
+              creatorFromCompanyId: this.data.eventData.creatorFromCompanyId,
+              eventManager: {
+                requirements: this.data.eventData.eventManager.requirements,
+                emInternalNotes: this.data.eventData.eventManager.emInternalNotes,
+                isOwnCompany: this.data.eventData.eventManager.isOwnCompany
+              }
+            } as SaveEventClass);
+            const contacts: any = this.data.eventData.eventManager.contacts;
+            for (let i = 0; i < contacts.length; i++) {
+              this.eventMgrContactList.push({
+                id: contacts[i].id,
+                email: contacts[i].email,
+                firstName: contacts[i].firstName,
+                lastName: contacts[i].lastName || '',
+                contactLabelId: contacts[i].contactLabelId || null,
+                position: '',
+                contactPosition: contacts[i].contactPosition,
+                contactRole: contacts[i].contactRole,
+                profileImage: contacts[i].profileImage,
+                mobile: contacts[i].mobile,
+                isCrew: contacts[i].isCrew || 0,
+                isPrivate: contacts[i].isPrivate || 0
+              });
+            }
+          }
+        }
+        if (tabType === 3) {
+          this.data.eventData = res.eventData;
+          if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
+            this.eventService.activeVenuePanelIndex = 0;
+            this.eventToBeSaved.venues = {
+              notesToAll: this.data.eventData.venues[0].venueNotesToAll,
+              list: (this.data.eventData.venues.map((venue: any) => {
+                return {
+                  companyId: venue.venueCompanyId,
+                  venueId: venue.venueId,
+                  status: venue.status,
+                  isStaffOrAdmin: venue.isStaffOrAdmin,
+                  isViewPermission: venue.isViewPermission,
+                  isPrivate: venue.isPrivate || 0,
+                  contacts: venue.contacts.map((contact: any) => {
+                    return {
+                      id: contact.id,
+                      email: contact.email,
+                      firstName: contact.firstName,
+                      lastName: contact.lastName || '',
+                      contactLabelId: contact.contactLabelId || null,
+                      position: '',
+                      contactPosition: contact.contactPosition,
+                      contactRole: contact.contactRole,
+                      profileImage: contact.profileImage,
+                      mobile: contact.mobile,
+                      isCrew: contact.isCrew || 0,
+                      isPrivate: contact.isPrivate || 0
+                    };
+                  }),
+                  preEventAccessDateTimes: venue.preEventTime,
+                  eventAccessDateTimes: venue.eventTime,
+                  postEventAccessDateTimes: venue.postEventTime,
+                  requirements: venue.venueRequirements,
+                  internalCmpNotes: venue.internalCmpNotes,
+                  streetAddress1: venue.streetAddress1 || null,
+                  streetAddress2: venue.streetAddress2 || null,
+                  state: venue.companyState || null,
+                  shouldInvite: null,
+                  invited: null,
+                  suppliers: [],
+                  exhibitorList: []
+                };
+              }) as VenueListItemInterface[])
+            };
 
-          this.eventToBeSaved.venues = {
-            notesToAll: this.data.eventData.venues[0].venueNotesToAll,
-            list: (this.data.eventData.venues.map((venue: any, venueIndex: number) => {
-              return {
-                companyId: venue.venueCompanyId,
-                venueId: venue.venueId,
-                contacts: venue.contacts.map((contact: any) => {
-                  return {
-                    id: contact.id,
-                    email: contact.email,
-                    firstName: contact.firstName,
-                    lastName: contact.lastName || '',
-                    contactLabelId: contact.contactLabelId || null,
-                    position: '',
-                    contactPosition: contact.contactPosition,
-                    contactRole: contact.contactRole,
-                    profileImage: contact.profileImage,
-                    mobile: contact.mobile,
-                    isCrew: contact.isCrew || 0
-                  };
-                }),
-                preEventAccessDateTimes: venue.preEventTime,
-                eventAccessDateTimes: venue.eventTime,
-                postEventAccessDateTimes: venue.postEventTime,
-                requirements: venue.venueRequirements,
-                shouldInvite: null,
-                invited: null,
-                suppliers: [{
-                  notesToAll: venue?.services[0]?.notes,
-                  services:
-                    venue.services.map((service: any, serviceIndex: number) => {
-                      const serviceCompany = ({
-                        supplierId: service.serviceId,
-                        id: service.serviceCompanyId,
-                        companyName: service.serviceCompanyName,
-                        city: service.companyCity,
-                        phone: service.companyPhone,
-                        companyProfileImage: service.companyProfileImage,
-                        state: service.companyState,
-                        website: service.companyWebsite,
-                        isViewPermission: service.isViewPermission,
-                        companyTaxNumber: '',
-                        streetAddress_1: '',
-                        streetAddress_2: '',
-                        countryId: 0,
-                        postcode: '',
-                        description: '',
-                        createdDate: '',
-                        updatedDate: '',
-                        companyUID: '',
-                        companyType: '',
-                        canClaim: 0,
-                        canJoin: 0
-                      } as Company);
-                      this.eventService.addFetchedVenueSrvcCmp({ venueIndex, serviceIndex, company: serviceCompany });
-                      let contacts = [];
-                      if (this.supplierCount == 0) {
-                        contacts = service.contacts.map((contact: any) => {
+            const venues = this.data.eventData.venues;
+            for (let i = 0; i < venues.length; i++) {
+              let venueId: number = venues[i].venueId;
+              let findVenueId = _.find(this.venueCompanies, { venueId });
+              if (!findVenueId && findVenueId == undefined) {
+                this.venueCompanies?.push(({
+                  venueId: venues[i].venueId,
+                  id: venues[i].venueCompanyId,
+                  companyName: venues[i].venueCompanyName,
+                  city: venues[i].companyCity,
+                  phone: venues[i].companyPhone,
+                  companyProfileImage: venues[i].companyProfileImage,
+                  state: venues[i].companyState || null,
+                  website: venues[i].companyWebsite,
+                  companyTaxNumber: '',
+                  streetAddress1: venues[i].streetAddress1 || null,
+                  streetAddress2: venues[i].streetAddress2 || null,
+                  countryId: 0,
+                  postcode: '',
+                  description: '',
+                  createdDate: '',
+                  updatedDate: '',
+                  companyUID: '',
+                  companyType: '',
+                  canClaim: 0,
+                  canJoin: 0,
+                  isPrivate: venues[i].isPrivate || 0
+                } as Company));
+              }
+              const contacts: any = venues[i].contacts.map((contact: any) => {
+                return {
+                  id: contact.id,
+                  email: contact.email,
+                  firstName: contact.firstName,
+                  lastName: contact.lastName || '',
+                  contactLabelId: contact.contactLabelId || null,
+                  position: '',
+                  contactPosition: contact.contactPosition,
+                  contactRole: contact.contactRole,
+                  profileImage: contact.profileImage,
+                  mobile: contact.mobile,
+                  isCrew: contact.isCrew || 0,
+                  isPrivate: contact.isPrivate || 0
+                };
+              });
+              if (!findVenueId && findVenueId == undefined) {
+                this.venueContactLists.push(contacts);
+              }
+
+            }
+            console.log(this.eventToBeSaved);
+          }
+        }
+        if (tabType === 4) {
+          this.eventService.resetVenueSupplierData();
+          this.data.eventData = res.eventData;
+          if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
+
+            this.eventToBeSaved.venues = {
+              notesToAll: this.data.eventData.venues[0].venueNotesToAll,
+              list: (this.data.eventData.venues.map((venue: any, venueIndex: number) => {
+                return {
+                  companyId: venue.venueCompanyId,
+                  venueId: venue.venueId,
+                  isPrivate: venue.isPrivate || 0,
+                  contacts: venue.contacts.map((contact: any) => {
+                    return {
+                      id: contact.id,
+                      email: contact.email,
+                      firstName: contact.firstName,
+                      lastName: contact.lastName || '',
+                      contactLabelId: contact.contactLabelId || null,
+                      position: '',
+                      contactPosition: contact.contactPosition,
+                      contactRole: contact.contactRole,
+                      profileImage: contact.profileImage,
+                      mobile: contact.mobile,
+                      isCrew: contact.isCrew || 0,
+                      isPrivate: contact.isPrivate || 0
+                    };
+                  }),
+                  preEventAccessDateTimes: venue.preEventTime,
+                  eventAccessDateTimes: venue.eventTime,
+                  postEventAccessDateTimes: venue.postEventTime,
+                  requirements: venue.venueRequirements,
+                  internalCmpNotes: venue.internalCmpNotes,
+                  streetAddress1: venue.streetAddress1 || null,
+                  streetAddress2: venue.streetAddress2 || null,
+                  state: venue.companyState || null,
+                  shouldInvite: null,
+                  invited: null,
+                  suppliers: [{
+                    notesToAll: venue?.services[0]?.notes,
+                    services:
+                      venue.services.map((service: any, serviceIndex: number) => {
+                        const serviceCompany = ({
+                          supplierId: service.serviceId,
+                          id: service.serviceCompanyId,
+                          companyName: service.serviceCompanyName,
+                          city: service.companyCity,
+                          phone: service.companyPhone,
+                          companyProfileImage: service.companyProfileImage,
+                          state: service.companyState || null,
+                          website: service.companyWebsite,
+                          isViewPermission: service.isViewPermission,
+                          companyTaxNumber: '',
+                          streetAddress1: service.streetAddress1 || null,
+                          streetAddress2: service.streetAddress2 || null,
+                          countryId: 0,
+                          postcode: '',
+                          description: '',
+                          createdDate: '',
+                          updatedDate: '',
+                          companyUID: '',
+                          companyType: '',
+                          canClaim: 0,
+                          canJoin: 0,
+                          isPrivate: service.isPrivate || 0
+                        } as Company);
+                        this.eventService.addFetchedVenueSrvcCmp({ venueIndex, serviceIndex, company: serviceCompany });
+                        const contacts = service.contacts.map((contact: any) => {
                           return {
                             id: contact.id,
                             email: contact.email,
@@ -484,166 +521,186 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             contactRole: contact.contactRole,
                             profileImage: contact.profileImage,
                             mobile: contact.mobile,
-                            isCrew: contact.isCrew || 0
+                            isCrew: contact.isCrew || 0,
+                            isPrivate: contact.isPrivate || 0
                           };
                         });
-                      }
-                      this.eventService.addFetchedVenueSrvcCmpCnt({ contactList: contacts, serviceIndex, venueIndex });
-                      return {
-                        name: service.serviceName,
-                        requirement: service.serviceRequirements,
-                        contacts,
-                        companyId: service.serviceCompanyId,
-                        supplierId: service.serviceId,
-                        isViewPermission: service.isViewPermission,
-                        timeWindows: {
-                          bumpIn: {
-                            sameAsVenue: null,
-                            timings: service.preEventTime
-                          },
-                          eventTime: {
-                            sameAsVenue: null,
-                            timings: service.eventTime
-                          },
-                          bumpOut: {
-                            sameAsVenue: null,
-                            timings: service.postEventTime
-                          },
-                        }
-                      };
-                    }),
-                }
-                ],
-                exhibitorList: []
-              };
-            }) as VenueListItemInterface[])
-          };
-          const venues = this.data.eventData.venues;
-          for (let i = 0; i < venues.length; i++) {
-            let venueId: number = venues[i].venueId;
-            let findVenueId = _.find(this.venueCompanies, { venueId });
-            console.log('find venue: ', findVenueId);
-            if (!findVenueId && findVenueId == undefined) {
-              this.venueCompanies?.push(({
-                venueId: venues[i].venueId,
-                id: venues[i].venueCompanyId,
-                companyName: venues[i].venueCompanyName,
-                city: venues[i].companyCity,
-                phone: venues[i].companyPhone,
-                companyProfileImage: venues[i].companyProfileImage,
-                state: venues[i].companyState,
-                website: venues[i].companyWebsite,
-                companyTaxNumber: '',
-                streetAddress_1: '',
-                streetAddress_2: '',
-                countryId: 0,
-                postcode: '',
-                description: '',
-                createdDate: '',
-                updatedDate: '',
-                companyUID: '',
-                companyType: '',
-                canClaim: 0,
-                canJoin: 0
-              } as Company));
+                        console.log('contacts: ', cloneDeep(contacts));
+                        this.eventService.addFetchedVenueSrvcCmpCnt({ contactList: contacts, serviceIndex, venueIndex });
+                        return {
+                          name: service.serviceName,
+                          requirement: service.serviceRequirements,
+                          internalCmpNotes: service.internalCmpNotes,
+                          contacts,
+                          companyId: service.serviceCompanyId,
+                          supplierId: service.serviceId,
+                          isViewPermission: service.isViewPermission,
+                          status: service.status,
+                          isStaffOrAdmin: service.isStaffOrAdmin,
+                          isPrivate: service.isPrivate || 0,
+                          timeWindows: {
+                            bumpIn: {
+                              sameAsVenue: 0,
+                              timings: service.preEventTime
+                            },
+                            eventTime: {
+                              sameAsVenue: 0,
+                              timings: service.eventTime
+                            },
+                            bumpOut: {
+                              sameAsVenue: 0,
+                              timings: service.postEventTime
+                            },
+                          }
+                        };
+                      }),
+                  }
+                  ],
+                  exhibitorList: []
+                };
+              }) as VenueListItemInterface[])
+            };
+            const venues = this.data.eventData.venues;
+            for (let i = 0; i < venues.length; i++) {
+              let venueId: number = venues[i].venueId;
+              let findVenueId = _.find(this.venueCompanies, { venueId });
+              console.log('find venue: ', findVenueId);
+              if (!findVenueId && findVenueId == undefined) {
+                this.venueCompanies?.push(({
+                  venueId: venues[i].venueId,
+                  id: venues[i].venueCompanyId,
+                  companyName: venues[i].venueCompanyName,
+                  city: venues[i].companyCity,
+                  phone: venues[i].companyPhone,
+                  companyProfileImage: venues[i].companyProfileImage,
+                  state: venues[i].companyState || null,
+                  website: venues[i].companyWebsite,
+                  companyTaxNumber: '',
+                  streetAddress1: venues[i].streetAddress1 || null,
+                  streetAddress2: venues[i].streetAddress2 || null,
+                  countryId: 0,
+                  postcode: '',
+                  description: '',
+                  createdDate: '',
+                  updatedDate: '',
+                  companyUID: '',
+                  companyType: '',
+                  canClaim: 0,
+                  canJoin: 0,
+                  isPrivate: venues[i].isPrivate || 0
+                } as Company));
+              }
+              const contacts: any = venues[i].contacts.map((contact: any) => {
+                return {
+                  id: contact.id,
+                  email: contact.email,
+                  firstName: contact.firstName,
+                  lastName: contact.lastName || '',
+                  contactLabelId: contact.contactLabelId || null,
+                  position: '',
+                  contactPosition: contact.contactPosition,
+                  contactRole: contact.contactRole,
+                  profileImage: contact.profileImage,
+                  mobile: contact.mobile,
+                  isCrew: contact.isCrew || 0,
+                  isPrivate: contact.isPrivate || 0
+                };
+              });
+              if (!findVenueId && findVenueId == undefined) {
+                this.venueContactLists.push(contacts);
+              }
             }
-            const contacts: any = venues[i].contacts.map((contact: any) => {
-              return {
-                id: contact.id,
-                email: contact.email,
-                firstName: contact.firstName,
-                lastName: contact.lastName || '',
-                contactLabelId: contact.contactLabelId || null,
-                position: '',
-                contactPosition: contact.contactPosition,
-                contactRole: contact.contactRole,
-                profileImage: contact.profileImage,
-                mobile: contact.mobile,
-                isCrew: contact.isCrew || 0
-              };
-            });
-            this.venueContactLists.push(contacts);
+            console.log(this.eventToBeSaved);
+            // if (venue.services.length - 1 === serviceIndex) {
+            this.eventService.navigatesToSuppliers.next()
+            // }
           }
-          this.supplierCount++;
-          console.log(this.eventToBeSaved);
         }
-      }
-      if (tabType === 5) {
-        if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
-          this.eventToBeSaved.venues = {
-            notesToAll: this.data.eventData.venues[0].venueNotesToAll,
-            list: (this.data.eventData.venues.map((venue: any, venueIndex: number) => {
-              return {
-                companyId: venue.venueCompanyId,
-                venueId: venue.venueId,
-                contacts: venue.contacts.map((contact: any) => {
-                  return {
-                    id: contact.id,
-                    email: contact.email,
-                    firstName: contact.firstName,
-                    lastName: contact.lastName || '',
-                    contactLabelId: contact.contactLabelId || null,
-                    position: '',
-                    contactPosition: contact.contactPosition,
-                    contactRole: contact.contactRole,
-                    profileImage: contact.profileImage,
-                    mobile: contact.mobile,
-                    isCrew: contact.isCrew || 0
-                  };
-                }),
-                preEventAccessDateTimes: venue.preEventTime,
-                eventAccessDateTimes: venue.eventTime,
-                postEventAccessDateTimes: venue.postEventTime,
-                requirements: venue.venueRequirements,
-                shouldInvite: null,
-                invited: null,
-                suppliers: [],
-                exhibitorList:
-                  [{
-                    notesToAll: venue?.exhibitorData?.exhibitors[0]?.notes,
-                    timeWindowsToAll: {
-                      bumpIn: {
-                        sameAsVenue: null,
-                        timings: venue?.exhibitorData?.timeWindowsToAll?.preEventTime
+        if (tabType === 5) {
+          this.eventService.resetVenueExhibitorData();
+          this.data.eventData = res.eventData;
+          console.log(this.data.eventData);
+          if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
+            this.eventToBeSaved.venues = {
+              notesToAll: this.data.eventData.venues[0].venueNotesToAll,
+              list: (this.data.eventData.venues.map((venue: any, venueIndex: number) => {
+                return {
+                  companyId: venue.venueCompanyId,
+                  venueId: venue.venueId,
+                  isPrivate: venue.isPrivate || 0,
+                  contacts: venue.contacts.map((contact: any) => {
+                    return {
+                      id: contact.id,
+                      email: contact.email,
+                      firstName: contact.firstName,
+                      lastName: contact.lastName || '',
+                      contactLabelId: contact.contactLabelId || null,
+                      position: '',
+                      contactPosition: contact.contactPosition,
+                      contactRole: contact.contactRole,
+                      profileImage: contact.profileImage,
+                      mobile: contact.mobile,
+                      isCrew: contact.isCrew || 0,
+                      isPrivate: contact.isPrivate || 0
+                    };
+                  }),
+                  preEventAccessDateTimes: venue.preEventTime,
+                  eventAccessDateTimes: venue.eventTime,
+                  postEventAccessDateTimes: venue.postEventTime,
+                  requirements: venue.venueRequirements,
+                  internalCmpNotes: venue.internalCmpNotes,
+                  streetAddress1: venue.streetAddress1 || null,
+                  streetAddress2: venue.streetAddress2 || null,
+                  state: venue.companyState || null,
+                  shouldInvite: null,
+                  invited: null,
+                  suppliers: [],
+                  exhibitorList:
+                    [{
+                      notesToAll: venue?.exhibitorData?.exhibitors[0]?.notes,
+                      timeWindowsToAll: {
+                        bumpIn: {
+                          sameAsVenue: 0,
+                          timings: venue?.exhibitorData?.timeWindowsToAll?.preEventTime
+                        },
+                        eventTime: {
+                          sameAsVenue: 0,
+                          timings: venue?.exhibitorData?.timeWindowsToAll?.eventTime
+                        },
+                        bumpOut: {
+                          sameAsVenue: 0,
+                          timings: venue?.exhibitorData?.timeWindowsToAll?.postEventTime
+                        },
                       },
-                      eventTime: {
-                        sameAsVenue: null,
-                        timings: venue?.exhibitorData?.timeWindowsToAll?.eventTime
-                      },
-                      bumpOut: {
-                        sameAsVenue: null,
-                        timings: venue?.exhibitorData?.timeWindowsToAll?.postEventTime
-                      },
-                    },
-                    exhibitors:
-                      venue?.exhibitorData?.exhibitors?.map((exhibitor: any, exhibitorIndex: number) => {
-                        const exhibitorCompany = ({
-                          exhibitorId: exhibitor.exhibitorId,
-                          id: exhibitor.exhibitorCompanyId,
-                          companyName: exhibitor.exhibitorCompanyName,
-                          city: exhibitor.companyCity,
-                          phone: exhibitor.companyPhone,
-                          companyProfileImage: exhibitor.companyProfileImage,
-                          state: exhibitor.companyState,
-                          website: exhibitor.companyWebsite,
-                          isViewPermission: exhibitor.isViewPermission,
-                          companyTaxNumber: '',
-                          streetAddress_1: '',
-                          streetAddress_2: '',
-                          countryId: 0,
-                          postcode: '',
-                          description: '',
-                          createdDate: '',
-                          updatedDate: '',
-                          companyUID: '',
-                          companyType: '',
-                          canClaim: 0,
-                          canJoin: 0
-                        } as Company);
-                        this.eventService.addFetchedVenueExCmp({ venueIndex, exhibitorIndex, company: exhibitorCompany });
-                        let contacts = [];
-                        if (this.exhibitorCount == 0) {
-                          contacts = exhibitor.contacts.map((contact: any) => {
+                      exhibitors:
+                        venue?.exhibitorData?.exhibitors?.map((exhibitor: any, exhibitorIndex: number) => {
+                          const exhibitorCompany = ({
+                            exhibitorId: exhibitor.exhibitorId,
+                            id: exhibitor.exhibitorCompanyId,
+                            companyName: exhibitor.exhibitorCompanyName,
+                            city: exhibitor.companyCity,
+                            phone: exhibitor.companyPhone,
+                            companyProfileImage: exhibitor.companyProfileImage,
+                            state: exhibitor.companyState || null,
+                            website: exhibitor.companyWebsite,
+                            isViewPermission: exhibitor.isViewPermission,
+                            companyTaxNumber: '',
+                            streetAddress1: exhibitor.streetAddress1 || null,
+                            streetAddress2: exhibitor.streetAddress2 || null,
+                            countryId: 0,
+                            postcode: '',
+                            description: '',
+                            createdDate: '',
+                            updatedDate: '',
+                            companyUID: '',
+                            companyType: '',
+                            canClaim: 0,
+                            canJoin: 0,
+                            isPrivate: exhibitor.isPrivate || 0
+                          } as Company);
+                          this.eventService.addFetchedVenueExCmp({ venueIndex, exhibitorIndex, company: exhibitorCompany });
+
+                          const contacts = exhibitor.contacts.map((contact: any) => {
                             return {
                               id: contact.id,
                               email: contact.email,
@@ -655,94 +712,118 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                               contactRole: contact.contactRole,
                               profileImage: contact.profileImage,
                               mobile: contact.mobile,
-                              isCrew: contact.isCrew || 0
+                              isCrew: contact.isCrew || 0,
+                              isPrivate: contact.isPrivate || 0
                             };
                           });
-                        }
-                        this.eventService.addFetchedVenueExCmpCnt({ contactList: contacts, exhibitorIndex, venueIndex });
-                        return {
-                          name: exhibitor.exhibitorName,
-                          requirement: exhibitor.exhibitorRequirements,
-                          companyId: exhibitor.exhibitorCompanyId,
-                          standNumber: exhibitor.standNumber,
-                          contacts,
-                          exhibitorId: exhibitor.exhibitorId,
-                          timeWindows: {
-                            bumpIn: {
-                              sameAsVenue: null,
-                              timings: exhibitor.preEventTime
-                            },
-                            eventTime: {
-                              sameAsVenue: null,
-                              timings: exhibitor.eventTime
-                            },
-                            bumpOut: {
-                              sameAsVenue: null,
-                              timings: exhibitor.postEventTime
-                            },
-                          }
-                        };
-                      }),
-                  }
-                  ],
-              };
-            }) as VenueListItemInterface[])
-          };
-          const venues = this.data.eventData.venues;
-          for (let i = 0; i < venues.length; i++) {
-            let venueId: number = venues[i].venueId;
-            let findVenueId = _.find(this.venueCompanies, { venueId });
-            if (!findVenueId && findVenueId == undefined) {
-              this.venueCompanies?.push(({
-                venueId: venues[i].venueId,
-                id: venues[i].venueCompanyId,
-                companyName: venues[i].venueCompanyName,
-                city: venues[i].companyCity,
-                phone: venues[i].companyPhone,
-                companyProfileImage: venues[i].companyProfileImage,
-                state: venues[i].companyState,
-                website: venues[i].companyWebsite,
-                companyTaxNumber: '',
-                streetAddress_1: '',
-                streetAddress_2: '',
-                countryId: 0,
-                postcode: '',
-                description: '',
-                createdDate: '',
-                updatedDate: '',
-                companyUID: '',
-                companyType: '',
-                canClaim: 0,
-                canJoin: 0
-              } as Company));
+                          this.eventService.addFetchedVenueExCmpCnt({ contactList: contacts, exhibitorIndex, venueIndex });
+                          return {
+                            name: exhibitor.exhibitorName,
+                            requirement: exhibitor.exhibitorRequirements,
+                            internalCmpNotes: exhibitor.internalCmpNotes,
+                            companyId: exhibitor.exhibitorCompanyId,
+                            standNumber: exhibitor.standNumber,
+                            isViewPermission: exhibitor.isViewPermission,
+                            contacts,
+                            exhibitorId: exhibitor.exhibitorId,
+                            status: exhibitor.status,
+                            isStaffOrAdmin: exhibitor.isStaffOrAdmin,
+                            isPrivate: exhibitor.isPrivate || 0,
+                            timeWindows: {
+                              bumpIn: {
+                                sameAsVenue: 0,
+                                timings: exhibitor.preEventTime
+                              },
+                              eventTime: {
+                                sameAsVenue: 0,
+                                timings: exhibitor.eventTime
+                              },
+                              bumpOut: {
+                                sameAsVenue: 0,
+                                timings: exhibitor.postEventTime
+                              },
+                            }
+                          };
+                        }),
+                    }
+                    ],
+                };
+              }) as VenueListItemInterface[])
+            };
+            const venues = this.data.eventData.venues;
+            for (let i = 0; i < venues.length; i++) {
+              let venueId: number = venues[i].venueId;
+              let findVenueId = _.find(this.venueCompanies, { venueId });
+              if (!findVenueId && findVenueId == undefined) {
+                this.venueCompanies?.push(({
+                  venueId: venues[i].venueId,
+                  id: venues[i].venueCompanyId,
+                  companyName: venues[i].venueCompanyName,
+                  city: venues[i].companyCity,
+                  phone: venues[i].companyPhone,
+                  companyProfileImage: venues[i].companyProfileImage,
+                  state: venues[i].companyState,
+                  website: venues[i].companyWebsite || null,
+                  companyTaxNumber: '',
+                  streetAddress1: venues[i].streetAddress1 || null,
+                  streetAddress2: venues[i].streetAddress2 || null,
+                  countryId: 0,
+                  postcode: '',
+                  description: '',
+                  createdDate: '',
+                  updatedDate: '',
+                  companyUID: '',
+                  companyType: '',
+                  canClaim: 0,
+                  canJoin: 0,
+                  isPrivate: venues[i].isPrivate || 0
+                } as Company));
+              }
+              const contacts: any = venues[i].contacts.map((contact: any) => {
+                return {
+                  id: contact.id,
+                  email: contact.email,
+                  firstName: contact.firstName,
+                  lastName: contact.lastName || '',
+                  contactLabelId: contact.contactLabelId || null,
+                  position: '',
+                  contactPosition: contact.contactPosition,
+                  contactRole: contact.contactRole,
+                  profileImage: contact.profileImage,
+                  mobile: contact.mobile,
+                  isCrew: contact.isCrew || 0,
+                  isPrivate: contact.isPrivate || 0
+                };
+              });
+              if (!findVenueId && findVenueId == undefined) {
+                this.venueContactLists.push(contacts);
+              }
             }
-            const contacts: any = venues[i].contacts.map((contact: any) => {
-              return {
-                id: contact.id,
-                email: contact.email,
-                firstName: contact.firstName,
-                lastName: contact.lastName || '',
-                contactLabelId: contact.contactLabelId || null,
-                position: '',
-                contactPosition: contact.contactPosition,
-                contactRole: contact.contactRole,
-                profileImage: contact.profileImage,
-                mobile: contact.mobile,
-                isCrew: contact.isCrew || 0
-              };
-            });
-            this.venueContactLists.push(contacts);
-
+            console.log(this.eventToBeSaved);
+            this.eventService.navigatesToExhibitors.next()
           }
-          this.exhibitorCount++;
-          console.log(this.eventToBeSaved);
+        }
+        if (tabType === 6) {
+          this.data.eventData = res.eventData;
+          this.eventService.fetchEventFilesSubject.next(this.data.eventData.eventId);
+        }
+        if (tabType === 7) {
+          this.data.eventData = res.eventData;
+          this.eventTimelineService.render.next();
         }
       }
-      if (tabType === 6) {
-        this.eventService.fetchEventFilesSubject.next(this.data.eventData.eventId);
+      if (res && res.userPermission) {
+        this.data.userPermission = res.userPermission;
+        this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
+        this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
+        this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
+        this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
+        this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
+
+
       }
-      if (tabType === 7) {
-        this.eventTimelineService.render.next();
+      if (res && res.commonData) {
+        this.data.commonData = res.commonData;
       }
     }, err => {
       console.log(err);
@@ -766,6 +847,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isVenueEditable = false;
     this.isServiceEditable = false;
     this.isExhibitorEditable = false;
+    this.eventService.isEdit = false;
+    this.eventService.isSaveDisabled = false;
     this.getEventsById(changeEvent.nextId);
     this.active = changeEvent.nextId;
     // null means navigated to first time
@@ -782,9 +865,14 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     if (changeEvent.nextId === EventFunctionTypes.TIMELINE || changeEvent.nextId === EventFunctionTypes.FILES) {
       this.eventService.hideInfoBar = true;
     } else {
-      this.eventService.hideInfoBar = true;
+      this.eventService.hideInfoBar = false;
     }
-
+  }
+  getData(tabType: any): any {
+    if (tabType == 5 && this.data.eventData?.venues && this.data.eventData?.venues.length) {
+      // console.log('data in get data: ', cloneDeep(this.data.eventData.venues))
+    }
+    return this.data;
   }
 
   toggleDisabled(): void {
@@ -795,13 +883,13 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  openVerticallyCentered(content: any): void {
-    this.modalReference = this.modalService.open(content, {
-      centered: true,
-      size: 'lg',
-    });
+  // openVerticallyCentered(content: any): void {
+  //   this.modalReference = this.modalService.open(content, {
+  //     centered: true,
+  //     size: 'lg',
+  //   });
 
-  }
+  // }
 
 
   private setFnCompanyToSelf(defaultCompany: any): void {
@@ -1095,6 +1183,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           shouldInvite: shouldInvite ? 1 : 0,
           isOwnCompany: !!this.eventToBeSaved.client?.isOwnCompany,
           invited: null,
+          internalCmpNotes: this.eventToBeSaved.client?.internalCmpNotes
         };
 
       } else {
@@ -1104,12 +1193,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           shouldInvite: shouldInvite ? 1 : 0,
           isOwnCompany: false,
           invited: (this.clientCompany as InviteFnCmpClass),
+          internalCmpNotes: null
         };
 
       }
       devLogger('log', { event: this.eventToBeSaved });
-
-
     }
   }
 
@@ -1118,10 +1206,18 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     const wasOwnCompany = !clientCompanyInstOfInviteFnCmp && (this.clientCompany as Company).id === this.defaultCompany.id;
     this.clientCompany = null;
     this.clientContactList = [];
-    this.eventToBeSaved.client = null;
+    this.eventToBeSaved.client = {
+      id: null,
+      contacts: null,
+      isOwnCompany: false,
+      shouldInvite: null,
+      invited: null,
+      internalCmpNotes: this.eventToBeSaved.client!.internalCmpNotes
+    };
     if (wasOwnCompany) {
       const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
-      tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
+      // tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
+      tempMap.set(EventFunctionTypes.CLIENT, false);
       this.eventService.setIsFnOwnCompany.next(tempMap);
     }
   }
@@ -1162,10 +1258,19 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     const wasOwnCompany = !eventMgrCmpInstOfInviteCmpCls && (this.eventMgrCmp as Company).id === this.defaultCompany.id;
     this.eventMgrCmp = null;
     this.eventMgrContactList = [];
-    this.eventToBeSaved.eventManager = null;
+    this.eventToBeSaved.eventManager = {
+      id: null,
+      contacts: null,
+      isOwnCompany: false,
+      shouldInvite: null,
+      requirements: this.eventToBeSaved.eventManager!.requirements,
+      invited: null,
+      emInternalNotes: this.eventToBeSaved.eventManager!.emInternalNotes,
+    };
     if (wasOwnCompany) {
       const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
-      tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
+      // tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
+      tempMap.set(EventFunctionTypes.EVENT_MANAGER, false);
       this.eventService.setIsFnOwnCompany.next(tempMap);
     }
   }
@@ -1232,12 +1337,14 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           // @ts-ignore
           if (!(this.venueCompanies[i] instanceof InviteFnCmpClass) && (this.venueCompanies[i] as Company).id) {
             const contactList = this.venueContactLists[i]?.map(cnt => {
+              console.log(cnt);
               return {
                 id: cnt.id,
                 email: cnt.email,
                 firstName: cnt.firstName,
                 contactLabelId: cnt.contactLabelId,
-                isCrew: cnt.isCrew ? cnt.isCrew : 0
+                isCrew: cnt.isCrew ? cnt.isCrew : 0,
+                contactRole: cnt.contactRole || null
               };
             }) || null;
             // @ts-ignore
@@ -1375,81 +1482,118 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (this.selectedFunction) {
       case EventFunctionTypes.CLIENT:
         this.saveClient(typeof param === 'boolean' ? param : false);
-        this.saveEvMgr(false);
-        this.saveVenueCmp({ index: null, shouldInvite: false });
-        this.saveVenuesSuppliers({
-          venueIndex: null, serviceIndex: null, shouldInvite: false
-        });
-        this.saveVenuesExhibitors({
-          venueIndex: null, exhibitorIndex: null, shouldInvite: false
-        });
+        // this.isEventClientInvalid = false;
+        this.isEventMgrInvalid = false;
+        this.isEventVenuesInvalid = false;
+        this.isVenuesSuppliersInvalid = false;
+        this.isVenuesExhibitorsInvalid = false;
+        // this.saveEvMgr(false);
+        // this.saveVenueCmp({ index: null, shouldInvite: false });
+        // this.saveVenuesSuppliers({
+        //   venueIndex: null, serviceIndex: null, shouldInvite: false
+        // });
+        // this.saveVenuesExhibitors({
+        //   venueIndex: null, exhibitorIndex: null, shouldInvite: false
+        // });
         break;
       case EventFunctionTypes.EVENT_MANAGER:
-        this.saveClient(false);
+        // this.saveClient(false);
         this.saveEvMgr(typeof param === 'boolean' ? param : false);
-        this.saveVenueCmp({ index: null, shouldInvite: false });
-        this.saveVenuesSuppliers({
-          venueIndex: null, serviceIndex: null, shouldInvite: false
-        });
-        this.saveVenuesExhibitors({
-          venueIndex: null, exhibitorIndex: null, shouldInvite: false
-        });
+        this.isEventClientInvalid = false;
+        // this.isEventMgrInvalid = false;
+        this.isEventVenuesInvalid = false;
+        this.isVenuesSuppliersInvalid = false;
+        this.isVenuesExhibitorsInvalid = false;
+        // this.saveVenueCmp({ index: null, shouldInvite: false });
+        // this.saveVenuesSuppliers({
+        //   venueIndex: null, serviceIndex: null, shouldInvite: false
+        // });
+        // this.saveVenuesExhibitors({
+        //   venueIndex: null, exhibitorIndex: null, shouldInvite: false
+        // });
         break;
       case EventFunctionTypes.VENUE:
-        this.saveClient(false);
-        this.saveEvMgr(false);
+        console.log('contact list in venue: ', this.venueContactLists)
+        // this.saveClient(false);
+        // this.saveEvMgr(false);
         if (typeof param !== 'boolean') {
           this.saveVenueCmp({ index: param.venueIndex, shouldInvite: param.shouldInvite });
+          this.isEventClientInvalid = false;
+          this.isEventMgrInvalid = false;
+          // this.isEventVenuesInvalid = false;
+          this.isVenuesSuppliersInvalid = false;
+          this.isVenuesExhibitorsInvalid = false;
         }
-        this.saveVenuesSuppliers({
-          venueIndex: null, serviceIndex: null, shouldInvite: false
-        });
-        this.saveVenuesExhibitors({
-          venueIndex: null, exhibitorIndex: null, shouldInvite: false
-        });
+        // this.saveVenuesSuppliers({
+        //   venueIndex: null, serviceIndex: null, shouldInvite: false
+        // });
+        // this.saveVenuesExhibitors({
+        //   venueIndex: null, exhibitorIndex: null, shouldInvite: false
+        // });
         break;
       case EventFunctionTypes.SUPPLIERS:
-        this.saveClient(false);
-        this.saveEvMgr(false);
-        this.saveVenueCmp({ index: null, shouldInvite: false });
+        // this.saveClient(false);
+        // this.saveEvMgr(false);
+        // this.saveVenueCmp({ index: null, shouldInvite: false });
         if (typeof param !== 'boolean') {
           this.saveVenuesSuppliers({
             venueIndex: param.venueIndex, serviceIndex: param.serviceIndex, shouldInvite: param.shouldInvite
           });
+          this.isEventClientInvalid = false;
+          this.isEventMgrInvalid = false;
+          this.isEventVenuesInvalid = false;
+          // this.isVenuesSuppliersInvalid = false;
+          this.isVenuesExhibitorsInvalid = false;
         }
-        this.saveVenuesExhibitors({
-          venueIndex: null, exhibitorIndex: null, shouldInvite: false
-        });
+        // this.saveVenuesExhibitors({
+        //   venueIndex: null, exhibitorIndex: null, shouldInvite: false
+        // });
         break;
       case EventFunctionTypes.EXHIBITORS:
-        this.saveClient(false);
-        this.saveEvMgr(false);
-        this.saveVenueCmp({ index: null, shouldInvite: false });
-        this.saveVenuesSuppliers({
-          venueIndex: null, serviceIndex: null, shouldInvite: false
-        });
+        // this.saveClient(false);
+        // this.saveEvMgr(false);
+        // this.saveVenueCmp({ index: null, shouldInvite: false });
+        // this.saveVenuesSuppliers({
+        //   venueIndex: null, serviceIndex: null, shouldInvite: false
+        // });
         if (typeof param !== 'boolean') {
           this.saveVenuesExhibitors({
             venueIndex: param.venueIndex, exhibitorIndex: param.exhibitorIndex, shouldInvite: param.shouldInvite
           });
+          this.isEventClientInvalid = false;
+          this.isEventMgrInvalid = false;
+          this.isEventVenuesInvalid = false;
+          this.isVenuesSuppliersInvalid = false;
+          // this.isVenuesExhibitorsInvalid = false;
         }
     }
 
     if (!this.isEventClientInvalid && !this.isEventMgrInvalid && !this.isEventVenuesInvalid &&
       !this.isVenuesSuppliersInvalid && !this.isVenuesExhibitorsInvalid) {
       this.postProcessVenues();
-      this.saveEventSub = this.eventService.updateToDb(this.eventToBeSaved, this.data.eventData.eventId).subscribe(
+      this.eventService.updateToDb(this.eventToBeSaved, this.data.eventData.eventId).subscribe(
         value => {
           if (value) {
-            this.toaster.success('Continue with saving event files', 'Event saved successfully');
+            this.toaster.success('Event updated successfully');
             this.savedEventId = this.data.eventData.eventId;
             /*this.router.navigateByUrl('/home', {skipLocationChange: true}).then(() => {
               this.router.navigate(['/home/event/create']);
             });*/
-            this.active = 6;
+            // this.active = 6;
             this.eventService.fetchEventFilesSubject.next(this.savedEventId);
-            this.eventService.hideInfoBar = true;
-            this.router.navigate(['/home'], { replaceUrl: true });
+            this.eventService.hideInfoBar = false;
+            // window.location.reload();
+            this.ngOnInit();
+            if (EventFunctionTypes.CLIENT || EventFunctionTypes.EVENT_MANAGER || EventFunctionTypes.VENUE || EventFunctionTypes.SUPPLIERS || EventFunctionTypes.EXHIBITORS) {
+              this.isClientEditable = false;
+              this.isManagerEditable = false;
+              this.eventService.isEdit = false;
+            }
+            if (EventFunctionTypes.VENUE) {
+              this.eventService.reset();
+              this.ngOnInit();
+              // this.router.navigate(['/home'], { replaceUrl: true });
+            }
           }
         },
         error => {
@@ -1504,6 +1648,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private isVenuesValid(): boolean {
+    this.venueCompanies = cloneDeep(this.venueCompanies);
+    this.venueContactLists = cloneDeep(this.venueContactLists)
     if (this.venueCompanies && this.venueCompanies.length > 0) {
       console.log(cloneDeep(this.venueCompanies));
       console.log(cloneDeep(this.venueContactLists))
@@ -1511,12 +1657,17 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       * clean venue companies and there corresponding contacts
       * which are removed i.e venueCompany===null
        */
+      console.log(this.venueContactLists);
       for (let i = 0; i < this.venueCompanies.length; i++) {
         if (this.venueCompanies[i] === null) {
           this.venueContactLists.splice(i, 1);
           devLogger('log', { [`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i]) });
           this.eventToBeSaved.venues?.list.splice(i, 1);
         } else {
+          // if (this.eventToBeSaved.venues?.list[i].contacts && this.eventToBeSaved.venues?.list[i].contacts?.length) {
+          //   //@ts-ignore
+          //   this.venueContactLists[i] = this.eventToBeSaved.venues?.list[i].contacts;
+          // }
           devLogger('log', { [`eventToBeSaved.venues?.list[${i}]`]: cloneDeep(this.eventToBeSaved.venues?.list[i]) });
         }
       }
@@ -1537,6 +1688,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.isEventVenuesInvalid = false;
       return true;
+      // this.toaster.error('Please select venue company and contacts');
+      // this.isEventVenuesInvalid = true;
+      // return false;
     }
     this.isEventVenuesInvalid = false;
     return true;
@@ -1551,6 +1705,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           let j = 0;
           for (const venueService of venueServices) {
             if (venueService.companyId === null) {
+              // this.toaster.error('Please select supplier company and contacts');
+              // this.isVenuesSuppliersInvalid = true;
+              // return false;
               continue;
             }
             if (!venueService.contacts || (venueService.contacts && venueService.contacts.length <= 0)) {
@@ -1581,6 +1738,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             let j = 0;
             for (const venueExhibitor of venueExhibitors) {
               if (venueExhibitor.companyId === null) {
+                // this.toaster.error('Please select exhibitor company and contacts');
+                // this.isVenuesExhibitorsInvalid = true;
+                // return false;
                 continue;
               }
               if (!venueExhibitor.contacts || (venueExhibitor.contacts && venueExhibitor.contacts.length <= 0)) {
@@ -1607,6 +1767,29 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isOwnCompanySub?.unsubscribe();
     this.saveEventSub?.unsubscribe();
     this.saveOnlySub?.unsubscribe();
+  }
+
+  getIsEdit() {
+    if (this.active == 1) {
+      return this.isClientEditable
+    }
+    else if (this.active == 2) {
+      return this.isManagerEditable
+    }
+    return
+  }
+
+  checkIsSame(startDate: any, endDate: any) {
+    if (startDate && endDate) {
+      let StartDate = moment(startDate).format('YYYY-MM-DD');
+      let EndDate = moment(endDate).format('YYYY-MM-DD');
+      if (moment(StartDate).isSame(EndDate)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return;
   }
 
 }

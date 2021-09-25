@@ -1,4 +1,4 @@
-import {CreateProfilePersonalDetails} from './create-profile-personal-details.interface';
+import { CreateProfilePersonalDetails } from './create-profile-personal-details.interface';
 
 export interface SignupUserProfile extends CreateProfilePersonalDetails {
   _user_date_time: string;

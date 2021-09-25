@@ -1,14 +1,14 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {NgbModal, NgbModalRef, NgbNavChangeEvent} from "@ng-bootstrap/ng-bootstrap";
-import {faAddressCard} from '@fortawesome/free-regular-svg-icons';
-import {ConnectionType, RemoveType, UserSettingsInterface} from "../../../../shared/models";
-import {devLogger} from "../../../../shared/utils";
-import {UserSettingsService} from "../../../../shared/services";
-import {Subscription} from "rxjs";
-import {CompaniesService} from "../../services/companies.service";
-import {ToastrService} from "ngx-toastr";
-import {RemoveModalComponent} from "../../../../shared/components/modals/remove-modal/remove-modal.component";
-import {v4 as uuidV4} from "uuid";
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgbModal, NgbModalRef, NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
+import { ConnectionType, RemoveType, UserSettingsInterface } from "../../../../shared/models";
+import { devLogger } from "../../../../shared/utils";
+import { UserSettingsService } from "../../../../shared/services";
+import { Subscription } from "rxjs";
+import { CompaniesService } from "../../services/companies.service";
+import { ToastrService } from "ngx-toastr";
+import { RemoveModalComponent } from "../../../../shared/components/modals/remove-modal/remove-modal.component";
+import { v4 as uuidV4 } from "uuid";
 
 @Component({
   selector: 'app-manage-connections',
@@ -137,26 +137,31 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
 
   doConnectionSearch(event: string): void {
     const filterText = event.trim().toLocaleLowerCase();
-    if (this.isExternal === 0 &&
-      (this.connectionType === ConnectionType.USER && this.allIntrUserConnections.length > 0)) {
+    if (filterText.length >= 3) {
+      if (this.isExternal === 0 &&
+        (this.connectionType === ConnectionType.USER && this.allIntrUserConnections.length > 0)) {
 
-      this.userConnections = this.allIntrUserConnections.filter(val => {
-        return val.firstName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
-          val.lastName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
-          val.email?.trim().toLocaleLowerCase().indexOf(filterText) !== -1;
-      });
-    } else if (this.isExternal === 0 &&
-      (this.connectionType === ConnectionType.COMPANY && this.allIntrCmpConnections.length > 0)) {
-      this.companyConnections = this.allIntrCmpConnections.filter(val => {
-        return val.companyName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
-          val.website?.trim().toLocaleLowerCase().indexOf(filterText) !== -1;
-      });
-    } else if (this.isExternal === 0 && (this.allIntrUserConnections.length === 0 || this.allIntrCmpConnections.length === 0)) {
+        this.userConnections = this.allIntrUserConnections.filter(val => {
+          return val.firstName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
+            val.lastName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
+            val.email?.trim().toLocaleLowerCase().indexOf(filterText) !== -1;
+        });
+      } else if (this.isExternal === 0 &&
+        (this.connectionType === ConnectionType.COMPANY && this.allIntrCmpConnections.length > 0)) {
+        this.companyConnections = this.allIntrCmpConnections.filter(val => {
+          return val.companyName?.trim().toLocaleLowerCase().indexOf(filterText) !== -1 ||
+            val.website?.trim().toLocaleLowerCase().indexOf(filterText) !== -1;
+        });
+      } else if (this.isExternal === 0 && (this.allIntrUserConnections.length === 0 || this.allIntrCmpConnections.length === 0)) {
+        this.getCompanyConnections();
+      } else if (this.isExternal === 1) {
+        this.userConnections = [];
+        this.companyConnections = [];
+        this.searchGlobally();
+      }
+    }
+    if (this.isExternal === 0 && filterText.length == 0) {
       this.getCompanyConnections();
-    } else if (this.isExternal === 1) {
-      this.userConnections = [];
-      this.companyConnections = [];
-      this.searchGlobally();
     }
   }
 
@@ -236,6 +241,24 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     this.searchOnPlatformSub?.unsubscribe();
     this.addConnSub?.unsubscribe();
     this.deleteConnSub?.unsubscribe();
+  }
+
+  goToCompanyProfile(companyId: any, isPrivate: any) {
+    console.log(companyId);
+    if (companyId && isPrivate == 0) {
+      localStorage.setItem('companyId', JSON.stringify(companyId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/company/manage-company?isView=' + true);
+    }
+  }
+
+  goToUserProfile(userId: any, isPrivate: any) {
+    console.log(userId);
+    if (userId && isPrivate == 0) {
+      localStorage.setItem('userId', JSON.stringify(userId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/edit-profile?isView=' + true);
+    }
   }
 
 }

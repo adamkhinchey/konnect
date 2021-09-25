@@ -22,14 +22,14 @@ export class InviteColleaguesComponent implements OnInit {
 
   siteUrl = environment.siteURL;
   inviteColleagueForm: FormGroup | undefined;
-
+  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/);
   constructor(private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
     this.inviteColleagueForm = this.fb.group({
       name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEX)]],
       position: ['', [Validators.required]]
     });
   }

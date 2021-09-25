@@ -18,7 +18,7 @@ import {ToastrService} from 'ngx-toastr';
 import {AuthService} from "../../../core/services/auth.service";
 import {map} from "rxjs/operators";
 
-const WEBSITE_REGEX = /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/;
+const WEBSITE_REGEX = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,}(\/\S*)?$/
 
 @Component({
   selector: 'app-create-company',
@@ -42,11 +42,12 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   categoryList: any[] = [];
   dropdownSettings: IDropdownSettings = {
     singleSelection: false,
+    enableCheckAll: false,
     idField: 'id',
     textField: 'name',
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
-    itemsShowLimit: 3,
+    //itemsShowLimit: 3,
     allowSearchFilter: true,
   };
   selectedCategory: any;
@@ -77,7 +78,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     this.createCompanyForm = this.fb.group({
       companyProfileImage: [null],
       companyName: [null, [Validators.required]],
-      countryId: [null, [Validators.required]],
+      countryId: ['', [Validators.required]],
       city: [null, [Validators.required]],
       categoryIds: [null, [Validators.required]],
       website: [null, [Validators.pattern(WEBSITE_REGEX)]],

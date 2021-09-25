@@ -1,7 +1,7 @@
-import {AfterViewChecked, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {EventService} from '../../services/event.service';
-import {devLogger} from '../../../../shared/utils';
+import { AfterViewChecked, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EventService } from '../../services/event.service';
+import { devLogger } from '../../../../shared/utils';
 
 @Component({
   selector: 'app-event-panel',
@@ -9,6 +9,7 @@ import {devLogger} from '../../../../shared/utils';
   styleUrls: ['./event-panel.component.scss']
 })
 export class EventPanelComponent implements OnInit, AfterViewChecked {
+  @Input() isEdit: boolean = false;
   isView = false;
   eventId: any;
   constructor(
@@ -26,7 +27,7 @@ export class EventPanelComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
 
-    console.log("hello asdf asdf"); 
+    console.log("hello asdf asdf");
   }
 
   ngAfterViewChecked(): void {

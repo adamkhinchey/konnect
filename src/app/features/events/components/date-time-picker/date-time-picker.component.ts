@@ -23,6 +23,7 @@ export class DateTimePickerComponent implements OnInit, AfterViewInit {
   @ViewChild('dt1') owlDateTime: OwlDateTimeComponent<any> | undefined;
   @ViewChild('inp') dateTimeInput: ElementRef | undefined;
   @Input() minimumDate: Date | undefined;
+  @Input() max: any = null;
   @Input() index: any;
   @Input() eventDateTime: any;
   @Input() freeze = false;

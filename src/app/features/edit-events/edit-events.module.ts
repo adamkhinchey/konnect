@@ -27,6 +27,7 @@ import { EventFilesUploadModalComponent } from './components/event-files-upload-
 import { EventViewComponent } from './components/event-view/event-view.component';
 import { EventGanttChartComponent } from './components/event-gantt-chart/event-gantt-chart.component';
 import { EventAssignCrewFunctionCmpComponent } from './components/event-assign-crew-function-cmp/event-assign-crew-function-cmp.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import { EventAssignCrewFunctionCmpComponent } from './components/event-assign-c
     ReactiveFormsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    FontAwesomeModule
   ],
 })
 export class EditEventsModule {

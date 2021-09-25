@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>KonnectappUserFrontend</title>
@@ -9,8 +10,27 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="assets/css/semantic.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
 </head>
-<body>
+
+<body id="bodyMain">
   <app-root></app-root>
+
+  <script>
+    function sidebarToggle() {
+      var element = document.getElementById("bodyMain");
+      element.classList.toggle("pushable");
+    }
+
+    function sidebarToggleHide() {
+      var element = document.getElementsById("bodyMain");
+      element.classList.remove("pushable");
+    }
+
+  </script>
 </body>
+
 </html>

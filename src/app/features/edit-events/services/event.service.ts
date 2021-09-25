@@ -1,16 +1,16 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {EventFunctionTypes} from '../models/types';
-import {environment} from '../../../../environments/environment';
-import {SaveEventClass} from '../models/classes/saveEvent.class';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {HttpClient} from '@angular/common/http';
-import {HttpErrRespHandlerService} from '../../../shared/services';
-import {ApiResponseModelInterface} from '../../../shared/models';
-import {take, tap} from 'rxjs/operators';
-import {devLogger, hideSpinnerPostApiCall} from '../../../shared/utils';
-import {Company} from "../../users/models";
-import {InviteFnCmpCntInterface, InviteFnCmpInterface, VenueTimeChangedSubjectInterface} from "../models/interfaces";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { EventFunctionTypes } from '../models/types';
+import { environment } from '../../../../environments/environment';
+import { SaveEventClass } from '../models/classes/saveEvent.class';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { HttpClient } from '@angular/common/http';
+import { HttpErrRespHandlerService } from '../../../shared/services';
+import { ApiResponseModelInterface } from '../../../shared/models';
+import { take, tap } from 'rxjs/operators';
+import { devLogger, hideSpinnerPostApiCall } from '../../../shared/utils';
+import { Company } from "../../users/models";
+import { InviteFnCmpCntInterface, InviteFnCmpInterface, VenueTimeChangedSubjectInterface } from "../models/interfaces";
 
 
 type FetchedVenueSrvcsCmp = { company: Company, venueIndex: number, serviceIndex: number };
@@ -23,7 +23,27 @@ type FetchedVenueExCmpCnts = { contactList: InviteFnCmpCntInterface[], venueInde
   providedIn: 'root'
 })
 export class EventService {
+  public isDeleted: boolean = false;
+  private _isSaveDisabled: boolean = false;
+  private _isEdit: boolean = false;
+  isSaveDisabledChange = new Subject<boolean>();
+  isEditChange = new Subject<boolean>();
 
+  set isSaveDisabled(value: boolean) {
+    this._isSaveDisabled = value;
+    this.isSaveDisabledChange.next(this._isSaveDisabled);
+  }
+  get isSaveDisabled() {
+    return this._isSaveDisabled;
+  }
+
+  set isEdit(value: boolean) {
+    this._isEdit = value;
+    this.isEditChange.next(this._isEdit);
+  }
+  get isEdit() {
+    return this._isEdit;
+  }
   private apiBaseUrl = environment.apiBaseURL;
 
   private ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([
@@ -80,17 +100,34 @@ export class EventService {
   venueEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
   venuePostEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
 
+  exhibitionPreEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+  exhibitionEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+  exhibitionPostEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+
   private fetchedVenueSrvcsCmp: FetchedVenueSrvcsCmp[] = [];
   private fetchedVenueSrvcsCmpCnts: FetchedVenueSrvcCmpCnts[] = [];
 
   private fetchedVenueExCmp: FetchedVenueExCmp[] = [];
   private fetchedVenueExCmpCnts: FetchedVenueExCmpCnts[] = [];
 
+  public navigatesToSuppliers = new Subject();
+  public navigatesToExhibitors = new Subject();
+
   constructor(
     private spinner: NgxSpinnerService,
     private http: HttpClient,
     private httpErrorHandler: HttpErrRespHandlerService,
   ) {
+  }
+
+  resetVenueExhibitorData() {
+    this.fetchedVenueExCmp = [];
+    this.fetchedVenueExCmpCnts = [];
+  }
+
+  resetVenueSupplierData() {
+    this.fetchedVenueSrvcsCmp = [];
+    this.fetchedVenueSrvcsCmpCnts = [];
   }
 
   reset(): void {
@@ -150,14 +187,22 @@ export class EventService {
   }
 
   addFetchedVenueSrvcCmp(param: FetchedVenueSrvcsCmp): void {
+    // const find = this.fetchedVenueSrvcsCmp.find((value) => {
+    //   //@ts-ignore
+    //   return value.company.supplierId === param.company.supplierId && value.serviceIndex === param.serviceIndex && value.venueIndex === param.venueIndex
+    // })
+    // if(!find){
     this.fetchedVenueSrvcsCmp.push(param);
+    // }
   }
 
   getFetchedVenueSrvcsCmp(): FetchedVenueSrvcsCmp[] {
+
     return this.fetchedVenueSrvcsCmp;
   }
 
   addFetchedVenueSrvcCmpCnt(param: FetchedVenueSrvcCmpCnts): void {
+
     this.fetchedVenueSrvcsCmpCnts.push(param);
   }
 
@@ -187,7 +232,7 @@ export class EventService {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/saveEvent`,
-      {event})
+      { event })
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),
@@ -195,11 +240,11 @@ export class EventService {
       );
   }
 
-  updateToDb(event: SaveEventClass, eventId:any): Observable<any> {
+  updateToDb(event: SaveEventClass, eventId: any): Observable<any> {
     this.spinner.show();
     return this.http.patch<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/updateEvent`,
-      {eventId, event })
+      { eventId, event })
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),
@@ -217,5 +262,7 @@ export class EventService {
         this.httpErrorHandler.processError(true, true)
       );
   }
+
+
 
 }

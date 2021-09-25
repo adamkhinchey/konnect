@@ -61,7 +61,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   isVenuesSuppliersInvalid = true;
   isVenuesExhibitorsInvalid = true;
 
-
+ 
   constructor(
     private modalService: NgbModal,
     private toaster: ToastrService,
@@ -762,7 +762,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       this.saveEventSub = this.eventService.saveToDb(this.eventToBeSaved).subscribe(
         value => {
           if (value) {
-            this.toaster.success('Continue with saving event files', 'Event saved successfully');
+            this.toaster.success('Event saved successfully');
             this.savedEventId = value.data.eventId;
             this.router.navigateByUrl('/home');
             /* block below opens files tab and disabled other tabs after post event creation*/

@@ -1,22 +1,55 @@
 <ng-container>
 
-  <ngb-accordion [closeOthers]="true" activeIds="static-3" [destroyOnHide]="false">
+  <ngb-accordion [destroyOnHide]="false">
 
     <ngb-panel id="static-3">
       <ng-template ngbPanelTitle>
-        <i class="dropdown icon"></i> {{windowLabels && windowLabels[0]}}
+        <div class="disabledAccordionContainer">
+          <div class="popupNotes"><i class="edit icon"></i>
+
+            <div class="tooltipOuter">
+              <p>{{preEventNotes}}</p>
+            </div>
+
+          </div>
+          <div class="">
+            <div class="ui grid stackable">
+              <div class="sixteen wide column">
+                <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[0]}}</span>
+
+                <span class="dateStartEndContainer" *ngFor="let dateTimes of preEventTimes; let timeIndex = index;">
+                  {{dateTimes.startDateTime | date:'dd/MM/YYYY'}}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} -
+                  {{dateTimes.endDateTime | date:'h:mm a'}}</span>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
       </ng-template>
       <ng-template ngbPanelContent>
-        <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
+        <div *ngIf="isVenueDependent && checkTimeWindowFor(timeWindowFor)" class="field visible" style="display: block !important;">
           <div class="ui checkbox">
-            <input type="checkbox" [id]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'" class="hidden"
-                   (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.PRE_EVENT_ACCESS)">
+            <input type="checkbox" [id]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'"
+              class="hidden" (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.PRE_EVENT_ACCESS)"
+              [disabled]="!isEdit">
             <label [for]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'">Same as venue</label>
+          </div>
+        </div>
+        <div *ngIf="isVenueDependent && checkTimeWindowForExhibition(timeWindowFor)" class="field visible" style="display: block !important;">
+          <div class="ui checkbox">
+            <input type="checkbox" [id]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'"
+              class="hidden" (change)="listenExhibitionEventTimeChange($event, eventTimeSlotTypes.PRE_EVENT_ACCESS)"
+              [disabled]="!isEdit">
+            <label [for]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'">Same as exhibition</label>
           </div>
         </div>
         <div class="item">
           <div class="ui two column grid"
-               *ngFor="let preEventEventTimeCount of Arr(preEventTimesCount).fill(1); let i=index">
+            *ngFor="let preEventEventTimeCount of Arr(preEventTimesCount).fill(1); let i=index">
             <div class="column">
               <span>Start Date &amp; Time</span>
               <div class="ui calendar datePicker">
@@ -24,14 +57,10 @@
                   <div class="ui popup calendar">
                   </div>
                   <i class="calendar icon"></i>
-                  <!-- <input type="text" placeholder="Date">-->
-                  <app-date-time-picker
-                    #preEventStartDateTimes
-                    [freeze]="isPreEventTimesSameAsVenue"
+                  <app-date-time-picker #preEventStartDateTimes [freeze]="checkFreeze('pre')"
                     [eventDateTime]="preEventTimes[i]?.startDateTime || null"
-                    [minimumDate]="getMinimumPreEventStartDateTime(i)"
-                    [index]="index"
-                    (addNewDateTime)="pushPreEventStartDateTime($event,i)"></app-date-time-picker>
+                    [minimumDate]="getMinimumPreEventStartDateTime(i)" [index]="index"
+                    (addNewDateTime)="pushPreEventStartDateTime($event,i)" [isEdit]="isEdit"></app-date-time-picker>
                 </div>
               </div>
             </div>
@@ -42,14 +71,11 @@
                   <div class="ui popup calendar">
                   </div>
                   <i class="calendar icon"></i>
-                  <!-- <input type="text" placeholder="Date">-->
-                  <app-date-time-picker
-                    #preEventEndDateTimes
-                    [freeze]="isPreEventTimesSameAsVenue"
+                  <app-date-time-picker #preEventEndDateTimes [freeze]="checkFreeze('pre')"
                     [eventDateTime]="preEventTimes[i]?.endDateTime || null"
-                    [minimumDate]="getMinimumPreEventEndDateTime(i)"
-                    [index]="index"
-                    (addNewDateTime)="pushPreEventEndDateTime($event,i)"></app-date-time-picker>
+                    [max]="getMax(preEventTimes[i]?.startDateTime)" [minimumDate]="getMinimumPreEventEndDateTime(i)"
+                    [index]="index" (addNewDateTime)="pushPreEventEndDateTime($event,i)" [isEdit]="isEdit">
+                  </app-date-time-picker>
                 </div>
               </div>
             </div>
@@ -57,14 +83,12 @@
           <div class="ui grid">
             <div class="sixteen wide column">
               <span>Notes</span>
-              <textarea class="textarea notes" [(ngModel)]="preEventNotes"
-                        ngDefaultControl
-                        rows="3"
-                        [ngModelOptions]="{standalone:true}"
-                        (ngModelChange)="populatePreEventNotes($event)">
+              <textarea class="textarea notes" [(ngModel)]="preEventNotes" ngDefaultControl rows="3"
+                [ngModelOptions]="{standalone:true}" (ngModelChange)="populatePreEventNotes($event)"
+                [readonly]="!isEdit">
                 </textarea>
-              <div *ngIf="!isPreEventTimesSameAsVenue" class="ui circular compact mini basic button"
-                   (click)="addMorePreEventDateTime()">
+              <div *ngIf="!isPreEventTimesSameAsVenue && isEdit" class="ui circular compact mini basic button"
+                (click)="addMorePreEventDateTime()">
                 <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[0]}} date
               </div>
             </div>
@@ -74,19 +98,51 @@
     </ngb-panel>
     <ngb-panel id="static-4">
       <ng-template ngbPanelTitle>
-        <span><i class="dropdown icon"></i> {{windowLabels && windowLabels[1]}}</span>
+
+        <div class="disabledAccordionContainer">
+          <div class="popupNotes"><i class="edit icon"></i>
+
+            <div class="tooltipOuter">
+              <p>{{eventNotes}}</p>
+            </div>
+
+          </div>
+
+          <div class="">
+            <div class="ui grid stackable">
+              <div class="sixteen wide column">
+                <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[1]}}</span>
+
+                <span class="dateStartEndContainer" *ngFor="let dateTimes of eventTimes; let timeIndex = index;">
+                  {{dateTimes.startDateTime | date:'dd/MM/YYYY'}}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} -
+                  {{dateTimes.endDateTime | date:'h:mm a'}}</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </ng-template>
       <ng-template ngbPanelContent>
-        <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
+        <div *ngIf="isVenueDependent && checkTimeWindowFor(timeWindowFor)" class="field visible" style="display: block !important;">
           <div class="ui checkbox">
-            <input type="checkbox" [id]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'" class="hidden"
-                   (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.EVENT_ACCESS)">
+            <input type="checkbox" [id]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'"
+              class="hidden" (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.EVENT_ACCESS)"
+              [disabled]="!isEdit">
             <label [for]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'">Same as venue</label>
           </div>
         </div>
+        <div *ngIf="isVenueDependent && checkTimeWindowForExhibition(timeWindowFor)" class="field visible" style="display: block !important;">
+          <div class="ui checkbox">
+            <input type="checkbox" [id]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'"
+              class="hidden" (change)="listenExhibitionEventTimeChange($event, eventTimeSlotTypes.EVENT_ACCESS)"
+              [disabled]="!isEdit">
+            <label [for]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'">Same as exhibition</label>
+          </div>
+        </div>
         <div class="item">
-          <div class="ui two column grid"
-               *ngFor="let eventTmCount of Arr(eventTimesCount).fill(1); let i=index">
+          <div class="ui two column grid" *ngFor="let eventTmCount of Arr(eventTimesCount).fill(1); let i=index">
             <div class="column">
               <span>Start Date &amp; Time</span>
               <div class="ui calendar datePicker">
@@ -94,14 +150,10 @@
                   <div class="ui popup calendar">
                   </div>
                   <i class="calendar icon"></i>
-                  <!--<input type="text" placeholder="Date">-->
-                  <app-date-time-picker
-                    #eventStartDateTimes
-                    [freeze]="isEventTimesSameAsVenue"
+                  <app-date-time-picker #eventStartDateTimes [freeze]="checkFreeze('event')"
                     [eventDateTime]="eventTimes[i]?.startDateTime || null"
-                    [minimumDate]="getMinimumEventStartDateTime(i)"
-                    [index]="index"
-                    (addNewDateTime)="pushEventStartDateTime($event,i)">
+                    [minimumDate]="getMinimumEventStartDateTime(i)" [index]="index"
+                    (addNewDateTime)="pushEventStartDateTime($event,i)" [isEdit]="isEdit">
                   </app-date-time-picker>
                 </div>
               </div>
@@ -113,15 +165,11 @@
                   <div class="ui popup calendar">
                   </div>
                   <i class="calendar icon"></i>
-                  <!--<input type="text" placeholder="Date">-->
-                  <app-date-time-picker
-                    #eventEndDateTimes
-                    [freeze]="isEventTimesSameAsVenue"
-                    [eventDateTime]="eventTimes[i]?.endDateTime || null"
-                    [minimumDate]="getMinimumEventEndDateTime(i)"
-                    [index]="index"
-                    (addNewDateTime)="pushEventEndDateTime($event,i)"
-                  ></app-date-time-picker>
+                  <app-date-time-picker #eventEndDateTimes [freeze]="checkFreeze('event')"
+                    [max]="getMax(eventTimes[i]?.startDateTime)" [eventDateTime]="eventTimes[i]?.endDateTime || null"
+                    [minimumDate]="getMinimumEventEndDateTime(i)" [index]="index"
+                    (addNewDateTime)="pushEventEndDateTime($event,i)" [isEdit]="isEdit">
+                  </app-date-time-picker>
                 </div>
               </div>
             </div>
@@ -129,13 +177,11 @@
           <div class="ui grid">
             <div class="sixteen wide column">
               <span>Notes</span>
-              <textarea class="textarea notes" [(ngModel)]="eventNotes"
-                        ngDefaultControl
-                        rows="3"
-                        [ngModelOptions]="{standalone:true}"
-                        (ngModelChange)="populateEventNotes($event)"></textarea>
-              <div *ngIf="!isEventTimesSameAsVenue" class="ui circular compact mini basic button"
-                   (click)="addMoreEventDateTime()">
+              <textarea class="textarea notes" [(ngModel)]="eventNotes" ngDefaultControl rows="3"
+                [ngModelOptions]="{standalone:true}" (ngModelChange)="populateEventNotes($event)"
+                [readonly]="!isEdit"></textarea>
+              <div *ngIf="!isEventTimesSameAsVenue && isEdit" class="ui circular compact mini basic button"
+                (click)="addMoreEventDateTime()">
                 <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[1]}} date
               </div>
             </div>
@@ -145,19 +191,53 @@
     </ngb-panel>
     <ngb-panel id="static-5">
       <ng-template ngbPanelTitle>
-        <span><i class="dropdown icon"></i> {{windowLabels && windowLabels[2]}}</span>
+        <div class="disabledAccordionContainer">
+          <div class="popupNotes"><i class="edit icon"></i>
+
+            <div class="tooltipOuter">
+              <p>{{postEventNotes}}</p>
+            </div>
+
+          </div>
+          <div class="">
+            <div class="ui grid stackable">
+              <div class="sixteen wide column">
+                <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[2]}}</span>
+
+                <span class="dateStartEndContainer"
+                  *ngFor="let dateTimes of postEventTimes; let timeIndex = index;">{{dateTimes.startDateTime |
+                  date:'dd/MM/YYYY'}}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} -
+                  {{dateTimes.endDateTime | date:'h:mm a'}}</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </ng-template>
       <ng-template ngbPanelContent>
-        <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
+        <div *ngIf="isVenueDependent && checkTimeWindowFor(timeWindowFor)" class="field visible" style="display: block !important;">
           <div class="ui checkbox">
-            <input type="checkbox" [id]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'" class="hidden"
-                   (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.POST_EVENT_ACCESS)">
-            <label [for]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'">Same as venue</label>
+            <input type="checkbox" [id]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'"
+              class="hidden" (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.POST_EVENT_ACCESS)"
+              [disabled]="!isEdit">
+            <label [for]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'">Same as
+              venue</label>
+          </div>
+        </div>
+        <div *ngIf="isVenueDependent && checkTimeWindowForExhibition(timeWindowFor)" class="field visible" style="display: block !important;">
+          <div class="ui checkbox">
+            <input type="checkbox" [id]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'"
+              class="hidden" (change)="listenExhibitionEventTimeChange($event, eventTimeSlotTypes.POST_EVENT_ACCESS)"
+              [disabled]="!isEdit">
+            <label [for]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'">Same as
+              exhibition</label>
           </div>
         </div>
         <div class="item">
           <div class="ui two column grid"
-               *ngFor="let preventEventTimeCount of Arr(postEventTimesCount).fill(1); let i=index">
+            *ngFor="let preventEventTimeCount of Arr(postEventTimesCount).fill(1); let i=index">
             <div class="column">
               <span> Start Date &amp; Time</span>
               <div class="ui calendar datePicker">
@@ -165,15 +245,10 @@
                   <div class="ui popup calendar">
                   </div>
                   <i class="calendar icon"></i>
-                  <!--<input type="text" placeholder="Date">-->
-                  <app-date-time-picker
-                    #postEventStartDateTimes
-                    [freeze]="isPostEventTimesSameAsVenue"
+                  <app-date-time-picker #postEventStartDateTimes [freeze]="checkFreeze('post')"
                     [eventDateTime]="postEventTimes[i]?.startDateTime || null"
-                    [minimumDate]="getMinimumPostEventStartDateTime(i)"
-                    [index]="index"
-                    (addNewDateTime)="pushPostEventStartDateTime($event,i)"
-                  ></app-date-time-picker>
+                    [minimumDate]="getMinimumPostEventStartDateTime(i)" [index]="index"
+                    (addNewDateTime)="pushPostEventStartDateTime($event,i)" [isEdit]="isEdit"></app-date-time-picker>
                 </div>
               </div>
             </div>
@@ -184,14 +259,11 @@
                   <div class="ui popup calendar">
                   </div>
                   <i class="calendar icon"></i>
-                  <!--<input type="text" placeholder="Date">-->
-                  <app-date-time-picker
-                    #postEventEndDateTimes
-                    [freeze]="isPostEventTimesSameAsVenue"
+                  <app-date-time-picker #postEventEndDateTimes [freeze]="checkFreeze('post')"
                     [eventDateTime]="postEventTimes[i]?.endDateTime || null"
-                    [minimumDate]="getMinimumPostEventEndDateTime(i)"
-                    [index]="index"
-                    (addNewDateTime)="pushPostEventEndDateTime($event,i)">
+                    [max]="getMax(postEventTimes[i]?.startDateTime)"
+                    [minimumDate]="getMinimumPostEventEndDateTime(i)" [index]="index"
+                    (addNewDateTime)="pushPostEventEndDateTime($event,i)" [isEdit]="isEdit">
                   </app-date-time-picker>
                 </div>
               </div>
@@ -200,13 +272,11 @@
           <div class="ui grid">
             <div class="sixteen wide column">
               <span>Notes</span>
-              <textarea class="textarea notes" [(ngModel)]="postEventNotes"
-                        ngDefaultControl
-                        rows="3"
-                        [ngModelOptions]="{standalone:true}"
-                        (ngModelChange)="populatePostEventNotes($event)"></textarea>
-              <div *ngIf="!isPostEventTimesSameAsVenue" class="ui circular compact mini basic button"
-                   (click)="addMorePostEventDateTime()">
+              <textarea class="textarea notes" [(ngModel)]="postEventNotes" ngDefaultControl rows="3"
+                [ngModelOptions]="{standalone:true}" (ngModelChange)="populatePostEventNotes($event)"
+                [readonly]="!isEdit"></textarea>
+              <div *ngIf="!isPostEventTimesSameAsVenue && isEdit" class="ui circular compact mini basic button"
+                (click)="addMorePostEventDateTime()">
                 <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[2]}} date
               </div>
             </div>

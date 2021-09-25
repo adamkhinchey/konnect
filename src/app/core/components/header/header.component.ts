@@ -1,13 +1,14 @@
-import {Component, Inject, Input, OnDestroy, OnInit} from '@angular/core';
-import {animate, style, transition, trigger} from '@angular/animations';
-import {AuthService} from "../../services/auth.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ActivatedUserModuleRouteService, UserSettingsService} from "../../../shared/services";
-import {devLogger} from "../../../shared/utils";
-import {WINDOW} from 'ngx-window-token';
-import {UserSettingsInterface} from "../../../shared/models";
-import {take} from "rxjs/operators";
-import {Subscription} from "rxjs";
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { AuthService } from "../../services/auth.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedUserModuleRouteService, UserSettingsService } from "../../../shared/services";
+import { devLogger } from "../../../shared/utils";
+import { WINDOW } from 'ngx-window-token';
+import { UserSettingsInterface } from "../../../shared/models";
+import { take } from "rxjs/operators";
+import { Subscription } from "rxjs";
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -16,11 +17,11 @@ import {Subscription} from "rxjs";
   animations: [
     trigger('fade', [
       transition('void => active', [ // using status here for transition
-        style({opacity: 0}),
-        animate(1000, style({opacity: 1}))
+        style({ opacity: 0 }),
+        animate(1000, style({ opacity: 1 }))
       ]),
       transition('* => void', [
-        animate(1000, style({opacity: 0}))
+        animate(1000, style({ opacity: 0 }))
       ])
     ])
   ]
@@ -31,8 +32,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   status2: boolean = false;
   status3: boolean = false;
   isApproved = false;
+  isHeaderDisable: boolean = false;
 
   activeMenu = '';
+  isView = false;
   private userSettingsSub: Subscription | undefined;
 
 
@@ -57,18 +60,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     // tslint:disable-next-line:variable-name
     @Inject(WINDOW) private _window: any,
+    @Inject(DOCUMENT) private document: Document,
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
     private actUsrMdlRouteService: ActivatedUserModuleRouteService,
     public userSettingsService: UserSettingsService
   ) {
+    this.route.queryParams.subscribe(param => {
+      console.log(JSON.stringify(param))
+      if (param.isView)
+        this.isView = param.isView;
+    })
+
   }
 
   ngOnInit(): void {
-
-    this.userSettingsSub=this.userSettingsService.settings.subscribe((value) => {
-      devLogger('log', {settingssss: value});
+    this.userSettingsSub = this.userSettingsService.settings.subscribe((value) => {
+      devLogger('log', { settingssss: value });
       if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany) {
         this.isApproved = true;
       }
@@ -81,9 +90,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   navToEditProfile(event: MouseEvent): boolean {
-    event.preventDefault();
-    this.router.navigate(['home', 'edit-profile']);
-    return true;
+    if (!this.isView) {
+      event.preventDefault();
+      this.router.navigate(['home', 'edit-profile']);
+      var element = document.getElementById("bodyMain");
+      element!.classList.remove("pushable");
+      return true;
+    }
+    return false;
   }
 
   logout(event: MouseEvent): void {
@@ -92,6 +106,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userSettingsService.reset();
     this.isApproved = false;
     this.hideAllMenus();
+    var element = document.getElementById("bodyMain");
+    element!.classList.remove("pushable");
   }
 
   hideAllMenus(): void {

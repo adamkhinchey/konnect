@@ -84,4 +84,22 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
     this.subs1?.unsubscribe();
     this.subs2?.unsubscribe();
   }
+
+  getCompanyId(): any {
+    if (this.selectedCompany instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return this.selectedCompany?.id;
+    }
+  }
+
+  goToCompanyProfile(companyId:any) {
+    console.log(companyId);
+    if (companyId) {
+      localStorage.setItem('companyId', JSON.stringify(companyId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/company/manage-company?isView=' + true);
+    }
+  }
+
 }

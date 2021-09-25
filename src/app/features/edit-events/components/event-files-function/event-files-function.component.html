@@ -5,10 +5,10 @@
         <div class="ui grid">
           <div class="ten wide column middle aligned">
             <h3>Client/Event Manager Shared Files
-              <i class="cog icon"></i>
-              <i class="sitemap icon"></i></h3>
+              <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i></h3>
           </div>
-          <div class="six wide column right aligned">
+          <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager" >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.CLIENT_EVENT_MANAGER_SHARED_FILES)">
               <i class="upload icon">
@@ -37,9 +37,10 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Client Internal Files <i class="cog icon"></i></h3>
+            <h3>Client Internal Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i></h3>
+
           </div>
-          <div class="six wide column right aligned">
+          <div class="six wide column right aligned"  *ngIf="permissionObj.isClient"  >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.CLIENT_INTERNAL_FILES)"><i class="upload icon"></i>Upload
             </div>
@@ -66,9 +67,10 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Event Management Internal Files <i class="sitemap icon"></i></h3>
+            <h3>Event Management Internal Files <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i></h3>
           </div>
-          <div class="six wide column right aligned">
+          
+          <div class="six wide column right aligned"  *ngIf="permissionObj.isEventManager" >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.EVENT_MANAGEMENT_INTERNAL_FILES)"><i class="upload icon"></i>Upload
             </div>
@@ -124,10 +126,11 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Files for All Venues <i class="cog icon"></i><i class="sitemap icon"></i><i
+            <h3>Files for All Venues <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
               class="map marker alternate icon"></i></h3>
           </div>
-          <div class="six wide column right aligned">
+          <div class="six wide column right aligned"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue"  >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_VENUES)"><i class="upload icon"></i>Upload
             </div>
@@ -151,9 +154,8 @@
 
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
-    <ngb-accordion
-      *ngIf="eventFiles?.data?.files?.FFAV?.venuesFiles && eventFiles?.data?.files?.FFAV?.venuesFiles!.length>0"
-      [closeOthers]="true" [activeIds]="'venueId_' + eventFiles!.data!.files!.FFAV!.venuesFiles![0]!.venueId">
+      <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAV?.venuesFiles && eventFiles?.data?.files?.FFAV?.venuesFiles!.length>0">
 
 
       <ngb-panel [id]="'venueId_' + venueFileItem.venueId"
@@ -199,10 +201,11 @@
                   <div class="ui dividing header">
                     <div class="ui grid">
                       <div class="ten wide column middle aligned">
-                        <h3>Venue Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
+                        <h3>Venue Shared Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                           class="building icon"></i></h3>
                       </div>
-                      <div class="six wide column right aligned">
+                      <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isVenue && venueFileItem?.isViewPermission==1)" >
                         <div class="ui button compact mini basic circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_SHARED_FILES, {venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
@@ -232,7 +235,7 @@
                       <div class="ten wide column middle aligned">
                         <h3>Venue Internal Files <i class="building icon"></i></h3>
                       </div>
-                      <div class="six wide column right aligned">
+                      <div class="six wide column right aligned"  *ngIf="permissionObj.isVenue && venueFileItem?.isViewPermission == 1"  >
                         <div class="ui button compact mini basic circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_INTERNAL_FILES, {venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
@@ -260,14 +263,6 @@
           </div>
         </ng-template>
       </ngb-panel>
-      <!-- <ngb-panel id="static-2">
-          <ng-template ngbPanelTitle>
-              <span><i class="dropdown icon"></i>Venue 1</span>
-          </ng-template>
-          <ng-template ngbPanelContent>
-              2
-          </ng-template>
-      </ngb-panel> -->
 
     </ngb-accordion>
   </div>
@@ -279,10 +274,11 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Files for All Suppliers <i class="cog icon"></i><i class="sitemap icon"></i><i class="truck icon"></i>
+            <h3>Files for All Suppliers <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i class="truck icon"></i>
             </h3>
           </div>
-          <div class="six wide column right aligned">
+          <div class="six wide column right aligned"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isService"  >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_SUPPLIERS)">
               <i class="upload icon"></i>Upload
@@ -306,11 +302,8 @@
     </div>
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
-
-    <ngb-accordion
-      *ngIf="eventFiles?.data?.files?.FFAS?.supplierFiles && eventFiles?.data?.files?.FFAS?.supplierFiles!.length>0"
-      [closeOthers]="true"
-      [activeIds]="'serviceId_' + eventFiles!.data!.files!.FFAS!.supplierFiles![0]!.serviceId">
+      <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAS?.supplierFiles && eventFiles?.data?.files?.FFAS?.supplierFiles!.length>0">
 
 
       <ngb-panel [id]="'serviceId_' + supplierItem.serviceId"
@@ -328,10 +321,11 @@
                     <div class="ui dividing header">
                       <div class="ui grid">
                         <div class="ten wide column middle aligned">
-                          <h3>Supplier Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
+                          <h3>Supplier Shared Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                             class="building icon"></i></h3>
                         </div>
-                        <div class="six wide column right aligned">
+                        <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isService && supplierItem?.isViewPermission==1)">
                           <div class="ui button compact mini basic circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_SHARED_FILES, {serviceId: supplierItem.serviceId},i)">
                             <i class="upload icon"></i>Upload
@@ -361,7 +355,7 @@
                         <div class="ten wide column middle aligned">
                           <h3>Supplier Internal Files <i class="building icon"></i></h3>
                         </div>
-                        <div class="six wide column right aligned">
+                        <div class="six wide column right aligned"  *ngIf="permissionObj.isService && supplierItem?.isViewPermission == 1" >
                           <div class="ui button compact mini basic circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_INTERNAL_FILES,{serviceId:supplierItem.serviceId},i)">
                             <i class="upload icon"></i>Upload
@@ -390,14 +384,6 @@
           </div>
         </ng-template>
       </ngb-panel>
-      <!-- <ngb-panel id="static-2">
-          <ng-template ngbPanelTitle>
-              <span><i class="dropdown icon"></i>Venue 1</span>
-          </ng-template>
-          <ng-template ngbPanelContent>
-              2
-          </ng-template>
-      </ngb-panel> -->
 
     </ngb-accordion>
   </div>
@@ -411,10 +397,11 @@
       <div class="ui dividing header">
         <div class="ui grid">
           <div class="ten wide column middle aligned">
-            <h3>Files for All Exhibitors <i class="cog icon"></i><i class="sitemap icon"></i><i class="exhibitor icon"></i>
+            <h3>Files for All Exhibitors <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i class="exhibitor icon"></i>
             </h3>
           </div>
-          <div class="six wide column right aligned">
+          <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor"  >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_EXHIBITORS)"><i class="upload icon"></i>Upload
             </div>
@@ -437,10 +424,8 @@
     </div>
   </div>
   <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
-
-    <ngb-accordion
-      *ngIf="eventFiles?.data?.files?.FFAE?.exhibitorFiles && eventFiles?.data?.files?.FFAE?.exhibitorFiles!.length>0"
-      [closeOthers]="true" [activeIds]="'exhibitorId_' +eventFiles!.data!.files!.FFAE!.exhibitorFiles![0]!.exhibitorId">
+      <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAE?.exhibitorFiles && eventFiles?.data?.files?.FFAE?.exhibitorFiles!.length>0">
 
 
       <ngb-panel [id]="'exhibitorId_' + exhibitorFileItem.exhibitorId"
@@ -458,10 +443,11 @@
                     <div class="ui dividing header">
                       <div class="ui grid">
                         <div class="ten wide column middle aligned">
-                          <h3>Exhibitor Shared Files <i class="cog icon"></i><i class="sitemap icon"></i><i
+                          <h3>Exhibitor Shared Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                             class="building icon"></i></h3>
                         </div>
-                        <div class="six wide column right aligned">
+                        <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1)" >
                           <div class="ui button compact mini basic circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_SHARED_FILES,{exhibitorId:exhibitorFileItem.exhibitorId},i)">
                             <i class="upload icon"></i>Upload
@@ -491,7 +477,7 @@
                         <div class="ten wide column middle aligned">
                           <h3>Exhibitor Internal Files <i class="building icon"></i></h3>
                         </div>
-                        <div class="six wide column right aligned">
+                        <div class="six wide column right aligned"  *ngIf="permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1"  >
                           <div class="ui button compact mini basic circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_INTERNAL_FILES, {exhibitorId:exhibitorFileItem.exhibitorId},i)">
                             <i class="upload icon"></i>Upload
@@ -520,14 +506,6 @@
           </div>
         </ng-template>
       </ngb-panel>
-      <!-- <ngb-panel id="static-2">
-          <ng-template ngbPanelTitle>
-              <span><i class="dropdown icon"></i>Venue 1</span>
-          </ng-template>
-          <ng-template ngbPanelContent>
-              2
-          </ng-template>
-      </ngb-panel> -->
 
     </ngb-accordion>
   </div>

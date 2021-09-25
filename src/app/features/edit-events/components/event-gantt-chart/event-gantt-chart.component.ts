@@ -52,7 +52,6 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
   render(nativeElement: HTMLElement, timelineData: EventTimelineDataInterface | undefined): void {
 
     this.timelineData = timelineData;
-
     if (this.timeline) {
       this.timeline.destroy();
     }
@@ -60,7 +59,17 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
     devLogger('log', { timelineData: this.timelineData });
 
     if (this.timelineData && !isEmpty(this.timelineData)) {
-
+      let serviceExhibitorLength: any = 0;
+      for (let i = 0; i < this.timelineData.groups.length; i++) {
+        if (this.timelineData.groups[i].data.preTime[0].services) {
+          //@ts-ignore
+          serviceExhibitorLength = (serviceExhibitorLength + this.timelineData.groups[i].data.preTime[0].services?.length)
+        } else if (this.timelineData.groups[i].data.preTime[0].exhibitors) {
+          //@ts-ignore
+          serviceExhibitorLength = (serviceExhibitorLength + this.timelineData.groups[i].data.preTime[0].exhibitors?.length)
+        }
+      }
+      console.log(serviceExhibitorLength);
 
       this.groups = new DataSet<any>(this.timelineData.groups.map(group => ({ id: group.date })));
 
@@ -78,9 +87,9 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
         max: moment.tz(this.timelineData.maxDateTime, this.timeZone).hours(23).minutes(59).seconds(59).toDate(),
         margin: {
           item: {
-            vertical: 15,
+            vertical: 0,
           },
-          axis: 260,
+          axis: 40 * serviceExhibitorLength + 50,
         },
         timeAxis: {
           scale: 'hour',
@@ -98,6 +107,29 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
       };
 
       const items: vis.DataItemCollectionType = [];
+      let preServiceCount = 0;
+      let preServiceMargin = 15
+      let preDefaultMargin = 0;
+
+      let preExhibitorCount = 0;
+      let preExhibitorMargin = 15
+      let preExhibitorDefaultMargin = 0;
+
+      let eventServiceCount = 0;
+      let eventServiceMargin = 15
+      let eventDefaultMargin = 0;
+
+      let eventExhibitorCount = 0;
+      let eventExhibitorMargin = 15
+      let eventExhibitorDefaultMargin = 0;
+
+      let postServiceCount = 0;
+      let postServiceMargin = 15
+      let postDefaultMargin = 0;
+
+      let postExhibitorCount = 0;
+      let postExhibitorMargin = 15
+      let postExhibitorDefaultMargin = 0;
       this.timelineData.groups.forEach((groupData) => {
         groupData.data.preTime.forEach(preTimeData => {
           items.push({
@@ -106,33 +138,78 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
             start: moment.tz(preTimeData.startDateTime, this.timeZone).toDate(),
             end: moment.tz(preTimeData.endDateTime, this.timeZone).toDate(),
             type: 'background',
-            className: 'bumpIn'
+            className: 'bumpIn',
           });
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             preTimeData.services?.forEach((servicesData) => {
+              // if (preServiceCount)
+              preDefaultMargin = 18
+              preServiceCount++;
+              let preServiceMarginFinal = (preServiceMargin * preServiceCount) + preDefaultMargin * preServiceCount;
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
-                content: 'BI',
-                title: `<b>${servicesData.content} Bump In </b><br/>
+                content: `${'BI'}<br/>`,
+                title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
-${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}`,
-                start: servicesData.startDateTime,
-                end: servicesData.endDateTime,
+${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(servicesData.endDateTime, this.timeZone).format('HH:mm A')}</p>
+<b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite || ''}</small>`,
+                start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
+                end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
+                style: "margin-top:" + preServiceMarginFinal + "px",
               });
+              servicesData?.data?.forEach((multiData) => {
+                items.push({
+                  id: `${multiData.id}_${uuidV4()}`,
+                  content: `${'BI'}<br/>`,
+                  title: `<b>${multiData.content}</b><p>${multiData.companyName || multiData.companyName}<br/>
+  ${moment.tz(multiData.startDateTime, this.timeZone).toDate().toDateString()} -
+  ${moment.tz(multiData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+  ${moment.tz(multiData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(multiData.endDateTime, this.timeZone).format('HH:mm A')}</p>
+  <b>${multiData.primaryContact?.name}</b><p>${multiData.primaryContact?.mobile}<span class="hyphen"> - </span>${multiData.primaryContact?.email}</p><small>${multiData.companyWebSite || ''}</small>`,
+                  start: moment.tz(multiData.startDateTime, this.timeZone).toDate(),
+                  end: moment.tz(multiData.endDateTime, this.timeZone).toDate(),
+                  group: multiData.group,
+                  style: "margin-top:" + preServiceMarginFinal + "px",
+                });
+              })
             });
+            // preServiceMargin = 15;
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             preTimeData.exhibitors?.forEach((exhibitorsData) => {
+              // if (preExhibitorCount)
+              preExhibitorDefaultMargin = 18
+              preExhibitorCount++;
+              let preExhibitorMarginFinal = (preExhibitorMargin * preExhibitorCount) + preExhibitorDefaultMargin * preExhibitorCount;
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
-                content: 'BI',
-                title: `<b>${exhibitorsData.content} Bump In </b><br/>
+                content: `${'BI'}<br/>`,
+                title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName || exhibitorsData.companyName}<br/>
 ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
-${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`,
+${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(exhibitorsData.endDateTime, this.timeZone).format('HH:mm A')}</p>
+<b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite || ''}</small>`,
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
-                end: moment(exhibitorsData.endDateTime, this.timeZone).toDate(),
+                end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
+                style: "margin-top:" + preExhibitorMarginFinal + "px",
+              });
+              exhibitorsData?.data?.forEach((multiData) => {
+                items.push({
+                  id: `${multiData.id}_${uuidV4()}`,
+                  content: `${'BI'}<br/>`,
+                  title: `<b>${multiData.content}</b><p>${multiData.companyName || multiData.companyName}<br/>
+  ${moment.tz(multiData.startDateTime, this.timeZone).toDate().toDateString()} -
+  ${moment.tz(multiData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+  ${moment.tz(multiData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(multiData.endDateTime, this.timeZone).format('HH:mm A')}</p>
+  <b>${multiData.primaryContact?.name}</b><p>${multiData.primaryContact?.mobile}<span class="hyphen"> - </span>${multiData.primaryContact?.email}</p><small>${multiData.companyWebSite || ''}</small>`,
+                  start: moment.tz(multiData.startDateTime, this.timeZone).toDate(),
+                  end: moment.tz(multiData.endDateTime, this.timeZone).toDate(),
+                  group: multiData.group,
+                  style: "margin-top:" + preExhibitorMarginFinal + "px",
+                });
               });
             });
           }
@@ -150,29 +227,70 @@ ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             eventTimeData.services?.forEach((servicesData) => {
+              // if (eventServiceCount)
+              eventDefaultMargin = 18
+              eventServiceCount++;
+              let eventServiceMarginFinal = (eventServiceMargin * eventServiceCount) + eventDefaultMargin * eventServiceCount;
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
-                content: servicesData.content || '',
+                content: `${servicesData.content || ''}<br/>`,
                 title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
 ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
-${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}</p>
+${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(servicesData.endDateTime, this.timeZone).format('HH:mm A')}</p>
 <b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite || ''}</small>`,
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
+                style: "margin-top:" + eventServiceMarginFinal + "px",
               });
+              servicesData?.data?.forEach((multiData) => {
+                items.push({
+                  id: `${multiData.id}_${uuidV4()}`,
+                  content: `${multiData.content || ''}<br/>`,
+                  title: `<b>${multiData.content}</b><p>${multiData.companyName || multiData.companyName}<br/>
+  ${moment.tz(multiData.startDateTime, this.timeZone).toDate().toDateString()} -
+  ${moment.tz(multiData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+  ${moment.tz(multiData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(multiData.endDateTime, this.timeZone).format('HH:mm A')}</p>
+  <b>${multiData.primaryContact?.name}</b><p>${multiData.primaryContact?.mobile}<span class="hyphen"> - </span>${multiData.primaryContact?.email}</p><small>${multiData.companyWebSite || ''}</small>`,
+                  start: moment.tz(multiData.startDateTime, this.timeZone).toDate(),
+                  end: moment.tz(multiData.endDateTime, this.timeZone).toDate(),
+                  group: multiData.group,
+                  style: "margin-top:" + eventServiceMarginFinal + "px",
+                });
+              })
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             eventTimeData.exhibitors?.forEach((exhibitorsData) => {
+              // if (eventExhibitorCount)
+              eventExhibitorDefaultMargin = 18
+              eventExhibitorCount++;
+              let eventExhibitorMarginFinal = (eventExhibitorMargin * eventExhibitorCount) + eventExhibitorDefaultMargin * eventExhibitorCount;
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
-                content: exhibitorsData.content || '',
+                content: `${exhibitorsData.content || ''}<br/>`,
                 title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName}<br/>
-${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}</p>
+${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitorsData.endDateTime).toDateString()}<br/>
+${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(exhibitorsData.endDateTime, this.timeZone).format('HH:mm A')}</p>
 <b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite}</small>`,
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
+                style: "margin-top:" + eventExhibitorMarginFinal + "px",
+              });
+              exhibitorsData?.data?.forEach((multiData) => {
+                items.push({
+                  id: `${multiData.id}_${uuidV4()}`,
+                  content: `${multiData.content || ''}<br/>`,
+                  title: `<b>${multiData.content}</b><p>${multiData.companyName}<br/>
+  ${new Date(multiData.startDateTime).toDateString()} - ${new Date(multiData.endDateTime).toDateString()}<br/>
+  ${moment.tz(multiData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(multiData.endDateTime, this.timeZone).format('HH:mm A')}</p>
+  <b>${multiData.primaryContact?.name}</b><p>${multiData.primaryContact?.mobile}<span class="hyphen"> - </span>${multiData.primaryContact?.email}</p><small>${multiData.companyWebSite}</small>`,
+                  start: moment.tz(multiData.startDateTime, this.timeZone).toDate(),
+                  end: moment.tz(multiData.endDateTime, this.timeZone).toDate(),
+                  group: multiData.group,
+                  style: "margin-top:" + eventExhibitorMarginFinal + "px",
+                });
               });
             });
           }
@@ -190,28 +308,72 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
 
           if (this.timelineType === EventTimelineType.SERVICES) {
             postTimeData.services?.forEach((servicesData) => {
+              // if (postServiceCount)
+              postDefaultMargin = 18
+              postServiceCount++;
+              let postServiceMarginFinal = (postServiceMargin * postServiceCount) + postDefaultMargin * postServiceCount;
               items.push({
                 id: `${servicesData.id}_${uuidV4()}`,
-                content: 'BO',
-                title: `${servicesData.content} Bump Out
-                ${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
-                ${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}`,
+                content: `${'BO'}<br/>`,
+                title: `<b>${servicesData.content}</b><p>${servicesData.companyName || servicesData.companyName}<br/>
+${moment.tz(servicesData.startDateTime, this.timeZone).toDate().toDateString()} -
+${moment.tz(servicesData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+${moment.tz(servicesData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(servicesData.endDateTime, this.timeZone).format('HH:mm A')}</p>
+<b>${servicesData.primaryContact?.name}</b><p>${servicesData.primaryContact?.mobile}<span class="hyphen"> - </span>${servicesData.primaryContact?.email}</p><small>${servicesData.companyWebSite || ''}</small>`,
                 start: moment.tz(servicesData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(servicesData.endDateTime, this.timeZone).toDate(),
                 group: servicesData.group,
+                style: "margin-top:" + postServiceMarginFinal + "px",
               });
+              servicesData?.data?.forEach((multiData) => {
+                items.push({
+                  id: `${multiData.id}_${uuidV4()}`,
+                  content: `${'BO'}<br/>`,
+                  title: `<b>${multiData.content}</b><p>${multiData.companyName || multiData.companyName}<br/>
+  ${moment.tz(multiData.startDateTime, this.timeZone).toDate().toDateString()} -
+  ${moment.tz(multiData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+  ${moment.tz(multiData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(multiData.endDateTime, this.timeZone).format('HH:mm A')}</p>
+  <b>${multiData.primaryContact?.name}</b><p>${multiData.primaryContact?.mobile}<span class="hyphen"> - </span>${multiData.primaryContact?.email}</p><small>${multiData.companyWebSite || ''}</small>`,
+                  start: moment.tz(multiData.startDateTime, this.timeZone).toDate(),
+                  end: moment.tz(multiData.endDateTime, this.timeZone).toDate(),
+                  group: multiData.group,
+                  style: "margin-top:" + postServiceMarginFinal + "px",
+                });
+              })
             });
           } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
             postTimeData.exhibitors?.forEach((exhibitorsData) => {
+              // if (postExhibitorCount)
+              postExhibitorDefaultMargin = 18
+              postExhibitorCount++;
+              let postExhibitorMarginFinal = (postExhibitorMargin * postExhibitorCount) + postExhibitorDefaultMargin * postExhibitorCount;
               items.push({
                 id: `${exhibitorsData.id}_${uuidV4()}`,
-                content: 'BO',
-                title: `${exhibitorsData.content} Bump Out
-                ${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
-                ${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}`,
+                content: `${'BO'}<br/>`,
+                title: `<b>${exhibitorsData.content}</b><p>${exhibitorsData.companyName || exhibitorsData.companyName}<br/>
+${moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate().toDateString()} -
+${moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+${moment.tz(exhibitorsData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(exhibitorsData.endDateTime, this.timeZone).format('HH:mm A')}</p>
+<b>${exhibitorsData.primaryContact?.name}</b><p>${exhibitorsData.primaryContact?.mobile}<span class="hyphen"> - </span>${exhibitorsData.primaryContact?.email}</p><small>${exhibitorsData.companyWebSite || ''}</small>`,
                 start: moment.tz(exhibitorsData.startDateTime, this.timeZone).toDate(),
                 end: moment.tz(exhibitorsData.endDateTime, this.timeZone).toDate(),
                 group: exhibitorsData.group,
+                style: "margin-top:" + postExhibitorMarginFinal + "px",
+              });
+              exhibitorsData?.data?.forEach((multiData) => {
+                items.push({
+                  id: `${multiData.id}_${uuidV4()}`,
+                  content: `${'BO'}<br/>`,
+                  title: `<b>${multiData.content}</b><p>${multiData.companyName || multiData.companyName}<br/>
+  ${moment.tz(multiData.startDateTime, this.timeZone).toDate().toDateString()} -
+  ${moment.tz(multiData.endDateTime, this.timeZone).toDate().toDateString()}<br/>
+  ${moment.tz(multiData.startDateTime, this.timeZone).format('HH:mm A')} - ${moment.tz(multiData.endDateTime, this.timeZone).format('HH:mm A')}</p>
+  <b>${multiData.primaryContact?.name}</b><p>${multiData.primaryContact?.mobile}<span class="hyphen"> - </span>${multiData.primaryContact?.email}</p><small>${multiData.companyWebSite || ''}</small>`,
+                  start: moment.tz(multiData.startDateTime, this.timeZone).toDate(),
+                  end: moment.tz(multiData.endDateTime, this.timeZone).toDate(),
+                  group: multiData.group,
+                  style: "margin-top:" + postExhibitorMarginFinal + "px",
+                });
               });
             });
           }
@@ -225,10 +387,9 @@ ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(exhibitors
       this.timeline = new Timeline(
         nativeElement,
         this.items,
-        this.groups,
+        //this.groups,
         this.options
       );
-
       this.chdRef.detectChanges();
     }
   }

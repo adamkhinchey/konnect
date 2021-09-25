@@ -1,22 +1,22 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {FormBuilder, Validators} from '@angular/forms';
-import {environment} from '../../../../../environments/environment';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, Validators } from '@angular/forms';
+import { environment } from '../../../../../environments/environment';
 import {
   GetRegionAndCountriesService,
   UploadFileService,
   UserInfoService,
   UserSettingsService
 } from '../../../../shared/services';
-import {Subscription} from 'rxjs';
-import {checkRxFormValidation, devLogger} from '../../../../shared/utils';
-import {ToastrService} from 'ngx-toastr';
-import {UpdateUserProfileService} from '../../services/update-user-profile.service';
-import {RemoveModalComponent} from '../../../../shared/components/modals/remove-modal/remove-modal.component';
-import {FileUploadConfigInterface, LoginUserProfile, RemoveType} from '../../../../shared/models';
-import {CompaniesService} from '../../services/companies.service';
-import {AuthService} from '../../../../core/services/auth.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Subscription } from 'rxjs';
+import { checkRxFormValidation, devLogger } from '../../../../shared/utils';
+import { ToastrService } from 'ngx-toastr';
+import { UpdateUserProfileService } from '../../services/update-user-profile.service';
+import { RemoveModalComponent } from '../../../../shared/components/modals/remove-modal/remove-modal.component';
+import { FileUploadConfigInterface, LoginUserProfile, RemoveType } from '../../../../shared/models';
+import { CompaniesService } from '../../services/companies.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-individual-profile',
@@ -41,7 +41,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     email: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEX)]],
     recoveryEmail: ['', [Validators.pattern(this.EMAIL_REGEX)]],
     timeZone: [null, [Validators.required]],
-    mobileNumber: ['', [Validators.pattern(this.MOBILE_REGEX)]],
+    mobileNumber: [''],
     city: ['', [Validators.required]],
     countryId: ['', [Validators.required]],
     id: [null, [Validators.required]],
@@ -62,7 +62,8 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   };
   selectedImageSrc: string | undefined;
   private selectedProfileImage: File | undefined;
-
+  userId: any = 0;
+  isView: any;
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -73,11 +74,20 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     private companyService: CompaniesService,
     private authService: AuthService,
     private router: Router,
+    public aroute: ActivatedRoute,
     private fileUploadService: UploadFileService,
     private userSettingsService: UserSettingsService) {
+    this.aroute.queryParams.subscribe(param => {
+      if (param.isView)
+        this.isView = param.isView;
+    })
   }
 
   ngOnInit(): void {
+    this.userId = localStorage.getItem('userId');
+    // this.isView = localStorage.getItem('isView');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('isView');
     this.getAndSetCountries();
   }
 
@@ -92,12 +102,13 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   private fetchUserInfo(): void {
-    this.userInfoSubscription = this.userInfoService.getInfo().subscribe((value) => {
+    this.userInfoSubscription = this.userInfoService.getInfo(this.userId).subscribe((value) => {
       this.userInfo = value;
+      console.log(this.userInfo);
       this.populateFormValues();
       this.userSettingsService.populateSettings(value);
     }, err => {
-      devLogger('error', {err});
+      devLogger('error', { err });
     });
   }
 
@@ -132,7 +143,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     this.editProfileForm.get('id')?.setValue(this.userInfo?.id);
     const defaultCompanyId = this.userInfo?.associatedCompanies
       // @ts-ignore
-      .filter(({isDefault}) => isDefault === 1)[0]?.id || null;
+      .filter(({ isDefault }) => isDefault === 1)[0]?.id || null;
     if (defaultCompanyId) {
       this.editProfileForm.get('defaultCompanyId')?.setValue(defaultCompanyId);
     } else {
@@ -198,7 +209,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   private removeCompany(): void {
-    this.companyService.dissociate({companyId: this.companyIdToDissociate}).subscribe(
+    this.companyService.dissociate({ companyId: this.companyIdToDissociate }).subscribe(
       value => {
         this.toaster.success('Company Dissociated Successfully');
         this.companyIdToDissociate = null;
@@ -215,7 +226,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   private deleteUserProfile(): void {
-    this.authService.deleteUserProfile({userId: this.userInfo.id}).subscribe(
+    this.authService.deleteUserProfile({ userId: this.userInfo.id }).subscribe(
       value => {
         this.toaster.success('Your profile is deleted now');
         this.companyIdToDissociate = null;
@@ -255,17 +266,29 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   navigateToJoinCreateCompany(event: MouseEvent): void {
     event.preventDefault();
     this.router.navigate(['home', 'join-company'], {
-      state: {navigateToPostCreate: this.router.url}
+      state: { navigateToPostCreate: this.router.url }
     });
   }
 
   ngOnDestroy(): void {
     this.userInfoSubscription.unsubscribe();
+    localStorage.removeItem('userId');
+    localStorage.removeItem('isView');
   }
 
   setSelectedImage(event: File): void {
     this.selectedImageSrc = URL.createObjectURL(event);
     this.selectedProfileImage = event;
-    devLogger('log', {FILEEEEE: event});
+    devLogger('log', { FILEEEEE: event });
   }
+
+  goToCompanyProfile(companyId: any, isPrivate: any) {
+    console.log(companyId);
+    if (companyId && isPrivate == 0) {
+      localStorage.setItem('companyId', JSON.stringify(companyId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/company/manage-company?isView=' + true);
+    }
+  }
+
 }

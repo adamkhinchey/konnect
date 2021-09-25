@@ -16,7 +16,7 @@ import {EventFileUploadDeleteService} from "../../services/event-file-upload-del
 import {EventFileTypes} from "../../models/types";
 import {BehaviorSubject, from, Subscription} from "rxjs";
 import {EventFilesSignedURLReq, EventFileToDbReqInterface} from "../../models/interfaces";
-import {finalize, map, tap} from "rxjs/operators";
+import {tap} from "rxjs/operators";
 import {v4 as uuidV4} from 'uuid';
 import {devLogger} from "../../../../shared/utils";
 import {ToastrService} from "ngx-toastr";
@@ -118,7 +118,7 @@ export class EventFilesUploadModalComponent implements OnInit, OnDestroy, AfterV
               supplierId: this.eventFileSignedURLReq.serviceId,
               filesList: [{
                 mimeType: this.eventFileSignedURLReq.mimeType,
-                displayName: selectedFile.displayName,
+                displayName: selectedFile.displayName != '' ? selectedFile.displayName : actualFileName,
                 fileUrl: url
               }]
             });

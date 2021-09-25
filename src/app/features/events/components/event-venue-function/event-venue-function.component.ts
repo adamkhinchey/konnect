@@ -8,15 +8,15 @@ import {
   Output,
   QueryList, ViewChild, ViewChildren
 } from '@angular/core';
-import {Company} from '../../../users/models';
-import {InviteFnCmpClass} from '../../models/classes';
-import {SaveEventClass} from '../../models/classes/saveEvent.class';
-import {Subscription} from 'rxjs';
-import {EventAssignFunctionCmpComponent} from '../event-assign-function-cmp/event-assign-function-cmp.component';
-import {NgbAccordion, NgbPanelChangeEvent} from '@ng-bootstrap/ng-bootstrap';
-import {EventService} from '../../services/event.service';
-import {devLogger} from '../../../../shared/utils';
-import {EventTimeWindowTypes} from "../../models/types";
+import { Company } from '../../../users/models';
+import { InviteFnCmpClass } from '../../models/classes';
+import { SaveEventClass } from '../../models/classes/saveEvent.class';
+import { Subscription } from 'rxjs';
+import { EventAssignFunctionCmpComponent } from '../event-assign-function-cmp/event-assign-function-cmp.component';
+import { NgbAccordion, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { EventService } from '../../services/event.service';
+import { devLogger } from '../../../../shared/utils';
+import { EventTimeWindowTypes } from "../../models/types";
 
 @Component({
   selector: 'app-event-venue-function',
@@ -87,7 +87,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
     this.ngbAccordion.collapseAll();
     this.activeVenuePanel = this.eventToBeSaved.venues.list.length - 1;
     this.eventService.activeVenuePanelIndex = this.activeVenuePanel;
-    devLogger('log', {selectedCompanies: this.selectedCompanies});
+    devLogger('log', { selectedCompanies: this.selectedCompanies });
   }
 
   getCompanyProfileImage(i: number): string | null | undefined {
@@ -138,6 +138,28 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   }
 
   testLogVenue(): void {
-    devLogger('log', {EVENT_TO_BE_SAVE_VENUE: this.eventToBeSaved});
+    devLogger('log', { EVENT_TO_BE_SAVE_VENUE: this.eventToBeSaved });
   }
+
+  getCompanyId(i: number): any {
+    if (this.selectedCompanies && this.selectedCompanies[i]) {
+      if (this.selectedCompanies[i] instanceof InviteFnCmpClass) {
+        return null;
+      } else {
+        return (this.selectedCompanies[i] as Company)?.id;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  goToCompanyProfile(companyId: any) {
+    console.log(companyId);
+    if (companyId) {
+      localStorage.setItem('companyId', JSON.stringify(companyId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      window.open('/home/company/manage-company?isView=' + true);
+    }
+  }
+
 }

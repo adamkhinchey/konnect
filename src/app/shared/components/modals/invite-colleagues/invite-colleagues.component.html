@@ -26,6 +26,10 @@
                 (inviteColleagueForm?.get('email')?.errors?.email || inviteColleagueForm?.get('email')?.errors?.required)">
                   A valid email address is required
                 </span>
+                <span *ngIf="inviteColleagueForm!.get('email')?.touched
+                && (
+                  inviteColleagueForm!.get('email')?.hasError('pattern')
+                )" class="text-danger">Invalid email</span>
               </div>
             </div>
             <div class="field required">
@@ -60,7 +64,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <div class="sixteen wide column right aligned hideMobile">
+    <div class="sixteen wide column right aligned">
       <div class="ui button basic blue negative" (click)="onCancel()">Cancel</div>
       <div class="ui button positive ml-2" (click)="checkValidity() && onConfirm()">Send</div>
     </div>

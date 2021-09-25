@@ -113,7 +113,7 @@ export class AuthService {
     ).subscribe(this.loginObserver);
   }
 
-  private saveToken(user: SignupUserProfile | LoginUserProfile): void {
+  public saveToken(user: SignupUserProfile | LoginUserProfile): void {
     localStorage.setItem(this.jwtKey, user.authrizationToken);
     this.isLoggedIn.next({status: true, user});
   }

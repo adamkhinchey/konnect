@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Company } from "../../../users/models";
 import { InviteFnCmpClass } from "../../models/classes";
 import { SaveEventClass } from "../../models/classes/saveEvent.class";
@@ -7,13 +7,15 @@ import { EventService } from "../../services/event.service";
 import { EventFunctionTypes } from "../../models/types";
 import { Router } from '@angular/router';
 import { ViewEventService } from '../../services/view-event.service';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-event-client-function',
   templateUrl: './event-client-function.component.html',
   styleUrls: ['./event-client-function.component.scss'],
 })
-export class EventClientFunctionComponent implements OnInit, OnDestroy {
+export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChanges {
+  addressCardIcon = faAddressCard;
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
   @Input() content: any;
   @Output() removeSelectedCompany = new EventEmitter<any>();
@@ -22,9 +24,10 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   @Input() isOwnCompany: boolean = false;
   private subs1: Subscription | undefined;
   private subs2: Subscription | undefined;
+  private subs3: Subscription | undefined;
   @Input() eventData: any;
   @Output() editClient = new EventEmitter<boolean>();
-
+  @Input() permissionObj: any;
 
   isSupplier: boolean = false;
   modalReference: any;
@@ -39,6 +42,11 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
     private router: Router,
     private viewEvSrvc: ViewEventService
   ) {
+    this.eventService.isEdit = false
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
   }
 
 
@@ -51,7 +59,8 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   }
 
   editClientEvent() {
-    this.isClientEdit = !this.isClientEdit;
+    this.eventService.isEdit = true;
+    this.isClientEdit = true;
     this.editClient.emit(this.isClientEdit);
   }
   editEventManager() {
@@ -78,6 +87,13 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log(this.eventData);
+    this.subs3 = this.eventService.isEditChange.subscribe((value) => {
+      this.isClientEdit = value;
+      this.editClient.emit(this.isClientEdit);
+    })
+    if (this.eventData.eventData.isDeleted == 1) {
+      this.eventService.isDeleted = true;
+    }
     /*this.subs1 = this.clientCmpToSelfSub?.subscribe(value => {
       if (value !== null) {
         this.isOwnCompany = value;
@@ -118,18 +134,17 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   }
 
   toggleClientOwnCompany(): void {
-    console.log('before next in toggle: ', this.eventData.eventData.client.isOwnCompany);
     const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
     tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
-    this.eventData.eventData.client.isOwnCompany = tempMap.get(EventFunctionTypes.CLIENT)? 1 : 0;
+    this.eventData.eventData.client.isOwnCompany = tempMap.get(EventFunctionTypes.CLIENT) ? 1 : 0;
     this.eventService.setIsFnOwnCompany.next(tempMap);
-    console.log('after next in toggle: ', this.eventData.eventData.client.isOwnCompany);
-    
+
   }
 
   ngOnDestroy(): void {
     this.subs1?.unsubscribe();
     this.subs2?.unsubscribe();
+    this.subs3?.unsubscribe();
   }
 
   deleteEvent(eventId: any) {
@@ -140,4 +155,31 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
       console.log(err);
     })
   }
+
+  getCompanyId(): any {
+    if (this.selectedCompany instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return this.selectedCompany?.id;
+    }
+  }
+
+  getIsPrivate(): any {
+    if (this.selectedCompany instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return this.selectedCompany?.isPrivate;
+    }
+  }
+
+  goToCompanyProfile(companyId: any) {
+    console.log(this.getIsPrivate());
+    if (companyId && this.getIsPrivate() == 0) {
+      localStorage.setItem('companyId', JSON.stringify(companyId));
+      localStorage.setItem('isView', JSON.stringify(true));
+      localStorage.setItem('isHeaderDisable', JSON.stringify(true));
+      window.open('/home/company/manage-company?isView=' + true);
+    }
+  }
+
 }

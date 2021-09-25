@@ -17,7 +17,10 @@
 
               <div class="seven wide column" *ngIf="venue.exhibitorList[0]">
                 <div class="ui dividing header">
-                  <h3>Notes to All Exhibitors <i class="cog icon"></i><i class="sitemap icon"></i><i
+                  <h3>Notes to All Exhibitors 
+                    <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+          <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i>
+                    <i
                     class="exhibitor icon"></i></h3>
                 </div>
                 <div class="field">
@@ -34,7 +37,10 @@
                 <div class="field">
                   <div class="timeWindowsContainer">
                     <div class="ui dividing header">
-                      <h3>Exhibition Time windows <i class="cog icon"></i><i class="sitemap icon"></i><i
+                      <h3>Exhibition Time windows 
+                        <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+          <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i>
+                        <i
                         class="exhibitor icon"></i></h3>
                     </div>
 
@@ -51,6 +57,7 @@
                       [postEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpOut.timings"
                       [eventTimes]="venue.exhibitorList[0].timeWindowsToAll.eventTime.timings"
                     ></app-time-windows>
+                    
                   </div>
                 </div>
 
@@ -84,11 +91,16 @@
             </div>
           </div>
 
-          <ngb-accordion
+          <!-- <ngb-accordion
             [closeOthers]="true"
             (panelChange)="panelChange($event)"
             #ngbAccordion
             [activeIds]="'exhibitorListIndex-'+activeExhibitorPanel"
+            [destroyOnHide]="false"> -->
+
+            <ngb-accordion
+            (panelChange)="panelChange($event)"
+            #ngbAccordion
             [destroyOnHide]="false">
 
             <ng-container *ngIf="venue.exhibitorList[0]">
@@ -98,9 +110,7 @@
 
                 <ng-template ngbPanelTitle>
                   <i class="dropdown icon"></i>
-                  Exhibitor {{exhibitorIndex + 1 + (exhibitor.companyId || exhibitor.invited ?
-                  ': ' + venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)?.companyName || ''
-                  : '')}}
+                  Exhibitor {{exhibitorIndex + 1}}: <span *ngIf="venuesExhCmpsMap.has(venueIndex) && venuesExhCmpsMap.get(venueIndex)!.has(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
                 </ng-template>
                 <ng-template ngbPanelContent>
                   <div class="content active">
@@ -112,8 +122,8 @@
                           <div class="companyContainer marginB20">
                             <div class="ui dividing header">
                               <h3>Exhibitor Company
-                                <i class="cog icon"></i>
-                                <i class="sitemap icon"></i>
+                                <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+          <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i>
                                 <i class="building icon"></i>
                               </h3>
                             </div>
@@ -128,7 +138,7 @@
                                            [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
                                            appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
-                                        <a>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
+                                        <a (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
                                         <a
@@ -138,10 +148,10 @@
                                         </a>
                                         <span
                                           *ngIf="getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))">|</span>
-                                        <a>
+                                        <span class="m-0">
                                           <i
                                             class="map marker alternate icon"></i>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.city}}
-                                        </a>
+                                        </span>
                                         <span>|</span>
                                         <i
                                           class="phone icon"></i>{{ (venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex) &&
@@ -207,7 +217,8 @@
 
                           <div class="nine wide column">
                             <div class="ui dividing header">
-                              <h3>Stand Number <i class="cog icon"></i><i class="sitemap icon"></i><i
+                              <h3>Stand Number <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                 class="building icon"></i></h3>
                             </div>
                             <div class="field">
@@ -218,7 +229,8 @@
                                 placeholder="Stand Number">
                             </div>
                             <div class="ui dividing header">
-                              <h3>Notes to Specific Exhibitor <i class="cog icon"></i><i class="sitemap icon"></i><i
+                              <h3>Notes to Specific Exhibitor <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                 class="building icon"></i></h3>
                             </div>
                             <div class="field">
@@ -232,8 +244,8 @@
                             <div class="field">
                               <div class="timeWindowsContainer">
                                 <div class="ui dividing header">
-                                  <h3>Exhibitor Specific Time windows <i class="cog icon"></i><i
-                                    class="sitemap icon"></i><i
+                                  <h3>Exhibitor Specific Time windows <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                     class="building icon"></i></h3>
                                 </div>
 
@@ -242,6 +254,9 @@
                                   [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                                   [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
                                   [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
+                                  [exhibitorForAllPreEventTimes]="eventToBeSaved.venues.list[venueIndex].exhibitorList[0].timeWindowsToAll.bumpIn.timings"
+                                  [exhibitorForAllEventTimes]="eventToBeSaved.venues.list[venueIndex].exhibitorList[0].timeWindowsToAll.eventTime.timings"
+                                  [exhibitorForAllPostEventTimes]="eventToBeSaved.venues.list[venueIndex].exhibitorList[0].timeWindowsToAll.bumpOut.timings"
                                   [venueIndex]="venueIndex"
                                   [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
                                   [isVenueDependent]="true"
@@ -264,7 +279,8 @@
                                 <div class="ui button hasModal"
                                      data-modal="inviteModal"
                                      (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"
-                                >Save &amp; Invite
+                                >Save 
+                                <!-- &amp; Invite -->
                                 </div>
                               </div>
                             </div>

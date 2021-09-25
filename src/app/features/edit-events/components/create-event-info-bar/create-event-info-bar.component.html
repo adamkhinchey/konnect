@@ -1,21 +1,21 @@
-<div class="infoBar">
+<!-- <div class="infoBar">
   <div class="ui container">
     <div class="ui grid">
       <div class="fifteen wide column right aligned hideMobile">
-        <div class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i></div>
       </div>
-      <div class="eleven wide column right aligned visibleMobile">
-        <div class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i></div>
+      <div class="one wide column right aligned saveButtons hideMobile" *ngIf="!isEditEvents">
+        <button [disabled]="eventService.isDeleted" (click)="edit()" class="ui button">Edit</button>
       </div>
-      <div class="one wide column right aligned saveButtons hideMobile">
-        <a (click)="eventService.triggerSaveOnly.next()" class="ui button">Save</a>
+      <div class="one wide column right aligned saveButtons hideMobile" *ngIf="isEditEvents">
+        <button (click)="trigerSaveOnly()" class="ui button">Save</button>
       </div>
-      <div class="one wide column right aligned saveButtons visibleMobile">
-        <a (click)="eventService.triggerSaveOnly.next()" class="ui button icon"><i class="save icon"></i></a>
+      <div class="sixteen wide column right aligned saveButtons visibleMobile">
+        <button *ngIf="!isEditEvents" [disabled]="eventService.isDeleted" (click)="edit()" class="ui button">Edit</button>
+        <a *ngIf="isEditEvents" (click)="trigerSaveOnly()" class="ui button icon ml-2"><i class="save icon"></i></a>
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- <div class="sixteen wide column saveButtons paddingT0">
   <div class="ui divider"></div>

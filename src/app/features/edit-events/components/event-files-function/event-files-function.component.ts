@@ -41,14 +41,9 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    /*if (changes.eventID.currentValue) {
-    }*/
   }
 
   ngOnInit(): void {
-    // console.log("asdfsadflk asdflksdfasdf"); 
-    // console.log("permissionObj ", this.permissionObj); 
-    // console.log("eventID ", this.eventID); 
 
       if(!this.permissionObj){
         this.permissionObj= {isClient: true, isEventManager: true, isService: true, isVenue: true, isExhibitor: true}; 

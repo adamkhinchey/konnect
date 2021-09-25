@@ -12,7 +12,8 @@
             <div class="sixteen wide column">
               <div class="companyContainer marginB20">
                 <div class="ui dividing header">
-                  <h3>Notes to All Suppliers <i class="cog icon"></i><i class="sitemap icon"></i><i
+                  <h3>Notes to All Suppliers <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                     class="truck icon"></i></h3>
                 </div>
                 <div class="field">
@@ -44,11 +45,16 @@
         <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
 
 
-          <ngb-accordion
+          <!-- <ngb-accordion
             [closeOthers]="true"
             (panelChange)="panelChange($event)"
             #ngbAccordion
             [activeIds]="'serviceListIndex-'+activeServicePanel"
+            [destroyOnHide]="false"> -->
+
+            <ngb-accordion
+            (panelChange)="panelChange($event)"
+            #ngbAccordion
             [destroyOnHide]="false">
 
             <ng-container *ngIf="venue.suppliers[0]">
@@ -57,7 +63,7 @@
                          (shown)="servicePanelActivated(venueIndex,serviceIndex)">
                 <ng-template ngbPanelTitle>
                   <i
-                    class="dropdown icon"></i>Service {{serviceIndex + 1 + (service.name.trim().length > 0 ? ': ' + service.name : '')}}
+                    class="dropdown icon"></i>Service {{serviceIndex + 1}}: <span>{{service?.name}}</span>
                 </ng-template>
                 <ng-template ngbPanelContent>
                   <div class="content active">
@@ -68,7 +74,8 @@
                         <div class="seven wide column">
                           <div class="companyContainer marginB20">
                             <div class="ui dividing header">
-                              <h3>Service Name <i class="cog icon"></i><i class="sitemap icon"></i><i
+                              <h3>Service Name <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                 class="building icon"></i></h3>
                             </div>
                             <div class="field">
@@ -76,7 +83,8 @@
                                      placeholder="Name">
                             </div>
                             <div class="ui dividing header">
-                              <h3>Supplier Company <i class="cog icon"></i><i class="sitemap icon"></i><i
+                              <h3>Supplier Company <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                 class="building icon"></i></h3>
                             </div>
 
@@ -92,7 +100,7 @@
                                            [src]="getCompanyProfileImage(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || 'assets/img/default_konnect_img.png'"
                                            appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
-                                        <a>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
+                                        <a (click)="goToCompanyProfile(getCompanyId(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)))">{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
                                         <a
@@ -101,10 +109,10 @@
                                           target="_blank"> {{getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))}}</a>
                                         <span
                                           *ngIf="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))">|</span>
-                                        <a>
+                                        <span class="m-0">
                                           <i
                                             class="map marker alternate icon"></i>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.city}}
-                                        </a>
+                                        </span>
                                         <span>|</span>
                                         <i
                                           class="phone icon"></i>{{ (venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex) &&
@@ -145,7 +153,8 @@
 
                         <div class="nine wide column">
                           <div class="ui dividing header">
-                            <h3>Service Requirements <i class="cog icon"></i><i class="sitemap icon"></i><i
+                            <h3>Service Requirements <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                              <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                               class="building icon"></i></h3>
                           </div>
                           <div class="field">
@@ -155,7 +164,8 @@
                           <div class="field">
                             <div class="timeWindowsContainer">
                               <div class="ui dividing header">
-                                <h3>Supplier Time Windows <i class="cog icon"></i><i class="sitemap icon"></i><i
+                                <h3>Supplier Time Windows <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                  <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                   class="building icon"></i></h3>
                               </div>
 
@@ -187,7 +197,7 @@
                                    data-modal="inviteModal"
                                    (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})">
                                 Save
-                                &amp; Invite
+                                <!-- &amp; Invite -->
                               </div>
                             </div>
                           </div>

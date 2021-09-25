@@ -10,4 +10,5 @@ export interface LoginUserProfile extends CreateProfilePersonalDetails {
   defaultCompanyId?: number | null;
   msg?: string | null;
   authrizationToken: string;
+  inviteUID?:any;
 }

@@ -21,6 +21,9 @@ import { EventsListingsComponent } from './components/events-listings/events-lis
 import { IgxCalendarModule, IgxSnackbarModule } from 'igniteui-angular';
 import { HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ManageCompanyComponent } from './components/manage-company/manage-company.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { SearchPlatformComponent } from './components/search-platform/search-platform.component';
 
 
 @NgModule({
@@ -34,6 +37,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ManageColleaguesComponent,
     ManageConnectionsComponent,
     EventsListingsComponent,
+    ManageCompanyComponent,
+    SearchPlatformComponent,
   ],
   imports: [
     CommonModule,
@@ -43,11 +48,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SharedModule,
     FormsModule,
     NgbNavModule,
+    ReactiveFormsModule,
     FontAwesomeModule,
     IgxCalendarModule,
     IgxSnackbarModule,
     HammerModule,
-    BrowserAnimationsModule
+    NgMultiSelectDropDownModule,
   ],
   exports: [
     DashboardComponent

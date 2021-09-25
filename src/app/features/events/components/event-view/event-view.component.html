@@ -1,4 +1,4 @@
-<div class="infoBar">
+<!-- <div class="infoBar">
     <div class="ui container">
         <div class="ui grid">
             <div class="eleven wide column middle aligned">
@@ -12,18 +12,18 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <div class="mainContent">
     <div class="ui container">
         <div class="ui grid">
-            <div class="eleven wide column middle aligned" *ngIf="data.commonData">
-                <div class="eventInfo"><b>{{data.commonData.title}}</b> for <p>{{data.commonData.clientCompanyName}}</p> {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}</div>
+            <div class="eleven wide column middle aligned topinfoOuterMar" *ngIf="data.commonData">
+                <div class="eventInfo"><b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span> {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}</div>
             </div>
             <div class="sixteen wide column maxWidth">
                 <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui"
                     (navChange)="onNavChange($event)">
                     <li [ngbNavItem]="1">
-                        <a ngbNavLink class="item tabAdmin"><i class="cog icon"></i><span
+                        <a ngbNavLink class="item tabAdmin"><i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="18px" > </i><span
                                 class="hideMobile">CLIENT</span></a>
                         <ng-template ngbNavContent>
                             <div class="ui segment" *ngIf="data.eventData && data.eventData.client && active == 1">
@@ -179,8 +179,8 @@
                                                     {{data.eventData.eventCreatedDate | date:'hh:mm'}}
                                                 </div>
                                                 <div class="six wide column right aligned hideMobile">
-                                                    <div class="ui button basic blue icon"><i class="file pdf icon"></i>
-                                                    </div>
+                                                    <!-- <div class="ui button basic blue icon"><i class="file pdf icon"></i>
+                                                    </div> -->
                                                     <div *ngIf="!isClientEdit"
                                                         class="ui button triggerEditableOptions ml-3"
                                                         (click)="editClientEvent()">Edit</div>
@@ -189,8 +189,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="six wide column right aligned visibleMobile">
-                                                    <div class="ui button basic blue icon downloadPDF halfWidth"><i
-                                                            class="file pdf icon"></i></div>
+                                                    <!-- <div class="ui button basic blue icon downloadPDF halfWidth"><i
+                                                            class="file pdf icon"></i></div> -->
                                                     <div *ngIf="!isClientEdit"
                                                         class="ui button triggerEditableOptions halfWidth ml-3"
                                                         (click)="editClientEvent()">Edit
@@ -207,7 +207,7 @@
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="2">
-                        <a ngbNavLink class="item tabAdmin"><i class="sitemap icon"></i><span class="hideMobile">EVENT
+                        <a ngbNavLink class="item tabAdmin"><i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="18px" > </i><span class="hideMobile">EVENT
                                 MANAGER</span></a>
                         <ng-template ngbNavContent>
                             <div class="ui segment" *ngIf="data.eventData && data.eventData.eventManager && active == 2">
@@ -344,8 +344,8 @@
                                             <div class="ui divider"></div>
                                             <div class="ui grid stackable">
                                                 <div class="sixteen wide column right aligned hideMobile">
-                                                    <div class="ui button basic blue icon"><i class="file pdf icon"></i>
-                                                    </div>
+                                                    <!-- <div class="ui button basic blue icon"><i class="file pdf icon"></i>
+                                                    </div> -->
                                                     <div class="ui button triggerEditableOptions ml-3"
                                                         *ngIf="!isEventEdit" (click)="editEventManager()">Edit</div>
                                                     <div class="ui button hasModal saveActions ml-3"
@@ -353,8 +353,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="six wide column right aligned visibleMobile">
-                                                    <div class="ui button basic blue icon downloadPDF halfWidth"><i
-                                                            class="file pdf icon"></i></div>
+                                                    <!-- <div class="ui button basic blue icon downloadPDF halfWidth"><i
+                                                            class="file pdf icon"></i></div> -->
                                                     <div class="ui button triggerEditableOptions halfWidth ml-3"
                                                         *ngIf="!isEventEdit" (click)="editEventManager()">Edit
                                                     </div>
@@ -380,8 +380,8 @@
                                         <div class="sixteen wide column">
                                             <div class="companyContainer marginB20">
                                                 <div class="ui dividing header">
-                                                    <h3>Notes to All Venues <i class="cog icon"></i><i
-                                                            class="sitemap icon"></i><i
+                                                    <h3>Notes to All Venues <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                             class="map marker alternate icon"></i></h3>
                                                 </div>
                                                 <div class="field">
@@ -568,9 +568,8 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="ui dividing header">
-                                                                            <h3>Venue Requirements <i
-                                                                                    class="cog icon"></i><i
-                                                                                    class="sitemap icon"></i><i
+                                                                            <h3>Venue Requirements <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                                     class="map marker alternate icon"></i>
                                                                             </h3>
                                                                         </div>
@@ -596,9 +595,9 @@
                                                                             </div>
                                                                             <div
                                                                                 class="six wide column right aligned hideMobile">
-                                                                                <div class="ui button basic blue icon">
+                                                                                <!-- <div class="ui button basic blue icon">
                                                                                     <i class="file pdf icon"></i>
-                                                                                </div>
+                                                                                </div> -->
                                                                                 <div *ngIf="!isVenueEdit"
                                                                                     class="ui button triggerEditableOptions ml-3"
                                                                                     (click)="editVenue()">Edit
@@ -611,10 +610,10 @@
                                                                             </div>
                                                                             <div
                                                                                 class="six wide column right aligned visibleMobile">
-                                                                                <div
+                                                                                <!-- <div
                                                                                     class="ui button basic blue icon downloadPDF halfWidth">
                                                                                     <i class="file pdf icon"></i>
-                                                                                </div>
+                                                                                </div> -->
                                                                                 <div *ngIf="!isVenueEdit"
                                                                                     class="ui button triggerEditableOptions halfWidth ml-3"
                                                                                     (click)="editVenue()">Edit
@@ -668,8 +667,8 @@
                                                     <div class="sixteen wide column">
                                                         <div class="companyContainer marginB20">
                                                             <div class="ui dividing header">
-                                                                <h3>Notes to All Suppliers <i class="cog icon"></i><i
-                                                                        class="sitemap icon"></i><i
+                                                                <h3>Notes to All Suppliers <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                         class="truck icon"></i></h3>
                                                             </div>
                                                             <div class="field">
@@ -717,9 +716,8 @@
                                                                         <div class="seven wide column">
                                                                             <div class="companyContainer marginB20">
                                                                                 <div class="ui dividing header">
-                                                                                    <h3>Service Name <i
-                                                                                            class="cog icon"></i><i
-                                                                                            class="sitemap icon"></i><i
+                                                                                    <h3>Service Name <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
@@ -731,9 +729,8 @@
                                                                                 <ng-template #no_access>No access
                                                                                 </ng-template>
                                                                                 <div class="ui dividing header">
-                                                                                    <h3>Supplier Company <i
-                                                                                            class="cog icon"></i><i
-                                                                                            class="sitemap icon"></i><i
+                                                                                    <h3>Supplier Company <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
@@ -785,9 +782,8 @@
                                                                             </div>
                                                                             <div class="contactsContainer">
                                                                                 <div class="ui dividing header">
-                                                                                    <h3>Supplier Contacts <i
-                                                                                            class="cog icon"></i><i
-                                                                                            class="sitemap icon"></i><i
+                                                                                    <h3>Supplier Contacts <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
@@ -862,9 +858,8 @@
 
                                                                         <div class="nine wide column">
                                                                             <div class="ui dividing header">
-                                                                                <h3>Service Requirements <i
-                                                                                        class="cog icon"></i><i
-                                                                                        class="sitemap icon"></i><i
+                                                                                <h3>Service Requirements <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                                         class="building icon"></i></h3>
                                                                             </div>
                                                                             <div class="field">
@@ -878,9 +873,8 @@
                                                                             <div class="field">
                                                                                 <div class="timeWindowsContainer">
                                                                                     <div class="ui dividing header">
-                                                                                        <h3>Supplier Time Windows <i
-                                                                                                class="cog icon"></i><i
-                                                                                                class="sitemap icon"></i><i
+                                                                                        <h3>Supplier Time Windows <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                                                 class="building icon"></i>
                                                                                         </h3>
                                                                                     </div>
@@ -921,9 +915,9 @@
                                                                             </div>
                                                                             <div
                                                                                 class="six wide column right aligned hideMobile">
-                                                                                <div class="ui button basic blue icon">
+                                                                                <!-- <div class="ui button basic blue icon">
                                                                                     <i class="file pdf icon"></i>
-                                                                                </div>
+                                                                                </div> -->
                                                                                 <div *ngIf="!isSupplierEdit"
                                                                                     class="ui button triggerEditableOptions ml-3"
                                                                                     (click)="editSupplier()">Edit
@@ -936,10 +930,10 @@
                                                                             </div>
                                                                             <div
                                                                                 class="six wide column right aligned visibleMobile">
-                                                                                <div
+                                                                                <!-- <div
                                                                                     class="ui button basic blue icon downloadPDF halfWidth">
                                                                                     <i class="file pdf icon"></i>
-                                                                                </div>
+                                                                                </div> -->
                                                                                 <div *ngIf="!isSupplierEdit"
                                                                                     class="ui button triggerEditableOptions halfWidth ml-3"
                                                                                     (click)="editSupplier()">Edit
@@ -998,8 +992,8 @@
 
                                                         <div class="seven wide column">
                                                             <div class="ui dividing header">
-                                                                <h3>Notes to All Exhibitors <i class="cog icon"></i><i
-                                                                        class="sitemap icon"></i><i
+                                                                <h3>Notes to All Exhibitors <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                         class="exhibitor icon"></i></h3>
                                                             </div>
                                                             <div class="field">
@@ -1016,9 +1010,8 @@
                                                             <div class="field">
                                                                 <div class="timeWindowsContainer">
                                                                     <div class="ui dividing header">
-                                                                        <h3>Exhibition Time windows <i
-                                                                                class="cog icon"></i><i
-                                                                                class="sitemap icon"></i><i
+                                                                        <h3>Exhibition Time windows <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                                 class="exhibitor icon"></i></h3>
                                                                     </div>
 
@@ -1082,9 +1075,8 @@
                                                                             <div class="seven wide column">
                                                                                 <div class="companyContainer marginB20">
                                                                                     <div class="ui dividing header">
-                                                                                        <h3>Exhibitor Company <i
-                                                                                                class="cog icon"></i><i
-                                                                                                class="sitemap icon"></i><i
+                                                                                        <h3>Exhibitor Company <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                                                 class="building icon"></i>
                                                                                         </h3>
                                                                                     </div>
@@ -1140,9 +1132,8 @@
                                                                                 </div>
                                                                                 <div class="contactsContainer">
                                                                                     <div class="ui dividing header">
-                                                                                        <h3>Exhibitor Contacts <i
-                                                                                                class="cog icon"></i><i
-                                                                                                class="sitemap icon"></i><i
+                                                                                        <h3>Exhibitor Contacts <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                                                 class="building icon"></i>
                                                                                         </h3>
                                                                                     </div>
@@ -1222,9 +1213,8 @@
 
                                                                             <div class="nine wide column">
                                                                                 <div class="ui dividing header">
-                                                                                    <h3>Stand Number <i
-                                                                                            class="cog icon"></i><i
-                                                                                            class="sitemap icon"></i><i
+                                                                                    <h3>Stand Number <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
@@ -1237,9 +1227,8 @@
                                                                                 <ng-template #no_access>No access
                                                                                 </ng-template>
                                                                                 <div class="ui dividing header">
-                                                                                    <h3>Notes to Specific Exhibitor <i
-                                                                                            class="cog icon"></i><i
-                                                                                            class="sitemap icon"></i><i
+                                                                                    <h3>Notes to Specific Exhibitor <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
@@ -1254,9 +1243,8 @@
                                                                                     <div class="timeWindowsContainer">
                                                                                         <div class="ui dividing header">
                                                                                             <h3>Exhibitor Specific Time
-                                                                                                windows <i
-                                                                                                    class="cog icon"></i><i
-                                                                                                    class="sitemap icon"></i><i
+                                                                                                windows <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                                <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                                                                                     class="building icon"></i>
                                                                                             </h3>
                                                                                         </div>
@@ -1299,11 +1287,11 @@
                                                                                     </div>
                                                                                     <div
                                                                                         class="six wide column right aligned hideMobile">
-                                                                                        <div
+                                                                                        <!-- <div
                                                                                             class="ui button basic blue icon">
                                                                                             <i
                                                                                                 class="file pdf icon"></i>
-                                                                                        </div>
+                                                                                        </div> -->
                                                                                         <div *ngIf="!isExhibitorEdit"
                                                                                             class="ui button triggerEditableOptions ml-3"
                                                                                             (click)="editExhibitor()">
@@ -1318,11 +1306,11 @@
                                                                                     </div>
                                                                                     <div
                                                                                         class="six wide column right aligned visibleMobile">
-                                                                                        <div
+                                                                                        <!-- <div
                                                                                             class="ui button basic blue icon downloadPDF halfWidth">
                                                                                             <i
                                                                                                 class="file pdf icon"></i>
-                                                                                        </div>
+                                                                                        </div> -->
                                                                                         <div *ngIf="!isExhibitorEdit"
                                                                                             class="ui button triggerEditableOptions halfWidth ml-3"
                                                                                             (click)="editExhibitor()">
@@ -1487,7 +1475,7 @@
                                         <span class="smallText">*compulsory fields</span>
                                     </div>
                                     <div class="sixteen wide column center aligned paddingT0">
-                                        <div class="ui button">Add Comapny and invite</div>
+                                        <div class="ui button">Add Company and invite</div>
                                     </div>
                                 </div>
                             </form>

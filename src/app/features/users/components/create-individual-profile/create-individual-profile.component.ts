@@ -1,10 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NgWizardConfig, NgWizardService, STEP_STATE, StepChangedArgs, StepValidationArgs, THEME} from 'ng-wizard';
-import {Observable, of, Subscription} from 'rxjs';
-import {CreateProfilePersonalDetails, LoginUserProfile, SignupUserProfile} from '../../../../shared/models';
-import {AuthService} from '../../../../core/services/auth.service';
-import {Router} from "@angular/router";
-import {UploadFileService} from "../../../../shared/services";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgWizardConfig, NgWizardService, STEP_STATE, StepChangedArgs, StepValidationArgs, THEME } from 'ng-wizard';
+import { Observable, of, Subscription } from 'rxjs';
+import { CreateProfilePersonalDetails, LoginUserProfile, SignupUserProfile } from '../../../../shared/models';
+import { AuthService } from '../../../../core/services/auth.service';
+import { ActivatedRoute, Router } from "@angular/router";
+import { UploadFileService } from "../../../../shared/services";
+import * as _ from 'lodash';
+import { UpdateUserProfileService } from '../../services/update-user-profile.service';
 
 @Component({
   selector: 'app-create-individual-profile',
@@ -19,7 +21,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   user: LoginUserProfile | SignupUserProfile | undefined;
   createCompanyMode: { status: boolean, type: { soleTrader: boolean, inc: boolean } } = {
     status: false,
-    type: {soleTrader: false, inc: false}
+    type: { soleTrader: false, inc: false }
   };
 
   stepStates = {
@@ -45,11 +47,19 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   };
 
   profileImage: File | null = null;
-
+  uid: any;
   constructor(private ngWizardService: NgWizardService,
-              private auth: AuthService,
-              private router: Router,
-              private uploadFileService: UploadFileService) {
+    private auth: AuthService,
+    private router: Router,
+    private uploadFileService: UploadFileService,
+    private aroute: ActivatedRoute,
+    public updateUserSrvc: UpdateUserProfileService
+  ) {
+
+    this.aroute.queryParams.subscribe(param => {
+      if (param.uid)
+        this.uid = param.uid;
+    })
   }
 
   showPreviousStep(event?: Event): void {
@@ -62,10 +72,16 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         personalDetails.profileImage = url;
         this.auth.signup(personalDetails);
         this.personalDetails = personalDetails;
+        if (this.uid) {
+          this.ngWizardService.next();
+        }
       });
     } else {
       this.auth.signup(personalDetails);
       this.personalDetails = personalDetails;
+      if (this.uid) {
+        this.ngWizardService.next();
+      }
     }
   }
 
@@ -90,16 +106,52 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.auth.getToken()) {
+    if (this.auth.getToken() && !this.uid) {
       this.router.navigate(['home']);
       return;
     }
-    this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
-      if (value.status) {
-        this.user = value.user;
-        this.ngWizardService.next();
+    if (!this.uid) {
+      this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
+        if (value.status) {
+          this.user = value.user;
+          this.ngWizardService.next();
+        }
+      });
+    }
+    else {
+      this.updateUserSrvc.getUserDataByUid(this.uid).subscribe((res: any) => {
+        console.log(res);
+        if(res.isPrivate == 1){
+        this.auth.saveToken((res) as LoginUserProfile);
+        this.auth.loggedIn = true;
+        this.user = (res) as LoginUserProfile;
+        this.user!.inviteUID = this.uid
+        localStorage.setItem('userId', JSON.stringify(this.user.id));
+        this.personalDetails = this.user as CreateProfilePersonalDetails;
+        console.log(this.personalDetails);
+        // this.ngWizardService.next();
+      }else{
+        this.auth.logout();
       }
-    });
+      }, err => {
+        console.log(err);
+      });
+      // this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
+      //   alert(value);
+      //   if (value.status) {
+      //     this.user = value.user;
+      //     this.ngWizardService.next();
+      //   }
+      // });
+    }
+  }
+
+  getPersonalDetails() {
+    if (this.personalDetails?.email != undefined || this.personalDetails?.email != '') {
+      return this.personalDetails
+    } else {
+      return undefined;
+    }
   }
 
   ngOnDestroy(): void {

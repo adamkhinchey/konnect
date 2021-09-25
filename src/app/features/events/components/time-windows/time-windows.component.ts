@@ -57,18 +57,28 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
   @Input() venuePostEventTimes: Partial<TimeWindowFormatInterface>[] | undefined;
   @Input() venueIndex: number | undefined;
 
+  @Input() exhibitorForAllPreEventTimes: Partial<TimeWindowFormatInterface>[] | undefined;
+  @Input() exhibitorForAllEventTimes: Partial<TimeWindowFormatInterface>[] | undefined;
+  @Input() exhibitorForAllPostEventTimes: Partial<TimeWindowFormatInterface>[] | undefined;
+
   @Output() test = new EventEmitter();
   eventTimeSlotTypes = EventTimeSlotTypes;
 
   private venuePreEventTimeChangeSub: Subscription | undefined;
+  private exhibitionPreEventTimeChangeSub: Subscription | undefined;
   isPreEventTimesSameAsVenue = false;
+  isPreEventTimesSameAsExhibition = false;
 
   private venueEventTimeChangeSub: Subscription | undefined;
+  private exhibitionEventTimeChangeSub: Subscription | undefined;
   isEventTimesSameAsVenue = false;
+  isEventTimesSameAsExhibition = false;
 
   private venuePostEventTimeChangeSub: Subscription | undefined;
+  private exhibitionPostEventTimeChangeSub: Subscription | undefined;
   isPostEventTimesSameAsVenue = false;
-
+  isPostEventTimesSameAsExhibition = false;
+  private timeZone = moment.tz.guess();
   constructor(private toaster: ToastrService, private eventService: EventService) {
   }
 
@@ -99,6 +109,12 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
           data: (cloneDeep(this.preEventTimes) as TimeWindowFormatInterface[])
         });
       }
+      if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.ALL_EXHIBITORS) {
+        this.eventService.exhibitionPreEventTimeChange.next({
+          venueIndex: this.index,
+          data: (cloneDeep(this.preEventTimes) as TimeWindowFormatInterface[])
+        });
+      }
       // early return;
       return;
     }
@@ -108,15 +124,21 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
       notes: this.preEventNotes
     };
 
-    if (moment(this.preEventTimes[i].startDateTime).isAfter(this.preEventTimes[i].endDateTime) ||
-      !this.preEventTimes[i].endDateTime) {
+    // if (moment(this.preEventTimes[i].startDateTime).isAfter(this.preEventTimes[i].endDateTime) ||
+    //   !this.preEventTimes[i].endDateTime) {
       this.preEventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
         this.preEventTimes[i].startDateTime
       );
-    }
+    // }
 
     if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
       this.eventService.venuePreEventTimeChange.next({
+        venueIndex: this.index,
+        data: (cloneDeep(this.preEventTimes) as TimeWindowFormatInterface[])
+      });
+    }
+    if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.ALL_EXHIBITORS) {
+      this.eventService.exhibitionPreEventTimeChange.next({
         venueIndex: this.index,
         data: (cloneDeep(this.preEventTimes) as TimeWindowFormatInterface[])
       });
@@ -133,7 +155,12 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
           data: (cloneDeep(this.preEventTimes) as TimeWindowFormatInterface[])
         });
       }
-
+      if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.ALL_EXHIBITORS) {
+        this.eventService.exhibitionPreEventTimeChange.next({
+          venueIndex: this.index,
+          data: (cloneDeep(this.preEventTimes) as TimeWindowFormatInterface[])
+        });
+      }
       // early return
       return;
     }
@@ -145,6 +172,12 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
     if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
       this.eventService.venuePreEventTimeChange.next({
+        venueIndex: this.index,
+        data: (cloneDeep(this.preEventTimes) as TimeWindowFormatInterface[])
+      });
+    }
+    if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.ALL_EXHIBITORS) {
+      this.eventService.exhibitionPreEventTimeChange.next({
         venueIndex: this.index,
         data: (cloneDeep(this.preEventTimes) as TimeWindowFormatInterface[])
       });
@@ -199,6 +232,12 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
           data: (cloneDeep(this.eventTimes) as TimeWindowFormatInterface[])
         });
       }
+      if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.ALL_EXHIBITORS) {
+        this.eventService.exhibitionEventTimeChange.next({
+          venueIndex: this.index,
+          data: (cloneDeep(this.eventTimes) as TimeWindowFormatInterface[])
+        });
+      }
       return;
     }
     this.eventTimes[i] = {
@@ -207,15 +246,21 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
       notes: this.eventNotes
     };
 
-    if (moment(this.eventTimes[i].startDateTime).isAfter(this.eventTimes[i].endDateTime) ||
-      !this.eventTimes[i].endDateTime) {
+    // if (moment(this.eventTimes[i].startDateTime).isAfter(this.eventTimes[i].endDateTime) ||
+    //   !this.eventTimes[i].endDateTime) {
       this.eventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
         this.eventTimes[i].startDateTime
       );
-    }
+    // }
 
     if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
       this.eventService.venueEventTimeChange.next({
+        venueIndex: this.index,
+        data: (cloneDeep(this.eventTimes) as TimeWindowFormatInterface[])
+      });
+    }
+    if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.ALL_EXHIBITORS) {
+      this.eventService.exhibitionEventTimeChange.next({
         venueIndex: this.index,
         data: (cloneDeep(this.eventTimes) as TimeWindowFormatInterface[])
       });
@@ -235,6 +280,12 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
     if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
       this.eventService.venueEventTimeChange.next({
+        venueIndex: this.index,
+        data: (cloneDeep(this.eventTimes) as TimeWindowFormatInterface[])
+      });
+    }
+    if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.ALL_EXHIBITORS) {
+      this.eventService.exhibitionEventTimeChange.next({
         venueIndex: this.index,
         data: (cloneDeep(this.eventTimes) as TimeWindowFormatInterface[])
       });
@@ -289,6 +340,12 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
           data: (cloneDeep(this.postEventTimes) as TimeWindowFormatInterface[])
         });
       }
+      if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.ALL_EXHIBITORS) {
+        this.eventService.exhibitionPostEventTimeChange.next({
+          venueIndex: this.index,
+          data: (cloneDeep(this.postEventTimes) as TimeWindowFormatInterface[])
+        });
+      }
       return;
     }
     this.postEventTimes[i] = {
@@ -297,15 +354,21 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
       notes: this.postEventNotes
     };
 
-    if (moment(this.postEventTimes[i].startDateTime).isAfter(this.postEventTimes[i].endDateTime) ||
-      !this.postEventTimes[i].endDateTime) {
+    // if (moment(this.postEventTimes[i].startDateTime).isAfter(this.postEventTimes[i].endDateTime) ||
+    //   !this.postEventTimes[i].endDateTime) {
       this.postEventEndDateTimes?.get(i)?.owlDateTime?.confirmSelectedChange.next(
         this.postEventTimes[i].startDateTime
       );
-    }
+    // }
 
     if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
       this.eventService.venuePostEventTimeChange.next({
+        venueIndex: this.index,
+        data: (cloneDeep(this.postEventTimes) as TimeWindowFormatInterface[])
+      });
+    }
+    if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.ALL_EXHIBITORS) {
+      this.eventService.exhibitionPostEventTimeChange.next({
         venueIndex: this.index,
         data: (cloneDeep(this.postEventTimes) as TimeWindowFormatInterface[])
       });
@@ -324,6 +387,12 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
     };
     if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.Venue) {
       this.eventService.venuePostEventTimeChange.next({
+        venueIndex: this.index,
+        data: (cloneDeep(this.postEventTimes) as TimeWindowFormatInterface[])
+      });
+    }
+    if (typeof this.index === 'number' && this.timeWindowFor === EventTimeWindowTypes.ALL_EXHIBITORS) {
+      this.eventService.exhibitionPostEventTimeChange.next({
         venueIndex: this.index,
         data: (cloneDeep(this.postEventTimes) as TimeWindowFormatInterface[])
       });
@@ -409,6 +478,55 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
     }
   }
 
+  listenExhibitionEventTimeChange(event: Event, slotsType: EventTimeSlotTypes, forAllExhibitors = false): void {
+    const target = (event.target as HTMLInputElement);
+    const { checked } = target;
+    if (checked) {
+      if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
+        this.copyAssignVenueTime(this.eventTimeSlotTypes.PRE_EVENT_ACCESS, (this.exhibitorForAllPreEventTimes as TimeWindowFormatInterface[]));
+        this.isPreEventTimesSameAsExhibition = true;
+        this.exhibitionPreEventTimeChangeSub = this.eventService.exhibitionPreEventTimeChange.subscribe((value: VenueTimeChangedSubjectInterface) => {
+          if (this.venueIndex === value.venueIndex) {
+            this.copyAssignVenueTime(this.eventTimeSlotTypes.PRE_EVENT_ACCESS, value.data);
+          }
+        });
+      } else if (slotsType === EventTimeSlotTypes.EVENT_ACCESS) {
+        this.copyAssignVenueTime(this.eventTimeSlotTypes.EVENT_ACCESS, (this.exhibitorForAllEventTimes as TimeWindowFormatInterface[]));
+        this.isEventTimesSameAsExhibition = true;
+        this.exhibitionEventTimeChangeSub = this.eventService.exhibitionEventTimeChange.subscribe((value: VenueTimeChangedSubjectInterface) => {
+          if (this.venueIndex === value.venueIndex) {
+            this.copyAssignVenueTime(this.eventTimeSlotTypes.EVENT_ACCESS, value.data);
+          }
+        });
+      } else if (slotsType === EventTimeSlotTypes.POST_EVENT_ACCESS) {
+        this.copyAssignVenueTime(this.eventTimeSlotTypes.POST_EVENT_ACCESS, (this.exhibitorForAllPostEventTimes as TimeWindowFormatInterface[]));
+        this.isPostEventTimesSameAsExhibition = true;
+        this.exhibitionPostEventTimeChangeSub = this.eventService.exhibitionPostEventTimeChange.subscribe((value: VenueTimeChangedSubjectInterface) => {
+          if (this.venueIndex === value.venueIndex) {
+            this.copyAssignVenueTime(this.eventTimeSlotTypes.POST_EVENT_ACCESS, value.data);
+          }
+        });
+      }
+    } else {
+      if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
+        this.preEventTimesCount = 1;
+        this.emptyPreEventTimes();
+        this.isPreEventTimesSameAsExhibition = false;
+        this.exhibitionPreEventTimeChangeSub?.unsubscribe();
+      } else if (slotsType === EventTimeSlotTypes.EVENT_ACCESS) {
+        this.eventTimesCount = 1;
+        this.emptyEventTimes();
+        this.isEventTimesSameAsExhibition = false;
+        this.exhibitionEventTimeChangeSub?.unsubscribe();
+      } else if (slotsType === EventTimeSlotTypes.POST_EVENT_ACCESS) {
+        this.postEventTimesCount = 1;
+        this.emptyPostEventTimes();
+        this.isPostEventTimesSameAsExhibition = false;
+        this.exhibitionPostEventTimeChangeSub?.unsubscribe();
+      }
+    }
+  }
+
   copyAssignVenueTime(
     slotsType: EventTimeSlotTypes,
     timeWindows: Partial<TimeWindowFormatInterface>[],
@@ -472,8 +590,53 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
     }
   }
 
+  getMax(max: any) {
+    let maxDate;
+    if (max) {
+      maxDate = moment.tz(max, this.timeZone).hours(23).minutes(59).seconds(59).toDate();
+      return maxDate
+    } else {
+      return null
+    }
+  }
+
   ngOnDestroy(): void {
     this.venuePreEventTimeChangeSub?.unsubscribe();
     this.venueEventTimeChangeSub?.unsubscribe();
   }
+
+  checkTimeWindowFor(timewindowfor: any) {
+    if (timewindowfor != EventTimeWindowTypes.Exhibitor) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkTimeWindowForExhibition(timewindowfor: any) {
+    if (timewindowfor === EventTimeWindowTypes.Exhibitor) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkFreeze(timeType: any) {
+    if (timeType == 'pre' && this.timeWindowFor === EventTimeWindowTypes.Exhibitor) {
+      return this.isPreEventTimesSameAsExhibition;
+    } else if (timeType == 'event' && this.timeWindowFor === EventTimeWindowTypes.Exhibitor) {
+      return this.isEventTimesSameAsExhibition;
+    } else if (timeType == 'post' && this.timeWindowFor === EventTimeWindowTypes.Exhibitor) {
+      return this.isPostEventTimesSameAsExhibition;
+    } else if (timeType == 'pre' && this.timeWindowFor != EventTimeWindowTypes.Exhibitor) {
+      return this.isPreEventTimesSameAsVenue;
+    } else if (timeType == 'event' && this.timeWindowFor != EventTimeWindowTypes.Exhibitor) {
+      return this.isEventTimesSameAsVenue;
+    } else if (timeType == 'post' && this.timeWindowFor != EventTimeWindowTypes.Exhibitor) {
+      return this.isPostEventTimesSameAsVenue;
+    } else {
+      return false;
+    }
+  }
+
 }

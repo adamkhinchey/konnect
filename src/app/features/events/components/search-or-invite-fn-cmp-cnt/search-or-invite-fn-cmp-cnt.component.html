@@ -8,7 +8,7 @@
   <div class="content">
     <div class="ui grid stackable">
       <div class="eleven wide column">
-        <h3 class="requiredAsterisk">Search within company contacts</h3>
+        <h3 class="requiredAsterisk">Search within company staff</h3>
         <form class="ui form" [formGroup]="inviteCmpCntForm">
           <div class="field">
             <div class="ui search searchPeople focus">
@@ -144,7 +144,9 @@
   <div class="actions">
     <div class="ui grid">
       <div class="sixteen wide column right aligned">
-        <div class="ui button positive" [ngClass]="{'disabled':contactList.length===0}" (click)="emitContactListAndClose()">Finish and save</div>
+        <div class="ui button positive" [ngClass]="{'disabled':contactList.length===0}" (click)="emitContactListAndClose()">Finish 
+          <!-- and save -->
+        </div>
       </div>
     </div>
   </div>
