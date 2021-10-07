@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EventTimelineService } from '../../services/event-timeline.service';
@@ -80,8 +80,6 @@ export class EventViewComponent implements OnInit {
       if (res && res.commonData) {
         this.data.commonData = res.commonData;
       }
-
-      // console.log("permissionObj", this.permissionObj); 
 
 
       console.log(this.data);

@@ -31,7 +31,6 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy, OnChanges
   selectedProfileImage: File | undefined;
   selectedImageSrc: string | undefined;
 
-
   constructor(
     private fb: FormBuilder,
     private getRegionAndCountriesService: GetRegionAndCountriesService) {
@@ -49,7 +48,7 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy, OnChanges
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(12)]],
-      timeZone: [this.timeZones[0].val, [Validators.required]],
+      timeZone: [this.timeZones[0], [Validators.required]],
       mobileNumber: [''],
       city: ['', [Validators.required]],
       countryId: ['', [Validators.required]],
@@ -59,10 +58,11 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy, OnChanges
 
   ngOnChanges(changes: SimpleChanges) {
     console.log('personal details: ', changes.personalDetails.currentValue);
-    if (this.personalDetails.email) {
-      this.personalDetailsForm.controls['email'].setValue(this.personalDetails.email);
-      this.personalDetailsForm.controls['firstName'].setValue(this.personalDetails.firstName);
-      this.personalDetailsForm.controls['inviteUID'].setValue(this.personalDetails.inviteUID);
+    if (this.personalDetails?.email) {
+      this.personalDetailsForm.controls['email'].setValue(this.personalDetails?.email);
+      this.personalDetailsForm.controls['firstName'].setValue(this.personalDetails?.firstName);
+      this.personalDetailsForm.controls['mobileNumber'].setValue(this.personalDetails?.mobile);
+      this.personalDetailsForm.controls['inviteUID'].setValue(this.personalDetails?.inviteUID);
     }
   }
 

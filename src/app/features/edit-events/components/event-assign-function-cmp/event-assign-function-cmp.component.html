@@ -1,34 +1,50 @@
-  <ng-container  *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission">
+<ng-container *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission">
 
-<div class="ui grid center aligned"
-  *ngIf="!selectedCompany && (isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable)">
-  <div class="sixteen wide column">
-    <div class="ui button basic blue fluid addClient hasModal" (click)="openVerticallyCentered(clientCompanyModal)">
-      <i class="plus circle icon"></i>{{clientCmpBtnLabel}}
+  <div class="ui grid center aligned"
+    *ngIf="!selectedCompany && (isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable)">
+    <div class="sixteen wide column">
+      <div class="ui button basic blue fluid addClient hasModal" (click)="openVerticallyCentered(clientCompanyModal)">
+        <i class="plus circle icon"></i>{{clientCmpBtnLabel}}
+      </div>
     </div>
   </div>
-</div>
-  </ng-container>
+</ng-container>
 <div class="contactsContainer">
   <div class="ui dividing header">
-    <h3>{{contactListLabel}} <i class="globe icon"></i></h3>
+    <h3>{{contactListLabel}} <span
+        *ngIf="contactListLabel != 'Supplier Contacts' && contactListLabel != 'Exhibitors Contacts'"><i
+          class="globe icon"></i> </span>
+      <span *ngIf="contactListLabel == 'Supplier Contacts' || contactListLabel == 'Exhibitors Contacts'">
+        <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+        <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px"> </i><i
+          class="building icon"></i>
+      </span>
+    </h3>
   </div>
-  <div class="kipCardContainer"
-    *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission ; else no_access">
+  <div class="kipCardContainer" *ngIf="checkViewPermission(contactListLabel); else no_access">
     <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
       <div class="column" *ngFor="let contact of contactList; let i=index">
         <ng-container *ngIf="!contact.isCrew || contact.isCrew == 0">
           <div class="contactRole">{{contactLabels.get(contact.contactLabelId) || '(Contact Label Not Assigned)'}}
-            <div *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable" class="hidden ui circular compact mini basic icon button editProfileBtn hasModal" (click)="editContactLabelModal(editContactDetail,i)">
-            <i class="pencil alternate icon"></i>
-          </div>
+            <div
+              *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable"
+              class="hidden ui circular compact mini basic icon button editProfileBtn hasModal"
+              (click)="editContactLabelModal(editContactDetail,i)">
+              <i class="pencil alternate icon"></i>
+            </div>
           </div>
           <div class="ui fluid card">
             <div class="content">
+              <span *ngIf="contact.isPrivate" class="ui blue right corner label popupNotes adjustTri"
+                data-content="Private Contact">
+                <!--<i class="address card outline icon"></i>-->
+                <fa-icon [icon]="addressCardIcon"></fa-icon>
+              </span>
               <img class="right floated mini ui image" [src]="contact.profileImage" appImageFallback
                 fallbackImage="assets/img/default_konnect_individual_img.png">
               <div class="header">
-                <a (click)="goToUserProfile(contact.id, contact.isPrivate)">{{contact.firstName + ' '+ (contact.lastName || '')}}</a>
+                <a (click)="goToUserProfile(contact.id, contact.isPrivate)">{{contact.firstName + ' '+ (contact.lastName
+                  || '')}}</a>
               </div>
               <div class="meta">
                 {{contact.contactPosition}}
@@ -58,17 +74,17 @@
   </div>
   <ng-template #no_access>No access
   </ng-template>
-  <ng-container  *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission">
-  <div class="ui grid center aligned"
-    *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable">
-    <div class="sixteen wide column">
-      <div class="ui basic button blue fluid addContacts hasModal" (click)="openVerticallyCentered(contactModal)"
-        data-modal="contacts" [ngClass]="{disabled: disableAddContacts }">
-        <i class="plus circle icon"></i>Add Contact
+  <ng-container *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission">
+    <div class="ui grid center aligned"
+      *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable">
+      <div class="sixteen wide column">
+        <div class="ui basic button blue fluid addContacts hasModal" (click)="openVerticallyCentered(contactModal)"
+          data-modal="contacts" [ngClass]="{disabled: disableAddContacts }">
+          <i class="plus circle icon"></i>Add Contact
+        </div>
       </div>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
 
 
   <ng-template #editContactDetail let-modal>

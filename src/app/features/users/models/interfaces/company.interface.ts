@@ -2,10 +2,10 @@ export interface Company {
     id: number;
     companyName: string;
     companyTaxNumber: string;
-    streetAddress_1: string;
-    streetAddress_2: string;
+    streetAddress1: null | string;
+    streetAddress2: null | string;
     city: string;
-    state: string;
+    state: null | string;
     countryId: number;
     postcode: string;
     phone: string;

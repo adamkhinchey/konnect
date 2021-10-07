@@ -34,7 +34,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
         <div class="ui grid">
           <div class="sixteen wide column">
             <div class="marginT10"></div>
-            <div *ngIf="(isServiceEdit) || (venue.suppliers[0] && !venue.suppliers[0].services.length)"
+            <!-- <div *ngIf="(isServiceEdit) || (venue.suppliers[0] && !venue.suppliers[0].services.length)" -->
+            <div *ngIf="permissionObj.isClient || permissionObj.isEventManager"
               class="ui button compact addNewService addToPanel" (click)="addService(venue,venueIndex)">
               <i class="plus circle icon"></i>
               <span>Add Service</span>
@@ -64,11 +65,6 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 <ng-template ngbPanelContent>
                   <div class="content active">
                     <form class="ui form visible" style="display: block !important;">
-                      <!-- <div class="ui grid stackable">
-                        <div class="sixteen wide column right aligned ">
-                          
-                        </div>
-                      </div> -->
 
 
                       <div class="ui grid stackable">
@@ -97,7 +93,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               <h3>Supplier Company <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                   class="building icon"></i> 
-                                  <div class="addNewService insideSelect float-right">
+                                  <!-- <div class="addNewService insideSelect float-right">
                                     <p *ngIf="service.status == 1 && !isServiceEdit"> <i class="ui icon circle green"></i> <b>Confirm</b> </p>
                                     <p *ngIf="service.status == 0 && !isServiceEdit"> <i class="ui icon circle orange"></i> <b>Pending</b> </p>
                                     <div class=" selection" *ngIf="isServiceEdit">
@@ -109,7 +105,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         <option [ngValue]=2>Decline</option>
                                       </select>
                                     </div>
-                                  </div>
+                                  </div> -->
                                 </h3>
                             </div>
                             <div class="kcpCardContainer"
@@ -119,6 +115,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 <div class="column">
                                   <div class="ui fluid card">
                                     <div class="content">
+                                      <span *ngIf="venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.isPrivate"
+                                      class="ui blue right corner label popupNotes adjustTri"
+                                      data-content="Private Contact">
+                                      <!--<i class="address card outline icon"></i>-->
+                                      <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                    </span>
                                       <img class="right floated mini ui image"
                                         [src]="getCompanyProfileImage(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || 'assets/img/default_konnect_img.png'"
                                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
@@ -127,10 +129,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                           (click)="goToCompanyProfile(getCompanyId(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)), getIsPrivate(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)))">{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
-                                        <a>
+                                        <span class="m-0">
                                           <i
                                             class="map marker alternate icon"></i>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.city}}
-                                        </a>
+                                        </span>
                                         <span>|</span>
                                         <i
                                           class="phone icon"></i>{{getCompanyPhone(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))
@@ -245,18 +247,17 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="ui divider"></div>
                           <div class="ui grid stackable">
                             <div class="ten wide column middle aligned">
-                              <div (click)="removeDeclineService(service?.supplierId, 0)"
+                              <div (click)="confirmRemove(service?.supplierId, 0)" *ngIf="!eventData.eventData.isDeleted && !checkPermission(service.isViewPermission)"
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
                             <div class="six wide column right aligned">
-                              <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
-                              </button> -->
-                              <button [disabled]="eventData.eventData.isDeleted" class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit"
+                              <button [disabled]="eventData.eventData.isDeleted || checkPermission(service.isViewPermission)" class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit"
                                 (click)="editServiceFn()">Edit</button>
-                              <button class="ui button hasModal ml-3" data-modal="inviteModal"
+                              <button class="ui button hasModal ml-3" data-modal="inviteModal" [disabled]="eventData.eventData.isDeleted || checkPermission(service.isViewPermission)"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})"
-                                *ngIf="isServiceEdit">Save &amp; Invite
+                                *ngIf="isServiceEdit">Save 
+                                <!-- &amp; Invite -->
                               </button>
                             </div>
                           </div>

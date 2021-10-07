@@ -80,7 +80,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <div class="ui grid">
             <div class="sixteen wide column">
               <div class="marginT10"></div>
-              <div *ngIf="(venue.exhibitorList[0] && !venue.exhibitorList[0].exhibitors.length) || isExhibitorEdit"
+              <!-- <div *ngIf="(venue.exhibitorList[0] && !venue.exhibitorList[0].exhibitors.length) || isExhibitorEdit" -->
+              <div *ngIf="permissionObj.isClient || permissionObj.isEventManager"
                 class="ui button compact addNewService addToPanel" (click)="addExhibitor(venue, venueIndex)">
                 <i class="plus circle icon"></i>
                 <span>Add Exhibitor</span>
@@ -110,18 +111,6 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                     <form class="ui form visible" style="display: block !important;">
                       <div class="ui grid stackable">
 
-                        <!-- <div class="sixteen wide column right aligned ">
-                          <div class="addNewService insideSelect float-right">
-                            <div class=" selection">
-                                <select class="form-control" [ngModelOptions]="{standalone:true}"  [attr.disabled]="exhibitor.isStaffOrAdmin==1 && isExhibitorEdit ? null : true" (ngModelChange)="acceptDeclineService(exhibitor, $event)"  [(ngModel)]="exhibitor.status">
-                                  <option  [ngValue]=1>Confirm</option>
-                                  <option *ngIf="exhibitor.status==0"  [ngValue]=0>Pending</option> 
-                                  <option  [ngValue]=2>Decline</option>
-                                </select>
-                            </div>
-                          </div>
-                        </div> -->
-
                         <div class="seven wide column">
                           <div class="companyContainer marginB20">
                             <div class="ui dividing header">
@@ -130,7 +119,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png"
                                     width="15px"> </i>
                                 <i class="building icon"></i>
-                                <div class="addNewService insideSelect float-right">
+                                <!-- <div class="addNewService insideSelect float-right">
                                   <p *ngIf="exhibitor.status == 1 && !isExhibitorEdit"> <i
                                       class="ui icon circle green"></i> <b>Confirm</b> </p>
                                   <p *ngIf="exhibitor.status == 0 && !isExhibitorEdit"> <i
@@ -145,7 +134,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                       <option [ngValue]=2>Decline</option>
                                     </select>
                                   </div>
-                                </div>
+                                </div> -->
                               </h3>
                             </div>
                             <div class="kcpCardContainer"
@@ -155,6 +144,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">
                                   <div class="ui fluid card">
                                     <div class="content">
+                                      <span *ngIf="venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.isPrivate"
+                                      class="ui blue right corner label popupNotes adjustTri"
+                                      data-content="Private Contact">
+                                      <!--<i class="address card outline icon"></i>-->
+                                      <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                    </span>
                                       <img class="right floated mini ui image"
                                         [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
                                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
@@ -163,10 +158,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                           (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)), getIsPrivate(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
-                                        <a>
+                                        <span class="m-0">
                                           <i
                                             class="map marker alternate icon"></i>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.city}}
-                                        </a>
+                                        </span>
                                         <span>|</span>
                                         <i class="phone icon"></i>{{
                                         (venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex) &&
@@ -249,6 +244,9 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                                 [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
                                 [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
+                                [exhibitorForAllPreEventTimes]="eventToBeSaved.venues.list[venueIndex].exhibitorList[0].timeWindowsToAll.bumpIn.timings"
+                                [exhibitorForAllEventTimes]="eventToBeSaved.venues.list[venueIndex].exhibitorList[0].timeWindowsToAll.eventTime.timings"
+                                [exhibitorForAllPostEventTimes]="eventToBeSaved.venues.list[venueIndex].exhibitorList[0].timeWindowsToAll.bumpOut.timings"
                                 [venueIndex]="venueIndex" [index]="exhibitorIndex"
                                 [windowLabels]="['Bump In', 'Event Time', 'Bump Out']" [isVenueDependent]="true"
                                 [preEventTimes]="exhibitor.timeWindows.bumpIn.timings"
@@ -296,7 +294,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="ui divider"></div>
                           <div class="ui grid stackable">
                             <div class="ten wide column middle aligned">
-                              <div (click)="removeDeclineExhibitor(exhibitor?.exhibitorId, 0)"
+                              <div (click)="confirmRemove(exhibitor?.exhibitorId, 0)" *ngIf="!eventData.eventData.isDeleted && !checkPermission(exhibitor.isViewPermission)"
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
@@ -305,11 +303,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   class="file pdf icon"></i>
                               </button> -->
                               <button [disabled]="eventData.eventData.isDeleted"
-                                class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit"
+                                class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit || checkPermission(exhibitor.isViewPermission)"
                                 (click)="editExhibitorFn()">Edit</button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"
-                                *ngIf="isExhibitorEdit">Save &amp; Invite
+                                *ngIf="isExhibitorEdit">Save 
+                                <!-- &amp; Invite -->
                               </button>
                             </div>
                           </div>

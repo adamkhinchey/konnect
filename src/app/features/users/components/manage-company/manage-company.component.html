@@ -132,10 +132,10 @@
                                         )" class="text-danger">Please provide phone number in format:
                                             +611234567890</span> -->
                                     </div>
-                                    <div class="field required">
+                                    <div class="field" [ngClass]="{required: companyInfo?.company.companyType != 'sole_trader'}">
                                         <label>Website</label>
                                         <input [readonly]="isView" id="edit-company-profile-website" type="text"
-                                            placeholder="Website" formControlName="website" required>
+                                            placeholder="Website" formControlName="website">
                                         <span *ngIf="editCompanyForm!.get('website')?.touched
                                         && (
                                         editCompanyForm!.get('website')?.hasError('required')

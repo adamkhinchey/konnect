@@ -14,7 +14,7 @@
             </div>
             <div class="sixteen wide column maxWidth">
 
-              <div class="">
+              <!-- <div class="">
                 <div class="ui five column grid regionOptions">
                   <div [style.paddingRight]="0"><label class="ui small header">Search For</label></div>
                   <div class="">
@@ -38,7 +38,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <ul ngbNav #nav="ngbNav" [(activeId)]="active"
                 class="nav-tabs ui pointing secondary menu ui manageMenuOuter" (navChange)="onNavChange($event)">
@@ -268,7 +268,7 @@
                                 <fa-icon [icon]="addressCardIcon"></fa-icon>
                               </span>
                               <img class="right floated mini ui image circular"
-                                [src]="cmpConn?.profileImage ||'./assets/img/default_konnect_img.png'"
+                                [src]="cmpConn?.companyProfileImage ||'./assets/img/default_konnect_img.png'"
                                 appImageFallback="./assets/img/default_konnect_img.png">
                               <div class="header">
                                 <a
@@ -279,7 +279,7 @@
                                   {{cmpConn?.website}}
                                 </a>
                                 <span *ngIf="cmpConn?.website">|</span>
-                                <a><i class="map marker alternate icon"></i>{{cmpConn?.city}}</a><span> |</span><i
+                                <span class="m-0"><i class="map marker alternate icon"></i>{{cmpConn?.city}}</span><span> |</span><i
                                   class="phone icon"></i>{{cmpConn?.phone}}
                               </div>
                               <div class="description">{{cmpConn?.description}}</div>

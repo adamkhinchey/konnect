@@ -100,6 +100,10 @@ export class EventService {
   venueEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
   venuePostEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
 
+  exhibitionPreEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+  exhibitionEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+  exhibitionPostEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+
   private fetchedVenueSrvcsCmp: FetchedVenueSrvcsCmp[] = [];
   private fetchedVenueSrvcsCmpCnts: FetchedVenueSrvcCmpCnts[] = [];
 

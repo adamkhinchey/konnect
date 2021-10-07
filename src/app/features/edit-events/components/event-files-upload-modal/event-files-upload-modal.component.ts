@@ -16,7 +16,7 @@ import {EventFileUploadDeleteService} from "../../services/event-file-upload-del
 import {EventFileTypes} from "../../models/types";
 import {BehaviorSubject, from, Subscription} from "rxjs";
 import {EventFilesSignedURLReq, EventFileToDbReqInterface} from "../../models/interfaces";
-import {finalize, map, tap} from "rxjs/operators";
+import {tap} from "rxjs/operators";
 import {v4 as uuidV4} from 'uuid';
 import {devLogger} from "../../../../shared/utils";
 import {ToastrService} from "ngx-toastr";

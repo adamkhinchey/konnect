@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
-import { map, take, tap } from "rxjs/operators";
+import { map, pluck, take, tap } from "rxjs/operators";
 import { HttpErrRespHandlerService } from "../../../shared/services/http-err-resp-handler.service";
 import {
   ApiResponseModelInterface,
@@ -210,6 +210,66 @@ export class CompaniesService {
     );
   }
 
+  searchOnPlatformNew(param: SearchGlobalPayload): Observable<any> {
+    this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/searchGlobalConnectionNew`,
+      { ...param }
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      take(1),
+      this.httpErrorHandler.processError(),
+      map(response => {
+        switch (param.entityType) {
+          case ConnectionType.USER:
+            return response.data?.userConnection || [];
+          case ConnectionType.COMPANY:
+            return response.data?.companyConnection || [];
+          default:
+            return response.data || [];
+        }
+      }),
+      map(connections => {
+        return (connections as Array<any>).map(conn => {
+          if (!Array.isArray(conn)) {
+            conn.isConnected = false;
+          }
+          return conn;
+        });
+      })
+    );
+  }
+
+  searchGlobalConnectionForCollection(param: SearchGlobalPayload): Observable<any> {
+    this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/searchGlobalConnectionForCollection`,
+      { ...param }
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      take(1),
+      this.httpErrorHandler.processError(),
+      map(response => {
+        switch (param.entityType) {
+          case ConnectionType.USER:
+            return response.data?.userConnection || [];
+          case ConnectionType.COMPANY:
+            return response.data?.companyConnection || [];
+          default:
+            return response.data || [];
+        }
+      }),
+      map(connections => {
+        return (connections as Array<any>).map(conn => {
+          if (!Array.isArray(conn)) {
+            conn.isConnected = false;
+          }
+          return conn;
+        });
+      })
+    );
+  }
+
   addToConnection(param: { companyId: number; connectionId: number; connectionType: ConnectionType }): Observable<any> {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
@@ -235,7 +295,7 @@ export class CompaniesService {
 
   }
 
-  searchCmpContacts(param: { companyId: number, keyword: string }, showSpinner = true): Observable<any> {
+  searchCmpContacts(param: { companyId: number, keyword: string, isCrew: any }, showSpinner = true): Observable<any> {
     if (showSpinner) {
       this.spinner.show();
     }
@@ -246,6 +306,57 @@ export class CompaniesService {
       hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrorHandler.processError()
+    );
+  }
+
+  getCmpContacts(param: { companyId: any, isCrew: any }, showSpinner = true): Observable<any> {
+    if (showSpinner) {
+      this.spinner.show();
+    }
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/getCompanyContacts`,
+      { ...param }
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      take(1),
+      this.httpErrorHandler.processError(),
+      pluck('data', 'user'),
+      map(users => {
+        if (users && Array.isArray(users)) {
+          users = users.map((user: { userId: any; email: any; firstName: any; headline: any; lastName: any; mobile: any; position: any; profileImage: any }) => ({
+            userId: user.userId,
+            email: user.email,
+            firstName: user.firstName,
+            headline: user.headline,
+            lastName: user.lastName,
+            mobile: user.mobile,
+            position: user.position,
+            profileImage: user.profileImage,
+          }));
+          users.unshift({
+            userId: '',
+            email: '',
+            firstName: 'Select Contact',
+            headline: '',
+            lastName: '',
+            mobile: '',
+            position: '',
+            profileImage: '',
+          });
+          return users;
+        } else {
+          return [{
+            userId: '',
+            email: '',
+            firstName: 'Select Contact',
+            headline: '',
+            lastName: '',
+            mobile: '',
+            position: '',
+            profileImage: '',
+          }];
+        }
+      })
     );
   }
 

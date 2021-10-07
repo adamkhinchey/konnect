@@ -33,11 +33,18 @@
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
+        <div *ngIf="isVenueDependent && checkTimeWindowFor(timeWindowFor)" class="field visible" style="display: block !important;">
           <div class="ui checkbox">
-            <input type="checkbox" [id]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'" class="hidden"
-                   (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.PRE_EVENT_ACCESS)">
+            <input type="checkbox" [id]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'"
+              class="hidden" (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.PRE_EVENT_ACCESS)">
             <label [for]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'">Same as venue</label>
+          </div>
+        </div>
+        <div *ngIf="isVenueDependent && checkTimeWindowForExhibition(timeWindowFor)" class="field visible" style="display: block !important;">
+          <div class="ui checkbox">
+            <input type="checkbox" [id]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'"
+              class="hidden" (change)="listenExhibitionEventTimeChange($event, eventTimeSlotTypes.PRE_EVENT_ACCESS)">
+            <label [for]="'preEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_pre'">Same as exhibition</label>
           </div>
         </div>
         <div class="item">
@@ -53,7 +60,7 @@
                   <!-- <input type="text" placeholder="Date">-->
                   <app-date-time-picker
                     #preEventStartDateTimes
-                    [freeze]="isPreEventTimesSameAsVenue"
+                    [freeze]="checkFreeze('pre')"
                     [eventDateTime]="preEventTimes[i]?.startDateTime || null"
                     [minimumDate]="getMinimumPreEventStartDateTime(i)"
                     [index]="index"
@@ -71,7 +78,7 @@
                   <!-- <input type="text" placeholder="Date">-->
                   <app-date-time-picker
                     #preEventEndDateTimes
-                    [freeze]="isPreEventTimesSameAsVenue"
+                    [freeze]="checkFreeze('pre')"
                     [eventDateTime]="preEventTimes[i]?.endDateTime || null"
                     [max]="getMax(preEventTimes[i]?.startDateTime)"
                     [minimumDate]="getMinimumPreEventEndDateTime(i)"
@@ -131,11 +138,18 @@
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
+        <div *ngIf="isVenueDependent && checkTimeWindowFor(timeWindowFor)" class="field visible" style="display: block !important;">
           <div class="ui checkbox">
-            <input type="checkbox" [id]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'" class="hidden"
-                   (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.EVENT_ACCESS)">
+            <input type="checkbox" [id]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'"
+              class="hidden" (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.EVENT_ACCESS)">
             <label [for]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'">Same as venue</label>
+          </div>
+        </div>
+        <div *ngIf="isVenueDependent && checkTimeWindowForExhibition(timeWindowFor)" class="field visible" style="display: block !important;">
+          <div class="ui checkbox">
+            <input type="checkbox" [id]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'"
+              class="hidden" (change)="listenExhibitionEventTimeChange($event, eventTimeSlotTypes.EVENT_ACCESS)">
+            <label [for]="'eventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_actual'">Same as exhibition</label>
           </div>
         </div>
         <div class="item">
@@ -151,7 +165,7 @@
                   <!--<input type="text" placeholder="Date">-->
                   <app-date-time-picker
                     #eventStartDateTimes
-                    [freeze]="isEventTimesSameAsVenue"
+                    [freeze]="checkFreeze('event')"
                     [eventDateTime]="eventTimes[i]?.startDateTime || null"
                     [minimumDate]="getMinimumEventStartDateTime(i)"
                     [index]="index"
@@ -170,7 +184,7 @@
                   <!--<input type="text" placeholder="Date">-->
                   <app-date-time-picker
                     #eventEndDateTimes
-                    [freeze]="isEventTimesSameAsVenue"
+                    [freeze]="checkFreeze('event')"
                     [eventDateTime]="eventTimes[i]?.endDateTime || null"
                     [max]="getMax(eventTimes[i]?.startDateTime)"
                     [minimumDate]="getMinimumEventEndDateTime(i)"
@@ -229,11 +243,20 @@
         </div>
         </ng-template>
       <ng-template ngbPanelContent>
-        <div *ngIf="isVenueDependent" class="field visible" style="display: block !important;">
+        <div *ngIf="isVenueDependent && checkTimeWindowFor(timeWindowFor)" class="field visible" style="display: block !important;">
           <div class="ui checkbox">
-            <input type="checkbox" [id]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'" class="hidden"
-                   (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.POST_EVENT_ACCESS)">
-            <label [for]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'">Same as venue</label>
+            <input type="checkbox" [id]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'"
+              class="hidden" (change)="listenVenueEventTimeChange($event, eventTimeSlotTypes.POST_EVENT_ACCESS)">
+            <label [for]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'">Same as
+              venue</label>
+          </div>
+        </div>
+        <div *ngIf="isVenueDependent && checkTimeWindowForExhibition(timeWindowFor)" class="field visible" style="display: block !important;">
+          <div class="ui checkbox">
+            <input type="checkbox" [id]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'"
+              class="hidden" (change)="listenExhibitionEventTimeChange($event, eventTimeSlotTypes.POST_EVENT_ACCESS)">
+            <label [for]="'postEventTime-sav-'+index+'_venue_'+venueIndex+'-'+timeWindowFor+'_post'">Same as
+              exhibition</label>
           </div>
         </div>
         <div class="item">
@@ -249,7 +272,7 @@
                   <!--<input type="text" placeholder="Date">-->
                   <app-date-time-picker
                     #postEventStartDateTimes
-                    [freeze]="isPostEventTimesSameAsVenue"
+                    [freeze]="checkFreeze('post')"
                     [eventDateTime]="postEventTimes[i]?.startDateTime || null"
                     [minimumDate]="getMinimumPostEventStartDateTime(i)"
                     [index]="index"
@@ -268,7 +291,7 @@
                   <!--<input type="text" placeholder="Date">-->
                   <app-date-time-picker
                     #postEventEndDateTimes
-                    [freeze]="isPostEventTimesSameAsVenue"
+                    [freeze]="checkFreeze('post')"
                     [eventDateTime]="postEventTimes[i]?.endDateTime || null"
                     [max]="getMax(postEventTimes[i]?.startDateTime)"
                     [minimumDate]="getMinimumPostEventEndDateTime(i)"

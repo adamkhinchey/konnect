@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from '../../../../../environments/environment';
 import {
   GetRegionAndCountriesService,
@@ -18,6 +18,7 @@ import { CompaniesService } from '../../services/companies.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manage-company',
@@ -25,7 +26,8 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
   styleUrls: ['./manage-company.component.scss']
 })
 export class ManageCompanyComponent implements OnInit, OnDestroy {
-  WEBSITE_REGEX = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,}(\/\S*)?$/ig
+  editCompanyForm:FormGroup;
+  WEBSITE_REGEX = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,}(\/\S*)?$/
   //WEBSITE_REGEX = /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/;
   //OLD_MOBILE_REGEX = new RegExp(/^(?!(\d)\1+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/);
   MOBILE_REGEX = new RegExp(/^(?:0|\+[1-9]{1,3})\d{10,15}$/);
@@ -53,23 +55,9 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     aboutMe: ['']
   });
 
-  editCompanyForm = this.fb.group({
-    companyId: [null, [Validators.required]],
-    companyProfileImage: [],
-    companyName: ['', [Validators.required]],
-    companyTaxNumber: [''],
-    streetAddress1: [''],
-    streetAddress2: [''],
-    city: ['', [Validators.required]],
-    state: [''],
-    postCode: ['', [Validators.pattern("^[0-9]*$")]],
-    countryId: ['', [Validators.required]],
-    phone: [''],
-    website: ['', [Validators.required, Validators.pattern(this.WEBSITE_REGEX)]],
-    category: [null, [Validators.required]],
-    description: [''],
-  });
-
+  private websiteValidators = [
+    Validators.pattern(this.WEBSITE_REGEX)
+  ];
   userInfoSubscription = new Subscription();
   userInfo: any = null;
   companyInfo: any = null;
@@ -98,6 +86,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   company: any;
   isView: any;
   private userSettingsSub: Subscription | undefined;
+
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -113,6 +102,25 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     private userSettingsService: UserSettingsService,
     public route: ActivatedRoute
   ) {
+
+    this.editCompanyForm = this.fb.group({
+      companyId: [null, [Validators.required]],
+      companyProfileImage: [],
+      companyName: ['', [Validators.required]],
+      companyTaxNumber: [''],
+      streetAddress1: [''],
+      streetAddress2: [''],
+      companyType: [''],
+      city: ['', [Validators.required]],
+      state: [''],
+      postCode: ['', [Validators.pattern("^[0-9]*$")]],
+      countryId: ['', [Validators.required]],
+      phone: [''],
+      website: ['',this.websiteValidators],
+      category: [null, [Validators.required]],
+      description: [''],
+    });
+
     this.aroute.queryParams.subscribe(param => {
       if (param.isView)
         this.isView = param.isView;
@@ -142,6 +150,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
         }
       });
     }
+
   }
 
   getCompanyDetails() {
@@ -193,6 +202,16 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     this.editCompanyForm.get('companyTaxNumber')?.setValue(this.companyInfo?.company.companyTaxNumber);
     this.editCompanyForm.get('streetAddress1')?.setValue(this.companyInfo?.company.streetAddress1);
     this.editCompanyForm.get('streetAddress2')?.setValue(this.companyInfo?.company.streetAddress2);
+    this.editCompanyForm.get('companyType')?.setValue(this.companyInfo?.company.companyType);
+    console.log(this.companyInfo?.company.companyType);
+    if (this.companyInfo?.company.companyType == 'sole_trader') {
+      this.editCompanyForm.get('website')?.setValidators(this.websiteValidators);
+
+    } else {
+      this.editCompanyForm.get('website')?.setValidators(this.websiteValidators.concat(Validators.required));
+    }
+    this.editCompanyForm.get('website')?.updateValueAndValidity();
+
     this.editCompanyForm.get('city')?.setValue(this.companyInfo?.company.city);
     this.editCompanyForm.get('state')?.setValue(this.companyInfo?.company.state);
     this.editCompanyForm.get('postCode')?.setValue(this.companyInfo?.company.postCode);
@@ -213,6 +232,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
       })
       this.selectedCategory.push(data[0]);
     }
+    console.log(this.editCompanyForm);
   }
 
 

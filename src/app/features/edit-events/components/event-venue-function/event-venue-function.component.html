@@ -26,15 +26,12 @@
   <div class="ui grid">
     <div class="sixteen wide column">
       <div class="marginT10"></div>
-      <div *ngIf="isVenueEdit || !eventToBeSaved.venues" class="ui button compact addNewVenue addToPanel"
-        (click)="addVenue()"><i class="plus circle icon"></i><span class="hideMobile">Add Venue</span>
+      <div class="ui button compact addNewVenue addToPanel"
+        *ngIf="permissionObj.isClient || permissionObj.isEventManager" (click)="addVenue()"><i
+          class="plus circle icon"></i><span class="hideMobile">Add Venue</span>
       </div>
       <h3 id="venuesAnchor" class="ui dividing header">Venues</h3>
       <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
-
-
-        <!-- <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
-          [activeIds]="'venueListIndex-'+activeVenuePanel" [destroyOnHide]="false"> -->
 
         <ngb-accordion (panelChange)="panelChange($event)" #ngbAccordion [destroyOnHide]="false">
 
@@ -44,6 +41,9 @@
             <ng-template ngbPanelTitle>
               <i class="dropdown icon"></i>Venue {{i + 1}}: <span
                 *ngIf="selectedCompanies && selectedCompanies[i]">{{selectedCompanies[i]!.companyName}},
+                <span *ngIf="getCompanyAdd1(i)">{{getCompanyAdd1(i) || ''}},</span>
+                <span *ngIf="getCompanyAdd2(i)">{{getCompanyAdd2(i) || ''}},</span>
+                <span *ngIf="getCompanyState(i)">{{getCompanyState(i) || ''}},</span>
                 {{selectedCompanies[i]!.city}}</span>
             </ng-template>
             <ng-template ngbPanelContent>
@@ -54,23 +54,11 @@
                 <form class="ui form visible" style="display: block !important;">
                   <div class="ui grid stackable">
 
-                    <!-- <div class="sixteen wide column right aligned ">
-                      <div class="addNewService insideSelect float-right">
-                        <div class=" selection">
-                            <select class="form-control" [ngModelOptions]="{standalone:true}"  [attr.disabled]="panel.isStaffOrAdmin==1 && isVenueEdit ? null : true" (ngModelChange)="acceptDeclineService(panel, $event)"  [(ngModel)]="panel.status">
-                              <option  [ngValue]=1>Confirm</option>
-                              <option *ngIf="panel.status==0"  [ngValue]=0>Pending</option> 
-                              <option  [ngValue]=2>Decline</option>
-                            </select>
-                        </div>
-                      </div>
-                    </div> -->
-
                     <div class="seven wide column">
                       <div class="companyContainer marginB20">
                         <div class="ui dividing header">
                           <h3>Venue Company <i class="globe icon"></i>
-                            <div class="addNewService insideSelect float-right">
+                            <!-- <div class="addNewService insideSelect float-right">
 
                               <p *ngIf="panel.status == 1 && !isVenueEdit"> <i class="ui icon circle green"></i>
                                 <b>Confirm</b>
@@ -88,7 +76,7 @@
                                   <option [ngValue]=2>Decline</option>
                                 </select>
                               </div>
-                            </div>
+                            </div> -->
                           </h3>
                         </div>
 
@@ -97,6 +85,12 @@
                             <div class="column">
                               <div class="ui fluid card">
                                 <div class="content">
+                                  <span *ngIf="selectedCompanies[i]!.isPrivate"
+                                    class="ui blue right corner label popupNotes adjustTri"
+                                    data-content="Private Contact">
+                                    <!--<i class="address card outline icon"></i>-->
+                                    <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                  </span>
                                   <img class="right floated mini ui image"
                                     [src]="getCompanyProfileImage(i) || 'assets/img/default_konnect_img.png'"
                                     appImageFallback fallbackImage="assets/img/default_konnect_img.png">
@@ -105,11 +99,8 @@
                                       (click)="goToCompanyProfile(getCompanyId(i),getIsPrivate(i))">{{selectedCompanies[i]!.companyName}}</a>
                                   </div>
                                   <div class="meta">
-                                    <!-- <a *ngIf="getCompanyWebsite(i)" [href]="getCompanyWebsite(i)"
-                                       target="_blank"> {{getCompanyWebsite(i)}}</a>
-                                    <span *ngIf="getCompanyWebsite(i)">|</span> -->
-                                    <a>
-                                      <i class="map marker alternate icon"></i>{{selectedCompanies[i]!.city}}</a>
+                                    <span class="m-0">
+                                      <i class="map marker alternate icon"></i>{{selectedCompanies[i]!.city}}</span>
                                     <span>|</span>
                                     <i class="phone icon"></i>{{getCompanyPhone(i) || ''}}
                                   </div>
@@ -119,7 +110,8 @@
                                     <div class="ten wide column">
 
                                     </div>
-                                    <div class="six wide column right aligned" *ngIf="isVenueEdit">
+                                    <div class="six wide column right aligned"
+                                      *ngIf="isVenueEdit && (checkPermission1(panel.isViewPermission))">
                                       <div (click)="removeSelectedCompany.emit(i)"
                                         class="ui circular compact mini basic button confirmRemove hasModal"
                                         data-modal="removeModal"><i class="trash alternate icon"></i>Remove
@@ -134,18 +126,18 @@
                       </div>
                       <app-event-assign-function-cmp #venueAssignCmp [selectedCompany]="getSelectedCompany(i)"
                         [contactList]="getVenueContacts(i)" [permissionObj]="permissionObj"
-                        [isViewPermission]="1" [clientCmpBtnLabel]="'Add Venue'" [contactListLabel]="'Venue Contacts'"
-                        [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
-                        (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)"
-                        (contactRemove)="removeVenueContact(i,$event)" [isVenueEditable]="isVenueEditable">
-                      </app-event-assign-function-cmp>
-                      <app-event-assign-crew-function-cmp #venueCrewAssignCmp
-                        [contactList]="getVenueContacts(i)" [permissionObj]="permissionObj"
-                        [isViewPermission]="panel?.isViewPermission" [clientCmpBtnLabel]="'Add Crew'"
-                        [contactListLabel]="'Assigned Crew'" [clientCompanyModal]="searchInviteCmpModal"
+                        [isViewPermission]="panel?.isViewPermission" [clientCmpBtnLabel]="'Add Venue'"
+                        [contactListLabel]="'Venue Contacts'" [clientCompanyModal]="searchInviteCmpModal"
                         [contactModal]="searchInviteFnCmpCntModal" (modalOpen)="setOpenedModalRef($event)"
-                        (crewRemove)="removeVenueContact(i,$event)" [isVenueEditable]="isVenueEditable"
-                        (isCrew)="setIsCrew($event)">
+                        (isCrew)="setIsCrew($event)" (contactRemove)="removeVenueContact(i,$event)"
+                        [isVenueEditable]="isVenueEditable">
+                      </app-event-assign-function-cmp>
+                      <app-event-assign-crew-function-cmp #venueCrewAssignCmp [contactList]="getVenueContacts(i)"
+                        [permissionObj]="permissionObj" [isViewPermission]="panel?.isViewPermission"
+                        [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
+                        [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
+                        (modalOpen)="setOpenedModalRef($event)" (crewRemove)="removeVenueContact(i,$event)"
+                        [isVenueEditable]="isVenueEditable" (isCrew)="setIsCrew($event)">
                       </app-event-assign-crew-function-cmp>
                     </div>
                     <div class="nine wide column">
@@ -171,12 +163,12 @@
                           <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
                           <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px">
                           </i>
-                          <i class="map marker alternate icon"></i>
+                          <i class="building icon"></i>
                         </h3>
                       </div>
                       <div class="field">
                         <textarea
-                          *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
+                          *ngIf="panel.isViewPermission == 1 || permissionObj.isClient == 1 || permissionObj.isEventManager == 1; else no_access"
                           rows="3" class="textarea" [(ngModel)]="panel.requirements"
                           [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit">
                         </textarea>
@@ -184,34 +176,41 @@
                         </ng-template>
                       </div>
 
-                        <div class="ui dividing header">
-                          <h3>Venue Internal Notes <i class="building icon"></i></h3>
-                        </div>
-                        <div class="field">
-                          <textarea *ngIf="panel?.isViewPermission == 1; else no_access" rows="3" class="textarea" [readonly]="!isVenueEdit" [(ngModel)]="panel!.internalCmpNotes"
+                      <div class="ui dividing header">
+                        <h3>Venue Internal Notes <i class="building icon"></i></h3>
+                      </div>
+                      <div class="field">
+                        <textarea *ngIf="panel?.isViewPermission == 1; else no_access" rows="3" class="textarea"
+                          [readonly]="!isVenueEdit" [(ngModel)]="panel!.internalCmpNotes"
                           [ngModelOptions]="{standalone:true}"></textarea>
-                          <ng-template #no_access>No access
-                          </ng-template>
-                        </div>
+                        <ng-template #no_access>No access
+                        </ng-template>
+                      </div>
 
                     </div>
                   </div>
-                  <div class="sixteen wide column saveButtons paddingT0">
+                  <div class="sixteen wide column saveButtons paddingT0"
+                    *ngIf="(eventData && eventData.userPermission)">
                     <div class="ui divider"></div>
                     <div class="ui grid stackable">
-                      <div class="sixteen wide column right aligned">
-                        <!-- <button [disabled]="eventData.eventData.isDeleted"
-                          class="ui button basic blue icon downloadPDF halfWidth"><i class="file pdf icon"></i>
-                        </button> -->
-                        <button [disabled]="eventData.eventData.isDeleted"
+                      <div class="ten wide column middle aligned">
+                        <div (click)="confirmRemove(panel?.venueId, 0)"
+                          *ngIf="!eventData.eventData.isDeleted && !checkPermission(panel.isViewPermission)"
+                          class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal">
+                          <i class="trash alternate icon"></i>Remove</div>
+                      </div>
+                      <div class="six wide column right aligned">
+                        <button [disabled]="eventData.eventData.isDeleted || checkPermission(panel.isViewPermission)"
                           class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="!isVenueEdit"
                           (click)="editVenueFn()">
                           Edit
                         </button>
                         <button class="ui button hasModal ml-3"
+                          [disabled]="eventData.eventData.isDeleted || checkPermission(panel.isViewPermission)"
                           (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})"
-                          data-modal="inviteModal" *ngIf="isVenueEdit">Save &amp;
-                          Invite
+                          data-modal="inviteModal" *ngIf="isVenueEdit">Save
+                          <!-- &amp;
+                          Invite -->
                         </button>
                       </div>
                     </div>

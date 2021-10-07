@@ -5,6 +5,7 @@ import { SaveEventClass } from '../../models/classes/saveEvent.class';
 import { Subscription } from 'rxjs';
 import { EventService } from '../../services/event.service';
 import { EventFunctionTypes } from '../../models/types';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-event-manager-function',
@@ -12,6 +13,7 @@ import { EventFunctionTypes } from '../../models/types';
   styleUrls: ['./event-manager-function.component.scss']
 })
 export class EventManagerFunctionComponent implements OnInit, OnDestroy, OnChanges {
+  addressCardIcon = faAddressCard;
   @Input() eventData: any;
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
   @Input() content: any;
@@ -34,8 +36,6 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy, OnChang
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // this.isEventEdit = this.eventService.isEdit;
-    // this.editClient.emit(this.isEventEdit);
   }
 
   editEventManager() {

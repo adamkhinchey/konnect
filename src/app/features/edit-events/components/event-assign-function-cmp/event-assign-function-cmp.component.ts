@@ -6,6 +6,7 @@ import { InviteFnCmpClass } from '../../models/classes';
 import { devLogger } from '../../../../shared/utils';
 import { environment } from '../../../../../environments/environment';
 import { cloneDeep } from 'lodash-es';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-event-assign-function-cmp',
@@ -13,6 +14,7 @@ import { cloneDeep } from 'lodash-es';
   styleUrls: ['./event-assign-function-cmp.component.scss']
 })
 export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
+  addressCardIcon = faAddressCard;
   @Input() eventData: any;
   @Input() clientCmpBtnLabel = '';
   @Input() contactListLabel = '';
@@ -119,6 +121,18 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/edit-profile?isView=' + true);
+    }
+  }
+
+  checkViewPermission(listLabel: any) {
+    if (listLabel === 'Venue Contacts') {
+      return true;
+    } else {
+      if (this.permissionObj.isClient || this.permissionObj.isEventManager || this.isViewPermission) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 

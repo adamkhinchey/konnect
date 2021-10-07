@@ -33,7 +33,7 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
   allIntrCmpConnections: any[] = [];
   userConnections: any[] = [];
   companyConnections: any[] = [];
-  isExternal = 0; // 0 means own contact book, 1 means outer i.e. non-colleagues and non-contact
+  isExternal = 1; // 0 means own contact book, 1 means outer i.e. non-colleagues and non-contact
   keyword = '';
   private searchOnPlatformSub: Subscription | undefined;
   isUserAdmin: boolean | undefined = false;
@@ -59,7 +59,8 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
       this.isUserAdmin = value.isAdmin;
       this.keyword = '';
       this.clearSearchResults();
-      this.getCompanyConnections();
+      // this.getCompanyConnections();
+      this.searchGlobally();
     }, err => {
       devLogger('error', err);
     }, () => {
@@ -73,11 +74,13 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     }
     this.connectionType = changeEvent.nextId;
     this.keyword = '';
-    if (this.isExternal === 0) {
-      this.doConnectionSearch(this.keyword);
-    } else if (this.isExternal === 1) {
+    if (this.isExternal === 1) {
       this.clearSearchResults();
-    }
+      this.searchGlobally();
+    } 
+    // else if (this.isExternal === 1) {
+    //   this.clearSearchResults();
+    // }
   }
 
   toggleDisabled() {
@@ -117,7 +120,7 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
 
   private searchGlobally(): void {
     if (this.defaultCompany && this.defaultCompany.id) {
-      this.searchOnPlatformSub = this.companiesService.searchOnPlatform({
+      this.searchOnPlatformSub = this.companiesService.searchGlobalConnectionForCollection({
         entityType: this.connectionType,
         keyword: this.keyword.trim().toLocaleLowerCase(),
         regionId: null,
@@ -160,8 +163,8 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
         this.searchGlobally();
       }
     }
-    if (this.isExternal === 0 && filterText.length == 0) {
-      this.getCompanyConnections();
+    if (this.isExternal === 1 && filterText.length == 0) {
+      this.searchGlobally();
     }
   }
 

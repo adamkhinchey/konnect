@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
 import { NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EventPanelNavComponent } from '../event-panel-nav/event-panel-nav.component';
 import { Company } from '../../../users/models';
@@ -91,6 +91,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   public supplierCount: number = 0;
   public exhibitorCount: number = 0;
   public emitedCrew: number = 0;
+  isSticky: boolean = false;
 
   constructor(
     // public modalService: NgbModal,
@@ -108,6 +109,16 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   edit() {
     this.eventService.isEdit = true;
   }
+
+  checkVenuePermission() {
+    console.log(this.eventService.activeVenuePanelIndex)
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  checkScroll() {
+    this.isSticky = window.pageYOffset >= 100;
+  }
+
 
   ngOnInit(): void {
     this.eventService.reset();
@@ -223,11 +234,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               city: this.data.eventData.client.clientCompanyCity,
               phone: this.data.eventData.client.clientCompanyPhone,
               companyProfileImage: this.data.eventData.client.clientCompanyProfileImage,
-              state: this.data.eventData.client.clientCompanyState,
+              state: this.data.eventData.client.clientCompanyState || null,
               website: this.data.eventData.client.clientCompanyWebsite,
               companyTaxNumber: '',
-              streetAddress_1: '',
-              streetAddress_2: '',
+              streetAddress1: this.data.eventData.client.streetAddress1 || null,
+              streetAddress2: this.data.eventData.client.streetAddress2 || null,
               countryId: 0,
               postcode: '',
               description: '',
@@ -283,11 +294,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               city: this.data.eventData.eventManager.emCompanyCity,
               phone: this.data.eventData.eventManager.emCompanyPhone,
               companyProfileImage: this.data.eventData.eventManager.emCompanyProfileImage,
-              state: this.data.eventData.eventManager.emCompanyState,
+              state: this.data.eventData.eventManager.emCompanyState || null,
               website: this.data.eventData.eventManager.emCompanyWebsite,
               companyTaxNumber: '',
-              streetAddress_1: '',
-              streetAddress_2: '',
+              streetAddress1: this.data.eventData.eventManager.streetAddress1 || null,
+              streetAddress2: this.data.eventData.eventManager.streetAddress2 || null,
               countryId: 0,
               postcode: '',
               description: '',
@@ -367,6 +378,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   postEventAccessDateTimes: venue.postEventTime,
                   requirements: venue.venueRequirements,
                   internalCmpNotes: venue.internalCmpNotes,
+                  streetAddress1: venue.streetAddress1 || null,
+                  streetAddress2: venue.streetAddress2 || null,
+                  state: venue.companyState || null,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [],
@@ -387,11 +401,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   city: venues[i].companyCity,
                   phone: venues[i].companyPhone,
                   companyProfileImage: venues[i].companyProfileImage,
-                  state: venues[i].companyState,
+                  state: venues[i].companyState || null,
                   website: venues[i].companyWebsite,
                   companyTaxNumber: '',
-                  streetAddress_1: '',
-                  streetAddress_2: '',
+                  streetAddress1: venues[i].streetAddress1 || null,
+                  streetAddress2: venues[i].streetAddress2 || null,
                   countryId: 0,
                   postcode: '',
                   description: '',
@@ -460,7 +474,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   eventAccessDateTimes: venue.eventTime,
                   postEventAccessDateTimes: venue.postEventTime,
                   requirements: venue.venueRequirements,
-                  internalCmpNotes:venue.internalCmpNotes,
+                  internalCmpNotes: venue.internalCmpNotes,
+                  streetAddress1: venue.streetAddress1 || null,
+                  streetAddress2: venue.streetAddress2 || null,
+                  state: venue.companyState || null,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [{
@@ -474,12 +491,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           city: service.companyCity,
                           phone: service.companyPhone,
                           companyProfileImage: service.companyProfileImage,
-                          state: service.companyState,
+                          state: service.companyState || null,
                           website: service.companyWebsite,
                           isViewPermission: service.isViewPermission,
                           companyTaxNumber: '',
-                          streetAddress_1: '',
-                          streetAddress_2: '',
+                          streetAddress1: service.streetAddress1 || null,
+                          streetAddress2: service.streetAddress2 || null,
                           countryId: 0,
                           postcode: '',
                           description: '',
@@ -513,7 +530,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                         return {
                           name: service.serviceName,
                           requirement: service.serviceRequirements,
-                          internalCmpNotes:service.internalCmpNotes,
+                          internalCmpNotes: service.internalCmpNotes,
                           contacts,
                           companyId: service.serviceCompanyId,
                           supplierId: service.serviceId,
@@ -556,11 +573,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   city: venues[i].companyCity,
                   phone: venues[i].companyPhone,
                   companyProfileImage: venues[i].companyProfileImage,
-                  state: venues[i].companyState,
+                  state: venues[i].companyState || null,
                   website: venues[i].companyWebsite,
                   companyTaxNumber: '',
-                  streetAddress_1: '',
-                  streetAddress_2: '',
+                  streetAddress1: venues[i].streetAddress1 || null,
+                  streetAddress2: venues[i].streetAddress2 || null,
                   countryId: 0,
                   postcode: '',
                   description: '',
@@ -631,7 +648,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   eventAccessDateTimes: venue.eventTime,
                   postEventAccessDateTimes: venue.postEventTime,
                   requirements: venue.venueRequirements,
-                  internalCmpNotes:venue.internalCmpNotes,
+                  internalCmpNotes: venue.internalCmpNotes,
+                  streetAddress1: venue.streetAddress1 || null,
+                  streetAddress2: venue.streetAddress2 || null,
+                  state: venue.companyState || null,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [],
@@ -661,12 +681,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             city: exhibitor.companyCity,
                             phone: exhibitor.companyPhone,
                             companyProfileImage: exhibitor.companyProfileImage,
-                            state: exhibitor.companyState,
+                            state: exhibitor.companyState || null,
                             website: exhibitor.companyWebsite,
                             isViewPermission: exhibitor.isViewPermission,
                             companyTaxNumber: '',
-                            streetAddress_1: '',
-                            streetAddress_2: '',
+                            streetAddress1: exhibitor.streetAddress1 || null,
+                            streetAddress2: exhibitor.streetAddress2 || null,
                             countryId: 0,
                             postcode: '',
                             description: '',
@@ -700,7 +720,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           return {
                             name: exhibitor.exhibitorName,
                             requirement: exhibitor.exhibitorRequirements,
-                            internalCmpNotes:exhibitor.internalCmpNotes,
+                            internalCmpNotes: exhibitor.internalCmpNotes,
                             companyId: exhibitor.exhibitorCompanyId,
                             standNumber: exhibitor.standNumber,
                             isViewPermission: exhibitor.isViewPermission,
@@ -743,10 +763,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   phone: venues[i].companyPhone,
                   companyProfileImage: venues[i].companyProfileImage,
                   state: venues[i].companyState,
-                  website: venues[i].companyWebsite,
+                  website: venues[i].companyWebsite || null,
                   companyTaxNumber: '',
-                  streetAddress_1: '',
-                  streetAddress_2: '',
+                  streetAddress1: venues[i].streetAddress1 || null,
+                  streetAddress2: venues[i].streetAddress2 || null,
                   countryId: 0,
                   postcode: '',
                   description: '',
@@ -847,7 +867,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.eventService.hideInfoBar = false;
     }
-
   }
   getData(tabType: any): any {
     if (tabType == 5 && this.data.eventData?.venues && this.data.eventData?.venues.length) {
@@ -1155,7 +1174,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             id: cnt.id,
             email: cnt.email,
             firstName: cnt.firstName,
-            contactLabelId: cnt.contactLabelId
+            contactLabelId: cnt.contactLabelId,
+            mobile: cnt?.mobile
           };
         }) || null;
         this.eventToBeSaved.client = {
@@ -1187,10 +1207,18 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     const wasOwnCompany = !clientCompanyInstOfInviteFnCmp && (this.clientCompany as Company).id === this.defaultCompany.id;
     this.clientCompany = null;
     this.clientContactList = [];
-    this.eventToBeSaved.client = null;
+    this.eventToBeSaved.client = {
+      id: null,
+      contacts: null,
+      isOwnCompany: false,
+      shouldInvite: null,
+      invited: null,
+      internalCmpNotes: this.eventToBeSaved.client!.internalCmpNotes
+    };
     if (wasOwnCompany) {
       const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
-      tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
+      // tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
+      tempMap.set(EventFunctionTypes.CLIENT, false);
       this.eventService.setIsFnOwnCompany.next(tempMap);
     }
   }
@@ -1242,7 +1270,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     if (wasOwnCompany) {
       const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
-      tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
+      // tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
+      tempMap.set(EventFunctionTypes.EVENT_MANAGER, false);
       this.eventService.setIsFnOwnCompany.next(tempMap);
     }
   }
@@ -1255,7 +1284,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             id: cnt.id,
             email: cnt.email,
             firstName: cnt.firstName,
-            contactLabelId: cnt.contactLabelId
+            contactLabelId: cnt.contactLabelId,
+            mobile: cnt?.mobile
           };
         }) || null;
         this.eventToBeSaved.eventManager = {
@@ -1315,7 +1345,9 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 email: cnt.email,
                 firstName: cnt.firstName,
                 contactLabelId: cnt.contactLabelId,
-                isCrew: cnt.isCrew ? cnt.isCrew : 0
+                isCrew: cnt.isCrew ? cnt.isCrew : 0,
+                contactRole: cnt.contactRole || null,
+                mobile: cnt?.mobile
               };
             }) || null;
             // @ts-ignore
@@ -1555,6 +1587,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.eventService.hideInfoBar = false;
             // window.location.reload();
             this.ngOnInit();
+            if (EventFunctionTypes.CLIENT || EventFunctionTypes.EVENT_MANAGER || EventFunctionTypes.VENUE || EventFunctionTypes.SUPPLIERS || EventFunctionTypes.EXHIBITORS) {
+              this.isClientEditable = false;
+              this.isManagerEditable = false;
+              this.eventService.isEdit = false;
+            }
             if (EventFunctionTypes.VENUE) {
               this.eventService.reset();
               this.ngOnInit();

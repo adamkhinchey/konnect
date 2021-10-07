@@ -1,12 +1,10 @@
 import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { SaveEventClass } from "../../models/classes/saveEvent.class";
-import { NgbAccordion, NgbNav, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
+import { NgbAccordion, NgbModal, NgbModalOptions, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { devLogger } from "../../../../shared/utils";
 import {
-  EventSuppliersInterface,
   InviteFnCmpCntInterface,
-  InviteFnCmpInterface, SuppExhTimeWindowFormatInterface,
-  TimeWindowFormatInterface, VenueListItemInterface
+  InviteFnCmpInterface, SuppExhTimeWindowFormatInterface, VenueListItemInterface
 } from '../../models/interfaces';
 import { EventService } from "../../services/event.service";
 import { Subscription } from "rxjs";
@@ -15,6 +13,8 @@ import { Company } from "../../../users/models";
 import { EventTimeWindowTypes } from "../../models/types";
 import { ViewEventService } from '../../services/view-event.service';
 import { Router } from '@angular/router';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
+import { ConfirmationDialogComponent } from 'src/app/shared/components';
 
 @Component({
   selector: 'app-event-suppliers-function',
@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnChanges, AfterViewChecked {
+  addressCardIcon = faAddressCard;
   // @ts-ignore
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
   @Input() eventData: any;
@@ -48,6 +49,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     private viewEventService: ViewEventService,
     private router: Router,
     public _cdr: ChangeDetectorRef,
+    public modalService: NgbModal
   ) {
   }
 
@@ -60,10 +62,10 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     this.eventService.isEdit = !this.isServiceEdit;
     this.isServiceEdit = !this.isServiceEdit;
     this.isServiceEditable = !this.isServiceEditable;
-    // this.editVenue.emit(this.isVenueEdit);
   }
 
   ngOnInit(): void {
+    console.log(this.eventTimeWindowType)
     console.log('event Data: ', this.eventData)
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
@@ -161,6 +163,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
           contacts: null,
           companyId: null,
           requirement: '',
+          internalCmpNotes: null,
           timeWindows
         }]
       };
@@ -177,14 +180,13 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
         contacts: null,
         companyId: null,
         requirement: '',
+        internalCmpNotes: null,
         timeWindows
       });
     }
     this.ngbAccordion.collapseAll();
     this.activeServicePanel = venue.suppliers[0].services.length - 1;
     this.eventService.activeServicePanel = { venueIndex, serviceIndex: this.activeServicePanel };
-    //devLogger('log', {selectedCompanies: this.selectedCompanies});
-
   }
 
   servicePanelActivated(venueIndex: number, serviceIndex: number): void {
@@ -264,16 +266,30 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     }
     this.viewEventService.removeDecline(payload).subscribe((res: any) => {
       console.log(res);
-      this.router.navigate(['home']);
+      if (res.code == 200)
+        this.router.navigate(['home']);
     }, err => {
       devLogger('err', err)
     })
   }
 
-
+  confirmRemove(supplierId: any, isAccept: any) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false
+    };
+    const modalRef = this.modalService.open(ConfirmationDialogComponent, ngbModalOptions);
+    modalRef.result.then((result: any) => {
+      console.log(result);
+      if (result) {
+        this.removeDeclineService(supplierId, isAccept);
+      }
+    }).catch((result) => {
+      console.log('cancelling');
+    });
+  }
 
   acceptDeclineService(tab: any, isAccept: any) {
-    // console.log(tab.venueId);
     console.log("isAccept", isAccept);
     if (tab.supplierId && isAccept > 0) {
       let payload = {
@@ -285,7 +301,6 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
       console.log("payload ** ", payload);
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
         console.log(res);
-        // this.router.navigate(['home']);
       }, err => {
         devLogger('err', err)
       })
@@ -337,6 +352,14 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
 
   ngAfterViewChecked() {
     this._cdr.detectChanges();
+  }
+
+  checkPermission(isViewPermission: any) {
+    if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
+      return false
+    } else {
+      return true
+    }
   }
 
 }

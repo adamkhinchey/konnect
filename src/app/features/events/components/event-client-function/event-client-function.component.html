@@ -28,8 +28,8 @@
                       <a *ngIf="getCompanyWebsite()" [href]="getCompanyWebsite()"
                          target="_blank"> {{getCompanyWebsite()}}</a>
                       <span *ngIf="getCompanyWebsite()">|</span>
-                      <a>
-                        <i class="map marker alternate icon"></i>{{selectedCompany.city}}</a>
+                      <span class="m-0">
+                        <i class="map marker alternate icon"></i>{{selectedCompany.city}}</span>
                       <span>|</span>
                       <i class="phone icon"></i>{{getCompanyPhone() || ''}}
                     </div>
@@ -75,21 +75,22 @@
           <textarea rows="3" class="textarea" [(ngModel)]="eventToBeSaved.description"
                     [ngModelOptions]="{standalone:true}"></textarea>
         </div>
-        <div class="field">
+        <!-- <div class="field">
           <div class="ui toggle checkbox toggleOnColumn"
                (click)="eventToBeSaved.hasExhibitors=!eventToBeSaved.hasExhibitors">
             <input type="checkbox" name="exhibitors" class="hidden"
                    tabindex="0" [(ngModel)]="eventToBeSaved.hasExhibitors" [ngModelOptions]="{standalone:true}">
             <label>Event has exhibitors</label>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="sixteen wide column saveButtons paddingT0">
         <div class="ui divider"></div>
         <div class="ui grid stackable">
           <div class="sixteen wide column right aligned">
-            <div class="ui button hasModal" data-modal="inviteModal" (click)="saveAndInvite.emit(true)">Save &amp;
-              Invite
+            <div class="ui button hasModal" data-modal="inviteModal" (click)="saveAndInvite.emit(true)">Save 
+              <!-- &amp;
+              Invite -->
             </div>
           </div>
         </div>
