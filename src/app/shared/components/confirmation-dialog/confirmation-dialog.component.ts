@@ -8,7 +8,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ConfirmationDialogComponent implements OnInit {
   @Input() title: string = 'Please Confirm';
-  @Input() message: string = 'Do you really want to remove?';
+  @Input() message: string = 'Are you sure you want to delete this item. This cannot be undone and all associated data will be removed from the event';
   @Input() btnOkText: string = 'Ok';
   @Input() btnCancelText: string = 'Cancel';
 
