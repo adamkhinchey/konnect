@@ -294,7 +294,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="ui divider"></div>
                           <div class="ui grid stackable">
                             <div class="ten wide column middle aligned">
-                              <div (click)="removeDeclineExhibitor(exhibitor?.exhibitorId, 0)" *ngIf="!eventData.eventData.isDeleted && !checkPermission(exhibitor.isViewPermission)"
+                              <div (click)="confirmRemove(exhibitor?.exhibitorId, 0)" *ngIf="!eventData.eventData.isDeleted && !checkPermission(exhibitor.isViewPermission)"
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>

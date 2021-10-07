@@ -13,7 +13,7 @@ import { InviteFnCmpClass } from '../../models/classes';
 import { SaveEventClass } from '../../models/classes/saveEvent.class';
 import { Subscription } from 'rxjs';
 import { EventAssignFunctionCmpComponent } from '../event-assign-function-cmp/event-assign-function-cmp.component';
-import { NgbAccordion, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordion, NgbModal, NgbModalOptions, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EventService } from '../../services/event.service';
 import { devLogger } from '../../../../shared/utils';
 import { EventTimeWindowTypes } from "../../models/types";
@@ -22,6 +22,7 @@ import { ViewEventService } from '../../services/view-event.service';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
+import { ConfirmationDialogComponent } from 'src/app/shared/components';
 
 
 @Component({
@@ -59,7 +60,8 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   constructor(
     private eventService: EventService,
     private viewEventService: ViewEventService,
-    private router: Router
+    private router: Router,
+    public modalService: NgbModal
   ) {
   }
 
@@ -313,6 +315,22 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       this.eventService.isSaveDisabled = true;
       return true
     }
+  }
+
+  confirmRemove(venueId: any, isAccept: any) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false
+    };
+    const modalRef = this.modalService.open(ConfirmationDialogComponent, ngbModalOptions);
+    modalRef.result.then((result: any) => {
+      console.log(result);
+      if (result) {
+        this.removeDeclineService(venueId, isAccept);
+      }
+    }).catch((result) => {
+      console.log('cancelling');
+    });
   }
 
   removeDeclineService(venueId: any, isAccept: any) {

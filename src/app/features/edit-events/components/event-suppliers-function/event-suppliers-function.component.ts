@@ -1,6 +1,6 @@
 import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { SaveEventClass } from "../../models/classes/saveEvent.class";
-import { NgbAccordion, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
+import { NgbAccordion, NgbModal, NgbModalOptions, NgbPanelChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { devLogger } from "../../../../shared/utils";
 import {
   InviteFnCmpCntInterface,
@@ -14,6 +14,7 @@ import { EventTimeWindowTypes } from "../../models/types";
 import { ViewEventService } from '../../services/view-event.service';
 import { Router } from '@angular/router';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
+import { ConfirmationDialogComponent } from 'src/app/shared/components';
 
 @Component({
   selector: 'app-event-suppliers-function',
@@ -48,6 +49,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     private viewEventService: ViewEventService,
     private router: Router,
     public _cdr: ChangeDetectorRef,
+    public modalService: NgbModal
   ) {
   }
 
@@ -264,14 +266,28 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     }
     this.viewEventService.removeDecline(payload).subscribe((res: any) => {
       console.log(res);
-      if(res.code == 200)
-      this.router.navigate(['home']);
+      if (res.code == 200)
+        this.router.navigate(['home']);
     }, err => {
       devLogger('err', err)
     })
   }
 
-
+  confirmRemove(supplierId: any, isAccept: any) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false
+    };
+    const modalRef = this.modalService.open(ConfirmationDialogComponent, ngbModalOptions);
+    modalRef.result.then((result: any) => {
+      console.log(result);
+      if (result) {
+        this.removeDeclineService(supplierId, isAccept);
+      }
+    }).catch((result) => {
+      console.log('cancelling');
+    });
+  }
 
   acceptDeclineService(tab: any, isAccept: any) {
     console.log("isAccept", isAccept);
@@ -338,7 +354,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     this._cdr.detectChanges();
   }
 
-  checkPermission(isViewPermission:any) {
+  checkPermission(isViewPermission: any) {
     if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
       return false
     } else {

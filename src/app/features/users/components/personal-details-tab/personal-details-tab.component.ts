@@ -61,6 +61,7 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy, OnChanges
     if (this.personalDetails?.email) {
       this.personalDetailsForm.controls['email'].setValue(this.personalDetails?.email);
       this.personalDetailsForm.controls['firstName'].setValue(this.personalDetails?.firstName);
+      this.personalDetailsForm.controls['mobileNumber'].setValue(this.personalDetails?.mobile);
       this.personalDetailsForm.controls['inviteUID'].setValue(this.personalDetails?.inviteUID);
     }
   }

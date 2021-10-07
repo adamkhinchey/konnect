@@ -80,14 +80,14 @@
           <textarea rows="3" class="textarea" [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.description"
             [ngModelOptions]="{standalone:true}"></textarea>
         </div>
-        <div class="field">
+        <!-- <div class="field">
           <div class="ui toggle checkbox toggleOnColumn"
             (click)="eventToBeSaved.hasExhibitors=!eventToBeSaved.hasExhibitors">
             <input type="checkbox" name="exhibitors" class="hidden" tabindex="0"
               [(ngModel)]="eventToBeSaved.hasExhibitors" [ngModelOptions]="{standalone:true}">
             <label>Event has exhibitors</label>
           </div>
-        </div>
+        </div> -->
 
         <div class="nine wide column">
           <div class="ui dividing header">

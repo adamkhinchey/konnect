@@ -24,12 +24,14 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   listDisplayOverFlow = '';
   contactLabelId: number | null = null;
   contactRole: string | null = null;
+  contactRoleInvite: string | null = null;
   contactList: FnCmpCntInterface[] = [];
   cntSearchList: any[] = [];
   selectedContact: any;
   inviteCmpCntForm = this.fb.group({
     firstName: [null, [Validators.required]],
-    email: [null, [Validators.required, Validators.pattern(this.EMAIL_REGEX)]]
+    email: [null, [Validators.required, Validators.pattern(this.EMAIL_REGEX)]],
+    mobile: [null, [Validators.required]],
   });
   contactLabels = environment.eventContactLabels;
   private cmpCntSearchSub: Subscription | undefined;
@@ -44,12 +46,44 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log(this.isCrew);
+    console.log('company id: ', this.companyId)
+    if (this.companyId && this.isCrew == 0) {
+      this.getCompanyContacts();
+    }
+  }
+
+  getCompanyContacts() {
+    this.cmpCntSearchSub = this.companiesService.getCmpContacts({
+      companyId: this.companyId, isCrew: 0
+    }, this.searchKeyWord.trim().length === 1).subscribe(
+      value => {
+        console.log('value: ', value)
+        if (value && value.length) {
+          devLogger('log', value);
+          this.cntSearchList = value.filter((u: any) => {
+            return this.contactList.findIndex(cnt => cnt.id === u.userId) === -1
+              && this.alreadyInContactList.findIndex(cnt => cnt.id === u.userId) === -1
+              && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
+              && this.contactList.findIndex(cnt => cnt.email === u.email) === -1;
+          }) || [];
+          this.listDisplayCss = 'block !important';
+          this.listDisplayOverFlow = 'auto';
+        }
+      },
+      error => {
+        devLogger('error', error);
+        this.cntSearchList = [];
+        this.listDisplayCss = '';
+        this.listDisplayOverFlow = '';
+      }
+    );
   }
 
   searchForCompCnt(): void {
     this.selectedContact = null;
     this.contactLabelId = null;
-    this.contactRole = null
+    this.contactRole = null;
+    this.contactRoleInvite = null;
     if (this.companyId) {
       if (this.searchKeyWord.trim().length >= 3) {
         this.cmpCntSearchSub = this.companiesService.searchCmpContacts({
@@ -85,10 +119,21 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectCnt(contact: any): void {
+  selectCrewCnt(contact: any): void {
     this.selectedContact = contact;
     this.searchKeyWord = this.selectedContact?.firstName + ' ' + this.selectedContact?.lastName || '';
     this.cntSearchList = [];
+  }
+
+  selectCnt(ev: any): void {
+    console.log(ev.target.value);
+    let contact = this.cntSearchList.filter((val:any)=>{
+      return val.userId == ev.target.value
+    });
+
+    this.selectedContact = contact[0];
+    this.searchKeyWord = this.selectedContact?.firstName + ' ' + this.selectedContact?.lastName || '';
+    // this.cntSearchList = [];
   }
 
   addCmpCntToList(inviteType = false): void {
@@ -98,8 +143,14 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
         return;
       }
     }
-    if (this.isCrew == 1) {
+    if (this.isCrew == 1 && !inviteType) {
       if (!this.contactRole) {
+        this.toaster.error('Please select a contact role');
+        return;
+      }
+    }
+    if (this.isCrew == 1 && inviteType) {
+      if (!this.contactRoleInvite) {
         this.toaster.error('Please select a contact role');
         return;
       }
@@ -129,14 +180,14 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
       this.contactList.push({
         lastName: '',
         position: '(Invited)',
-        mobile: '',
+        mobile: this.inviteCmpCntForm.get('mobile')?.value,
         email: this.inviteCmpCntForm.get('email')?.value,
         profileImage: undefined,
         firstName: this.inviteCmpCntForm.get('firstName')?.value,
         id: null,
         contactLabelId: null,
         isCrew: this.isCrew,
-        contactRole: null
+        contactRole: this.contactRoleInvite
       });
     } else {
       this.toaster.error('Please search and select a contact');
@@ -146,6 +197,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
     this.contactLabelId = null;
     this.searchKeyWord = '';
     this.contactRole = null;
+    this.contactRoleInvite = null;
   }
 
   validateFields(): boolean {

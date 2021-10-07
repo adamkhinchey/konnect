@@ -1174,7 +1174,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             id: cnt.id,
             email: cnt.email,
             firstName: cnt.firstName,
-            contactLabelId: cnt.contactLabelId
+            contactLabelId: cnt.contactLabelId,
+            mobile: cnt?.mobile
           };
         }) || null;
         this.eventToBeSaved.client = {
@@ -1283,7 +1284,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             id: cnt.id,
             email: cnt.email,
             firstName: cnt.firstName,
-            contactLabelId: cnt.contactLabelId
+            contactLabelId: cnt.contactLabelId,
+            mobile: cnt?.mobile
           };
         }) || null;
         this.eventToBeSaved.eventManager = {
@@ -1344,7 +1346,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 firstName: cnt.firstName,
                 contactLabelId: cnt.contactLabelId,
                 isCrew: cnt.isCrew ? cnt.isCrew : 0,
-                contactRole: cnt.contactRole || null
+                contactRole: cnt.contactRole || null,
+                mobile: cnt?.mobile
               };
             }) || null;
             // @ts-ignore

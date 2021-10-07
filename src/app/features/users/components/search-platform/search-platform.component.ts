@@ -83,7 +83,8 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
       this.keyword = '';
       this.getRegions();
       this.clearSearchResults();
-      this.getCompanyConnections();
+      // this.getCompanyConnections();
+      this.searchGlobally();
     }, err => {
       devLogger('error', err);
     }, () => {
@@ -110,6 +111,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
       this.doConnectionSearch(this.keyword);
     } else if (this.isExternal === 1) {
       this.clearSearchResults();
+      this.searchGlobally();
     }
   }
 
@@ -150,7 +152,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
 
   private searchGlobally(): void {
     if (this.defaultCompany && this.defaultCompany.id) {
-      this.searchOnPlatformSub = this.companiesService.searchOnPlatform({
+      this.searchOnPlatformSub = this.companiesService.searchOnPlatformNew({
         entityType: this.connectionType,
         keyword: this.keyword.trim().toLocaleLowerCase(),
         regionId: this.regionIds,
@@ -193,7 +195,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
         this.searchGlobally();
       }
     }
-    if (filterText.length === 0 && this.isExternal === 0) {
+    if (filterText.length === 0 && this.isExternal === 1) {
       this.getCompanyConnections();
     }
   }

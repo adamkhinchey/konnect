@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { NgbAccordion, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordion, NgbModal, NgbModalOptions, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { SaveEventClass } from '../../models/classes/saveEvent.class';
 import { Subscription } from 'rxjs';
 import { Company } from '../../../users/models';
@@ -16,6 +16,7 @@ import { EventTimeWindowTypes } from "../../models/types";
 import { ViewEventService } from '../../services/view-event.service';
 import { Router } from '@angular/router';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
+import { ConfirmationDialogComponent } from 'src/app/shared/components';
 
 @Component({
   selector: 'app-event-exhibitors-function',
@@ -47,7 +48,8 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   constructor(
     public eventService: EventService,
     private viewEventService: ViewEventService,
-    private router: Router
+    private router: Router,
+    public modalService: NgbModal
   ) {
   }
 
@@ -282,6 +284,22 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     this.exhCmpCntAddedSub?.unsubscribe();
   }
 
+  confirmRemove(exhibitorId: any, isAccept: any) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false
+    };
+    const modalRef = this.modalService.open(ConfirmationDialogComponent, ngbModalOptions);
+    modalRef.result.then((result: any) => {
+      console.log(result);
+      if (result) {
+        this.removeDeclineExhibitor(exhibitorId, isAccept);
+      }
+    }).catch((result) => {
+      console.log('cancelling');
+    });
+  }
+
   removeDeclineExhibitor(exhibitorId: any, isAccept: any) {
     console.log(exhibitorId);
     let payload = {
@@ -297,13 +315,6 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
       devLogger('err', err)
     })
   }
-
-
-
-
-
-
-
 
   acceptDeclineService(tab: any, isAccept: any) {
     // console.log(tab.venueId);
