@@ -31,7 +31,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   inviteCmpCntForm = this.fb.group({
     firstName: [null, [Validators.required]],
     email: [null, [Validators.required, Validators.pattern(this.EMAIL_REGEX)]],
-    mobile: [null, [Validators.required]],
+    mobile: [null],
   });
   contactLabels = environment.eventContactLabels;
   private cmpCntSearchSub: Subscription | undefined;
