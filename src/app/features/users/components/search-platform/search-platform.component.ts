@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
 import { NgbModal, NgbModalRef, NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 import { ConnectionType, RemoveType, UserSettingsInterface } from "../../../../shared/models";
@@ -84,7 +84,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
       this.getRegions();
       this.clearSearchResults();
       // this.getCompanyConnections();
-      this.searchGlobally();
+      // this.searchGlobally();
     }, err => {
       devLogger('error', err);
     }, () => {
@@ -111,7 +111,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
       this.doConnectionSearch(this.keyword);
     } else if (this.isExternal === 1) {
       this.clearSearchResults();
-      this.searchGlobally();
+      // this.searchGlobally();
     }
   }
 
