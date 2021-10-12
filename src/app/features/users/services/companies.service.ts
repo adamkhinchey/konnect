@@ -400,4 +400,18 @@ export class CompaniesService {
     );
   }
 
+  checkDomain(param: { companyId: any, userId: any }, showSpinner = true): Observable<any> {
+    if (showSpinner) {
+      this.spinner.show();
+    }
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/checkUserCompanyDomain`,
+      { ...param }
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      take(1),
+      this.httpErrorHandler.processError()
+    );
+  }
+
 }
