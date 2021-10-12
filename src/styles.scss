@@ -913,3 +913,12 @@ select.ui.dropdown {
   right: -2px!important;
   line-height: 20px!important;
 }
+
+// .trashIconOuter { background: #db2828; width: 20px; height: 20px; border-radius: 50px; text-align: center; font-size: 13px; }
+.posrel { position: relative; }
+.trashIconOuter {
+	padding: 6px !important;
+	position: absolute;
+	right: 5px;
+	top: 40px;
+}
