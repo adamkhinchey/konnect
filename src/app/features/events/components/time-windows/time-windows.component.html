@@ -48,7 +48,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="ui two column grid"
+          <div class="ui two column grid posrel"
                *ngFor="let preEventEventTimeCount of Arr(preEventTimesCount).fill(1); let i=index">
             <div class="column">
               <span>Start Date &amp; Time</span>
@@ -86,6 +86,8 @@
                     (addNewDateTime)="pushPreEventEndDateTime($event,i)"></app-date-time-picker>
                 </div>
               </div>
+
+              <a href="#" class="ui button basic circular compact mini trashIconOuter" > <i class="m-0 trash alternate icon" ></i> </a>
             </div>
           </div>
           <div class="ui grid">
@@ -153,7 +155,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="ui two column grid"
+          <div class="ui two column grid posrel"
                *ngFor="let eventTmCount of Arr(eventTimesCount).fill(1); let i=index">
             <div class="column">
               <span>Start Date &amp; Time</span>
@@ -193,6 +195,7 @@
                   ></app-date-time-picker>
                 </div>
               </div>
+              <a href="#" class="ui button basic circular compact mini trashIconOuter" > <i class="m-0 trash alternate icon" ></i> </a>
             </div>
           </div>
           <div class="ui grid">
@@ -260,7 +263,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="ui two column grid"
+          <div class="ui two column grid posrel"
                *ngFor="let preventEventTimeCount of Arr(postEventTimesCount).fill(1); let i=index">
             <div class="column">
               <span> Start Date &amp; Time</span>
@@ -300,6 +303,7 @@
                   </app-date-time-picker>
                 </div>
               </div>
+              <a href="#" class="ui button basic circular compact mini trashIconOuter" > <i class="m-0 trash alternate icon" ></i> </a>
             </div>
           </div>
           <div class="ui grid">
