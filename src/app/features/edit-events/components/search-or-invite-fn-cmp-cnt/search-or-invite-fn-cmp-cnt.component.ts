@@ -71,12 +71,13 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
         console.log('value: ', value)
         if (value && value.length) {
           devLogger('log', value);
-          this.cntSearchList = value.filter((u: any) => {
-            return this.contactList.findIndex(cnt => cnt.id === u.userId) === -1
-              && this.alreadyInContactList.findIndex(cnt => cnt.id === u.userId) === -1
-              && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
-              && this.contactList.findIndex(cnt => cnt.email === u.email) === -1;
-          }) || [];
+          this.cntSearchList = value || [];
+          // value.filter((u: any) => {
+          //   return this.contactList.findIndex(cnt => cnt.id === u.userId) === -1
+          //     && this.alreadyInContactList.findIndex(cnt => cnt.id === u.userId) === -1
+          //     && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
+          //     && this.contactList.findIndex(cnt => cnt.email === u.email) === -1;
+          // }) || [];
           this.listDisplayCss = 'block !important';
           this.listDisplayOverFlow = 'auto';
         }
@@ -103,12 +104,13 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
           value => {
             if (value && value.data) {
               devLogger('log', value);
-              this.cntSearchList = value.data?.user.filter((u: any) => {
-                return this.contactList.findIndex(cnt => cnt.id === u.userId) === -1
-                  && this.alreadyInContactList.findIndex(cnt => cnt.id === u.userId) === -1
-                  && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
-                  && this.contactList.findIndex(cnt => cnt.email === u.email) === -1;
-              }) || [];
+              this.cntSearchList = value.data?.user || [];
+              // value.data?.user.filter((u: any) => {
+              //   return this.contactList.findIndex(cnt => cnt.id === u.userId) === -1
+              //     && this.alreadyInContactList.findIndex(cnt => cnt.id === u.userId) === -1
+              //     && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
+              //     && this.contactList.findIndex(cnt => cnt.email === u.email) === -1;
+              // }) || [];
               this.listDisplayCss = 'block !important';
               this.listDisplayOverFlow = 'auto';
             }

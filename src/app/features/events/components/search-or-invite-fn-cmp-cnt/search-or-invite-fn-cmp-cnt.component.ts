@@ -8,6 +8,7 @@ import { environment } from '../../../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { FnCmpCntInterface } from '../../models/interfaces';
+import { UserInfoService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-search-or-invite-fn-cmp-cnt',
@@ -36,15 +37,18 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   contactLabels = environment.eventContactLabels;
   private cmpCntSearchSub: Subscription | undefined;
   private emittedContactList = false;
-
+  userId: any = 0;
   constructor(
     private fb: FormBuilder,
     private companiesService: CompaniesService,
-    private toaster: ToastrService) {
+    private toaster: ToastrService,
+    public userInfoService: UserInfoService
+  ) {
   }
 
 
   ngOnInit(): void {
+    this.fetchUserInfo();
     console.log('company id: ', this.companyId)
     if (this.companyId) {
       this.getCompanyContacts();
@@ -53,6 +57,14 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
     }
   }
 
+  private fetchUserInfo(): void {
+    this.userInfoService.getInfo(this.userId).subscribe((value) => {
+      console.log('value: ', value)
+      this.userId = value.id
+    }, err => {
+      devLogger('error', { err });
+    });
+  }
 
   getCompanyContacts() {
     this.cmpCntSearchSub = this.companiesService.getCmpContacts({
@@ -62,12 +74,13 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
         console.log('value: ', value)
         if (value && value.length) {
           devLogger('log', value);
-          this.cntSearchList = value.filter((u: any) => {
-            return this.contactList.findIndex(cnt => cnt.id === u.userId) === -1
-              && this.alreadyInContactList.findIndex(cnt => cnt.id === u.userId) === -1
-              && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
-              && this.contactList.findIndex(cnt => cnt.email === u.email) === -1;
-          }) || [];
+          this.cntSearchList = value || [];
+          // value.filter((u: any) => {
+          //   return this.contactList.findIndex(cnt => cnt.id === u.userId) === -1
+          //     && this.alreadyInContactList.findIndex(cnt => cnt.id === u.userId) === -1
+          //     && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
+          //     && this.contactList.findIndex(cnt => cnt.email === u.email) === -1;
+          // }) || [];
           this.listDisplayCss = 'block !important';
           this.listDisplayOverFlow = 'auto';
         }
@@ -122,7 +135,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   selectCnt(ev: any): void {
     console.log(ev.target.value);
-    let contact = this.cntSearchList.filter((val:any)=>{
+    let contact = this.cntSearchList.filter((val: any) => {
       return val.userId == ev.target.value
     });
 
@@ -184,11 +197,23 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   }
 
   emitContactListAndClose(): void {
-    if (!this.emittedContactList) {
-      devLogger('log', { cntList: this.contactList });
-      this.addedContactList.emit(this.contactList);
-      this.emittedContactList = true;
-    }
+    this.companiesService.checkDomain({
+      companyId: this.companyId, userId: this.userId
+    }).subscribe((res: any) => {
+      if (res.code == 200) {
+        if (res.data.domainMatch) {
+          if (!this.emittedContactList) {
+            devLogger('log', { cntList: this.contactList });
+            this.addedContactList.emit(this.contactList);
+            this.emittedContactList = true;
+          }
+        } else {
+          this.toaster.error('This user cannot be invited to this company');
+        }
+      }
+    }, err => {
+      console.log(err);
+    })
   }
 
   ngOnDestroy(): void {

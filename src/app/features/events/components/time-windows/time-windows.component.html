@@ -68,7 +68,7 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column pr-5">
               <span>End Date &amp; Time</span>
               <div class="ui calendar datePicker">
                 <div class="ui input left icon">
@@ -87,7 +87,7 @@
                 </div>
               </div>
 
-              <a href="#" class="ui button basic circular compact mini trashIconOuter" > <i class="m-0 trash alternate icon" ></i> </a>
+              <a *ngIf="preEventTimesCount > 1" class="ui button basic circular compact mini trashIconOuter" (click)="removePreTime(i)"> <i class="m-0 trash alternate icon" ></i> </a>
             </div>
           </div>
           <div class="ui grid">
@@ -176,7 +176,7 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column pr-5">
               <span>End Date &amp; Time</span>
               <div class="ui calendar datePicker">
                 <div class="ui input left icon">
@@ -195,7 +195,7 @@
                   ></app-date-time-picker>
                 </div>
               </div>
-              <a href="#" class="ui button basic circular compact mini trashIconOuter" > <i class="m-0 trash alternate icon" ></i> </a>
+              <a *ngIf="eventTimesCount > 1" class="ui button basic circular compact mini trashIconOuter" (click)="removeEventTime(i)"> <i class="m-0 trash alternate icon" ></i> </a>
             </div>
           </div>
           <div class="ui grid">
@@ -284,7 +284,7 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column pr-5">
               <span>End Date &amp; Time</span>
               <div class="ui calendar datePicker">
                 <div class="ui input left icon">
@@ -303,7 +303,7 @@
                   </app-date-time-picker>
                 </div>
               </div>
-              <a href="#" class="ui button basic circular compact mini trashIconOuter" > <i class="m-0 trash alternate icon" ></i> </a>
+              <a *ngIf="postEventTimesCount > 1" class="ui button basic circular compact mini trashIconOuter" (click)="removePostTime(i)"> <i class="m-0 trash alternate icon" ></i> </a>
             </div>
           </div>
           <div class="ui grid">
