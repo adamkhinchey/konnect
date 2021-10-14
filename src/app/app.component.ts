@@ -14,8 +14,7 @@ export class AppComponent {
       if (event instanceof NavigationEnd) {
         if (event.url === '/login' ||
           event.url.includes('/forgot-password') ||
-          event.url.includes('/create-konnect-profile') || 
-          event.url.indexOf('verify-email')
+          event.url.includes('/create-konnect-profile')
           ) {
           this.showHeader = false;
         } else {
