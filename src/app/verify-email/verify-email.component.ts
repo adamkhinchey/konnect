@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class VerifyEmailComponent implements OnInit {
   // @ViewChild('content', { static: false }) modalContent!: TemplateRef<any>;
   // @ViewChild('contentfailed', { static: false }) modalContentFailed!: TemplateRef<any>;
+  success: boolean = true;
   constructor(
     private modalService: NgbModal,
   ) { }

@@ -4,8 +4,8 @@
             <span class="loginLogo">konnect</span>
         </h2>
         
-        <!-- <ng-template #content let-modal> -->
-            <div class="col-md-12 text-center">
+
+            <div class="col-md-12 text-center" *ngIf="success">
                
                 <div class="mb-4 mt-3" >
                     <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 82 82">
@@ -35,10 +35,9 @@
                     <button type="button" class="btn btn-primary">Login Now</button>
                 </div>
             </div>
-        <!-- </ng-template> -->
     
-        <!-- <ng-template #contentfailed let-modal> -->
-            <div class="col-md-12 text-center">
+
+            <div class="col-md-12 text-center" *ngIf="success">
                 <div class="modal-icon">
                     <div class="mb-4 mt-3" >
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 8.145 8.145">
@@ -55,7 +54,6 @@
                     <button type="button" class="btn btn-primary">Retry</button>
                 </div>
             </div>
-        <!-- </ng-template> -->
 
     </div>
 </div>
