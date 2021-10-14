@@ -4,8 +4,8 @@
             <span class="loginLogo">konnect</span>
         </h2>
         
-        <ng-template #content let-modal>
-            <div class="modal-body text-center">
+        <!-- <ng-template #content let-modal> -->
+            <div class="col-md-12 text-center">
                
                 <div class="mb-4 mt-3" >
                     <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 82 82">
@@ -29,16 +29,16 @@
                       
                 </div>
     
-                <h3>Success!</h3>
-                <p class="mb-0">Email address verified successfully.</p>
+                <h2>Success!</h2>
+                <h4 class="mb-0 mt-3">Email address verified successfully.</h4>
+                <div class="modal-footer justify-content-center border-0">
+                    <button type="button" class="btn btn-primary">Login Now</button>
+                </div>
             </div>
-            <div class="modal-footer justify-content-center border-0">
-                <button type="button" class="btn btn-primary">Login Now</button>
-            </div>
-        </ng-template>
+        <!-- </ng-template> -->
     
-        <ng-template #contentfailed let-modal>
-            <div class="modal-body text-center">
+        <!-- <ng-template #contentfailed let-modal> -->
+            <div class="col-md-12 text-center">
                 <div class="modal-icon">
                     <div class="mb-4 mt-3" >
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 8.145 8.145">
@@ -49,13 +49,13 @@
                           </svg>
                     </div>
                 </div>
-                <h3>Failed!</h3>
-                <p class="mb-0">Failed to verify your email.</p>
+                <h2>Failed!</h2>
+                <h4 class="mb-0 mt-3">Failed to verify your email.</h4>
+                <div class="modal-footer justify-content-center border-0">
+                    <button type="button" class="btn btn-primary">Retry</button>
+                </div>
             </div>
-            <div class="modal-footer justify-content-center border-0">
-                <button type="button" class="btn btn-primary">Retry</button>
-            </div>
-        </ng-template>
+        <!-- </ng-template> -->
 
     </div>
 </div>
