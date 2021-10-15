@@ -49,6 +49,16 @@ export class UpdateUserProfileService {
     );
   }
 
+  verifyEmail(token: any): Observable<any> {
+    this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/verifyUserEmail`,
+      { token: token }
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      this.httpErrorHandler.processError(false),
+    );
+  }
   // getUserDataByUid(payload: { uid: any }): Observable<any> | void {
   //   alert('payload: ' + payload);
   //   this.spinner.show();

@@ -191,7 +191,7 @@
                                                                     appImageFallback="./assets/img/default_konnect_img.png">
                                                                 <div class="header">
                                                                     <a
-                                                                        (click)="goToCompanyProfile(cmpConn.id, cmpConn.isPrivate)">{{cmpConn?.companyName}}</a>
+                                                                        (click)="goToCompanyProfile(cmpConn.id, cmpConn.isPrivate, cmpConn.isSeed)">{{cmpConn?.companyName}}</a>
                                                                 </div>
                                                                 <div class="meta">
                                                                     <a *ngIf="cmpConn?.website" target="_blank"
