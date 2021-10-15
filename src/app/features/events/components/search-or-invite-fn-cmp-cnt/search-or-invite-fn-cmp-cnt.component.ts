@@ -184,17 +184,19 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
               id: null,
               contactLabelId: null
             });
+            this.inviteCmpCntForm.reset();
           } else {
             this.toaster.error('This user cannot be invited to this company');
+            this.inviteCmpCntForm.reset();
           }
         }
       }, err => {
         console.log(err);
+        this.inviteCmpCntForm.reset();
       })
     } else {
       this.toaster.error('Please select a contact');
     }
-    this.inviteCmpCntForm.reset();
     this.selectedContact = null;
     this.contactLabelId = null;
     this.searchKeyWord = '';
