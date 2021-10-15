@@ -190,18 +190,30 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
         this.toaster.error('This user is already invited in contact list please check the email');
         return;
       }
-      this.contactList.push({
-        lastName: '',
-        position: '(Invited)',
-        mobile: this.inviteCmpCntForm.get('mobile')?.value,
-        email: this.inviteCmpCntForm.get('email')?.value,
-        profileImage: undefined,
-        firstName: this.inviteCmpCntForm.get('firstName')?.value,
-        id: null,
-        contactLabelId: null,
-        isCrew: this.isCrew,
-        contactRole: this.contactRoleInvite
-      });
+      this.companiesService.checkDomain({
+        companyId: this.companyId, email: this.inviteCmpCntForm.get('email')?.value
+      }).subscribe((res: any) => {
+        if (res.code == 200) {
+          if (res.data.domainMatch) {
+            this.contactList.push({
+              lastName: '',
+              position: '(Invited)',
+              mobile: this.inviteCmpCntForm.get('mobile')?.value,
+              email: this.inviteCmpCntForm.get('email')?.value,
+              profileImage: undefined,
+              firstName: this.inviteCmpCntForm.get('firstName')?.value,
+              id: null,
+              contactLabelId: null,
+              isCrew: this.isCrew,
+              contactRole: this.contactRoleInvite
+            });
+          } else {
+            this.toaster.error('This user cannot be invited to this company');
+          }
+        }
+      }, err => {
+        console.log(err);
+      })
     } else {
       this.toaster.error('Please search and select a contact');
     }
@@ -222,23 +234,11 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   }
 
   emitContactListAndClose(): void {
-    this.companiesService.checkDomain({
-      companyId: this.companyId, userId: this.userId
-    }).subscribe((res: any) => {
-      if (res.code == 200) {
-        if (res.data.domainMatch) {
-          if (!this.emittedContactList) {
-            devLogger('log', { cntList: this.contactList });
-            this.addedContactList.emit(this.contactList);
-            this.emittedContactList = true;
-          }
-        } else {
-          this.toaster.error('This user cannot be invited to this company');
-        }
-      }
-    }, err => {
-      console.log(err);
-    })
+    if (!this.emittedContactList) {
+      devLogger('log', { cntList: this.contactList });
+      this.addedContactList.emit(this.contactList);
+      this.emittedContactList = true;
+    }
   }
 
   ngOnDestroy(): void {

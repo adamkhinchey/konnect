@@ -426,7 +426,7 @@ export class CompaniesService {
     );
   }
 
-  checkDomain(param: { companyId: any, userId: any }, showSpinner = true): Observable<any> {
+  checkDomain(param: { companyId: any, email: any }, showSpinner = true): Observable<any> {
     if (showSpinner) {
       this.spinner.show();
     }
