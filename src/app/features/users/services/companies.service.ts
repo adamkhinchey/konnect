@@ -54,6 +54,32 @@ export class CompaniesService {
     );
   }
 
+  searchForEvent(
+    param: { domain: string | null; searchKeyword: string | null; includeMyCompanies?: boolean; includePrivate?: number },
+    showSpinner = true): Observable<any> {
+    if (showSpinner) {
+      this.spinner.show();
+    }
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/searchCompanyForEvent`,
+      { ...param }
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      this.httpErrorHandler.processError(),
+      map((response: ApiResponseModelInterface) => (
+        response ? {
+          company: response?.data?.company || null,
+          companyList: response?.data?.companyList || null
+        } : null)),
+      map((companyResponse) => {
+        return {
+          company: this.transformToCompanyModel(companyResponse?.company),
+          companyList: companyResponse?.companyList?.map((company: any) => this.transformToCompanyModel(company))
+        };
+      })
+    );
+  }
+
   assignCompanyToUser(param: Partial<AssociateToCompany>): Observable<any> {
     this.spinner.show();
     return this.http.post(
