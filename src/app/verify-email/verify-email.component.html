@@ -32,12 +32,12 @@
                 <h2>Success!</h2>
                 <h4 class="mb-0 mt-3">Email address verified successfully.</h4>
                 <div class="modal-footer justify-content-center border-0">
-                    <button type="button" class="btn btn-primary">Login Now</button>
+                    <button type="button" class="btn btn-primary" (click)="login()">Login Now</button>
                 </div>
             </div>
     
 
-            <div class="col-md-12 text-center" *ngIf="success">
+            <div class="col-md-12 text-center" *ngIf="!success">
                 <div class="modal-icon">
                     <div class="mb-4 mt-3" >
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 8.145 8.145">
@@ -51,7 +51,7 @@
                 <h2>Failed!</h2>
                 <h4 class="mb-0 mt-3">Failed to verify your email.</h4>
                 <div class="modal-footer justify-content-center border-0">
-                    <button type="button" class="btn btn-primary">Retry</button>
+                    <button type="button" class="btn btn-primary" (click)="verifyEmail()">Retry</button>
                 </div>
             </div>
 

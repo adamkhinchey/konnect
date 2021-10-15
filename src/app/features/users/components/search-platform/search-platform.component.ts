@@ -278,9 +278,9 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
     this.deleteConnSub?.unsubscribe();
   }
 
-  goToCompanyProfile(companyId: any, isPrivate: any) {
+  goToCompanyProfile(companyId: any, isPrivate: any, isSeed:any) {
     console.log(companyId);
-    if (companyId && isPrivate == 0) {
+    if (companyId && (isPrivate == 0 || isSeed != 0)) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
