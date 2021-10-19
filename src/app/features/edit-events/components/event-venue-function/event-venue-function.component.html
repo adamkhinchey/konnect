@@ -85,7 +85,7 @@
                             <div class="column">
                               <div class="ui fluid card">
                                 <div class="content">
-                                  <span *ngIf="selectedCompanies[i]!.isPrivate"
+                                  <span *ngIf="selectedCompanies[i]!.isPrivate && selectedCompanies[i]!.isSeed == 0"
                                     class="ui blue right corner label popupNotes adjustTri"
                                     data-content="Private Contact">
                                     <!--<i class="address card outline icon"></i>-->
@@ -96,7 +96,7 @@
                                     appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                   <div class="header">
                                     <a
-                                      (click)="goToCompanyProfile(getCompanyId(i),getIsPrivate(i))">{{selectedCompanies[i]!.companyName}}</a>
+                                      (click)="goToCompanyProfile(getCompanyId(i),getIsPrivate(i),getIsSeed(i))">{{selectedCompanies[i]!.companyName}}</a>
                                   </div>
                                   <div class="meta">
                                     <span class="m-0">

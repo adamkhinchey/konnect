@@ -47,7 +47,9 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   ngOnInit(): void {
-    
+    if (!this.domainName) {
+      this.searchCompany(this.domainName);
+    }
   }
 
   private getDomainName(): string | null {
@@ -66,11 +68,11 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy 
 
   searchCompany(domain: string | null = null, searchKeyword: string | null = null): void {
     console.log('in search company')
-    if (!domain && !searchKeyword) {
-      this.company = null;
-      this.companyList = [];
-      return;
-    }
+    // if (!domain && !searchKeyword) {
+    //   this.company = null;
+    //   this.companyList = [];
+    //   return;
+    // }
     domain = this.domainName;
     const param = this.router.url === '/create-konnect-profile' || this.router.url.indexOf('create-konnect-profile') != -1 ? { searchKeyword, domain, includePrivate: 1 } : { searchKeyword, domain };
     this.cmpSearchSubscription = this.companiesService.search(param)

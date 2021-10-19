@@ -110,9 +110,17 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy, OnChang
     }
   }
 
+  getIsSeed(): any {
+    if (this.selectedCompany instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return this.selectedCompany?.isSeed;
+    }
+  }
+
   goToCompanyProfile(companyId: any) {
     console.log(companyId);
-    if (companyId && this.getIsPrivate() == 0) {
+    if (companyId && (this.getIsPrivate() == 0 || this.getIsSeed() == 1)) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);

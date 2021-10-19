@@ -5,7 +5,7 @@
         </h2>
         
 
-            <div class="col-md-12 text-center" *ngIf="success">
+            <div class="col-md-12 text-center" *ngIf="success == 'true'">
                
                 <div class="mb-4 mt-3" >
                     <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 82 82">
@@ -37,7 +37,7 @@
             </div>
     
 
-            <div class="col-md-12 text-center" *ngIf="!success">
+            <div class="col-md-12 text-center" *ngIf="success == 'false'">
                 <div class="modal-icon">
                     <div class="mb-4 mt-3" >
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 8.145 8.145">

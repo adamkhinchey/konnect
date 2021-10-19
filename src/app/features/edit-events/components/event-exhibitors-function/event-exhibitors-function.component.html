@@ -144,7 +144,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">
                                   <div class="ui fluid card">
                                     <div class="content">
-                                      <span *ngIf="venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.isPrivate"
+                                      <span *ngIf="venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.isPrivate && venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.isSeed == 0"
                                       class="ui blue right corner label popupNotes adjustTri"
                                       data-content="Private Contact">
                                       <!--<i class="address card outline icon"></i>-->
@@ -155,7 +155,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
                                       <div class="header">
                                         <a
-                                          (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)), getIsPrivate(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
+                                          (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)), getIsPrivate(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)), getIsSeed(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
                                         <span class="m-0">

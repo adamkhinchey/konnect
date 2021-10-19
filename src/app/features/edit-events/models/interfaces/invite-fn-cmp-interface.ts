@@ -5,4 +5,5 @@ export interface InviteFnCmpInterface {
   contactName: string;
   contactEmail: string;
   isPrivate?: any;
+  isSeed?: any;
 }

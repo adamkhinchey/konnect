@@ -248,7 +248,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               companyType: '',
               canClaim: 0,
               canJoin: 0,
-              isPrivate: this.data.eventData.client.isPrivate || 0
+              isPrivate: this.data.eventData.client.isPrivate || 0,
+              isSeed: this.data.eventData.client.isSeed || 0
             } as Company);
             this.eventToBeSaved = ({
               title: this.data.eventData.title,
@@ -308,7 +309,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               companyType: '',
               canClaim: 0,
               canJoin: 0,
-              isPrivate: this.data.eventData.eventManager.isPrivate || 0
+              isPrivate: this.data.eventData.eventManager.isPrivate || 0,
+              isSeed: this.data.eventData.eventManager.isSeed || 0
             } as Company);
             this.eventToBeSaved = ({
               title: this.data.eventData.title,
@@ -357,6 +359,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   isStaffOrAdmin: venue.isStaffOrAdmin,
                   isViewPermission: venue.isViewPermission,
                   isPrivate: venue.isPrivate || 0,
+                  isSeed: venue.isSeed || 0,
                   contacts: venue.contacts.map((contact: any) => {
                     return {
                       id: contact.id,
@@ -415,7 +418,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyType: '',
                   canClaim: 0,
                   canJoin: 0,
-                  isPrivate: venues[i].isPrivate || 0
+                  isPrivate: venues[i].isPrivate || 0,
+                  isSeed: venues[i].isSeed || 0
                 } as Company));
               }
               const contacts: any = venues[i].contacts.map((contact: any) => {
@@ -454,6 +458,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyId: venue.venueCompanyId,
                   venueId: venue.venueId,
                   isPrivate: venue.isPrivate || 0,
+                  isSeed: venue.isSeed || 0,
                   contacts: venue.contacts.map((contact: any) => {
                     return {
                       id: contact.id,
@@ -506,7 +511,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           companyType: '',
                           canClaim: 0,
                           canJoin: 0,
-                          isPrivate: service.isPrivate || 0
+                          isPrivate: service.isPrivate || 0,
+                          isSeed: service.isSeed || 0
                         } as Company);
                         this.eventService.addFetchedVenueSrvcCmp({ venueIndex, serviceIndex, company: serviceCompany });
                         const contacts = service.contacts.map((contact: any) => {
@@ -538,6 +544,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           status: service.status,
                           isStaffOrAdmin: service.isStaffOrAdmin,
                           isPrivate: service.isPrivate || 0,
+                          isSeed: service.isSeed || 0,
                           timeWindows: {
                             bumpIn: {
                               sameAsVenue: 0,
@@ -587,7 +594,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyType: '',
                   canClaim: 0,
                   canJoin: 0,
-                  isPrivate: venues[i].isPrivate || 0
+                  isPrivate: venues[i].isPrivate || 0,
+                  isSeed: venues[i].isSeed || 0
                 } as Company));
               }
               const contacts: any = venues[i].contacts.map((contact: any) => {
@@ -628,6 +636,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyId: venue.venueCompanyId,
                   venueId: venue.venueId,
                   isPrivate: venue.isPrivate || 0,
+                  isSeed: venue.isSeed || 0,
                   contacts: venue.contacts.map((contact: any) => {
                     return {
                       id: contact.id,
@@ -696,7 +705,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             companyType: '',
                             canClaim: 0,
                             canJoin: 0,
-                            isPrivate: exhibitor.isPrivate || 0
+                            isPrivate: exhibitor.isPrivate || 0,
+                            isSeed: exhibitor.isSeed || 0
                           } as Company);
                           this.eventService.addFetchedVenueExCmp({ venueIndex, exhibitorIndex, company: exhibitorCompany });
 
@@ -729,6 +739,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             status: exhibitor.status,
                             isStaffOrAdmin: exhibitor.isStaffOrAdmin,
                             isPrivate: exhibitor.isPrivate || 0,
+                            isSeed: exhibitor.isSeed || 0,
                             timeWindows: {
                               bumpIn: {
                                 sameAsVenue: 0,
@@ -776,7 +787,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyType: '',
                   canClaim: 0,
                   canJoin: 0,
-                  isPrivate: venues[i].isPrivate || 0
+                  isPrivate: venues[i].isPrivate || 0,
+                  isSeed: venues[i].isSeed || 0
                 } as Company));
               }
               const contacts: any = venues[i].contacts.map((contact: any) => {

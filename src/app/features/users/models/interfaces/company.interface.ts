@@ -20,5 +20,6 @@ export interface Company {
     canJoin: number;
     isViewPermission?:any;
     isPrivate?:any;
+    isSeed?:any;
 }
 
