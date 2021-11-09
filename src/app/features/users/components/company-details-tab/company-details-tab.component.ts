@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, EventEmitter, Output, AfterViewInit } from '@angular/core';
 import { CreateProfilePersonalDetails, LoginUserProfile, SignupUserProfile } from '../../../../shared/models';
 import { CompaniesService } from '../../services/companies.service';
 import { Subscription } from 'rxjs';
@@ -13,7 +13,7 @@ import { AuthService } from "../../../../core/services/auth.service";
   templateUrl: './company-details-tab.component.html',
   styleUrls: ['./company-details-tab.component.scss']
 })
-export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy {
+export class CompanyDetailsTabComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
 
   @Input() personalDetails: CreateProfilePersonalDetails | undefined;
   @Input() user: LoginUserProfile | SignupUserProfile | undefined;
@@ -47,6 +47,10 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   ngOnInit(): void {
+
+  }
+
+  ngAfterViewInit() {
     if (!this.domainName) {
       this.searchCompany(this.domainName);
     }
