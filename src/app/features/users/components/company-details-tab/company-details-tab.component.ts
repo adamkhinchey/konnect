@@ -51,7 +51,7 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, AfterViewI
   }
 
   ngAfterViewInit() {
-    if (!this.domainName) {
+    if (!this.domainName && this.router.url === '/home/join-company') {
       this.searchCompany(this.domainName);
     }
   }
