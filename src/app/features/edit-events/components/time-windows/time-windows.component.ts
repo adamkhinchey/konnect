@@ -88,13 +88,12 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   removePreTime(i: any) {
     this.preEventTimes.splice(i, 1);
-    this.preEventTimesCount--
+    // this.preEventTimesCount--
     console.log('pre event times: ', this.preEventTimes);
   }
 
   removeEventTime(i: any) {
     this.eventTimes.splice(i, 1);
-    console.log('pre event times: ', this.preEventTimes)
   }
 
   removePostTime(i: any) {

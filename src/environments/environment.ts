@@ -8,7 +8,7 @@ const APIURL = 'https://yxraels57k.execute-api.ap-southeast-2.amazonaws.com/dev'
  const siteURL = 'http://localhost:4202';
 //const localProxyURL = 'http://localhost:3000/dev';
 //const siteURL = 'http://localhost:4200';
- 
+
 export const environment = {
   production: false,
   env: 'development',
