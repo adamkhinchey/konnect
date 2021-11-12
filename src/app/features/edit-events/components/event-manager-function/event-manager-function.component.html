@@ -25,7 +25,7 @@
                   </span>
                     <img class="right floated mini ui image"
                     [src]="getCompanyProfileImage() || 'assets/img/default_konnect_img.png'"
-                    appImageFallback fallbackImage="assets/img/default_konnect_img.png">
+                    appImageFallback fallbackImage="assets/img/default_konnect_img.png" onerror="src='assets/img/default_konnect_img.png'">
                     <div class="header">
                       <a  (click)="goToCompanyProfile(getCompanyId())">{{selectedCompany.companyName}}</a>
                     </div>

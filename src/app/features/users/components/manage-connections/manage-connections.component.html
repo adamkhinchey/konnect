@@ -269,7 +269,7 @@
                               </span>
                               <img class="right floated mini ui image circular"
                                 [src]="cmpConn?.companyProfileImage ||'./assets/img/default_konnect_img.png'"
-                                appImageFallback="./assets/img/default_konnect_img.png">
+                                appImageFallback="./assets/img/default_konnect_img.png" onerror="src='./assets/img/default_konnect_img.png'">
                               <div class="header">
                                 <a
                                   (click)="goToCompanyProfile(cmpConn.id, cmpConn.isPrivate)">{{cmpConn?.companyName}}</a>
