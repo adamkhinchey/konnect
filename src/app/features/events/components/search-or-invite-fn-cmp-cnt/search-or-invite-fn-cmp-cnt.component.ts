@@ -20,6 +20,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   @Input() alreadyInContactList: FnCmpCntInterface[] = [];
   @Input() companyId: number | null = null;
+  @Input() myAssociatedCompanies=[];
   @Output() closed = new EventEmitter();
   @Output() addedContactList = new EventEmitter<FnCmpCntInterface[]>();
   searchKeyWord = '';
@@ -37,6 +38,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   contactLabels = environment.eventContactLabels;
   private cmpCntSearchSub: Subscription | undefined;
   private emittedContactList = false;
+  isDisableInviteContact:boolean =true;
   userId: any = 0;
   constructor(
     private fb: FormBuilder,
@@ -55,6 +57,14 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
     } else {
       this.toaster.error('Please make sure the function company is chosen');
     }
+    this.isDisableInviteContact = this.isNotAssociatedCompany(this.companyId);
+  }
+
+  isNotAssociatedCompany(companyId:any){
+    var filteredArray = this.myAssociatedCompanies.filter(function(c:any){
+      return [companyId].indexOf(c.id) > -1;
+    });
+    return (filteredArray.length > 0 ? true : false);
   }
 
   private fetchUserInfo(): void {

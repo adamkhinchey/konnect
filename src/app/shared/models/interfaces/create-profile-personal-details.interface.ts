@@ -12,4 +12,5 @@ export interface CreateProfilePersonalDetails {
   } | string;
   mobileNumber: string;
   inviteUID?:any;
+  defaultCompanyId?: number | null;
 }

@@ -60,7 +60,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isVenuesSuppliersInvalid = true;
   isVenuesExhibitorsInvalid = true;
-
+  myAssociatedCompanies=[];
 
   constructor(
     private modalService: NgbModal,
@@ -73,6 +73,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.myAssociatedCompanies = this.authService.getUserInfo().associatedCompanies;
     this.eventService.reset();
     this.userSettingsSub = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
       this.defaultCompany = value.defaultCompany;
@@ -214,7 +215,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   searchInviteCompanyClosed(): void {
     this.modalReference?.close();
   }
-
   setSelectedCompany(company: Company | InviteFnCmpClass): void {
     let isInvitedCompany = false;
     switch (this.selectedFunction) {
