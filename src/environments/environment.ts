@@ -4,9 +4,9 @@ import companyCategories from './company-categories';
 import eventContactLabels from './event-contact-label-list';
 
 const APIURL = 'https://yxraels57k.execute-api.ap-southeast-2.amazonaws.com/dev';
- const localProxyURL = 'http://localhost:4202/api';
+//  const localProxyURL = 'http://localhost:4202/api';
  const siteURL = 'http://localhost:4202';
-//const localProxyURL = 'http://localhost:3000/dev';
+const localProxyURL = 'http://localhost:3000/dev';
 //const siteURL = 'http://localhost:4200';
 
 export const environment = {
