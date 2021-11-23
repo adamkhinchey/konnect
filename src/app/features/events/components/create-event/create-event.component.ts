@@ -61,6 +61,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   isVenuesSuppliersInvalid = true;
   isVenuesExhibitorsInvalid = true;
   myAssociatedCompanies=[];
+  isSeedCompany:boolean=false;
 
   constructor(
     private modalService: NgbModal,
@@ -288,12 +289,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   getCompanyId(): number | null {
     switch (this.selectedFunction) {
       case EventFunctionTypes.CLIENT:
+        this.isSeedCompany = (this.clientCompany as Company)?.isSeed;
         return (this.clientCompany as Company)?.id;
       case EventFunctionTypes.EVENT_MANAGER:
+        this.isSeedCompany = (this.eventMgrCmp as Company)?.isSeed;
         return (this.eventMgrCmp as Company)?.id;
       case EventFunctionTypes.VENUE:
         const activatedVenuePanelIndex = this.eventService.activeVenuePanelIndex;
         if (activatedVenuePanelIndex !== null && this.venueCompanies) {
+          this.isSeedCompany = (this.venueCompanies[activatedVenuePanelIndex] as Company)?.isSeed;
           return (this.venueCompanies[activatedVenuePanelIndex] as Company)?.id;
         } else {
           return null;
@@ -304,6 +308,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         if (typeof activeVenueIndex === 'number' && typeof activeServiceIndex === 'number') {
           const company = this.suppliersFn?.venuesSuppCmpsMap.get(activeVenueIndex)?.get(activeServiceIndex);
           if (company) {
+            this.isSeedCompany = (company as Company)?.isSeed;
             return (company as Company)?.id;
           }
         }
@@ -315,6 +320,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         if (typeof activeVenueIndex === 'number' && typeof activeExhibitorIndex === 'number') {
           const company = this.exhibitorsFn?.venuesExhCmpsMap.get(activeVenueIndex)?.get(activeExhibitorIndex);
           if (company) {
+            this.isSeedCompany = (company as Company)?.isSeed;
             return (company as Company)?.id;
           }
         }

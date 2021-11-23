@@ -13,4 +13,5 @@ export interface CreateProfilePersonalDetails {
   mobileNumber: string;
   inviteUID?:any;
   defaultCompanyId?: number | null;
+  companyIsSeed?:boolean
 }

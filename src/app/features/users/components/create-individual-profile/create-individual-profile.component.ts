@@ -49,6 +49,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
   profileImage: File | null = null;
   uid: any;
   defaultCompanyId:number | null  | undefined;
+  companyIsSeed:boolean | undefined = false;
 
   constructor(private ngWizardService: NgWizardService,
     private auth: AuthService,
@@ -75,7 +76,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         this.auth.signup(personalDetails);
         this.personalDetails = personalDetails;
         if (this.uid) {
-          if(this.defaultCompanyId){
+          if(this.defaultCompanyId && !this.companyIsSeed){
             this.router.navigate(['home']);
           }else{
             this.ngWizardService.next();
@@ -87,7 +88,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
       this.auth.signup(personalDetails);
       this.personalDetails = personalDetails;
       if (this.uid) {
-        if(this.defaultCompanyId){
+        if(this.defaultCompanyId && !this.companyIsSeed){
           this.router.navigate(['home']);
         }else{
           this.ngWizardService.next();
@@ -139,6 +140,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         localStorage.setItem('userId', JSON.stringify(this.user.id));
         this.personalDetails = this.user as CreateProfilePersonalDetails;
         this.defaultCompanyId = this.user.defaultCompanyId;
+        this.companyIsSeed = this.user.companyIsSeed;
         // this.ngWizardService.next();
       }else{
         this.auth.logout();

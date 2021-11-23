@@ -115,6 +115,7 @@
     <app-search-or-invite-fn-cmp-cnt
       (closed)="searchInviteContactModalClosed()"
       [companyId]="getCompanyId()"
+      [isSeedCompany]="isSeedCompany"
       (addedContactList)="setSelectedFnCompanyContacts($event)"
       [alreadyInContactList]="getFnContactList()"
       [myAssociatedCompanies]="myAssociatedCompanies"

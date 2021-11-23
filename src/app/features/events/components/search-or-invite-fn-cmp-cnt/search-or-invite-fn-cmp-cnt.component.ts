@@ -21,8 +21,10 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   @Input() alreadyInContactList: FnCmpCntInterface[] = [];
   @Input() companyId: number | null = null;
   @Input() myAssociatedCompanies=[];
+  @Input() isSeedCompany:boolean = false;
   @Output() closed = new EventEmitter();
   @Output() addedContactList = new EventEmitter<FnCmpCntInterface[]>();
+
   searchKeyWord = '';
   listDisplayCss = '';
   listDisplayOverFlow = '';
@@ -51,13 +53,16 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.fetchUserInfo();
-    console.log('company id: ', this.companyId)
+    console.log('company id: ', this.companyId,this.isSeedCompany)
     if (this.companyId) {
       this.getCompanyContacts();
     } else {
       this.toaster.error('Please make sure the function company is chosen');
     }
-    this.isDisableInviteContact = this.isNotAssociatedCompany(this.companyId);
+    if (!this.isSeedCompany){
+      this.isDisableInviteContact = this.isNotAssociatedCompany(this.companyId);
+    }
+    
   }
 
   isNotAssociatedCompany(companyId:any){
