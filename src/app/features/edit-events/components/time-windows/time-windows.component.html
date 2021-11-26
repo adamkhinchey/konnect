@@ -78,7 +78,7 @@
                   </app-date-time-picker>
                 </div>
               </div>
-              <a class="ui button basic circular compact mini trashIconOuter" (click)="removePreTime(i)"> <i class="m-0 trash alternate icon" ></i> </a>
+              <a *ngIf="isEdit" class="ui button basic circular compact mini trashIconOuter" (click)="removePreTime(i)"> <i class="m-0 trash alternate icon" ></i> </a>
             </div>
           </div>
           <div class="ui grid">

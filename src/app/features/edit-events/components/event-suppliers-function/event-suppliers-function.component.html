@@ -129,6 +129,9 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                           (click)="goToCompanyProfile(getCompanyId(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)), getIsPrivate(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)), getIsSeed(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)))">{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
+                                        <a *ngIf="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))" [href]="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))"
+                                          target="_blank"> {{getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))}}</a>
+                                        <span *ngIf="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))">|</span>
                                         <span class="m-0">
                                           <i
                                             class="map marker alternate icon"></i>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.city}}

@@ -49,6 +49,16 @@ export class UpdateUserProfileService {
     );
   }
 
+  resendEmailVerificationLink(): Observable<any> {
+    this.spinner.show();
+    return this.http.get<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/resendEmailVerificationLink`,{}
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      this.httpErrorHandler.processError(false),
+    );
+  }
+
   verifyEmail(token: any): Observable<any> {
     this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(

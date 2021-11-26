@@ -99,6 +99,9 @@
                                       (click)="goToCompanyProfile(getCompanyId(i),getIsPrivate(i),getIsSeed(i))">{{selectedCompanies[i]!.companyName}}</a>
                                   </div>
                                   <div class="meta">
+                                    <a *ngIf="getCompanyWebsite(i)" [href]="getCompanyWebsite(i)"
+                                      target="_blank"> {{getCompanyWebsite(i)}}</a>
+                                    <span *ngIf="getCompanyWebsite(i)">|</span>
                                     <span class="m-0">
                                       <i class="map marker alternate icon"></i>{{selectedCompanies[i]!.city}}</span>
                                     <span>|</span>

@@ -33,6 +33,7 @@
                   &nbsp;
                 </div>
               </div>
+              
               <div class="two fields">
                 <div class="field required">
                   <label for="edit-profile-first-name">First Name</label>
@@ -74,6 +75,9 @@
           )"
                   class="text-danger"
                 >A valid email is required</span>
+                <button *ngIf="!isEmailVerified" (click)="resendEmailVerification()"
+                          class="ui button fluid ml-2">Resend Email Verification
+                  </button>
               </div>
               <div class="field" [hidden]="true">
                 <label>Recovery Email</label>

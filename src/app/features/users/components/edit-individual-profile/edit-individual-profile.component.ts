@@ -64,6 +64,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   private selectedProfileImage: File | undefined;
   userId: any = 0;
   isView: any;
+  isEmailVerified:boolean=true;
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -104,7 +105,8 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   private fetchUserInfo(): void {
     this.userInfoSubscription = this.userInfoService.getInfo(this.userId).subscribe((value) => {
       this.userInfo = value;
-      console.log(this.userInfo);
+      this.isEmailVerified = value.is_email_verified;
+      console.log(this.userInfo,'userInfo');
       this.populateFormValues();
       this.userSettingsService.populateSettings(value);
     }, err => {
@@ -289,6 +291,19 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
     }
+  }
+
+  resendEmailVerification(){
+    this.updateUserProfileService.resendEmailVerificationLink().subscribe((value) => {
+      if(value.code == 200){
+        this.toaster.success(value.message);
+      }else{
+        this.toaster.error(value.message);
+      }
+    }, err => {
+      this.toaster.error('Something went wrong!');
+      devLogger('error', { err });
+    });
   }
 
 }

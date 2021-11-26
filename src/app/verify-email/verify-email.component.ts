@@ -31,15 +31,12 @@ export class VerifyEmailComponent implements OnInit {
       token = param.get('token')
     });
     this.updateUserSrvc.verifyEmail(token).subscribe((res: any) => {
-      console.log(res);
       if (res?.code == 200) {
         this.success = 'true';
       } else {
         this.success = 'false';
       }
-      console.log('success: ', this.success)
     }, err => {
-      console.log(err);
       this.success = 'false';
     })
   }

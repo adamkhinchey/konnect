@@ -30,9 +30,9 @@
                       <a (click)="goToCompanyProfile(getCompanyId())">{{selectedCompany.companyName}}</a>
                     </div>
                     <div class="meta">
-                      <!-- <a *ngIf="getCompanyWebsite()" [href]="getCompanyWebsite()"
+                      <a *ngIf="getCompanyWebsite()" [href]="getCompanyWebsite()"
                          target="_blank"> {{getCompanyWebsite()}}</a>
-                      <span *ngIf="getCompanyWebsite()">|</span> -->
+                      <span *ngIf="getCompanyWebsite()">|</span>
                       <span class="m-0">
                         <i class="map marker alternate icon"></i>{{selectedCompany.city}}</span>
                       <span>|</span>
