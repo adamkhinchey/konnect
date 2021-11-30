@@ -47,7 +47,8 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, AfterViewI
   }
 
   ngOnInit(): void {
-
+    this.domainName = this.getDomainName();
+    console.log(this.domainName,'this.domainName',this.user,this.personalDetails)
   }
 
   ngAfterViewInit() {
@@ -71,13 +72,13 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, AfterViewI
   }
 
   searchCompany(domain: string | null = null, searchKeyword: string | null = null): void {
-    console.log('in search company')
-    // if (!domain && !searchKeyword) {
-    //   this.company = null;
-    //   this.companyList = [];
-    //   return;
-    // }
     domain = this.domainName;
+    if (domain == null){
+      const domainNameStartIndex = this.authService.getUserInfo()?.email.indexOf('@');
+      if (domainNameStartIndex !== -1) {
+        domain = (this.authService.getUserInfo().email.substring(domainNameStartIndex + 1).trim()).split('.')[0];
+      }
+    }
     const param = this.router.url === '/create-konnect-profile' || this.router.url.indexOf('create-konnect-profile') != -1 ? { searchKeyword, domain, includePrivate: 1 } : { searchKeyword, domain };
     this.cmpSearchSubscription = this.companiesService.search(param)
       .subscribe((value: { company: Company | null, companyList: Company[] | null } | null | undefined) => {
