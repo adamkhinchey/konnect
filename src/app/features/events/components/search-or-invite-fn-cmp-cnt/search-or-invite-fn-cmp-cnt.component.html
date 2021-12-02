@@ -58,18 +58,18 @@
             </select>
           </div>
 
-          <div class="ui grid" *ngIf="isDisableInviteContact">
+          <div class="ui grid" >
             <div class="sixteen wide column right aligned">
               <div class="ui button addTotheList" (click)="addCmpCntToList()">Add to the contact list</div>
             </div>
-            <div class="sixteen wide column">
+            <div class="sixteen wide column" *ngIf="isDisableInviteContact">
               <p>If you cannot find the contact you are searching for they probably do not have a profile in
                 Konnect. You can create an address book card with details you can use in the event now, and invite
                 them to create a
                 profile by filling
                 out the details below.</p>
             </div>
-            <div class="sixteen wide column">
+            <div class="sixteen wide column" *ngIf="isDisableInviteContact">
               <h3>Add New Contact Details</h3>
 
               <div class="two fields">
