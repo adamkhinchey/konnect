@@ -76,7 +76,7 @@
                   class="text-danger"
                 >A valid email is required</span>
                 <button *ngIf="!isEmailVerified" (click)="resendEmailVerification()"
-                          class="ui button fluid ml-2">Resend Email Verification
+                          class="ui button ml-2 resend-button">Resend Email Verification
                   </button>
               </div>
               <div class="field" [hidden]="true">

@@ -72,12 +72,20 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, AfterViewI
   }
 
   searchCompany(domain: string | null = null, searchKeyword: string | null = null): void {
+
     domain = this.domainName;
     if (domain == null){
       const domainNameStartIndex = this.authService.getUserInfo()?.email.indexOf('@');
       if (domainNameStartIndex !== -1) {
         domain = (this.authService.getUserInfo().email.substring(domainNameStartIndex + 1).trim()).split('.')[0];
       }
+    }else{
+      try{
+        domain = domain.split('.')[0];
+      }catch(err){
+
+      }
+      
     }
     const param = this.router.url === '/create-konnect-profile' || this.router.url.indexOf('create-konnect-profile') != -1 ? { searchKeyword, domain, includePrivate: 1 } : { searchKeyword, domain };
     this.cmpSearchSubscription = this.companiesService.search(param)
