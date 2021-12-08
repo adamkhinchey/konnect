@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { GetRegionAndCountriesService } from "../../../../shared/services";
 import { InviteFnCmpClass } from "../../models/classes";
-
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 @Component({
   selector: 'app-search-or-invite-function-cmp',
   templateUrl: './search-or-invite-function-cmp.component.html',
@@ -15,7 +15,7 @@ import { InviteFnCmpClass } from "../../models/classes";
 })
 export class SearchOrInviteFunctionCmpComponent implements OnInit, OnDestroy {
   EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/);
-
+  addressCardIcon = faAddressCard;
   @Output() closed = new EventEmitter();
   @Output() newCompanyInvited = new EventEmitter<InviteFnCmpClass>();
   @Output() existingCompanySelected = new EventEmitter<Company>();
