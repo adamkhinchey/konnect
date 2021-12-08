@@ -19,6 +19,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-manage-company',
@@ -35,6 +36,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
 
   @ViewChild(RemoveModalComponent) removeModal: RemoveModalComponent | undefined;
 
+  addressCardIcon = faAddressCard;
   modalReference: any;
   timeZones = environment.timeZones;
   countries: { val: any, name: any, regionId: any }[] = [];
@@ -157,6 +159,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     this.companyService.getCompanyDetails(this.companyId).subscribe((res: any) => {
       console.log(res);
       this.companyInfo = res;
+      console.log(this.companyInfo,'this.companyInfo')
       this.populateCompanyFormValues();
     }, err => {
       devLogger('error', err);
