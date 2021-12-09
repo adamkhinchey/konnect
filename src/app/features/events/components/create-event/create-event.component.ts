@@ -557,6 +557,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   saveVenueCmp(event: { index: number | null; shouldInvite: boolean }): void {
+    console.log(this.venueCompanies,'this.venueCompanies')
     if (this.isVenuesValid()) {
       if (this.venueCompanies && this.venueCompanies.length > 0) {
         // @ts-ignore

@@ -190,6 +190,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
         this.toaster.error('This user is already invited in contact list please check the email');
         return;
       }
+      let contactRoleInvite = this.contactRoleInvite;
       this.companiesService.checkDomain({
         companyId: this.companyId, email: this.inviteCmpCntForm.get('email')?.value
       }).subscribe((res: any) => {
@@ -205,8 +206,9 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
               id: null,
               contactLabelId: null,
               isCrew: this.isCrew,
-              contactRole: this.contactRoleInvite
+              contactRole: contactRoleInvite
             });
+            console.log(this.contactList,'this.contactList');
             this.inviteCmpCntForm.reset();
           } else {
             this.toaster.error('This user cannot be invited to this company');
