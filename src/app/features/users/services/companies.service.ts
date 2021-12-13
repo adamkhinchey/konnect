@@ -254,14 +254,6 @@ export class CompaniesService {
           default:
             return response.data || [];
         }
-      }),
-      map(connections => {
-        return (connections as Array<any>).map(conn => {
-          if (!Array.isArray(conn)) {
-            conn.isConnected = false;
-          }
-          return conn;
-        });
       })
     );
   }
@@ -288,7 +280,7 @@ export class CompaniesService {
       map(connections => {
         return (connections as Array<any>).map(conn => {
           if (!Array.isArray(conn)) {
-            conn.isConnected = false;
+            conn.isConnected = true;
           }
           return conn;
         });

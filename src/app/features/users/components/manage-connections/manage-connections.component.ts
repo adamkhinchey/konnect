@@ -77,7 +77,7 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     if (this.isExternal === 1) {
       this.clearSearchResults();
       this.searchGlobally();
-    } 
+    }
     // else if (this.isExternal === 1) {
     //   this.clearSearchResults();
     // }
@@ -221,6 +221,18 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     this.modalReference?.close('Cancelled by user');
   }
 
+  removeConnectionFromArray(connectionToRemoveId: null | number = null,connectionType: null | number = null) {
+    if (connectionType ==1){
+      this.userConnections.forEach((value,index)=>{
+          if(value.userId==connectionToRemoveId) this.userConnections.splice(index,1);
+      });
+    }else{
+      this.companyConnections.forEach((value,index)=>{
+        if(value.companyId==connectionToRemoveId) this.companyConnections.splice(index,1);
+      });
+    }
+  }
+
   confirmRemove(): void {
     this.deleteConnSub = this.companiesService.deleteConnection({
       companyId: this.defaultCompany.id,
@@ -229,6 +241,7 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     }).subscribe((value: any) => {
       this.toaster.success('Connection removed successfully');
       this.modalReference?.close('connection removed');
+      this.removeConnectionFromArray(this.connectionToRemoveId,this.connectionType);
       this.connectionToRemoveId = null;
       this.getCompanyConnections();
     }, (err: any) => {

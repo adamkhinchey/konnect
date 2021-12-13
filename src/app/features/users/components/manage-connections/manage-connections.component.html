@@ -81,13 +81,13 @@
                             <div class="extra content">
                               <div class="ui grid">
                                 <div class="ten wide column">
-                                  <div *ngIf="!userConn.isConnected && isExternal===1"
+                                  <div *ngIf="!userConn.isConnected"
                                     class="ui circular compact mini basic button confirmRemove hasModal active"
                                     data-modal="removeModal" (click)="addToConnections(userConn?.userId)"><i
                                       class="star icon"></i>Add to
                                     connections
                                   </div>
-                                  <div *ngIf="userConn.isConnected && isExternal===0"
+                                  <div *ngIf="userConn.isConnected"
                                     class="ui circular compact mini basic button confirmRemove hasModal active"
                                     data-modal="removeModal" (click)="openRemoveConfirmationBox(userConn?.userId)"><i
                                       class="star icon"></i>Remove from
@@ -287,12 +287,12 @@
                             <div class="extra content">
                               <div class="ui grid">
                                 <div class="ten wide column">
-                                  <div *ngIf="!cmpConn.isConnected && isExternal===1"
+                                  <div *ngIf="!cmpConn.isConnected"
                                     class="ui circular compact mini basic button confirmRemove hasModal active"
                                     data-modal="removeModal" (click)="addToConnections(cmpConn?.companyId)"><i
                                       class="star icon"></i>Add to connections
                                   </div>
-                                  <div *ngIf="cmpConn.isConnected && isExternal===0"
+                                  <div *ngIf="cmpConn.isConnected"
                                     class="ui circular compact mini basic button confirmRemove hasModal active"
                                     data-modal="removeModal" (click)="openRemoveConfirmationBox(cmpConn?.id)">
                                     <i class="star icon"></i>Remove from connections
