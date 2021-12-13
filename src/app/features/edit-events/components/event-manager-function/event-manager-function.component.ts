@@ -119,8 +119,7 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy, OnChang
   }
 
   goToCompanyProfile(companyId: any) {
-    console.log(companyId);
-    if (companyId && (this.getIsPrivate() == 0 || this.getIsSeed() == 1)) {
+    if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);

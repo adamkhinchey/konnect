@@ -445,8 +445,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   }
 
   goToUserProfile(userId: any, isPrivate: any) {
-    console.log(userId);
-    if (userId && isPrivate == 0) {
+    if (userId) {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/edit-profile?isView=' + true);

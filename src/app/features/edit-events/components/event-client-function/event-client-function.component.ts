@@ -181,8 +181,7 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
   }
 
   goToCompanyProfile(companyId: any) {
-    console.log(this.getIsPrivate());
-    if (companyId && (this.getIsPrivate() == 0 || this.getIsSeed() == 1)) {
+    if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       localStorage.setItem('isHeaderDisable', JSON.stringify(true));

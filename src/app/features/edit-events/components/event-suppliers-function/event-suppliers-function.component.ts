@@ -341,8 +341,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
   }
 
   goToCompanyProfile(companyId: any, isPrivate: any, isSeed: any) {
-    console.log(companyId);
-    if (companyId && (isPrivate == 0 || isSeed == 1)) {
+    if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);

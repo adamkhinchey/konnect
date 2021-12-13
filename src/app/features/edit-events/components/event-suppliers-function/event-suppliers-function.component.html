@@ -92,7 +92,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             <div class="ui dividing header">
                               <h3>Supplier Company <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
-                                  class="building icon"></i> 
+                                  class="building icon"></i>
                                   <!-- <div class="addNewService insideSelect float-right">
                                     <p *ngIf="service.status == 1 && !isServiceEdit"> <i class="ui icon circle green"></i> <b>Confirm</b> </p>
                                     <p *ngIf="service.status == 0 && !isServiceEdit"> <i class="ui icon circle orange"></i> <b>Pending</b> </p>
@@ -259,7 +259,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 (click)="editServiceFn()">Edit</button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal" [disabled]="eventData.eventData.isDeleted || checkPermission(service.isViewPermission)"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})"
-                                *ngIf="isServiceEdit">Save 
+                                *ngIf="isServiceEdit">Save
                                 <!-- &amp; Invite -->
                               </button>
                             </div>
