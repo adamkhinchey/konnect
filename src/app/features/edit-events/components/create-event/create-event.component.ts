@@ -220,7 +220,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getEventsById(tabType: any) {
     this.viewEvSrvc.getEventsByEventId(this.eventId, tabType).subscribe((res: any) => {
-      console.log(res);
+      console.log(res,'res tab type',tabType);
       if (res && res.eventData) {
         if (tabType === 1) {
           this.data.eventData = res.eventData;
@@ -346,6 +346,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
         if (tabType === 3) {
+          this.venueCompanies=[];
+          this.venueContactLists=[];
           this.data.eventData = res.eventData;
           if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
             this.eventService.activeVenuePanelIndex = 0;
@@ -443,7 +445,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               }
 
             }
-            console.log(this.eventToBeSaved);
           }
         }
         if (tabType === 4) {
@@ -627,7 +628,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         if (tabType === 5) {
           this.eventService.resetVenueExhibitorData();
           this.data.eventData = res.eventData;
-          console.log(this.data.eventData);
           if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
             this.eventToBeSaved.venues = {
               notesToAll: this.data.eventData.venues[0].venueNotesToAll,
@@ -811,7 +811,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.venueContactLists.push(contacts);
               }
             }
-            console.log(this.eventToBeSaved);
             this.eventService.navigatesToExhibitors.next()
           }
         }
@@ -1111,7 +1110,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           let venueAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
           let venueCrewAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
           venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex);
-          //@ts-ignore 
+          //@ts-ignore
           venueCrewAssignCmpCnt = this.venueFn?.venueCrewAssignCmp.get(activatedVenuePanelIndex);
           if (venueAssignCmpCnt) {
             venueAssignCmpCnt.setContactList(this.venueContactLists[activatedVenuePanelIndex]);
@@ -1598,7 +1597,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.eventService.fetchEventFilesSubject.next(this.savedEventId);
             this.eventService.hideInfoBar = false;
             // window.location.reload();
-            this.ngOnInit();
+            // this.ngOnInit();
             if (EventFunctionTypes.CLIENT || EventFunctionTypes.EVENT_MANAGER || EventFunctionTypes.VENUE || EventFunctionTypes.SUPPLIERS || EventFunctionTypes.EXHIBITORS) {
               this.isClientEditable = false;
               this.isManagerEditable = false;
@@ -1606,9 +1605,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             if (EventFunctionTypes.VENUE) {
               this.eventService.reset();
-              this.ngOnInit();
+
               // this.router.navigate(['/home'], { replaceUrl: true });
             }
+            this.ngOnInit();
           }
         },
         error => {

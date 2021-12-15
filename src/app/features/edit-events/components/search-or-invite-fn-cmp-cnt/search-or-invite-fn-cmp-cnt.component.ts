@@ -56,7 +56,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   private fetchUserInfo(): void {
     this.userInfoService.getInfo(this.userId).subscribe((value) => {
-      console.log('value: ', value)
+
       this.userId = value.id
     }, err => {
       devLogger('error', { err });
@@ -68,7 +68,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
       companyId: this.companyId, isCrew: 0
     }, this.searchKeyWord.trim().length === 1).subscribe(
       value => {
-        console.log('value: ', value)
+
         if (value && value.length) {
           devLogger('log', value);
           this.cntSearchList = value || [];
@@ -139,7 +139,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   }
 
   selectCnt(ev: any): void {
-    console.log(ev.target.value);
+
     let contact = this.cntSearchList.filter((val: any) => {
       return val.userId == ev.target.value
     });
@@ -208,7 +208,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
               isCrew: this.isCrew,
               contactRole: contactRoleInvite
             });
-            console.log(this.contactList,'this.contactList');
+
             this.inviteCmpCntForm.reset();
           } else {
             this.toaster.error('This user cannot be invited to this company');
@@ -216,7 +216,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
           }
         }
       }, err => {
-        console.log(err);
+
         this.inviteCmpCntForm.reset();
       })
     } else {

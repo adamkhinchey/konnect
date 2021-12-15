@@ -252,7 +252,6 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
     }
     this.preEventTimesCount++;
     this.preEventTimes.push({});
-    console.log('pre event times: ', this.preEventTimes);
     this.test.emit();
   }
 

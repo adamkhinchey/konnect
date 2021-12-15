@@ -86,7 +86,6 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
   }*/
 
   ngOnInit(): void {
-    console.log(this.eventData);
     this.subs3 = this.eventService.isEditChange.subscribe((value) => {
       this.isClientEdit = value;
       this.editClient.emit(this.isClientEdit);
@@ -149,10 +148,10 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
 
   deleteEvent(eventId: any) {
     this.viewEvSrvc.deleteEvent(eventId).subscribe((res: any) => {
-      console.log(res);
+
       this.router.navigate(['/home']);
     }, (err: any) => {
-      console.log(err);
+
     })
   }
 

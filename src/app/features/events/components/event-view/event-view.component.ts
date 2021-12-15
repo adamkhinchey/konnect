@@ -51,10 +51,10 @@ export class EventViewComponent implements OnInit, OnDestroy {
   private saveEventSub: Subscription | undefined;
 
 
-  // isClient: boolean =  false; 
-  // isEventManager: boolean =  false; 
-  // isService: boolean =  false; 
-  // isVenue: boolean =  false; 
+  // isClient: boolean =  false;
+  // isEventManager: boolean =  false;
+  // isService: boolean =  false;
+  // isVenue: boolean =  false;
 
   // isExhibitor: boolean = false;
 
@@ -101,7 +101,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this.eventId);
+
     if (this.eventId) {
       this.getEventsById(1);
     }
@@ -126,7 +126,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
 
   getEventsById(tabType: any) {
     this.viewEvSrvc.getEventsByEventId(this.eventId, tabType).subscribe((res: any) => {
-      console.log(res);
+
       if (res && res.eventData) {
         this.data.eventData = res.eventData;
       }
@@ -142,10 +142,10 @@ export class EventViewComponent implements OnInit, OnDestroy {
         this.data.commonData = res.commonData;
       }
 
-      // console.log("permissionObj", this.permissionObj); 
 
 
-      console.log(this.data);
+
+
       if (tabType === 7) {
         this.eventTimelineSrvc.render.next();
       }
@@ -153,16 +153,16 @@ export class EventViewComponent implements OnInit, OnDestroy {
         this.eventService.fetchEventFilesSubject.next(this.data.eventData.eventId);
       }
     }, err => {
-      console.log(err);
+
     })
   }
 
   deleteEvent(eventId: any) {
     this.viewEvSrvc.deleteEvent(eventId).subscribe((res: any) => {
-      console.log(res);
+
       this.router.navigate(['/home']);
     }, err => {
-      console.log(err);
+
     })
   }
 

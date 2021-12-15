@@ -379,7 +379,7 @@ export class CompaniesService {
   }
 
   getCompanyDetails(companyId: number): Observable<any> {
-    console.log(companyId);
+
     this.spinner.show();
     return this.http.get<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/getCompanyProfileDetails?companyId=${companyId}`

@@ -89,7 +89,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
   removePreTime(i: any) {
     this.preEventTimes.splice(i, 1);
     // this.preEventTimesCount--
-    console.log('pre event times: ', this.preEventTimes);
+
   }
 
   removeEventTime(i: any) {
@@ -98,7 +98,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   removePostTime(i: any) {
     this.postEventTimes.splice(i, 1);
-    console.log('pre event times: ', this.preEventTimes)
+
   }
 
   getMinimumPreEventStartDateTime(i: number): Date {

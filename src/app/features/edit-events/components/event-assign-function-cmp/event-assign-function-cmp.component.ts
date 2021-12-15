@@ -51,7 +51,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    // console.log("isViewPermission wer wer** ", this.isViewPermission)
   }
 
   openVerticallyCentered(content: any): void {
@@ -66,8 +65,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   editContactLabelModal(editContactDetail: any, i: number): void {
-    console.log('contact detail: ', editContactDetail);
-    console.log('index: ', i);
     this.editContactLabelModalReference = this.modalService.open(editContactDetail, {
       centered: true,
       size: 'md',
@@ -75,7 +72,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
       keyboard: false
     });
     this.editingContactLabelIndex = i;
-    this.currentContactLabelIdSelected = this.contactList[i].contactLabelId;
+    this.currentContactLabelIdSelected = this.contactList[i].contactLabelId?this.contactList[i].contactLabelId:5;
   }
 
 
@@ -109,7 +106,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     if (this.editingContactLabelIndex !== -1 && shouldChange) {
       this.contactList[this.editingContactLabelIndex].contactLabelId = this.currentContactLabelIdSelected;
     }
-    console.log('contact list: ', this.contactList);
     this.editContactLabelModalReference?.close();
     this.editingContactLabelIndex = -1;
     this.currentContactLabelIdSelected = null;

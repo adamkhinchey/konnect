@@ -69,7 +69,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
           serviceExhibitorLength = (serviceExhibitorLength + this.timelineData.groups[i].data.preTime[0].exhibitors?.length)
         }
       }
-      console.log(serviceExhibitorLength);
+
 
       this.groups = new DataSet<any>(this.timelineData.groups.map(group => ({ id: group.date })));
 

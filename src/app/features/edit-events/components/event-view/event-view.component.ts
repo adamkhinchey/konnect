@@ -57,15 +57,15 @@ export class EventViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.eventId);
+
     if (this.eventId) {
       this.getEventsById(1);
     }
   }
- 
+
   getEventsById(tabType: any) {
     this.viewEvSrvc.getEventsByEventId(this.eventId, tabType).subscribe((res: any) => {
-      console.log(res);
+
       if (res && res.eventData) {
         this.data.eventData = res.eventData;
       }
@@ -82,7 +82,7 @@ export class EventViewComponent implements OnInit {
       }
 
 
-      console.log(this.data);
+
       if (tabType === 7) {
         this.eventTimelineSrvc.render.next();
       }
@@ -90,16 +90,16 @@ export class EventViewComponent implements OnInit {
         this.eventSrvc.fetchEventFilesSubject.next(this.data.eventData.eventId);
       }
     }, err => {
-      console.log(err);
+
     })
   }
 
   deleteEvent(eventId: any) {
     this.viewEvSrvc.deleteEvent(eventId).subscribe((res: any) => {
-      console.log(res);
+
       this.router.navigate(['/home']);
     }, err => {
-      console.log(err);
+
     })
   }
 

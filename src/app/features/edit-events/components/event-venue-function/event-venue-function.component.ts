@@ -243,7 +243,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
 
 
   acceptDeclineService(tab: any, isAccept: any) {
-    console.log("isAccept", isAccept);
+
     if (tab.venueId && isAccept > 0) {
       let payload = {
         eventId: this.eventData.eventData.eventId,
@@ -251,9 +251,9 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
         tabType: 3,
         isAccept: isAccept > 1 ? 0 : isAccept
       }
-      console.log("payload ** ", payload);
+
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
-        console.log(res);
+
       }, err => {
         devLogger('err', err)
       })
@@ -335,17 +335,17 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     };
     const modalRef = this.modalService.open(ConfirmationDialogComponent, ngbModalOptions);
     modalRef.result.then((result: any) => {
-      console.log(result);
+
       if (result) {
         this.removeDeclineService(venueId, isAccept);
       }
     }).catch((result) => {
-      console.log('cancelling');
+
     });
   }
 
   removeDeclineService(venueId: any, isAccept: any) {
-    console.log(venueId);
+
     let payload = {
       eventId: this.eventData.eventData.eventId,
       tabId: venueId,
@@ -353,7 +353,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       isAccept: isAccept
     }
     this.viewEventService.removeDecline(payload).subscribe((res: any) => {
-      console.log(res);
+
       if (res.code == 200)
         this.router.navigate(['home']);
     }, err => {

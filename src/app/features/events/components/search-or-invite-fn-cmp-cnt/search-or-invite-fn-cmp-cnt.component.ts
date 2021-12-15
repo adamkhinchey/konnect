@@ -53,7 +53,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.fetchUserInfo();
-    console.log('company id: ', this.companyId,this.isSeedCompany)
+
     if (this.companyId) {
       this.getCompanyContacts();
     } else {
@@ -62,7 +62,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
     if (!this.isSeedCompany){
       this.isDisableInviteContact = this.isNotAssociatedCompany(this.companyId);
     }
-    
+
   }
 
   isNotAssociatedCompany(companyId:any){
@@ -74,7 +74,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   private fetchUserInfo(): void {
     this.userInfoService.getInfo(this.userId).subscribe((value) => {
-      console.log('value: ', value)
+
       this.userId = value.id
     }, err => {
       devLogger('error', { err });
@@ -86,7 +86,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
       companyId: this.companyId, isCrew: 0
     }, this.searchKeyWord.trim().length === 1).subscribe(
       value => {
-        console.log('value: ', value)
+
         if (value && value.length) {
           devLogger('log', value);
           this.cntSearchList = value || [];
@@ -118,7 +118,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
           companyId: this.companyId, keyword: this.searchKeyWord, isCrew: 0
         }, this.searchKeyWord.trim().length === 1).subscribe(
           value => {
-            console.log('value: ', value)
+
             if (value && value.length) {
               devLogger('log', value);
               this.cntSearchList = value.filter((u: any) => {
@@ -149,7 +149,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   }
 
   selectCnt(ev: any): void {
-    console.log(ev.target.value);
+
     let contact = this.cntSearchList.filter((val: any) => {
       return val.userId == ev.target.value
     });
@@ -206,7 +206,7 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
           }
         }
       }, err => {
-        console.log(err);
+
         this.inviteCmpCntForm.reset();
       })
     } else {

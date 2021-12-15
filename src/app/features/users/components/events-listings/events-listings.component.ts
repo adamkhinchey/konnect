@@ -71,7 +71,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
       type: DateRangeType.Specific, dateRange: this.dates
     }];
     this.cdRef.detectChanges();
-    console.log(this.specialDates);
+
   }
 
   ngAfterViewChecked() {
@@ -88,7 +88,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
       this.eventsCopy = this.events = res;
       this.fillSpecialDates();
     }, err => {
-      console.log(err);
+
     })
   }
 
@@ -101,7 +101,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
       startDate = moment(val.eventStartDate).format('YYYY-MM-DD');
       endDate = moment(val.eventEndDate).format('YYYY-MM-DD');
       if (date == startDate || date == endDate) {
-        console.log(val);
+
         return val;
       }
       else if (moment(date).isBetween(startDate, endDate)) {
@@ -126,7 +126,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
         this.noDataMsg = "Your associated companies have no event history."
       }
     }, err => {
-      console.log(err);
+
     })
   }
 
@@ -136,7 +136,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
     //   this.eventsCopy = this.events = res;
     //   this.fillSpecialDates();
     // }, err => {
-    //   console.log(err);
+    //
     // })
     window.location.reload()
   }

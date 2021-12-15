@@ -65,8 +65,6 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
   }
 
   ngOnInit(): void {
-    console.log(this.eventTimeWindowType)
-    console.log('event Data: ', this.eventData)
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
@@ -195,10 +193,8 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
   }
 
   removeServiceContact(venueIndex: number, serviceIndex: number, event: number): void {
-    console.log('venue index: ', venueIndex, 'service index: ', serviceIndex, 'event: ', event)
     const service = this.eventToBeSaved.venues?.list[venueIndex]
       .suppliers[0]?.services[serviceIndex];
-    console.log('service: ', service);
     if (service && service.contacts) {
       service.contacts.splice(event, 1);
     }
@@ -257,7 +253,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
   }
 
   removeDeclineService(supplierId: any, isAccept: any) {
-    console.log(supplierId);
+
     let payload = {
       eventId: this.eventData.eventData.eventId,
       tabId: supplierId,
@@ -265,7 +261,7 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
       isAccept: isAccept
     }
     this.viewEventService.removeDecline(payload).subscribe((res: any) => {
-      console.log(res);
+
       if (res.code == 200)
         this.router.navigate(['home']);
     }, err => {
@@ -280,17 +276,17 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     };
     const modalRef = this.modalService.open(ConfirmationDialogComponent, ngbModalOptions);
     modalRef.result.then((result: any) => {
-      console.log(result);
+
       if (result) {
         this.removeDeclineService(supplierId, isAccept);
       }
     }).catch((result) => {
-      console.log('cancelling');
+
     });
   }
 
   acceptDeclineService(tab: any, isAccept: any) {
-    console.log("isAccept", isAccept);
+
     if (tab.supplierId && isAccept > 0) {
       let payload = {
         eventId: this.eventData.eventData.eventId,
@@ -298,9 +294,9 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
         tabType: 4,
         isAccept: isAccept > 1 ? 0 : isAccept
       }
-      console.log("payload ** ", payload);
+
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
-        console.log(res);
+
       }, err => {
         devLogger('err', err)
       })

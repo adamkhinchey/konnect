@@ -11,12 +11,10 @@ export class AppComponent {
 
   constructor(private zone: NgZone, private router: Router) {
     this.router.events.subscribe((event: any) => {
-      console.log('app component')
       if (event instanceof NavigationEnd) {
-        console.log(event.url);
         if (event.url === '/login' ||
           event.url.includes('/forgot-password') ||
-          event.url.includes('/create-konnect-profile') || 
+          event.url.includes('/create-konnect-profile') ||
           event.url.includes('/verify-email')
           ) {
           this.showHeader = false;

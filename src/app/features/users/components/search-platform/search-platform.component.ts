@@ -55,12 +55,12 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
   }
 
   onRegionChange(event: any) {
-    console.log(event.target.value);
+
     let regionId;
     regionId = this.regionIds.filter((obj: any) => {
       return obj == event.target.value;
     });
-    console.log(regionId);
+
     if (regionId.length) {
       this.regionIds = this.regionIds.filter((obj: any) => {
         return obj != event.target.value;
@@ -70,7 +70,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
     }
 
 
-    console.log(this.regionIds);
+
   }
 
 
@@ -93,7 +93,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
 
   getRegions() {
     this.getRegionAndCountriesService.getAllRegionsOnly().subscribe((value) => {
-      console.log(value);
+
       this.regions = value;
     }, err => {
       devLogger('error', err);

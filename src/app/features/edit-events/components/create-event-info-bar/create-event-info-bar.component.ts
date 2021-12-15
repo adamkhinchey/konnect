@@ -28,7 +28,6 @@ export class CreateEventInfoBarComponent implements OnInit {
       this.isEditEvents = value;
     })
     this.eventService.isSaveDisabledChange.subscribe((value) => {
-      console.log('isSaveDisableValue: ', value)
       this.isSaveDisable = value;
     })
   }

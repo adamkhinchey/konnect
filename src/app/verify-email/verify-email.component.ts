@@ -27,7 +27,7 @@ export class VerifyEmailComponent implements OnInit {
   verifyEmail() {
     let token: any = null;
     this.route.queryParamMap.subscribe(param => {
-      console.log(param.get('token'));
+
       token = param.get('token')
     });
     this.updateUserSrvc.verifyEmail(token).subscribe((res: any) => {

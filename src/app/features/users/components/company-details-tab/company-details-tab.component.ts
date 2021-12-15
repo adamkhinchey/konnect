@@ -37,7 +37,7 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, AfterViewI
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('user: ', this.user);
+
     if (changes.personalDetails?.currentValue) {
       this.domainName = this.getDomainName();
       if (this.domainName) {
@@ -48,7 +48,7 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, AfterViewI
 
   ngOnInit(): void {
     this.domainName = this.getDomainName();
-    console.log(this.domainName,'this.domainName',this.user,this.personalDetails)
+
   }
 
   ngAfterViewInit() {
@@ -58,7 +58,7 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, AfterViewI
   }
 
   private getDomainName(): string | null {
-    console.log('in get domain');
+
     if (!this.personalDetails) {
       return null;
     }
@@ -85,7 +85,7 @@ export class CompanyDetailsTabComponent implements OnInit, OnChanges, AfterViewI
       }catch(err){
 
       }
-      
+
     }
     const param = this.router.url === '/create-konnect-profile' || this.router.url.indexOf('create-konnect-profile') != -1 ? { searchKeyword, domain, includePrivate: 1 } : { searchKeyword, domain };
     this.cmpSearchSubscription = this.companiesService.search(param)

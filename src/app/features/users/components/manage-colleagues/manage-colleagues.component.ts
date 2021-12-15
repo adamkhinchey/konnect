@@ -99,7 +99,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
       this.getCmpColleaguesSub = this.companiesService.getCompanyColleagues({ companyId: this.defaultCompany.id })
         .subscribe(value => {
           if (value) {
-            console.log(value);
+
             this.companyColleaguesData = value;
             this.populatePositionsModel([...this.companyColleaguesData.colleagues, ...this.companyColleaguesData.admins]);
             this.patchAndBindPositionInpCtrlArray(

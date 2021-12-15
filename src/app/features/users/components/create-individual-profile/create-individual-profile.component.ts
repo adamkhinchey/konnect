@@ -146,7 +146,7 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         this.auth.logout();
       }
       }, err => {
-        console.log(err);
+
       });
       // this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
       //   alert(value);

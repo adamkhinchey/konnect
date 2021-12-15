@@ -57,7 +57,7 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy, OnChanges
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('personal details: ', changes.personalDetails.currentValue);
+
     if (this.personalDetails?.email) {
       this.personalDetailsForm.controls['email'].setValue(this.personalDetails?.email);
       this.personalDetailsForm.controls['firstName'].setValue(this.personalDetails?.firstName);

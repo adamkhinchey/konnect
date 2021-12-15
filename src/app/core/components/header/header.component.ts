@@ -68,7 +68,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public userSettingsService: UserSettingsService
   ) {
     this.route.queryParams.subscribe(param => {
-      console.log(JSON.stringify(param))
       if (param.isView)
         this.isView = param.isView;
     })
