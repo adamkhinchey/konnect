@@ -2,7 +2,7 @@
 
 <ng-template #headerTemplate>
 
-  
+
 <div class="ui sidebar sidebarContent left ">
   <!-- uncover visible -->
   <div class="profileMobileDisplay">
@@ -12,7 +12,7 @@
             <i class="cog icon ng-tns-c53-1" ></i>
             </div>
       </div>
-      
+
       <h3>
         <span class="userName">{{(userSettingsService.settings | async)!.firstName!}} {{(userSettingsService.settings | async)!.lastName!}}</span>
       </h3>
@@ -26,7 +26,7 @@
             {{company.companyName}}</div>
         </div>
       </div>
-      
+
 
     <div class="profileMenu" [ngClass]="status && !isView ? 'show' : 'd-none'" >
         <ul class="subMenu">
@@ -69,7 +69,7 @@
   </ul> -->
   <ul>
     <li class="column center aligned middle aligned itemMenu">
-      <a  [attr.href]="isApproved ? 'dashboard-events-01.html' : null" [class.disabled]="!isApproved || isView"><i
+      <a  [attr.href]="(isApproved || isViewPermission )? 'dashboard-events-01.html' : null" [class.disabled]="((!isApproved || isView) && !isViewPermission)"><i
           class="home icon"></i>Dashboard</a>
     </li>
     <li class="column center aligned middle aligned itemMenu">
@@ -113,7 +113,7 @@
         <div class="nine wide column paddingL0 paddingR0">
           <ul class="ui six column grid stackable mainMenu">
             <li class="column center aligned middle aligned itemMenu">
-              <a [attr.href]="isApproved ? 'dashboard-events-01.html' : null" [class.disabled]="!isApproved || isView"><i
+              <a [attr.href]="(isApproved || isViewPermission ) ? 'dashboard-events-01.html' : null" [class.disabled]="((!isApproved || isView) && !isViewPermission)"><i
                   class="home icon"></i>Dashboard</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">

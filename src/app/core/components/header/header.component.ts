@@ -36,6 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   activeMenu = '';
   isView = false;
+  isViewPermission =false;
   private userSettingsSub: Subscription | undefined;
 
 
@@ -77,8 +78,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userSettingsSub = this.userSettingsService.settings.subscribe((value) => {
       devLogger('log', { settingssss: value });
-      if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany) {
+      if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany && value.isEmailVerified) {
         this.isApproved = true;
+
+      }
+      if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany){
+        this.isViewPermission = true;
       }
     });
 

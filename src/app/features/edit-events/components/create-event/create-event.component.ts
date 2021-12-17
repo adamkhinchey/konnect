@@ -92,6 +92,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   public exhibitorCount: number = 0;
   public emitedCrew: number = 0;
   isSticky: boolean = false;
+  isEmailVerified:boolean|undefined =false;
 
   constructor(
     // public modalService: NgbModal,
@@ -126,7 +127,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       this.defaultCompany = value.defaultCompany;
       this.eventToBeSaved.createrUserId = this.authService.getUserInfo().id;
       this.eventToBeSaved.creatorFromCompanyId = this.defaultCompany.id;
-
+      this.isEmailVerified = value.isEmailVerified;
       switch (this.selectedFunction) {
         case EventFunctionTypes.CLIENT:
           if (this.defaultCompany && this.data?.eventData?.client?.isOwnCompany === 1 && this.updateFnCmpToSelf.get(EventFunctionTypes.CLIENT)) {
@@ -823,15 +824,16 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           this.eventTimelineService.render.next();
         }
       }
+
       if (res && res.userPermission) {
-        this.data.userPermission = res.userPermission;
-        this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
-        this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
-        this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
-        this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
-        this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
-
-
+        if (this.isEmailVerified){
+          this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
+          this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
+          this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
+          this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
+          this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
+        }
+        this.data.userPermission = this.permissionObj;
       }
       if (res && res.commonData) {
         this.data.commonData = res.commonData;

@@ -16,6 +16,8 @@ import { EventAssignFunctionCmpComponent } from '../event-assign-function-cmp/ev
 import { EventExhibitorsFunctionComponent } from '../event-exhibitors-function/event-exhibitors-function.component';
 import { EventSuppliersFunctionComponent } from '../event-suppliers-function/event-suppliers-function.component';
 import { EventVenueFunctionComponent } from '../event-venue-function/event-venue-function.component';
+import { UserSettingsService } from '../../../../shared/services';
+import { UserSettingsInterface } from '../../../../shared/models';
 
 @Component({
   selector: 'app-event-view',
@@ -49,6 +51,8 @@ export class EventViewComponent implements OnInit, OnDestroy {
   isVenuesExhibitorsInvalid = true;
   savedEventId: number | undefined;
   private saveEventSub: Subscription | undefined;
+  isEmailVerified:boolean|undefined =false;
+  private userSettingsSub: Subscription | undefined;
 
 
   // isClient: boolean =  false;
@@ -97,6 +101,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
     private eventTimelineSrvc: EventTimelineService,
     private eventService: EventService,
     private toaster: ToastrService,
+    public userSettings: UserSettingsService
   ) {
   }
 
@@ -122,6 +127,9 @@ export class EventViewComponent implements OnInit, OnDestroy {
           break;
       }
     });
+    this.userSettingsSub = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
+      this.isEmailVerified = value.isEmailVerified;
+    });
   }
 
   getEventsById(tabType: any) {
@@ -131,12 +139,14 @@ export class EventViewComponent implements OnInit, OnDestroy {
         this.data.eventData = res.eventData;
       }
       if (res && res.userPermission) {
-        this.data.userPermission = res.userPermission;
-        this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
-        this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
-        this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
-        this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
-        this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
+        if (this.isEmailVerified){
+          this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
+          this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
+          this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
+          this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
+          this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
+        }
+        this.data.userPermission = this.permissionObj;
       }
       if (res && res.commonData) {
         this.data.commonData = res.commonData;
@@ -803,7 +813,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // this.userSettingsSub?.unsubscribe();
+    this.userSettingsSub?.unsubscribe();
     // this.isOwnCompanySub?.unsubscribe();
     this.saveEventSub?.unsubscribe();
     this.saveOnlySub?.unsubscribe();

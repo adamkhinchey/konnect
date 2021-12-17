@@ -1,15 +1,17 @@
-import { Component, Input, OnInit, AfterViewInit, ViewChild, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChild, AfterViewChecked, ChangeDetectorRef , OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { IgxCalendarComponent, DateRangeType, DateRangeDescriptor, CalendarView, IgxCalendarView } from 'igniteui-angular';
 import * as moment from 'moment'
 import { EventslistingService } from '../../services/eventslisting.service';
+import { Subscription } from "rxjs";
+import { UserSettingsService } from "../../../../shared/services";
 
 @Component({
   selector: 'app-events-listings',
   templateUrl: './events-listings.component.html',
   styleUrls: ['./events-listings.component.scss']
 })
-export class EventsListingsComponent implements OnInit, AfterViewChecked {
+export class EventsListingsComponent implements OnInit, AfterViewChecked ,OnDestroy {
   @ViewChild('calendar', { static: true }) calendar: IgxCalendarComponent = new IgxCalendarComponent();
   @Input() events: any;
   eventsCopy: any;
@@ -17,10 +19,14 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
   specialDates: DateRangeDescriptor[] = [];
   isEventHistory: boolean = false;
   noDataMsg: any;
+  private userSettingsSub: Subscription | undefined;
+  isApproved = false;
+  isViewPermission =false;
   constructor(
     private cdRef: ChangeDetectorRef,
     private router: Router,
-    private eventListingSrvc: EventslistingService
+    private eventListingSrvc: EventslistingService,
+    public userSettingsService: UserSettingsService
   ) { }
 
   getDates(startDate: any, stopDate: any) {
@@ -42,6 +48,16 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
     }else{
       this.noDataMsg = "Your event history is empty"
     }
+
+    this.userSettingsSub = this.userSettingsService.settings.subscribe((value:any) => {
+      if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany && value.isEmailVerified) {
+        this.isApproved = true;
+
+      }
+      if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany){
+        this.isViewPermission = true;
+      }
+    });
   }
 
   fillSpecialDates() {
@@ -152,6 +168,10 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked {
       }
     }
     return;
+  }
+
+  ngOnDestroy(): void {
+    this.userSettingsSub?.unsubscribe();
   }
 
 }

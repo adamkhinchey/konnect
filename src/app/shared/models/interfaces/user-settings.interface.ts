@@ -5,4 +5,5 @@ export interface UserSettingsInterface {
   lastName?: string;
   profileImage?: string;
   isAdmin?: boolean;
+  isEmailVerified?: boolean;
 }

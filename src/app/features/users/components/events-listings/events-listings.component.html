@@ -8,13 +8,13 @@
                         <div class="eight wide column" (click)="eventHistory()">
                             <div class="ui button basic blue compact fluid"><i class="undo icon"></i>Event History</div>
                         </div>
-                        <div class="eight wide column">
+                        <div class="eight wide column" *ngIf="(isApproved || !isViewPermission )">
                             <a (click)="createEvent()" class="ui button compact fluid ml-2"><i
                                     class="plus circle icon"></i>Create Event</a>
                         </div>
                     </div>
                 </div>
-                <div class="createEvent hideMobile">
+                <div class="createEvent hideMobile" *ngIf="(isApproved || !isViewPermission )">
                     <div class="ui button compact basic blue" (click)="eventHistory()"><i class="undo icon"></i>Event History</div>
                     <a (click)="createEvent()" class="ui button compact ml-1"><i class="plus circle icon"></i>Create
                         Event</a>
