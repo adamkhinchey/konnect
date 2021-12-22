@@ -52,7 +52,6 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-
   }
 
   openVerticallyCentered(content: any, isCrew: number): void {

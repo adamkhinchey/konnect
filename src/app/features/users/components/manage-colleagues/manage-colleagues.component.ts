@@ -12,7 +12,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/for
 import { InviteColleaguesComponent } from '../../../../shared/components/modals/invite-colleagues/invite-colleagues.component';
 import { RemoveType } from '../../../../shared/models';
 import { RemoveModalComponent } from '../../../../shared/components/modals/remove-modal/remove-modal.component';
-
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-manage-colleagues',
@@ -44,6 +44,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
   removalType = RemoveType.COMPANY;
   private colleagueIdToRemove: undefined | number;
   private colleagueRemoveReqSub: Subscription | undefined;
+  addressCardIcon = faAddressCard;
 
 
   constructor(

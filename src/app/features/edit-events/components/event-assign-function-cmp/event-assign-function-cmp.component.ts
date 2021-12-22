@@ -51,6 +51,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    // console.log('contactList',this.contactList,this.contactListLabel)
   }
 
   openVerticallyCentered(content: any): void {

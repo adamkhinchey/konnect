@@ -69,7 +69,7 @@
   </ul> -->
   <ul>
     <li class="column center aligned middle aligned itemMenu">
-      <a  [attr.href]="(isApproved || isViewPermission )? 'dashboard-events-01.html' : null" [class.disabled]="((!isApproved || isView) && !isViewPermission)"><i
+      <a  [attr.href]="(isApproved || isViewPermission )? 'dashboard-events-01.html' : null" [class.disabled]="((!isApproved || isView) && (!isViewPermission))"><i
           class="home icon"></i>Dashboard</a>
     </li>
     <li class="column center aligned middle aligned itemMenu">
