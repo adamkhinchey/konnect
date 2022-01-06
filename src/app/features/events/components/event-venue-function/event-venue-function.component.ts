@@ -50,6 +50,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+
   }
 
 

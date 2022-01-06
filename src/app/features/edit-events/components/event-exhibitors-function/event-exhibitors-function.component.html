@@ -26,7 +26,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   </h3>
                 </div>
                 <div class="field"
-                  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access">
+                  *ngIf="permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access">
                   <textarea rows="3" class="textarea"
                     *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
                     [(ngModel)]="venue.exhibitorList[0].notesToAll" [ngModelOptions]="{standalone:true}"
@@ -50,7 +50,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                     </div>
 
                     <app-time-windows
-                      *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"
+                      *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"
                       [timeWindowFor]="eventTimeWindowForAllExh"
                       [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                       [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
@@ -138,7 +138,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </h3>
                             </div>
                             <div class="kcpCardContainer"
-                              *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
+                              *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
                               <div class="ui one column grid">
                                 <div class="column"
                                   *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">
@@ -225,7 +225,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             </h3>
                           </div>
                           <div class="field"
-                            *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
+                            *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
                             <input type="text" [(ngModel)]="exhibitor.standNumber" [ngModelOptions]="{standalone:true}"
                               placeholder="Stand Number" [readonly]="!isExhibitorEdit">
                               <ng-template #no_access>No access
@@ -243,7 +243,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </div>
 
                               <app-time-windows
-                                *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access"
+                                *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access"
                                 [timeWindowFor]="eventTimeWindowType"
                                 [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                                 [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
@@ -276,7 +276,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             </h3>
                           </div>
                           <div class="field"
-                            *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
+                            *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
                             <textarea rows="3" class="textarea" [(ngModel)]="exhibitor.requirement"
                               [ngModelOptions]="{standalone:true}" [readonly]="!isExhibitorEdit"></textarea>
                               <ng-template #no_access>No access
@@ -287,18 +287,18 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             <h3>Exhibitor Internal Notes <i class="building icon"></i></h3>
                           </div>
                           <div class="field">
-                            <textarea *ngIf="exhibitor?.isViewPermission==1; else no_access" rows="3" class="textarea" [readonly]="!isExhibitorEdit" [(ngModel)]="exhibitor.internalCmpNotes"
+                            <textarea *ngIf="permissionObj.isCrew || exhibitor?.isViewPermission==1; else no_access" rows="3" class="textarea" [readonly]="!isExhibitorEdit" [(ngModel)]="exhibitor.internalCmpNotes"
                             [ngModelOptions]="{standalone:true}"></textarea>
                             <ng-template #no_access>No access
                             </ng-template>
                           </div>
 
                         </div>
-                        <div class="sixteen wide column saveButtons paddingT0">
+                        <div class="sixteen wide column saveButtons paddingT0" *ngIf="!permissionObj.isCrew">
                           <div class="ui divider"></div>
                           <div class="ui grid stackable">
                             <div class="ten wide column middle aligned">
-                              <div (click)="confirmRemove(exhibitor?.exhibitorId, 0)" *ngIf="!eventData.eventData.isDeleted && !checkPermission(exhibitor.isViewPermission)"
+                              <div (click)="confirmRemove(exhibitor?.exhibitorId, 0)" *ngIf="!eventData.eventData.isDeleted && !checkPermission(exhibitor.isStaffOrAdmin)"
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
@@ -306,12 +306,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i
                                   class="file pdf icon"></i>
                               </button> -->
-                              <button [disabled]="eventData.eventData.isDeleted"
-                                class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit || checkPermission(exhibitor.isViewPermission)"
-                                (click)="editExhibitorFn()">Edit</button>
+                              <button [disabled]="eventData.eventData.isDeleted || checkPermission(exhibitor.isStaffOrAdmin)"
+                                class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit"
+                                (click)="editExhibitorFn()">Edit </button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"
-                                *ngIf="isExhibitorEdit">Save 
+                                *ngIf="isExhibitorEdit">Save
                                 <!-- &amp; Invite -->
                               </button>
                             </div>

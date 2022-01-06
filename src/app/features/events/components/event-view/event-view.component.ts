@@ -62,7 +62,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
 
   // isExhibitor: boolean = false;
 
-  permissionObj = { isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
+  permissionObj = { isCrew:false,isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
 
   isSupplier: boolean = false;
   modalReference: any;
@@ -146,6 +146,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
           this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
           this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
         }
+        this.permissionObj.isCrew = res.userPermission.isCrew == 0 ? false : true;
         this.data.userPermission = this.permissionObj;
       }
       if (res && res.commonData) {

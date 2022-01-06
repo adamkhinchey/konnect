@@ -81,7 +81,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   isEditEvents: boolean = false;
   isSaveDisable: boolean = false;
 
-  permissionObj = { isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
+  permissionObj = { isCrew: false,isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
   public isClientEditable = false;
   public isManagerEditable = false;
   public isVenueEditable = false;
@@ -833,6 +833,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
           this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
         }
+        this.permissionObj.isCrew = res.userPermission.isCrew == 0 ? false : true;
         this.data.userPermission = this.permissionObj;
       }
       if (res && res.commonData) {

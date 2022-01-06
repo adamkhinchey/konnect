@@ -385,7 +385,7 @@
                                                             class="map marker alternate icon"></i></h3>
                                                 </div>
                                                 <div class="field">
-                                                    <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
+                                                    <div *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
                                                         class="textarea" contenteditable="">
                                                         {{data.eventData?.venues[0]?.venueNotesToAll}}
                                                     </div>
@@ -574,7 +574,7 @@
                                                                             </h3>
                                                                         </div>
                                                                         <div class="field">
-                                                                            <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
+                                                                            <div *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
                                                                                 class="textarea" contenteditable="">
                                                                                 {{venue.venueRequirements}}
                                                                             </div>
