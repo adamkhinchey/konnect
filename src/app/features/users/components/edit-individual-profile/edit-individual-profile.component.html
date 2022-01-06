@@ -303,7 +303,7 @@
                   </div>
 
                 </div>
-                <a  *ngIf="!isView" (click)="navigateToJoinCreateCompany($event)" class="ui button fluid">Join or create a company</a>
+                <a  *ngIf="!isView && isEmailVerified" (click)="navigateToJoinCreateCompany($event)" class="ui button fluid">Join or create a company</a>
               </div>
             </div>
           </div>

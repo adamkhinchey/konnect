@@ -51,7 +51,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log(this.isViewPermission,'isViewPermission isViewPermission');
+
   }
 
   openVerticallyCentered(content: any): void {
