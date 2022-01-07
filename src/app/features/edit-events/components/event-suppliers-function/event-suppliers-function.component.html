@@ -172,6 +172,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)"
                             [contactList]="service.contacts?service.contacts:[]"
                             (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)"
+                            [editServiceIndex]="editServiceIndex"
+                            [serviceIndex]="serviceIndex"
                             [isServiceEditable]="isServiceEditable">
                           </app-event-assign-function-cmp>
 
@@ -183,6 +185,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)"
                             [contactList]="service.contacts?service.contacts:[]"
                             (crewRemove)="removeServiceContact(venueIndex,serviceIndex,$event)"
+                            [editServiceIndex]="editServiceIndex"
+                            [serviceIndex]="serviceIndex"
                             [isServiceEditable]="isServiceEditable">
                           </app-event-assign-crew-function-cmp>
                         </div>
@@ -258,10 +262,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           
                             <div class="six wide column right aligned">
                               <button [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)" class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit"
-                                (click)="editServiceFn()">Edit </button>
+                                (click)="editServiceFn(serviceIndex)">Edit </button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal" [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})"
-                                *ngIf="isServiceEdit">Save
+                                *ngIf="isServiceEdit && serviceIndex == editServiceIndex">Save
                                 <!-- &amp; Invite -->
                               </button>
                             </div>

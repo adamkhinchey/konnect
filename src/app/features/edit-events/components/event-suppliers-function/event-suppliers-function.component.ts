@@ -42,7 +42,8 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
   eventTimeWindowType = EventTimeWindowTypes.Supplier;
   isServiceEdit: boolean = false;
   public isServiceEditable: boolean = false;
-  @Input() setIsCrew: any;
+  editServiceIndex:number = 0;
+  @Input() setIsCrew: any; 
 
   constructor(
     public eventService: EventService,
@@ -58,10 +59,11 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy, OnCha
     this.isServiceEditable = this.eventService.isEdit;
   }
 
-  editServiceFn() {
+  editServiceFn(editServiceFn:number) {
     this.eventService.isEdit = !this.isServiceEdit;
     this.isServiceEdit = !this.isServiceEdit;
     this.isServiceEditable = !this.isServiceEditable;
+    this.editServiceIndex = editServiceFn;
   }
 
   ngOnInit(): void {

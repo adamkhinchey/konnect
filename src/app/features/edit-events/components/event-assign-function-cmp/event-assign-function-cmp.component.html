@@ -76,7 +76,7 @@
   </ng-template>
   <ng-container *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission">
     <div class="ui grid center aligned"
-      *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable">
+      *ngIf="isClientEditable || isManagerEditable || isVenueEditable || (isServiceEditable && editServiceIndex == serviceIndex)|| isExhibitorEditable">
       <div class="sixteen wide column">
         <div class="ui basic button blue fluid addContacts hasModal" (click)="openVerticallyCentered(contactModal)"
           data-modal="contacts" [ngClass]="{disabled: disableAddContacts }">
