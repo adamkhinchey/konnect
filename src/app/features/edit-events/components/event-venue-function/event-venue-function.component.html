@@ -14,7 +14,7 @@
 
           <div class="field" *ngIf="eventToBeSaved.venues">
             <textarea
-              *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
+              *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
               rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
               [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit"></textarea>
             <ng-template #no_access>No access</ng-template>
@@ -66,7 +66,7 @@
                           <div *ngIf="selectedCompanies && selectedCompanies[i]" class="ui one column grid">
                             <div class="column">
                               <div class="ui fluid card">
-                                <div class="content"  *ngIf="permissionObj.isClient || permissionObj.isEventManager  ||  (permissionObj.isCrew && panel?.isViewPermission==1) ; else no_access">
+                                <div class="content"  *ngIf="permissionObj.isClient || permissionObj.isEventManager  || panel?.isViewPermission==1 ; else no_access">
                                   <span *ngIf="selectedCompanies[i]!.isPrivate && selectedCompanies[i]!.isSeed == 0"
                                     class="ui blue right corner label popupNotes adjustTri"
                                     data-content="Private Contact">

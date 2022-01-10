@@ -53,7 +53,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-
   }
 
   openVerticallyCentered(content: any): void {
@@ -123,7 +122,10 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   checkViewPermission(listLabel: any) {
-      if (this.permissionObj.isClient || this.permissionObj.isEventManager || this.isViewPermission) {
+    if(listLabel == 'Add Venue'){
+      return true;
+    }
+      else if (this.permissionObj.isClient || this.permissionObj.isEventManager || this.isViewPermission) {
         return true;
       } else {
         return false;
