@@ -83,33 +83,20 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             </div>
                             <div class="field">
                               <input
-                                *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || service?.isViewPermission == 1; else no_access"
+                                *ngIf="permissionObj.isClient || permissionObj.isEventManager || (service?.isViewPermission && permissionObj.isService); else no_access"
                                 [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
                                 placeholder="Name" [readonly]="!isServiceEdit">
                               <ng-template #no_access>No access
                               </ng-template>
                             </div>
                             <div class="ui dividing header">
-                              <h3>Supplier Company <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                              <h3>Supplier Company<i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                                   class="building icon"></i>
-                                  <!-- <div class="addNewService insideSelect float-right">
-                                    <p *ngIf="service.status == 1 && !isServiceEdit"> <i class="ui icon circle green"></i> <b>Confirm</b> </p>
-                                    <p *ngIf="service.status == 0 && !isServiceEdit"> <i class="ui icon circle orange"></i> <b>Pending</b> </p>
-                                    <div class=" selection" *ngIf="isServiceEdit">
-                                      <select class="form-control" [ngModelOptions]="{standalone:true}"
-                                        [attr.disabled]="service.isStaffOrAdmin==1 && isServiceEdit ? null : true"
-                                        (ngModelChange)="acceptDeclineService(service, $event)" [(ngModel)]="service.status">
-                                        <option [ngValue]=1>Confirm</option>
-                                        <option *ngIf="service.status==0" [ngValue]=0>Pending</option>
-                                        <option [ngValue]=2>Decline</option>
-                                      </select>
-                                    </div>
-                                  </div> -->
                                 </h3>
                             </div>
                             <div class="kcpCardContainer"
-                              *ngIf="permissionObj.isClient || permissionObj.isEventManager  ||  (permissionObj.isCrew && service?.isViewPermission==1) ; else no_access">
+                              *ngIf="permissionObj.isClient || permissionObj.isEventManager  ||  (permissionObj.isCrew && service?.isViewPermission==1) || (service?.isViewPermission && permissionObj.isService); else no_access">
                               <div class="ui one column grid"
                                 *ngIf="venuesSuppCmpsMap.has(venueIndex) && venuesSuppCmpsMap.get(venueIndex)!.has(serviceIndex)">
                                 <div class="column">
@@ -118,7 +105,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                       <span *ngIf="venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.isPrivate && venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.isSeed == 0"
                                       class="ui blue right corner label popupNotes adjustTri"
                                       data-content="Private Contact">
-                                      <!--<i class="address card outline icon"></i>-->
+                                     
                                       <fa-icon [icon]="addressCardIcon"></fa-icon>
                                     </span>
                                       <img class="right floated mini ui image"
@@ -201,7 +188,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </div>
 
                               <app-time-windows
-                                *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  (permissionObj.isCrew && service?.isViewPermission==1); else no_access"
+                                *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  (permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access"
                                 [timeWindowFor]="eventTimeWindowType"
                                 [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                                 [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
@@ -233,7 +220,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           </div>
                           <div class="field">
                             <textarea
-                              *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  (permissionObj.isCrew && service?.isViewPermission==1); else no_access"
+                              *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  (permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access"
                               [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}" rows="3"
                               class="textarea" [readonly]="!isServiceEdit"></textarea>
                             <ng-template #no_access>No access
@@ -244,7 +231,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             <h3>Supplier Internal Notes <i class="building icon"></i></h3>
                           </div>
                           <div class="field">
-                            <textarea *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isCrew && service?.isViewPermission==1); else no_access" rows="3" class="textarea" [readonly]="!isServiceEdit" [(ngModel)]="service.internalCmpNotes"
+                            <textarea *ngIf="permissionObj.isEventManager || (permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access" rows="3" class="textarea" [readonly]="!isServiceEdit" [(ngModel)]="service.internalCmpNotes"
                             [ngModelOptions]="{standalone:true}"></textarea>
                             <ng-template #no_access>No access
                             </ng-template>

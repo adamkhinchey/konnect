@@ -64,8 +64,10 @@
           <h3>Event Management Requirements <i class="icon globe"></i></h3>
         </div>
         <div class="field">
-          <textarea rows="3" class="textarea" [readonly]="!isEventEdit" [(ngModel)]="eventToBeSaved.eventManager!.requirements"
+          <textarea rows="3" *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access" class="textarea" [readonly]="!isEventEdit" [(ngModel)]="eventToBeSaved.eventManager!.requirements"
           [ngModelOptions]="{standalone:true}"></textarea>
+          <ng-template #no_access>No access
+          </ng-template>
         </div>
         <div class="ui dividing header">
           <h3>Event Management Internal Notes <i class="building icon"></i></h3>
