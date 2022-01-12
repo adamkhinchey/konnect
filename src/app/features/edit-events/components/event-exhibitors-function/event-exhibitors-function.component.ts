@@ -66,7 +66,6 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   }
 
   ngOnInit(): void {
-    console.log(this.eventToBeSaved)
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
@@ -145,9 +144,9 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   addExhibitor(venue: VenueListItemInterface, venueIndex: number): void {
     this.isExhibitorEdit = true;
     this.isExhibitorEditable = true;
-    console.log(venue.exhibitorList[0])
+
     if (!venue.exhibitorList[0]) {
-      console.log('in if condition');
+    
       const timeWindowsToAll: SuppExhTimeWindowFormatInterface = {
         bumpIn: { sameAsVenue: null, timings: [] },
         bumpOut: { sameAsVenue: null, timings: [] },
@@ -391,8 +390,8 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     }
   }
 
-  checkPermission(isViewPermission: any) {
-    if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
+  checkPermission(isStaffOrAdmin: any) {
+    if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isStaffOrAdmin == 1) {
       return false
     } else {
       return true

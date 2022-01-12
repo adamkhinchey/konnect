@@ -333,7 +333,7 @@
                         </div>
                       </div>
                     </div>
-                    <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || ((permissionObj.isService || permissionObj.isCrew) && supplierItem?.isViewPermission==1); else no_access"  class="ui grid docsContainer">
+                    <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isService && supplierItem?.isViewPermission==1) || (supplierItem?.isViewPermission==1 && permissionObj.isCrew ) ; else no_access"  class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="supplierItem?.SSF">
                           <a class="ui mini button basic"
@@ -363,7 +363,7 @@
                         </div>
                       </div>
                     </div>
-                    <div  *ngIf="(permissionObj.isCrew || permissionObj.isService) && supplierItem?.isViewPermission == 1; else no_access"   class="ui grid docsContainer">
+                    <div  *ngIf="(permissionObj.isCrew && supplierItem?.isViewPermission ) || (permissionObj.isService && supplierItem?.isViewPermission == 1); else no_access"   class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="supplierItem?.SIF">
                           <a class="ui mini button basic"

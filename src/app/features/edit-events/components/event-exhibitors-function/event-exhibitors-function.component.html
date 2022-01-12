@@ -138,7 +138,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </h3>
                             </div>
                             <div class="kcpCardContainer"
-                              *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
+                              *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access">
                               <div class="ui one column grid">
                                 <div class="column"
                                   *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">
@@ -225,7 +225,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             </h3>
                           </div>
                           <div class="field"
-                            *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
+                            *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access">
                             <input type="text" [(ngModel)]="exhibitor.standNumber" [ngModelOptions]="{standalone:true}"
                               placeholder="Stand Number" [readonly]="!isExhibitorEdit">
                               <ng-template #no_access>No access
@@ -243,7 +243,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </div>
 
                               <app-time-windows
-                                *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access"
+                                *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access"
                                 [timeWindowFor]="eventTimeWindowType"
                                 [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                                 [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
@@ -276,7 +276,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             </h3>
                           </div>
                           <div class="field"
-                            *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
+                            *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access">
                             <textarea rows="3" class="textarea" [(ngModel)]="exhibitor.requirement"
                               [ngModelOptions]="{standalone:true}" [readonly]="!isExhibitorEdit"></textarea>
                               <ng-template #no_access>No access
@@ -287,14 +287,14 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             <h3>Exhibitor Internal Notes <i class="building icon"></i></h3>
                           </div>
                           <div class="field">
-                            <textarea *ngIf="permissionObj.isCrew || exhibitor?.isViewPermission==1; else no_access" rows="3" class="textarea" [readonly]="!isExhibitorEdit" [(ngModel)]="exhibitor.internalCmpNotes"
+                            <textarea *ngIf="(permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access" rows="3" class="textarea" [readonly]="!isExhibitorEdit" [(ngModel)]="exhibitor.internalCmpNotes"
                             [ngModelOptions]="{standalone:true}"></textarea>
                             <ng-template #no_access>No access
                             </ng-template>
                           </div>
 
                         </div>
-                        <div class="sixteen wide column saveButtons paddingT0" *ngIf="!permissionObj.isCrew">
+                        <div class="sixteen wide column saveButtons paddingT0">
                           <div class="ui divider"></div>
                           <div class="ui grid stackable">
                             <div class="ten wide column middle aligned">

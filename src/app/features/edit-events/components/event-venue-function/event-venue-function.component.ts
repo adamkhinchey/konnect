@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 import { ConfirmationDialogComponent } from 'src/app/shared/components';
+import { AuthService } from '../../../../core/services/auth.service';
 
 
 @Component({
@@ -55,13 +56,15 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   public isVenueEditable: boolean = false;
   @Input() venueContactLists: Array<Array<FnCmpCntInterface>> = [];
   @Input() setIsCrew: any;
+  public loginUserIsCrew =false;
 
 
   constructor(
     private eventService: EventService,
     private viewEventService: ViewEventService,
     private router: Router,
-    public modalService: NgbModal
+    public modalService: NgbModal,
+    public authService: AuthService
   ) {
   }
 
@@ -106,7 +109,6 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   }
 
   ngOnInit(): void {
-    console.log(this.permissionObj,'permissionObj')
     if (this.eventData?.eventData?.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
@@ -316,6 +318,18 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     } else {
       return [];
     }
+  }
+
+  checkVenueViewPermission(index:number) {
+    let venueContacts =[];
+    if(this.venueContactLists){
+      venueContacts = this.venueContactLists[index].filter(venueContact => venueContact.id == this.authService.getUserInfo().id && venueContact.isCrew == 1);
+       if(venueContacts.length>0){
+         this.loginUserIsCrew =true;
+        return true;
+       }
+    }
+    return false;
   }
 
   checkSelectedCompany(index: any) {

@@ -14,7 +14,7 @@
 
           <div class="field" *ngIf="eventToBeSaved.venues">
             <textarea
-              *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
+              *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ; else no_access"
               rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
               [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit"></textarea>
             <ng-template #no_access>No access</ng-template>
@@ -121,7 +121,7 @@
                         [isVenueEditable]="isVenueEditable">
                       </app-event-assign-function-cmp>
                       <app-event-assign-crew-function-cmp #venueCrewAssignCmp [contactList]="getVenueContacts(i)"
-                        [permissionObj]="permissionObj" [isViewPermission]="panel?.isViewPermission"
+                        [permissionObj]="permissionObj" [isViewPermission]="(panel?.isViewPermission && permissionObj.isVenue) || checkVenueViewPermission(i)"
                         [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
                         [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                         (modalOpen)="setOpenedModalRef($event)" (crewRemove)="removeVenueContact(i,$event)"
