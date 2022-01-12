@@ -278,7 +278,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="field"
                             *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access">
                             <textarea rows="3" class="textarea" [(ngModel)]="exhibitor.requirement"
-                              [ngModelOptions]="{standalone:true}" [readonly]="!isExhibitorEdit"></textarea>
+                              [ngModelOptions]="{standalone:true}" [readonly]="!isExhibitorEdit || !(permissionObj.isClient || permissionObj.isEventManager)"></textarea>
                               <ng-template #no_access>No access
                               </ng-template>
                           </div>
