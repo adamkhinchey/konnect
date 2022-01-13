@@ -23,7 +23,7 @@
   </div>
   <div class="kipCardContainer" *ngIf="checkViewPermission(contactListLabel); else no_access">
     <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
-      <div class="column" *ngFor="let contact of contactList; let i=index">
+      <div class="column test" *ngFor="let contact of contactList; let i=index">
         <ng-container *ngIf="!contact.isCrew || contact.isCrew == 0">
           <div class="contactRole">{{contactLabels.get(contact.contactLabelId) || '(Contact Label Not Assigned)'}}
             <div
