@@ -158,7 +158,7 @@
                         <textarea
                           *ngIf="permissionObj.isClient || permissionObj.isEventManager == 1 || checkVenueViewPermission(i) || (panel?.isViewPermission && permissionObj.isVenue); else no_access"
                           rows="3" class="textarea" [(ngModel)]="panel.requirements"
-                          [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit">
+                          [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit || (panel?.isViewPermission && permissionObj.isVenue)">
                         </textarea>
                         <ng-template #no_access>No access
                         </ng-template>
