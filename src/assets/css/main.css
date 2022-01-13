@@ -86,3 +86,8 @@ app-date-time-picker input { width: 100% !important; }
 	margin-bottom: 5px;
   }
   .contactRole { margin-bottom: 5px; } 
+  .docsContainer a.ui.button.basic {
+	margin-right: 5px !important;
+	margin-top: 10px;
+}
+.manageCollOuter .ui.dividing.header { margin-bottom: 15px; }   
