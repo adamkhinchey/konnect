@@ -1,9 +1,12 @@
 <div class="modal-header">
   <h4 class="modal-title" id="modal-basic-title">Upload Files</h4>
+  
   <button type="button" class="close" aria-label="Close" (click)="checkUploading() && this.closed.emit()">
     <span aria-hidden="true">&times;</span>
   </button>
+  
 </div>
+<span style="font-size: 14px;padding: 14px;">Limit of 8 files in this section, 100MB per file</span>
 <div class="modal-body">
   <div class="content uploadDocuments">
     <form class="ui form">
