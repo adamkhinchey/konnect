@@ -90,6 +90,7 @@
                   <input type="text" placeholder="Mobile" formControlName="mobile">
                   <span *ngIf="inviteCmpCntForm!.get('mobile')?.touched
           && inviteCmpCntForm!.get('mobile')?.errors?.required" class="text-danger">Mobile number is Required</span>
+          <p> <small> Please note: mobile cannot be added later </small> </p>
                 </div>
                 <!-- <div class="field required">
                 </div> -->

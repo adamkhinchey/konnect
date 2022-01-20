@@ -91,3 +91,24 @@ app-date-time-picker input { width: 100% !important; }
 	margin-top: 10px;
 }
 .manageCollOuter .ui.dividing.header { margin-bottom: 15px; }   
+.mainContent {
+	padding-bottom: 50px;
+}
+.addToPanel {
+	top: 0.5em;
+}
+.timeWindowsContainer .sixteen .button {
+	top: 0px;
+}
+
+.alertMsgHeader {
+	background: #0091e6;
+	color: #000;
+	font-size: 16px;
+	text-align: center;
+	display: inline-block;
+	margin-top: 14px;
+	width: 100%;
+	padding: 5px 0;
+}
+.alertMsgHeader img { width: 25px; }
