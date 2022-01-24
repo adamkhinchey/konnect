@@ -12,7 +12,7 @@
     </div>
     <div class="kipCardContainer" *ngIf=" isViewPermission == 1 ; else no_access">
         <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
-            <div class="column" *ngFor="let contact of contactList; let i=index">
+            <div class="column" *ngFor="let contact of contactList; let i=index" [class.display-none] = "contact.isCrew == 0">
                 <ng-container *ngIf="contact.isCrew == 1">
                     <div class="contactRole">{{contact.contactRole}}
                         <!-- <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal"

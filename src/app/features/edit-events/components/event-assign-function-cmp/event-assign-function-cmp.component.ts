@@ -53,7 +53,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.contactList = this.contactList.filter(contact => contact.isCrew == 0);
   }
 
   openVerticallyCentered(content: any): void {
