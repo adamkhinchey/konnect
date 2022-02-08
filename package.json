@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev:build:upload": "ng build -c dev && aws --profile konnect s3 cp ./dist s3://dev-user-website --recursive --acl public-read",
-    "uat:build:upload": "ng build -c uat && aws --profile konnect s3 cp ./dist s3://uat-user-website --recursive --acl public-read"
+    "uat:build:upload": "ng build -c uat && aws --profile konnect s3 cp ./dist s3://uat-user-website --recursive --acl public-read",
+    "platform:build:upload": "ng build -c platform && aws --profile konnect s3 cp ./dist s3://platform-user-website --recursive --acl public-read"
   },
   "private": true,
   "dependencies": {
@@ -47,7 +48,7 @@
     "tslib": "^2.0.0",
     "uuid": "^8.3.2",
     "vis-data": "^7.1.2",
-    "vis-timeline": "^7.4.8",
+    "vis-timeline": "^7.5.0",
     "vis-util": "^5.0.2",
     "xss": "^1.0.9",
     "zone.js": "~0.11.3"

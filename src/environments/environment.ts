@@ -3,8 +3,8 @@ import countries from './countries';
 import companyCategories from './company-categories';
 import eventContactLabels from './event-contact-label-list';
 
-// const APIURL = 'https://zfyd7d1tbb.execute-api.ap-southeast-2.amazonaws.com/dev';
-const APIURL = 'http://127.0.0.1:3000/dev';
+ const APIURL = 'https://zfyd7d1tbb.execute-api.ap-southeast-2.amazonaws.com/uat';
+//const APIURL = 'http://127.0.0.1:3000/dev';
 const siteURL = 'http://dev-user-website.s3-website-ap-southeast-2.amazonaws.com';
 
 
