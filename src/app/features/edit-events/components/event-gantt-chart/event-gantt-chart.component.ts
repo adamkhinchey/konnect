@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -28,6 +29,7 @@ import * as moment from 'moment-timezone';
   selector: 'app-event-gantt-chart',
   templateUrl: './event-gantt-chart.component.html',
   styleUrls: ['./event-gantt-chart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class EventGanttChartComponent implements OnInit, OnDestroy {
   @ViewChild('timeline') timelineContainer: ElementRef | undefined;
@@ -749,7 +751,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
 
         this.chdRef.detectChanges();
       }
-    }, 2000);
+    }, 1300);
   }
 
   ngOnDestroy(): void {

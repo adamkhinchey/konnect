@@ -100,7 +100,9 @@ export class EventTimelineFunctionComponent
         .fetchEventVenues(this.eventId)
         .subscribe(
           (value) => {
+            console.log('vanues...', value);
             this.venues = value;
+            this.timelineType = EventTimelineType.SERVICES;
             if (Array.isArray(this.venues) && this.venues.length > 0) {
               this.activeVenueId = value[0].venueId;
               callback.call(this);

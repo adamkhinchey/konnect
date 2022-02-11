@@ -10,7 +10,7 @@ const siteURL =
 
 export const environment = {
   production: true,
-  env: 'uat',
+  env: 'prod',
   timeZones,
   countries,
   companyCategories,

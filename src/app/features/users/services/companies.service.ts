@@ -92,12 +92,12 @@ export class CompaniesService {
   }
 
   createCompany(param: CreateCompanyInterface): Observable<any> {
-    this.spinner.show();
+    // this.spinner.show();
     return this.http.post(
       `${this.apiBaseUrl}/createCompany`,
       { ...param }
     ).pipe(
-      hideSpinnerPostApiCall(this.spinner),
+      // hideSpinnerPostApiCall(this.spinner),
       take(1),
       this.httpErrorHandler.processError()
     );

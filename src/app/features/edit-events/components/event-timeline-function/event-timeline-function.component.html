@@ -1,5 +1,5 @@
 <div *ngIf="venues.length>0" class="ui segment">
-  <ul ngbNav #outerNav="ngbNav" [activeId]="venues[0].venueId" (activeIdChange)="setVenueId($event)"
+  <ul ngbNav #outerNav="ngbNav" [activeId]="activeVenueId" (activeIdChange)="setVenueId($event)"
       class="nav-tabs supplierInnerCont">
     <li *ngFor="let venue of venues; let i= index" [ngbNavItem]="venue.venueId">
       <a ngbNavLink><i class="map marker alternate icon"></i><span class="hideMobile">{{venue.venueName}}</span></a>
