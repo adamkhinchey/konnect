@@ -931,3 +931,8 @@ select.ui.dropdown {
 .searchCompany a.result{position: relative;}
 
 .actionBar .openMobileMenu { z-index: 9999; } 
+.pushable .pusher, .sidebar.sidebarContent, .pusher  {
+	 transition: -webkit-transform 150ms ease;
+	 transition: transform 150ms ease;
+	transition: transform 150ms ease;
+}
