@@ -79,7 +79,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             </div> -->
                           
                             <div class="sixteen wide column right aligned">
-                              <button [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)" class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit"
+                              <button [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)" class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit && !isPast"
                                 (click)="editServiceFn(serviceIndex)">Edit </button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal" [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})"

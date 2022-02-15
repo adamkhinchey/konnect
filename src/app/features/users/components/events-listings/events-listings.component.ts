@@ -130,7 +130,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked ,OnDest
   }
 
   viewEvent(eventId: any) {
-    this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId } });
+    this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory} });
   }
 
   eventHistory() {

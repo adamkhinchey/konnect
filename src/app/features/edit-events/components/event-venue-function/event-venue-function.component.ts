@@ -6,43 +6,62 @@ import {
   OnChanges,
   OnInit,
   Output,
-  QueryList, SimpleChanges, ViewChild, ViewChildren
+  QueryList,
+  SimpleChanges,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { Company } from '../../../users/models';
 import { InviteFnCmpClass } from '../../models/classes';
 import { SaveEventClass } from '../../models/classes/saveEvent.class';
 import { Subscription } from 'rxjs';
 import { EventAssignFunctionCmpComponent } from '../event-assign-function-cmp/event-assign-function-cmp.component';
-import { NgbAccordion, NgbModal, NgbModalOptions, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbAccordion,
+  NgbModal,
+  NgbModalOptions,
+  NgbPanelChangeEvent,
+} from '@ng-bootstrap/ng-bootstrap';
 import { EventService } from '../../services/event.service';
 import { devLogger } from '../../../../shared/utils';
-import { EventTimeWindowTypes } from "../../models/types";
+import { EventTimeWindowTypes } from '../../models/types';
 import { FnCmpCntInterface } from '../../models/interfaces';
 import { ViewEventService } from '../../services/view-event.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 import { ConfirmationDialogComponent } from 'src/app/shared/components';
 import { AuthService } from '../../../../core/services/auth.service';
 
-
 @Component({
   selector: 'app-event-venue-function',
   templateUrl: './event-venue-function.component.html',
-  styleUrls: ['./event-venue-function.component.scss']
+  styleUrls: ['./event-venue-function.component.scss'],
 })
-export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnChanges {
+export class EventVenueFunctionComponent
+  implements OnInit, AfterViewInit, OnChanges
+{
   addressCardIcon = faAddressCard;
-  @ViewChildren('venueAssignCmp') venueAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
-  @ViewChildren('venueCrewAssignCmp') venueCrewAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
+  @ViewChildren('venueAssignCmp') venueAssignCmp:
+    | QueryList<EventAssignFunctionCmpComponent>
+    | undefined;
+  @ViewChildren('venueCrewAssignCmp') venueCrewAssignCmp:
+    | QueryList<EventAssignFunctionCmpComponent>
+    | undefined;
   // @ts-ignore
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
   @Input() eventData: any;
-  @Input() selectedCompanies: (Company | InviteFnCmpClass | null)[] | undefined | null;
+  @Input() selectedCompanies:
+    | (Company | InviteFnCmpClass | null)[]
+    | undefined
+    | null;
   @Input() content: any;
   @Output() removeSelectedCompany = new EventEmitter<number>();
   @Input() eventToBeSaved = new SaveEventClass();
-  @Output() saveAndInvite = new EventEmitter<{ venueIndex: number, shouldInvite: boolean }>();
+  @Output() saveAndInvite = new EventEmitter<{
+    venueIndex: number;
+    shouldInvite: boolean;
+  }>();
   isOwnCompany = false;
   activeVenuePanel = 0;
   @Input() searchInviteCmpModal: any;
@@ -56,40 +75,56 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   public isVenueEditable: boolean = false;
   @Input() venueContactLists: Array<Array<FnCmpCntInterface>> = [];
   @Input() setIsCrew: any;
-  public loginUserIsCrew =false;
-
+  public loginUserIsCrew = false;
+  isPast: any;
 
   constructor(
     private eventService: EventService,
     private viewEventService: ViewEventService,
     private router: Router,
     public modalService: NgbModal,
-    public authService: AuthService
+    public authService: AuthService,
+    public aroute: ActivatedRoute
   ) {
+    this.aroute.queryParams.subscribe((param) => {
+      console.log('param...', param);
+      this.isPast = param.isPast;
+    });
   }
 
   checkPermission(isViewPermission: any) {
-    if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
-      return false
+    if (
+      this.eventData.userPermission.isClient == 1 ||
+      this.eventData.userPermission.isEventManager == 1 ||
+      isViewPermission == 1
+    ) {
+      return false;
     } else {
-      return true
+      return true;
     }
   }
 
   checkPermission1(isViewPermission: any) {
-    if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
-      return true
+    if (
+      this.eventData.userPermission.isClient == 1 ||
+      this.eventData.userPermission.isEventManager == 1 ||
+      isViewPermission == 1
+    ) {
+      return true;
     } else {
-      return false
+      return false;
     }
   }
 
-
   checkIsVenueEditable(isViewPermission: any) {
-    if ((this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1) && isViewPermission == 1) {
-      return true
+    if (
+      (this.eventData.userPermission.isClient == 1 ||
+        this.eventData.userPermission.isEventManager == 1) &&
+      isViewPermission == 1
+    ) {
+      return true;
     } else {
-      return false
+      return false;
     }
   }
 
@@ -104,9 +139,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     this.isVenueEditable = true;
   }
 
-  ngAfterViewInit(): void {
-
-  }
+  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     if (this.eventData?.eventData?.isDeleted == 1) {
@@ -114,26 +147,27 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
-
   addVenue(): void {
     this.isVenueEditable = true;
     this.isVenueEdit = true;
     if (!this.eventToBeSaved.venues) {
       this.eventToBeSaved.venues = {
-        list: [{
-          companyId: null,
-          requirements: '',
-          internalCmpNotes: null,
-          eventAccessDateTimes: [],
-          preEventAccessDateTimes: [],
-          postEventAccessDateTimes: [],
-          contacts: null,
-          shouldInvite: 0,
-          invited: null,
-          suppliers: [],
-          exhibitorList: []
-        }],
-        notesToAll: ''
+        list: [
+          {
+            companyId: null,
+            requirements: '',
+            internalCmpNotes: null,
+            eventAccessDateTimes: [],
+            preEventAccessDateTimes: [],
+            postEventAccessDateTimes: [],
+            contacts: null,
+            shouldInvite: 0,
+            invited: null,
+            suppliers: [],
+            exhibitorList: [],
+          },
+        ],
+        notesToAll: '',
       };
     } else {
       this.eventToBeSaved.venues.list.push({
@@ -147,14 +181,14 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
         shouldInvite: 0,
         invited: null,
         suppliers: [],
-        exhibitorList: []
+        exhibitorList: [],
       });
     }
     this.ngbAccordion.collapseAll();
     this.activeVenuePanel = this.eventToBeSaved.venues.list.length - 1;
     this.eventService.activeVenuePanelIndex = this.activeVenuePanel;
     devLogger('log', { selectedCompanies: this.selectedCompanies });
-    this.removeSelectedCompany.emit(this.activeVenuePanel)
+    this.removeSelectedCompany.emit(this.activeVenuePanel);
   }
 
   getCompanyProfileImage(i: number): string | null | undefined {
@@ -229,8 +263,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
-  panelChange(event: NgbPanelChangeEvent): void {
-  }
+  panelChange(event: NgbPanelChangeEvent): void {}
 
   panelActivated(i: number): void {
     this.eventService.activeVenuePanelIndex = i;
@@ -244,22 +277,21 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     devLogger('log', { EVENT_TO_BE_SAVE_VENUE: this.eventToBeSaved });
   }
 
-
   acceptDeclineService(tab: any, isAccept: any) {
-
     if (tab.venueId && isAccept > 0) {
       let payload = {
         eventId: this.eventData.eventData.eventId,
         tabId: tab.venueId,
         tabType: 3,
-        isAccept: isAccept > 1 ? 0 : isAccept
-      }
+        isAccept: isAccept > 1 ? 0 : isAccept,
+      };
 
-      this.viewEventService.removeDecline(payload).subscribe((res: any) => {
-
-      }, err => {
-        devLogger('err', err)
-      })
+      this.viewEventService.removeDecline(payload).subscribe(
+        (res: any) => {},
+        (err) => {
+          devLogger('err', err);
+        }
+      );
     }
   }
 
@@ -320,14 +352,18 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
-  checkVenueViewPermission(index:number) {
-    let venueContacts =[];
-    if(this.venueContactLists){
-      venueContacts = this.venueContactLists[index].filter(venueContact => venueContact.id == this.authService.getUserInfo().id && venueContact.isCrew == 1);
-       if(venueContacts.length>0){
-         this.loginUserIsCrew =true;
+  checkVenueViewPermission(index: number) {
+    let venueContacts = [];
+    if (this.venueContactLists) {
+      venueContacts = this.venueContactLists[index].filter(
+        (venueContact) =>
+          venueContact.id == this.authService.getUserInfo().id &&
+          venueContact.isCrew == 1
+      );
+      if (venueContacts.length > 0) {
+        this.loginUserIsCrew = true;
         return true;
-       }
+      }
     }
     return false;
   }
@@ -336,44 +372,45 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     //@ts-ignore
     if (this.selectedCompanies[index] != null) {
       this.eventService.isSaveDisabled = false;
-      return false
+      return false;
     } else {
       this.eventService.isSaveDisabled = true;
-      return true
+      return true;
     }
   }
 
   confirmRemove(venueId: any, isAccept: any) {
     let ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
-      keyboard: false
+      keyboard: false,
     };
-    const modalRef = this.modalService.open(ConfirmationDialogComponent, ngbModalOptions);
-    modalRef.result.then((result: any) => {
-
-      if (result) {
-        this.removeDeclineService(venueId, isAccept);
-      }
-    }).catch((result) => {
-
-    });
+    const modalRef = this.modalService.open(
+      ConfirmationDialogComponent,
+      ngbModalOptions
+    );
+    modalRef.result
+      .then((result: any) => {
+        if (result) {
+          this.removeDeclineService(venueId, isAccept);
+        }
+      })
+      .catch((result) => {});
   }
 
   removeDeclineService(venueId: any, isAccept: any) {
-
     let payload = {
       eventId: this.eventData.eventData.eventId,
       tabId: venueId,
       tabType: 3,
-      isAccept: isAccept
-    }
-    this.viewEventService.removeDecline(payload).subscribe((res: any) => {
-
-      if (res.code == 200)
-        this.router.navigate(['home']);
-    }, err => {
-      devLogger('err', err)
-    })
+      isAccept: isAccept,
+    };
+    this.viewEventService.removeDecline(payload).subscribe(
+      (res: any) => {
+        if (res.code == 200) this.router.navigate(['home']);
+      },
+      (err) => {
+        devLogger('err', err);
+      }
+    );
   }
-
 }

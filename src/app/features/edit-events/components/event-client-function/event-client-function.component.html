@@ -9,7 +9,7 @@
             *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)">
             <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
             </button> -->
-            <button class="ui button triggerEditableOptions ml-3" *ngIf="!isClientEdit"
+            <button class="ui button triggerEditableOptions ml-3" *ngIf="!isClientEdit && !isPast"
               [disabled]="eventData.eventData.isDeleted" (click)="editClientEvent()">Edit</button>
             <button class="ui button hasModal ml-3" data-modal="inviteModal" (click)="saveAndInvite.emit(true)"
               *ngIf="isClientEdit">Save

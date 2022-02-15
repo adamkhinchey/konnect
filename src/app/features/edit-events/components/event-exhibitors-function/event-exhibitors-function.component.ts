@@ -14,7 +14,7 @@ import { devLogger } from '../../../../shared/utils';
 import { InviteFnCmpClass } from '../../models/classes';
 import { EventTimeWindowTypes } from "../../models/types";
 import { ViewEventService } from '../../services/view-event.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 import { ConfirmationDialogComponent } from 'src/app/shared/components';
 
@@ -44,13 +44,19 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   isExhibitorEdit: boolean = false;
   public isExhibitorEditable: boolean = false;
   @Input() setIsCrew: any;
+  isPast:any;
 
   constructor(
     public eventService: EventService,
     private viewEventService: ViewEventService,
     private router: Router,
-    public modalService: NgbModal
+    public modalService: NgbModal,
+    public aroute:ActivatedRoute
   ) {
+    this.aroute.queryParams.subscribe((param) => {
+      console.log('param...', param);
+      this.isPast = param.isPast;
+    });
   }
 
   editExhibitorFn() {
