@@ -228,7 +228,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                       servicesData.primaryContact?.mobile
                     }<span class="hyphen"> - </span>${
                       servicesData.primaryContact?.email
-                    }</p><small>${servicesData.companyWebSite || ''}</small>`,
+                    }</p><small>${servicesData.companyWebsite || ''}</small>`,
                     start: moment
                       .tz(servicesData.startDateTime, this.timeZone)
                       .toDate(),
@@ -266,7 +266,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                         multiData.primaryContact?.mobile
                       }<span class="hyphen"> - </span>${
                         multiData.primaryContact?.email
-                      }</p><small>${multiData.companyWebSite || ''}</small>`,
+                      }</p><small>${multiData.companyWebsite || ''}</small>`,
                       start: moment
                         .tz(multiData.startDateTime, this.timeZone)
                         .toDate(),
@@ -313,7 +313,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                       exhibitorsData.primaryContact?.mobile
                     }<span class="hyphen"> - </span>${
                       exhibitorsData.primaryContact?.email
-                    }</p><small>${exhibitorsData.companyWebSite || ''}</small>`,
+                    }</p><small>${exhibitorsData.companyWebsite || ''}</small>`,
                     start: moment
                       .tz(exhibitorsData.startDateTime, this.timeZone)
                       .toDate(),
@@ -350,7 +350,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                         multiData.primaryContact?.mobile
                       }<span class="hyphen"> - </span>${
                         multiData.primaryContact?.email
-                      }</p><small>${multiData.companyWebSite || ''}</small>`,
+                      }</p><small>${multiData.companyWebsite || ''}</small>`,
                       start: moment
                         .tz(multiData.startDateTime, this.timeZone)
                         .toDate(),
@@ -419,7 +419,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                       servicesData.primaryContact?.mobile
                     }<span class="hyphen"> - </span>${
                       servicesData.primaryContact?.email
-                    }</p><small>${servicesData.companyWebSite || ''}</small>`,
+                    }</p><small>${servicesData.companyWebsite || ''}</small>`,
                     start: moment
                       .tz(servicesData.startDateTime, this.timeZone)
                       .toDate(),
@@ -456,7 +456,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                         multiData.primaryContact?.mobile
                       }<span class="hyphen"> - </span>${
                         multiData.primaryContact?.email
-                      }</p><small>${multiData.companyWebSite || ''}</small>`,
+                      }</p><small>${multiData.companyWebsite || ''}</small>`,
                       start: moment
                         .tz(multiData.startDateTime, this.timeZone)
                         .toDate(),
@@ -497,7 +497,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                       exhibitorsData.primaryContact?.mobile
                     }<span class="hyphen"> - </span>${
                       exhibitorsData.primaryContact?.email
-                    }</p><small>${exhibitorsData.companyWebSite}</small>`,
+                    }</p><small>${exhibitorsData.companyWebsite}</small>`,
                     start: moment
                       .tz(exhibitorsData.startDateTime, this.timeZone)
                       .toDate(),
@@ -529,7 +529,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                         multiData.primaryContact?.mobile
                       }<span class="hyphen"> - </span>${
                         multiData.primaryContact?.email
-                      }</p><small>${multiData.companyWebSite}</small>`,
+                      }</p><small>${multiData.companyWebsite}</small>`,
                       start: moment
                         .tz(multiData.startDateTime, this.timeZone)
                         .toDate(),
@@ -598,7 +598,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                       servicesData.primaryContact?.mobile
                     }<span class="hyphen"> - </span>${
                       servicesData.primaryContact?.email
-                    }</p><small>${servicesData.companyWebSite || ''}</small>`,
+                    }</p><small>${servicesData.companyWebsite || ''}</small>`,
                     start: moment
                       .tz(servicesData.startDateTime, this.timeZone)
                       .toDate(),
@@ -635,7 +635,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                         multiData.primaryContact?.mobile
                       }<span class="hyphen"> - </span>${
                         multiData.primaryContact?.email
-                      }</p><small>${multiData.companyWebSite || ''}</small>`,
+                      }</p><small>${multiData.companyWebsite || ''}</small>`,
                       start: moment
                         .tz(multiData.startDateTime, this.timeZone)
                         .toDate(),
@@ -681,7 +681,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                       exhibitorsData.primaryContact?.mobile
                     }<span class="hyphen"> - </span>${
                       exhibitorsData.primaryContact?.email
-                    }</p><small>${exhibitorsData.companyWebSite || ''}</small>`,
+                    }</p><small>${exhibitorsData.companyWebsite || ''}</small>`,
                     start: moment
                       .tz(exhibitorsData.startDateTime, this.timeZone)
                       .toDate(),
@@ -718,7 +718,7 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                         multiData.primaryContact?.mobile
                       }<span class="hyphen"> - </span>${
                         multiData.primaryContact?.email
-                      }</p><small>${multiData.companyWebSite || ''}</small>`,
+                      }</p><small>${multiData.companyWebsite || ''}</small>`,
                       start: moment
                         .tz(multiData.startDateTime, this.timeZone)
                         .toDate(),
