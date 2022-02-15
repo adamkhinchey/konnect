@@ -69,6 +69,24 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                       <div class="ui grid stackable">
 
+                        <div class="sixteen wide column saveButtons paddingT0">
+                          <div class="ui divider"></div>
+                          <div class="ui grid stackable">
+                            <!-- <div class="ten wide column middle aligned">
+                              <div (click)="confirmRemove(service?.supplierId, 0)" *ngIf="!eventData.eventData.isDeleted && !checkPermission(service.isStaffOrAdmin)"
+                                class="ui circular compact mini basic button confirmRemove hasModal"
+                                data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
+                            </div> -->
+                          
+                            <div class="sixteen wide column right aligned">
+                              <button [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)" class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit"
+                                (click)="editServiceFn(serviceIndex)">Edit </button>
+                              <button class="ui button hasModal ml-3" data-modal="inviteModal" [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)"
+                                (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})"
+                                *ngIf="isServiceEdit && serviceIndex == editServiceIndex">Save </button>
+                            </div>
+                          </div>
+                        </div>
 
                         <div class="seven wide column">
                           <div class="companyContainer marginB20">
@@ -247,15 +265,13 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
                           
-                            <div class="six wide column right aligned">
+                            <!-- <div class="six wide column right aligned">
                               <button [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)" class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit"
                                 (click)="editServiceFn(serviceIndex)">Edit </button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal" [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})"
-                                *ngIf="isServiceEdit && serviceIndex == editServiceIndex">Save
-                                <!-- &amp; Invite -->
-                              </button>
-                            </div>
+                                *ngIf="isServiceEdit && serviceIndex == editServiceIndex">Save </button>
+                            </div> -->
                           </div>
                         </div>
                       </div>
@@ -274,7 +290,13 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
     </li>
   </ul>
   <div [ngbNavOutlet]="venueNav" class="mt-2 innerTabCont"></div>
+  
+  <div class="sixteen wide column mb-4" >
+    <a href="https://konnectevents.freshdesk.com/support/solutions/articles/51000289445-how-to-use-supplier-tab" target="_blank" class="btn btn-warning warningThemeBtn" > <i class="icon info"></i> How to use this page </a>
+  </div>
+
 </div>
+
 <ng-template #noVenues>
   <div class="ui segment">
     <h2>Services are not present for this event</h2>

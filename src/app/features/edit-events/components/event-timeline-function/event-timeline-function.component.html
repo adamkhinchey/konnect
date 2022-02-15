@@ -9,6 +9,7 @@
           <li [ngbNavItem]="serviceTimeLineId">
             <a ngbNavLink class="item tabAdmin">Services</a>
             <ng-template ngbNavContent>
+              <p>Only Services with specific Time Windows saved for them will show on the Timeline</p>
               <app-event-gantt-chart
                 #servicesGanttChart
                 [timelineGenTrigger]="timelineRenderSubject"
@@ -19,6 +20,7 @@
           <li [ngbNavItem]="exhibitorsTimeLineId">
             <a ngbNavLink class="item tabAdmin">Exhibitors</a>
             <ng-template ngbNavContent>
+              <p>Only Exhibitors with specific Time Windows saved for them will show on the Timeline</p>
               <app-event-gantt-chart
                 #exhibitorsGanttChart
                 [timelineGenTrigger]="timelineRenderSubject"
@@ -32,6 +34,11 @@
     </li>
   </ul>
   <div [ngbNavOutlet]="outerNav" class="mt-2 innerTabCont"></div>
+
+  <div class="sixteen wide column mb-4" >
+    <a href="https://konnectevents.freshdesk.com/support/solutions/articles/51000289448-how-to-use-timeline-tab" target="_blank" class="btn btn-warning warningThemeBtn" > <i class="icon info"></i> How to use this page </a>
+  </div>
+
 </div>
 <div *ngIf="!hasVenues" class="ui segment">
   <h2>No timings are added to this event therefore timeline is not available for this event</h2>

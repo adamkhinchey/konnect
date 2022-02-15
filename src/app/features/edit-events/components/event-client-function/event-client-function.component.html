@@ -1,6 +1,24 @@
 <div class="ui segment">
   <form class="ui form">
     <div class="ui grid stackable">
+
+      <div class="sixteen wide column saveButtons paddingT0">
+        <div class="ui divider"></div>
+        <div class="ui grid stackable">
+          <div class="sixteen wide column right aligned"
+            *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)">
+            <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
+            </button> -->
+            <button class="ui button triggerEditableOptions ml-3" *ngIf="!isClientEdit"
+              [disabled]="eventData.eventData.isDeleted" (click)="editClientEvent()">Edit</button>
+            <button class="ui button hasModal ml-3" data-modal="inviteModal" (click)="saveAndInvite.emit(true)"
+              *ngIf="isClientEdit">Save
+              <!-- &amp; Invite -->
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="seven wide column">
         <div class="companyContainer marginB20">
           <div class="field checkboxOnHeader">
@@ -120,15 +138,19 @@
             *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)">
             <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
             </button> -->
-            <button class="ui button triggerEditableOptions ml-3" *ngIf="!isClientEdit"
+            <!-- <button class="ui button triggerEditableOptions ml-3" *ngIf="!isClientEdit"
               [disabled]="eventData.eventData.isDeleted" (click)="editClientEvent()">Edit</button>
             <button class="ui button hasModal ml-3" data-modal="inviteModal" (click)="saveAndInvite.emit(true)"
               *ngIf="isClientEdit">Save
-              <!-- &amp; Invite -->
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
+
+      <div class="sixteen wide column mb-4" >
+        <a href="https://konnectevents.freshdesk.com/support/solutions/articles/51000289442-how-to-use-client-tab" target="_blank" class="btn btn-warning warningThemeBtn" > <i class="icon info"></i> How to use this page </a>
+      </div>
+
     </div>
   </form>
 </div>

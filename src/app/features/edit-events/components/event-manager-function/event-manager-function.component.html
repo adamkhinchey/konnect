@@ -1,6 +1,21 @@
 <div class="ui segment">
   <form class="ui form">
     <div class="ui grid stackable">
+
+      <div class="sixteen wide column saveButtons paddingT0">
+        <div class="ui divider"></div>
+        <div class="ui grid stackable">
+          <div class="sixteen wide column right aligned" *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)">
+            
+            <button [disabled]="eventData.eventData.isDeleted" class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="!isEventEdit" (click)="editEventManager()">
+              Edit
+            </button>
+            <button class="ui button hasModal ml-3" (click)="this.saveAndInvite.emit(true)" *ngIf="isEventEdit">Save 
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="seven wide column">
         <div class="companyContainer marginB20">
           <div class="field checkboxOnHeader">
@@ -79,7 +94,7 @@
           </ng-template>
         </div>
       </div>
-      <div class="sixteen wide column saveButtons paddingT0">
+      <!-- <div class="sixteen wide column saveButtons paddingT0">
         <div class="ui divider"></div>
         <div class="ui grid stackable">
           <div class="sixteen wide column right aligned" *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)">
@@ -88,11 +103,15 @@
               Edit
             </button>
             <button class="ui button hasModal ml-3" (click)="this.saveAndInvite.emit(true)" *ngIf="isEventEdit">Save 
-              <!-- &amp; Invite -->
             </button>
           </div>
         </div>
+      </div> -->
+
+      <div class="sixteen wide column mb-4" >
+        <a href="https://konnectevents.freshdesk.com/support/solutions/articles/51000289443-how-to-use-event-manager-tab" target="_blank" class="btn btn-warning warningThemeBtn" > <i class="icon info"></i> How to use this page </a>
       </div>
+
     </div>
   </form>
 </div>

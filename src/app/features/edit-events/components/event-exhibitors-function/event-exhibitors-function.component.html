@@ -48,6 +48,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                         <i class="exhibitor icon"></i>
                       </h3>
                     </div>
+                    <p>Dates and times for the exhibition part of your event must be specified below</p>
 
                     <app-time-windows
                       *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"
@@ -110,6 +111,20 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   <div class="content active">
                     <form class="ui form visible" style="display: block !important;">
                       <div class="ui grid stackable">
+
+                        <div class="sixteen wide column saveButtons paddingT0">
+                          <div class="ui divider"></div>
+                          <div class="ui grid stackable">
+                            <div class="sixteen wide column right aligned">
+                              <button [disabled]="eventData.eventData.isDeleted || checkPermission(exhibitor.isStaffOrAdmin)"
+                                class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit"
+                                (click)="editExhibitorFn()">Edit </button>
+                              <button class="ui button hasModal ml-3" data-modal="inviteModal"
+                                (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"
+                                *ngIf="isExhibitorEdit">Save </button>
+                            </div>
+                          </div>
+                        </div>
 
                         <div class="seven wide column">
                           <div class="companyContainer marginB20">
@@ -318,14 +333,13 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i
                                   class="file pdf icon"></i>
                               </button> -->
-                              <button [disabled]="eventData.eventData.isDeleted || checkPermission(exhibitor.isStaffOrAdmin)"
+                              <!-- <button [disabled]="eventData.eventData.isDeleted || checkPermission(exhibitor.isStaffOrAdmin)"
                                 class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit"
                                 (click)="editExhibitorFn()">Edit </button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"
                                 *ngIf="isExhibitorEdit">Save
-                                <!-- &amp; Invite -->
-                              </button>
+                              </button> -->
                             </div>
                           </div>
                         </div>
@@ -344,6 +358,11 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
     </li>
   </ul>
   <div [ngbNavOutlet]="venueNav" class="mt-2 innerTabCont"></div>
+
+  <div class="sixteen wide column mb-4" >
+    <a href="https://konnectevents.freshdesk.com/support/solutions/articles/51000289446-how-to-use-exhibitor-tab" target="_blank" class="btn btn-warning warningThemeBtn" > <i class="icon info"></i> How to use this page </a>
+  </div>
+
 </div>
 <ng-template #noVenues>
   <div class="ui segment">

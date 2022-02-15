@@ -934,5 +934,14 @@ select.ui.dropdown {
 .pushable .pusher, .sidebar.sidebarContent, .pusher  {
 	 transition: -webkit-transform 150ms ease;
 	 transition: transform 150ms ease;
-	transition: transform 150ms ease;
+	 transition: transform 150ms ease;
+}
+
+.warningThemeBtn { background-color: #fdd200; }
+.warningThemeBtn i.icon {
+	height: 22px;
+	width: 22px;
+	background: #0091e6;
+	border-radius: 30px;
+	color: #fff;
 }
