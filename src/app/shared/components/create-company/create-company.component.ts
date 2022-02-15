@@ -164,8 +164,9 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   }
 
   saveImageAndCreateCompany(): void {
+    this.spinner.show();
     if (this.selectedProfileImage) {
-      this.uploadFileService.uploadFile(
+      this.uploadFileService.uploadFileCreateCompany(
         this.selectedProfileImage,
         (url: string) => {
           this.createCompanyForm.get('companyProfileImage')?.setValue(url);
