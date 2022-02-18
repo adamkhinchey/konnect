@@ -56,10 +56,14 @@ export class EventClientFunctionComponent
     private viewEvSrvc: ViewEventService
   ) {
     this.eventService.isEdit = false;
-    this.aroute.queryParams.subscribe((param) => {
-      console.log('param...', param);
-      this.isPast = param.isPast;
-    });
+  }
+
+  check(){
+    if(!this.isClientEdit && this.isPast == 'false'){
+      return true;
+    }else{
+      return false
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {}
@@ -115,6 +119,11 @@ export class EventClientFunctionComponent
 
     this.subs2 = this.eventService.setIsFnOwnCompany.subscribe((status) => {
       this.isOwnCompany = !!status.get(EventFunctionTypes.CLIENT);
+    });
+    this.aroute.queryParams.subscribe((param) => {
+      console.log('param...', param);
+      this.isPast = param.isPast;
+      console.log('isPast...', this.isPast)
     });
   }
 

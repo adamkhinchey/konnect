@@ -89,7 +89,16 @@ export class EventSuppliersFunctionComponent
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
       this.isPast = param.isPast;
+      console.log('is past...', this.isPast)
     });
+  }
+
+  check(){
+    if(!this.isServiceEdit && this.isPast == 'false'){
+      return true;
+    }else{
+      return false
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {

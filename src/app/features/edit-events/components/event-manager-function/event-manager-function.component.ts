@@ -55,6 +55,14 @@ export class EventManagerFunctionComponent
     });
   }
 
+  check(){
+    if(!this.isEventEdit && this.isPast == 'false'){
+      return true;
+    }else{
+      return false
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges) {}
 
   editEventManager() {

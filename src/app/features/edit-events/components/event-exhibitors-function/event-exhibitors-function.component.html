@@ -117,7 +117,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="ui grid stackable">
                             <div class="sixteen wide column right aligned">
                               <button [disabled]="eventData.eventData.isDeleted || checkPermission(exhibitor.isStaffOrAdmin)"
-                                class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit && !isPast"
+                                class="ui button triggerEditableOptions ml-3" *ngIf="check()"
                                 (click)="editExhibitorFn()">Edit </button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"
