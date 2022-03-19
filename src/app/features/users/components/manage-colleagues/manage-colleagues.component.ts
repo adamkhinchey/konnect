@@ -12,7 +12,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/for
 import { InviteColleaguesComponent } from '../../../../shared/components/modals/invite-colleagues/invite-colleagues.component';
 import { RemoveType } from '../../../../shared/models';
 import { RemoveModalComponent } from '../../../../shared/components/modals/remove-modal/remove-modal.component';
-
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-manage-colleagues',
@@ -44,6 +44,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
   removalType = RemoveType.COMPANY;
   private colleagueIdToRemove: undefined | number;
   private colleagueRemoveReqSub: Subscription | undefined;
+  addressCardIcon = faAddressCard;
 
 
   constructor(
@@ -99,7 +100,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
       this.getCmpColleaguesSub = this.companiesService.getCompanyColleagues({ companyId: this.defaultCompany.id })
         .subscribe(value => {
           if (value) {
-            console.log(value);
+
             this.companyColleaguesData = value;
             this.populatePositionsModel([...this.companyColleaguesData.colleagues, ...this.companyColleaguesData.admins]);
             this.patchAndBindPositionInpCtrlArray(
@@ -288,9 +289,7 @@ export class ManageColleaguesComponent implements OnInit, OnDestroy {
   }
 
   goToUserProfile(userId: any, isPrivate: any) {
-    console.log(userId);
-    console.log(isPrivate);
-    if (userId && isPrivate == 0) {
+    if (userId) {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/edit-profile?isView=' + true);

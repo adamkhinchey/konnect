@@ -48,6 +48,9 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
 
   profileImage: File | null = null;
   uid: any;
+  defaultCompanyId:number | null  | undefined;
+  companyIsSeed:boolean | undefined = false;
+
   constructor(private ngWizardService: NgWizardService,
     private auth: AuthService,
     private router: Router,
@@ -73,14 +76,23 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         this.auth.signup(personalDetails);
         this.personalDetails = personalDetails;
         if (this.uid) {
-          this.ngWizardService.next();
+          if(this.defaultCompanyId && !this.companyIsSeed){
+            this.router.navigate(['home']);
+          }else{
+            this.ngWizardService.next();
+          }
+
         }
       });
     } else {
       this.auth.signup(personalDetails);
       this.personalDetails = personalDetails;
       if (this.uid) {
-        this.ngWizardService.next();
+        if(this.defaultCompanyId && !this.companyIsSeed){
+          this.router.navigate(['home']);
+        }else{
+          this.ngWizardService.next();
+        }
       }
     }
   }
@@ -120,7 +132,6 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
     }
     else {
       this.updateUserSrvc.getUserDataByUid(this.uid).subscribe((res: any) => {
-        console.log(res);
         if(res.isPrivate == 1){
         this.auth.saveToken((res) as LoginUserProfile);
         this.auth.loggedIn = true;
@@ -128,13 +139,14 @@ export class CreateIndividualProfileComponent implements OnInit, OnDestroy {
         this.user!.inviteUID = this.uid
         localStorage.setItem('userId', JSON.stringify(this.user.id));
         this.personalDetails = this.user as CreateProfilePersonalDetails;
-        console.log(this.personalDetails);
+        this.defaultCompanyId = this.user.defaultCompanyId;
+        this.companyIsSeed = this.user.companyIsSeed;
         // this.ngWizardService.next();
       }else{
         this.auth.logout();
       }
       }, err => {
-        console.log(err);
+
       });
       // this.isLoggedInSubscription = this.auth.isLoggedIn.subscribe(value => {
       //   alert(value);

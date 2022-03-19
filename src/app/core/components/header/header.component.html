@@ -2,7 +2,7 @@
 
 <ng-template #headerTemplate>
 
-  
+
 <div class="ui sidebar sidebarContent left ">
   <!-- uncover visible -->
   <div class="profileMobileDisplay">
@@ -12,7 +12,7 @@
             <i class="cog icon ng-tns-c53-1" ></i>
             </div>
       </div>
-      
+
       <h3>
         <span class="userName">{{(userSettingsService.settings | async)!.firstName!}} {{(userSettingsService.settings | async)!.lastName!}}</span>
       </h3>
@@ -26,7 +26,7 @@
             {{company.companyName}}</div>
         </div>
       </div>
-      
+
 
     <div class="profileMenu" [ngClass]="status && !isView ? 'show' : 'd-none'" >
         <ul class="subMenu">
@@ -34,7 +34,8 @@
             <a  class="cursor-pointer">Edit Profile</a>
           </li>
           <li><a href="https://konnect-events.atlassian.net/wiki/spaces/KPub/pages/262201/Konnect+Platform+User+Guide" target="_blank" class="cursor-pointer">User Guide</a></li>
-          <li><a href="https://konnect-events.atlassian.net/servicedesk/customer/portal/1" target="_blank" class="cursor-pointer">Support Portal</a></li>
+          <li><a href="https://konnect-events.atlassian.net/servicedesk/customer/portal/1" target="_blank" class="cursor-pointer">SUPPORT & DOCUMENTATION</a></li>
+          <li><a href="https://shipright.community/konnect-events" target="_blank" class="cursor-pointer">ROADMAP & FEEDBACK</a></li>
           <li (click)="logout($event)"><a class="cursor-pointer">Logout</a></li>
           <!-- <li>
             <div class="companySelector">
@@ -69,7 +70,7 @@
   </ul> -->
   <ul>
     <li class="column center aligned middle aligned itemMenu">
-      <a  [attr.href]="isApproved ? 'dashboard-events-01.html' : null" [class.disabled]="!isApproved || isView"><i
+      <a  [attr.href]="(isApproved || isViewPermission )? 'dashboard-events-01.html' : null" [class.disabled]="((!isApproved || isView) && (!isViewPermission))"><i
           class="home icon"></i>Dashboard</a>
     </li>
     <li class="column center aligned middle aligned itemMenu">
@@ -113,7 +114,7 @@
         <div class="nine wide column paddingL0 paddingR0">
           <ul class="ui six column grid stackable mainMenu">
             <li class="column center aligned middle aligned itemMenu">
-              <a [attr.href]="isApproved ? 'dashboard-events-01.html' : null" [class.disabled]="!isApproved || isView"><i
+              <a [attr.href]="(isApproved || isViewPermission ) ? 'dashboard-events-01.html' : null" [class.disabled]="((!isApproved || isView) && !isViewPermission)"><i
                   class="home icon"></i>Dashboard</a>
             </li>
             <li class="column center aligned middle aligned itemMenu">
@@ -171,8 +172,9 @@
             <li (click)="navToEditProfile($event) && hideAllMenus()">
               <a  class="cursor-pointer">Edit Profile</a>
             </li>
-            <li><a href="https://konnect-events.atlassian.net/wiki/spaces/KPub/pages/262201/Konnect+Platform+User+Guide" target="_blank" class="cursor-pointer">User Guide</a></li>
-            <li><a href="https://konnect-events.atlassian.net/servicedesk/customer/portal/1" target="_blank" class="cursor-pointer">Support Portal</a></li>
+            <!-- <li><a href="https://konnect-events.atlassian.net/wiki/spaces/KPub/pages/262201/Konnect+Platform+User+Guide" target="_blank" class="cursor-pointer">User Guide</a></li> -->
+            <li><a href="https://konnectevents.freshdesk.com/support/home" target="_blank" class="cursor-pointer">SUPPORT & DOCUMENTATION</a></li>
+            <li><a href="https://shipright.community/konnect-events" target="_blank" class="cursor-pointer">ROADMAP & FEEDBACK</a></li>
             <li (click)="logout($event)"><a class="cursor-pointer">Logout</a></li>
           </ul>
         </div>
@@ -188,5 +190,9 @@
       </div>
   </div>
 
+  </div>
+
+  <div class="alertMsgHeader" *ngIf="!isEmailVerified">
+    <p> <img src="../../../../assets/img/alertIcon.png" alt="alert" /> Check your email to verify your address and unlock features</p>
   </div>
 </ng-template>

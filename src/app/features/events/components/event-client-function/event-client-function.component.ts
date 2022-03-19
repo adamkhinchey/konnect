@@ -94,7 +94,6 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   }
 
   goToCompanyProfile(companyId:any) {
-    console.log(companyId);
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));

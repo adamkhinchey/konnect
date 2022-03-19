@@ -1,6 +1,6 @@
 <div class="ui container">
   <div class="ui grid">
-    <div class="sixteen wide column maxWidth">
+    <div class="sixteen wide column maxWidth marginT10">
       <div class="ui grid stackable">
         <div class="ten wide column left aligned">
           <h2>Manage Colleagues</h2>
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="ui segment">
-        <form class="ui form">
+        <form class="ui form manageCollOuter">
           <div class="ui grid stackable">
             <div class="sixteen wide column left aligned">
               <h3 class="ui dividing header">Administrators</h3>
@@ -35,6 +35,11 @@
                     </div>
                     <div class="ui fluid card">
                       <div class="content">
+                          <span *ngIf="admin.isPrivate" class="ui blue right corner label popupNotes"
+                          data-content="Private Contact">
+                          <!--<i class="address card outline icon"></i>-->
+                          <fa-icon [icon]="addressCardIcon"></fa-icon>
+                        </span>
                         <img class="right floated mini ui image circular"
                              [src]="admin.profileImage ||'../../assets/img/default_konnect_img.png'">
                         <div class="header" (click)="goToUserProfile(admin.userId, admin.isPrivate)">
@@ -86,6 +91,10 @@
                     </div>
                     <div class="ui fluid card">
                       <div class="content">
+                          <span *ngIf="colleague.isPrivate" class="ui blue right corner label popupNotes"
+                          data-content="Private Contact">
+                          <fa-icon [icon]="addressCardIcon"></fa-icon>
+                        </span>
                         <img class="right floated mini ui image circular"
                              [src]="colleague.profileImage || '../../assets/img/default_konnect_img.png'">
                         <div class="header" (click)="goToUserProfile(colleague.userId, colleague.isPrivate)">
@@ -203,6 +212,10 @@
                   <div class="column" *ngFor="let request of companyColleaguesData.joinRequests">
                     <div class="ui fluid card">
                       <div class="content">
+                        <span *ngIf="request.isPrivate" class="ui blue right corner label popupNotes"
+                          data-content="Private Contact">
+                          <fa-icon [icon]="addressCardIcon"></fa-icon>
+                        </span>
                         <img class="right floated mini ui image circular"
                              [src]="request.profileImage || ' ../../assets/img/default_konnect_img.png'">
                         <div class="header" (click)="goToUserProfile(request.userId, request.isPrivate)">
@@ -237,6 +250,10 @@
                   <div class="column" *ngFor="let pendingInvite of companyColleaguesData.invitesPending">
                     <div class="ui fluid card">
                       <div class="content">
+                        <span *ngIf="pendingInvite.isPrivate" class="ui blue right corner label popupNotes"
+                          data-content="Private Contact">
+                          <fa-icon [icon]="addressCardIcon"></fa-icon>
+                        </span>
                         <img class="right floated mini ui image circular"
                              [src]="pendingInvite.profileImage || '../../assets/img/default_konnect_img.png'">
                         <div class="header">

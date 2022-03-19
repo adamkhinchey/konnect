@@ -1,11 +1,12 @@
-import {NgModule} from '@angular/core';
-import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
-import {CoreModule} from './core/core.module';
-import {UsersModule} from "./features/users/users.module";
-import {EditEventsModule} from "./features/edit-events/edit-events.module";
+import { NgModule } from '@angular/core';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { CoreModule } from './core/core.module';
+import { UsersModule } from "./features/users/users.module";
+import { EditEventsModule } from "./features/edit-events/edit-events.module";
 
 
 import AuthGuard from "./core/guards/authGuard";
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
    ]*/
   },
   {
+    path: 'verify-email',
+    component: VerifyEmailComponent
+  },
+  {
     path: '**',
     redirectTo: '/home',
   },
@@ -52,7 +57,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}),
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
     CoreModule,
     UsersModule,
     EditEventsModule

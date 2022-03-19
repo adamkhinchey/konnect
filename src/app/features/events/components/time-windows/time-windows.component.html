@@ -10,25 +10,25 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} - {{dateTimes.endDateTime | date:'h:mm a'}}</span> -->
           <div class="disabledAccordionContainer">
             <div class="popupNotes"><i class="edit icon"></i>
-            
+
               <div class="tooltipOuter" >
                 <p>{{preEventNotes}}</p>
               </div>
-  
+
             </div>
             <div class="">
                 <div class="ui grid stackable">
                     <div class="sixteen wide column">
                       <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[0]}}</span>
-                    
-                        <span class="dateStartEndContainer" *ngFor="let dateTimes of preEventTimes; let timeIndex = index;"> {{dateTimes.startDateTime | date:'dd/MM/YYYY'}} 
+
+                        <span class="dateStartEndContainer" *ngFor="let dateTimes of preEventTimes; let timeIndex = index;"> {{dateTimes.startDateTime | date:'dd/MM/YYYY'}}
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} - {{dateTimes.endDateTime | date:'h:mm a'}}</span>
                         <!-- <span class="dateStartEndContainer" *ngFor="let dateTimes of preEventTimes; let timeIndex = index;"> {{dateTimes.endDateTime | date:'dd/MM/YYYY'}} |
                           {{dateTimes.endDateTime | date:'h:mm a'}}</span> -->
-                      
+
                     </div>
                 </div>
-  
+
             </div>
         </div>
       </ng-template>
@@ -48,7 +48,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="ui two column grid"
+          <div class="ui two column grid posrel"
                *ngFor="let preEventEventTimeCount of Arr(preEventTimesCount).fill(1); let i=index">
             <div class="column">
               <span>Start Date &amp; Time</span>
@@ -68,7 +68,7 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column pr-5">
               <span>End Date &amp; Time</span>
               <div class="ui calendar datePicker">
                 <div class="ui input left icon">
@@ -86,6 +86,7 @@
                     (addNewDateTime)="pushPreEventEndDateTime($event,i)"></app-date-time-picker>
                 </div>
               </div>
+              <!-- <a *ngIf="preEventTimesCount > 0" class="ui button basic circular compact mini trashIconOuter" (click)="removePreTime(i)"> <i class="m-0 trash alternate icon" ></i> </a> -->
             </div>
           </div>
           <div class="ui grid">
@@ -114,26 +115,26 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} - {{dateTimes.endDateTime | date:'h:mm a'}}</span> -->
           <div class="disabledAccordionContainer">
             <div class="popupNotes"><i class="edit icon"></i>
-            
+
               <div class="tooltipOuter" >
                 <p>{{eventNotes}}</p>
               </div>
-  
+
             </div>
-            
+
             <div class="">
                 <div class="ui grid stackable">
                     <div class="sixteen wide column">
                       <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[1]}}</span>
-                    
-                        <span class="dateStartEndContainer" *ngFor="let dateTimes of eventTimes; let timeIndex = index;"> {{dateTimes.startDateTime | date:'dd/MM/YYYY'}} 
+
+                        <span class="dateStartEndContainer" *ngFor="let dateTimes of eventTimes; let timeIndex = index;"> {{dateTimes.startDateTime | date:'dd/MM/YYYY'}}
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} - {{dateTimes.endDateTime | date:'h:mm a'}}</span>
                         <!-- <span class="dateStartEndContainer" *ngFor="let dateTimes of eventTimes; let timeIndex = index;"> {{dateTimes.endDateTime | date:'dd/MM/YYYY'}} |
                           {{dateTimes.endDateTime | date:'h:mm a'}}</span> -->
-                      
+
                     </div>
                 </div>
-  
+
             </div>
         </div>
       </ng-template>
@@ -153,7 +154,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="ui two column grid"
+          <div class="ui two column grid posrel"
                *ngFor="let eventTmCount of Arr(eventTimesCount).fill(1); let i=index">
             <div class="column">
               <span>Start Date &amp; Time</span>
@@ -174,7 +175,7 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column pr-5">
               <span>End Date &amp; Time</span>
               <div class="ui calendar datePicker">
                 <div class="ui input left icon">
@@ -193,6 +194,7 @@
                   ></app-date-time-picker>
                 </div>
               </div>
+              <!-- <a *ngIf="eventTimesCount > 0" class="ui button basic circular compact mini trashIconOuter" (click)="removeEventTime(i)"> <i class="m-0 trash alternate icon" ></i> </a> -->
             </div>
           </div>
           <div class="ui grid">
@@ -220,25 +222,25 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} - {{dateTimes.endDateTime | date:'h:mm a'}}</span> -->
           <div class="disabledAccordionContainer">
             <div class="popupNotes"><i class="edit icon"></i>
-            
+
               <div class="tooltipOuter" >
                 <p>{{postEventNotes}}</p>
               </div>
-  
+
             </div>
             <div class="">
                 <div class="ui grid stackable">
                     <div class="sixteen wide column">
                       <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[2]}}</span>
-                    
-                        <span class="dateStartEndContainer" *ngFor="let dateTimes of postEventTimes; let timeIndex = index;">{{dateTimes.startDateTime | date:'dd/MM/YYYY'}} 
+
+                        <span class="dateStartEndContainer" *ngFor="let dateTimes of postEventTimes; let timeIndex = index;">{{dateTimes.startDateTime | date:'dd/MM/YYYY'}}
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} - {{dateTimes.endDateTime | date:'h:mm a'}}</span>
                         <!-- <span class="dateStartEndContainer" *ngFor="let dateTimes of postEventTimes; let timeIndex = index;">{{dateTimes.endDateTime | date:'dd/MM/YYYY'}} |
                           {{dateTimes.endDateTime | date:'h:mm a'}}</span> -->
-                      
+
                     </div>
                 </div>
-  
+
             </div>
         </div>
         </ng-template>
@@ -260,7 +262,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="ui two column grid"
+          <div class="ui two column grid posrel"
                *ngFor="let preventEventTimeCount of Arr(postEventTimesCount).fill(1); let i=index">
             <div class="column">
               <span> Start Date &amp; Time</span>
@@ -281,7 +283,7 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column pr-5">
               <span>End Date &amp; Time</span>
               <div class="ui calendar datePicker">
                 <div class="ui input left icon">
@@ -300,6 +302,7 @@
                   </app-date-time-picker>
                 </div>
               </div>
+              <!-- <a *ngIf="postEventTimesCount > 0" class="ui button basic circular compact mini trashIconOuter" (click)="removePostTime(i)"> <i class="m-0 trash alternate icon" ></i> </a> -->
             </div>
           </div>
           <div class="ui grid">

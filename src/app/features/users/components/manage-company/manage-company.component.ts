@@ -19,6 +19,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-manage-company',
@@ -35,6 +36,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
 
   @ViewChild(RemoveModalComponent) removeModal: RemoveModalComponent | undefined;
 
+  addressCardIcon = faAddressCard;
   modalReference: any;
   timeZones = environment.timeZones;
   countries: { val: any, name: any, regionId: any }[] = [];
@@ -157,6 +159,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     this.companyService.getCompanyDetails(this.companyId).subscribe((res: any) => {
       console.log(res);
       this.companyInfo = res;
+      console.log(this.companyInfo,'this.companyInfo')
       this.populateCompanyFormValues();
     }, err => {
       devLogger('error', err);
@@ -442,8 +445,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   }
 
   goToUserProfile(userId: any, isPrivate: any) {
-    console.log(userId);
-    if (userId && isPrivate == 0) {
+    if (userId) {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/edit-profile?isView=' + true);

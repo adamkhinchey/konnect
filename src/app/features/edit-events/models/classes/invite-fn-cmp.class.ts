@@ -6,7 +6,8 @@ export class InviteFnCmpClass implements InviteFnCmpInterface {
   contactEmail: string;
   contactName: string;
   countryId: number;
-  isPrivate?: any
+  isPrivate?: any;
+  isSeed?: any;
 
   constructor(param: InviteFnCmpInterface) {
     this.city = param.city;
@@ -15,5 +16,6 @@ export class InviteFnCmpClass implements InviteFnCmpInterface {
     this.contactName = param.contactName;
     this.countryId = param.countryId;
     this.isPrivate = param.isPrivate;
+    this.isSeed = param.isSeed;
   }
 }

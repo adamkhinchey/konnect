@@ -23,7 +23,7 @@
   </div>
   <div class="kipCardContainer" *ngIf="checkViewPermission(contactListLabel); else no_access">
     <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
-      <div class="column" *ngFor="let contact of contactList; let i=index">
+      <div class="column test" *ngFor="let contact of contactList; let i=index" [class.display-none] = "contact.isCrew == 1">
         <ng-container *ngIf="!contact.isCrew || contact.isCrew == 0">
           <div class="contactRole">{{contactLabels.get(contact.contactLabelId) || '(Contact Label Not Assigned)'}}
             <div
@@ -76,7 +76,7 @@
   </ng-template>
   <ng-container *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission">
     <div class="ui grid center aligned"
-      *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable">
+      *ngIf="isClientEditable || isManagerEditable || isVenueEditable || (isServiceEditable && editServiceIndex == serviceIndex)|| isExhibitorEditable">
       <div class="sixteen wide column">
         <div class="ui basic button blue fluid addContacts hasModal" (click)="openVerticallyCentered(contactModal)"
           data-modal="contacts" [ngClass]="{disabled: disableAddContacts }">

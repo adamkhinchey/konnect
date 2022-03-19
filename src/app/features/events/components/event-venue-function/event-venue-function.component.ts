@@ -50,6 +50,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+
   }
 
 
@@ -154,7 +155,6 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   }
 
   goToCompanyProfile(companyId: any) {
-    console.log(companyId);
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));

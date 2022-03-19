@@ -48,10 +48,10 @@
           </div>
         </div>
         <div class="item">
-          <div class="ui two column grid"
+          <div class="ui two column grid posrel"
             *ngFor="let preEventEventTimeCount of Arr(preEventTimesCount).fill(1); let i=index">
             <div class="column">
-              <span>Start Date &amp; Time</span>
+              <span>Start Date &amp; Time </span>
               <div class="ui calendar datePicker">
                 <div class="ui input left icon">
                   <div class="ui popup calendar">
@@ -64,7 +64,7 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column pr-5">
               <span>End Date &amp; Time</span>
               <div class="ui calendar datePicker">
                 <div class="ui input left icon">
@@ -78,6 +78,7 @@
                   </app-date-time-picker>
                 </div>
               </div>
+              <a *ngIf="isEdit" class="ui button basic circular compact mini trashIconOuter" (click)="removePreTime(i)"> <i class="m-0 trash alternate icon" ></i> </a>
             </div>
           </div>
           <div class="ui grid">
@@ -142,7 +143,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="ui two column grid" *ngFor="let eventTmCount of Arr(eventTimesCount).fill(1); let i=index">
+          <div class="ui two column grid posrel" *ngFor="let eventTmCount of Arr(eventTimesCount).fill(1); let i=index">
             <div class="column">
               <span>Start Date &amp; Time</span>
               <div class="ui calendar datePicker">
@@ -158,7 +159,7 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column pr-5">
               <span>End Date &amp; Time</span>
               <div class="ui calendar datePicker">
                 <div class="ui input left icon">
@@ -172,6 +173,8 @@
                   </app-date-time-picker>
                 </div>
               </div>
+
+              <a class="ui button basic circular compact mini trashIconOuter" (click)="removeEventTime(i)"> <i class="m-0 trash alternate icon" ></i> </a>
             </div>
           </div>
           <div class="ui grid">
@@ -236,7 +239,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="ui two column grid"
+          <div class="ui two column grid posrel"
             *ngFor="let preventEventTimeCount of Arr(postEventTimesCount).fill(1); let i=index">
             <div class="column">
               <span> Start Date &amp; Time</span>
@@ -252,7 +255,7 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column pr-5">
               <span>End Date &amp; Time</span>
               <div class="ui calendar datePicker">
                 <div class="ui input left icon">
@@ -267,6 +270,7 @@
                   </app-date-time-picker>
                 </div>
               </div>
+              <a class="ui button basic circular compact mini trashIconOuter" (click)="removePostTime(i)"> <i class="m-0 trash alternate icon" ></i> </a>
             </div>
           </div>
           <div class="ui grid">

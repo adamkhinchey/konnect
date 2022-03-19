@@ -14,7 +14,7 @@
             </div>
             <div class="sixteen wide column maxWidth">
 
-              <div class="">
+              <!-- <div class="">
                 <div class="ui five column grid regionOptions">
                   <div [style.paddingRight]="0"><label class="ui small header">Search For</label></div>
                   <div class="">
@@ -38,7 +38,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <ul ngbNav #nav="ngbNav" [(activeId)]="active"
                 class="nav-tabs ui pointing secondary menu ui manageMenuOuter" (navChange)="onNavChange($event)">
@@ -81,13 +81,13 @@
                             <div class="extra content">
                               <div class="ui grid">
                                 <div class="ten wide column">
-                                  <div *ngIf="!userConn.isConnected && isExternal===1"
+                                  <div *ngIf="!userConn.isConnected"
                                     class="ui circular compact mini basic button confirmRemove hasModal active"
                                     data-modal="removeModal" (click)="addToConnections(userConn?.userId)"><i
                                       class="star icon"></i>Add to
                                     connections
                                   </div>
-                                  <div *ngIf="userConn.isConnected && isExternal===0"
+                                  <div *ngIf="userConn.isConnected"
                                     class="ui circular compact mini basic button confirmRemove hasModal active"
                                     data-modal="removeModal" (click)="openRemoveConfirmationBox(userConn?.userId)"><i
                                       class="star icon"></i>Remove from
@@ -262,14 +262,14 @@
                         <div class="column" *ngFor="let cmpConn of companyConnections">
                           <div class="ui fluid card">
                             <div class="content">
-                              <span *ngIf="cmpConn?.isPrivate" class="ui blue right corner label popupNotes"
+                              <span *ngIf="cmpConn?.isPrivate && cmpConn?.isSeed == 0" class="ui blue right corner label popupNotes"
                                 data-content="Private Contact">
                                 <!--<i class="address card outline icon"></i>-->
                                 <fa-icon [icon]="addressCardIcon"></fa-icon>
                               </span>
                               <img class="right floated mini ui image circular"
                                 [src]="cmpConn?.companyProfileImage ||'./assets/img/default_konnect_img.png'"
-                                appImageFallback="./assets/img/default_konnect_img.png">
+                                appImageFallback="./assets/img/default_konnect_img.png" onerror="src='./assets/img/default_konnect_img.png'">
                               <div class="header">
                                 <a
                                   (click)="goToCompanyProfile(cmpConn.id, cmpConn.isPrivate)">{{cmpConn?.companyName}}</a>
@@ -287,12 +287,12 @@
                             <div class="extra content">
                               <div class="ui grid">
                                 <div class="ten wide column">
-                                  <div *ngIf="!cmpConn.isConnected && isExternal===1"
+                                  <div *ngIf="!cmpConn.isConnected"
                                     class="ui circular compact mini basic button confirmRemove hasModal active"
                                     data-modal="removeModal" (click)="addToConnections(cmpConn?.companyId)"><i
                                       class="star icon"></i>Add to connections
                                   </div>
-                                  <div *ngIf="cmpConn.isConnected && isExternal===0"
+                                  <div *ngIf="cmpConn.isConnected"
                                     class="ui circular compact mini basic button confirmRemove hasModal active"
                                     data-modal="removeModal" (click)="openRemoveConfirmationBox(cmpConn?.id)">
                                     <i class="star icon"></i>Remove from connections

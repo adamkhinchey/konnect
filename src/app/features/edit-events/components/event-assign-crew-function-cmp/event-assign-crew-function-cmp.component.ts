@@ -35,16 +35,17 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   @Input() isServiceEditable: boolean = false;
   @Input() isExhibitorEditable: boolean = false;
   @Output() isCrew = new EventEmitter<any>();
-  @Input() isViewPermission: any; 
-  @Input() permissionObj: any; 
- 
-   
+  @Input() isViewPermission: any;
+  @Input() permissionObj: any;
+  @Input() editServiceIndex:number =0;
+  @Input() serviceIndex:number =0;
+
+
   constructor(private modalService: NgbModal) {
-    console.log("venue ", this.isViewPermission); 
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('contact list after change: ', changes.contactList?.currentValue)
     if (changes && changes.selectedCompany && changes.selectedCompany.currentValue) {
       this.disableAddContacts = changes.selectedCompany.currentValue instanceof InviteFnCmpClass;
     } else if (changes && changes.selectedCompany && !changes.selectedCompany.currentValue) {
@@ -82,12 +83,10 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
 
 
   removeContactFromList(id: any): void {
-    console.log(this.contactList);
     let index = _.findIndex(this.contactList, (e: any) => {
-      console.log(e)
+
       return e.id == id;
     }, 0);
-    console.log(index);
     this.crewRemove.emit(index);
   }
 

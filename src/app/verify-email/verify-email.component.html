@@ -1,0 +1,59 @@
+<div class="ui grid middle aligned center aligned minheight100vh">
+    <div class="column minContainer minContainerLogin">
+        <h2 class="segmentTitle segmentTitleLogo">
+            <span class="loginLogo">konnect</span>
+        </h2>
+        
+
+            <div class="col-md-12 text-center" *ngIf="success == 'true'">
+               
+                <div class="mb-4 mt-3" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 82 82">
+                        <g id="success" transform="translate(0 0)">
+                          <g id="Group_20" data-name="Group 20" transform="translate(0 0)">
+                            <g id="Group_19" data-name="Group 19">
+                              <g id="Group_18" data-name="Group 18">
+                                <path id="Path_12" data-name="Path 12" d="M38,80A41,41,0,1,1,79,39,41.011,41.011,0,0,1,38,80ZM38,2.527A36.473,36.473,0,1,0,74.473,39,36.564,36.564,0,0,0,38,2.527Z" transform="translate(3 2)" fill="#23c865"/>
+                              </g>
+                            </g>
+                          </g>
+                          <g id="Group_23" data-name="Group 23" transform="translate(25.476 29.747)">
+                            <g id="Group_22" data-name="Group 22">
+                              <g id="Group_21" data-name="Group 21">
+                                <path id="Path_13" data-name="Path 13" d="M37.908,55.183a2.334,2.334,0,0,1-1.623-.683l-8.712-8.713a2.374,2.374,0,0,1-.256-3.16,2.255,2.255,0,0,1,3.331-.171l7.26,7.26h.085L54.137,33.572a2.367,2.367,0,0,1,3.16-.256,2.255,2.255,0,0,1,.171,3.331L39.531,54.585A2.255,2.255,0,0,1,37.908,55.183Z" transform="translate(-26.825 -32.825)" fill="#23c865"/>
+                              </g>
+                            </g>
+                          </g>
+                        </g>
+                      </svg>
+                      
+                </div>
+    
+                <h2>Success!</h2>
+                <h4 class="mb-0 mt-3">Email address verified successfully.</h4>
+                <div class="modal-footer justify-content-center border-0">
+                    <button type="button" class="btn btn-primary" (click)="login()">Login Now</button>
+                </div>
+            </div>
+    
+
+            <div class="col-md-12 text-center" *ngIf="success == 'false'">
+                <div class="modal-icon">
+                    <div class="mb-4 mt-3" >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 8.145 8.145">
+                            <g id="close" transform="translate(0 0)">
+                              <rect id="Rectangle_106" data-name="Rectangle 106" width="1.645" height="9.873" rx="0.823" transform="translate(0 1.163) rotate(-45)" fill="#f10"/>
+                              <rect id="Rectangle_107" data-name="Rectangle 107" width="1.645" height="9.873" rx="0.823" transform="translate(1.163 8.144) rotate(-135)" fill="#f10"/>
+                            </g>
+                          </svg>
+                    </div>
+                </div>
+                <h2>Failed!</h2>
+                <h4 class="mb-0 mt-3">Failed to verify your email.</h4>
+                <div class="modal-footer justify-content-center border-0">
+                    <button type="button" class="btn btn-primary" (click)="verifyEmail()">Retry</button>
+                </div>
+            </div>
+
+    </div>
+</div>

@@ -63,7 +63,9 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   selectedImageSrc: string | undefined;
   private selectedProfileImage: File | undefined;
   userId: any = 0;
+  loginUserId: any = 0;
   isView: any;
+  isEmailVerified:boolean=true;
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -89,6 +91,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     localStorage.removeItem('userId');
     localStorage.removeItem('isView');
     this.getAndSetCountries();
+    this.loginUserId = this.authService.getUserInfo().id
   }
 
   private getAndSetCountries(): void {
@@ -104,7 +107,10 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   private fetchUserInfo(): void {
     this.userInfoSubscription = this.userInfoService.getInfo(this.userId).subscribe((value) => {
       this.userInfo = value;
-      console.log(this.userInfo);
+      this.isEmailVerified = value.is_email_verified;
+      if(this.loginUserId !=  this.userInfo.id){
+        this.isEmailVerified = true;
+      }
       this.populateFormValues();
       this.userSettingsService.populateSettings(value);
     }, err => {
@@ -283,12 +289,24 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   goToCompanyProfile(companyId: any, isPrivate: any) {
-    console.log(companyId);
-    if (companyId && isPrivate == 0) {
+    if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
     }
+  }
+
+  resendEmailVerification(){
+    this.updateUserProfileService.resendEmailVerificationLink().subscribe((value) => {
+      if(value.code == 200){
+        this.toaster.success(value.message);
+      }else{
+        this.toaster.error(value.message);
+      }
+    }, err => {
+      this.toaster.error('Something went wrong!');
+      devLogger('error', { err });
+    });
   }
 
 }

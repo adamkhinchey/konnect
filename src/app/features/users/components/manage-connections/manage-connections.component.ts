@@ -33,7 +33,7 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
   allIntrCmpConnections: any[] = [];
   userConnections: any[] = [];
   companyConnections: any[] = [];
-  isExternal = 0; // 0 means own contact book, 1 means outer i.e. non-colleagues and non-contact
+  isExternal = 1; // 0 means own contact book, 1 means outer i.e. non-colleagues and non-contact
   keyword = '';
   private searchOnPlatformSub: Subscription | undefined;
   isUserAdmin: boolean | undefined = false;
@@ -59,7 +59,8 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
       this.isUserAdmin = value.isAdmin;
       this.keyword = '';
       this.clearSearchResults();
-      this.getCompanyConnections();
+      // this.getCompanyConnections();
+      this.searchGlobally();
     }, err => {
       devLogger('error', err);
     }, () => {
@@ -73,11 +74,13 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     }
     this.connectionType = changeEvent.nextId;
     this.keyword = '';
-    if (this.isExternal === 0) {
-      this.doConnectionSearch(this.keyword);
-    } else if (this.isExternal === 1) {
+    if (this.isExternal === 1) {
       this.clearSearchResults();
+      this.searchGlobally();
     }
+    // else if (this.isExternal === 1) {
+    //   this.clearSearchResults();
+    // }
   }
 
   toggleDisabled() {
@@ -117,7 +120,7 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
 
   private searchGlobally(): void {
     if (this.defaultCompany && this.defaultCompany.id) {
-      this.searchOnPlatformSub = this.companiesService.searchOnPlatform({
+      this.searchOnPlatformSub = this.companiesService.searchGlobalConnectionForCollection({
         entityType: this.connectionType,
         keyword: this.keyword.trim().toLocaleLowerCase(),
         regionId: null,
@@ -160,8 +163,8 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
         this.searchGlobally();
       }
     }
-    if (this.isExternal === 0 && filterText.length == 0) {
-      this.getCompanyConnections();
+    if (this.isExternal === 1 && filterText.length == 0) {
+      this.searchGlobally();
     }
   }
 
@@ -218,6 +221,18 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     this.modalReference?.close('Cancelled by user');
   }
 
+  removeConnectionFromArray(connectionToRemoveId: null | number = null,connectionType: null | number = null) {
+    if (connectionType ==1){
+      this.userConnections.forEach((value,index)=>{
+          if(value.userId==connectionToRemoveId) this.userConnections.splice(index,1);
+      });
+    }else{
+      this.companyConnections.forEach((value,index)=>{
+        if(value.companyId==connectionToRemoveId) this.companyConnections.splice(index,1);
+      });
+    }
+  }
+
   confirmRemove(): void {
     this.deleteConnSub = this.companiesService.deleteConnection({
       companyId: this.defaultCompany.id,
@@ -226,6 +241,7 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
     }).subscribe((value: any) => {
       this.toaster.success('Connection removed successfully');
       this.modalReference?.close('connection removed');
+      this.removeConnectionFromArray(this.connectionToRemoveId,this.connectionType);
       this.connectionToRemoveId = null;
       this.getCompanyConnections();
     }, (err: any) => {
@@ -244,8 +260,7 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
   }
 
   goToCompanyProfile(companyId: any, isPrivate: any) {
-    console.log(companyId);
-    if (companyId && isPrivate == 0) {
+    if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
@@ -253,8 +268,7 @@ export class ManageConnectionsComponent implements OnInit, OnDestroy {
   }
 
   goToUserProfile(userId: any, isPrivate: any) {
-    console.log(userId);
-    if (userId && isPrivate == 0) {
+    if (userId) {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/edit-profile?isView=' + true);

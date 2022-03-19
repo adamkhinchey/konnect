@@ -1,22 +1,25 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit,OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EventTimelineService } from '../../services/event-timeline.service';
 import { EventService } from '../../services/event.service';
 import { ViewEventService } from '../../services/view-event.service';
+import { UserSettingsService } from '../../../../shared/services';
+import { UserSettingsInterface } from '../../../../shared/models';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-event-view',
   templateUrl: './event-view.component.html',
   styleUrls: ['./event-view.component.scss']
 })
-export class EventViewComponent implements OnInit {
+export class EventViewComponent implements OnInit,OnDestroy {
   @Input() eventId: any;
   data: any = {};
   active = 1;
   disabled = true;
 
-  permissionObj = { isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
+  permissionObj = { isCrew:false,isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
 
   isSupplier: boolean = false;
   modalReference: any;
@@ -25,6 +28,8 @@ export class EventViewComponent implements OnInit {
   isVenueEdit: boolean = false;
   isSupplierEdit: boolean = false;
   isExhibitorEdit: boolean = true;
+  isEmailVerified:boolean|undefined =false;
+  private userSettingsSub: Subscription | undefined;
 
 
   onNavChange(changeEvent: NgbNavChangeEvent) {
@@ -52,37 +57,44 @@ export class EventViewComponent implements OnInit {
     private viewEvSrvc: ViewEventService,
     private router: Router,
     private eventTimelineSrvc: EventTimelineService,
-    private eventSrvc: EventService
+    private eventSrvc: EventService,
+    public userSettings: UserSettingsService
   ) {
   }
 
   ngOnInit() {
-    console.log(this.eventId);
+
     if (this.eventId) {
       this.getEventsById(1);
     }
+    this.userSettingsSub = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
+      this.isEmailVerified = value.isEmailVerified;
+    });
   }
- 
+
   getEventsById(tabType: any) {
     this.viewEvSrvc.getEventsByEventId(this.eventId, tabType).subscribe((res: any) => {
-      console.log(res);
+
       if (res && res.eventData) {
         this.data.eventData = res.eventData;
       }
       if (res && res.userPermission) {
-        this.data.userPermission = res.userPermission;
-        this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
-        this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
-        this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
-        this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
-        this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
+        if (this.isEmailVerified){
+          this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
+          this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
+          this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
+          this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
+          this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
+        }
+        this.permissionObj.isCrew = res.userPermission.isCrew == 0 ? false : true;
+        this.data.userPermission = this.permissionObj;
       }
       if (res && res.commonData) {
         this.data.commonData = res.commonData;
       }
 
 
-      console.log(this.data);
+
       if (tabType === 7) {
         this.eventTimelineSrvc.render.next();
       }
@@ -90,16 +102,16 @@ export class EventViewComponent implements OnInit {
         this.eventSrvc.fetchEventFilesSubject.next(this.data.eventData.eventId);
       }
     }, err => {
-      console.log(err);
+
     })
   }
 
   deleteEvent(eventId: any) {
     this.viewEvSrvc.deleteEvent(eventId).subscribe((res: any) => {
-      console.log(res);
+
       this.router.navigate(['/home']);
     }, err => {
-      console.log(err);
+
     })
   }
 
@@ -149,4 +161,9 @@ export class EventViewComponent implements OnInit {
   editExhibitor() {
     this.isExhibitorEdit = true;
   }
+
+  ngOnDestroy(): void {
+    this.userSettingsSub?.unsubscribe();
+  }
+
 }

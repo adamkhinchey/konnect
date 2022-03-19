@@ -19,6 +19,7 @@ import { InviteColleaguesComponent } from './components/modals/invite-colleagues
 import { WaitingForApprovalComponent } from './components/waiting-for-approval/waiting-for-approval.component';
 import { ImageFallbackDirective } from './directives/image-fallback.directive';
 import { DateFilterPipe } from './pipes/dateFilter.pipe';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { DateFilterPipe } from './pipes/dateFilter.pipe';
     InviteColleaguesComponent,
     WaitingForApprovalComponent,
     ImageFallbackDirective,
+    ConfirmationDialogComponent,
    ],
   imports: [
     CommonModule,

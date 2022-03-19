@@ -16,10 +16,15 @@
                                     <div class="field">
                                         <div class="ui grid centered">
                                             <div class="ten wide column marginT10">
+                                                <span *ngIf="companyInfo?.company.isPrivate == 1 && companyInfo?.company.isSeed == 0" class="ui blue right corner label popupNotes"
+                                                    data-content="Private Contact">
+                                                    <!--<i class="address card outline icon"></i>-->
+                                                    <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                                </span>
                                                 <img [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): companyInfo?.company.companyProfileImage"
                                                     alt="" class="ui medium fluid image marginB10 userleftImgUpdate"
                                                     appImageFallback
-                                                    fallbackImage="../../assets/img/default_konnect_img.png">
+                                                    fallbackImage="../../assets/img/default_konnect_img.png" onerror="src='../../assets/img/default_konnect_img.png'">
                                                 <div class="ui button basic small compact blue fluid" *ngIf="!isView"
                                                     appFileUploadTrigger [fileUploadComponentRef]="fileUploadComponent">
                                                     Replace company image
@@ -198,6 +203,11 @@
                                             <div class="column" *ngFor="let staff of companyInfo.staff; let i=index;">
                                                 <div class="ui fluid card">
                                                     <div class="content">
+                                                        <span *ngIf="staff.isPrivate" class="ui blue right corner label popupNotes"
+                                                            data-content="Private Contact">
+                                                            <!--<i class="address card outline icon"></i>-->
+                                                            <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                                        </span>
                                                         <img class="right floated mini ui image circular"
                                                             [src]="staff.profileImage" appImageFallback
                                                             fallbackImage="assets/img/default_konnect_individual_img.png">

@@ -121,9 +121,20 @@
       <div class="ui divider"></div>
     </div>
     <div class="sixteen wide column right aligned saveButtons paddingT0">
-      <div class="ui button" (click)="checkValidation() && moveToCompanyDetailsTab.emit(personalDetailsForm.value)">
-        Next
+      <div class="d-inline-block mr-3" > 
+        
+          I accept the <a class="text-decoration" target="!blank" href="https://www.konnect.events/terms">Terms & Conditions</a>  
+          <div class="ui checkbox ml-2">
+            <input type="checkbox" name="tc" id="tc" [(ngModel)]="tandc" [ngModelOptions]="{standalone: true}" (change)="onChange($event)"/>
+            <label id="tc" class="mt-1" ></label>
+          </div>
+          
       </div>
+
+      <button [disabled]="!tandc" type="button" class="ui button" (click)="checkValidation() && moveToCompanyDetailsTab.emit(personalDetailsForm.value)">
+        Next
+      </button>
+
     </div>
   </div>
 </form>

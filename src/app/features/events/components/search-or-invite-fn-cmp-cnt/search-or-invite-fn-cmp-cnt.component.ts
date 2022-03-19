@@ -8,6 +8,7 @@ import { environment } from '../../../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { FnCmpCntInterface } from '../../models/interfaces';
+import { UserInfoService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-search-or-invite-fn-cmp-cnt',
@@ -19,8 +20,11 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
 
   @Input() alreadyInContactList: FnCmpCntInterface[] = [];
   @Input() companyId: number | null = null;
+  @Input() myAssociatedCompanies=[];
+  @Input() isSeedCompany:boolean = false;
   @Output() closed = new EventEmitter();
   @Output() addedContactList = new EventEmitter<FnCmpCntInterface[]>();
+
   searchKeyWord = '';
   listDisplayCss = '';
   listDisplayOverFlow = '';
@@ -30,20 +34,79 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   selectedContact: any;
   inviteCmpCntForm = this.fb.group({
     firstName: [null, [Validators.required]],
-    email: [null, [Validators.required, Validators.pattern(this.EMAIL_REGEX)]]
+    email: [null, [Validators.required, Validators.pattern(this.EMAIL_REGEX)]],
+    mobile: [null],
   });
   contactLabels = environment.eventContactLabels;
   private cmpCntSearchSub: Subscription | undefined;
   private emittedContactList = false;
-
+  isDisableInviteContact:boolean =true;
+  userId: any = 0;
   constructor(
     private fb: FormBuilder,
     private companiesService: CompaniesService,
-    private toaster: ToastrService) {
+    private toaster: ToastrService,
+    public userInfoService: UserInfoService
+  ) {
   }
 
 
   ngOnInit(): void {
+    this.fetchUserInfo();
+
+    if (this.companyId) {
+      this.getCompanyContacts();
+    } else {
+      this.toaster.error('Please make sure the function company is chosen');
+    }
+    if (!this.isSeedCompany){
+      this.isDisableInviteContact = this.isNotAssociatedCompany(this.companyId);
+    }
+
+  }
+
+  isNotAssociatedCompany(companyId:any){
+    var filteredArray = this.myAssociatedCompanies.filter(function(c:any){
+      return [companyId].indexOf(c.id) > -1;
+    });
+    return (filteredArray.length > 0 ? true : false);
+  }
+
+  private fetchUserInfo(): void {
+    this.userInfoService.getInfo(this.userId).subscribe((value) => {
+
+      this.userId = value.id
+    }, err => {
+      devLogger('error', { err });
+    });
+  }
+
+  getCompanyContacts() {
+    this.cmpCntSearchSub = this.companiesService.getCmpContacts({
+      companyId: this.companyId, isCrew: 0
+    }, this.searchKeyWord.trim().length === 1).subscribe(
+      value => {
+
+        if (value && value.length) {
+          devLogger('log', value);
+          this.cntSearchList = value || [];
+          // value.filter((u: any) => {
+          //   return this.contactList.findIndex(cnt => cnt.id === u.userId) === -1
+          //     && this.alreadyInContactList.findIndex(cnt => cnt.id === u.userId) === -1
+          //     && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
+          //     && this.contactList.findIndex(cnt => cnt.email === u.email) === -1;
+          // }) || [];
+          this.listDisplayCss = 'block !important';
+          this.listDisplayOverFlow = 'auto';
+        }
+      },
+      error => {
+        devLogger('error', error);
+        this.cntSearchList = [];
+        this.listDisplayCss = '';
+        this.listDisplayOverFlow = '';
+      }
+    );
   }
 
   searchForCompCnt(): void {
@@ -55,9 +118,10 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
           companyId: this.companyId, keyword: this.searchKeyWord, isCrew: 0
         }, this.searchKeyWord.trim().length === 1).subscribe(
           value => {
-            if (value && value.data) {
+
+            if (value && value.length) {
               devLogger('log', value);
-              this.cntSearchList = value.data?.user.filter((u: any) => {
+              this.cntSearchList = value.filter((u: any) => {
                 return this.contactList.findIndex(cnt => cnt.id === u.userId) === -1
                   && this.alreadyInContactList.findIndex(cnt => cnt.id === u.userId) === -1
                   && this.alreadyInContactList.findIndex(cnt => cnt.email === u.email) === -1
@@ -84,10 +148,15 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectCnt(contact: any): void {
-    this.selectedContact = contact;
+  selectCnt(ev: any): void {
+
+    let contact = this.cntSearchList.filter((val: any) => {
+      return val.userId == ev.target.value
+    });
+
+    this.selectedContact = contact[0];
     this.searchKeyWord = this.selectedContact?.firstName + ' ' + this.selectedContact?.lastName || '';
-    this.cntSearchList = [];
+    // this.cntSearchList = [];
   }
 
   addCmpCntToList(inviteType = false): void {
@@ -115,20 +184,34 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
         this.toaster.error('This user is already invited in contact list please check the email');
         return;
       }
-      this.contactList.push({
-        lastName: '',
-        position: '(Invited)',
-        mobile: '',
-        email: this.inviteCmpCntForm.get('email')?.value,
-        profileImage: undefined,
-        firstName: this.inviteCmpCntForm.get('firstName')?.value,
-        id: null,
-        contactLabelId: null
-      });
+      this.companiesService.checkDomain({
+        companyId: this.companyId, email: this.inviteCmpCntForm.get('email')?.value
+      }).subscribe((res: any) => {
+        if (res.code == 200) {
+          if (res.data.domainMatch) {
+            this.contactList.push({
+              lastName: '',
+              position: '(Invited)',
+              mobile: this.inviteCmpCntForm.get('mobile')?.value,
+              email: this.inviteCmpCntForm.get('email')?.value,
+              profileImage: undefined,
+              firstName: this.inviteCmpCntForm.get('firstName')?.value,
+              id: null,
+              contactLabelId: null
+            });
+            this.inviteCmpCntForm.reset();
+          } else {
+            this.toaster.error('This user cannot be invited to this company');
+            this.inviteCmpCntForm.reset();
+          }
+        }
+      }, err => {
+
+        this.inviteCmpCntForm.reset();
+      })
     } else {
-      this.toaster.error('Please search and select a contact');
+      this.toaster.error('Please select a contact');
     }
-    this.inviteCmpCntForm.reset();
     this.selectedContact = null;
     this.contactLabelId = null;
     this.searchKeyWord = '';

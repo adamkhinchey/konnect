@@ -819,6 +819,11 @@ custom-select-option[key="3"]::before {
   padding: 0 !important;
 }
 
+.display-none {
+  display: none !important;
+}
+
+
 @media screen and (max-width: 640px) {
   .igx-calendar__body section + section {
     width: 100%;
@@ -912,4 +917,31 @@ select.ui.dropdown {
   top: -5px!important;
   right: -2px!important;
   line-height: 20px!important;
+}
+
+// .trashIconOuter { background: #db2828; width: 20px; height: 20px; border-radius: 50px; text-align: center; font-size: 13px; }
+.posrel { position: relative; }
+.trashIconOuter {
+	padding: 6px !important;
+	position: absolute;
+	right: 5px;
+	top: 40px;
+}
+
+.searchCompany a.result{position: relative;}
+
+.actionBar .openMobileMenu { z-index: 9999; } 
+.pushable .pusher, .sidebar.sidebarContent, .pusher  {
+	 transition: -webkit-transform 150ms ease;
+	 transition: transform 150ms ease;
+	 transition: transform 150ms ease;
+}
+
+.warningThemeBtn { background-color: #fdd200; }
+.warningThemeBtn i.icon {
+	height: 22px;
+	width: 22px;
+	background: #0091e6;
+	border-radius: 30px;
+	color: #fff;
 }

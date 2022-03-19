@@ -37,6 +37,8 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() isServiceEditable: boolean = false;
   @Input() isExhibitorEditable: boolean = false;
   @Input() permissionObj: any;
+  @Input() editServiceIndex:number =0;
+  @Input() serviceIndex:number =0;
   @Output() isCrew = new EventEmitter<any>();
 
   constructor(private modalService: NgbModal) {
@@ -51,7 +53,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    // console.log("isViewPermission wer wer** ", this.isViewPermission)
   }
 
   openVerticallyCentered(content: any): void {
@@ -66,8 +67,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   editContactLabelModal(editContactDetail: any, i: number): void {
-    console.log('contact detail: ', editContactDetail);
-    console.log('index: ', i);
     this.editContactLabelModalReference = this.modalService.open(editContactDetail, {
       centered: true,
       size: 'md',
@@ -75,7 +74,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
       keyboard: false
     });
     this.editingContactLabelIndex = i;
-    this.currentContactLabelIdSelected = this.contactList[i].contactLabelId;
+    this.currentContactLabelIdSelected = this.contactList[i].contactLabelId?this.contactList[i].contactLabelId:5;
   }
 
 
@@ -109,15 +108,13 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     if (this.editingContactLabelIndex !== -1 && shouldChange) {
       this.contactList[this.editingContactLabelIndex].contactLabelId = this.currentContactLabelIdSelected;
     }
-    console.log('contact list: ', this.contactList);
     this.editContactLabelModalReference?.close();
     this.editingContactLabelIndex = -1;
     this.currentContactLabelIdSelected = null;
   }
 
   goToUserProfile(userId: any, isPrivate: any) {
-    console.log(userId);
-    if (userId && isPrivate == 0) {
+    if (userId) {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/edit-profile?isView=' + true);
@@ -125,15 +122,14 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   checkViewPermission(listLabel: any) {
-    if (listLabel === 'Venue Contacts') {
+    if(listLabel == 'Add Venue'){
       return true;
-    } else {
-      if (this.permissionObj.isClient || this.permissionObj.isEventManager || this.isViewPermission) {
+    }
+      else if (this.permissionObj.isClient || this.permissionObj.isEventManager || this.isViewPermission) {
         return true;
       } else {
         return false;
       }
-    }
   }
 
 }

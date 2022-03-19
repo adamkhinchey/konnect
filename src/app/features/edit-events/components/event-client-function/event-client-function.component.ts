@@ -1,11 +1,20 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Company } from "../../../users/models";
-import { InviteFnCmpClass } from "../../models/classes";
-import { SaveEventClass } from "../../models/classes/saveEvent.class";
-import { Subscription } from "rxjs";
-import { EventService } from "../../services/event.service";
-import { EventFunctionTypes } from "../../models/types";
-import { Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import { Company } from '../../../users/models';
+import { InviteFnCmpClass } from '../../models/classes';
+import { SaveEventClass } from '../../models/classes/saveEvent.class';
+import { Subscription } from 'rxjs';
+import { EventService } from '../../services/event.service';
+import { EventFunctionTypes } from '../../models/types';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ViewEventService } from '../../services/view-event.service';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
@@ -14,7 +23,9 @@ import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
   templateUrl: './event-client-function.component.html',
   styleUrls: ['./event-client-function.component.scss'],
 })
-export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChanges {
+export class EventClientFunctionComponent
+  implements OnInit, OnDestroy, OnChanges
+{
   addressCardIcon = faAddressCard;
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
   @Input() content: any;
@@ -36,24 +47,31 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
   isVenueEdit: boolean = false;
   isSupplierEdit: boolean = false;
   isExhibitorEdit: boolean = true;
+  isPast: any;
 
   constructor(
     private eventService: EventService,
     private router: Router,
+    private aroute: ActivatedRoute,
     private viewEvSrvc: ViewEventService
   ) {
-    this.eventService.isEdit = false
+    this.eventService.isEdit = false;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-
+  check(){
+    if(!this.isClientEdit && this.isPast == 'false'){
+      return true;
+    }else{
+      return false
+    }
   }
 
+  ngOnChanges(changes: SimpleChanges) {}
 
   booleanFalse() {
     this.isClientEdit = false;
     this.isEventEdit = false;
-    this.isVenueEdit = false;;
+    this.isVenueEdit = false;
     this.isSupplierEdit = false;
     this.isExhibitorEdit = false;
   }
@@ -86,11 +104,10 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
   }*/
 
   ngOnInit(): void {
-    console.log(this.eventData);
     this.subs3 = this.eventService.isEditChange.subscribe((value) => {
       this.isClientEdit = value;
       this.editClient.emit(this.isClientEdit);
-    })
+    });
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
@@ -100,14 +117,17 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
       }
     });*/
 
-    this.subs2 = this.eventService.setIsFnOwnCompany.subscribe(status => {
+    this.subs2 = this.eventService.setIsFnOwnCompany.subscribe((status) => {
       this.isOwnCompany = !!status.get(EventFunctionTypes.CLIENT);
+    });
+    this.aroute.queryParams.subscribe((param) => {
+      console.log('param...', param);
+      this.isPast = param.isPast;
+      console.log('isPast...', this.isPast)
     });
   }
 
-  openVerticallyCentered(content: any): void {
-
-  }
+  openVerticallyCentered(content: any): void {}
 
   getCompanyProfileImage(): string | null | undefined {
     if (this.selectedCompany instanceof InviteFnCmpClass) {
@@ -135,10 +155,16 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
 
   toggleClientOwnCompany(): void {
     const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
-    tempMap.set(EventFunctionTypes.CLIENT, !tempMap.get(EventFunctionTypes.CLIENT));
-    this.eventData.eventData.client.isOwnCompany = tempMap.get(EventFunctionTypes.CLIENT) ? 1 : 0;
+    tempMap.set(
+      EventFunctionTypes.CLIENT,
+      !tempMap.get(EventFunctionTypes.CLIENT)
+    );
+    this.eventData.eventData.client.isOwnCompany = tempMap.get(
+      EventFunctionTypes.CLIENT
+    )
+      ? 1
+      : 0;
     this.eventService.setIsFnOwnCompany.next(tempMap);
-
   }
 
   ngOnDestroy(): void {
@@ -148,12 +174,12 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
   }
 
   deleteEvent(eventId: any) {
-    this.viewEvSrvc.deleteEvent(eventId).subscribe((res: any) => {
-      console.log(res);
-      this.router.navigate(['/home']);
-    }, (err: any) => {
-      console.log(err);
-    })
+    this.viewEvSrvc.deleteEvent(eventId).subscribe(
+      (res: any) => {
+        this.router.navigate(['/home']);
+      },
+      (err: any) => {}
+    );
   }
 
   getCompanyId(): any {
@@ -172,14 +198,20 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy, OnChange
     }
   }
 
+  getIsSeed(): any {
+    if (this.selectedCompany instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return this.selectedCompany?.isSeed;
+    }
+  }
+
   goToCompanyProfile(companyId: any) {
-    console.log(this.getIsPrivate());
-    if (companyId && this.getIsPrivate() == 0) {
+    if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       localStorage.setItem('isHeaderDisable', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
     }
   }
-
 }

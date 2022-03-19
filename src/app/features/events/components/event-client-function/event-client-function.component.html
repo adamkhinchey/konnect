@@ -20,7 +20,7 @@
                   <div class="content">
                     <img class="right floated mini ui image"
                          [src]="getCompanyProfileImage() || 'assets/img/default_konnect_img.png'"
-                         appImageFallback fallbackImage="assets/img/default_konnect_img.png">
+                         appImageFallback fallbackImage="assets/img/default_konnect_img.png" onerror="src='assets/img/default_konnect_img.png'">
                     <div class="header">
                       <a (click)="goToCompanyProfile(getCompanyId())">{{selectedCompany.companyName}}</a>
                     </div>
@@ -75,14 +75,14 @@
           <textarea rows="3" class="textarea" [(ngModel)]="eventToBeSaved.description"
                     [ngModelOptions]="{standalone:true}"></textarea>
         </div>
-        <div class="field">
+        <!-- <div class="field">
           <div class="ui toggle checkbox toggleOnColumn"
                (click)="eventToBeSaved.hasExhibitors=!eventToBeSaved.hasExhibitors">
             <input type="checkbox" name="exhibitors" class="hidden"
                    tabindex="0" [(ngModel)]="eventToBeSaved.hasExhibitors" [ngModelOptions]="{standalone:true}">
             <label>Event has exhibitors</label>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="sixteen wide column saveButtons paddingT0">
         <div class="ui divider"></div>
@@ -95,6 +95,11 @@
           </div>
         </div>
       </div>
+
+      <div class="sixteen wide column mb-4" >
+        <a href="https://konnectevents.freshdesk.com/support/solutions/articles/51000289442-how-to-use-client-tab" target="_blank" class="btn btn-warning warningThemeBtn" > <i class="icon info"></i> How to use this page </a>
+      </div>
+      
     </div>
   </form>
 </div>

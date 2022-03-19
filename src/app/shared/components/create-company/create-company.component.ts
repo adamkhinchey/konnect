@@ -1,36 +1,51 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, EventEmitter} from '@angular/core';
-import {CompanyCategoriesService, GetRegionAndCountriesService, UploadFileService} from '../../services';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {IDropdownSettings} from 'ng-multiselect-dropdown';
-import {environment} from '../../../../environments/environment';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  EventEmitter,
+} from '@angular/core';
+import {
+  CompanyCategoriesService,
+  GetRegionAndCountriesService,
+  UploadFileService,
+} from '../../services';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { environment } from '../../../../environments/environment';
 import {
   CompanyType,
   CreateCompanyInterface,
   FileUploadConfigInterface,
   LoginUserProfile,
-  SignupUserProfile
+  SignupUserProfile,
 } from '../../models';
-import {checkRxFormValidation, devLogger} from '../../utils';
-import {CompaniesService} from '../../../features/users/services/companies.service';
-import {Subscription} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ToastrService} from 'ngx-toastr';
-import {AuthService} from "../../../core/services/auth.service";
-import {map} from "rxjs/operators";
+import { checkRxFormValidation, devLogger } from '../../utils';
+import { CompaniesService } from '../../../features/users/services/companies.service';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../core/services/auth.service';
+import { map } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
-const WEBSITE_REGEX = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,}(\/\S*)?$/
+const WEBSITE_REGEX =
+  /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,}(\/\S*)?$/;
 
 @Component({
   selector: 'app-create-company',
   templateUrl: './create-company.component.html',
-  styleUrls: ['./create-company.component.scss']
+  styleUrls: ['./create-company.component.scss'],
 })
 export class CreateCompanyComponent implements OnInit, OnDestroy {
-
   @Input() user: LoginUserProfile | SignupUserProfile | undefined;
-  @Input() createCompanyMode: { status: boolean, type: { soleTrader: boolean, inc: boolean } } = {
+  @Input() createCompanyMode: {
+    status: boolean;
+    type: { soleTrader: boolean; inc: boolean };
+  } = {
     status: false,
-    type: {soleTrader: false, inc: false}
+    type: { soleTrader: false, inc: false },
   };
   @Input() navigateToPostCreate = 'home';
   createCompanySubscription: Subscription | undefined;
@@ -53,7 +68,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   selectedCategory: any;
   profileImageConfig: FileUploadConfigInterface = {
     fileTypes: environment.imageFileAllowedFormats,
-    size: environment.imageFileUploadSize
+    size: environment.imageFileUploadSize,
   };
   selectedImageSrc: string | undefined;
   private selectedProfileImage: File | undefined;
@@ -66,12 +81,12 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     private toaster: ToastrService,
     private companyCategoriesService: CompanyCategoriesService,
     private authService: AuthService,
-    private uploadFileService: UploadFileService
-  ) {
-  }
+    private uploadFileService: UploadFileService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit(): void {
-    devLogger('log', {createCompanyMode: this.createCompanyMode});
+    devLogger('log', { createCompanyMode: this.createCompanyMode });
     if (!this.createCompanyMode.status) {
       this.router.navigate(['home']);
     }
@@ -83,7 +98,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
       categoryIds: [null, [Validators.required]],
       website: [null, [Validators.pattern(WEBSITE_REGEX)]],
       description: [null],
-      companyType: [null, [Validators.required]]
+      companyType: [null, [Validators.required]],
     });
     this.setInitialFormControlStates();
     this.fetchCategories();
@@ -98,39 +113,49 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     }
   }
 
-
   private setCompanyType(companyType: CompanyType): void {
     this.createCompanyForm.get('companyType')?.setValue(companyType);
   }
 
   private setWebSiteValidity(): void {
-    this.createCompanyForm.get('website')?.setValidators([Validators.required, Validators.pattern(WEBSITE_REGEX)]);
+    this.createCompanyForm
+      .get('website')
+      ?.setValidators([Validators.required, Validators.pattern(WEBSITE_REGEX)]);
     this.createCompanyForm.get('website')?.updateValueAndValidity();
   }
 
   private fetchCategories(): void {
-    this.categoryListSubscription = this.companyCategoriesService.get().subscribe((value) => {
-      if (value) {
-        this.categoryList = value;
-        devLogger('log', {categoryList: value});
-      }
-    }, err => {
-      devLogger('error', err);
-    });
+    this.categoryListSubscription = this.companyCategoriesService
+      .get()
+      .subscribe(
+        (value) => {
+          if (value) {
+            this.categoryList = value;
+            devLogger('log', { categoryList: value });
+          }
+        },
+        (err) => {
+          devLogger('error', err);
+        }
+      );
   }
 
-  onCategoryChange(event: { id: number, val: string }[]): void {
+  onCategoryChange(event: { id: number; val: string }[]): void {
     if (event) {
       if (event.length === 0) {
         this.createCompanyForm.get('categoryIds')?.setValue(null);
       } else {
-        this.createCompanyForm.get('categoryIds')?.setValue(event.map(ct => ct.id));
+        this.createCompanyForm
+          .get('categoryIds')
+          ?.setValue(event.map((ct) => ct.id));
       }
     }
   }
 
   markCategoryTouched(): void {
-    this.createCompanyForm.get('categoryIds')?.markAsTouched({onlySelf: true});
+    this.createCompanyForm
+      .get('categoryIds')
+      ?.markAsTouched({ onlySelf: true });
   }
 
   checkValidation(): boolean {
@@ -139,11 +164,15 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   }
 
   saveImageAndCreateCompany(): void {
+    this.spinner.show();
     if (this.selectedProfileImage) {
-      this.uploadFileService.uploadFile(this.selectedProfileImage, (url: string) => {
-        this.createCompanyForm.get('companyProfileImage')?.setValue(url);
-        this.createCompany();
-      });
+      this.uploadFileService.uploadFileCreateCompany(
+        this.selectedProfileImage,
+        (url: string) => {
+          this.createCompanyForm.get('companyProfileImage')?.setValue(url);
+          this.createCompany();
+        }
+      );
     } else {
       this.createCompany();
     }
@@ -151,20 +180,26 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
 
   createCompany(): void {
     devLogger('log', this.createCompanyForm.value);
+    this.spinner.show();
     const userId = this.user?.id || this.authService.getUserInfo().id;
     if (this.createCompanySubscription) {
       this.createCompanySubscription.unsubscribe();
     }
     this.createCompanySubscription = this.companiesService
-      .createCompany({userId, ...this.createCompanyForm.value})
-      .subscribe(async (value) => {
-        if (value) {
-          this.toaster.success('Company created successfully');
-          await this.router.navigate([this.navigateToPostCreate]);
+      .createCompany({ userId, ...this.createCompanyForm.value })
+      .subscribe(
+        async (value) => {
+          if (value) {
+            this.toaster.success('Company created successfully');
+            await this.router.navigate([this.navigateToPostCreate]);
+            this.spinner.hide();
+          }
+        },
+        (err) => {
+          devLogger('error', err);
+          this.spinner.hide();
         }
-      }, err => {
-        devLogger('error', err);
-      });
+      );
   }
 
   ngOnDestroy(): void {
@@ -179,6 +214,6 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   setSelectedImage(event: File): void {
     this.selectedImageSrc = URL.createObjectURL(event);
     this.selectedProfileImage = event;
-    devLogger('log', {FILEEEEE: event});
+    devLogger('log', { FILEEEEE: event });
   }
 }

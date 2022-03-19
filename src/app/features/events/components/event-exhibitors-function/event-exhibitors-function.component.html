@@ -43,6 +43,7 @@
                         <i
                         class="exhibitor icon"></i></h3>
                     </div>
+                    <p>Dates and times for the exhibition part of your event must be specified below</p>
 
                     <app-time-windows
                       [timeWindowFor]="eventTimeWindowForAllExh"
@@ -136,7 +137,7 @@
                                     <div class="content">
                                       <img class="right floated mini ui image"
                                            [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
-                                           appImageFallback fallbackImage="assets/img/default_konnect_img.png">
+                                           appImageFallback fallbackImage="assets/img/default_konnect_img.png" onerror="src='assets/img/default_konnect_img.png'">
                                       <div class="header">
                                         <a (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
                                       </div>
@@ -300,6 +301,11 @@
     </li>
   </ul>
   <div [ngbNavOutlet]="venueNav" class="mt-2 innerTabCont"></div>
+
+  <div class="sixteen wide column mb-4" >
+    <a href="https://konnectevents.freshdesk.com/support/solutions/articles/51000289446-how-to-use-exhibitor-tab" target="_blank" class="btn btn-warning warningThemeBtn" > <i class="icon info"></i> How to use this page </a>
+  </div>
+
 </div>
 <ng-template #noVenues>
   <div class="ui segment">

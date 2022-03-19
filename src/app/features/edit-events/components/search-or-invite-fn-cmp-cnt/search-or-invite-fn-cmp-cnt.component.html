@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Search for Contact</h4>
+  <h4 class="modal-title" id="modal-basic-title">{{isCrew == 0 ? 'Add Contact' : 'Add Crew'}} </h4>
   <button type="button" class="close" aria-label="Close" (click)="closed.emit()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -8,9 +8,19 @@
   <div class="content">
     <div class="ui grid stackable">
       <div class="eleven wide column">
-        <h3 class="requiredAsterisk">{{isCrew == 0 ? 'Search within company staff' : 'Search for Crew'}}</h3>
+        <h3 class="requiredAsterisk">{{isCrew == 0 ? 'Select from company staff' : 'Search for Crew'}}</h3>
+        <span *ngIf="isCrew">This searches in your Connections and Staff</span>
         <form class="ui form" [formGroup]="inviteCmpCntForm">
-          <div class="field">
+          <div class="field required" *ngIf="isCrew==0">
+            <label>Select Contact</label>
+            <select class="ui dropdown selection" [style.padding]="'initial'" (change)="selectCnt($event)">
+              <option *ngFor="let contact of cntSearchList" class="item" [value]="contact.userId"
+                [disabled]="!contact.userId">{{contact.firstName}}
+                {{contact.lastName}} {{contact.position && contact.position != '' ? '('+contact.position+')' : ''}}
+              </option>
+            </select>
+          </div>
+          <div class="field" *ngIf="isCrew==1">
             <div class="ui search searchPeople focus">
               <div class="ui fluid icon input">
                 <input [(ngModel)]="searchKeyWord" (ngModelChange)="searchForCompCnt()"
@@ -20,7 +30,7 @@
               </div>
               <div [ngClass]="cntSearchList.length>0?'results transition visible':'results transition hidden'"
                 [style.display]="listDisplayCss" [style.overflowY]="listDisplayOverFlow" [style.maxHeight]="'1290%'">
-                <a class="result" *ngFor="let contact of cntSearchList" (click)="selectCnt(contact)">
+                <a class="result" *ngFor="let contact of cntSearchList" (click)="selectCrewCnt(contact)">
                   <div class="image">
                     <img alt="user profile pic" [src]="contact.profileImage" appImageFallback
                       fallbackImage="assets/img/profile.png" />
@@ -48,16 +58,16 @@
               <option class="item" [value]="13">Finance Contact</option>
             </select>
           </div>
-
           <div class="field" *ngIf="isCrew==1">
             <div class="ui fluid icon input">
-              <input class="prompt" type="text" [(ngModel)]="contactRole" [ngModelOptions]="{standalone:true}" placeholder="Add Role">
+              <input class="prompt" type="text" [(ngModel)]="contactRole" [ngModelOptions]="{standalone:true}"
+                placeholder="Add Role">
             </div>
           </div>
-
           <div class="ui grid">
             <div class="sixteen wide column right aligned">
-              <div class="ui button addTotheList" (click)="addCmpCntToList()">{{isCrew == 0 ? 'Add to the contact list' : 'Add Selected As Crew'}}</div>
+              <div class="ui button addTotheList" (click)="addCmpCntToList()">{{isCrew == 0 ? 'Add to the contact list'
+                : 'Add Selected As Crew'}}</div>
             </div>
             <div class="sixteen wide column">
               <p>If you cannot find the contact you are searching for they probably do not have a profile in
@@ -67,7 +77,7 @@
                 out the details below.</p>
             </div>
             <div class="sixteen wide column">
-              <h3>Add New Contact Details</h3>
+              <h3>Add New {{isCrew ? 'Crew': 'Contact'}} Details</h3>
 
               <div class="two fields">
                 <div class="field required">
@@ -76,8 +86,15 @@
                   <span *ngIf="inviteCmpCntForm!.get('firstName')?.touched
           && inviteCmpCntForm!.get('firstName')?.errors?.required" class="text-danger">Name is Required</span>
                 </div>
-                <div class="field required">
+                <div class="field">
+                  <label>Mobile</label>
+                  <input type="text" placeholder="Mobile" formControlName="mobile">
+                  <span *ngIf="inviteCmpCntForm!.get('mobile')?.touched
+          && inviteCmpCntForm!.get('mobile')?.errors?.required" class="text-danger">Mobile number is Required</span>
+          <p> <small> Mobile cannot be added later </small> </p>
                 </div>
+                <!-- <div class="field required">
+                </div> -->
                 <div class="field required">
                   <label>Email</label>
                   <input type="email" placeholder="Email" formControlName="email">
@@ -87,12 +104,19 @@
                     required</span>
                 </div>
               </div>
+              <div class="field" *ngIf="isCrew==1">
+                <div class="ui fluid icon input">
+                  <input class="prompt" type="text" [(ngModel)]="contactRoleInvite" [ngModelOptions]="{standalone:true}"
+                    placeholder="Add Role">
+                </div>
+              </div>
               <div class="ui grid">
                 <div class="sixteen wide column right aligned">
                   <span class="smallText">*compulsory fields</span>
                 </div>
                 <div class="sixteen wide column center aligned paddingT0 right aligned">
-                  <div class="ui button addTotheList" (click)="validateFields() && addCmpCntToList(true)">{{isCrew == 0 ? 'Add to the contact list' : 'Add As Crew'}}
+                  <div class="ui button addTotheList" (click)="validateFields() && addCmpCntToList(true)">{{isCrew == 0
+                    ? 'Add to the contact list' : 'Add As Crew'}}
                   </div>
                 </div>
               </div>
@@ -131,7 +155,7 @@
     <div class="ui grid">
       <div class="sixteen wide column right aligned">
         <div class="ui button positive" [ngClass]="{'disabled':contactList.length===0}"
-          (click)="emitContactListAndClose()">Finish 
+          (click)="emitContactListAndClose()">Finish
           <!-- and save -->
         </div>
       </div>

@@ -56,7 +56,7 @@
                                 <div class="content">
                                   <img class="right floated mini ui image"
                                     [src]="getCompanyProfileImage(i) || 'assets/img/default_konnect_img.png'"
-                                    appImageFallback fallbackImage="assets/img/default_konnect_img.png">
+                                    appImageFallback fallbackImage="assets/img/default_konnect_img.png" onerror="src='assets/img/default_konnect_img.png'">
                                   <div class="header">
                                     <a  (click)="goToCompanyProfile(getCompanyId(i))">{{selectedCompanies[i]!.companyName}}</a>
                                   </div>
@@ -138,7 +138,7 @@
                         </div>
                       </div>
                       <div class="ui dividing header">
-                        <h3>Venue Requirements <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                        <h3>Venue Requirements<i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
                           <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                             class="map marker alternate icon"></i>
                         </h3>
@@ -156,7 +156,7 @@
                         <div class="sixteen wide column right aligned">
                           <div class="ui button hasModal"
                             (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})"
-                            data-modal="inviteModal">Save 
+                            data-modal="inviteModal">Save
                             <!-- &amp;
                             Invite -->
                           </div>
@@ -175,5 +175,10 @@
 
       </div>
     </div>
+
+    <div class="sixteen wide column mb-4" >
+      <a href="https://konnectevents.freshdesk.com/support/solutions/articles/51000289444-how-to-use-venue-tab" target="_blank" class="btn btn-warning warningThemeBtn" > <i class="icon info"></i> How to use this page </a>
+    </div>
+
   </div>
 </div>

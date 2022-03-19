@@ -13,15 +13,17 @@ import { InviteFnCmpClass } from '../../models/classes';
 import { SaveEventClass } from '../../models/classes/saveEvent.class';
 import { Subscription } from 'rxjs';
 import { EventAssignFunctionCmpComponent } from '../event-assign-function-cmp/event-assign-function-cmp.component';
-import { NgbAccordion, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordion, NgbModal, NgbModalOptions, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EventService } from '../../services/event.service';
 import { devLogger } from '../../../../shared/utils';
 import { EventTimeWindowTypes } from "../../models/types";
 import { FnCmpCntInterface } from '../../models/interfaces';
 import { ViewEventService } from '../../services/view-event.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
+import { ConfirmationDialogComponent } from 'src/app/shared/components';
+import { AuthService } from '../../../../core/services/auth.service';
 
 
 @Component({
@@ -54,13 +56,30 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   public isVenueEditable: boolean = false;
   @Input() venueContactLists: Array<Array<FnCmpCntInterface>> = [];
   @Input() setIsCrew: any;
-
+  public loginUserIsCrew =false;
+  isPast:any
 
   constructor(
     private eventService: EventService,
     private viewEventService: ViewEventService,
-    private router: Router
+    private router: Router,
+    public modalService: NgbModal,
+    public authService: AuthService,
+    public aroute:ActivatedRoute
   ) {
+    this.aroute.queryParams.subscribe((param) => {
+      console.log('param...', param);
+      this.isPast = param.isPast;
+    });
+  }
+
+  check(){
+    if(!this.isVenueEdit && this.isPast == 'false'){
+      console.log('in if...')
+      return true;
+    }else{
+      return false
+    }
   }
 
   checkPermission(isViewPermission: any) {
@@ -241,7 +260,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
 
 
   acceptDeclineService(tab: any, isAccept: any) {
-    console.log("isAccept", isAccept);
+
     if (tab.venueId && isAccept > 0) {
       let payload = {
         eventId: this.eventData.eventData.eventId,
@@ -249,9 +268,9 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
         tabType: 3,
         isAccept: isAccept > 1 ? 0 : isAccept
       }
-      console.log("payload ** ", payload);
+
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
-        console.log(res);
+
       }, err => {
         devLogger('err', err)
       })
@@ -282,9 +301,20 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
-  goToCompanyProfile(companyId: any, isPrivate: any) {
-    console.log(companyId);
-    if (companyId && isPrivate == 0) {
+  getIsSeed(i: number): any {
+    if (this.selectedCompanies && this.selectedCompanies[i]) {
+      if (this.selectedCompanies[i] instanceof InviteFnCmpClass) {
+        return null;
+      } else {
+        return (this.selectedCompanies[i] as Company)?.isSeed;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  goToCompanyProfile(companyId: any, isPrivate: any, isSeed: any) {
+    if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
@@ -304,6 +334,18 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
+  checkVenueViewPermission(index:number) {
+    let venueContacts =[];
+    if(this.venueContactLists){
+      venueContacts = this.venueContactLists[index].filter(venueContact => venueContact.id == this.authService.getUserInfo().id && venueContact.isCrew == 1);
+       if(venueContacts.length>0){
+         this.loginUserIsCrew =true;
+        return true;
+       }
+    }
+    return false;
+  }
+
   checkSelectedCompany(index: any) {
     //@ts-ignore
     if (this.selectedCompanies[index] != null) {
@@ -315,8 +357,24 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
+  confirmRemove(venueId: any, isAccept: any) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false
+    };
+    const modalRef = this.modalService.open(ConfirmationDialogComponent, ngbModalOptions);
+    modalRef.result.then((result: any) => {
+
+      if (result) {
+        this.removeDeclineService(venueId, isAccept);
+      }
+    }).catch((result) => {
+
+    });
+  }
+
   removeDeclineService(venueId: any, isAccept: any) {
-    console.log(venueId);
+
     let payload = {
       eventId: this.eventData.eventData.eventId,
       tabId: venueId,
@@ -324,7 +382,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       isAccept: isAccept
     }
     this.viewEventService.removeDecline(payload).subscribe((res: any) => {
-      console.log(res);
+
       if (res.code == 200)
         this.router.navigate(['home']);
     }, err => {

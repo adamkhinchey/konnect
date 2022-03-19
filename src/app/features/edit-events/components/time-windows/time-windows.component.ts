@@ -86,6 +86,21 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   }
 
+  removePreTime(i: any) {
+    this.preEventTimes.splice(i, 1);
+    // this.preEventTimesCount--
+
+  }
+
+  removeEventTime(i: any) {
+    this.eventTimes.splice(i, 1);
+  }
+
+  removePostTime(i: any) {
+    this.postEventTimes.splice(i, 1);
+
+  }
+
   getMinimumPreEventStartDateTime(i: number): Date {
     return moment().set('second', 0).set('millisecond', 0).toDate();
   }

@@ -29,7 +29,6 @@ import { EventGanttChartComponent } from './components/event-gantt-chart/event-g
 import { EventAssignCrewFunctionCmpComponent } from './components/event-assign-crew-function-cmp/event-assign-crew-function-cmp.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-
 @NgModule({
   declarations: [
     EventPanelComponent,

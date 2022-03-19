@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { NgbAccordion, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordion, NgbModal, NgbModalOptions, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { SaveEventClass } from '../../models/classes/saveEvent.class';
 import { Subscription } from 'rxjs';
 import { Company } from '../../../users/models';
@@ -14,8 +14,9 @@ import { devLogger } from '../../../../shared/utils';
 import { InviteFnCmpClass } from '../../models/classes';
 import { EventTimeWindowTypes } from "../../models/types";
 import { ViewEventService } from '../../services/view-event.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
+import { ConfirmationDialogComponent } from 'src/app/shared/components';
 
 @Component({
   selector: 'app-event-exhibitors-function',
@@ -43,12 +44,27 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   isExhibitorEdit: boolean = false;
   public isExhibitorEditable: boolean = false;
   @Input() setIsCrew: any;
+  isPast:any;
 
   constructor(
     public eventService: EventService,
     private viewEventService: ViewEventService,
-    private router: Router
+    private router: Router,
+    public modalService: NgbModal,
+    public aroute:ActivatedRoute
   ) {
+    this.aroute.queryParams.subscribe((param) => {
+      console.log('param...', param);
+      this.isPast = param.isPast;
+    });
+  }
+
+  check(){
+    if(!this.isExhibitorEdit && this.isPast == 'false'){
+      return true;
+    }else{
+      return false
+    }
   }
 
   editExhibitorFn() {
@@ -64,7 +80,6 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   }
 
   ngOnInit(): void {
-    console.log(this.eventToBeSaved)
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
@@ -143,9 +158,9 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   addExhibitor(venue: VenueListItemInterface, venueIndex: number): void {
     this.isExhibitorEdit = true;
     this.isExhibitorEditable = true;
-    console.log(venue.exhibitorList[0])
+
     if (!venue.exhibitorList[0]) {
-      console.log('in if condition');
+    
       const timeWindowsToAll: SuppExhTimeWindowFormatInterface = {
         bumpIn: { sameAsVenue: null, timings: [] },
         bumpOut: { sameAsVenue: null, timings: [] },
@@ -282,6 +297,22 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     this.exhCmpCntAddedSub?.unsubscribe();
   }
 
+  confirmRemove(exhibitorId: any, isAccept: any) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false
+    };
+    const modalRef = this.modalService.open(ConfirmationDialogComponent, ngbModalOptions);
+    modalRef.result.then((result: any) => {
+      console.log(result);
+      if (result) {
+        this.removeDeclineExhibitor(exhibitorId, isAccept);
+      }
+    }).catch((result) => {
+      console.log('cancelling');
+    });
+  }
+
   removeDeclineExhibitor(exhibitorId: any, isAccept: any) {
     console.log(exhibitorId);
     let payload = {
@@ -297,13 +328,6 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
       devLogger('err', err)
     })
   }
-
-
-
-
-
-
-
 
   acceptDeclineService(tab: any, isAccept: any) {
     // console.log(tab.venueId);
@@ -347,9 +371,19 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     }
   }
 
-  goToCompanyProfile(companyId: any, isPrivate: any) {
-    console.log(companyId);
-    if (companyId && isPrivate == 0) {
+  getIsSeed(company: Company | InviteFnCmpClass | undefined): any {
+    if (!company) {
+      return null;
+    }
+    if (company instanceof InviteFnCmpClass) {
+      return null;
+    } else {
+      return (company as Company)?.isSeed;
+    }
+  }
+
+  goToCompanyProfile(companyId: any, isPrivate: any, isSeed: any) {
+    if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
@@ -370,8 +404,8 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
     }
   }
 
-  checkPermission(isViewPermission: any) {
-    if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
+  checkPermission(isStaffOrAdmin: any) {
+    if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isStaffOrAdmin == 1) {
       return false
     } else {
       return true

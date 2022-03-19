@@ -7,6 +7,7 @@ import {map, take} from "rxjs/operators";
 import {NgxSpinnerService} from "ngx-spinner";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {HttpErrRespHandlerService} from "../../../shared/services";
+import { Timeline } from 'vis-timeline';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ import {HttpErrRespHandlerService} from "../../../shared/services";
 export class EventTimelineService {
   private apiBaseUrl = environment.apiBaseURL;
   render = new Subject<any>();
-
+  timeline: Timeline | undefined;
   constructor(
     private spinner: NgxSpinnerService,
     private http: HttpClient,
