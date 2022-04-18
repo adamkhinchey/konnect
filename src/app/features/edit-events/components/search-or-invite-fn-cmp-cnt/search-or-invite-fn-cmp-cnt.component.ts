@@ -14,7 +14,7 @@ import { UserInfoService } from 'src/app/shared/services';
   styleUrls: ['./search-or-invite-fn-cmp-cnt.component.scss']
 })
 export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
-  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/);
+  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,20}))$/);
   @Input() public isCrew: any = 0;
   @Input() alreadyInContactList: FnCmpCntInterface[] = [];
   @Input() companyId: number | null = null;
