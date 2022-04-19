@@ -59,10 +59,16 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
             <ng-container *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length">
               <ngb-panel *ngFor="let service of venue.suppliers[0].services; let serviceIndex=index"
                 [id]="'serviceListIndex-'+serviceIndex" (shown)="servicePanelActivated(venueIndex,serviceIndex)">
+               
                 <ng-template ngbPanelTitle>
                   <i class="dropdown icon"></i>Service {{serviceIndex + 1}}: <span>{{service?.name}}</span>
 
-
+                  <div class="flaot-right" >
+                    <div class="ui checkbox">
+                      <input type="checkbox" class="hidden" tabindex="0">
+                      <label>Use Venue Times</label>
+                    </div>
+                  </div>
 
                 </ng-template>
                 <ng-template ngbPanelContent>
