@@ -11,12 +11,15 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
       <ng-template ngbNavContent>
         <form class="ui form">
           <div class="ui grid stackable">
+
             <div class="sixteen wide column">
               <div class="companyContainer marginB20">
                 <div class="ui dividing header">
                   <h3>Notes to All Suppliers<i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
-                      class="truck icon"></i></h3>
+                      class="truck icon"></i>
+                      <button class="ui button triggerEditableOptions ml-3 right float-right marT-m15" >Edit </button>
+                    </h3>
                 </div>
                 <div class="field"
                   *ngIf="permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager ||  permissionObj.isService; else no_access">
@@ -31,6 +34,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 <ng-template #no_access>No access</ng-template>
               </div>
             </div>
+
+        
+
+
           </div>
         </form>
 
