@@ -61,10 +61,27 @@
             <ng-container *ngIf="venue.suppliers[0]">
               <ngb-panel *ngFor="let service of venue.suppliers[0].services; let serviceIndex=index"
                 [id]="'serviceListIndex-'+serviceIndex" (shown)="servicePanelActivated(venueIndex,serviceIndex)">
-                <ng-template ngbPanelTitle>
+                <ng-template ngbPanelHeader let-opened="opened">
+                  <div class="accordion-button custom-header" [class.collapsed]="!opened">
+                    <button ngbPanelToggle class="p-0 btn btn-link container-fluid text-start ps-0 accordionBtnNew">
+                      <i class="dropdown icon"></i>
+                      Service {{serviceIndex + 1}}: <span>{{service?.name}} </span>
+                    </button>
+
+                    <div class="flaot-right accordionCheckBox">
+                      <div class="ui checkbox">
+                        <input type="checkbox" class="hidden" [id]="'times-'+serviceIndex+'_venue_'+venueIndex"
+                          (change)="listenTimeChange($event, venueIndex, serviceIndex)" tabindex="0">
+                        <label [for]="'times-'+serviceIndex+'_venue_'+venueIndex">Use Venue Times</label>
+                      </div>
+                    </div>
+
+                  </div>
+                </ng-template>
+                <!-- <ng-template ngbPanelTitle>
                   <i class="dropdown icon"></i>Service {{serviceIndex + 1}}: <span>{{service?.name}}
                   </span>
-                </ng-template>
+                </ng-template> -->
                 <ng-template ngbPanelContent>
                   <div class="content active">
                     <form class="ui form visible" style="display: block !important;">
@@ -177,14 +194,14 @@
                                       width="15px"> </i><i class="building icon"></i>
                                 </h3>
                               </div>
-                              <div class="field visible">
+                              <!-- <div class="field visible">
                                 <div class="ui checkbox">
                                   <input type="checkbox" class="hidden"
                                     [id]="'times-'+serviceIndex+'_venue_'+venueIndex"
                                     (change)="listenTimeChange($event, venueIndex, serviceIndex)">
                                   <label [for]="'times-'+serviceIndex+'_venue_'+venueIndex">Use Venue Times</label>
                                 </div>
-                              </div>
+                              </div> -->
                               <app-time-windows [preEventTimesCount]="preEventTimesCount"
                                 [eventTimesCount]="eventTimesCount" [postEventTimesCount]="postEventTimesCount"
                                 [isPreEventTimesSameAsVenue]="isPreEventTimesSameAsVenue"

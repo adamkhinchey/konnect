@@ -100,12 +100,29 @@
               <ngb-panel *ngFor="let exhibitor of venue.exhibitorList[0].exhibitors; let exhibitorIndex=index"
                 [id]="'exhibitorListIndex-'+exhibitorIndex"
                 (shown)="exhibitorPanelActivated(venueIndex,exhibitorIndex)">
+                <ng-template ngbPanelHeader let-opened="opened">
+                  <div class="accordion-button custom-header" [class.collapsed]="!opened">
+                    <button ngbPanelToggle class="p-0 btn btn-link container-fluid text-start ps-0 accordionBtnNew">
+                      <i class="dropdown icon"></i>
+                      Exhibitor {{exhibitorIndex + 1}}: <span
+                        *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
+                    </button>
 
-                <ng-template ngbPanelTitle>
+                    <div class="flaot-right accordionCheckBox">
+                      <div class="ui checkbox">
+                        <input type="checkbox" class="hidden" [id]="'times-'+exhibitorIndex+'_venue_'+venueIndex"
+                          (change)="listenTimeChange($event, venueIndex, exhibitorIndex)" tabindex="0">
+                        <label [for]="'times-'+exhibitorIndex+'_venue_'+venueIndex">Use Exhibition Times</label>
+                      </div>
+                    </div>
+
+                  </div>
+                </ng-template>
+                <!-- <ng-template ngbPanelTitle>
                   <i class="dropdown icon"></i>
                   Exhibitor {{exhibitorIndex + 1}}: <span
                     *ngIf="venuesExhCmpsMap.has(venueIndex) && venuesExhCmpsMap.get(venueIndex)!.has(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
-                </ng-template>
+                </ng-template> -->
                 <ng-template ngbPanelContent>
                   <div class="content active">
                     <form class="ui form visible" style="display: block !important;">
@@ -245,7 +262,12 @@
                                 </h3>
                               </div>
 
-                              <app-time-windows [timeWindowFor]="eventTimeWindowType"
+                              <app-time-windows [preEventTimesCount]="preEventTimesCount"
+                                [eventTimesCount]="eventTimesCount" [postEventTimesCount]="postEventTimesCount"
+                                [isPreEventTimesSameAsExhibition]="isPreEventTimesSameAsExhibition"
+                                [isEventTimesSameAsExhibition]="isEventTimesSameAsExhibition"
+                                [isPostEventTimesSameAsExhibition]="isPostEventTimesSameAsExhibition"
+                                [useVenueTimes]="isUseVenueTime" [timeWindowFor]="eventTimeWindowType"
                                 [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                                 [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
                                 [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
