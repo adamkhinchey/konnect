@@ -109,7 +109,15 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   <i class="dropdown icon"></i>
                   Exhibitor {{exhibitorIndex + 1}}: <span
                     *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
-                </ng-template>
+                
+                    <div class="flaot-right" >
+                      <div class="ui checkbox">
+                        <input type="checkbox" class="hidden" tabindex="0">
+                        <label>Use Exhibition Times</label>
+                      </div>
+                    </div>
+
+                  </ng-template>
                 <ng-template ngbPanelContent>
                   <div class="content active">
                     <form class="ui form visible" style="display: block !important;">
