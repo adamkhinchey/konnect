@@ -105,19 +105,34 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 [id]="'exhibitorListIndex-'+exhibitorIndex"
                 (shown)="exhibitorPanelActivated(venueIndex,exhibitorIndex)">
 
-                <ng-template ngbPanelTitle>
-                  <i class="dropdown icon"></i>
+                <ng-template ngbPanelHeader let-opened="opened">
+                  <div class="accordion-button custom-header" [class.collapsed]="!opened">
+                    <button ngbPanelToggle class="p-0 btn btn-link container-fluid text-start ps-0 accordionBtnNew">
+                      <i class="dropdown icon"></i>
                   Exhibitor {{exhibitorIndex + 1}}: <span
                     *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
+                    </button>
+
+                    <div class="flaot-right accordionCheckBox" >
+                      <div class="ui checkbox">
+                        <input type="checkbox" class="hidden" tabindex="0">
+                        <label>Use Exhibition Times</label>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </ng-template>
                 
+                <!-- <ng-template ngbPanelTitle>
+                  
+
                     <div class="flaot-right" >
                       <div class="ui checkbox">
                         <input type="checkbox" class="hidden" tabindex="0">
                         <label>Use Exhibition Times</label>
                       </div>
                     </div>
-
-                  </ng-template>
+                  </ng-template> -->
                 <ng-template ngbPanelContent>
                   <div class="content active">
                     <form class="ui form visible" style="display: block !important;">
