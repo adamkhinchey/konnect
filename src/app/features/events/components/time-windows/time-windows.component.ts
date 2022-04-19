@@ -28,6 +28,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
   @Input() windowLabels: string[] | undefined;
 
   Arr = Array;
+  @Input() useVenueTimes = false;
   @Input() eventView = false;
   @Input() preEventTimesCount = 1;
   @Input() preEventNotes = '';
@@ -67,18 +68,18 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   private venuePreEventTimeChangeSub: Subscription | undefined;
   private exhibitionPreEventTimeChangeSub: Subscription | undefined;
-  isPreEventTimesSameAsVenue = false;
-  isPreEventTimesSameAsExhibition = false;
+  @Input() isPreEventTimesSameAsVenue = false;
+  @Input() isPreEventTimesSameAsExhibition = false;
 
   private venueEventTimeChangeSub: Subscription | undefined;
   private exhibitionEventTimeChangeSub: Subscription | undefined;
-  isEventTimesSameAsVenue = false;
-  isEventTimesSameAsExhibition = false;
+  @Input() isEventTimesSameAsVenue = false;
+  @Input() isEventTimesSameAsExhibition = false;
 
   private venuePostEventTimeChangeSub: Subscription | undefined;
   private exhibitionPostEventTimeChangeSub: Subscription | undefined;
-  isPostEventTimesSameAsVenue = false;
-  isPostEventTimesSameAsExhibition = false;
+  @Input() isPostEventTimesSameAsVenue = false;
+  @Input() isPostEventTimesSameAsExhibition = false;
   private timeZone = moment.tz.guess();
   config: AngularEditorConfig = {
     editable: true,
