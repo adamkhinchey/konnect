@@ -64,6 +64,80 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   constructor(private eventService: EventService) {
   }
 
+  // copyAssignVenueTime(
+  //   slotsType: EventTimeSlotTypes,
+  //   timeWindows: Partial<TimeWindowFormatInterface>[],
+  // ): void {
+  //   if (this.isVenueDependent) {
+  //     if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
+  //       this.preEventTimesCount = timeWindows.length || 1;
+  //       //this.preEventTimes = [];
+  //       this.emptyPreEventTimes();
+  //       timeWindows.forEach(timeSlot => {
+  //         this.preEventTimes.push({
+  //           notes: timeSlot.notes,
+  //           endDateTime: timeSlot.endDateTime,
+  //           startDateTime: timeSlot.startDateTime,
+  //         });
+  //       });
+  //     } else if (slotsType === EventTimeSlotTypes.EVENT_ACCESS) {
+  //       this.eventTimesCount = timeWindows.length || 1;
+  //       //this.eventTimes = [];
+  //       this.emptyEventTimes();
+  //       timeWindows.forEach(timeSlot => {
+  //         this.eventTimes.push({
+  //           notes: timeSlot.notes,
+  //           endDateTime: timeSlot.endDateTime,
+  //           startDateTime: timeSlot.startDateTime
+  //         });
+  //       });
+  //     } else if (slotsType === EventTimeSlotTypes.POST_EVENT_ACCESS) {
+  //       this.postEventTimesCount = timeWindows.length || 1;
+  //       //this.postEventTimes = [];
+  //       this.emptyPostEventTimes();
+  //       timeWindows.forEach(timeSlot => {
+  //         this.postEventTimes.push({
+  //           notes: timeSlot.notes,
+  //           endDateTime: timeSlot.endDateTime,
+  //           startDateTime: timeSlot.startDateTime
+  //         });
+  //       });
+  //     }
+  //   }
+  // }
+
+  // listenVenueEventTimeChange(event: Event, slotsType: EventTimeSlotTypes, forAllExhibitors = false): void {
+  //   const target = (event.target as HTMLInputElement);
+  //   const { checked } = target;
+  //   if (checked) {
+  //     if (slotsType === EventTimeSlotTypes.PRE_EVENT_ACCESS) {
+  //       this.copyAssignVenueTime(this.eventTimeSlotTypes.PRE_EVENT_ACCESS, (this.venuePreEventTimes as TimeWindowFormatInterface[]));
+  //       this.isPreEventTimesSameAsVenue = true;
+  //       this.venuePreEventTimeChangeSub = this.eventService.venuePreEventTimeChange.subscribe((value: VenueTimeChangedSubjectInterface) => {
+  //         if (this.venueIndex === value.venueIndex) {
+  //           this.copyAssignVenueTime(this.eventTimeSlotTypes.PRE_EVENT_ACCESS, value.data);
+  //         }
+  //       });
+  //     } else if (slotsType === EventTimeSlotTypes.EVENT_ACCESS) {
+  //       this.copyAssignVenueTime(this.eventTimeSlotTypes.EVENT_ACCESS, (this.venueEventTimes as TimeWindowFormatInterface[]));
+  //       this.isEventTimesSameAsVenue = true;
+  //       this.venueEventTimeChangeSub = this.eventService.venueEventTimeChange.subscribe((value: VenueTimeChangedSubjectInterface) => {
+  //         if (this.venueIndex === value.venueIndex) {
+  //           this.copyAssignVenueTime(this.eventTimeSlotTypes.EVENT_ACCESS, value.data);
+  //         }
+  //       });
+  //     } else if (slotsType === EventTimeSlotTypes.POST_EVENT_ACCESS) {
+  //       this.copyAssignVenueTime(this.eventTimeSlotTypes.POST_EVENT_ACCESS, (this.venuePostEventTimes as TimeWindowFormatInterface[]));
+  //       this.isPostEventTimesSameAsVenue = true;
+  //       this.venuePostEventTimeChangeSub = this.eventService.venuePostEventTimeChange.subscribe((value: VenueTimeChangedSubjectInterface) => {
+  //         if (this.venueIndex === value.venueIndex) {
+  //           this.copyAssignVenueTime(this.eventTimeSlotTypes.POST_EVENT_ACCESS, value.data);
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
+
   ngOnInit(): void {
     this.supplierCompanyAddedSub = this.eventService.supplierCompanyAddSubject
       .subscribe(value => {

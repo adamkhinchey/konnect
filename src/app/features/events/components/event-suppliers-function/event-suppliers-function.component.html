@@ -177,7 +177,13 @@
                                       width="15px"> </i><i class="building icon"></i>
                                 </h3>
                               </div>
-
+                              <!-- <div class="field visible">
+                                <div class="ui checkbox">
+                                  <input type="checkbox" class="hidden" [id]="'times-'+serviceIndex+'_venue_'+venueIndex" 
+                                  (change)="listenVenueEventTimeChange($event, venueIndex, serviceIndex)">
+                                  <label [for]="'times-'+serviceIndex+'_venue_'+venueIndex">Use Venue Times</label>
+                                </div>
+                              </div> -->
                               <app-time-windows [timeWindowFor]="eventTimeWindowType"
                                 [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                                 [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
