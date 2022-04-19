@@ -17,6 +17,7 @@ import { ViewEventService } from '../../services/view-event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 import { ConfirmationDialogComponent } from 'src/app/shared/components';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-event-exhibitors-function',
@@ -45,7 +46,32 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
   public isExhibitorEditable: boolean = false;
   @Input() setIsCrew: any;
   isPast:any;
-
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(
     public eventService: EventService,
     private viewEventService: ViewEventService,
@@ -57,6 +83,19 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy, OnCh
       console.log('param...', param);
       this.isPast = param.isPast;
     });
+  }
+
+  changeConfig(){
+    if(!this.isExhibitorEdit)
+    this.config.editable = false;
+    else
+    this.config.editable = true;
+  }
+  changeConfigPermission(){
+    if(!this.isExhibitorEdit || !(this.permissionObj.isClient || this.permissionObj.isEventManager))
+    this.config.editable = false;
+    else
+    this.config.editable = true;
   }
 
   check(){

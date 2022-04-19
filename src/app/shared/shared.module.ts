@@ -20,6 +20,7 @@ import { WaitingForApprovalComponent } from './components/waiting-for-approval/w
 import { ImageFallbackDirective } from './directives/image-fallback.directive';
 import { DateFilterPipe } from './pipes/dateFilter.pipe';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    AngularEditorModule
   ],
   exports: [
     CompanySearchComponent,

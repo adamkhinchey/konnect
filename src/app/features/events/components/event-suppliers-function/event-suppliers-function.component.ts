@@ -13,6 +13,7 @@ import { Subscription } from "rxjs";
 import { InviteFnCmpClass } from "../../models/classes";
 import { Company } from "../../../users/models";
 import { EventTimeWindowTypes } from "../../models/types";
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-event-suppliers-function',
@@ -34,7 +35,32 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   private supplierCmpCntAddedSub: Subscription | undefined;
   venuesSuppCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
   eventTimeWindowType = EventTimeWindowTypes.Supplier;
-
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(private eventService: EventService) {
   }
 

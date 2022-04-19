@@ -28,6 +28,7 @@ import { EventViewComponent } from './components/event-view/event-view.component
 import { EventGanttChartComponent } from './components/event-gantt-chart/event-gantt-chart.component';
 import { EventAssignCrewFunctionCmpComponent } from './components/event-assign-crew-function-cmp/event-assign-crew-function-cmp.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ReactiveFormsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    AngularEditorModule
   ],
 })
 export class EditEventsModule {

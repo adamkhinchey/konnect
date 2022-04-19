@@ -17,6 +17,7 @@ import { NgbAccordion, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EventService } from '../../services/event.service';
 import { devLogger } from '../../../../shared/utils';
 import { EventTimeWindowTypes } from "../../models/types";
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-event-venue-function',
@@ -42,7 +43,32 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   @Input() setOpenedModalRef: any;
   @Input() removeContact: any;
   eventTimeWindowType = EventTimeWindowTypes.Venue;
-
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(private eventService: EventService) {
   }
 

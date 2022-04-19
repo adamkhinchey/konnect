@@ -20,9 +20,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 </div>
                 <div class="field"
                   *ngIf="permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager ||  permissionObj.isService; else no_access">
-                  <textarea rows="3" class="textarea" *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
+                  <!-- <textarea rows="3" class="textarea" *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
                     [(ngModel)]="venue.suppliers[0].notesToAll" [ngModelOptions]="{standalone:true}"
-                    [readonly]="!isServiceEdit"></textarea>
+                    [readonly]="!isServiceEdit"></textarea> -->
+                    <angular-editor *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
+                    [(ngModel)]="venue.suppliers[0].notesToAll" [config]="config" (focus)="changeConfig()"
+                    [ngModelOptions]="{standalone: true}"></angular-editor>
 
                 </div>
                 <ng-template #no_access>No access</ng-template>
@@ -237,10 +240,14 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 class="building icon"></i></h3>
                           </div>
                           <div class="field">
-                            <textarea
+                            <!-- <textarea
                               *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  (permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access"
                               [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}" rows="3"
-                              class="textarea" [readonly]="!isServiceEdit || !(permissionObj.isClient || permissionObj.isEventManager)"></textarea>
+                              class="textarea" [readonly]="!isServiceEdit || !(permissionObj.isClient || permissionObj.isEventManager)"></textarea> -->
+                              <angular-editor *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  (permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access"
+                              [(ngModel)]="service.requirement" [config]="config"
+                              (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
+                            </angular-editor>
                             <ng-template #no_access>No access
                             </ng-template>
                           </div>
@@ -249,8 +256,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             <h3>Supplier Internal Notes <i class="building icon"></i></h3>
                           </div>
                           <div class="field">
-                            <textarea *ngIf="(permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access" rows="3" class="textarea" [readonly]="!isServiceEdit" [(ngModel)]="service.internalCmpNotes"
-                            [ngModelOptions]="{standalone:true}"></textarea>
+                            <!-- <textarea *ngIf="(permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access" rows="3" class="textarea" [readonly]="!isServiceEdit" [(ngModel)]="service.internalCmpNotes"
+                            [ngModelOptions]="{standalone:true}"></textarea> -->
+                            <angular-editor *ngIf="(permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access"
+                            [(ngModel)]="service.internalCmpNotes" [config]="config"
+                            (focus)="changeConfig()" [ngModelOptions]="{standalone: true}">
+                            </angular-editor>
                             <ng-template #no_access>No access
                             </ng-template>
                           </div>

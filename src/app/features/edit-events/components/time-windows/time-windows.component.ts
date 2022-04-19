@@ -7,6 +7,7 @@ import { EventService } from '../../services/event.service';
 import { EventTimeSlotTypes, EventTimeWindowTypes } from '../../models/types';
 import { Subscription } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-time-windows',
@@ -79,8 +80,47 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
   isPostEventTimesSameAsVenue = false;
   isPostEventTimesSameAsExhibition = false;
   private timeZone = moment.tz.guess();
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(private toaster: ToastrService, private eventService: EventService) {
   }
+
+  changeConfig(){
+    if(!this.isEdit)
+    this.config.editable = false;
+    else
+    this.config.editable = true;
+  }
+  // changeConfigPermission(){
+  //   if(!this.isEdit || !(this.permissionObj.isClient || this.permissionObj.isEventManager))
+  //   this.config.editable = false;
+  //   else
+  //   this.config.editable = true;
+  // }
 
   ngOnInit(): void {
 

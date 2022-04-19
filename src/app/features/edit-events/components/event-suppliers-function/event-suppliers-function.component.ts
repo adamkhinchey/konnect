@@ -35,6 +35,7 @@ import { ViewEventService } from '../../services/view-event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 import { ConfirmationDialogComponent } from 'src/app/shared/components';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-event-suppliers-function',
@@ -77,7 +78,32 @@ export class EventSuppliersFunctionComponent
   editServiceIndex: number = 0;
   @Input() setIsCrew: any;
   isPast: any;
-
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(
     public eventService: EventService,
     private viewEventService: ViewEventService,
@@ -91,6 +117,19 @@ export class EventSuppliersFunctionComponent
       this.isPast = param.isPast;
       console.log('is past...', this.isPast)
     });
+  }
+
+  changeConfig(){
+    if(!this.isServiceEdit)
+    this.config.editable = false;
+    else
+    this.config.editable = true;
+  }
+  changeConfigPermission(){
+    if(!this.isServiceEdit || !(this.permissionObj.isClient || this.permissionObj.isEventManager))
+    this.config.editable = false;
+    else
+    this.config.editable = true;
   }
 
   check(){

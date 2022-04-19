@@ -26,6 +26,7 @@ import { DateTimePickerComponent } from './components/date-time-picker/date-time
 import { EventFilesUploadModalComponent } from './components/event-files-upload-modal/event-files-upload-modal.component';
 import { EventViewComponent } from './components/event-view/event-view.component';
 import { EventGanttChartComponent } from './components/event-gantt-chart/event-gantt-chart.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { EventGanttChartComponent } from './components/event-gantt-chart/event-g
     ReactiveFormsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    AngularEditorModule
   ],
 })
 export class EventsModule {

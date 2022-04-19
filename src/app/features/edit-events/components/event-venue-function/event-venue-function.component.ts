@@ -24,6 +24,7 @@ import * as _ from 'lodash';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 import { ConfirmationDialogComponent } from 'src/app/shared/components';
 import { AuthService } from '../../../../core/services/auth.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 
 @Component({
@@ -58,7 +59,32 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   @Input() setIsCrew: any;
   public loginUserIsCrew =false;
   isPast:any
-
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(
     private eventService: EventService,
     private viewEventService: ViewEventService,
@@ -72,7 +98,18 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       this.isPast = param.isPast;
     });
   }
-
+  changeConfig(){
+    if(!this.isVenueEdit)
+    this.config.editable = false;
+    else
+    this.config.editable = true;
+  }
+  changeConfigPermission(panel:any){
+    if(!this.isVenueEdit || (panel?.isViewPermission && this.permissionObj.isVenue))
+    this.config.editable = false;
+    else
+    this.config.editable = true;
+  }
   check(){
     if(!this.isVenueEdit && this.isPast == 'false'){
       console.log('in if...')

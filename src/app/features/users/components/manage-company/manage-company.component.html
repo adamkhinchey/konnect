@@ -166,9 +166,12 @@
                                 </div>
                                 <div class="field">
                                     <label>Description</label>
-                                    <textarea [readonly]="isView" rows="3" class="textarea"
+                                    <!-- <textarea [readonly]="isView" rows="3" class="textarea"
                                         id="edit-company-profile-description" placeholder="Description"
-                                        formControlName="description"></textarea>
+                                        formControlName="description"></textarea> -->
+                                        <angular-editor id="edit-company-profile-description"
+                                        formControlName="description" [config]="config" (focus)="changeConfig()">
+                                      </angular-editor>
                                     <!-- <span *ngIf="editCompanyForm!.get('description')?.touched
                                     && (
                                     editCompanyForm!.get('description')?.hasError('required')

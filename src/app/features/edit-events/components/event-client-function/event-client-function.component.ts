@@ -17,6 +17,7 @@ import { EventFunctionTypes } from '../../models/types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViewEventService } from '../../services/view-event.service';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-event-client-function',
@@ -48,6 +49,32 @@ export class EventClientFunctionComponent
   isSupplierEdit: boolean = false;
   isExhibitorEdit: boolean = true;
   isPast: any;
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
 
   constructor(
     private eventService: EventService,
@@ -56,6 +83,13 @@ export class EventClientFunctionComponent
     private viewEvSrvc: ViewEventService
   ) {
     this.eventService.isEdit = false;
+  }
+
+  changeConfig(){
+    if(!this.isClientEdit)
+    this.config.editable = false;
+    else
+    this.config.editable = true;
   }
 
   check(){

@@ -17,6 +17,7 @@ import { FileUploadConfigInterface, LoginUserProfile, RemoveType } from '../../.
 import { CompaniesService } from '../../services/companies.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-edit-individual-profile',
@@ -66,6 +67,32 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   loginUserId: any = 0;
   isView: any;
   isEmailVerified:boolean=true;
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -83,6 +110,11 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
       if (param.isView)
         this.isView = param.isView;
     })
+  }
+
+  changeConfig() {
+    if (this.isView) this.config.editable = false;
+    else this.config.editable = true;
   }
 
   ngOnInit(): void {

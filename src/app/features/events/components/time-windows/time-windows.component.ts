@@ -8,6 +8,7 @@ import { EventTimeSlotTypes, EventTimeWindowTypes } from '../../models/types';
 import { Subscription } from 'rxjs';
 import { cloneDeep } from 'lodash-es';
 import { devLogger } from "../../../../shared/utils";
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-time-windows',
@@ -79,6 +80,32 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
   isPostEventTimesSameAsVenue = false;
   isPostEventTimesSameAsExhibition = false;
   private timeZone = moment.tz.guess();
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(private toaster: ToastrService, private eventService: EventService) {
   }
 

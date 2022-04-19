@@ -82,8 +82,12 @@
           <h3>Event Management Requirements <i class="icon globe"></i></h3>
         </div>
         <div class="field">
-          <textarea rows="3" *ngIf="eventToBeSaved.eventManager" class="textarea" [(ngModel)]="eventToBeSaved.eventManager!.requirements"
-          [ngModelOptions]="{standalone:true}"></textarea>
+          <!-- <textarea rows="3" *ngIf="eventToBeSaved.eventManager" class="textarea" [(ngModel)]="eventToBeSaved.eventManager!.requirements"
+          [ngModelOptions]="{standalone:true}"></textarea> -->
+          <angular-editor *ngIf="eventToBeSaved.eventManager"
+          [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config"
+          [ngModelOptions]="{standalone: true}">
+        </angular-editor>
         </div>
       </div>
       <div class="sixteen wide column saveButtons paddingT0">

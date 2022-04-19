@@ -16,6 +16,7 @@ import { EventService } from '../../services/event.service';
 import { EventFunctionTypes } from '../../models/types';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 import { ActivatedRoute } from '@angular/router';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-event-manager-function',
@@ -44,7 +45,32 @@ export class EventManagerFunctionComponent
 
   @Input() permissionObj: any;
   isPast:any;
-
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    toolbarHiddenButtons: [],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(
     public eventService: EventService,
     public aroute: ActivatedRoute
@@ -53,6 +79,12 @@ export class EventManagerFunctionComponent
       console.log('param...', param);
       this.isPast = param.isPast;
     });
+  }
+  changeConfig(){
+    if(!this.isEventEdit)
+    this.config.editable = false;
+    else
+    this.config.editable = true;
   }
 
   check(){

@@ -9,8 +9,11 @@
                 class="map marker alternate icon"></i></h3>
           </div>
           <div class="field" *ngIf="eventToBeSaved.venues">
-            <textarea rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
-              [ngModelOptions]="{standalone:true}"></textarea>
+            <!-- <textarea rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
+              [ngModelOptions]="{standalone:true}"></textarea> -->
+              <angular-editor
+              [(ngModel)]="eventToBeSaved.venues.notesToAll" [config]="config" [ngModelOptions]="{standalone: true}">
+            </angular-editor>
           </div>
         </div>
       </div>
@@ -144,9 +147,12 @@
                         </h3>
                       </div>
                       <div class="field">
-                        <textarea rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues!.list[i].requirements"
+                        <!-- <textarea rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues!.list[i].requirements"
                           [ngModelOptions]="{standalone:true}">
-                        </textarea>
+                        </textarea> -->
+                        <angular-editor
+                        [(ngModel)]="eventToBeSaved.venues!.list[i].requirements" [config]="config" [ngModelOptions]="{standalone: true}">
+                      </angular-editor>
                       </div>
 
                     </div>

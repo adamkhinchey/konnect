@@ -15,6 +15,7 @@ import {NgxSpinnerModule} from "ngx-spinner";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     UsersModule,
     AppRoutingModule,
     FontAwesomeModule,
-    EditEventsModule
+    EditEventsModule,
+    AngularEditorModule
   ],
   providers: [
     DatePipe

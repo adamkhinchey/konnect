@@ -13,10 +13,13 @@
 
 
           <div class="field" *ngIf="eventToBeSaved.venues">
-            <textarea
+            <!-- <textarea
               *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ; else no_access"
               rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
-              [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit"></textarea>
+              [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit"></textarea> -->
+              <angular-editor  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ; else no_access"
+              [(ngModel)]="eventToBeSaved.venues.notesToAll" [config]="config" (focus)="changeConfig()"
+              [ngModelOptions]="{standalone: true}"></angular-editor>
             <ng-template #no_access>No access</ng-template>
           </div>
         </div>
@@ -174,11 +177,15 @@
                         </h3>
                       </div>
                       <div class="field">
-                        <textarea
+                        <!-- <textarea
                           *ngIf="permissionObj.isClient || permissionObj.isEventManager == 1 || checkVenueViewPermission(i) || (panel?.isViewPermission && permissionObj.isVenue); else no_access"
                           rows="3" class="textarea" [(ngModel)]="panel.requirements"
                           [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit || (panel?.isViewPermission && permissionObj.isVenue)">
-                        </textarea>
+                        </textarea> -->
+                        <angular-editor *ngIf="permissionObj.isClient || permissionObj.isEventManager == 1 || checkVenueViewPermission(i) || (panel?.isViewPermission && permissionObj.isVenue); else no_access"
+                        [(ngModel)]="panel.requirements" [config]="config"
+                        (focus)="changeConfigPermission(panel)" [ngModelOptions]="{standalone: true}">
+                      </angular-editor>
                         <ng-template #no_access>No access
                         </ng-template>
                       </div>
@@ -187,9 +194,13 @@
                         <h3>Venue Internal Notes <i class="building icon"></i></h3>
                       </div>
                       <div class="field">
-                        <textarea *ngIf="(checkVenueViewPermission(i) || (panel?.isViewPermission && permissionObj.isVenue)) && (!permissionObj.isEventManager || !permissionObj.isClient) ; else no_access" rows="3" class="textarea"
+                        <!-- <textarea *ngIf="(checkVenueViewPermission(i) || (panel?.isViewPermission && permissionObj.isVenue)) && (!permissionObj.isEventManager || !permissionObj.isClient) ; else no_access" rows="3" class="textarea"
                           [readonly]="!isVenueEdit" [(ngModel)]="panel!.internalCmpNotes"
-                          [ngModelOptions]="{standalone:true}"></textarea>
+                          [ngModelOptions]="{standalone:true}"></textarea> -->
+                          <angular-editor *ngIf="(checkVenueViewPermission(i) || (panel?.isViewPermission && permissionObj.isVenue)) && (!permissionObj.isEventManager || !permissionObj.isClient) ; else no_access"
+                          [(ngModel)]="panel!.internalCmpNotes" [config]="config"
+                          (focus)="changeConfig()" [ngModelOptions]="{standalone: true}">
+                        </angular-editor>
                         <ng-template #no_access>No access
                         </ng-template>
                       </div>
