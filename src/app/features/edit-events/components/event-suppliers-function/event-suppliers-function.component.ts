@@ -74,6 +74,7 @@ export class EventSuppliersFunctionComponent
   >();
   eventTimeWindowType = EventTimeWindowTypes.Supplier;
   isServiceEdit: boolean = false;
+  isNotesEdit: boolean = false;
   public isServiceEditable: boolean = false;
   editServiceIndex: number = 0;
   @Input() setIsCrew: any;
@@ -104,6 +105,15 @@ export class EventSuppliersFunctionComponent
       },
     ],
   };
+  isUseVenueTime: boolean = false;
+  isPreEventTimesSameAsVenue: boolean = false;
+  isEventTimesSameAsVenue: boolean = false;
+  isPostEventTimesSameAsVenue: boolean = false;
+  preEventTimesCount = 1;
+  eventTimesCount = 1;
+  postEventTimesCount = 1;
+  venueIndexLocal = 1;
+  serviceIndexLocal = 1;
   constructor(
     public eventService: EventService,
     private viewEventService: ViewEventService,
@@ -115,28 +125,105 @@ export class EventSuppliersFunctionComponent
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
       this.isPast = param.isPast;
-      console.log('is past...', this.isPast)
+      console.log('is past...', this.isPast);
     });
   }
 
-  changeConfig(){
-    if(!this.isServiceEdit)
-    this.config.editable = false;
-    else
-    this.config.editable = true;
-  }
-  changeConfigPermission(){
-    if(!this.isServiceEdit || !(this.permissionObj.isClient || this.permissionObj.isEventManager))
-    this.config.editable = false;
-    else
-    this.config.editable = true;
+  listenTimeChange(event: Event, venueIndex: any, serviceIndex: any): void {
+    this.venueIndexLocal = venueIndex;
+    this.serviceIndexLocal = serviceIndex;
+    const target = event.target as HTMLInputElement;
+    const { checked } = target;
+    if (checked) {
+      this.isUseVenueTime = true;
+      this.isPreEventTimesSameAsVenue = true;
+      this.isEventTimesSameAsVenue = true;
+      this.isPostEventTimesSameAsVenue = true;
+      this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
+        serviceIndex
+      ].timeWindows.bumpIn.timings =
+        this.eventToBeSaved!.venues!.list[venueIndex].preEventAccessDateTimes;
+      this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
+        serviceIndex
+      ].timeWindows.bumpOut.timings =
+        this.eventToBeSaved!.venues!.list[venueIndex].postEventAccessDateTimes;
+      this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
+        serviceIndex
+      ].timeWindows.eventTime.timings =
+        this.eventToBeSaved!.venues!.list[venueIndex].eventAccessDateTimes;
+      this.preEventTimesCount =
+        this.eventToBeSaved!.venues!.list[venueIndex].preEventAccessDateTimes
+          .length || 1;
+      this.eventTimesCount =
+        this.eventToBeSaved!.venues!.list[venueIndex].eventAccessDateTimes
+          .length || 1;
+      this.postEventTimesCount =
+        this.eventToBeSaved!.venues!.list[venueIndex].postEventAccessDateTimes
+          .length || 1;
+      // this.copyAssignVenueTime(this.eventTimeSlotTypes.PRE_EVENT_ACCESS, (this.venuePreEventTimes as TimeWindowFormatInterface[]));
+      // this.isPreEventTimesSameAsVenue = true;
+      // this.venuePreEventTimeChangeSub = this.eventService.venuePreEventTimeChange.subscribe((value: VenueTimeChangedSubjectInterface) => {
+      //   if (this.venueIndex === value.venueIndex) {
+      //     this.copyAssignVenueTime(this.eventTimeSlotTypes.PRE_EVENT_ACCESS, value.data);
+      //   }
+      // });
+      // this.copyAssignVenueTime(this.eventTimeSlotTypes.EVENT_ACCESS, (this.venueEventTimes as TimeWindowFormatInterface[]));
+      // this.isEventTimesSameAsVenue = true;
+      // this.venueEventTimeChangeSub = this.eventService.venueEventTimeChange.subscribe((value: VenueTimeChangedSubjectInterface) => {
+      //   if (this.venueIndex === value.venueIndex) {
+      //     this.copyAssignVenueTime(this.eventTimeSlotTypes.EVENT_ACCESS, value.data);
+      //   }
+      // });
+      // this.copyAssignVenueTime(this.eventTimeSlotTypes.POST_EVENT_ACCESS, (this.venuePostEventTimes as TimeWindowFormatInterface[]));
+      // this.isPostEventTimesSameAsVenue = true;
+      // this.venuePostEventTimeChangeSub = this.eventService.venuePostEventTimeChange.subscribe((value: VenueTimeChangedSubjectInterface) => {
+      //   if (this.venueIndex === value.venueIndex) {
+      //     this.copyAssignVenueTime(this.eventTimeSlotTypes.POST_EVENT_ACCESS, value.data);
+      //   }
+      // });
+    } else {
+      this.isUseVenueTime = false;
+      this.isPreEventTimesSameAsVenue = false;
+      this.isEventTimesSameAsVenue = false;
+      this.isPostEventTimesSameAsVenue = false;
+      this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
+        serviceIndex
+      ].timeWindows.bumpIn.timings = [];
+      this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
+        serviceIndex
+      ].timeWindows.bumpOut.timings = [];
+      this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
+        serviceIndex
+      ].timeWindows.eventTime.timings = [];
+      this.preEventTimesCount = 1;
+      this.eventTimesCount = 1;
+      this.postEventTimesCount = 1;
+    }
   }
 
-  check(){
-    if(!this.isServiceEdit && this.isPast == 'false'){
+  editNotes() {
+    this.isNotesEdit = !this.isNotesEdit;
+    this.isServiceEdit = !this.isServiceEdit;
+  }
+
+  changeConfig() {
+    if (!this.isServiceEdit && !this.isNotesEdit) this.config.editable = false;
+    else this.config.editable = true;
+  }
+  changeConfigPermission() {
+    if (
+      !this.isServiceEdit ||
+      !(this.permissionObj.isClient || this.permissionObj.isEventManager)
+    )
+      this.config.editable = false;
+    else this.config.editable = true;
+  }
+
+  check() {
+    if (!this.isServiceEdit && this.isPast == 'false') {
       return true;
-    }else{
-      return false
+    } else {
+      return false;
     }
   }
 
@@ -149,6 +236,7 @@ export class EventSuppliersFunctionComponent
     this.eventService.isEdit = !this.isServiceEdit;
     this.isServiceEdit = !this.isServiceEdit;
     this.isServiceEditable = !this.isServiceEditable;
+    this.isNotesEdit = !this.isNotesEdit;
     this.editServiceIndex = editServiceFn;
   }
 

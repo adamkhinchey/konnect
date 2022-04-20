@@ -8,7 +8,7 @@ import { environment } from '../../../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { FnCmpCntInterface } from '../../models/interfaces';
-import { UserInfoService } from 'src/app/shared/services';
+import { UserInfoService, UserSettingsService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-search-or-invite-fn-cmp-cnt',
@@ -46,7 +46,8 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private companiesService: CompaniesService,
     private toaster: ToastrService,
-    public userInfoService: UserInfoService
+    public userInfoService: UserInfoService,
+    public userSettingsService: UserSettingsService
   ) {
   }
 
@@ -82,8 +83,9 @@ export class SearchOrInviteFnCmpCntComponent implements OnInit, OnDestroy {
   }
 
   getCompanyContacts() {
+    const currentUserSettings = this.userSettingsService.settings.getValue();
     this.cmpCntSearchSub = this.companiesService.getCmpContacts({
-      companyId: this.companyId, isCrew: 0
+      companyId: this.companyId, isCrew: 0,creatorFromCompanyId : currentUserSettings.defaultCompany.id
     }, this.searchKeyWord.trim().length === 1).subscribe(
       value => {
 

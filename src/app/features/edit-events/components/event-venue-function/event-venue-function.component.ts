@@ -54,6 +54,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   eventTimeWindowType = EventTimeWindowTypes.Venue;
   @Output() editVenue = new EventEmitter<boolean>();
   isVenueEdit: boolean = false;
+  isNotesEdit: boolean = false;
   public isVenueEditable: boolean = false;
   @Input() venueContactLists: Array<Array<FnCmpCntInterface>> = [];
   @Input() setIsCrew: any;
@@ -98,8 +99,12 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       this.isPast = param.isPast;
     });
   }
+  editNotes() {
+    this.isNotesEdit = !this.isNotesEdit;
+    this.isVenueEdit = !this.isVenueEdit;
+  }
   changeConfig(){
-    if(!this.isVenueEdit)
+    if(!this.isVenueEdit && !this.isNotesEdit)
     this.config.editable = false;
     else
     this.config.editable = true;
@@ -112,7 +117,6 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   }
   check(){
     if(!this.isVenueEdit && this.isPast == 'false'){
-      console.log('in if...')
       return true;
     }else{
       return false
@@ -153,6 +157,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     this.eventService.isEdit = true;
     this.isVenueEdit = true;
     this.isVenueEditable = true;
+    this.isNotesEdit = true;
   }
 
   ngAfterViewInit(): void {
@@ -373,7 +378,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
 
   checkVenueViewPermission(index:number) {
     let venueContacts =[];
-    if(this.venueContactLists){
+    if(this.venueContactLists && this.venueContactLists.length){
       venueContacts = this.venueContactLists[index].filter(venueContact => venueContact.id == this.authService.getUserInfo().id && venueContact.isCrew == 1);
        if(venueContacts.length>0){
          this.loginUserIsCrew =true;

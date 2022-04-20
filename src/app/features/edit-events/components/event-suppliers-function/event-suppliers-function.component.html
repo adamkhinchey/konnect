@@ -18,7 +18,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   <h3>Notes to All Suppliers<i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                       class="truck icon"></i>
-                      <button class="ui button triggerEditableOptions ml-3 right float-right marT-m15" >Edit </button>
+                      <button *ngIf="(venue.suppliers[0] && venue.suppliers[0].services.length && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
+                      <button *ngIf="(venue.suppliers[0] && venue.suppliers[0].services.length && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="saveAndInvite.emit({venueIndex:venueIndexLocal, serviceIndex:serviceIndexLocal, shouldInvite:true})">Save </button>
                     </h3>
                 </div>
                 <div class="field"
@@ -77,8 +78,9 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                     <div class="flaot-right accordionCheckBox" >
                       <div class="ui checkbox">
-                        <input type="checkbox" class="hidden" tabindex="0">
-                        <label>Use Venue Times</label>
+                        <input [disabled]="!isNotesEdit" type="checkbox" class="hidden" [id]="'times-'+serviceIndex+'_venue_'+venueIndex"
+                        (change)="listenTimeChange($event, venueIndex, serviceIndex)" tabindex="0">
+                      <label [for]="'times-'+serviceIndex+'_venue_'+venueIndex">Use Venue Times</label>
                       </div>
                     </div>
                     
@@ -242,6 +244,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                               <app-time-windows
                                 *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  (permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access"
+                                [preEventTimesCount]="preEventTimesCount"
+                                [eventTimesCount]="eventTimesCount" [postEventTimesCount]="postEventTimesCount"
+                                [isPreEventTimesSameAsVenue]="isPreEventTimesSameAsVenue"
+                                [isEventTimesSameAsVenue]="isEventTimesSameAsVenue"
+                                [isPostEventTimesSameAsVenue]="isPostEventTimesSameAsVenue"
+                                [useVenueTimes]="isUseVenueTime" 
                                 [timeWindowFor]="eventTimeWindowType"
                                 [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                                 [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"

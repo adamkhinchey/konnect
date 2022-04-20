@@ -20,10 +20,13 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
               <div class="sixteen wide column saveButtons paddingT0">
                 <div class="ui divider"></div>
                 <div class="ui grid stackable">
-                  <div class="sixteen wide column right aligned" >
-                    
-                    <button class="ui button triggerEditableOptions halfWidth ml-3" >
+                  <div class="sixteen wide column right aligned">
+
+                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="(venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && !isNotesEdit)" (click)="editNotes()">
                       Edit
+                    </button>
+                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="(venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && isNotesEdit)" (click)="saveAndInvite.emit({venueIndex:venueIndexLocal, exhibitorIndex:exhibitorIndexLocal, shouldInvite:true})">
+                      Save
                     </button>
                   </div>
                 </div>
@@ -121,20 +124,21 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   <div class="accordion-button custom-header" [class.collapsed]="!opened">
                     <button ngbPanelToggle class="p-0 btn btn-link container-fluid text-start ps-0 accordionBtnNew">
                       <i class="dropdown icon"></i>
-                  Exhibitor {{exhibitorIndex + 1}}: <span
-                    *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
+                      Exhibitor {{exhibitorIndex + 1}}: <span
+                        *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
                     </button>
 
-                    <div class="flaot-right accordionCheckBox" >
+                    <div class="flaot-right accordionCheckBox">
                       <div class="ui checkbox">
-                        <input type="checkbox" class="hidden" tabindex="0">
-                        <label>Use Exhibition Times</label>
+                        <input [disabled]="!isNotesEdit" type="checkbox" class="hidden" [id]="'times-'+exhibitorIndex+'_venue_'+venueIndex"
+                        (change)="listenTimeChange($event, venueIndex, exhibitorIndex)" tabindex="0">
+                      <label [for]="'times-'+exhibitorIndex+'_venue_'+venueIndex">Use Exhibition Times</label>
                       </div>
                     </div>
-                    
+
                   </div>
                 </ng-template>
-                
+
                 <!-- <ng-template ngbPanelTitle>
                   
 
@@ -309,7 +313,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                               <app-time-windows
                                 *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access"
-                                [timeWindowFor]="eventTimeWindowType"
+                                [preEventTimesCount]="preEventTimesCount" [eventTimesCount]="eventTimesCount"
+                                [postEventTimesCount]="postEventTimesCount"
+                                [isPreEventTimesSameAsExhibition]="isPreEventTimesSameAsExhibition"
+                                [isEventTimesSameAsExhibition]="isEventTimesSameAsExhibition"
+                                [isPostEventTimesSameAsExhibition]="isPostEventTimesSameAsExhibition"
+                                [useVenueTimes]="isUseVenueTime" [timeWindowFor]="eventTimeWindowType"
                                 [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                                 [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
                                 [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
@@ -371,8 +380,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   [ngModelOptions]="{standalone:true}"></textarea> -->
                                 <angular-editor
                                   *ngIf="(permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access"
-                                  [(ngModel)]="exhibitor.internalCmpNotes" [config]="config"
-                                  (focus)="changeConfig()" [ngModelOptions]="{standalone: true}">
+                                  [(ngModel)]="exhibitor.internalCmpNotes" [config]="config" (focus)="changeConfig()"
+                                  [ngModelOptions]="{standalone: true}">
                                 </angular-editor>
                                 <ng-template #no_access>No access
                                 </ng-template>

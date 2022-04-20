@@ -8,6 +8,8 @@
               <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
               <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px"> </i>
               <i class="map marker alternate icon"></i>
+              <button *ngIf="(eventToBeSaved.venues && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
+              <button *ngIf="(eventToBeSaved.venues && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" >Save </button>
             </h3>
           </div>
 
