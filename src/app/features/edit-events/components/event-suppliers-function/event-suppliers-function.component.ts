@@ -202,8 +202,8 @@ export class EventSuppliersFunctionComponent
   }
 
   editNotes() {
-    this.isNotesEdit = !this.isNotesEdit;
-    this.isServiceEdit = !this.isServiceEdit;
+    this.isNotesEdit = true;
+    // this.isServiceEdit = !this.isServiceEdit;
   }
 
   changeConfig() {
@@ -212,7 +212,7 @@ export class EventSuppliersFunctionComponent
   }
   changeConfigPermission() {
     if (
-      !this.isServiceEdit ||
+      (!this.isServiceEdit) &&
       !(this.permissionObj.isClient || this.permissionObj.isEventManager)
     )
       this.config.editable = false;
@@ -236,7 +236,7 @@ export class EventSuppliersFunctionComponent
     this.eventService.isEdit = !this.isServiceEdit;
     this.isServiceEdit = !this.isServiceEdit;
     this.isServiceEditable = !this.isServiceEditable;
-    this.isNotesEdit = !this.isNotesEdit;
+    this.isNotesEdit = true;
     this.editServiceIndex = editServiceFn;
   }
 

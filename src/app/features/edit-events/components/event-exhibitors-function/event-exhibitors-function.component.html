@@ -22,10 +22,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 <div class="ui grid stackable">
                   <div class="sixteen wide column right aligned">
 
-                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="(venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && !isNotesEdit)" (click)="editNotes()">
+                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="(permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor) && (venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && !isNotesEdit)" (click)="editNotes()">
                       Edit
                     </button>
-                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="(venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && isNotesEdit)" (click)="saveAndInvite.emit({venueIndex:venueIndexLocal, exhibitorIndex:exhibitorIndexLocal, shouldInvite:true})">
+                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="(permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor) && (venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && isNotesEdit)" (click)="saveAndInvite.emit({venueIndex:venueIndexLocal, exhibitorIndex:exhibitorIndexLocal, shouldInvite:true})">
                       Save
                     </button>
                   </div>
@@ -128,7 +128,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                         *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
                     </button>
 
-                    <div class="flaot-right accordionCheckBox">
+                    <div class="flaot-right accordionCheckBox" *ngIf="!eventData.eventData.isDeleted && !checkPermission(exhibitor.isStaffOrAdmin)">
                       <div class="ui checkbox">
                         <input [disabled]="!isNotesEdit" type="checkbox" class="hidden" [id]="'times-'+exhibitorIndex+'_venue_'+venueIndex"
                         (change)="listenTimeChange($event, venueIndex, exhibitorIndex)" tabindex="0">

@@ -18,8 +18,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   <h3>Notes to All Suppliers<i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                       class="truck icon"></i>
-                      <button *ngIf="(venue.suppliers[0] && venue.suppliers[0].services.length && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
-                      <button *ngIf="(venue.suppliers[0] && venue.suppliers[0].services.length && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="saveAndInvite.emit({venueIndex:venueIndexLocal, serviceIndex:serviceIndexLocal, shouldInvite:true})">Save </button>
+                      <button *ngIf="(permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager ||  permissionObj.isService) && (venue.suppliers[0] && venue.suppliers[0].services.length && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
+                      <button *ngIf="(permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager ||  permissionObj.isService) && (venue.suppliers[0] && venue.suppliers[0].services.length && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="saveAndInvite.emit({venueIndex:venueIndexLocal, serviceIndex:serviceIndexLocal, shouldInvite:true})">Save </button>
                     </h3>
                 </div>
                 <div class="field"
@@ -76,7 +76,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                       Service {{serviceIndex + 1}}: <span>{{service?.name}} </span>
                     </button>
 
-                    <div class="flaot-right accordionCheckBox" >
+                    <div class="flaot-right accordionCheckBox" *ngIf="(!eventData.eventData.isDeleted && !checkPermission(service.isStaffOrAdmin))">
                       <div class="ui checkbox">
                         <input [disabled]="!isNotesEdit" type="checkbox" class="hidden" [id]="'times-'+serviceIndex+'_venue_'+venueIndex"
                         (change)="listenTimeChange($event, venueIndex, serviceIndex)" tabindex="0">

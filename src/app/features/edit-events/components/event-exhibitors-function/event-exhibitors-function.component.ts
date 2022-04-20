@@ -124,7 +124,7 @@ export class EventExhibitorsFunctionComponent
 
   editNotes() {
     this.isNotesEdit = !this.isNotesEdit;
-    this.isExhibitorEdit = !this.isExhibitorEdit;
+    // this.isExhibitorEdit = !this.isExhibitorEdit;
   }
 
   listenTimeChange(event: Event, venueIndex: any, exhibitorIndex: any): void {
@@ -194,7 +194,7 @@ export class EventExhibitorsFunctionComponent
   }
   changeConfigPermission() {
     if (
-      !this.isExhibitorEdit ||
+      (!this.isExhibitorEdit) &&
       !(this.permissionObj.isClient || this.permissionObj.isEventManager)
     )
       this.config.editable = false;
@@ -213,7 +213,7 @@ export class EventExhibitorsFunctionComponent
     this.eventService.isEdit = !this.isExhibitorEdit;
     this.isExhibitorEdit = !this.isExhibitorEdit;
     this.isExhibitorEditable = !this.isExhibitorEditable;
-    this.isNotesEdit = !this.isNotesEdit;
+    this.isNotesEdit = true;
     // this.editVenue.emit(this.isVenueEdit);
   }
 
