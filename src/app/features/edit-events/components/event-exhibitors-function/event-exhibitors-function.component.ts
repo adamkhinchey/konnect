@@ -194,8 +194,7 @@ export class EventExhibitorsFunctionComponent
   }
   changeConfigPermission() {
     if (
-      (!this.isExhibitorEdit) &&
-      !(this.permissionObj.isClient || this.permissionObj.isEventManager)
+      (!this.isExhibitorEdit)
     )
       this.config.editable = false;
     else this.config.editable = true;

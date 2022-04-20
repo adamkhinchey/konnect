@@ -212,8 +212,7 @@ export class EventSuppliersFunctionComponent
   }
   changeConfigPermission() {
     if (
-      (!this.isServiceEdit) &&
-      !(this.permissionObj.isClient || this.permissionObj.isEventManager)
+      !this.isServiceEdit
     )
       this.config.editable = false;
     else this.config.editable = true;

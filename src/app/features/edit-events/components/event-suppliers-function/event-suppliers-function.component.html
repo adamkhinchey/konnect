@@ -300,7 +300,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             [ngModelOptions]="{standalone:true}"></textarea> -->
                             <angular-editor *ngIf="(permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access"
                             [(ngModel)]="service.internalCmpNotes" [config]="config"
-                            (focus)="changeConfig()" [ngModelOptions]="{standalone: true}">
+                            (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
                             </angular-editor>
                             <ng-template #no_access>No access
                             </ng-template>
