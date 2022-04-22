@@ -100,12 +100,25 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
             <div class="sixteen wide column">
               <div class="marginT10"></div>
               <!-- <div *ngIf="(venue.exhibitorList[0] && !venue.exhibitorList[0].exhibitors.length) || isExhibitorEdit" -->
-              <div *ngIf="permissionObj.isClient || permissionObj.isEventManager"
-                class="ui button compact addNewService addToPanel" (click)="addExhibitor(venue, venueIndex)">
+            
+              <h3 id="servicesAnchor" class="ui dividing header">Exhibitors
+
+                <div class="float-right btnRightSec marT-m10" >
+                  <div class="ui button compact addNewService mr-10px" (click)="importExport()">
+                  <i class="upload icon"></i>
+                  <!-- addToPanel -->
+                  <span>Bulk Import/Export</span>
+                </div>
+
+                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager"
+                class="ui button compact addNewService" (click)="addExhibitor(venue, venueIndex)">
                 <i class="plus circle icon"></i>
                 <span>Add Exhibitor</span>
               </div>
-              <h3 id="servicesAnchor" class="ui dividing header">Exhibitors</h3>
+              
+                </div>
+
+              </h3>
               <div class="marginT10"></div>
             </div>
           </div>

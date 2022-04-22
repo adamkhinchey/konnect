@@ -34,7 +34,7 @@ import { EventTimeWindowTypes } from '../../models/types';
 import { ViewEventService } from '../../services/view-event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
-import { ConfirmationDialogComponent } from 'src/app/shared/components';
+import { ConfirmationDialogComponent, ImportExportComponent } from 'src/app/shared/components';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
@@ -224,6 +224,24 @@ export class EventSuppliersFunctionComponent
     } else {
       return false;
     }
+  }
+
+  importExport() {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+    };
+    const modalRef = this.modalService.open(
+      ImportExportComponent,
+      ngbModalOptions
+    );
+    modalRef.result
+      .then((result: any) => {
+        if (result) {
+         
+        }
+      })
+      .catch((result) => {});
   }
 
   ngOnChanges(changes: SimpleChanges) {
