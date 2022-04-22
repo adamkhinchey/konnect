@@ -21,6 +21,7 @@ import { ImageFallbackDirective } from './directives/image-fallback.directive';
 import { DateFilterPipe } from './pipes/dateFilter.pipe';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { ImportExportComponent } from './components/import-export/import-export.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     WaitingForApprovalComponent,
     ImageFallbackDirective,
     ConfirmationDialogComponent,
+    ImportExportComponent,
    ],
   imports: [
     CommonModule,
@@ -58,7 +60,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     DateFilterPipe,
     InviteColleaguesComponent,
     WaitingForApprovalComponent,
-    ImageFallbackDirective
+    ImageFallbackDirective,
+    ImportExportComponent,
   ],
   providers: [
     GetRegionAndCountriesService,
