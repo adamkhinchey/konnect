@@ -1,0 +1,15 @@
+.importBtn + input { position: absolute; height: 1px; width: 1px; overflow: hidden; opacity: 0; }
+.importExportBtn { padding: 10px 20px; }
+.importExportBtn .btn.btn-primary {
+	width: 100%;
+	margin: 15px 0%;
+	padding: 8px 10px;
+}
+
+.form-control[type="file"]:not(:disabled):not([readonly]) {
+    cursor: pointer;
+}
+.form-control[type="file"] {
+overflow: hidden;
+padding: 3px;
+}
