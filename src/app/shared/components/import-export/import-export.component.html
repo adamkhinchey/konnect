@@ -1,0 +1,43 @@
+  
+  <div class="modal-header">
+    <h4 class="modal-title">Bulk Import/Export</h4>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button> -->
+</div>
+<div class="modal-body">
+     
+     <div class="importExportBtn" >
+
+
+        <!-- <div class="mb-3">
+            <label for="formFileSm" class="form-label">Import file from</label>
+            <input class="form-control form-control-sm" id="formFileSm" type="file">
+          </div> -->
+          <label for="formFileSm" class="form-label">Import file from</label>
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+              <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-warning" type="button" id="inputGroupFileAddon04">Button</button>
+            </div>
+          </div>
+
+          <a href="#" class="mt-3" > <i class="download icon"></i> Download sample file </a>
+          
+          <hr>
+
+         <a href="#" class="btn btn-primary" > <i class="download icon"></i> Export data </a>
+<!--     
+         <label for="import" class="btn btn-info importBtn" ><i class="upload icon"></i> Export </label>
+         <input type="file" id="import" /> -->
+     </div>
+
+
+</div>
+<div class="modal-footer">
+    <!-- <button type="button" class="ui button positive" >Cancel</button> -->
+    <button type="button" class="ui button basic blue negative ml-2"  (click)="dismiss()">Cancel</button>
+</div>
