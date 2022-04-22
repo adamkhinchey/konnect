@@ -44,7 +44,17 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
     translate: 'no',
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
-    toolbarHiddenButtons: [],
+    toolbarHiddenButtons: [
+      [
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
+    ],
     customClasses: [
       {
         name: 'quote',
@@ -120,7 +130,7 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
         exhibitorIndex
       ].timeWindows.eventTime.timings = [];
 
-      
+
       this.preEventTimesCount = 1;
       this.eventTimesCount = 1;
       this.postEventTimesCount = 1;
