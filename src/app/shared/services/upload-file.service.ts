@@ -80,10 +80,10 @@ export class UploadFileService {
           signedUploadUrl = value.signedRequest;
           url = value.url;
         } else {
-          this.toaster.error('Failed to upload profile image. Please try again!');
+          this.toaster.error('Failed to upload file. Please try again!');
         }
       }, err => {
-        this.toaster.error('Failed to upload profile image. Please try again!');
+        this.toaster.error('Failed to upload file. Please try again!');
         devLogger('error', err);
       }, () => {
         if (signedUploadUrl && url) {
@@ -127,6 +127,7 @@ export class UploadFileService {
         this.httpErrHandler.processError(true)
       )
       .subscribe(value => {
+        console.log('value...',value)
         cb(url);
       });
   }

@@ -34,7 +34,10 @@ import { EventTimeWindowTypes } from '../../models/types';
 import { ViewEventService } from '../../services/view-event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
-import { ConfirmationDialogComponent, ImportExportComponent } from 'src/app/shared/components';
+import {
+  ConfirmationDialogComponent,
+  ImportExportComponent,
+} from 'src/app/shared/components';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
@@ -96,8 +99,8 @@ export class EventSuppliersFunctionComponent
         'insertVideo',
         'insertHorizontalRule',
         'removeFormat',
-        'toggleEditorMode'
-      ]
+        'toggleEditorMode',
+      ],
     ],
     customClasses: [
       {
@@ -221,10 +224,7 @@ export class EventSuppliersFunctionComponent
     else this.config.editable = true;
   }
   changeConfigPermission() {
-    if (
-      !this.isServiceEdit
-    )
-      this.config.editable = false;
+    if (!this.isServiceEdit) this.config.editable = false;
     else this.config.editable = true;
   }
 
@@ -245,10 +245,11 @@ export class EventSuppliersFunctionComponent
       ImportExportComponent,
       ngbModalOptions
     );
+    modalRef.componentInstance.type = 'services';
     modalRef.result
       .then((result: any) => {
         if (result) {
-         
+          console.log('result...', result);
         }
       })
       .catch((result) => {});
