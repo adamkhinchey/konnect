@@ -952,3 +952,15 @@ select.ui.dropdown {
 .marT-m15 { margin-top: -15px !important; }
 .marT-m10 { margin-top: -10px !important; }
 .ui.button.mr-10px { margin-right: 10px !important; }
+
+.angular-editor-textarea > * { line-height: normal !important; }
+.angular-editor-textarea {
+	margin-top: 0 !important;
+}
+.angular-editor .angular-editor-wrapper .angular-editor-textarea {
+	border-top: none !important;
+}
+.angular-editor-toolbar {
+	background-color: #fff !important;
+	border-bottom: none !important;
+}
