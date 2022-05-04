@@ -91,6 +91,8 @@ export class EventSuppliersFunctionComponent
     translate: 'no',
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
     toolbarHiddenButtons: [
       [
         'link',
@@ -156,14 +158,55 @@ export class EventSuppliersFunctionComponent
         serviceIndex
       ].timeWindows.bumpIn.timings =
         this.eventToBeSaved!.venues!.list[venueIndex].preEventAccessDateTimes;
+      for (
+        let i = 0;
+        i <
+        this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
+          serviceIndex
+        ].timeWindows.bumpIn.timings.length;
+        i++
+      ) {
+        this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
+          serviceIndex
+        ].timeWindows.bumpIn.timings[i].notes = '';
+      }
+
       this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
         serviceIndex
       ].timeWindows.bumpOut.timings =
         this.eventToBeSaved!.venues!.list[venueIndex].postEventAccessDateTimes;
+
+      for (
+        let i = 0;
+        i <
+        this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
+          serviceIndex
+        ].timeWindows.bumpOut.timings.length;
+        i++
+      ) {
+        this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
+          serviceIndex
+        ].timeWindows.bumpOut.timings[i].notes = '';
+      }
+
       this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
         serviceIndex
       ].timeWindows.eventTime.timings =
         this.eventToBeSaved!.venues!.list[venueIndex].eventAccessDateTimes;
+
+      for (
+        let i = 0;
+        i <
+        this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
+          serviceIndex
+        ].timeWindows.eventTime.timings.length;
+        i++
+      ) {
+        this.eventToBeSaved!.venues!.list[venueIndex].suppliers[0].services[
+          serviceIndex
+        ].timeWindows.eventTime.timings[i].notes = '';
+      }
+
       this.preEventTimesCount =
         this.eventToBeSaved!.venues!.list[venueIndex].preEventAccessDateTimes
           .length || 1;
@@ -236,7 +279,7 @@ export class EventSuppliersFunctionComponent
     }
   }
 
-  importExport() {
+  importExport(venueIndex: any) {
     let ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
@@ -246,10 +289,57 @@ export class EventSuppliersFunctionComponent
       ngbModalOptions
     );
     modalRef.componentInstance.type = 'services';
+
     modalRef.result
       .then((result: any) => {
-        if (result) {
+        if (result && result.url) {
           console.log('result...', result);
+          let data = {
+            eventId: this.eventData.eventData.eventId,
+            tabType: 'services',
+            actionType: 'import',
+            venueId: this.eventToBeSaved!.venues!.list[venueIndex].venueId,
+            url: result.url,
+          };
+          this.eventService.importExport(data).subscribe(
+            (res: any) => {
+              console.log(res);
+              if(res.code==200){
+                this.router.navigate(['/']);
+              }
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
+        } else if (result) {
+          console.log('result else...', result);
+          console.log('event data...', this.eventData);
+          let data = {
+            eventId: this.eventData.eventData.eventId,
+            tabType: 'services',
+            actionType: 'export',
+            venueId: this.eventToBeSaved!.venues!.list[venueIndex].venueId,
+            url: '',
+          };
+          this.eventService.importExport(data).subscribe(
+            (res: any) => {
+              console.log(res);
+              if(res.code==200){
+                window.open(res.data.uploadRes.Location, '_blank');
+                setTimeout(() => {
+                  this.eventService.deleteBucketFile(res.data.uploadRes.key).subscribe((deleteRes:any)=>{
+                   console.log(deleteRes);
+                  },err=>{
+                    console.log(err);
+                  })
+                }, 5000);
+              }
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
         }
       })
       .catch((result) => {});

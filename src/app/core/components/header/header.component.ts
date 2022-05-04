@@ -1,14 +1,18 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { AuthService } from "../../services/auth.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { ActivatedUserModuleRouteService, UserSettingsService } from "../../../shared/services";
-import { devLogger } from "../../../shared/utils";
+import { AuthService } from '../../services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedUserModuleRouteService,
+  UserSettingsService,
+} from '../../../shared/services';
+import { devLogger } from '../../../shared/utils';
 import { WINDOW } from 'ngx-window-token';
-import { UserSettingsInterface } from "../../../shared/models";
-import { take } from "rxjs/operators";
-import { Subscription } from "rxjs";
+import { UserSettingsInterface } from '../../../shared/models';
+import { take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -16,17 +20,17 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./header.component.scss'],
   animations: [
     trigger('fade', [
-      transition('void => active', [ // using status here for transition
+      transition('void => active', [
+        // using status here for transition
         style({ opacity: 0 }),
-        animate(1000, style({ opacity: 1 }))
+        animate(1000, style({ opacity: 1 })),
       ]),
-      transition('* => void', [
-        animate(1000, style({ opacity: 0 }))
-      ])
-    ])
-  ]
+      transition('* => void', [animate(1000, style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  headerName: any = environment.headerName;
   @Input() showHeader = false;
   status: boolean = false;
   status2: boolean = false;
@@ -36,10 +40,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   activeMenu = '';
   isView = false;
-  isViewPermission =false;
-  isEmailVerified:boolean | undefined =true
+  isViewPermission = false;
+  isEmailVerified: boolean | undefined = true;
   private userSettingsSub: Subscription | undefined;
-
 
   clickEvent() {
     this.status = !this.status;
@@ -69,26 +72,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private actUsrMdlRouteService: ActivatedUserModuleRouteService,
     public userSettingsService: UserSettingsService
   ) {
-    this.route.queryParams.subscribe(param => {
-      if (param.isView)
-        this.isView = param.isView;
-    })
-
+    this.route.queryParams.subscribe((param) => {
+      if (param.isView) this.isView = param.isView;
+    });
   }
 
   ngOnInit(): void {
-    this.userSettingsSub = this.userSettingsService.settings.subscribe((value) => {
-      devLogger('log', { settingssss: value });
-      this.isEmailVerified =value.isEmailVerified;
-      if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany && value.isEmailVerified) {
-        this.isApproved = true;
-
+    this.userSettingsSub = this.userSettingsService.settings.subscribe(
+      (value) => {
+        devLogger('log', { settingssss: value });
+        this.isEmailVerified = value.isEmailVerified;
+        if (
+          value &&
+          value.associatedCompanies &&
+          value.associatedCompanies.length > 0 &&
+          value.defaultCompany &&
+          value.isEmailVerified
+        ) {
+          this.isApproved = true;
+        }
+        if (
+          value &&
+          value.associatedCompanies &&
+          value.associatedCompanies.length > 0 &&
+          value.defaultCompany
+        ) {
+          this.isViewPermission = true;
+        }
       }
-      if (value && value.associatedCompanies && value.associatedCompanies.length > 0 && value.defaultCompany){
-        this.isViewPermission = true;
-      }
-    });
-
+    );
   }
 
   trackByDefCmpFn(index: any, item: any): any {
@@ -99,8 +111,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (!this.isView) {
       event.preventDefault();
       this.router.navigate(['home', 'edit-profile']);
-      var element = document.getElementById("bodyMain");
-      element!.classList.remove("pushable");
+      var element = document.getElementById('bodyMain');
+      element!.classList.remove('pushable');
       return true;
     }
     return false;
@@ -112,8 +124,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userSettingsService.reset();
     this.isApproved = false;
     this.hideAllMenus();
-    var element = document.getElementById("bodyMain");
-    element!.classList.remove("pushable");
+    var element = document.getElementById('bodyMain');
+    element!.classList.remove('pushable');
   }
 
   hideAllMenus(): void {
@@ -127,7 +139,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (currentUserSettings.defaultCompany.id !== company.id) {
       this.userSettingsService.settings.next({
         ...currentUserSettings,
-        defaultCompany: company
+        defaultCompany: company,
       });
     }
   }

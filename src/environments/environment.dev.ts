@@ -38,5 +38,6 @@ export const environment = {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   ],
   siteURL,
-  eventContactLabels
+  eventContactLabels,
+  headerName:'Konnect'
 };

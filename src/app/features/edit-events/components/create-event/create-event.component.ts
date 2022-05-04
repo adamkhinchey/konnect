@@ -1457,6 +1457,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         devLogger('log', { beforeFilterVenExh: this.eventToBeSaved.venues?.list });
         for (const venuesList of this.eventToBeSaved.venues?.list) {
+          console.log('venues list...', venuesList)
+          if(cloneDeep(venuesList.exhibitorList[0] && venuesList.exhibitorList[0]!.notesToAll)){
+            console.log('in condition');
+            venuesList.notesToAllExGlobal = venuesList.exhibitorList[0]?.notesToAll;
+            venuesList.timeWindowsToAllExGlobal = venuesList.exhibitorList[0]?.timeWindowsToAll;
+          }
           const exhibitors = venuesList.exhibitorList[0]?.exhibitors;
           if (exhibitors) {
             venuesList.exhibitorList[0].exhibitors = venuesList.exhibitorList[0]?.exhibitors

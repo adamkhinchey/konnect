@@ -90,15 +90,15 @@
           <div class="ui grid">
             <div class="sixteen wide column">
               <span>Notes</span>
-              <!-- <textarea class="textarea notes" [(ngModel)]="preEventNotes"
+              <textarea class="textarea notes" [(ngModel)]="preEventNotes"
                         ngDefaultControl
                         rows="3"
                         [ngModelOptions]="{standalone:true}"
                         (ngModelChange)="populatePreEventNotes($event)">
-                </textarea> -->
-              <angular-editor [(ngModel)]="preEventNotes" [config]="config" [ngModelOptions]="{standalone: true}"
+                </textarea>
+              <!-- <angular-editor [(ngModel)]="preEventNotes" [config]="config" [ngModelOptions]="{standalone: true}"
                 (ngModelChange)="populatePreEventNotes($event)">
-              </angular-editor>
+              </angular-editor> -->
               <div *ngIf="!isPreEventTimesSameAsVenue" class="ui circular compact mini basic button"
                 (click)="addMorePreEventDateTime()">
                 <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[0]}} date
@@ -197,14 +197,14 @@
           <div class="ui grid">
             <div class="sixteen wide column">
               <span>Notes</span>
-              <!-- <textarea class="textarea notes" [(ngModel)]="eventNotes"
+              <textarea class="textarea notes" [(ngModel)]="eventNotes"
                         ngDefaultControl
                         rows="3"
                         [ngModelOptions]="{standalone:true}"
-                        (ngModelChange)="populateEventNotes($event)"></textarea> -->
-              <angular-editor [(ngModel)]="eventNotes" [config]="config" [ngModelOptions]="{standalone: true}"
+                        (ngModelChange)="populateEventNotes($event)"></textarea>
+              <!-- <angular-editor [(ngModel)]="eventNotes" [config]="config" [ngModelOptions]="{standalone: true}"
                 (ngModelChange)="populateEventNotes($event)">
-              </angular-editor>
+              </angular-editor> -->
               <div *ngIf="!isEventTimesSameAsVenue" class="ui circular compact mini basic button"
                 (click)="addMoreEventDateTime()">
                 <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[1]}} date
@@ -305,11 +305,11 @@
           <div class="ui grid">
             <div class="sixteen wide column">
               <span>Notes</span>
-              <!-- <textarea class="textarea notes" [(ngModel)]="postEventNotes" ngDefaultControl rows="3"
-                [ngModelOptions]="{standalone:true}" (ngModelChange)="populatePostEventNotes($event)"></textarea> -->
-              <angular-editor [(ngModel)]="postEventNotes" [config]="config" [ngModelOptions]="{standalone: true}"
+              <textarea class="textarea notes" [(ngModel)]="postEventNotes" ngDefaultControl rows="3"
+                [ngModelOptions]="{standalone:true}" (ngModelChange)="populatePostEventNotes($event)"></textarea>
+              <!-- <angular-editor [(ngModel)]="postEventNotes" [config]="config" [ngModelOptions]="{standalone: true}"
                 (ngModelChange)="populatePostEventNotes($event)">
-              </angular-editor>
+              </angular-editor> -->
               <div *ngIf="!isPostEventTimesSameAsVenue" class="ui circular compact mini basic button"
                 (click)="addMorePostEventDateTime()">
                 <i class="plus circle icon"></i>Add {{windowLabels && windowLabels[2]}} date

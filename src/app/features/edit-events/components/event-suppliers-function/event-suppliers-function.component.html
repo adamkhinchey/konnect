@@ -50,8 +50,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
             <h3 id="servicesAnchor" class="ui dividing header">
               Services
-              <div class="float-right btnRightSec marT-m10" >
-                <div class="ui button compact addNewService mr-10px" (click)="importExport()">
+              <div class="float-right btnRightSec marT-m10" *ngIf="permissionObj.isEventManager">
+                <div class="ui button compact addNewService mr-10px" (click)="importExport(venueIndex)">
                 <i class="upload icon"></i>
                 <span>Bulk Import/Export</span>
               </div>

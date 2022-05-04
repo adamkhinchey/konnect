@@ -58,6 +58,8 @@ export class EventClientFunctionComponent
     translate: 'no',
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
     toolbarHiddenButtons: [
       [
         'link',
@@ -66,8 +68,8 @@ export class EventClientFunctionComponent
         'insertVideo',
         'insertHorizontalRule',
         'removeFormat',
-        'toggleEditorMode'
-      ]
+        'toggleEditorMode',
+      ],
     ],
     customClasses: [
       {
@@ -95,18 +97,16 @@ export class EventClientFunctionComponent
     this.eventService.isEdit = false;
   }
 
-  changeConfig(){
-    if(!this.isClientEdit)
-    this.config.editable = false;
-    else
-    this.config.editable = true;
+  changeConfig() {
+    if (!this.isClientEdit) this.config.editable = false;
+    else this.config.editable = true;
   }
 
-  check(){
-    if(!this.isClientEdit && this.isPast == 'false'){
+  check() {
+    if (!this.isClientEdit && this.isPast == 'false') {
       return true;
-    }else{
-      return false
+    } else {
+      return false;
     }
   }
 
@@ -167,7 +167,7 @@ export class EventClientFunctionComponent
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
       this.isPast = param.isPast;
-      console.log('isPast...', this.isPast)
+      console.log('isPast...', this.isPast);
     });
   }
 

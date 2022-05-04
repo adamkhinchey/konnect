@@ -90,6 +90,8 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
     translate: 'no',
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
     toolbarHiddenButtons: [
       [
         'link',
@@ -597,7 +599,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
         this.emptyPreEventTimes();
         timeWindows.forEach(timeSlot => {
           this.preEventTimes.push({
-            notes: timeSlot.notes,
+            notes: '', //notes: timeSlot.notes,
             endDateTime: timeSlot.endDateTime,
             startDateTime: timeSlot.startDateTime,
           });
@@ -607,7 +609,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
         this.emptyEventTimes();
         timeWindows.forEach(timeSlot => {
           this.eventTimes.push({
-            notes: timeSlot.notes,
+            notes: '', //notes: timeSlot.notes,
             endDateTime: timeSlot.endDateTime,
             startDateTime: timeSlot.startDateTime
           });
@@ -617,7 +619,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
         this.emptyPostEventTimes();
         timeWindows.forEach(timeSlot => {
           this.postEventTimes.push({
-            notes: timeSlot.notes,
+            notes: '', //notes: timeSlot.notes,
             endDateTime: timeSlot.endDateTime,
             startDateTime: timeSlot.startDateTime
           });

@@ -26,6 +26,7 @@ export class FileUploadComponent implements OnInit {
     const target = event.target as HTMLInputElement;
     if (target.files && target.files.length > 0) {
       const file: File = target.files[0];
+      console.log('file...', file)
       if (this.satisfiesConfig(file)) {
         this.fileChange.emit(target.files[0]);
         this.inputForm?.nativeElement.reset();

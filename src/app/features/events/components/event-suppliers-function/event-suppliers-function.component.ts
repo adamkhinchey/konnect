@@ -68,6 +68,8 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     translate: 'no',
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
     toolbarHiddenButtons: [
       [
         'link',

@@ -39,8 +39,15 @@ export class ImportExportComponent implements OnInit {
         // this.spinner.hide();
         let name = event.name;
         this.fileName = name.replace(/ /g, '_');
-        this.activeModal.close(url);
+        this.activeModal.close({url: url});
       });
     }
   }
+
+  exportData(){
+    this.activeModal.close(true);
+  }
+
 }
+
+

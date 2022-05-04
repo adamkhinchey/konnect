@@ -41,4 +41,5 @@ export const environment = {
   ],
   siteURL,
   eventContactLabels,
+  headerName:'Konnect'
 };

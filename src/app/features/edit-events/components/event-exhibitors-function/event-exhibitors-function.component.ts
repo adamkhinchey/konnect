@@ -83,6 +83,8 @@ export class EventExhibitorsFunctionComponent
     translate: 'no',
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
     toolbarHiddenButtons: [
       [
         'link',
@@ -154,18 +156,59 @@ export class EventExhibitorsFunctionComponent
         this.eventToBeSaved!.venues!.list[
           venueIndex
         ].exhibitorList[0].timeWindowsToAll.bumpIn.timings;
+        for (
+          let i = 0;
+          i <
+          this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
+            exhibitorIndex
+          ].timeWindows.bumpIn.timings.length;
+          i++
+        ) {
+          this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
+            exhibitorIndex
+          ].timeWindows.bumpIn.timings[i].notes = '';
+        }
+
+
       this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
         exhibitorIndex
       ].timeWindows.bumpOut.timings =
         this.eventToBeSaved!.venues!.list[
           venueIndex
         ].exhibitorList[0].timeWindowsToAll.bumpOut.timings;
+        for (
+          let i = 0;
+          i <
+          this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
+            exhibitorIndex
+          ].timeWindows.bumpOut.timings.length;
+          i++
+        ) {
+          this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
+            exhibitorIndex
+          ].timeWindows.bumpOut.timings[i].notes = '';
+        }
+
+
       this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
         exhibitorIndex
       ].timeWindows.eventTime.timings =
         this.eventToBeSaved!.venues!.list[
           venueIndex
         ].exhibitorList[0].timeWindowsToAll.eventTime.timings;
+        for (
+          let i = 0;
+          i <
+          this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
+            exhibitorIndex
+          ].timeWindows.eventTime.timings.length;
+          i++
+        ) {
+          this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
+            exhibitorIndex
+          ].timeWindows.eventTime.timings[i].notes = '';
+        }
+
 
       this.preEventTimesCount =
         this.eventToBeSaved!.venues!.list[venueIndex].preEventAccessDateTimes
@@ -218,7 +261,7 @@ export class EventExhibitorsFunctionComponent
     }
   }
 
-  importExport() {
+  importExport(venueIndex:any) {
     let ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
@@ -227,10 +270,57 @@ export class EventExhibitorsFunctionComponent
       ImportExportComponent,
       ngbModalOptions
     );
+    modalRef.componentInstance.type = 'exhibitors';
     modalRef.result
       .then((result: any) => {
-        if (result) {
-         
+        if (result && result.url) {
+          console.log('result...', result);
+          let data = {
+            eventId: this.eventData.eventData.eventId,
+            tabType: 'exhibitors',
+            actionType: 'import',
+            venueId: this.eventToBeSaved!.venues!.list[venueIndex].venueId,
+            url: result.url,
+          };
+          this.eventService.importExport(data).subscribe(
+            (res: any) => {
+              console.log(res);
+              if(res.code==200){
+                this.router.navigate(['/']);
+              }
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
+        } else if (result) {
+          console.log('result else...', result);
+          console.log('event data...', this.eventData);
+          let data = {
+            eventId: this.eventData.eventData.eventId,
+            tabType: 'exhibitors',
+            actionType: 'export',
+            venueId: this.eventToBeSaved!.venues!.list[venueIndex].venueId,
+            url: '',
+          };
+          this.eventService.importExport(data).subscribe(
+            (res: any) => {
+              console.log(res);
+              if(res.code==200){
+                window.open(res.data.uploadRes.Location, '_blank');
+                setTimeout(() => {
+                  this.eventService.deleteBucketFile(res.data.uploadRes.key).subscribe((deleteRes:any)=>{
+                   console.log(deleteRes);
+                  },err=>{
+                    console.log(err);
+                  })
+                }, 5000);
+              }
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
         }
       })
       .catch((result) => {});
