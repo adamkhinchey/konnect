@@ -10,25 +10,25 @@
     <div class="custom_raio_box">
 
         <div class="radio_custom">
-            <input type="radio" name="unrestricted" id="1" value="1" [(ngModel)]="accessPermission"/>
-            <label for="1">Unrestricted <span [ngbTooltip]="unrestrictedtemp" placement="right" [openDelay]="300"
-                [closeDelay]="500" [animation]="true"><i class="info icon custominfo"></i></span></label>
+            <input type="radio" name="unrestricted" id="1" value="1" [(ngModel)]="accessPermission" />
+            <label for="1">Unrestricted <span [ngbTooltip]="unrestrictedtemp" placement="bottom" [openDelay]="300"
+                    [closeDelay]="500" [animation]="true" tooltipClass="toolTipStyle"><i class="info icon custominfo"></i></span></label>
         </div>
         <div class="radio_custom">
-            <input type="radio" name="readonly" id="0" value="0" [(ngModel)]="accessPermission"/>
-            <label for="2">Read Only <span [ngbTooltip]="readonlytemp" placement="right" [openDelay]="300"
-                [closeDelay]="500" [animation]="true"><i class="info icon custominfo"></i></span></label>
+            <input type="radio" name="readonly" id="0" value="0" [(ngModel)]="accessPermission" />
+            <label for="2">Read Only <span [ngbTooltip]="readonlytemp" placement="bottom" [openDelay]="300"
+                [closeDelay]="500" [animation]="true" tooltipClass="toolTipStyle"><i class="info icon custominfo"></i></span></label>
         </div>
         <div class="radio_custom">
-            <input type="radio" name="restricted" id="2" value="2" [(ngModel)]="accessPermission"/>
-            <label for="3">Restricted <span [ngbTooltip]="restrictedtemp" placement="right" [openDelay]="300"
-                    [closeDelay]="500" [animation]="true"><i class="info icon custominfo"></i></span></label>
+            <input type="radio" name="restricted" id="2" value="2" [(ngModel)]="accessPermission" />
+            <label for="3">Restricted <span [ngbTooltip]="restrictedtemp" placement="bottom" [openDelay]="300"
+                [closeDelay]="500" [animation]="true" tooltipClass="toolTipStyle"><i class="info icon custominfo"></i></span></label>
         </div>
     </div>
 </div>
-<div class="modal-footer justify-content-between">
-    <button type="button" class="ui button basic blue negative ml-2" (click)="dismiss()">Cancel</button>
-    <button type="button" class="ui button basic blue negative" (click)="save()">Save</button>
+<div class="modal-footer justify-content-end">
+    <!-- <button type="button" class="ui button basic blue ml-2" (click)="dismiss()">Cancel</button> -->
+    <button type="button" class="ui button triggerEditableOptions halfWidth" (click)="save()">Save</button>
 </div>
 
 <ng-template #unrestrictedtemp>
