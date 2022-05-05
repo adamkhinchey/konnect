@@ -17,6 +17,8 @@ import { EventFunctionTypes } from '../../models/types';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 import { ActivatedRoute } from '@angular/router';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { ClientAccessComponent } from 'src/app/shared/components';
 
 @Component({
   selector: 'app-event-manager-function',
@@ -44,7 +46,7 @@ export class EventManagerFunctionComponent
   isEventEdit: boolean = false;
 
   @Input() permissionObj: any;
-  isPast:any;
+  isPast: any;
   config: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
@@ -55,7 +57,7 @@ export class EventManagerFunctionComponent
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
     sanitize: false,
-    defaultFontSize:'2',
+    defaultFontSize: '2',
     toolbarHiddenButtons: [
       [
         'link',
@@ -64,8 +66,8 @@ export class EventManagerFunctionComponent
         'insertVideo',
         'insertHorizontalRule',
         'removeFormat',
-        'toggleEditorMode'
-      ]
+        'toggleEditorMode',
+      ],
     ],
     customClasses: [
       {
@@ -85,25 +87,24 @@ export class EventManagerFunctionComponent
   };
   constructor(
     public eventService: EventService,
-    public aroute: ActivatedRoute
+    public aroute: ActivatedRoute,
+    public modalService: NgbModal
   ) {
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
       this.isPast = param.isPast;
     });
   }
-  changeConfig(){
-    if(!this.isEventEdit)
-    this.config.editable = false;
-    else
-    this.config.editable = true;
+  changeConfig() {
+    if (!this.isEventEdit) this.config.editable = false;
+    else this.config.editable = true;
   }
 
-  check(){
-    if(!this.isEventEdit && this.isPast == 'false'){
+  check() {
+    if (!this.isEventEdit && this.isPast == 'false') {
       return true;
-    }else{
-      return false
+    } else {
+      return false;
     }
   }
 
@@ -199,6 +200,36 @@ export class EventManagerFunctionComponent
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
     }
+  }
+
+  eventSettings() {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+    };
+    const modalRef = this.modalService.open(
+      ClientAccessComponent,
+      ngbModalOptions
+    );
+
+    modalRef.result
+      .then((result: any) => {
+        if (result && result.accessPermission) {
+          let data = {
+            clientAccessPermission: result.accessPermission,
+            eventId: this.eventData.eventData.eventId,
+          };
+          this.eventService.giveClientPermission(data).subscribe(
+            (res: any) => {
+              console.log(res);
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
+        }
+      })
+      .catch((result) => {});
   }
 
   ngOnDestroy(): void {

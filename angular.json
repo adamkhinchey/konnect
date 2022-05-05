@@ -51,7 +51,8 @@
               "node_modules/vis-timeline/dist/vis-timeline-graph2d.min.css"
             ],
             "scripts": [
-              "node_modules/vis-timeline/dist/vis-timeline-graph2d.min.js"
+              "node_modules/vis-timeline/dist/vis-timeline-graph2d.min.js",
+              "node_modules/jquery/dist/jquery.min.js"
             ]
           },
           "configurations": {
@@ -208,7 +209,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["node_modules/jquery/dist/jquery.min.js"]
           }
         },
         "lint": {

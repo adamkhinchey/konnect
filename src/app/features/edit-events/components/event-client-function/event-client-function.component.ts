@@ -60,6 +60,7 @@ export class EventClientFunctionComponent
     defaultFontName: 'Arial',
     sanitize: false,
     defaultFontSize:'2',
+    showToolbar:false,
     toolbarHiddenButtons: [
       [
         'link',
@@ -98,8 +99,15 @@ export class EventClientFunctionComponent
   }
 
   changeConfig() {
-    if (!this.isClientEdit) this.config.editable = false;
-    else this.config.editable = true;
+    if (!this.isClientEdit){ 
+      this.config.editable = false; 
+      this.config.showToolbar = false;
+    }
+    else{ 
+      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      this.config.editable = true; 
+      this.config.showToolbar = true;
+    }
   }
 
   check() {

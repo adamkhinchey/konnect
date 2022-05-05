@@ -17,6 +17,7 @@ export class ImportExportComponent implements OnInit {
     fileTypes: environment.eventXLSXAllowedFormat,
     size: environment.eventFileAllowedSize,
   };
+  url:any;
   constructor(
     private activeModal: NgbActiveModal,
     public fileUploadService: UploadFileService,
@@ -39,9 +40,14 @@ export class ImportExportComponent implements OnInit {
         // this.spinner.hide();
         let name = event.name;
         this.fileName = name.replace(/ /g, '_');
-        this.activeModal.close({url: url});
+        this.url = url;
+        // this.activeModal.close({url: url});
       });
     }
+  }
+
+  importData(){
+    this.activeModal.close({url: this.url});
   }
 
   exportData(){

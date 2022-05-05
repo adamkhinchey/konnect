@@ -97,7 +97,7 @@
           <label>Event Description</label>
           <!-- <textarea rows="3" class="textarea" [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.description"
             [ngModelOptions]="{standalone:true}"></textarea> -->
-            <angular-editor [(ngModel)]="eventToBeSaved.description" [config]="config" (focus)="changeConfig()" [ngModelOptions]="{standalone: true}"></angular-editor>
+            <angular-editor id="evDescription" [(ngModel)]="eventToBeSaved.description" [config]="config" (focus)="changeConfig()" [ngModelOptions]="{standalone: true}"></angular-editor>
         </div>
         <!-- <div class="field">
           <div class="ui toggle checkbox toggleOnColumn"
@@ -116,7 +116,7 @@
             <!-- <textarea *ngIf="permissionObj.isClient; else no_access" rows="3" class="textarea"
               [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes"
               [ngModelOptions]="{standalone:true}"></textarea> -->
-              <angular-editor *ngIf="permissionObj.isClient; else no_access" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes" [config]="config" (focus)="changeConfig()" [ngModelOptions]="{standalone: true}"></angular-editor>
+              <angular-editor id="ciNotes" *ngIf="permissionObj.isClient; else no_access" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes" [config]="config" (focus)="changeConfig()" [ngModelOptions]="{standalone: true}"></angular-editor>
             <ng-template #no_access>No access
             </ng-template>
           </div>
