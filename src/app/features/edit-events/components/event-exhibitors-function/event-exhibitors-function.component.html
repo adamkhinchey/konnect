@@ -17,6 +17,21 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <form class="ui form visible" style="display: block !important;">
             <div class="ui grid stackable">
 
+              <div class="sixteen wide column saveButtons paddingT0">
+                <div class="ui divider"></div>
+                <div class="ui grid stackable">
+                  <div class="sixteen wide column right aligned">
+
+                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="(permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor) && (venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && !isNotesEdit)" (click)="editNotes()">
+                      Edit
+                    </button>
+                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="(permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor) && (venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && isNotesEdit)" (click)="saveAndInvite.emit({venueIndex:venueIndexLocal, exhibitorIndex:exhibitorIndexLocal, shouldInvite:true})">
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <div class="seven wide column" *ngIf="venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length">
                 <div class="ui dividing header">
                   <h3>Notes to All Exhibitors
@@ -26,11 +41,14 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   </h3>
                 </div>
                 <div class="field"
-                  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access">
-                  <textarea rows="3" class="textarea"
+                  *ngIf="permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access">
+                  <!-- <textarea rows="3" class="textarea"
                     *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
                     [(ngModel)]="venue.exhibitorList[0].notesToAll" [ngModelOptions]="{standalone:true}"
-                    [readonly]="!isExhibitorEdit"></textarea>
+                    [readonly]="!isExhibitorEdit"></textarea> -->
+                  <angular-editor *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
+                    [(ngModel)]="venue.exhibitorList[0].notesToAll" [config]="config" (focus)="changeConfig()"
+                    [ngModelOptions]="{standalone: true}"></angular-editor>
 
 
                 </div>
@@ -48,9 +66,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                         <i class="exhibitor icon"></i>
                       </h3>
                     </div>
+                    <p>Dates and times for the exhibition part of your event must be specified below</p>
 
                     <app-time-windows
-                      *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"
+                      *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"
                       [timeWindowFor]="eventTimeWindowForAllExh"
                       [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                       [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
@@ -60,7 +79,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                       [preEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpIn.timings"
                       [postEventTimes]="venue.exhibitorList[0].timeWindowsToAll.bumpOut.timings"
                       [eventTimes]="venue.exhibitorList[0].timeWindowsToAll.eventTime.timings"
-                      [isEdit]="isExhibitorEdit"
+                      [isEdit]="isNotesEdit"
                       [preEventTimesCount]="venue.exhibitorList[0].timeWindowsToAll.bumpIn.timings?.length || 1"
                       [eventTimesCount]="venue.exhibitorList[0].timeWindowsToAll.eventTime.timings?.length || 1"
                       [postEventTimesCount]="venue.exhibitorList[0].timeWindowsToAll.bumpOut.timings?.length || 1"
@@ -81,12 +100,24 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
             <div class="sixteen wide column">
               <div class="marginT10"></div>
               <!-- <div *ngIf="(venue.exhibitorList[0] && !venue.exhibitorList[0].exhibitors.length) || isExhibitorEdit" -->
-              <div *ngIf="permissionObj.isClient || permissionObj.isEventManager"
-                class="ui button compact addNewService addToPanel" (click)="addExhibitor(venue, venueIndex)">
+            
+              <h3 id="servicesAnchor" class="ui dividing header">Exhibitors
+
+                <div class="float-right btnRightSec marT-m10" *ngIf="permissionObj.isEventManager" >
+                  <div class="ui button compact addNewService mr-10px" (click)="importExport(venueIndex)">
+                  <i class="upload icon"></i>
+                  <span>Bulk Import/Export</span>
+                </div>
+
+                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager"
+                class="ui button compact addNewService" (click)="addExhibitor(venue, venueIndex)">
                 <i class="plus circle icon"></i>
                 <span>Add Exhibitor</span>
               </div>
-              <h3 id="servicesAnchor" class="ui dividing header">Exhibitors</h3>
+              
+                </div>
+
+              </h3>
               <div class="marginT10"></div>
             </div>
           </div>
@@ -101,15 +132,54 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 [id]="'exhibitorListIndex-'+exhibitorIndex"
                 (shown)="exhibitorPanelActivated(venueIndex,exhibitorIndex)">
 
-                <ng-template ngbPanelTitle>
-                  <i class="dropdown icon"></i>
-                  Exhibitor {{exhibitorIndex + 1}}: <span
-                    *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
+                <ng-template ngbPanelHeader let-opened="opened">
+                  <div class="accordion-button custom-header" [class.collapsed]="!opened">
+                    <button ngbPanelToggle class="p-0 btn btn-link container-fluid text-start ps-0 accordionBtnNew">
+                      <i class="dropdown icon"></i>
+                      Exhibitor {{exhibitorIndex + 1}}: <span
+                        *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
+                    </button>
+
+                    <div class="flaot-right accordionCheckBox" *ngIf="!eventData.eventData.isDeleted && !checkPermission(exhibitor.isStaffOrAdmin)">
+                      <div class="ui checkbox">
+                        <input [disabled]="!isNotesEdit" type="checkbox" class="hidden" [id]="'times-'+exhibitorIndex+'_venue_'+venueIndex"
+                        (change)="listenTimeChange($event, venueIndex, exhibitorIndex)" tabindex="0">
+                      <label [for]="'times-'+exhibitorIndex+'_venue_'+venueIndex">Use Exhibition Times</label>
+                      </div>
+                    </div>
+
+                  </div>
                 </ng-template>
+
+                <!-- <ng-template ngbPanelTitle>
+                  
+
+                    <div class="flaot-right" >
+                      <div class="ui checkbox">
+                        <input type="checkbox" class="hidden" tabindex="0">
+                        <label>Use Exhibition Times</label>
+                      </div>
+                    </div>
+                  </ng-template> -->
                 <ng-template ngbPanelContent>
                   <div class="content active">
                     <form class="ui form visible" style="display: block !important;">
                       <div class="ui grid stackable">
+
+                        <div class="sixteen wide column saveButtons paddingT0">
+                          <div class="ui divider"></div>
+                          <div class="ui grid stackable">
+                            <div class="sixteen wide column right aligned">
+                              <button
+                                [disabled]="eventData.eventData.isDeleted || checkPermission(exhibitor.isStaffOrAdmin)"
+                                class="ui button triggerEditableOptions ml-3" *ngIf="check()"
+                                (click)="editExhibitorFn()">Edit </button>
+                              <button class="ui button hasModal ml-3" data-modal="inviteModal"
+                                (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"
+                                *ngIf="isExhibitorEdit">Save </button>
+                            </div>
+                          </div>
+                        </div>
 
                         <div class="seven wide column">
                           <div class="companyContainer marginB20">
@@ -138,20 +208,35 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </h3>
                             </div>
                             <div class="kcpCardContainer"
-                              *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
+                              *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access">
                               <div class="ui one column grid">
                                 <div class="column"
                                   *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">
                                   <div class="ui fluid card">
                                     <div class="content">
+                                      <span
+                                        *ngIf="venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.isPrivate && venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.isSeed == 0"
+                                        class="ui blue right corner label popupNotes adjustTri"
+                                        data-content="Private Contact">
+                                        <!--<i class="address card outline icon"></i>-->
+                                        <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                      </span>
                                       <img class="right floated mini ui image"
                                         [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
-                                        appImageFallback fallbackImage="assets/img/default_konnect_img.png">
+                                        appImageFallback fallbackImage="assets/img/default_konnect_img.png"
+                                        onerror="src='assets/img/default_konnect_img.png'">
                                       <div class="header">
                                         <a
-                                          (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)), getIsPrivate(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
+                                          (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)), getIsPrivate(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)), getIsSeed(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>
                                       </div>
                                       <div class="meta">
+                                        <a *ngIf="getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))"
+                                          [href]="getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))"
+                                          target="_blank">
+                                          {{getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))}}</a>
+                                        <span
+                                          *ngIf="getCompanyWebsite(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex))">|</span>
+
                                         <span class="m-0">
                                           <i
                                             class="map marker alternate icon"></i>{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.city}}
@@ -207,19 +292,25 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                         </div>
 
                         <div class="nine wide column">
-                          <div class="ui dividing header">
-                            <h3>Stand Number <i class="icon"> <img src="../../../../../assets/img/client-icon.png"
-                                  width="15px"> </i>
-                              <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px">
-                              </i><i class="building icon"></i>
-                            </h3>
-                          </div>
-                          <div class="field"
-                            *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
-                            <input type="text" [(ngModel)]="exhibitor.standNumber" [ngModelOptions]="{standalone:true}"
-                              placeholder="Stand Number" [readonly]="!isExhibitorEdit">
-                              <ng-template #no_access>No access
-                              </ng-template>
+                          <div class="field">
+                            <div class="timeWindowsContainer">
+                              <div class="ui dividing header">
+                                <h3>Stand Number <i class="icon"> <img src="../../../../../assets/img/client-icon.png"
+                                      width="15px"> </i>
+                                  <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png"
+                                      width="15px">
+                                  </i><i class="building icon"></i>
+                                </h3>
+                              </div>
+                              <div class="field"
+                                *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access">
+                                <input type="text" [(ngModel)]="exhibitor.standNumber"
+                                  [ngModelOptions]="{standalone:true}" placeholder="Stand Number"
+                                  [readonly]="!isExhibitorEdit">
+                                <ng-template #no_access>No access
+                                </ng-template>
+                              </div>
+                            </div>
                           </div>
 
                           <div class="field">
@@ -233,11 +324,19 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               </div>
 
                               <app-time-windows
-                                *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access"
-                                [timeWindowFor]="eventTimeWindowType"
+                                *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access"
+                                [preEventTimesCount]="preEventTimesCount" [eventTimesCount]="eventTimesCount"
+                                [postEventTimesCount]="postEventTimesCount"
+                                [isPreEventTimesSameAsExhibition]="isPreEventTimesSameAsExhibition"
+                                [isEventTimesSameAsExhibition]="isEventTimesSameAsExhibition"
+                                [isPostEventTimesSameAsExhibition]="isPostEventTimesSameAsExhibition"
+                                [useVenueTimes]="isUseVenueTime" [timeWindowFor]="eventTimeWindowType"
                                 [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                                 [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
                                 [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
+                                [exhibitorForAllPreEventTimes]="eventToBeSaved.venues.list[venueIndex].exhibitorList[0].timeWindowsToAll.bumpIn.timings"
+                                [exhibitorForAllEventTimes]="eventToBeSaved.venues.list[venueIndex].exhibitorList[0].timeWindowsToAll.eventTime.timings"
+                                [exhibitorForAllPostEventTimes]="eventToBeSaved.venues.list[venueIndex].exhibitorList[0].timeWindowsToAll.bumpOut.timings"
                                 [venueIndex]="venueIndex" [index]="exhibitorIndex"
                                 [windowLabels]="['Bump In', 'Event Time', 'Bump Out']" [isVenueDependent]="true"
                                 [preEventTimes]="exhibitor.timeWindows.bumpIn.timings"
@@ -255,29 +354,51 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             </div>
                           </div>
 
-                          <div class="ui dividing header">
-                            <h3>Notes to Specific Exhibitor <i class="icon"> <img
-                                  src="../../../../../assets/img/client-icon.png" width="15px"> </i>
-                              <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px">
-                              </i><i class="building icon"></i>
-                            </h3>
-                          </div>
-                          <div class="field"
-                            *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor?.isViewPermission==1; else no_access">
-                            <textarea rows="3" class="textarea" [(ngModel)]="exhibitor.requirement"
-                              [ngModelOptions]="{standalone:true}" [readonly]="!isExhibitorEdit"></textarea>
-                              <ng-template #no_access>No access
-                              </ng-template>
+                          <div class="field">
+                            <div class="timeWindowsContainer">
+                              <div class="ui dividing header">
+                                <h3>Notes to Specific Exhibitor <i class="icon"> <img
+                                      src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+                                  <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png"
+                                      width="15px">
+                                  </i><i class="building icon"></i>
+                                </h3>
+                              </div>
+                              <div class="field"
+                                *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access">
+                                <!-- <textarea rows="3" class="textarea" [(ngModel)]="exhibitor.requirement"
+                                  [ngModelOptions]="{standalone:true}"
+                                  [readonly]="!isExhibitorEdit || !(permissionObj.isClient || permissionObj.isEventManager)"></textarea> -->
+                                <angular-editor *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
+                                  [(ngModel)]="exhibitor.requirement" [config]="config"
+                                  (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
+                                </angular-editor>
+                                <ng-template #no_access>No access
+                                </ng-template>
+                              </div>
+                            </div>
                           </div>
 
-                          <div class="ui dividing header">
-                            <h3>Exhibitor Internal Notes <i class="building icon"></i></h3>
-                          </div>
                           <div class="field">
-                            <textarea *ngIf="exhibitor?.isViewPermission==1; else no_access" rows="3" class="textarea" [readonly]="!isExhibitorEdit" [(ngModel)]="exhibitor.internalCmpNotes"
-                            [ngModelOptions]="{standalone:true}"></textarea>
-                            <ng-template #no_access>No access
-                            </ng-template>
+                            <div class="timeWindowsContainer">
+                              <div class="ui dividing header">
+                                <h3>Exhibitor Internal Notes <i class="building icon"></i></h3>
+                              </div>
+                              <div class="field">
+                                <!-- <textarea
+                                  *ngIf="(permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access"
+                                  rows="3" class="textarea" [readonly]="!isExhibitorEdit"
+                                  [(ngModel)]="exhibitor.internalCmpNotes"
+                                  [ngModelOptions]="{standalone:true}"></textarea> -->
+                                <angular-editor
+                                  *ngIf="(permissionObj.isCrew && exhibitor?.isViewPermission==1) || (permissionObj.isExhibitor && exhibitor?.isViewPermission==1); else no_access"
+                                  [(ngModel)]="exhibitor.internalCmpNotes" [config]="config" (focus)="changeConfig()"
+                                  [ngModelOptions]="{standalone: true}">
+                                </angular-editor>
+                                <ng-template #no_access>No access
+                                </ng-template>
+                              </div>
+                            </div>
                           </div>
 
                         </div>
@@ -285,7 +406,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <div class="ui divider"></div>
                           <div class="ui grid stackable">
                             <div class="ten wide column middle aligned">
-                              <div (click)="removeDeclineExhibitor(exhibitor?.exhibitorId, 0)"
+                              <div (click)="confirmRemove(exhibitor?.exhibitorId, 0)"
+                                *ngIf="!eventData.eventData.isDeleted && !checkPermission(exhibitor.isStaffOrAdmin)"
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
@@ -293,14 +415,13 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i
                                   class="file pdf icon"></i>
                               </button> -->
-                              <button [disabled]="eventData.eventData.isDeleted"
-                                class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit || checkPermission(exhibitor.isViewPermission)"
-                                (click)="editExhibitorFn()">Edit</button>
+                              <!-- <button [disabled]="eventData.eventData.isDeleted || checkPermission(exhibitor.isStaffOrAdmin)"
+                                class="ui button triggerEditableOptions ml-3" *ngIf="!isExhibitorEdit"
+                                (click)="editExhibitorFn()">Edit </button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, exhibitorIndex:exhibitorIndex, shouldInvite:true})"
-                                *ngIf="isExhibitorEdit">Save 
-                                <!-- &amp; Invite -->
-                              </button>
+                                *ngIf="isExhibitorEdit">Save
+                              </button> -->
                             </div>
                           </div>
                         </div>
@@ -319,6 +440,12 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
     </li>
   </ul>
   <div [ngbNavOutlet]="venueNav" class="mt-2 innerTabCont"></div>
+
+  <div class="sixteen wide column mb-4">
+    <a href="https://konnectevents.freshdesk.com/support/solutions/articles/51000289446-how-to-use-exhibitor-tab"
+      target="_blank" class="btn btn-warning warningThemeBtn"> <i class="icon info"></i> How to use this page </a>
+  </div>
+
 </div>
 <ng-template #noVenues>
   <div class="ui segment">

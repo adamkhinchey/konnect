@@ -14,10 +14,13 @@ import {UsersModule} from "./features/users/users.module";
 import {NgxSpinnerModule} from "ngx-spinner";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    VerifyEmailComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { DatePipe } from '@angular/common';
     UsersModule,
     AppRoutingModule,
     FontAwesomeModule,
-    EditEventsModule
+    EditEventsModule,
+    AngularEditorModule
   ],
   providers: [
     DatePipe

@@ -51,7 +51,8 @@
               "node_modules/vis-timeline/dist/vis-timeline-graph2d.min.css"
             ],
             "scripts": [
-              "node_modules/vis-timeline/dist/vis-timeline-graph2d.min.js"
+              "node_modules/vis-timeline/dist/vis-timeline-graph2d.min.js",
+              "node_modules/jquery/dist/jquery.min.js"
             ]
           },
           "configurations": {
@@ -135,6 +136,33 @@
                   "maximumError": "50kb"
                 }
               ]
+            },
+            "platform": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "6mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "30kb",
+                  "maximumError": "50kb"
+                }
+              ]
             }
           }
         },
@@ -181,7 +209,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["node_modules/jquery/dist/jquery.min.js"]
           }
         },
         "lint": {

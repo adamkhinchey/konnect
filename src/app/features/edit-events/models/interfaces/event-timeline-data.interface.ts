@@ -32,7 +32,7 @@ interface ServicesData {
     mobile: string;
     email: string;
   };
-  companyWebSite?: string;
+  companyWebsite?: string;
   companyName?: string;
   startDateTime: Date; // actual start date time
   endDateTime: Date; //actual end date time
@@ -48,7 +48,7 @@ interface ServicesData1 {
     mobile: string;
     email: string;
   };
-  companyWebSite?: string;
+  companyWebsite?: string;
   companyName?: string;
   startDateTime: Date; // actual start date time
   endDateTime: Date; //actual end date time
@@ -64,7 +64,7 @@ interface ExhibitorsData {
     email: string;
   };
   companyName?: string;
-  companyWebSite?: string;
+  companyWebsite?: string;
   startDateTime: Date; // actual start date time
   endDateTime: Date; //actual end date time
   group: string;
@@ -96,7 +96,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                   mobile: '',
                   name: '',
                 },
-                companyWebSite: 'www.motupatlu.com',
+                companyWebsite: 'www.motupatlu.com',
                 startDateTime: new Date('2022-08-31T03:30:38.000Z'),// actual start date time
                 endDateTime: new Date('2022-08-31T06:30:38.000Z'),//actual end date time
                 group: '31 Aug',
@@ -109,7 +109,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                       mobile: '',
                       name: '',
                     },
-                    companyWebSite: 'www.motupatlu.com',
+                    companyWebsite: 'www.motupatlu.com',
                     startDateTime: new Date('2022-08-31T06:30:38.000Z'),// actual start date time
                     endDateTime: new Date('2022-08-31T08:30:38.000Z'),//actual end date time
                     group: '31 Aug'
@@ -122,7 +122,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                       mobile: '',
                       name: '',
                     },
-                    companyWebSite: 'www.motupatlu.com',
+                    companyWebsite: 'www.motupatlu.com',
                     startDateTime: new Date('2022-08-31T02:30:38.000Z'),// actual start date time
                     endDateTime: new Date('2022-08-31T03:30:38.000Z'),//actual end date time
                     group: '31 Aug'
@@ -137,7 +137,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                   mobile: '',
                   name: '',
                 },
-                companyWebSite: 'www.motupatlu.com',
+                companyWebsite: 'www.motupatlu.com',
                 startDateTime: new Date('2022-08-31T03:30:38.000Z'),// actual start date time
                 endDateTime: new Date('2022-08-31T06:30:38.000Z'),//actual end date time
                 group: '31 Aug',
@@ -150,7 +150,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                       mobile: '',
                       name: '',
                     },
-                    companyWebSite: 'www.motupatlu.com',
+                    companyWebsite: 'www.motupatlu.com',
                     startDateTime: new Date('2022-08-31T04:30:38.000Z'),// actual start date time
                     endDateTime: new Date('2022-08-31T08:30:38.000Z'),//actual end date time
                     group: '31 Aug'
@@ -163,7 +163,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                       mobile: '',
                       name: '',
                     },
-                    companyWebSite: 'www.motupatlu.com',
+                    companyWebsite: 'www.motupatlu.com',
                     startDateTime: new Date('2022-08-31T06:30:38.000Z'),// actual start date time
                     endDateTime: new Date('2022-08-31T07:30:38.000Z'),//actual end date time
                     group: '31 Aug'
@@ -178,7 +178,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                   mobile: '',
                   name: '',
                 },
-                companyWebSite: 'www.motupatlu.com',
+                companyWebsite: 'www.motupatlu.com',
                 startDateTime: new Date('2022-08-31T03:30:38.000Z'),// actual start date time
                 endDateTime: new Date('2022-08-31T06:30:38.000Z'),//actual end date time
                 group: '31 Aug',
@@ -189,7 +189,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
               //   id: 100, //serviceId
               //   content: `Exhibitor - 2`,
               //   primaryContact: null,
-              //   companyWebSite: 'www.motupatlu.com',
+              //   companyWebsite: 'www.motupatlu.com',
               //   startDateTime: new Date('2021-04-12T05:38:56'),// actual start date time
               //   endDateTime: new Date('2021-04-12T06:30:56'),//actual end date time
               //   group: '12 APR'
@@ -214,7 +214,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                   mobile: '',
                   name: '',
                 },
-                companyWebSite: 'www.motupatlu.com',
+                companyWebsite: 'www.motupatlu.com',
                 startDateTime: new Date('2022-08-31T09:30:13.000Z'),// actual start date time
                 endDateTime: new Date('2022-08-31T10:30:13.000Z'),//actual end date time
                 group: '31 Aug',
@@ -227,7 +227,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                       mobile: '',
                       name: '',
                     },
-                    companyWebSite: 'www.motupatlu.com',
+                    companyWebsite: 'www.motupatlu.com',
                     startDateTime: new Date('2022-08-31T11:30:13.000Z'),// actual start date time
                     endDateTime: new Date('2022-08-31T12:30:13.000Z'),//actual end date time
                     group: '31 Aug'
@@ -242,7 +242,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                   mobile: '',
                   name: '',
                 },
-                companyWebSite: 'www.motupatlu.com',
+                companyWebsite: 'www.motupatlu.com',
                 startDateTime: new Date('2022-08-31T09:30:13.000Z'),// actual start date time
                 endDateTime: new Date('2022-08-31T10:30:13.000Z'),//actual end date time
                 group: '31 Aug',
@@ -255,7 +255,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                       mobile: '',
                       name: '',
                     },
-                    companyWebSite: 'www.motupatlu.com',
+                    companyWebsite: 'www.motupatlu.com',
                     startDateTime: new Date('2022-08-31T11:30:13.000Z'),// actual start date time
                     endDateTime: new Date('2022-08-31T12:30:13.000Z'),//actual end date time
                     group: '31 Aug'
@@ -270,7 +270,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                   mobile: '',
                   name: '',
                 },
-                companyWebSite: 'www.motupatlu.com',
+                companyWebsite: 'www.motupatlu.com',
                 startDateTime: new Date('2022-08-31T09:30:13.000Z'),// actual start date time
                 endDateTime: new Date('2022-08-31T10:30:13.000Z'),//actual end date time
                 group: '31 Aug',
@@ -297,7 +297,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                   mobile: '',
                   name: '',
                 },
-                companyWebSite: 'www.motupatlu.com',
+                companyWebsite: 'www.motupatlu.com',
                 startDateTime: new Date('2022-08-31T12:30:03.000Z'),// actual start date time
                 endDateTime: new Date('2022-08-31T13:30:03.000Z'),//actual end date time
                 group: '31 Aug',
@@ -310,7 +310,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                       mobile: '',
                       name: '',
                     },
-                    companyWebSite: 'www.motupatlu.com',
+                    companyWebsite: 'www.motupatlu.com',
                     startDateTime: new Date('2022-08-31T13:30:03.000Z'),// actual start date time
                     endDateTime: new Date('2022-08-31T14:30:03.000Z'),//actual end date time
                     group: '31 Aug',
@@ -323,7 +323,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                       mobile: '',
                       name: '',
                     },
-                    companyWebSite: 'www.motupatlu.com',
+                    companyWebsite: 'www.motupatlu.com',
                     startDateTime: new Date('2022-08-31T14:30:03.000Z'),// actual start date time
                     endDateTime: new Date('2022-08-31T14:15:03.000Z'),//actual end date time
                     group: '31 Aug',
@@ -336,7 +336,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                       mobile: '',
                       name: '',
                     },
-                    companyWebSite: 'www.motupatlu.com',
+                    companyWebsite: 'www.motupatlu.com',
                     startDateTime: new Date('2022-08-31T14:18:03.000Z'),// actual start date time
                     endDateTime: new Date('2022-08-31T15:30:03.000Z'),//actual end date time
                     group: '31 Aug',
@@ -351,7 +351,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                   mobile: '',
                   name: '',
                 },
-                companyWebSite: 'www.motupatlu.com',
+                companyWebsite: 'www.motupatlu.com',
                 startDateTime: new Date('2022-08-31T12:30:03.000Z'),// actual start date time
                 endDateTime: new Date('2022-08-31T13:30:03.000Z'),//actual end date time
                 group: '31 Aug',
@@ -364,7 +364,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                       mobile: '',
                       name: '',
                     },
-                    companyWebSite: 'www.motupatlu.com',
+                    companyWebsite: 'www.motupatlu.com',
                     startDateTime: new Date('2022-08-31T13:30:03.000Z'),// actual start date time
                     endDateTime: new Date('2022-08-31T14:30:03.000Z'),//actual end date time
                     group: '31 Aug',
@@ -377,7 +377,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                       mobile: '',
                       name: '',
                     },
-                    companyWebSite: 'www.motupatlu.com',
+                    companyWebsite: 'www.motupatlu.com',
                     startDateTime: new Date('2022-08-31T14:30:03.000Z'),// actual start date time
                     endDateTime: new Date('2022-08-31T14:15:03.000Z'),//actual end date time
                     group: '31 Aug',
@@ -390,7 +390,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                       mobile: '',
                       name: '',
                     },
-                    companyWebSite: 'www.motupatlu.com',
+                    companyWebsite: 'www.motupatlu.com',
                     startDateTime: new Date('2022-08-31T14:18:03.000Z'),// actual start date time
                     endDateTime: new Date('2022-08-31T15:30:03.000Z'),//actual end date time
                     group: '31 Aug',
@@ -405,7 +405,7 @@ export const mockTimeLineData: EventTimelineDataInterface = {
                   mobile: '',
                   name: '',
                 },
-                companyWebSite: 'www.motupatlu.com',
+                companyWebsite: 'www.motupatlu.com',
                 startDateTime: new Date('2022-08-31T12:30:03.000Z'),// actual start date time
                 endDateTime: new Date('2022-08-31T13:30:03.000Z'),//actual end date time
                 group: '31 Aug',

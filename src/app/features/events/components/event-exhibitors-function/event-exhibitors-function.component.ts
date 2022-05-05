@@ -13,6 +13,7 @@ import {EventService} from '../../services/event.service';
 import {devLogger} from '../../../../shared/utils';
 import {InviteFnCmpClass} from '../../models/classes';
 import {EventTimeWindowTypes} from "../../models/types";
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-event-exhibitors-function',
@@ -34,9 +35,110 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   venuesExhCmpsMap = new Map<number, Map<number, Company | InviteFnCmpInterface>>();
   eventTimeWindowType = EventTimeWindowTypes.Exhibitor;
   eventTimeWindowForAllExh = EventTimeWindowTypes.ALL_EXHIBITORS;
-
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
+    toolbarHiddenButtons: [
+      [
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
+  isUseVenueTime: boolean = false;
+  isPreEventTimesSameAsExhibition: boolean = false;
+  isEventTimesSameAsExhibition: boolean = false;
+  isPostEventTimesSameAsExhibition: boolean = false;
+  preEventTimesCount = 1;
+  eventTimesCount = 1;
+  postEventTimesCount = 1;
   constructor(private eventService: EventService) {
   }
+
+  listenTimeChange(event: Event, venueIndex: any, exhibitorIndex: any): void {
+    const target = event.target as HTMLInputElement;
+    const { checked } = target;
+    if (checked) {
+      this.isUseVenueTime = true;
+      this.isPreEventTimesSameAsExhibition = true;
+      this.isEventTimesSameAsExhibition = true;
+      this.isPostEventTimesSameAsExhibition = true;
+
+
+      this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
+        exhibitorIndex
+      ].timeWindows.bumpIn.timings =
+        this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].timeWindowsToAll.bumpIn.timings;
+      this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
+        exhibitorIndex
+      ].timeWindows.bumpOut.timings =
+        this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].timeWindowsToAll.bumpOut.timings;
+      this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
+        exhibitorIndex
+      ].timeWindows.eventTime.timings =
+        this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].timeWindowsToAll.eventTime.timings;
+
+
+      this.preEventTimesCount =
+        this.eventToBeSaved!.venues!.list[venueIndex].preEventAccessDateTimes
+          .length || 1;
+      this.eventTimesCount =
+        this.eventToBeSaved!.venues!.list[venueIndex].eventAccessDateTimes
+          .length || 1;
+      this.postEventTimesCount =
+        this.eventToBeSaved!.venues!.list[venueIndex].postEventAccessDateTimes
+          .length || 1;
+    } else {
+      this.isUseVenueTime = false;
+      this.isPreEventTimesSameAsExhibition = false;
+      this.isEventTimesSameAsExhibition = false;
+      this.isPostEventTimesSameAsExhibition = false;
+
+      this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
+        exhibitorIndex
+      ].timeWindows.bumpIn.timings = [];
+      this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
+        exhibitorIndex
+      ].timeWindows.bumpOut.timings = [];
+      this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
+        exhibitorIndex
+      ].timeWindows.eventTime.timings = [];
+
+
+      this.preEventTimesCount = 1;
+      this.eventTimesCount = 1;
+      this.postEventTimesCount = 1;
+    }
+  }
+
 
   ngOnInit(): void {
     this.exhCompanyAddedSub = this.eventService.exhibitorCompanyAddSubject
@@ -212,7 +314,6 @@ export class EventExhibitorsFunctionComponent implements OnInit, OnDestroy {
   }
 
   goToCompanyProfile(companyId:any) {
-    console.log(companyId);
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));

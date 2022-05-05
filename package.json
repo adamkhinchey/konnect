@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev:build:upload": "ng build -c dev && aws --profile konnect s3 cp ./dist s3://dev-user-website --recursive --acl public-read",
-    "uat:build:upload": "ng build -c uat && aws --profile konnect s3 cp ./dist s3://uat-user-website --recursive --acl public-read"
+    "uat:build:upload": "ng build -c uat && aws --profile konnect s3 cp ./dist s3://uat-user-website --recursive --acl public-read",
+    "platform:build:upload": "ng build -c platform && aws --profile konnect s3 cp ./dist s3://platform-user-website --recursive --acl public-read"
   },
   "private": true,
   "dependencies": {
@@ -30,11 +31,13 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.2",
     "@fortawesome/free-regular-svg-icons": "^5.15.2",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@kolkov/angular-editor": "^1.0.0",
     "@ng-bootstrap/ng-bootstrap": "^9.0.2",
     "@types/uuid": "^8.3.0",
     "angular-animations": "^0.11.0",
     "bootstrap": "^4.5.0",
     "igniteui-angular": "^11.1.4",
+    "jquery": "^3.6.0",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
@@ -47,7 +50,7 @@
     "tslib": "^2.0.0",
     "uuid": "^8.3.2",
     "vis-data": "^7.1.2",
-    "vis-timeline": "^7.4.8",
+    "vis-timeline": "^7.5.0",
     "vis-util": "^5.0.2",
     "xss": "^1.0.9",
     "zone.js": "~0.11.3"
@@ -57,7 +60,7 @@
     "@angular/cli": "~11.2.5",
     "@angular/compiler-cli": "~11.2.6",
     "@types/jasmine": "~3.6.0",
-    "@types/jquery": "^3.5.5",
+    "@types/jquery": "^3.5.14",
     "@types/lodash-es": "^4.17.4",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",

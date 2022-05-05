@@ -17,6 +17,7 @@ import { FileUploadConfigInterface, LoginUserProfile, RemoveType } from '../../.
 import { CompaniesService } from '../../services/companies.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-edit-individual-profile',
@@ -27,7 +28,7 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
 
   //OLD_MOBILE_REGEX = new RegExp(/^(?!(\d)\1+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/);
   MOBILE_REGEX = new RegExp(/^(?:0|\+[1-9]{1,3})\d{10,15}$/);
-  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/);
+  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,20}))$/);
 
   @ViewChild(RemoveModalComponent) removeModal: RemoveModalComponent | undefined;
 
@@ -63,7 +64,47 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   selectedImageSrc: string | undefined;
   private selectedProfileImage: File | undefined;
   userId: any = 0;
+  loginUserId: any = 0;
   isView: any;
+  isEmailVerified:boolean=true;
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
+    toolbarHiddenButtons: [
+      [
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(
     private modalService: NgbModal,
     private fb: FormBuilder,
@@ -83,12 +124,18 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
     })
   }
 
+  changeConfig() {
+    if (this.isView) this.config.editable = false;
+    else this.config.editable = true;
+  }
+
   ngOnInit(): void {
     this.userId = localStorage.getItem('userId');
     // this.isView = localStorage.getItem('isView');
     localStorage.removeItem('userId');
     localStorage.removeItem('isView');
     this.getAndSetCountries();
+    this.loginUserId = this.authService.getUserInfo().id
   }
 
   private getAndSetCountries(): void {
@@ -104,7 +151,10 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   private fetchUserInfo(): void {
     this.userInfoSubscription = this.userInfoService.getInfo(this.userId).subscribe((value) => {
       this.userInfo = value;
-      console.log(this.userInfo);
+      this.isEmailVerified = value.is_email_verified;
+      if(this.loginUserId !=  this.userInfo.id){
+        this.isEmailVerified = true;
+      }
       this.populateFormValues();
       this.userSettingsService.populateSettings(value);
     }, err => {
@@ -283,12 +333,24 @@ export class EditIndividualProfileComponent implements OnInit, OnDestroy {
   }
 
   goToCompanyProfile(companyId: any, isPrivate: any) {
-    console.log(companyId);
-    if (companyId && isPrivate == 0) {
+    if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
     }
+  }
+
+  resendEmailVerification(){
+    this.updateUserProfileService.resendEmailVerificationLink().subscribe((value) => {
+      if(value.code == 200){
+        this.toaster.success(value.message);
+      }else{
+        this.toaster.error(value.message);
+      }
+    }, err => {
+      this.toaster.error('Something went wrong!');
+      devLogger('error', { err });
+    });
   }
 
 }

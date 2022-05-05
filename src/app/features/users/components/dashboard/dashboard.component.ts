@@ -44,10 +44,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getEvents() {
     this.evntSrvc.getEventsList(0).subscribe((res: any) => {
-      console.log(res);
+
       this.events = res;
     }, err => {
-      console.log(err);
+
     })
   }
 

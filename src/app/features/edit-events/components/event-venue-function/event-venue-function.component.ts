@@ -13,14 +13,18 @@ import { InviteFnCmpClass } from '../../models/classes';
 import { SaveEventClass } from '../../models/classes/saveEvent.class';
 import { Subscription } from 'rxjs';
 import { EventAssignFunctionCmpComponent } from '../event-assign-function-cmp/event-assign-function-cmp.component';
-import { NgbAccordion, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordion, NgbModal, NgbModalOptions, NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EventService } from '../../services/event.service';
 import { devLogger } from '../../../../shared/utils';
 import { EventTimeWindowTypes } from "../../models/types";
 import { FnCmpCntInterface } from '../../models/interfaces';
 import { ViewEventService } from '../../services/view-event.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
+import { ConfirmationDialogComponent } from 'src/app/shared/components';
+import { AuthService } from '../../../../core/services/auth.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 
 @Component({
@@ -29,7 +33,7 @@ import * as _ from 'lodash';
   styleUrls: ['./event-venue-function.component.scss']
 })
 export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnChanges {
-
+  addressCardIcon = faAddressCard;
   @ViewChildren('venueAssignCmp') venueAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
   @ViewChildren('venueCrewAssignCmp') venueCrewAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
   // @ts-ignore
@@ -50,18 +54,88 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   eventTimeWindowType = EventTimeWindowTypes.Venue;
   @Output() editVenue = new EventEmitter<boolean>();
   isVenueEdit: boolean = false;
+  isNotesEdit: boolean = false;
   public isVenueEditable: boolean = false;
   @Input() venueContactLists: Array<Array<FnCmpCntInterface>> = [];
   @Input() setIsCrew: any;
-
-
+  public loginUserIsCrew =false;
+  isPast:any
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
+    toolbarHiddenButtons: [
+      [
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(
     private eventService: EventService,
     private viewEventService: ViewEventService,
+    private router: Router,
+    public modalService: NgbModal,
+    public authService: AuthService,
+    public aroute:ActivatedRoute
   ) {
+    this.aroute.queryParams.subscribe((param) => {
+      console.log('param...', param);
+      this.isPast = param.isPast;
+    });
+  }
+  editNotes() {
+    this.isNotesEdit = !this.isNotesEdit;
+    this.isVenueEdit = !this.isVenueEdit;
+  }
+  changeConfig(){
+    if(!this.isVenueEdit && !this.isNotesEdit)
+    this.config.editable = false;
+    else
+    this.config.editable = true;
+  }
+  changeConfigPermission(panel:any){
+    if(!this.isVenueEdit || (panel?.isViewPermission && this.permissionObj.isVenue))
+    this.config.editable = false;
+    else
+    this.config.editable = true;
+  }
+  check(){
+    if(!this.isVenueEdit && this.isPast == 'false'){
+      return true;
+    }else{
+      return false
+    }
   }
 
-  checkPermission(isViewPermission:any) {
+  checkPermission(isViewPermission: any) {
     if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
       return false
     } else {
@@ -69,16 +143,16 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
-  checkPermission1(isViewPermission:any) {
+  checkPermission1(isViewPermission: any) {
     if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
       return true
     } else {
       return false
     }
   }
-  
 
-  checkIsVenueEditable(isViewPermission:any){
+
+  checkIsVenueEditable(isViewPermission: any) {
     if ((this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1) && isViewPermission == 1) {
       return true
     } else {
@@ -95,6 +169,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     this.eventService.isEdit = true;
     this.isVenueEdit = true;
     this.isVenueEditable = true;
+    this.isNotesEdit = true;
   }
 
   ngAfterViewInit(): void {
@@ -239,7 +314,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
 
 
   acceptDeclineService(tab: any, isAccept: any) {
-    console.log("isAccept", isAccept);
+
     if (tab.venueId && isAccept > 0) {
       let payload = {
         eventId: this.eventData.eventData.eventId,
@@ -247,9 +322,9 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
         tabType: 3,
         isAccept: isAccept > 1 ? 0 : isAccept
       }
-      console.log("payload ** ", payload);
+
       this.viewEventService.removeDecline(payload).subscribe((res: any) => {
-        console.log(res);
+
       }, err => {
         devLogger('err', err)
       })
@@ -280,9 +355,20 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
-  goToCompanyProfile(companyId: any, isPrivate: any) {
-    console.log(companyId);
-    if (companyId && isPrivate == 0) {
+  getIsSeed(i: number): any {
+    if (this.selectedCompanies && this.selectedCompanies[i]) {
+      if (this.selectedCompanies[i] instanceof InviteFnCmpClass) {
+        return null;
+      } else {
+        return (this.selectedCompanies[i] as Company)?.isSeed;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  goToCompanyProfile(companyId: any, isPrivate: any, isSeed: any) {
+    if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
@@ -302,6 +388,18 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
 
+  checkVenueViewPermission(index:number) {
+    let venueContacts =[];
+    if(this.venueContactLists && this.venueContactLists.length){
+      venueContacts = this.venueContactLists[index].filter(venueContact => venueContact.id == this.authService.getUserInfo().id && venueContact.isCrew == 1);
+       if(venueContacts.length>0){
+         this.loginUserIsCrew =true;
+        return true;
+       }
+    }
+    return false;
+  }
+
   checkSelectedCompany(index: any) {
     //@ts-ignore
     if (this.selectedCompanies[index] != null) {
@@ -311,6 +409,39 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       this.eventService.isSaveDisabled = true;
       return true
     }
+  }
+
+  confirmRemove(venueId: any, isAccept: any) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false
+    };
+    const modalRef = this.modalService.open(ConfirmationDialogComponent, ngbModalOptions);
+    modalRef.result.then((result: any) => {
+
+      if (result) {
+        this.removeDeclineService(venueId, isAccept);
+      }
+    }).catch((result) => {
+
+    });
+  }
+
+  removeDeclineService(venueId: any, isAccept: any) {
+
+    let payload = {
+      eventId: this.eventData.eventData.eventId,
+      tabId: venueId,
+      tabType: 3,
+      isAccept: isAccept
+    }
+    this.viewEventService.removeDecline(payload).subscribe((res: any) => {
+
+      if (res.code == 200)
+        this.router.navigate(['home']);
+    }, err => {
+      devLogger('err', err)
+    })
   }
 
 }

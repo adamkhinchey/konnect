@@ -8,13 +8,13 @@
                         <div class="eight wide column" (click)="eventHistory()">
                             <div class="ui button basic blue compact fluid"><i class="undo icon"></i>Event History</div>
                         </div>
-                        <div class="eight wide column">
+                        <div class="eight wide column" *ngIf="(isApproved || !isViewPermission )">
                             <a (click)="createEvent()" class="ui button compact fluid ml-2"><i
                                     class="plus circle icon"></i>Create Event</a>
                         </div>
                     </div>
                 </div>
-                <div class="createEvent hideMobile">
+                <div class="createEvent hideMobile" *ngIf="(isApproved || !isViewPermission )">
                     <div class="ui button compact basic blue" (click)="eventHistory()"><i class="undo icon"></i>Event History</div>
                     <a (click)="createEvent()" class="ui button compact ml-1"><i class="plus circle icon"></i>Create
                         Event</a>
@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="four wide column">
                                         <h4 class="columnTitle">My roles</h4>
-                                        <p *ngFor="let service of event.services">{{service.serviceName}}:
+                                        <p class="mb-0" *ngFor="let service of event.services">{{service.serviceName}}:
                                             {{service.roleName}}</p>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
         </div>
         <div class="ui grid stackable">
             <div class="sixteen wide column">
-                <h2 class="ui dividing header">Your Calendar</h2>
+                <h2 class="ui dividing header">Calendar</h2>
                 <div class="visibleMobile marginB60"></div>
                 <div class="ui segment">
                     <div class="dashboardCalendar">

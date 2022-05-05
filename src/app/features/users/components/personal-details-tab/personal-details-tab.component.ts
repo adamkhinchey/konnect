@@ -1,23 +1,38 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { environment } from '../../../../../environments/environment';
 import { GetRegionAndCountriesService } from '../../../../shared/services';
-import { CreateProfilePersonalDetails, FileUploadConfigInterface } from '../../../../shared/models';
-import { devLogger } from "../../../../shared/utils";
-
+import {
+  CreateProfilePersonalDetails,
+  FileUploadConfigInterface,
+} from '../../../../shared/models';
+import { devLogger } from '../../../../shared/utils';
 
 @Component({
   selector: 'app-personal-details-tab',
   templateUrl: './personal-details-tab.component.html',
-  styleUrls: ['./personal-details-tab.component.scss']
+  styleUrls: ['./personal-details-tab.component.scss'],
 })
-export class PersonalDetailsTabComponent implements OnInit, OnDestroy, OnChanges {
-
+export class PersonalDetailsTabComponent
+  implements OnInit, OnDestroy, OnChanges
+{
   //OLD_MOBILE_REGEX = new RegExp(/^(?!(\d)\1+$)(?:\(?\+\d{1,3}\)?[- ]?|0)?\d{11}$/);
   MOBILE_REGEX = new RegExp(/^(?:0|\+[1-9]{1,3})\d{10,15}$/);
-  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/);
+  EMAIL_REGEX = new RegExp(
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,20}))$/
+  );
   @Input() personalDetails: any;
-  @Output() moveToCompanyDetailsTab = new EventEmitter<CreateProfilePersonalDetails>();
+  @Output() moveToCompanyDetailsTab =
+    new EventEmitter<CreateProfilePersonalDetails>();
   @Output() profileImageChangeEvent = new EventEmitter<File>();
   // @ts-ignore
   personalDetailsForm: FormGroup;
@@ -26,15 +41,15 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy, OnChanges
   //personalDetails: CreateProfilePersonalDetails;
   profileImageConfig: FileUploadConfigInterface = {
     fileTypes: environment.imageFileAllowedFormats,
-    size: environment.imageFileUploadSize
+    size: environment.imageFileUploadSize,
   };
   selectedProfileImage: File | undefined;
   selectedImageSrc: string | undefined;
-
+  tandc: boolean = false;
   constructor(
     private fb: FormBuilder,
-    private getRegionAndCountriesService: GetRegionAndCountriesService) {
-  }
+    private getRegionAndCountriesService: GetRegionAndCountriesService
+  ) {}
 
   ngOnInit(): void {
     this.getRegionAndCountriesService.getAllCountriesOnly();
@@ -44,24 +59,36 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy, OnChanges
       firstName: ['', [Validators.required]],
       lastName: [''],
       email: ['', [Validators.required, Validators.pattern(this.EMAIL_REGEX)]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(12)]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(12),
+        ],
+      ],
       timeZone: [this.timeZones[0], [Validators.required]],
       mobileNumber: [''],
       city: ['', [Validators.required]],
       countryId: ['', [Validators.required]],
-      inviteUID: ['']
+      inviteUID: [''],
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('personal details: ', changes.personalDetails.currentValue);
     if (this.personalDetails?.email) {
-      this.personalDetailsForm.controls['email'].setValue(this.personalDetails?.email);
-      this.personalDetailsForm.controls['firstName'].setValue(this.personalDetails?.firstName);
-      this.personalDetailsForm.controls['inviteUID'].setValue(this.personalDetails?.inviteUID);
+      this.personalDetailsForm.controls['email'].setValue(
+        this.personalDetails?.email
+      );
+      this.personalDetailsForm.controls['firstName'].setValue(
+        this.personalDetails?.firstName
+      );
+      this.personalDetailsForm.controls['mobileNumber'].setValue(
+        this.personalDetails?.mobile
+      );
+      this.personalDetailsForm.controls['inviteUID'].setValue(
+        this.personalDetails?.inviteUID
+      );
     }
   }
 
@@ -75,6 +102,12 @@ export class PersonalDetailsTabComponent implements OnInit, OnDestroy, OnChanges
     this.selectedProfileImage = event;
     this.profileImageChangeEvent.emit(event);
     devLogger('log', { FILEEEEE: event });
+  }
+
+  onChange(ev: any) {
+    console.log(ev.target.value);
+    this.tandc = this.tandc;
+    console.log(this.tandc);
   }
 
   ngOnDestroy(): void {

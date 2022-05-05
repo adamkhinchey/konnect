@@ -1,16 +1,17 @@
-
 <div class="mainContent">
     <div class="ui container">
         <div class="ui grid">
             <div class="eleven wide column middle aligned" *ngIf="data.commonData">
-                <div class="eventInfo"><b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span> {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}</div>
+                <div class="eventInfo"><b>{{data.commonData.title}}</b> for
+                    <span>{{data.commonData.clientCompanyName}}</span> {{data.commonData.eventStartDate |
+                    date:'dd-MMMM-YYYY'}}</div>
             </div>
             <div class="sixteen wide column maxWidth">
                 <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui"
                     (navChange)="onNavChange($event)">
                     <li [ngbNavItem]="1">
                         <a ngbNavLink class="item tabAdmin">
-                            <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="18px" > </i>
+                            <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="18px"> </i>
                             <span class="hideMobile">CLIENT</span></a>
                         <ng-template ngbNavContent>
                             <div class="ui segment" *ngIf="data.eventData && data.eventData.client && active == 1">
@@ -20,7 +21,7 @@
                                             <div class="companyContainer marginB20">
                                                 <div class="field checkboxOnHeader">
                                                     <div class="ui dividing header">
-                                                        <h3>Client Company <i class="globe icon"></i></h3>
+                                                        <h3>Client Company<i class="globe icon"></i></h3>
                                                     </div>
                                                     <div class="ui checkbox">
                                                         <input type="checkbox" class="hidden"
@@ -191,10 +192,12 @@
                     </li>
                     <li [ngbNavItem]="2">
                         <a ngbNavLink class="item tabAdmin">
-                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="18px" > </i>
+                            <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="18px">
+                            </i>
                             <span class="hideMobile">EVENT MANAGER</span></a>
                         <ng-template ngbNavContent>
-                            <div class="ui segment" *ngIf="data.eventData && data.eventData.eventManager && active == 2">
+                            <div class="ui segment"
+                                *ngIf="data.eventData && data.eventData.eventManager && active == 2">
                                 <form class="ui form">
                                     <div class="ui grid stackable">
                                         <div class="seven wide column">
@@ -361,12 +364,17 @@
                                             <div class="companyContainer marginB20">
                                                 <div class="ui dividing header">
                                                     <h3>Notes to All Venues
-                                                        <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i>
-                                                        <i class="map marker alternate icon"></i></h3>
+                                                        <i class="icon"> <img
+                                                                src="../../../../../assets/img/client-icon.png"
+                                                                width="15px"> </i>
+                                                        <i class="icon"> <img
+                                                                src="../../../../../assets/img/event-manager-icon.png"
+                                                                width="15px"> </i>
+                                                        <i class="map marker alternate icon"></i>
+                                                    </h3>
                                                 </div>
                                                 <div class="field">
-                                                    <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
+                                                    <div *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
                                                         class="textarea" contenteditable="">
                                                         {{data.eventData?.venues[0]?.venueNotesToAll}}
                                                     </div>
@@ -416,7 +424,8 @@
                                                                                                 <img class="right floated mini ui image"
                                                                                                     [src]="venue.companyProfileImage"
                                                                                                     appImageFallback
-                                                                                                    fallbackImage="../../assets/img/default_konnect_img.png">
+                                                                                                    fallbackImage="../../assets/img/default_konnect_img.png"
+                                                                                                    onerror="src='../../assets/img/default_konnect_img.png'">
                                                                                                 <div class="header">
                                                                                                     <a href="/VCP.html"
                                                                                                         target="_blank">{{venue.venueCompanyName}}</a>
@@ -452,7 +461,7 @@
                                                                         </div>
                                                                         <div class="contactsContainer">
                                                                             <div class="ui dividing header">
-                                                                                <h3>Venue Contacts <i
+                                                                                <h3>Venue Contacts<i
                                                                                         class="globe icon"></i></h3>
                                                                             </div>
                                                                             <div class="kipCardContainer">
@@ -506,7 +515,7 @@
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                       
+
                                                                                 </div>
                                                                             </div>
                                                                             <div class="ui grid stackable center aligned"
@@ -543,17 +552,21 @@
                                                                                     [eventNotes]="venue.eventTime[idx]?.notes"
                                                                                     [postEventNotes]="venue.postEventTime[idx]?.notes">
                                                                                 </app-time-windows>
-                                                                        
+
                                                                             </div>
                                                                         </div>
                                                                         <div class="ui dividing header">
-                                                                            <h3>Venue Requirements <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                                <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                            <h3>Venue Requirements <i class="icon"> <img
+                                                                                        src="../../../../../assets/img/client-icon.png"
+                                                                                        width="15px"> </i>
+                                                                                <i class="icon"> <img
+                                                                                        src="../../../../../assets/img/event-manager-icon.png"
+                                                                                        width="15px"> </i><i
                                                                                     class="map marker alternate icon"></i>
                                                                             </h3>
                                                                         </div>
                                                                         <div class="field">
-                                                                            <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
+                                                                            <div *ngIf="permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
                                                                                 class="textarea" contenteditable="">
                                                                                 {{venue.venueRequirements}}
                                                                             </div>
@@ -562,7 +575,7 @@
                                                                         </div>
 
                                                                     </div>
-                                                          
+
                                                                     <div
                                                                         class="sixteen wide column saveButtons paddingT0">
                                                                         <div class="ui divider"></div>
@@ -575,7 +588,7 @@
                                                                             </div>
                                                                             <div
                                                                                 class="six wide column right aligned hideMobile">
-                                                                        
+
                                                                                 <div *ngIf="!isVenueEdit"
                                                                                     class="ui button triggerEditableOptions ml-3"
                                                                                     (click)="editVenue()">Edit
@@ -588,7 +601,7 @@
                                                                             </div>
                                                                             <div
                                                                                 class="six wide column right aligned visibleMobile">
-                                                               
+
                                                                                 <div *ngIf="!isVenueEdit"
                                                                                     class="ui button triggerEditableOptions halfWidth ml-3"
                                                                                     (click)="editVenue()">Edit
@@ -642,9 +655,13 @@
                                                     <div class="sixteen wide column">
                                                         <div class="companyContainer marginB20">
                                                             <div class="ui dividing header">
-                                                                <h3>Notes to All Suppliers <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
-                                                                        class="truck icon"></i></h3>
+                                                                <h3>Notes to All Suppliers <i class="icon"> <img
+                                                                            src="../../../../../assets/img/client-icon.png"
+                                                                            width="15px"> </i>
+                                                                    <i class="icon"> <img
+                                                                            src="../../../../../assets/img/event-manager-icon.png"
+                                                                            width="15px"> </i><i class="truck icon"></i>
+                                                                </h3>
                                                             </div>
                                                             <div class="field">
                                                                 <div *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  permissionObj.isService; else no_access"
@@ -691,8 +708,12 @@
                                                                         <div class="seven wide column">
                                                                             <div class="companyContainer marginB20">
                                                                                 <div class="ui dividing header">
-                                                                                    <h3>Service Name <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                    <h3>Service Name <i class="icon">
+                                                                                            <img src="../../../../../assets/img/client-icon.png"
+                                                                                                width="15px"> </i>
+                                                                                        <i class="icon"> <img
+                                                                                                src="../../../../../assets/img/event-manager-icon.png"
+                                                                                                width="15px"> </i><i
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
@@ -704,8 +725,13 @@
                                                                                 <ng-template #no_access>No access
                                                                                 </ng-template>
                                                                                 <div class="ui dividing header">
-                                                                                    <h3>Supplier Company <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                    <h3>Supplier Company <i
+                                                                                            class="icon"> <img
+                                                                                                src="../../../../../assets/img/client-icon.png"
+                                                                                                width="15px"> </i>
+                                                                                        <i class="icon"> <img
+                                                                                                src="../../../../../assets/img/event-manager-icon.png"
+                                                                                                width="15px"> </i><i
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
@@ -718,7 +744,8 @@
                                                                                                     <img class="right floated mini ui image"
                                                                                                         [src]="service.companyProfileImage"
                                                                                                         appImageFallback
-                                                                                                        fallbackImage="../../assets/img/default_konnect_img.png">
+                                                                                                        fallbackImage="../../assets/img/default_konnect_img.png"
+                                                                                                        onerror="src='../../assets/img/default_konnect_img.png'">
                                                                                                     <div class="header">
                                                                                                         <a href="/VCP.html"
                                                                                                             target="_blank">{{service.serviceCompanyName}}</a>
@@ -757,8 +784,13 @@
                                                                             </div>
                                                                             <div class="contactsContainer">
                                                                                 <div class="ui dividing header">
-                                                                                    <h3>Supplier Contacts<i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                    <h3>Supplier Contacts <i
+                                                                                            class="icon"> <img
+                                                                                                src="../../../../../assets/img/client-icon.png"
+                                                                                                width="15px"> </i>
+                                                                                        <i class="icon"> <img
+                                                                                                src="../../../../../assets/img/event-manager-icon.png"
+                                                                                                width="15px"> </i><i
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
@@ -812,7 +844,7 @@
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                  
+
                                                                                     </div>
                                                                                     <ng-template #no_access>No access
                                                                                     </ng-template>
@@ -833,9 +865,15 @@
 
                                                                         <div class="nine wide column">
                                                                             <div class="ui dividing header">
-                                                                                <h3>Service Requirements <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
-                                                                                        class="building icon"></i></h3>
+                                                                                <h3>Service Requirements <i
+                                                                                        class="icon"> <img
+                                                                                            src="../../../../../assets/img/client-icon.png"
+                                                                                            width="15px"> </i>
+                                                                                    <i class="icon"> <img
+                                                                                            src="../../../../../assets/img/event-manager-icon.png"
+                                                                                            width="15px"> </i><i
+                                                                                        class="building icon"></i>
+                                                                                </h3>
                                                                             </div>
                                                                             <div class="field">
                                                                                 <div *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service.isViewPermission==1; else no_access"
@@ -848,8 +886,13 @@
                                                                             <div class="field">
                                                                                 <div class="timeWindowsContainer">
                                                                                     <div class="ui dividing header">
-                                                                                        <h3>Supplier Time Windows <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                        <h3>Supplier Time Windows <i
+                                                                                                class="icon"> <img
+                                                                                                    src="../../../../../assets/img/client-icon.png"
+                                                                                                    width="15px"> </i>
+                                                                                            <i class="icon"> <img
+                                                                                                    src="../../../../../assets/img/event-manager-icon.png"
+                                                                                                    width="15px"> </i><i
                                                                                                 class="building icon"></i>
                                                                                         </h3>
                                                                                     </div>
@@ -873,7 +916,7 @@
                                                                                     <ng-template #no_access>No access
                                                                                     </ng-template>
 
-                                                                                 
+
                                                                                 </div>
                                                                             </div>
 
@@ -892,7 +935,7 @@
                                                                             </div>
                                                                             <div
                                                                                 class="six wide column right aligned hideMobile">
-                                                                  
+
                                                                                 <div *ngIf="!isSupplierEdit"
                                                                                     class="ui button triggerEditableOptions ml-3"
                                                                                     (click)="editSupplier()">Edit
@@ -905,7 +948,7 @@
                                                                             </div>
                                                                             <div
                                                                                 class="six wide column right aligned visibleMobile">
-                                                    
+
                                                                                 <div *ngIf="!isSupplierEdit"
                                                                                     class="ui button triggerEditableOptions halfWidth ml-3"
                                                                                     (click)="editSupplier()">Edit
@@ -964,9 +1007,14 @@
 
                                                         <div class="seven wide column">
                                                             <div class="ui dividing header">
-                                                                <h3>Notes to All Exhibitors <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
-                                                                        class="exhibitor icon"></i></h3>
+                                                                <h3>Notes to All Exhibitors <i class="icon"> <img
+                                                                            src="../../../../../assets/img/client-icon.png"
+                                                                            width="15px"> </i>
+                                                                    <i class="icon"> <img
+                                                                            src="../../../../../assets/img/event-manager-icon.png"
+                                                                            width="15px"> </i><i
+                                                                        class="exhibitor icon"></i>
+                                                                </h3>
                                                             </div>
                                                             <div class="field">
                                                                 <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"
@@ -982,9 +1030,14 @@
                                                             <div class="field">
                                                                 <div class="timeWindowsContainer">
                                                                     <div class="ui dividing header">
-                                                                        <h3>Exhibition Time windows <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
-                                                                                class="exhibitor icon"></i></h3>
+                                                                        <h3>Exhibition Time windows <i class="icon">
+                                                                                <img src="../../../../../assets/img/client-icon.png"
+                                                                                    width="15px"> </i>
+                                                                            <i class="icon"> <img
+                                                                                    src="../../../../../assets/img/event-manager-icon.png"
+                                                                                    width="15px"> </i><i
+                                                                                class="exhibitor icon"></i>
+                                                                        </h3>
                                                                     </div>
 
                                                                     <app-time-windows
@@ -1046,8 +1099,13 @@
                                                                             <div class="seven wide column">
                                                                                 <div class="companyContainer marginB20">
                                                                                     <div class="ui dividing header">
-                                                                                        <h3>Exhibitor Company <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                        <h3>Exhibitor Company<i
+                                                                                                class="icon"> <img
+                                                                                                    src="../../../../../assets/img/client-icon.png"
+                                                                                                    width="15px"> </i>
+                                                                                            <i class="icon"> <img
+                                                                                                    src="../../../../../assets/img/event-manager-icon.png"
+                                                                                                    width="15px"> </i><i
                                                                                                 class="building icon"></i>
                                                                                         </h3>
                                                                                     </div>
@@ -1061,7 +1119,8 @@
                                                                                                         <img class="right floated mini ui image"
                                                                                                             [src]="exhibitor.companyProfileImage"
                                                                                                             appImageFallback
-                                                                                                            fallbackImage="../../assets/img/default_konnect_img.png">
+                                                                                                            fallbackImage="../../assets/img/default_konnect_img.png"
+                                                                                                            onerror="src='../../assets/img/default_konnect_img.png'">
                                                                                                         <div
                                                                                                             class="header">
                                                                                                             <a href="/VCP.html"
@@ -1103,8 +1162,13 @@
                                                                                 </div>
                                                                                 <div class="contactsContainer">
                                                                                     <div class="ui dividing header">
-                                                                                        <h3>Exhibitor Contacts <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                        <h3>Exhibitor Contacts <i
+                                                                                                class="icon"> <img
+                                                                                                    src="../../../../../assets/img/client-icon.png"
+                                                                                                    width="15px"> </i>
+                                                                                            <i class="icon"> <img
+                                                                                                    src="../../../../../assets/img/event-manager-icon.png"
+                                                                                                    width="15px"> </i><i
                                                                                                 class="building icon"></i>
                                                                                         </h3>
                                                                                     </div>
@@ -1162,7 +1226,7 @@
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                        
+
                                                                                         </div>
                                                                                         <ng-template #no_access>No
                                                                                             access</ng-template>
@@ -1184,8 +1248,12 @@
 
                                                                             <div class="nine wide column">
                                                                                 <div class="ui dividing header">
-                                                                                    <h3>Stand Number <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                    <h3>Stand Number <i class="icon">
+                                                                                            <img src="../../../../../assets/img/client-icon.png"
+                                                                                                width="15px"> </i>
+                                                                                        <i class="icon"> <img
+                                                                                                src="../../../../../assets/img/event-manager-icon.png"
+                                                                                                width="15px"> </i><i
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
@@ -1198,8 +1266,13 @@
                                                                                 <ng-template #no_access>No access
                                                                                 </ng-template>
                                                                                 <div class="ui dividing header">
-                                                                                    <h3>Notes to Specific Exhibitor <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                    <h3>Notes to Specific Exhibitor <i
+                                                                                            class="icon"> <img
+                                                                                                src="../../../../../assets/img/client-icon.png"
+                                                                                                width="15px"> </i>
+                                                                                        <i class="icon"> <img
+                                                                                                src="../../../../../assets/img/event-manager-icon.png"
+                                                                                                width="15px"> </i><i
                                                                                             class="building icon"></i>
                                                                                     </h3>
                                                                                 </div>
@@ -1214,8 +1287,14 @@
                                                                                     <div class="timeWindowsContainer">
                                                                                         <div class="ui dividing header">
                                                                                             <h3>Exhibitor Specific Time
-                                                                                                windows <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
-                                                                                                <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                                windows <i class="icon">
+                                                                                                    <img src="../../../../../assets/img/client-icon.png"
+                                                                                                        width="15px">
+                                                                                                </i>
+                                                                                                <i class="icon"> <img
+                                                                                                        src="../../../../../assets/img/event-manager-icon.png"
+                                                                                                        width="15px">
+                                                                                                </i><i
                                                                                                     class="building icon"></i>
                                                                                             </h3>
                                                                                         </div>
@@ -1240,7 +1319,7 @@
                                                                                         <ng-template #no_access>No
                                                                                             access</ng-template>
 
-                                                                                    
+
                                                                                     </div>
                                                                                 </div>
 
@@ -1258,7 +1337,7 @@
                                                                                     </div>
                                                                                     <div
                                                                                         class="six wide column right aligned hideMobile">
-                                                             
+
                                                                                         <div *ngIf="!isExhibitorEdit"
                                                                                             class="ui button triggerEditableOptions ml-3"
                                                                                             (click)="editExhibitor()">
@@ -1315,7 +1394,7 @@
                         <ng-template ngbNavContent>
                             <app-event-files-function [permissionObj]="permissionObj"
                                 [eventID]="data.eventData.eventId"></app-event-files-function>
-                      
+
                         </ng-template>
                     </li>
                     <li [ngbNavItem]="7">
@@ -1324,7 +1403,7 @@
                         <ng-template ngbNavContent>
                             <app-event-timeline-function [eventId]="data.eventData.eventId">
                             </app-event-timeline-function>
-                     
+
                         </ng-template>
                     </li>
                 </ul>
@@ -1437,7 +1516,7 @@
                                         <span class="smallText">*compulsory fields</span>
                                     </div>
                                     <div class="sixteen wide column center aligned paddingT0">
-                                        <div class="ui button">Add Comapny and invite</div>
+                                        <div class="ui button">Add Company and invite</div>
                                     </div>
                                 </div>
                             </form>
@@ -1460,6 +1539,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <span style="font-size: 14px;padding: 14px;">Limit of 8 files in this section, 100MB per file</span>
             <div class="modal-body">
                 <div class="content uploadDocuments">
                     <form class="ui form">

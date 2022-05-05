@@ -5,6 +5,7 @@ import {SaveEventClass} from '../../models/classes/saveEvent.class';
 import {Subscription} from 'rxjs';
 import {EventService} from '../../services/event.service';
 import {EventFunctionTypes} from '../../models/types';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-event-manager-function',
@@ -19,7 +20,44 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   @Output() saveAndInvite = new EventEmitter<boolean>();
   isOwnCompany = false;
   private subs1: Subscription | undefined;
-
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
+    toolbarHiddenButtons: [
+      [
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(public eventService: EventService) {
   }
 
@@ -76,7 +114,6 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   }
 
   goToCompanyProfile(companyId:any) {
-    console.log(companyId);
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));

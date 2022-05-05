@@ -15,17 +15,14 @@
                 <div class="field">
                   <div class="ui grid centered">
                     <div class="ten wide column marginB10 marginT10">
-                      <img
-                        [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): userInfo?.profileImage"
-                        alt="" class="ui medium fluid image marginB10 userleftImgUpdate" appImageFallback fallbackImage="../../assets/img/profile.png">
-                      <div class="ui button basic small compact blue fluid" *ngIf="!isView"
-                           appFileUploadTrigger
-                           [fileUploadComponentRef]="fileUploadComponent">Replace profile image
+                      <img [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): userInfo?.profileImage" alt=""
+                        class="ui medium fluid image marginB10 userleftImgUpdate" appImageFallback
+                        fallbackImage="../../assets/img/profile.png">
+                      <div class="ui button basic small compact blue fluid" *ngIf="!isView" appFileUploadTrigger
+                        [fileUploadComponentRef]="fileUploadComponent">Replace profile image
                       </div>
-                      <app-file-upload #fileUploadComponent
-                                       [config]="profileImageConfig"
-                                       (fileChange)="setSelectedImage($event)"
-                      ></app-file-upload>
+                      <app-file-upload #fileUploadComponent [config]="profileImageConfig"
+                        (fileChange)="setSelectedImage($event)"></app-file-upload>
                     </div>
                   </div>
                 </div>
@@ -33,26 +30,19 @@
                   &nbsp;
                 </div>
               </div>
+
               <div class="two fields">
                 <div class="field required">
                   <label for="edit-profile-first-name">First Name</label>
-                  <input id="edit-profile-first-name" [readonly]="isView"
-                         type="text"
-                         placeholder="First Name"
-                         formControlName="firstName"
-                         required>
-                  <span
-                    *ngIf="editProfileForm!.get('firstName')?.touched
-          && editProfileForm!.get('firstName')?.errors?.required"
-                    class="text-danger"
-                  >First Name is Required</span>
+                  <input id="edit-profile-first-name" [readonly]="isView" type="text" placeholder="First Name"
+                    formControlName="firstName" required>
+                  <span *ngIf="editProfileForm!.get('firstName')?.touched
+          && editProfileForm!.get('firstName')?.errors?.required" class="text-danger">First Name is Required</span>
                 </div>
                 <div class="field">
                   <label>Last Name</label>
-                  <input id="edit-profile-last-name" [readonly]="isView"
-                         type="text"
-                         placeholder="Last Name"
-                         formControlName="lastName">
+                  <input id="edit-profile-last-name" [readonly]="isView" type="text" placeholder="Last Name"
+                    formControlName="lastName">
                 </div>
               </div>
               <div class="field">
@@ -61,46 +51,37 @@
               </div>
               <div class="field required">
                 <label>Email Address</label>
-                <input id="edit-profile-email" [readonly]="isView"
-                       type="email"
-                       placeholder="Email Address"
-                       formControlName="email"
-                       [attr.disabled]="true">
-                <span
-                  *ngIf="editProfileForm!.get('email')?.touched
+                <input id="edit-profile-email" [readonly]="isView" type="email" placeholder="Email Address"
+                  formControlName="email" [attr.disabled]="true">
+                <span *ngIf="editProfileForm!.get('email')?.touched
           && (
           editProfileForm!.get('email')?.errors?.required ||
           editProfileForm!.get('email')?.errors?.pattern
-          )"
-                  class="text-danger"
-                >A valid email is required</span>
+          )" class="text-danger">A valid email is required</span>
+                <button *ngIf="!isEmailVerified" (click)="resendEmailVerification()"
+                  class="ui button ml-2 resend-button">Resend Email Verification
+                </button>
               </div>
               <div class="field" [hidden]="true">
                 <label>Recovery Email</label>
                 <input type="email" formControlName="recoveryEmail" [readonly]="isView">
-                <span
-                  *ngIf="editProfileForm!.get('recoveryEmail')?.touched
-          && (editProfileForm!.get('recoveryEmail')?.errors?.pattern)"
-                  class="text-danger"
-                >A valid email is required</span>
+                <span *ngIf="editProfileForm!.get('recoveryEmail')?.touched
+          && (editProfileForm!.get('recoveryEmail')?.errors?.pattern)" class="text-danger">A valid email is
+                  required</span>
               </div>
               <div class="field">
                 <label>Time Zone</label>
-                <div class="CusSelectArrow" >
-                  <select class="ui fluid dropdown" [attr.disabled]="isView"
-                          formControlName="timeZone">
+                <div class="CusSelectArrow">
+                  <select class="ui fluid dropdown" [attr.disabled]="isView" formControlName="timeZone">
                     <option *ngFor="let timeZone of timeZones" [ngValue]="timeZone" [disabled]="!timeZone.val">
                       {{ timeZone.name }}
                     </option>
                   </select>
                 </div>
-                <span
-                  *ngIf="editProfileForm!.get('timeZone')?.touched
+                <span *ngIf="editProfileForm!.get('timeZone')?.touched
           && (
           editProfileForm!.get('timeZone')?.hasError('required')
-          )"
-                  class="text-danger"
-                >Time-zone is required</span>
+          )" class="text-danger">Time-zone is required</span>
               </div>
               <div class="two fields">
                 <div class="field">
@@ -117,37 +98,33 @@
                 <div class="field required">
                   <label>City</label>
                   <input type="text" formControlName="city">
-                  <span
-                    *ngIf="editProfileForm!.get('city')?.touched
+                  <span *ngIf="editProfileForm!.get('city')?.touched
           && (
           editProfileForm!.get('city')?.hasError('required')
-          )"
-                    class="text-danger"
-                  >City is required</span>
+          )" class="text-danger">City is required</span>
                 </div>
                 <div class="field required">
                   <label>Country</label>
-                  <div class="CusSelectArrow" >
-                    <select class="ui fluid dropdown selection" [attr.disabled]="isView"
-                            formControlName="countryId" required>
+                  <div class="CusSelectArrow">
+                    <select class="ui fluid dropdown selection" [attr.disabled]="isView" formControlName="countryId"
+                      required>
                       <option *ngFor="let cntr of countries" [ngValue]="cntr.val" [disabled]="!cntr.val">
                         {{ cntr.name }}
                       </option>
                     </select>
                   </div>
-                  <span
-                    *ngIf="editProfileForm!.get('countryId')?.touched
+                  <span *ngIf="editProfileForm!.get('countryId')?.touched
           && (
           editProfileForm!.get('countryId')?.hasError('required')
-          )"
-                    class="text-danger"
-                  >Country is required</span>
+          )" class="text-danger">Country is required</span>
                 </div>
               </div>
               <div class="field">
                 <label>About Me</label>
-                <textarea rows="3" class="textarea" formControlName="aboutMe" [readonly]="isView">
-                </textarea>
+                <!-- <textarea rows="3" class="textarea" formControlName="aboutMe" [readonly]="isView">
+                </textarea> -->
+                <angular-editor formControlName="aboutMe" [config]="config" (focus)="changeConfig()">
+                </angular-editor>
                 <p class="textRight marginT10 smallText">*compulsory fields</p>
               </div>
               <div class="sixteen wide column paddingT0">
@@ -156,17 +133,17 @@
               <div class="ui grid stackable" *ngIf="!isView">
                 <div (click)="confirmDeleteUserProfile($event)" class="eight wide column middle aligned">
                   <a class="ui mini basic button confirmRemove hasModal" data-modal="removeModal"><i
-                    class="ui trash icon"></i>Delete Profile</a>
+                      class="ui trash icon"></i>Delete Profile</a>
                 </div>
                 <div class="eight wide column right aligned">
                   <!-- <a disabled class="ui button basic blue hideMobile">Change Password</a> -->
                   <button (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)"
-                          class="ui button hideMobile ml-2">Save
+                    class="ui button hideMobile ml-2">Save
                   </button>
                   <!-- <div disabled class="marginB10 visibleMobile"><a href="RP-01.html" class="ui button basic blue fluid">Change
                     Password</a></div> -->
                   <button (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)"
-                          class="ui button fluid visibleMobile ml-2">Save
+                    class="ui button fluid visibleMobile ml-2">Save
                   </button>
                 </div>
               </div>
@@ -184,8 +161,9 @@
                         <div class="ui fluid card">
                           <div class="content">
                             <img class="right floated mini ui image circular"
-                                 [src]="company.companyProfileImage || '../../assets/img/default_konnect_img.png'"
-                            appImageFallback  fallbackImage="../../assets/img/default_konnect_img.png">
+                              [src]="company.companyProfileImage || '../../assets/img/default_konnect_img.png'"
+                              appImageFallback fallbackImage="../../assets/img/default_konnect_img.png"
+                              onerror="src='../../assets/img/default_konnect_img.png'">
                             <div class="header">
                               <a (click)="goToCompanyProfile(company.id, company.isPrivate)">{{company.companyName}}</a>
                             </div>
@@ -195,8 +173,7 @@
                                 {{company?.website}}
                               </a>
                               <span *ngIf="company?.website">|</span>
-                              <span class="m-0"><i
-                                class="map marker alternate icon"></i>
+                              <span class="m-0"><i class="map marker alternate icon"></i>
                                 {{company.city}}
                               </span>
                               <span>|</span>
@@ -209,19 +186,18 @@
                               <div class="ten wide column" *ngIf="!isView">
                                 <div class="field">
                                   <div class="ui toggle checkbox checked">
-                                    <input type="radio" [checked]="company.isDefault"
-                                           [id]="'defCom'+(company.id+1)" tabindex="0"
-                                           [value]="company.id"
-                                           formControlName="defaultCompanyId"
-                                           class="hidden">
+                                    <input type="radio" [checked]="company.isDefault" [id]="'defCom'+(company.id+1)"
+                                      tabindex="0" [value]="company.id" formControlName="defaultCompanyId"
+                                      class="hidden">
                                     <label [for]="'defCom'+(company.id+1)">Default company</label>
                                   </div>
                                 </div>
                               </div>
-                              <div class="six wide column right aligned middle aligned"  *ngIf="!isView">
-                                <div *ngIf="!(company.isDefault===1)" class="ui circular compact mini basic icon button confirmRemove hasModal"
-                                     (click)="confirmRemoveCompany(company.id,i,company.isDefault===1)"><i
-                                  class="trash icon"></i></div>
+                              <div class="six wide column right aligned middle aligned" *ngIf="!isView">
+                                <div *ngIf="!(company.isDefault===1)"
+                                  class="ui circular compact mini basic icon button confirmRemove hasModal"
+                                  (click)="confirmRemoveCompany(company.id,i,company.isDefault===1)"><i
+                                    class="trash icon"></i></div>
                               </div>
                             </div>
                           </div>
@@ -299,7 +275,8 @@
                   </div>
 
                 </div>
-                <a  *ngIf="!isView" (click)="navigateToJoinCreateCompany($event)" class="ui button fluid">Join or create a company</a>
+                <a *ngIf="!isView && isEmailVerified" (click)="navigateToJoinCreateCompany($event)"
+                  class="ui button fluid">Join or create a company</a>
               </div>
             </div>
           </div>
@@ -309,10 +286,7 @@
   </div>
 
 
-  <app-remove-modal
-    [toRemove]="removalType"
-    (cancel)="cancelRemove($event)"
-    (confirm)="confirmRemove($event)"
+  <app-remove-modal [toRemove]="removalType" (cancel)="cancelRemove($event)" (confirm)="confirmRemove($event)"
     [modalInfoContent]="removeMessage">
   </app-remove-modal>
 

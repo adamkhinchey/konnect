@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
 import { NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { EventPanelNavComponent } from '../event-panel-nav/event-panel-nav.component';
 import { Company } from '../../../users/models';
@@ -81,7 +81,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   isEditEvents: boolean = false;
   isSaveDisable: boolean = false;
 
-  permissionObj = { isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
+  permissionObj = { isCrew: false,isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
   public isClientEditable = false;
   public isManagerEditable = false;
   public isVenueEditable = false;
@@ -91,6 +91,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   public supplierCount: number = 0;
   public exhibitorCount: number = 0;
   public emitedCrew: number = 0;
+  isSticky: boolean = false;
+  isEmailVerified:boolean|undefined =false;
 
   constructor(
     // public modalService: NgbModal,
@@ -109,9 +111,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eventService.isEdit = true;
   }
 
-  checkVenuePermission(){
+  checkVenuePermission() {
     console.log(this.eventService.activeVenuePanelIndex)
   }
+
+  @HostListener('window:scroll', ['$event'])
+  checkScroll() {
+    this.isSticky = window.pageYOffset >= 100;
+  }
+
 
   ngOnInit(): void {
     this.eventService.reset();
@@ -119,7 +127,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       this.defaultCompany = value.defaultCompany;
       this.eventToBeSaved.createrUserId = this.authService.getUserInfo().id;
       this.eventToBeSaved.creatorFromCompanyId = this.defaultCompany.id;
-
+      this.isEmailVerified = value.isEmailVerified;
       switch (this.selectedFunction) {
         case EventFunctionTypes.CLIENT:
           if (this.defaultCompany && this.data?.eventData?.client?.isOwnCompany === 1 && this.updateFnCmpToSelf.get(EventFunctionTypes.CLIENT)) {
@@ -213,7 +221,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getEventsById(tabType: any) {
     this.viewEvSrvc.getEventsByEventId(this.eventId, tabType).subscribe((res: any) => {
-      console.log(res);
+      console.log(res,'res tab type',tabType);
       if (res && res.eventData) {
         if (tabType === 1) {
           this.data.eventData = res.eventData;
@@ -241,7 +249,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               companyType: '',
               canClaim: 0,
               canJoin: 0,
-              isPrivate: this.data.eventData.client.isPrivate || 0
+              isPrivate: this.data.eventData.client.isPrivate || 0,
+              isSeed: this.data.eventData.client.isSeed || 0
             } as Company);
             this.eventToBeSaved = ({
               title: this.data.eventData.title,
@@ -301,7 +310,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               companyType: '',
               canClaim: 0,
               canJoin: 0,
-              isPrivate: this.data.eventData.eventManager.isPrivate || 0
+              isPrivate: this.data.eventData.eventManager.isPrivate || 0,
+              isSeed: this.data.eventData.eventManager.isSeed || 0
             } as Company);
             this.eventToBeSaved = ({
               title: this.data.eventData.title,
@@ -337,6 +347,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
         if (tabType === 3) {
+          this.venueCompanies=[];
+          this.venueContactLists=[];
           this.data.eventData = res.eventData;
           if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
             this.eventService.activeVenuePanelIndex = 0;
@@ -350,6 +362,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   isStaffOrAdmin: venue.isStaffOrAdmin,
                   isViewPermission: venue.isViewPermission,
                   isPrivate: venue.isPrivate || 0,
+                  isSeed: venue.isSeed || 0,
                   contacts: venue.contacts.map((contact: any) => {
                     return {
                       id: contact.id,
@@ -373,7 +386,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   internalCmpNotes: venue.internalCmpNotes,
                   streetAddress1: venue.streetAddress1 || null,
                   streetAddress2: venue.streetAddress2 || null,
-                  state:venue.companyState || null,
+                  state: venue.companyState || null,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [],
@@ -408,7 +421,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyType: '',
                   canClaim: 0,
                   canJoin: 0,
-                  isPrivate: venues[i].isPrivate || 0
+                  isPrivate: venues[i].isPrivate || 0,
+                  isSeed: venues[i].isSeed || 0
                 } as Company));
               }
               const contacts: any = venues[i].contacts.map((contact: any) => {
@@ -432,7 +446,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
               }
 
             }
-            console.log(this.eventToBeSaved);
           }
         }
         if (tabType === 4) {
@@ -447,6 +460,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyId: venue.venueCompanyId,
                   venueId: venue.venueId,
                   isPrivate: venue.isPrivate || 0,
+                  isSeed: venue.isSeed || 0,
                   contacts: venue.contacts.map((contact: any) => {
                     return {
                       id: contact.id,
@@ -470,7 +484,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   internalCmpNotes: venue.internalCmpNotes,
                   streetAddress1: venue.streetAddress1 || null,
                   streetAddress2: venue.streetAddress2 || null,
-                  state:venue.companyState || null,
+                  state: venue.companyState || null,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [{
@@ -499,7 +513,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           companyType: '',
                           canClaim: 0,
                           canJoin: 0,
-                          isPrivate: service.isPrivate || 0
+                          isPrivate: service.isPrivate || 0,
+                          isSeed: service.isSeed || 0
                         } as Company);
                         this.eventService.addFetchedVenueSrvcCmp({ venueIndex, serviceIndex, company: serviceCompany });
                         const contacts = service.contacts.map((contact: any) => {
@@ -531,6 +546,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           status: service.status,
                           isStaffOrAdmin: service.isStaffOrAdmin,
                           isPrivate: service.isPrivate || 0,
+                          isSeed: service.isSeed || 0,
                           timeWindows: {
                             bumpIn: {
                               sameAsVenue: 0,
@@ -580,7 +596,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyType: '',
                   canClaim: 0,
                   canJoin: 0,
-                  isPrivate: venues[i].isPrivate || 0
+                  isPrivate: venues[i].isPrivate || 0,
+                  isSeed: venues[i].isSeed || 0
                 } as Company));
               }
               const contacts: any = venues[i].contacts.map((contact: any) => {
@@ -612,7 +629,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         if (tabType === 5) {
           this.eventService.resetVenueExhibitorData();
           this.data.eventData = res.eventData;
-          console.log(this.data.eventData);
           if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
             this.eventToBeSaved.venues = {
               notesToAll: this.data.eventData.venues[0].venueNotesToAll,
@@ -621,6 +637,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyId: venue.venueCompanyId,
                   venueId: venue.venueId,
                   isPrivate: venue.isPrivate || 0,
+                  isSeed: venue.isSeed || 0,
                   contacts: venue.contacts.map((contact: any) => {
                     return {
                       id: contact.id,
@@ -644,7 +661,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   internalCmpNotes: venue.internalCmpNotes,
                   streetAddress1: venue.streetAddress1 || null,
                   streetAddress2: venue.streetAddress2 || null,
-                  state:venue.companyState || null,
+                  state: venue.companyState || null,
                   shouldInvite: null,
                   invited: null,
                   suppliers: [],
@@ -689,7 +706,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             companyType: '',
                             canClaim: 0,
                             canJoin: 0,
-                            isPrivate: exhibitor.isPrivate || 0
+                            isPrivate: exhibitor.isPrivate || 0,
+                            isSeed: exhibitor.isSeed || 0
                           } as Company);
                           this.eventService.addFetchedVenueExCmp({ venueIndex, exhibitorIndex, company: exhibitorCompany });
 
@@ -722,6 +740,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             status: exhibitor.status,
                             isStaffOrAdmin: exhibitor.isStaffOrAdmin,
                             isPrivate: exhibitor.isPrivate || 0,
+                            isSeed: exhibitor.isSeed || 0,
                             timeWindows: {
                               bumpIn: {
                                 sameAsVenue: 0,
@@ -769,7 +788,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   companyType: '',
                   canClaim: 0,
                   canJoin: 0,
-                  isPrivate: venues[i].isPrivate || 0
+                  isPrivate: venues[i].isPrivate || 0,
+                  isSeed: venues[i].isSeed || 0
                 } as Company));
               }
               const contacts: any = venues[i].contacts.map((contact: any) => {
@@ -792,7 +812,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.venueContactLists.push(contacts);
               }
             }
-            console.log(this.eventToBeSaved);
             this.eventService.navigatesToExhibitors.next()
           }
         }
@@ -805,15 +824,17 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           this.eventTimelineService.render.next();
         }
       }
+
       if (res && res.userPermission) {
-        this.data.userPermission = res.userPermission;
-        this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
-        this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
-        this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
-        this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
-        this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
-
-
+        if (this.isEmailVerified){
+          this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
+          this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
+          this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
+          this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
+          this.permissionObj.isExhibitor = res.userPermission.isExhibitor == 0 ? false : true;
+        }
+        this.permissionObj.isCrew = res.userPermission.isCrew == 0 ? false : true;
+        this.data.userPermission = this.permissionObj;
       }
       if (res && res.commonData) {
         this.data.commonData = res.commonData;
@@ -1092,7 +1113,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           let venueAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
           let venueCrewAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
           venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex);
-          //@ts-ignore 
+          //@ts-ignore
           venueCrewAssignCmpCnt = this.venueFn?.venueCrewAssignCmp.get(activatedVenuePanelIndex);
           if (venueAssignCmpCnt) {
             venueAssignCmpCnt.setContactList(this.venueContactLists[activatedVenuePanelIndex]);
@@ -1167,7 +1188,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             id: cnt.id,
             email: cnt.email,
             firstName: cnt.firstName,
-            contactLabelId: cnt.contactLabelId
+            contactLabelId: cnt.contactLabelId,
+            mobile: cnt?.mobile
           };
         }) || null;
         this.eventToBeSaved.client = {
@@ -1200,7 +1222,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.clientCompany = null;
     this.clientContactList = [];
     this.eventToBeSaved.client = {
-      id: null ,
+      id: null,
       contacts: null,
       isOwnCompany: false,
       shouldInvite: null,
@@ -1276,7 +1298,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             id: cnt.id,
             email: cnt.email,
             firstName: cnt.firstName,
-            contactLabelId: cnt.contactLabelId
+            contactLabelId: cnt.contactLabelId,
+            mobile: cnt?.mobile
           };
         }) || null;
         this.eventToBeSaved.eventManager = {
@@ -1337,7 +1360,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 firstName: cnt.firstName,
                 contactLabelId: cnt.contactLabelId,
                 isCrew: cnt.isCrew ? cnt.isCrew : 0,
-                contactRole: cnt.contactRole || null
+                contactRole: cnt.contactRole || null,
+                mobile: cnt?.mobile
               };
             }) || null;
             // @ts-ignore
@@ -1433,6 +1457,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         devLogger('log', { beforeFilterVenExh: this.eventToBeSaved.venues?.list });
         for (const venuesList of this.eventToBeSaved.venues?.list) {
+          console.log('venues list...', venuesList)
+          if(cloneDeep(venuesList.exhibitorList[0] && venuesList.exhibitorList[0]!.notesToAll)){
+            console.log('in condition');
+            venuesList.notesToAllExGlobal = venuesList.exhibitorList[0]?.notesToAll;
+            venuesList.timeWindowsToAllExGlobal = venuesList.exhibitorList[0]?.timeWindowsToAll;
+          }
           const exhibitors = venuesList.exhibitorList[0]?.exhibitors;
           if (exhibitors) {
             venuesList.exhibitorList[0].exhibitors = venuesList.exhibitorList[0]?.exhibitors
@@ -1576,12 +1606,18 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
             this.eventService.fetchEventFilesSubject.next(this.savedEventId);
             this.eventService.hideInfoBar = false;
             // window.location.reload();
-            this.ngOnInit();
+            // this.ngOnInit();
+            if (EventFunctionTypes.CLIENT || EventFunctionTypes.EVENT_MANAGER || EventFunctionTypes.VENUE || EventFunctionTypes.SUPPLIERS || EventFunctionTypes.EXHIBITORS) {
+              this.isClientEditable = false;
+              this.isManagerEditable = false;
+              this.eventService.isEdit = false;
+            }
             if (EventFunctionTypes.VENUE) {
               this.eventService.reset();
-              this.ngOnInit();
+
               // this.router.navigate(['/home'], { replaceUrl: true });
             }
+            this.ngOnInit();
           }
         },
         error => {

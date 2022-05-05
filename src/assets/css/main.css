@@ -65,3 +65,50 @@ app-date-time-picker input { width: 100% !important; }
 
 	.cdk-overlay-pane.owl-dt-popup { right: auto !important; left: 30px !important; }
 }
+
+.ui.fluid.card {
+	margin-bottom: 0px;
+	margin-top: 2px;
+}
+
+.ui.grid .ui.grid { padding-top: 5px; }
+.ui.grid .column { padding-top: 5px !important; }
+.checkboxOnHeader .checkbox {
+	bottom: 2px;
+}
+.companyContainer.marginB20 { margin-bottom: 0px !important; }
+.ui.dividing.header {
+	margin-top: 15px;
+}
+.parentAccordion.parentAccordionVenue { margin-top: 15px; }
+
+.ui.dividing.header {
+	margin-bottom: 5px;
+  }
+  .contactRole { margin-bottom: 5px; } 
+  .docsContainer a.ui.button.basic {
+	margin-right: 5px !important;
+	margin-top: 10px;
+}
+.manageCollOuter .ui.dividing.header { margin-bottom: 15px; }   
+.mainContent {
+	padding-bottom: 50px;
+}
+.addToPanel {
+	top: 0.5em;
+}
+.timeWindowsContainer .sixteen .button {
+	top: 0px;
+}
+
+.alertMsgHeader {
+	background: #0091e6;
+	color: #000;
+	font-size: 16px;
+	text-align: center;
+	display: inline-block;
+	margin-top: 14px;
+	width: 100%;
+	padding: 5px 0;
+}
+.alertMsgHeader img { width: 25px; }

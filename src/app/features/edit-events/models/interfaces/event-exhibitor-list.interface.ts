@@ -24,3 +24,8 @@ export interface EventExhibitorListInterface {
   timeWindowsToAll: SuppExhTimeWindowFormatInterface;
   exhibitors: ExhibitorInterface[];
 }
+
+export interface EventExhibitorTimeWindowInterface {
+  notesToAll: string;
+  timeWindowsToAll: SuppExhTimeWindowFormatInterface;
+}

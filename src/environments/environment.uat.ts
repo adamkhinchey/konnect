@@ -34,6 +34,10 @@ export const environment = {
     'application/vnd.oasis.opendocument.spreadsheet',
     'application/vnd.oasis.opendocument.text'
   ],
+  eventXLSXAllowedFormat: [
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  ],
   siteURL,
-  eventContactLabels
+  eventContactLabels,
+  headerName:'Konnect UAT'
 };

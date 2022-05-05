@@ -1,6 +1,24 @@
 <div class="ui segment">
   <form class="ui form">
     <div class="ui grid stackable">
+
+      <div class="sixteen wide column saveButtons paddingT0">
+        <div class="ui divider"></div>
+        <div class="ui grid stackable">
+          <div class="sixteen wide column right aligned"
+            *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)">
+            <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
+            </button> -->
+            <button class="ui button triggerEditableOptions ml-3" *ngIf="check()"
+              [disabled]="eventData.eventData.isDeleted" (click)="editClientEvent()">Edit</button>
+            <button class="ui button hasModal ml-3" data-modal="inviteModal" (click)="saveAndInvite.emit(true)"
+              *ngIf="isClientEdit">Save
+              <!-- &amp; Invite -->
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="seven wide column">
         <div class="companyContainer marginB20">
           <div class="field checkboxOnHeader">
@@ -18,16 +36,21 @@
               <div class="column">
                 <div class="ui fluid card">
                   <div class="content">
+                    <span *ngIf="selectedCompany.isPrivate && selectedCompany.isSeed == 0" class="ui blue right corner label popupNotes adjustTri"
+                      data-content="Private Contact">
+                      <!--<i class="address card outline icon"></i>-->
+                      <fa-icon [icon]="addressCardIcon"></fa-icon>
+                    </span>
                     <img class="right floated mini ui image"
-                    [src]="getCompanyProfileImage() || 'assets/img/default_konnect_img.png'" appImageFallback
-                      fallbackImage="assets/img/default_konnect_img.png">
+                      [src]="getCompanyProfileImage() || 'assets/img/default_konnect_img.png'" appImageFallback
+                      fallbackImage="assets/img/default_konnect_img.png" onerror="src='assets/img/default_konnect_img.png'">
                     <div class="header">
                       <a (click)="goToCompanyProfile(getCompanyId())">{{selectedCompany.companyName}}</a>
                     </div>
                     <div class="meta">
-                      <!-- <a *ngIf="getCompanyWebsite()" [href]="getCompanyWebsite()"
+                      <a *ngIf="getCompanyWebsite()" [href]="getCompanyWebsite()"
                          target="_blank"> {{getCompanyWebsite()}}</a>
-                      <span *ngIf="getCompanyWebsite()">|</span> -->
+                      <span *ngIf="getCompanyWebsite()">|</span>
                       <span class="m-0">
                         <i class="map marker alternate icon"></i>{{selectedCompany.city}}</span>
                       <span>|</span>
@@ -72,25 +95,28 @@
         </div>
         <div class="field">
           <label>Event Description</label>
-          <textarea rows="3" class="textarea" [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.description"
-            [ngModelOptions]="{standalone:true}"></textarea>
+          <!-- <textarea rows="3" class="textarea" [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.description"
+            [ngModelOptions]="{standalone:true}"></textarea> -->
+            <angular-editor id="evDescription" [(ngModel)]="eventToBeSaved.description" [config]="config" (focus)="changeConfig()" [ngModelOptions]="{standalone: true}"></angular-editor>
         </div>
-        <div class="field">
+        <!-- <div class="field">
           <div class="ui toggle checkbox toggleOnColumn"
             (click)="eventToBeSaved.hasExhibitors=!eventToBeSaved.hasExhibitors">
             <input type="checkbox" name="exhibitors" class="hidden" tabindex="0"
               [(ngModel)]="eventToBeSaved.hasExhibitors" [ngModelOptions]="{standalone:true}">
             <label>Event has exhibitors</label>
           </div>
-        </div>
+        </div> -->
 
         <div class="nine wide column">
           <div class="ui dividing header">
             <h3>Client Internal Notes <i class="building icon"></i></h3>
           </div>
           <div class="field">
-            <textarea *ngIf="permissionObj.isClient; else no_access" rows="3" class="textarea" [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes"
-            [ngModelOptions]="{standalone:true}"></textarea>
+            <!-- <textarea *ngIf="permissionObj.isClient; else no_access" rows="3" class="textarea"
+              [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes"
+              [ngModelOptions]="{standalone:true}"></textarea> -->
+              <angular-editor id="ciNotes" *ngIf="permissionObj.isClient; else no_access" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes" [config]="config" (focus)="changeConfig()" [ngModelOptions]="{standalone: true}"></angular-editor>
             <ng-template #no_access>No access
             </ng-template>
           </div>
@@ -101,24 +127,32 @@
         <div class="ui divider"></div>
         <div class="ui grid stackable">
           <div class="ten wide column middle aligned">
-            <div *ngIf="!eventData.eventData.isDeleted && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)" class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal"
+            <div
+              *ngIf="!eventData.eventData.isDeleted && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)"
+              class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal"
               (click)="deleteEvent(eventData.eventData.eventId)"><i class="trash alternate icon"></i>Delete Event</div>
-            &nbsp;&nbsp;&nbsp;<span  *ngIf="!eventData.eventData.isDeleted">Event created by
-            {{eventToBeSaved.creatorCompanyName}},
-            {{eventToBeSaved.eventCreatedDate | date:'dd-MM-YYYY'}}
-            {{eventToBeSaved.eventCreatedDate | date:'hh:mm'}}</span>
+            &nbsp;&nbsp;&nbsp;<span *ngIf="!eventData.eventData.isDeleted">Event created by
+              {{eventToBeSaved.creatorCompanyName}},
+              {{eventToBeSaved.eventCreatedDate | date:'dd-MM-YYYY'}}
+              {{eventToBeSaved.eventCreatedDate | date:'HH:mm'}}</span>
           </div>
-          <div class="six wide column right aligned" *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)">
+          <div class="six wide column right aligned"
+            *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)">
             <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
             </button> -->
-            <button class="ui button triggerEditableOptions ml-3" *ngIf="!isClientEdit" [disabled]="eventData.eventData.isDeleted" (click)="editClientEvent()">Edit</button>
-            <button class="ui button hasModal ml-3"
-                    data-modal="inviteModal" (click)="saveAndInvite.emit(true)" *ngIf="isClientEdit">Save 
-                    <!-- &amp; Invite -->
-            </button>
+            <!-- <button class="ui button triggerEditableOptions ml-3" *ngIf="!isClientEdit"
+              [disabled]="eventData.eventData.isDeleted" (click)="editClientEvent()">Edit</button>
+            <button class="ui button hasModal ml-3" data-modal="inviteModal" (click)="saveAndInvite.emit(true)"
+              *ngIf="isClientEdit">Save
+            </button> -->
           </div>
         </div>
       </div>
+
+      <div class="sixteen wide column mb-4" >
+        <a href="https://konnectevents.freshdesk.com/support/solutions/articles/51000289442-how-to-use-client-tab" target="_blank" class="btn btn-warning warningThemeBtn" > <i class="icon info"></i> How to use this page </a>
+      </div>
+
     </div>
   </form>
 </div>

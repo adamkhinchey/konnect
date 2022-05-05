@@ -51,6 +51,23 @@ export class UploadFileService {
     );
   }
 
+  private fetchSignedUrlCreateCompany(fileName: string, fileType: string): Observable<{ signedRequest: string, url: string }> {
+    // this.spinner.show();
+    return this.http.get<SignedURLApiResponseModel>(
+      `${this.apiBaseUrl}/getS3BucketSignedURL`,
+      {params: {fileName, fileType}}
+    ).pipe(
+      // hideSpinnerPostApiCall(this.spinner),
+      this.httpErrHandler.processError(true),
+      map(response => {
+        return {
+          signedRequest: response.data?.signedUrlObj?.signedRequest,
+          url: response.data.signedUrlObj.url
+        };
+      })
+    );
+  }
+
   uploadFile(file: File, cb: (url: string) => void): void {
     const name = uuidv4() + '__' + file.name;
     let signedUploadUrl: string | null = null;
@@ -63,6 +80,28 @@ export class UploadFileService {
           signedUploadUrl = value.signedRequest;
           url = value.url;
         } else {
+          this.toaster.error('Failed to upload file. Please try again!');
+        }
+      }, err => {
+        this.toaster.error('Failed to upload file. Please try again!');
+        devLogger('error', err);
+      }, () => {
+        if (signedUploadUrl && url) {
+          this.doUpload(signedUploadUrl, url, file, cb);
+        }
+      });
+  }
+
+  uploadFileCreateCompany(file: File, cb: (url: string) => void): void {
+    const name = uuidv4() + '__' + file.name;
+    let signedUploadUrl: string | null = null;
+    let url: string | null = null;
+    this.fetchSignedUrlCreateCompany(name, file.type)
+      .subscribe(value => {
+        if (value) {
+          signedUploadUrl = value.signedRequest;
+          url = value.url;
+        } else {
           this.toaster.error('Failed to upload profile image. Please try again!');
         }
       }, err => {
@@ -70,7 +109,7 @@ export class UploadFileService {
         devLogger('error', err);
       }, () => {
         if (signedUploadUrl && url) {
-          this.doUpload(signedUploadUrl, url, file, cb);
+          this.doUploadCreateCompany(signedUploadUrl, url, file, cb);
         }
       });
   }
@@ -85,6 +124,24 @@ export class UploadFileService {
       })
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
+        this.httpErrHandler.processError(true)
+      )
+      .subscribe(value => {
+        console.log('value...',value)
+        cb(url);
+      });
+  }
+
+  private doUploadCreateCompany(signedUploadUrl: string, url: string, file: File, cb: (url: string) => void): void {
+    // this.spinner.show();
+    this.http.put(
+      signedUploadUrl,
+      file,
+      {
+        headers: {'Content-Type': file.type, 'NO-AUTH': 'true'}
+      })
+      .pipe(
+        // hideSpinnerPostApiCall(this.spinner),
         this.httpErrHandler.processError(true)
       )
       .subscribe(value => {

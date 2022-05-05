@@ -27,7 +27,7 @@ export class EventPanelComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
 
-    console.log("hello asdf asdf");
+
   }
 
   ngAfterViewChecked(): void {

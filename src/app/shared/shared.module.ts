@@ -19,6 +19,11 @@ import { InviteColleaguesComponent } from './components/modals/invite-colleagues
 import { WaitingForApprovalComponent } from './components/waiting-for-approval/waiting-for-approval.component';
 import { ImageFallbackDirective } from './directives/image-fallback.directive';
 import { DateFilterPipe } from './pipes/dateFilter.pipe';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { ImportExportComponent } from './components/import-export/import-export.component';
+import { ClientAccessComponent } from './components/client-access/client-access.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -33,6 +38,9 @@ import { DateFilterPipe } from './pipes/dateFilter.pipe';
     InviteColleaguesComponent,
     WaitingForApprovalComponent,
     ImageFallbackDirective,
+    ConfirmationDialogComponent,
+    ImportExportComponent,
+    ClientAccessComponent,
    ],
   imports: [
     CommonModule,
@@ -42,6 +50,8 @@ import { DateFilterPipe } from './pipes/dateFilter.pipe';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    AngularEditorModule,
+    NgbModule
   ],
   exports: [
     CompanySearchComponent,
@@ -54,7 +64,9 @@ import { DateFilterPipe } from './pipes/dateFilter.pipe';
     DateFilterPipe,
     InviteColleaguesComponent,
     WaitingForApprovalComponent,
-    ImageFallbackDirective
+    ImageFallbackDirective,
+    ImportExportComponent,
+    ClientAccessComponent
   ],
   providers: [
     GetRegionAndCountriesService,

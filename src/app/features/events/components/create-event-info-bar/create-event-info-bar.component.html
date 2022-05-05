@@ -1,3 +1,23 @@
+<div class="d-none" [ngClass]="{'mat-elevation-z5' : true, 'fixedMenu active d-block' : isSticky}" >
+  <div class="infoBar">
+    <div class="ui container">
+      <div class="ui grid">
+        <div class="eleven wide column middle aligned">
+  
+        </div>
+        <div class="five wide column right aligned saveButtons hideMobile">
+          <a (click)="eventService.triggerSaveOnly.next()" class="ui button">Save</a>
+        </div>
+        <div class="five wide column right aligned saveButtons visibleMobile">
+          <a (click)="eventService.triggerSaveOnly.next()" class="ui button icon"><i class="save icon"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  
 <div class="infoBar">
   <div class="ui container">
     <div class="ui grid">

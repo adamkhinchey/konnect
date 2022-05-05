@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
 import { NgbModal, NgbModalRef, NgbNavChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 import { ConnectionType, RemoveType, UserSettingsInterface } from "../../../../shared/models";
@@ -55,12 +55,12 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
   }
 
   onRegionChange(event: any) {
-    console.log(event.target.value);
+
     let regionId;
     regionId = this.regionIds.filter((obj: any) => {
       return obj == event.target.value;
     });
-    console.log(regionId);
+
     if (regionId.length) {
       this.regionIds = this.regionIds.filter((obj: any) => {
         return obj != event.target.value;
@@ -70,7 +70,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
     }
 
 
-    console.log(this.regionIds);
+
   }
 
 
@@ -83,7 +83,8 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
       this.keyword = '';
       this.getRegions();
       this.clearSearchResults();
-      this.getCompanyConnections();
+      // this.getCompanyConnections();
+      // this.searchGlobally();
     }, err => {
       devLogger('error', err);
     }, () => {
@@ -92,7 +93,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
 
   getRegions() {
     this.getRegionAndCountriesService.getAllRegionsOnly().subscribe((value) => {
-      console.log(value);
+
       this.regions = value;
     }, err => {
       devLogger('error', err);
@@ -110,6 +111,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
       this.doConnectionSearch(this.keyword);
     } else if (this.isExternal === 1) {
       this.clearSearchResults();
+      // this.searchGlobally();
     }
   }
 
@@ -150,7 +152,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
 
   private searchGlobally(): void {
     if (this.defaultCompany && this.defaultCompany.id) {
-      this.searchOnPlatformSub = this.companiesService.searchOnPlatform({
+      this.searchOnPlatformSub = this.companiesService.searchOnPlatformNew({
         entityType: this.connectionType,
         keyword: this.keyword.trim().toLocaleLowerCase(),
         regionId: this.regionIds,
@@ -193,7 +195,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
         this.searchGlobally();
       }
     }
-    if (filterText.length === 0 && this.isExternal === 0) {
+    if (filterText.length === 0 && this.isExternal === 1) {
       this.getCompanyConnections();
     }
   }
@@ -276,9 +278,8 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
     this.deleteConnSub?.unsubscribe();
   }
 
-  goToCompanyProfile(companyId: any, isPrivate: any) {
-    console.log(companyId);
-    if (companyId && isPrivate == 0) {
+  goToCompanyProfile(companyId: any, isPrivate: any, isSeed:any) {
+    if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
@@ -286,8 +287,7 @@ export class SearchPlatformComponent implements OnInit, OnDestroy {
   }
 
   goToUserProfile(userId: any, isPrivate: any) {
-    console.log(userId);
-    if (userId && isPrivate == 0) {
+    if (userId) {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/edit-profile?isView=' + true);

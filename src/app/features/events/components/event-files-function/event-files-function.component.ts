@@ -18,8 +18,8 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
   @Input() eventID: number | undefined;
   // parameter for check file permission
   @Input() permissionObj: any ;
- 
-  
+
+
 
   fileUploadModalReference: NgbModalRef | undefined;
   private fetchEventFilesSubs: Subscription | undefined;
@@ -46,12 +46,10 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
   }
 
   ngOnInit(): void {
-    // console.log("asdfsadflk asdflksdfasdf"); 
-    // console.log("permissionObj ", this.permissionObj); 
-    // console.log("eventID ", this.eventID); 
+
 
       if(!this.permissionObj){
-        this.permissionObj= {isClient: true, isEventManager: true, isService: true, isVenue: true, isExhibitor: true}; 
+        this.permissionObj= {isClient: true, isEventManager: true, isService: true, isVenue: true, isExhibitor: true};
 
       }
 

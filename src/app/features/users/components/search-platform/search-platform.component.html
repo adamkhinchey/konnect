@@ -109,11 +109,11 @@
                                                     <div class="column" *ngFor="let userConn of userConnections">
                                                         <div class="ui fluid card">
                                                             <div class="content">
-                                                                <span *ngIf="userConn.isPrivate"
+                                                                <!-- <span *ngIf="userConn.isPrivate"
                                                                     class="ui blue right corner label popupNotes"
                                                                     data-content="Private Contact">
                                                                     <fa-icon [icon]="addressCardIcon"></fa-icon>
-                                                                </span>
+                                                                </span> -->
                                                                 <img class="right floated mini ui image circular"
                                                                     [src]="userConn.profileImage || './assets/img/default_konnect_img.png' "
                                                                     appImageFallback="./assets/img/default_konnect_img.png">
@@ -181,17 +181,17 @@
                                                     <div class="column" *ngFor="let cmpConn of companyConnections">
                                                         <div class="ui fluid card">
                                                             <div class="content">
-                                                                <span *ngIf="cmpConn?.isPrivate"
+                                                                <!-- <span *ngIf="cmpConn?.isPrivate"
                                                                     class="ui blue right corner label popupNotes"
                                                                     data-content="Private Contact">
                                                                     <fa-icon [icon]="addressCardIcon"></fa-icon>
-                                                                </span>
+                                                                </span> -->
                                                                 <img class="right floated mini ui image circular"
-                                                                    [src]="cmpConn?.profileImage ||'./assets/img/default_konnect_img.png'"
-                                                                    appImageFallback="./assets/img/default_konnect_img.png">
+                                                                    [src]="cmpConn?.companyProfileImage ||'./assets/img/default_konnect_img.png'"
+                                                                    appImageFallback="./assets/img/default_konnect_img.png" onerror="src='./assets/img/default_konnect_img.png'">
                                                                 <div class="header">
                                                                     <a
-                                                                        (click)="goToCompanyProfile(cmpConn.id, cmpConn.isPrivate)">{{cmpConn?.companyName}}</a>
+                                                                        (click)="goToCompanyProfile(cmpConn.id, cmpConn.isPrivate, cmpConn.isSeed)">{{cmpConn?.companyName}}</a>
                                                                 </div>
                                                                 <div class="meta">
                                                                     <a *ngIf="cmpConn?.website" target="_blank"

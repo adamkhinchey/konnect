@@ -103,7 +103,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   goToUserProfile(userId: any) {
-    console.log(userId);
     if (userId) {
       localStorage.setItem('userId', JSON.stringify(userId));
       localStorage.setItem('isView', JSON.stringify(true));

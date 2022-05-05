@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <h4 class="modal-title">Event settings</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body" style="min-height: 200px;">
+
+    <label class="form-label"><strong>Client Access</strong></label>
+    <div class="custom_raio_box">
+
+        <div class="radio_custom">
+            <input type="radio" name="unrestricted" id="1" value="1" [(ngModel)]="accessPermission"/>
+            <label for="1">Unrestricted <span [ngbTooltip]="unrestrictedtemp" placement="right" [openDelay]="300"
+                [closeDelay]="500" [animation]="true"><i class="info icon custominfo"></i></span></label>
+        </div>
+        <div class="radio_custom">
+            <input type="radio" name="readonly" id="0" value="0" [(ngModel)]="accessPermission"/>
+            <label for="2">Read Only <span [ngbTooltip]="readonlytemp" placement="right" [openDelay]="300"
+                [closeDelay]="500" [animation]="true"><i class="info icon custominfo"></i></span></label>
+        </div>
+        <div class="radio_custom">
+            <input type="radio" name="restricted" id="2" value="2" [(ngModel)]="accessPermission"/>
+            <label for="3">Restricted <span [ngbTooltip]="restrictedtemp" placement="right" [openDelay]="300"
+                    [closeDelay]="500" [animation]="true"><i class="info icon custominfo"></i></span></label>
+        </div>
+    </div>
+</div>
+<div class="modal-footer justify-content-between">
+    <button type="button" class="ui button basic blue negative ml-2" (click)="dismiss()">Cancel</button>
+    <button type="button" class="ui button basic blue negative" (click)="save()">Save</button>
+</div>
+
+<ng-template #unrestrictedtemp>
+    <p>Client has the same access as the Event Manager - view and edit everything (except others internal notes).</p>
+    <p>All files are visible and uploadable.</p>
+    <p>Timeline is visible, rollovers active.</p>
+</ng-template>
+
+<ng-template #readonlytemp>
+    <p>Client can view all tabs and information (except others internal notes).</p>
+    <p>Can edit all Client tab fields. Can edit Event Manager Requirements field.</p>
+    <p>All Supplier and Exhibitor tab information is visible but no edit possible.</p>
+    <p>Only Client/Event Manager Shared files and Event Files are visible/uploadable. No Venue, supplier and exhibitor
+        files are visible/uploadable.</p>
+    <p>Timeline is visible, rollovers active.</p>
+</ng-template>
+
+<ng-template #restrictedtemp>
+    <p>Client can view/edit all of Client tab.</p>
+    <p>Client can view/edit all of Event Manager tab.</p>
+    <p>Client can view Venue tab but Venue contacts and Venue Requirements are shown as <strong>no access</strong>.</p>
+    <p>All Supplier and Exhibitor tab information shows as <strong>no access</strong>.</p>
+    <p>Only Client/Event Manager Shared files and Event Files are visible/editable.</p>
+    <p>Timeline is visible but rollovers are not active.</p>
+</ng-template>

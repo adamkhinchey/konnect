@@ -22,7 +22,8 @@ export class UserSettingsService {
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
       profileImage: userInfo.profileImage,
-      isAdmin
+      isAdmin,
+      isEmailVerified:userInfo.is_email_verified
     });
   }
 

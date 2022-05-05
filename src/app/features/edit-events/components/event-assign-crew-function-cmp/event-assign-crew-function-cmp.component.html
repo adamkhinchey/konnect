@@ -12,7 +12,7 @@
     </div>
     <div class="kipCardContainer" *ngIf=" isViewPermission == 1 ; else no_access">
         <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
-            <div class="column" *ngFor="let contact of contactList; let i=index">
+            <div class="column" *ngFor="let contact of contactList; let i=index" [class.display-none] = "contact.isCrew == 0">
                 <ng-container *ngIf="contact.isCrew == 1">
                     <div class="contactRole">{{contact.contactRole}}
                         <!-- <div class="hidden ui circular compact mini basic icon button editProfileBtn hasModal"
@@ -22,6 +22,11 @@
                     </div>
                     <div class="ui fluid card">
                         <div class="content">
+                            <span *ngIf="contact.isPrivate" class="ui blue right corner label popupNotes adjustTri"
+                                data-content="Private Contact">
+                                <!--<i class="address card outline icon"></i>-->
+                                <fa-icon [icon]="addressCardIcon"></fa-icon>
+                            </span>
                             <img class="right floated mini ui image" [src]="contact.profileImage" appImageFallback
                                 fallbackImage="assets/img/default_konnect_individual_img.png">
                             <div class="header">
@@ -58,7 +63,7 @@
 
     <ng-container *ngIf="isViewPermission == 1">
 
-        <div class="ui grid center aligned" *ngIf="isVenueEditable || isServiceEditable || isExhibitorEditable">
+        <div class="ui grid center aligned" *ngIf="isVenueEditable || (isServiceEditable && editServiceIndex == serviceIndex) || isExhibitorEditable">
             <div class="sixteen wide column">
                 <div class="ui basic button blue fluid addContacts hasModal"
                     (click)="openVerticallyCentered(contactModal,1)" data-modal="contacts">

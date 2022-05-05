@@ -6,12 +6,14 @@ import { InviteFnCmpClass } from '../../models/classes';
 import { devLogger } from '../../../../shared/utils';
 import { environment } from '../../../../../environments/environment';
 import * as _ from 'lodash';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 @Component({
   selector: 'app-event-assign-crew-function-cmp',
   templateUrl: './event-assign-crew-function-cmp.component.html',
   styleUrls: ['./event-assign-crew-function-cmp.component.scss']
 })
 export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
+  addressCardIcon = faAddressCard;
   @Input() eventData: any;
   @Input() clientCmpBtnLabel = '';
   @Input() contactListLabel = '';
@@ -33,16 +35,17 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   @Input() isServiceEditable: boolean = false;
   @Input() isExhibitorEditable: boolean = false;
   @Output() isCrew = new EventEmitter<any>();
-  @Input() isViewPermission: any; 
-  @Input() permissionObj: any; 
- 
-   
+  @Input() isViewPermission: any;
+  @Input() permissionObj: any;
+  @Input() editServiceIndex:number =0;
+  @Input() serviceIndex:number =0;
+
+
   constructor(private modalService: NgbModal) {
-    console.log("venue ", this.isViewPermission); 
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('contact list after change: ', changes.contactList?.currentValue)
     if (changes && changes.selectedCompany && changes.selectedCompany.currentValue) {
       this.disableAddContacts = changes.selectedCompany.currentValue instanceof InviteFnCmpClass;
     } else if (changes && changes.selectedCompany && !changes.selectedCompany.currentValue) {
@@ -80,12 +83,10 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
 
 
   removeContactFromList(id: any): void {
-    console.log(this.contactList);
     let index = _.findIndex(this.contactList, (e: any) => {
-      console.log(e)
+
       return e.id == id;
     }, 0);
-    console.log(index);
     this.crewRemove.emit(index);
   }
 

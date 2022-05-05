@@ -1,21 +1,21 @@
-import {Component, OnInit, Output, EventEmitter, OnDestroy} from '@angular/core';
-import {CompaniesService} from '../../../users/services/companies.service';
-import {Company} from '../../../users/models';
-import {checkRxFormValidation, devLogger} from '../../../../shared/utils';
-import {Subscription} from 'rxjs';
-import {ToastrService} from 'ngx-toastr';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {GetRegionAndCountriesService} from "../../../../shared/services";
-import {InviteFnCmpClass} from "../../models/classes";
-
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { CompaniesService } from '../../../users/services/companies.service';
+import { Company } from '../../../users/models';
+import { checkRxFormValidation, devLogger } from '../../../../shared/utils';
+import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { GetRegionAndCountriesService } from "../../../../shared/services";
+import { InviteFnCmpClass } from "../../models/classes";
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 @Component({
   selector: 'app-search-or-invite-function-cmp',
   templateUrl: './search-or-invite-function-cmp.component.html',
   styleUrls: ['./search-or-invite-function-cmp.component.scss']
 })
 export class SearchOrInviteFunctionCmpComponent implements OnInit, OnDestroy {
-  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/);
-
+  EMAIL_REGEX = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,20}))$/);
+  addressCardIcon = faAddressCard;
   @Output() closed = new EventEmitter();
   @Output() newCompanyInvited = new EventEmitter<InviteFnCmpClass>();
   @Output() existingCompanySelected = new EventEmitter<Company>();
@@ -45,20 +45,21 @@ export class SearchOrInviteFunctionCmpComponent implements OnInit, OnDestroy {
   }
 
   searchForCompany(): void {
-    if (this.searchKeyWord.trim().length >=3) {
+    if (this.searchKeyWord.trim().length >= 3) {
       this.cmpSearchSubscription = this.companiesService
-        .search({
+        .searchForEvent({
           searchKeyword: this.searchKeyWord,
           domain: null,
-          includeMyCompanies: true
+          includeMyCompanies: true,
+          includePrivate: 1
         }, this.searchKeyWord.trim().length === 1)
         .subscribe((value: { company: Company | null, companyList: Company[] | null } | null | undefined) => {
-            if (value && value.companyList) {
-              this.companyList = value.companyList;
-              this.listDisplayCss = 'block !important';
-              this.listDisplayOverFlow = 'auto';
-            }
+          if (value && value.companyList) {
+            this.companyList = value.companyList;
+            this.listDisplayCss = 'block !important';
+            this.listDisplayOverFlow = 'auto';
           }
+        }
           , error => {
             devLogger('error', error);
             this.listDisplayCss = '';

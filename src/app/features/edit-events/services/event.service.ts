@@ -100,6 +100,10 @@ export class EventService {
   venueEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
   venuePostEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
 
+  exhibitionPreEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+  exhibitionEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+  exhibitionPostEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+
   private fetchedVenueSrvcsCmp: FetchedVenueSrvcsCmp[] = [];
   private fetchedVenueSrvcsCmpCnts: FetchedVenueSrvcCmpCnts[] = [];
 
@@ -259,6 +263,39 @@ export class EventService {
       );
   }
 
+  importExport(data: any): Observable<any> {
+    this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/importExportServicesAndExhibitors`,
+       data )
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
+  deleteBucketFile(key: any): Observable<any> {
+    // this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/deleteBucketFileByKey`,
+      { key })
+      .pipe(
+        // hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
 
+  giveClientPermission(data: any): Observable<any> {
+    // this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/saveClientAccessPermission`,
+       data )
+      .pipe(
+        // hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
 
 }

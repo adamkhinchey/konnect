@@ -108,7 +108,10 @@
           <div class="sixteen wide column left aligned">
             <div class="field">
               <label>Description</label>
-              <textarea placeholder="Description" rows="5" formControlName="description"></textarea>
+              <!-- <textarea placeholder="Description" rows="5" formControlName="description"></textarea> -->
+              <angular-editor
+              formControlName="description" [config]="config">
+            </angular-editor>
               <p class="textRight marginT10 smallText">*compulsory fields</p>
             </div>
           </div>

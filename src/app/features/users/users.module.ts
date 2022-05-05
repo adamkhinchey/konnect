@@ -24,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ManageCompanyComponent } from './components/manage-company/manage-company.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SearchPlatformComponent } from './components/search-platform/search-platform.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { SearchPlatformComponent } from './components/search-platform/search-pla
     IgxSnackbarModule,
     HammerModule,
     NgMultiSelectDropDownModule,
+    AngularEditorModule
   ],
   exports: [
     DashboardComponent

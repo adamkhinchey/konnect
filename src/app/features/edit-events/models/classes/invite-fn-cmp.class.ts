@@ -1,4 +1,4 @@
-import {InviteFnCmpInterface} from "../interfaces";
+import { InviteFnCmpInterface } from "../interfaces";
 
 export class InviteFnCmpClass implements InviteFnCmpInterface {
   city: string;
@@ -6,6 +6,8 @@ export class InviteFnCmpClass implements InviteFnCmpInterface {
   contactEmail: string;
   contactName: string;
   countryId: number;
+  isPrivate?: any;
+  isSeed?: any;
 
   constructor(param: InviteFnCmpInterface) {
     this.city = param.city;
@@ -13,5 +15,7 @@ export class InviteFnCmpClass implements InviteFnCmpInterface {
     this.contactEmail = param.contactEmail;
     this.contactName = param.contactName;
     this.countryId = param.countryId;
+    this.isPrivate = param.isPrivate;
+    this.isSeed = param.isSeed;
   }
 }
