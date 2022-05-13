@@ -5,8 +5,10 @@
       <div class="sixteen wide column saveButtons paddingT0">
         <div class="ui divider"></div>
         <div class="ui grid stackable">
-          <div class="sixteen wide column right aligned"
-            *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)">
+          <!-- <div class="sixteen wide column right aligned"
+            *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)"> -->
+            <div class="sixteen wide column right aligned"
+            *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 2 ||  eventData.eventData.eventManager?.isViewPermission == 3"> <!-- requirement will be saved in readoly for client , and all fields in restricted mode  -->
 
             <button [disabled]="eventData.eventData.isDeleted" class="ui button triggerEditableOptions halfWidth ml-3"
               *ngIf="check()" (click)="editEventManager()">
@@ -63,7 +65,8 @@
 
                       </div>
                       <div class="six wide column right aligned">
-                        <div (click)="removeSelectedCompany.emit()" *ngIf="isEventEdit"
+                        <!-- only editable when have all permission or restricted permission to client  -->
+                        <div (click)="removeSelectedCompany.emit()" *ngIf="isEventEdit && (eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 3)"
                           class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal">
                           <i class="trash alternate icon"></i>Remove
                         </div>
@@ -84,7 +87,10 @@
         <div class="field">
           <!-- <textarea rows="3" *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access" class="textarea" [readonly]="!isEventEdit" [(ngModel)]="eventToBeSaved.eventManager!.requirements"
           [ngModelOptions]="{standalone:true}"></textarea> -->
-          <angular-editor *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access"
+          <!-- <angular-editor *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access"
+            [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config" (focus)="changeConfig()"
+            [ngModelOptions]="{standalone: true}"></angular-editor> -->
+            <angular-editor *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 2 ||  eventData.eventData.eventManager?.isViewPermission == 3; else no_access"
             [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config" (focus)="changeConfig()"
             [ngModelOptions]="{standalone: true}"></angular-editor>
           <ng-template #no_access>No access
@@ -96,7 +102,12 @@
         <div class="field">
           <!-- <textarea *ngIf="permissionObj.isEventManager; else no_access" rows="3" class="textarea" [readonly]="!isEventEdit" [(ngModel)]="eventToBeSaved.eventManager!.emInternalNotes"
           [ngModelOptions]="{standalone:true}"></textarea> -->
-          <angular-editor *ngIf="permissionObj.isEventManager; else no_access"
+          <!-- <angular-editor *ngIf="permissionObj.isEventManager; else no_access"
+            [(ngModel)]="eventToBeSaved.eventManager!.emInternalNotes" [config]="config" (focus)="changeConfig()"
+            [ngModelOptions]="{standalone: true}"></angular-editor> -->
+
+            <!-- only event manager company will have access -->
+            <angular-editor *ngIf="(eventData.eventData.eventManager?.isViewPermission == 1 && eventData.eventData.eventManager?.isSelfIncludedInSection == 1); else no_access"
             [(ngModel)]="eventToBeSaved.eventManager!.emInternalNotes" [config]="config" (focus)="changeConfig()"
             [ngModelOptions]="{standalone: true}"></angular-editor>
           <ng-template #no_access>No access

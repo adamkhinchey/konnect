@@ -14,6 +14,8 @@ export interface ExhibitorInterface {
   timeWindows: SuppExhTimeWindowFormatInterface;
   exhibitorId?: any;
   isViewPermission?: any;
+  isSelfIncludedInTab?: any;
+  isSelfIncludedInSection?: any;
   status?: number | null;
   isStaffOrAdmin?: number | null;
 }

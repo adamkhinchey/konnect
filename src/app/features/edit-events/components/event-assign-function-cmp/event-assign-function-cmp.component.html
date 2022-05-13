@@ -1,7 +1,8 @@
-<ng-container *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission">
+<!-- <ng-container *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission"> -->
+  <ng-container *ngIf="isViewPermission == 1 ||  isViewPermission == 2 ||   (isViewPermission == 3 && (tabName == 'clientTab' || tabName == 'eventManagerTab' ))"> <!-- 1 for full access and 2 for readable access -->
 
   <div class="ui grid center aligned"
-    *ngIf="!selectedCompany && (isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable)">
+    *ngIf="!selectedCompany && (isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && (isViewPermission == 1 ||  isViewPermission == 3)"> <!-- editable only in case of full access or restricted access in case of cleint -->
     <div class="sixteen wide column">
       <div class="ui button basic blue fluid addClient hasModal" (click)="openVerticallyCentered(clientCompanyModal)">
         <i class="plus circle icon"></i>{{clientCmpBtnLabel}}
@@ -21,13 +22,23 @@
       </span>
     </h3>
   </div>
-  <div class="kipCardContainer" *ngIf="checkViewPermission(contactListLabel); else no_access">
+  <!-- <div class="kipCardContainer" *ngIf="checkViewPermission(contactListLabel); else no_access"> -->
+    <!-- visible only in case of full access or read or restricted permission (on client and event manager tab)   to client -->
+    <div class="kipCardContainer" *ngIf="isViewPermission == 1 ||  isViewPermission == 2 ||  (isViewPermission == 3 && (tabName == 'clientTab' || tabName == 'eventManagerTab' ) && !(tabName == 'venueTab' || tabName == 'supplierTab' || tabName == 'exhibitorTab' )); else no_access">
     <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
       <div class="column test" *ngFor="let contact of contactList; let i=index" [class.display-none] = "contact.isCrew == 1">
         <ng-container *ngIf="!contact.isCrew || contact.isCrew == 0">
           <div class="contactRole">{{contactLabels.get(contact.contactLabelId) || '(Contact Label Not Assigned)'}}
-            <div
+            
+            <!-- <div
               *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable"
+              class="hidden ui circular compact mini basic icon button editProfileBtn hasModal"
+              (click)="editContactLabelModal(editContactDetail,i)">
+              <i class="pencil alternate icon"></i>
+            </div> -->
+            <!-- editable only in case of full access and restricted access of client  -->
+            <div
+              *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && (isViewPermission == 1 ||  isViewPermission == 3)"
               class="hidden ui circular compact mini basic icon button editProfileBtn hasModal"
               (click)="editContactLabelModal(editContactDetail,i)">
               <i class="pencil alternate icon"></i>
@@ -60,9 +71,10 @@
 
                 </div>
                 <div class="eight wide column right aligned">
+                   <!-- editable only in case of full access or restricted access in case of client -->
                   <div class="ui circular compact mini basic button confirmRemove hasModal"
                     (click)="removeContactFromList(i)"
-                    *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable"
+                    *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && (isViewPermission == 1 ||  isViewPermission == 3)"
                     data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                 </div>
               </div>
@@ -74,9 +86,14 @@
   </div>
   <ng-template #no_access>No access
   </ng-template>
-  <ng-container *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission">
-    <div class="ui grid center aligned"
-      *ngIf="isClientEditable || isManagerEditable || isVenueEditable || (isServiceEditable && editServiceIndex == serviceIndex)|| isExhibitorEditable">
+  <!-- <ng-container *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission"> -->
+    <ng-container *ngIf="isViewPermission == 1 ||  isViewPermission == 3"> <!-- add contact button only visible when full permission  -->
+    <!-- <div class="ui grid center aligned"
+      *ngIf="isClientEditable || isManagerEditable || isVenueEditable || (isServiceEditable && editServiceIndex == serviceIndex)|| isExhibitorEditable"> -->
+      <!-- editable only in case of full access or restricted access in case of client -->
+      <div class="ui grid center aligned"
+      *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || (isServiceEditable && editServiceIndex == serviceIndex)|| isExhibitorEditable) && (isViewPermission == 1 ||  isViewPermission == 3)">
+
       <div class="sixteen wide column">
         <div class="ui basic button blue fluid addContacts hasModal" (click)="openVerticallyCentered(contactModal)"
           data-modal="contacts" [ngClass]="{disabled: disableAddContacts }">

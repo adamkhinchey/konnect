@@ -1,0 +1,5 @@
+export enum ClientPermissionTypes {
+  READ_ONLY_PERMISSION = 0,
+  UNRESTRICTED_PERMISSION = 1,
+  RESTRICTED_PERMISSION = 2
+}

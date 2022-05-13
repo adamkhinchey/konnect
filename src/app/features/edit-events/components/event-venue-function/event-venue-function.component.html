@@ -8,8 +8,10 @@
               <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
               <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px"> </i>
               <i class="map marker alternate icon"></i>
-              <button *ngIf="(permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ) && (eventToBeSaved.venues && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
-              <button *ngIf="(permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ) && (eventToBeSaved.venues && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})">Save </button>
+              <!-- <button *ngIf="(permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ) && (eventToBeSaved.venues && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
+              <button *ngIf="(permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ) && (eventToBeSaved.venues && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})">Save </button> -->
+              <button *ngIf="( (permissionObj.isClient && permissionObj.clientAccessPermission == 1 ) || permissionObj.isEventManager || permissionObj.isVenue  ) && (eventToBeSaved.venues && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
+              <button *ngIf="( (permissionObj.isClient && permissionObj.clientAccessPermission == 1 )  || permissionObj.isEventManager || permissionObj.isVenue ) && (eventToBeSaved.venues && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})">Save </button>
             </h3>
           </div>
 
@@ -31,8 +33,9 @@
   <div class="ui grid">
     <div class="sixteen wide column">
       <div class="marginT10"></div>
+      <!-- either event manager or client with unrestricted permissin can add venue  -->
       <div class="ui button compact addNewVenue addToPanel"
-        *ngIf="permissionObj.isClient || permissionObj.isEventManager" (click)="addVenue()"><i
+        *ngIf="permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)" (click)="addVenue()"><i
           class="plus circle icon"></i><span class="hideMobile">Add Venue</span>
       </div>
       <h3 id="venuesAnchor" class="ui dividing header">Venues</h3>
@@ -59,8 +62,11 @@
                 <form class="ui form visible" style="display: block !important;">
                   <div class="ui grid stackable">
 
+                    <!-- <div class="sixteen wide column saveButtons paddingT0"
+                    *ngIf="(eventData && eventData.userPermission)"> -->
                     <div class="sixteen wide column saveButtons paddingT0"
-                    *ngIf="(eventData && eventData.userPermission)">
+                    *ngIf="panel?.isViewPermission==1">
+                    
                     <div class="ui divider"></div>
                     <div class="ui grid stackable">
                       <div class="sixteen wide column right aligned">
@@ -90,7 +96,9 @@
                           <div *ngIf="selectedCompanies && selectedCompanies[i]" class="ui one column grid">
                             <div class="column">
                               <div class="ui fluid card">
-                                <div class="content"  *ngIf="permissionObj.isClient || permissionObj.isEventManager  || panel?.isViewPermission==1 ; else no_access">
+                                <!-- <div class="content"  *ngIf="permissionObj.isClient || permissionObj.isEventManager  || panel?.isViewPermission==1 ; else no_access"> -->
+                                  <!-- access for all permission or readonly/restricted permission -->
+                                <div class="content"  *ngIf="panel?.isViewPermission==1 || panel?.isViewPermission==2 ||  panel?.isViewPermission==3; else no_access">
                                   <span *ngIf="selectedCompanies[i]!.isPrivate && selectedCompanies[i]!.isSeed == 0"
                                     class="ui blue right corner label popupNotes adjustTri"
                                     data-content="Private Contact">
@@ -121,8 +129,11 @@
                                     <div class="ten wide column">
 
                                     </div>
-                                    <div class="six wide column right aligned"
-                                      *ngIf="isVenueEdit && (checkPermission1(panel.isViewPermission))">
+                                    <!-- <div class="six wide column right aligned"
+                                      *ngIf="isVenueEdit && (checkPermission1(panel.isViewPermission))"> -->
+                                      <div class="six wide column right aligned"
+                                      *ngIf="isVenueEdit && panel?.isViewPermission==1">
+                                      
                                       <div (click)="removeSelectedCompany.emit(i)"
                                         class="ui circular compact mini basic button confirmRemove hasModal"
                                         data-modal="removeModal"><i class="trash alternate icon"></i>Remove
@@ -136,16 +147,24 @@
                         </div>
                       </div>
                       <app-event-assign-function-cmp #venueAssignCmp [selectedCompany]="getSelectedCompany(i)"
+                        [tabName]="'venueTab'"
                         [contactList]="getVenueContacts(i)" [permissionObj]="permissionObj"
                         [isViewPermission]="panel?.isViewPermission"
+                        [isSelfIncludedInTab]="panel?.isSelfIncludedInTab"
+                        [isSelfIncludedInSection]="panel?.isSelfIncludedInSection"
                         [clientCmpBtnLabel]="'Add Venue'"
                         [contactListLabel]="'Venue Contacts'" [clientCompanyModal]="searchInviteCmpModal"
                         [contactModal]="searchInviteFnCmpCntModal" (modalOpen)="setOpenedModalRef($event)"
                         (isCrew)="setIsCrew($event)" (contactRemove)="removeVenueContact(i,$event)"
                         [isVenueEditable]="isVenueEditable">
                       </app-event-assign-function-cmp>
+                      <!--  [isViewPermission]="(panel?.isViewPermission && permissionObj.isVenue) || checkVenueViewPermission(i)"   <- this condition is removed from below -->
                       <app-event-assign-crew-function-cmp #venueCrewAssignCmp [contactList]="getVenueContacts(i)"
-                        [permissionObj]="permissionObj" [isViewPermission]="(panel?.isViewPermission && permissionObj.isVenue) || checkVenueViewPermission(i)"
+                        [tabName]="'venueTab'"
+                        [permissionObj]="permissionObj" 
+                        [isViewPermission]="panel?.isViewPermission"
+                        [isSelfIncludedInTab]="panel?.isSelfIncludedInTab"
+                        [isSelfIncludedInSection]="panel?.isSelfIncludedInSection"
                         [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
                         [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                         (modalOpen)="setOpenedModalRef($event)" (crewRemove)="removeVenueContact(i,$event)"
@@ -184,10 +203,14 @@
                           rows="3" class="textarea" [(ngModel)]="panel.requirements"
                           [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit || (panel?.isViewPermission && permissionObj.isVenue)">
                         </textarea> -->
-                        <angular-editor *ngIf="permissionObj.isClient || permissionObj.isEventManager == 1 || checkVenueViewPermission(i) || (panel?.isViewPermission && permissionObj.isVenue); else no_access"
+                        <!-- <angular-editor *ngIf="permissionObj.isClient || permissionObj.isEventManager == 1 || checkVenueViewPermission(i) || (panel?.isViewPermission && permissionObj.isVenue); else no_access"
                         [(ngModel)]="panel.requirements" [config]="config"
                         (focus)="changeConfigPermission(panel)" [ngModelOptions]="{standalone: true}">
-                      </angular-editor>
+                      </angular-editor> -->
+                      <angular-editor *ngIf="checkVenueViewPermission(i) || (panel?.isViewPermission == 1 || panel?.isViewPermission == 2); else no_access"
+                      [(ngModel)]="panel.requirements" [config]="config"
+                      (focus)="changeConfigPermission(panel)" [ngModelOptions]="{standalone: true}">
+                    </angular-editor>
                         <ng-template #no_access>No access
                         </ng-template>
                       </div>
@@ -199,25 +222,41 @@
                         <!-- <textarea *ngIf="(checkVenueViewPermission(i) || (panel?.isViewPermission && permissionObj.isVenue)) && (!permissionObj.isEventManager || !permissionObj.isClient) ; else no_access" rows="3" class="textarea"
                           [readonly]="!isVenueEdit" [(ngModel)]="panel!.internalCmpNotes"
                           [ngModelOptions]="{standalone:true}"></textarea> -->
-                          <angular-editor *ngIf="(checkVenueViewPermission(i) || (panel?.isViewPermission && permissionObj.isVenue)) && (!permissionObj.isEventManager || !permissionObj.isClient) ; else no_access"
+                          <!-- <angular-editor *ngIf="(checkVenueViewPermission(i) || (panel?.isViewPermission && permissionObj.isVenue)) && (!permissionObj.isEventManager || !permissionObj.isClient) ; else no_access"
                           [(ngModel)]="panel!.internalCmpNotes" [config]="config"
                           (focus)="changeConfig()" [ngModelOptions]="{standalone: true}">
-                        </angular-editor>
+                        </angular-editor> -->
+                      <angular-editor *ngIf="(checkVenueViewPermission(i) || panel?.isViewPermission == 1) && panel?.isSelfIncludedInSection == 1 ; else no_access"
+                        [(ngModel)]="panel!.internalCmpNotes" [config]="config"
+                        (focus)="changeConfig()" [ngModelOptions]="{standalone: true}">
+                      </angular-editor>
                         <ng-template #no_access>No access
                         </ng-template>
                       </div>
 
                     </div>
                   </div>
+                  <!-- <div class="sixteen wide column saveButtons paddingT0"
+                    *ngIf="(eventData && eventData.userPermission)"> -->
                   <div class="sixteen wide column saveButtons paddingT0"
-                    *ngIf="(eventData && eventData.userPermission)">
+                    *ngIf="panel?.isViewPermission == 1">
+
+                    
                     <div class="ui divider"></div>
                     <div class="ui grid stackable">
                       <div class="ten wide column middle aligned">
-                        <div (click)="confirmRemove(panel?.venueId, 0)"
+                        <!-- <div (click)="confirmRemove(panel?.venueId, 0)"
                           *ngIf="!eventData.eventData.isDeleted && !checkPermission(panel.isStaffOrAdmin)"
                           class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal">
+                          <i class="trash alternate icon"></i>Remove</div> -->
+
+                          <div (click)="confirmRemove(panel?.venueId, 0)"
+                          *ngIf="!eventData.eventData.isDeleted && panel?.isViewPermission==1"
+                          class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal">
                           <i class="trash alternate icon"></i>Remove</div>
+
+                          
+
                       </div>
                       <div class="six wide column right aligned">
                         <!-- <button [disabled]="eventData.eventData.isDeleted || checkPermission(panel.isStaffOrAdmin)"

@@ -4,7 +4,7 @@ import {EventService} from '../../services/event.service';
 import {devLogger} from '../../../../shared/utils';
 import {Subscription} from 'rxjs';
 import {EventFiles} from '../../models/classes';
-import {EventFileTypes} from '../../models/types';
+import {EventFileTypes, ClientPermissionTypes} from '../../models/types';
 import {EventFilesSignedURLReq} from '../../models/interfaces';
 
 @Component({
@@ -63,6 +63,7 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
         this.eventFiles = new EventFiles(value.data.event);
         this.eventFilesSignedURLReqPayload.eventUid = this.eventFiles.data.eventUid;
         this.eventFilesSignedURLReqPayload.eventId = this.eventFiles.data.eventId;
+        console.log("this.eventFiles ", this.eventFiles.data.files); 
         devLogger('log', {eventFiles: this.eventFiles});
       }, (err) => {
         devLogger('error', {err});

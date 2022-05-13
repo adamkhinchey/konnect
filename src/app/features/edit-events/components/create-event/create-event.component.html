@@ -41,7 +41,11 @@
             [eventToBeSaved]="eventToBeSaved" (saveAndInvite)="saveToDb($event)"
             (editClient)="isClientEditable = $event" [isOwnCompany]="data.eventData.client.isOwnCompany === 1">
             <ng-container assignFunctionCmp>
-              <app-event-assign-function-cmp [permissionObj]="permissionObj" [isViewPermission]="1"
+              <app-event-assign-function-cmp [permissionObj]="permissionObj" 
+                [tabName]="'clientTab'"
+                [isViewPermission]="data.eventData.client?.isViewPermission"
+                [isSelfIncludedInTab]="data.eventData.client?.isSelfIncludedInTab"
+                [isSelfIncludedInSection]="data.eventData.client?.isSelfIncludedInSection"
                 [clientCmpBtnLabel]="'Add Client'" [contactListLabel]="'Client Contacts'" [eventData]="data"
                 [selectedCompany]="clientCompany" [clientCompanyModal]="searchInviteCmpModal"
                 [contactModal]="searchInviteFnCmpCntModal" (modalOpen)="setOpenedModalRef($event)"
@@ -58,7 +62,12 @@
             (saveAndInvite)="saveToDb($event)" (editManager)="isManagerEditable = $event"
             [isOwnCompany]="data.eventData.eventManager.isOwnCompany === 1">
             <ng-container assignFunctionCmp>
-              <app-event-assign-function-cmp [permissionObj]="permissionObj" [isViewPermission]="1" [eventData]="data"
+              <app-event-assign-function-cmp [permissionObj]="permissionObj" 
+                [tabName]="'eventManagerTab'"
+                [isViewPermission]="data.eventData.eventManager?.isViewPermission" 
+                [isSelfIncludedInTab]="data.eventData.eventManager?.isSelfIncludedInTab" 
+                [isSelfIncludedInSection]="data.eventData.eventManager?.isSelfIncludedInSection" 
+                [eventData]="data"
                 [clientCmpBtnLabel]="'Add Event Management Company'"
                 [contactListLabel]="'Event Management Company Contacts'" [selectedCompany]="eventMgrCmp"
                 [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"

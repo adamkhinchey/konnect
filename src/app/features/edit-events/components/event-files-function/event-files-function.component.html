@@ -8,7 +8,8 @@
               <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i></h3>
           </div>
-          <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager" >
+          <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager" > -->
+          <div class="six wide column right aligned"  *ngIf="eventFiles?.data?.files?.CEMSF?.isViewPermission == 1" >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.CLIENT_EVENT_MANAGER_SHARED_FILES)">
               <i class="upload icon">
@@ -17,7 +18,8 @@
           </div>
         </div>
       </div>
-      <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access"   class="ui grid docsContainer">
+      <!-- <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access"   class="ui grid docsContainer"> -->
+      <div  *ngIf="eventFiles?.data?.files?.CEMSF?.isViewPermission == 1; else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.CEMSF">
             <a class="ui mini button basic"
@@ -40,14 +42,17 @@
             <h3>Client Internal Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i></h3>
 
           </div>
-          <div class="six wide column right aligned"  *ngIf="permissionObj.isClient"  >
+          <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient"  > -->
+            <!-- only client can view -->
+          <div class="six wide column right aligned"  *ngIf="eventFiles?.data?.files?.CIF?.isViewPermission == 1 && eventFiles?.data?.files?.CIF?.isSelfIncludedInSection == 1"  >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.CLIENT_INTERNAL_FILES)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
       </div>
-      <div  *ngIf="permissionObj.isClient; else no_access"   class="ui grid docsContainer">
+      <!-- <div  *ngIf="permissionObj.isClient; else no_access"   class="ui grid docsContainer"> -->
+      <div  *ngIf="eventFiles?.data?.files?.CIF?.isViewPermission == 1 && eventFiles?.data?.files?.CIF?.isSelfIncludedInSection == 1; else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.CIF">
             <a class="ui mini button basic"
@@ -70,14 +75,16 @@
             <h3>Event Management Internal Files <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i></h3>
           </div>
 
-          <div class="six wide column right aligned"  *ngIf="permissionObj.isEventManager" >
+          <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isEventManager" > -->
+          <div class="six wide column right aligned"  *ngIf="eventFiles?.data?.files?.EMIF?.isViewPermission == 1 && eventFiles?.data?.files?.EMIF?.isSelfIncludedInSection == 1" >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.EVENT_MANAGEMENT_INTERNAL_FILES)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
       </div>
-      <div  *ngIf="permissionObj.isEventManager; else no_access"   class="ui grid docsContainer">
+      <!-- <div  *ngIf="permissionObj.isEventManager; else no_access"   class="ui grid docsContainer"> -->
+      <div  *ngIf="eventFiles?.data?.files?.EMIF?.isViewPermission == 1 && eventFiles?.data?.files?.EMIF?.isSelfIncludedInSection == 1; else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.EMIF">
             <a class="ui mini button basic"
@@ -99,14 +106,16 @@
           <div class="ten wide column middle aligned">
             <h3>Event Files <i class="globe icon"></i></h3>
           </div>
-          <div class="six wide column right aligned">
+          <!-- <div class="six wide column right aligned"> -->
+          <div class="six wide column right aligned"    *ngIf="eventFiles?.data?.files?.EF?.isViewPermission == 1" >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.EVENT_FILES)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
       </div>
-      <div class="ui grid docsContainer">
+      <!-- <div class="ui grid docsContainer"> -->
+      <div class="ui grid docsContainer"   *ngIf="eventFiles?.data?.files?.EF?.isViewPermission == 1; else no_access" >
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.EF">
             <a class="ui mini button basic"
@@ -118,6 +127,7 @@
           </ng-container>
         </div>
       </div>
+      <ng-template #no_access>No access</ng-template>
     </div>
   </div>
 
@@ -130,14 +140,16 @@
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
               class="map marker alternate icon"></i></h3>
           </div>
-          <div class="six wide column right aligned"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue"  >
+          <!-- <div class="six wide column right aligned"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue"  > -->
+          <div class="six wide column right aligned"   *ngIf="eventFiles?.data?.files?.FFAV?.isViewPermission == 1"  >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_VENUES)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
       </div>
-      <div   *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"   class="ui grid docsContainer">
+      <!-- <div   *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"   class="ui grid docsContainer"> -->
+      <div   *ngIf="eventFiles?.data?.files?.FFAV?.isViewPermission == 1; else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.FFAV">
             <a class="ui mini button basic"
@@ -174,7 +186,7 @@
                       <div class="ten wide column middle aligned">
                         <h3>Floorplan <i class="globe icon"></i></h3>
                       </div>
-                      <div class="six wide column right aligned">
+                      <div class="six wide column right aligned"   *ngIf="venueFileItem?.isViewPermission==1" >
                         <div class="ui button compact mini basic circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_FLOOR_PLAN,{venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
@@ -182,7 +194,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="ui grid docsContainer">
+                  <div class="ui grid docsContainer"   *ngIf="venueFileItem?.isViewPermission==1; else no_access" >
                     <div class="sixteen wide column">
                       <ng-container *ngIf="venueFileItem.FLOOR_PLAN">
                         <a class="ui mini button basic"
@@ -194,6 +206,7 @@
                       </ng-container>
                     </div>
                   </div>
+                  <ng-template #no_access>No access</ng-template>
                 </div>
               </div>
               <div class="eight wide column">
@@ -205,7 +218,8 @@
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                           class="building icon"></i></h3>
                       </div>
-                      <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isVenue  && venueFileItem?.isViewPermission==1)" >
+                      <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isVenue  && venueFileItem?.isViewPermission==1)" > -->
+                    <div class="six wide column right aligned"  *ngIf="venueFileItem?.isViewPermission==1" >
                         <div class="ui button compact mini basic circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_SHARED_FILES, {venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
@@ -213,7 +227,8 @@
                       </div>
                     </div>
                   </div>
-                  <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || ((permissionObj.isVenue || permissionObj.isCrew) && venueFileItem?.isViewPermission==1); else no_access"  class="ui grid docsContainer">
+                  <!-- <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || ((permissionObj.isVenue || permissionObj.isCrew) && venueFileItem?.isViewPermission==1); else no_access"  class="ui grid docsContainer"> -->
+                <div  *ngIf="venueFileItem?.isViewPermission==1; else no_access"  class="ui grid docsContainer">
                     <div class="sixteen wide column">
                       <ng-container *ngIf="venueFileItem.VSF">
                         <a class="ui mini button basic"
@@ -235,7 +250,8 @@
                       <div class="ten wide column middle aligned">
                         <h3>Venue Internal Files <i class="building icon"></i></h3>
                       </div>
-                      <div class="six wide column right aligned"  *ngIf="permissionObj.isVenue && venueFileItem?.isViewPermission == 1"  >
+                      <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isVenue && venueFileItem?.isViewPermission == 1"  > -->
+                      <div class="six wide column right aligned"  *ngIf="venueFileItem?.isViewPermission==1 && venueFileItem?.isSelfIncludedInSection==1"  >
                         <div class="ui button compact mini basic circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_INTERNAL_FILES, {venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
@@ -243,7 +259,8 @@
                       </div>
                     </div>
                   </div>
-                  <div  *ngIf="(permissionObj.isCrew || permissionObj.isVenue ) && venueFileItem?.isViewPermission == 1; else no_access"   class="ui grid docsContainer">
+                  <!-- <div  *ngIf="(permissionObj.isCrew || permissionObj.isVenue ) && venueFileItem?.isViewPermission == 1; else no_access"   class="ui grid docsContainer"> -->
+                  <div  *ngIf="venueFileItem?.isViewPermission==1 && venueFileItem?.isSelfIncludedInSection==1; else no_access"   class="ui grid docsContainer">
                     <div class="sixteen wide column">
                       <ng-container *ngIf="venueFileItem.VIF">
                         <a class="ui mini button basic"
@@ -278,7 +295,8 @@
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i class="truck icon"></i>
             </h3>
           </div>
-          <div class="six wide column right aligned"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isService"  >
+          <!-- <div class="six wide column right aligned"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isService"  > -->
+          <div class="six wide column right aligned"    *ngIf="eventFiles?.data?.files?.FFAS?.isViewPermission == 1" >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_SUPPLIERS)">
               <i class="upload icon"></i>Upload
@@ -286,7 +304,8 @@
           </div>
         </div>
       </div>
-      <div   *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isService; else no_access"   class="ui grid docsContainer">
+      <!-- <div   *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isService; else no_access"   class="ui grid docsContainer"> -->
+    <div   *ngIf="eventFiles?.data?.files?.FFAS?.isViewPermission == 1; else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.FFAS">
             <a class="ui mini button basic"
@@ -325,7 +344,8 @@
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                             class="building icon"></i></h3>
                         </div>
-                        <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isService && supplierItem?.isViewPermission==1)">
+                        <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isService && supplierItem?.isViewPermission==1)"> -->
+                      <div class="six wide column right aligned"  *ngIf="supplierItem?.isViewPermission==1">
                           <div class="ui button compact mini basic circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_SHARED_FILES, {serviceId: supplierItem.serviceId},i)">
                             <i class="upload icon"></i>Upload
@@ -333,7 +353,8 @@
                         </div>
                       </div>
                     </div>
-                    <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isService && supplierItem?.isViewPermission==1) || (supplierItem?.isViewPermission==1 && permissionObj.isCrew ) ; else no_access"  class="ui grid docsContainer">
+                    <!-- <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isService && supplierItem?.isViewPermission==1) || (supplierItem?.isViewPermission==1 && permissionObj.isCrew ) ; else no_access"  class="ui grid docsContainer"> -->
+                  <div  *ngIf="supplierItem?.isViewPermission==1; else no_access"  class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="supplierItem?.SSF">
                           <a class="ui mini button basic"
@@ -355,7 +376,8 @@
                         <div class="ten wide column middle aligned">
                           <h3>Supplier Internal Files <i class="building icon"></i></h3>
                         </div>
-                        <div class="six wide column right aligned"  *ngIf="permissionObj.isService && supplierItem?.isViewPermission == 1" >
+                        <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isService && supplierItem?.isViewPermission == 1" > -->
+                      <div class="six wide column right aligned"  *ngIf="supplierItem?.isViewPermission == 1 && supplierItem?.isSelfIncludedInSection == 1" >
                           <div class="ui button compact mini basic circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_INTERNAL_FILES,{serviceId:supplierItem.serviceId},i)">
                             <i class="upload icon"></i>Upload
@@ -363,7 +385,8 @@
                         </div>
                       </div>
                     </div>
-                    <div  *ngIf="(permissionObj.isCrew && supplierItem?.isViewPermission ) || (permissionObj.isService && supplierItem?.isViewPermission == 1); else no_access"   class="ui grid docsContainer">
+                    <!-- <div  *ngIf="(permissionObj.isCrew && supplierItem?.isViewPermission ) || (permissionObj.isService && supplierItem?.isViewPermission == 1); else no_access"   class="ui grid docsContainer"> -->
+                  <div  *ngIf="supplierItem?.isViewPermission == 1 && supplierItem?.isSelfIncludedInSection == 1; else no_access"   class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="supplierItem?.SIF">
                           <a class="ui mini button basic"
@@ -401,14 +424,16 @@
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i class="exhibitor icon"></i>
             </h3>
           </div>
-          <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor"  >
+          <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor"  > -->
+          <div class="six wide column right aligned"  *ngIf="eventFiles?.data?.files?.FFAE?.isViewPermission == 1"  >
             <div class="ui button compact mini basic circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_EXHIBITORS)"><i class="upload icon"></i>Upload
             </div>
           </div>
         </div>
       </div>
-      <div   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"   class="ui grid docsContainer">
+      <!-- <div   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"   class="ui grid docsContainer"> -->
+      <div   *ngIf="eventFiles?.data?.files?.FFAE?.isViewPermission == 1; else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.FFAE">
             <a class="ui mini button basic"
@@ -447,7 +472,8 @@
                     <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
                             class="building icon"></i></h3>
                         </div>
-                        <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1)" >
+                        <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1)" > -->
+                      <div class="six wide column right aligned"  *ngIf="exhibitorFileItem?.isViewPermission==1" >
                           <div class="ui button compact mini basic circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_SHARED_FILES,{exhibitorId:exhibitorFileItem.exhibitorId},i)">
                             <i class="upload icon"></i>Upload
@@ -455,7 +481,8 @@
                         </div>
                       </div>
                     </div>
-                    <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || ((permissionObj.isExhibitor || permissionObj.isCrew) && exhibitorFileItem?.isViewPermission==1); else no_access"   class="ui grid docsContainer">
+                    <!-- <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || ((permissionObj.isExhibitor || permissionObj.isCrew) && exhibitorFileItem?.isViewPermission==1); else no_access"   class="ui grid docsContainer"> -->
+                    <div  *ngIf="exhibitorFileItem?.isViewPermission==1; else no_access"   class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="exhibitorFileItem?.EBSF">
                           <a class="ui mini button basic"
@@ -477,7 +504,8 @@
                         <div class="ten wide column middle aligned">
                           <h3>Exhibitor Internal Files <i class="building icon"></i></h3>
                         </div>
-                        <div class="six wide column right aligned"  *ngIf="permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1"  >
+                        <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1"  > -->
+                        <div class="six wide column right aligned"  *ngIf="exhibitorFileItem?.isViewPermission==1 && exhibitorFileItem?.isSelfIncludedInSection==1"  >
                           <div class="ui button compact mini basic circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_INTERNAL_FILES, {exhibitorId:exhibitorFileItem.exhibitorId},i)">
                             <i class="upload icon"></i>Upload
@@ -485,7 +513,8 @@
                         </div>
                       </div>
                     </div>
-                    <div  *ngIf="(permissionObj.isCrew || permissionObj.isExhibitor) && exhibitorFileItem?.isViewPermission==1; else no_access"   class="ui grid docsContainer">
+                    <!-- <div  *ngIf="(permissionObj.isCrew || permissionObj.isExhibitor) && exhibitorFileItem?.isViewPermission==1; else no_access"   class="ui grid docsContainer"> -->
+                <div  *ngIf="exhibitorFileItem?.isViewPermission==1 && exhibitorFileItem?.isSelfIncludedInSection==1; else no_access"   class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="exhibitorFileItem?.EBIF">
                           <a class="ui mini button basic"
