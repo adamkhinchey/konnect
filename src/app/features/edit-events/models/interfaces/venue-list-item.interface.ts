@@ -1,8 +1,8 @@
 import { InviteFnCmpCntInterface } from "./invite-fn-cmp-cnt.interface";
-import { TimeWindowFormatInterface } from "./time-window.format.interface";
+import { SuppExhTimeWindowFormatInterface, TimeWindowFormatInterface } from "./time-window.format.interface";
 import { InviteFnCmpInterface } from "./invite-fn-cmp-interface";
 import { EventSuppliersInterface } from "./event-suppliers.interface";
-import { EventExhibitorListInterface, EventExhibitorTimeWindowInterface } from "./event-exhibitor-list.interface";
+import { EventExhibitorListInterface } from "./event-exhibitor-list.interface";
 
 export interface VenueListItemInterface {
 
@@ -18,7 +18,7 @@ export interface VenueListItemInterface {
   suppliers: EventSuppliersInterface[];
   exhibitorList: EventExhibitorListInterface[];
   notesToAllExGlobal?: any;
-  timeWindowsToAllExGlobal?:any;
+  timeWindowsToAllExGlobal?:SuppExhTimeWindowFormatInterface;
   status?: null | number;
   isStaffOrAdmin?: null | number;
   isViewPermission?: null | number;

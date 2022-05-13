@@ -108,7 +108,7 @@
 
             <!-- only event manager company will have access -->
             <angular-editor *ngIf="(eventData.eventData.eventManager?.isViewPermission == 1 && eventData.eventData.eventManager?.isSelfIncludedInSection == 1); else no_access"
-            [(ngModel)]="eventToBeSaved.eventManager!.emInternalNotes" [config]="config" (focus)="changeConfig()"
+            [(ngModel)]="eventToBeSaved.eventManager!.emInternalNotes" [config]="config1" (focus)="changeConfig1()"
             [ngModelOptions]="{standalone: true}"></angular-editor>
           <ng-template #no_access>No access
           </ng-template>

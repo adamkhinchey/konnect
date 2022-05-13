@@ -70,7 +70,8 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
     sanitize: false,
-    defaultFontSize:'2',
+    defaultFontSize: '2',
+    showToolbar:false,
     toolbarHiddenButtons: [
       [
         'link',
@@ -79,8 +80,86 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
         'insertVideo',
         'insertHorizontalRule',
         'removeFormat',
-        'toggleEditorMode'
-      ]
+        'toggleEditorMode',
+      ],
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
+  config1: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize: '2',
+    showToolbar:false,
+    toolbarHiddenButtons: [
+      [
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode',
+      ],
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
+  config2: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize: '2',
+    showToolbar:false,
+    toolbarHiddenButtons: [
+      [
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode',
+      ],
     ],
     customClasses: [
       {
@@ -115,17 +194,38 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     this.isNotesEdit = !this.isNotesEdit;
     this.isVenueEdit = !this.isVenueEdit;
   }
-  changeConfig(){
-    if(!this.isVenueEdit && !this.isNotesEdit)
-    this.config.editable = false;
-    else
-    this.config.editable = true;
+  changeConfig() {
+    if (!this.isVenueEdit && !this.isNotesEdit)  {
+      this.config.editable = false;
+      this.config.showToolbar = false;
+    } else {
+      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      this.config.editable = true;
+      this.config.showToolbar = true;
+    }
   }
-  changeConfigPermission(panel:any){
-    if(!this.isVenueEdit || (panel?.isViewPermission && this.permissionObj.isVenue))
-    this.config.editable = false;
-    else
-    this.config.editable = true;
+  changeConfig1() {
+    if (!this.isVenueEdit && !this.isNotesEdit)  {
+      this.config2.editable = false;
+      this.config2.showToolbar = false;
+    } else {
+      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      this.config2.editable = true;
+      this.config2.showToolbar = true;
+    }
+  }
+  changeConfigPermission(panel: any) {
+    if (
+      !this.isVenueEdit ||
+      (panel?.isViewPermission && this.permissionObj.isVenue)
+    )  {
+      this.config1.editable = false;
+      this.config1.showToolbar = false;
+    } else {
+      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      this.config1.editable = true;
+      this.config1.showToolbar = true;
+    }
   }
   check(){
     if(!this.isVenueEdit && this.isPast == 'false'){
