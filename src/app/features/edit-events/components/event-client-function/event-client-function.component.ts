@@ -88,6 +88,45 @@ export class EventClientFunctionComponent
       },
     ],
   };
+  config1: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
+    showToolbar:false,
+    toolbarHiddenButtons: [
+      [
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode',
+      ],
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
 
   constructor(
     private eventService: EventService,
@@ -107,6 +146,17 @@ export class EventClientFunctionComponent
       $('#evDescription .angular-editor-textarea').css('border-top', 'none');
       this.config.editable = true; 
       this.config.showToolbar = true;
+    }
+  }
+  changeConfig1() {
+    if (!this.isClientEdit){ 
+      this.config1.editable = false; 
+      this.config1.showToolbar = false;
+    }
+    else{ 
+      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      this.config1.editable = true; 
+      this.config1.showToolbar = true;
     }
   }
 

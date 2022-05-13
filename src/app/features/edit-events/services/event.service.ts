@@ -287,12 +287,12 @@ export class EventService {
   }
 
   giveClientPermission(data: any): Observable<any> {
-    // this.spinner.show();
+    this.spinner.show();
     return this.http.post<ApiResponseModelInterface>(
       `${this.apiBaseUrl}/saveClientAccessPermission`,
        data )
       .pipe(
-        // hideSpinnerPostApiCall(this.spinner),
+        hideSpinnerPostApiCall(this.spinner),
         take(1),
         this.httpErrorHandler.processError(true, true)
       );

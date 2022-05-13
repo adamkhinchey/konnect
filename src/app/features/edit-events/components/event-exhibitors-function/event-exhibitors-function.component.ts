@@ -85,6 +85,85 @@ export class EventExhibitorsFunctionComponent
     defaultFontName: 'Arial',
     sanitize: false,
     defaultFontSize:'2',
+    showToolbar:false,
+    toolbarHiddenButtons: [
+      [
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
+  config1: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
+    showToolbar:false,
+    toolbarHiddenButtons: [
+      [
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
+  config2: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
+    showToolbar:false,
     toolbarHiddenButtons: [
       [
         'link',
@@ -242,15 +321,36 @@ export class EventExhibitorsFunctionComponent
   }
 
   changeConfig() {
-    if (!this.isExhibitorEdit && !this.isNotesEdit) this.config.editable = false;
-    else this.config.editable = true;
+    if (!this.isExhibitorEdit && !this.isNotesEdit)   {
+      this.config.editable = false;
+      this.config.showToolbar = false;
+    } else {
+      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      this.config.editable = true;
+      this.config.showToolbar = true;
+    }
+  }
+  changeConfig1() {
+    if (!this.isExhibitorEdit && !this.isNotesEdit)   {
+      this.config1.editable = false;
+      this.config1.showToolbar = false;
+    } else {
+      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      this.config1.editable = true;
+      this.config1.showToolbar = true;
+    }
   }
   changeConfigPermission() {
     if (
       (!this.isExhibitorEdit)
-    )
-      this.config.editable = false;
-    else this.config.editable = true;
+    )   {
+      this.config2.editable = false;
+      this.config2.showToolbar = false;
+    } else {
+      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      this.config2.editable = true;
+      this.config2.showToolbar = true;
+    }
   }
 
   check() {

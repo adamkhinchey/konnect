@@ -119,7 +119,7 @@
               [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes"
               [ngModelOptions]="{standalone:true}"></textarea> -->
               <!-- <angular-editor id="ciNotes" *ngIf="permissionObj.isClient; else no_access" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes" [config]="config" (focus)="changeConfig()" [ngModelOptions]="{standalone: true}"></angular-editor> -->
-              <angular-editor id="ciNotes" *ngIf="(eventData.eventData.client?.isViewPermission == 1 && eventData.eventData.client?.isSelfIncludedInSection == 1); else no_access" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes" [config]="config" (focus)="changeConfig()" [ngModelOptions]="{standalone: true}"></angular-editor>
+              <angular-editor id="ciNotes" *ngIf="(eventData.eventData.client?.isViewPermission == 1 && eventData.eventData.client?.isSelfIncludedInSection == 1); else no_access" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes" [config]="config1" (focus)="changeConfig1()" [ngModelOptions]="{standalone: true}"></angular-editor>
             <ng-template #no_access>No access
             </ng-template>
           </div>

@@ -207,8 +207,8 @@
                         [(ngModel)]="panel.requirements" [config]="config"
                         (focus)="changeConfigPermission(panel)" [ngModelOptions]="{standalone: true}">
                       </angular-editor> -->
-                      <angular-editor *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (panel?.isViewPermission == 1 || panel?.isViewPermission == 2); else no_access"
-                      [(ngModel)]="panel.requirements" [config]="config"
+                      <angular-editor *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1))  || (panel?.isViewPermission == 1 || panel?.isViewPermission == 2); else no_access"
+                      [(ngModel)]="panel.requirements" [config]="config1"
                       (focus)="changeConfigPermission(panel)" [ngModelOptions]="{standalone: true}">
                     </angular-editor>
                         <ng-template #no_access>No access
@@ -227,8 +227,8 @@
                           (focus)="changeConfig()" [ngModelOptions]="{standalone: true}">
                         </angular-editor> -->
                       <angular-editor *ngIf="(checkVenueViewPermission(i) || panel?.isViewPermission == 1) && panel?.isSelfIncludedInSection == 1 ; else no_access"
-                        [(ngModel)]="panel!.internalCmpNotes" [config]="config"
-                        (focus)="changeConfig()" [ngModelOptions]="{standalone: true}">
+                        [(ngModel)]="panel!.internalCmpNotes" [config]="config2"
+                        (focus)="changeConfig1()" [ngModelOptions]="{standalone: true}">
                       </angular-editor>
                         <ng-template #no_access>No access
                         </ng-template>

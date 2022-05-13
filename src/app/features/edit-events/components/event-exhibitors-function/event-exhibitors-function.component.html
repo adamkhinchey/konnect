@@ -421,7 +421,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   [ngModelOptions]="{standalone:true}"
                                   [readonly]="!isExhibitorEdit || !(permissionObj.isClient || permissionObj.isEventManager)"></textarea> -->
                                 <angular-editor *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
-                                  [(ngModel)]="exhibitor.requirement" [config]="config"
+                                  [(ngModel)]="exhibitor.requirement" [config]="config2"
                                   (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
                                 </angular-editor>
                                 <ng-template #no_access>No access
@@ -447,8 +447,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   [ngModelOptions]="{standalone: true}">
                                 </angular-editor> -->
                                 <angular-editor
-                                *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (exhibitor?.isViewPermission==1  && exhibitor?.isSelfIncludedInSection == 1 ); else no_access"
-                                [(ngModel)]="exhibitor.internalCmpNotes" [config]="config" (focus)="changeConfig()"
+                                *ngIf="(exhibitor?.isViewPermission==1  && exhibitor?.isSelfIncludedInSection == 1 ); else no_access"
+                                [(ngModel)]="exhibitor.internalCmpNotes" [config]="config1" (focus)="changeConfig1()"
                                 [ngModelOptions]="{standalone: true}">
                               </angular-editor>
                                 <ng-template #no_access>No access
