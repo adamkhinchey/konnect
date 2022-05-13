@@ -109,7 +109,7 @@
           </app-event-files-function>
         </ng-container>
         <ng-container timeline *ngIf="data.eventData && data.eventData.eventId">
-          <app-event-timeline-function [eventId]="data.eventData.eventId"></app-event-timeline-function>
+          <app-event-timeline-function [eventId]="data.eventData.eventId"  [permissionObj]="permissionObj" ></app-event-timeline-function>
         </ng-container>
       </app-event-panel-nav>
     </div>
