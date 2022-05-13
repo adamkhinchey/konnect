@@ -22,11 +22,16 @@ interface FileListObject {
 interface FilesData {
   key: string;
   list: FileListObject[];
+  isViewPermission: number; 
+  isSelfIncludedInTab: number; 
+  isSelfIncludedInSection: number; 
 }
 
 interface VenueFile {
   name: string;
   isViewPermission: number; 
+  isSelfIncludedInTab: number; 
+  isSelfIncludedInSection: number; 
   venueId: number;
   FLOOR_PLAN?: FilesData;
   VSF?: FilesData;
@@ -40,6 +45,8 @@ interface FilesForAllVenues extends FilesData {
 interface SupplierFile {
   name: string;
   isViewPermission: number; 
+  isSelfIncludedInTab: number; 
+  isSelfIncludedInSection: number; 
   serviceId: number;
   SSF?: FilesData;
   SIF?: FilesData;
@@ -52,6 +59,8 @@ interface FilesForAllSuppliers extends FilesData {
 interface ExhibitorFile {
   name: string;
   isViewPermission: number;
+  isSelfIncludedInTab: number; 
+  isSelfIncludedInSection: number; 
   exhibitorId: number;
   EBSF?: FilesData;
   EBIF?: FilesData;

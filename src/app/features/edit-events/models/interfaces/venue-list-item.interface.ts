@@ -22,6 +22,8 @@ export interface VenueListItemInterface {
   status?: null | number;
   isStaffOrAdmin?: null | number;
   isViewPermission?: null | number;
+  isSelfIncludedInTab?: null | number;
+  isSelfIncludedInSection?: null | number;
   streetAddress1?: null | string;
   streetAddress2?: null | string;
   state?: null | string;

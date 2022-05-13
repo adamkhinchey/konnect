@@ -23,6 +23,8 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() contactModal: TemplateRef<any> | undefined;
   @Output() modalOpen = new EventEmitter<NgbModalRef>();
   @Input() isViewPermission: any;
+  @Input() isSelfIncludedInTab: any;
+  @Input() isSelfIncludedInSection: any;
   @Output() contactRemove = new EventEmitter<number>();
   modalReference: NgbModalRef | undefined;
   editContactLabelModalReference: NgbModalRef | undefined;
@@ -40,6 +42,8 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() editServiceIndex:number =0;
   @Input() serviceIndex:number =0;
   @Output() isCrew = new EventEmitter<any>();
+
+  @Input() tabName: any;
 
   constructor(private modalService: NgbModal) {
   }

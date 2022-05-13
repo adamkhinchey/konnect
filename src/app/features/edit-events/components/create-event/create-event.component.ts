@@ -81,7 +81,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   isEditEvents: boolean = false;
   isSaveDisable: boolean = false;
 
-  permissionObj = { isCrew: false,isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false };
+  permissionObj = { isCrew: false,isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false, clientAccessPermission: false };
   public isClientEditable = false;
   public isManagerEditable = false;
   public isVenueEditable = false;
@@ -361,6 +361,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   status: venue.status,
                   isStaffOrAdmin: venue.isStaffOrAdmin,
                   isViewPermission: venue.isViewPermission,
+                  isSelfIncludedInTab: venue.isSelfIncludedInTab,
+                  isSelfIncludedInSection: venue.isSelfIncludedInSection,
                   isPrivate: venue.isPrivate || 0,
                   isSeed: venue.isSeed || 0,
                   contacts: venue.contacts.map((contact: any) => {
@@ -501,6 +503,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           state: service.companyState || null,
                           website: service.companyWebsite,
                           isViewPermission: service.isViewPermission,
+                          isSelfIncludedInTab: service.isSelfIncludedInTab,
+                          isSelfIncludedInSection: service.isSelfIncludedInSection,
                           companyTaxNumber: '',
                           streetAddress1: service.streetAddress1 || null,
                           streetAddress2: service.streetAddress2 || null,
@@ -543,6 +547,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                           companyId: service.serviceCompanyId,
                           supplierId: service.serviceId,
                           isViewPermission: service.isViewPermission,
+                          isSelfIncludedInTab: service.isSelfIncludedInTab,
+                          isSelfIncludedInSection: service.isSelfIncludedInSection,
                           status: service.status,
                           isStaffOrAdmin: service.isStaffOrAdmin,
                           isPrivate: service.isPrivate || 0,
@@ -694,6 +700,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             state: exhibitor.companyState || null,
                             website: exhibitor.companyWebsite,
                             isViewPermission: exhibitor.isViewPermission,
+                            isSelfIncludedInTab: exhibitor.isSelfIncludedInTab,
+                            isSelfIncludedInSection: exhibitor.isSelfIncludedInSection,
                             companyTaxNumber: '',
                             streetAddress1: exhibitor.streetAddress1 || null,
                             streetAddress2: exhibitor.streetAddress2 || null,
@@ -735,6 +743,8 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             companyId: exhibitor.exhibitorCompanyId,
                             standNumber: exhibitor.standNumber,
                             isViewPermission: exhibitor.isViewPermission,
+                            isSelfIncludedInTab: exhibitor.isSelfIncludedInTab,
+                            isSelfIncludedInSection: exhibitor.isSelfIncludedInSection,
                             contacts,
                             exhibitorId: exhibitor.exhibitorId,
                             status: exhibitor.status,
@@ -828,6 +838,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       if (res && res.userPermission) {
         if (this.isEmailVerified){
           this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
+          this.permissionObj.clientAccessPermission = res.userPermission.clientAccessPermission ;
           this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
           this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
           this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;

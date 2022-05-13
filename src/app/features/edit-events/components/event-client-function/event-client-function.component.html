@@ -5,8 +5,10 @@
       <div class="sixteen wide column saveButtons paddingT0">
         <div class="ui divider"></div>
         <div class="ui grid stackable">
-          <div class="sixteen wide column right aligned"
-            *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)">
+          <!-- <div class="sixteen wide column right aligned"
+            *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)"> -->
+            <div class="sixteen wide column right aligned"
+            *ngIf="eventData.eventData.client?.isViewPermission == 1">
             <!-- <button [disabled]="eventData.eventData.isDeleted" class="ui button basic blue icon"><i class="file pdf icon"></i>
             </button> -->
             <button class="ui button triggerEditableOptions ml-3" *ngIf="check()"
@@ -116,7 +118,8 @@
             <!-- <textarea *ngIf="permissionObj.isClient; else no_access" rows="3" class="textarea"
               [readonly]="!isClientEdit" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes"
               [ngModelOptions]="{standalone:true}"></textarea> -->
-              <angular-editor id="ciNotes" *ngIf="permissionObj.isClient; else no_access" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes" [config]="config" (focus)="changeConfig()" [ngModelOptions]="{standalone: true}"></angular-editor>
+              <!-- <angular-editor id="ciNotes" *ngIf="permissionObj.isClient; else no_access" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes" [config]="config" (focus)="changeConfig()" [ngModelOptions]="{standalone: true}"></angular-editor> -->
+              <angular-editor id="ciNotes" *ngIf="(eventData.eventData.client?.isViewPermission == 1 && eventData.eventData.client?.isSelfIncludedInSection == 1); else no_access" [(ngModel)]="eventToBeSaved.client!.internalCmpNotes" [config]="config" (focus)="changeConfig()" [ngModelOptions]="{standalone: true}"></angular-editor>
             <ng-template #no_access>No access
             </ng-template>
           </div>
