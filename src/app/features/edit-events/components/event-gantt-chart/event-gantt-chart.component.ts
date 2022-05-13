@@ -34,6 +34,7 @@ import * as moment from 'moment-timezone';
 export class EventGanttChartComponent implements OnInit, OnDestroy {
   @ViewChild('timeline') timelineContainer: ElementRef | undefined;
   @Input() timelineID: any = 'timelineContainer';
+  @Input() permissionObj: any;
   @Input() timelineType: EventTimelineType | undefined;
   @Input() timelineGenTrigger:
     | Subject<{
@@ -205,10 +206,11 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                   preServiceMargin * preServiceCount +
                   preDefaultMargin * preServiceCount;
                 setTimeout(() => {
-                  items.push({
-                    id: `${servicesData.id}_${uuidV4()}`,
-                    content: `${'BI'}<br/>`,
-                    title: `<b>${servicesData.content}</b><p>${
+                  let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${servicesData.content}</b><p>${
                       servicesData.companyName || servicesData.companyName
                     }<br/>
       ${moment
@@ -228,7 +230,12 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                       servicesData.primaryContact?.mobile
                     }<span class="hyphen"> - </span>${
                       servicesData.primaryContact?.email
-                    }</p><small>${servicesData.companyWebsite || ''}</small>`,
+                    }</p><small>${servicesData.companyWebsite || ''}</small>`; 
+                  }
+                  items.push({
+                    id: `${servicesData.id}_${uuidV4()}`,
+                    content: `${'BI'}<br/>`,
+                    title: title,
                     start: moment
                       .tz(servicesData.startDateTime, this.timeZone)
                       .toDate(),
@@ -243,10 +250,11 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                 this.chdRef.detectChanges();
                 servicesData?.data?.forEach((multiData) => {
                   setTimeout(() => {
-                    items.push({
-                      id: `${multiData.id}_${uuidV4()}`,
-                      content: `${'BI'}<br/>`,
-                      title: `<b>${multiData.content}</b><p>${
+                    let title = ""; 
+                    if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                      title = ""; 
+                    }else{
+                      title = `<b>${multiData.content}</b><p>${
                         multiData.companyName || multiData.companyName
                       }<br/>
       ${moment
@@ -266,7 +274,12 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                         multiData.primaryContact?.mobile
                       }<span class="hyphen"> - </span>${
                         multiData.primaryContact?.email
-                      }</p><small>${multiData.companyWebsite || ''}</small>`,
+                      }</p><small>${multiData.companyWebsite || ''}</small>`; 
+                    }
+                    items.push({
+                      id: `${multiData.id}_${uuidV4()}`,
+                      content: `${'BI'}<br/>`,
+                      title: title,
                       start: moment
                         .tz(multiData.startDateTime, this.timeZone)
                         .toDate(),
@@ -290,10 +303,11 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                   preExhibitorMargin * preExhibitorCount +
                   preExhibitorDefaultMargin * preExhibitorCount;
                 setTimeout(() => {
-                  items.push({
-                    id: `${exhibitorsData.id}_${uuidV4()}`,
-                    content: `${'BI'}<br/>`,
-                    title: `<b>${exhibitorsData.content}</b><p>${
+                  let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${exhibitorsData.content}</b><p>${
                       exhibitorsData.companyName || exhibitorsData.companyName
                     }<br/>
       ${moment
@@ -313,7 +327,12 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                       exhibitorsData.primaryContact?.mobile
                     }<span class="hyphen"> - </span>${
                       exhibitorsData.primaryContact?.email
-                    }</p><small>${exhibitorsData.companyWebsite || ''}</small>`,
+                    }</p><small>${exhibitorsData.companyWebsite || ''}</small>`; 
+                  }
+                  items.push({
+                    id: `${exhibitorsData.id}_${uuidV4()}`,
+                    content: `${'BI'}<br/>`,
+                    title: title,
                     start: moment
                       .tz(exhibitorsData.startDateTime, this.timeZone)
                       .toDate(),
@@ -327,10 +346,11 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                 this.chdRef.detectChanges();
                 exhibitorsData?.data?.forEach((multiData) => {
                   setTimeout(() => {
-                    items.push({
-                      id: `${multiData.id}_${uuidV4()}`,
-                      content: `${'BI'}<br/>`,
-                      title: `<b>${multiData.content}</b><p>${
+                    let title = ""; 
+                    if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                      title = ""; 
+                    }else{
+                      title =  `<b>${multiData.content}</b><p>${
                         multiData.companyName || multiData.companyName
                       }<br/>
       ${moment
@@ -350,7 +370,12 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                         multiData.primaryContact?.mobile
                       }<span class="hyphen"> - </span>${
                         multiData.primaryContact?.email
-                      }</p><small>${multiData.companyWebsite || ''}</small>`,
+                      }</p><small>${multiData.companyWebsite || ''}</small>`; 
+                    }
+                    items.push({
+                      id: `${multiData.id}_${uuidV4()}`,
+                      content: `${'BI'}<br/>`,
+                      title: title,
                       start: moment
                         .tz(multiData.startDateTime, this.timeZone)
                         .toDate(),
@@ -396,10 +421,11 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                   eventServiceMargin * eventServiceCount +
                   eventDefaultMargin * eventServiceCount;
                 setTimeout(() => {
-                  items.push({
-                    id: `${servicesData.id}_${uuidV4()}`,
-                    content: `${servicesData.content || ''}<br/>`,
-                    title: `<b>${servicesData.content}</b><p>${
+                  let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${servicesData.content}</b><p>${
                       servicesData.companyName || servicesData.companyName
                     }<br/>
       ${moment
@@ -419,7 +445,12 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                       servicesData.primaryContact?.mobile
                     }<span class="hyphen"> - </span>${
                       servicesData.primaryContact?.email
-                    }</p><small>${servicesData.companyWebsite || ''}</small>`,
+                    }</p><small>${servicesData.companyWebsite || ''}</small>`; 
+                  }
+                  items.push({
+                    id: `${servicesData.id}_${uuidV4()}`,
+                    content: `${servicesData.content || ''}<br/>`,
+                    title: title,
                     start: moment
                       .tz(servicesData.startDateTime, this.timeZone)
                       .toDate(),
@@ -433,30 +464,36 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                 this.chdRef.detectChanges();
                 servicesData?.data?.forEach((multiData) => {
                   setTimeout(() => {
+                    let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${multiData.content}</b><p>${
+                      multiData.companyName || multiData.companyName
+                    }<br/>
+    ${moment
+      .tz(multiData.startDateTime, this.timeZone)
+      .toDate()
+      .toDateString()} -
+    ${moment
+      .tz(multiData.endDateTime, this.timeZone)
+      .toDate()
+      .toDateString()}<br/>
+    ${moment
+      .tz(multiData.startDateTime, this.timeZone)
+      .format('HH:mm A')} - ${moment
+                      .tz(multiData.endDateTime, this.timeZone)
+                      .format('HH:mm A')}</p>
+    <b>${multiData.primaryContact?.name}</b><p>${
+                      multiData.primaryContact?.mobile
+                    }<span class="hyphen"> - </span>${
+                      multiData.primaryContact?.email
+                    }</p><small>${multiData.companyWebsite || ''}</small>`; 
+                  }
                     items.push({
                       id: `${multiData.id}_${uuidV4()}`,
                       content: `${multiData.content || ''}<br/>`,
-                      title: `<b>${multiData.content}</b><p>${
-                        multiData.companyName || multiData.companyName
-                      }<br/>
-      ${moment
-        .tz(multiData.startDateTime, this.timeZone)
-        .toDate()
-        .toDateString()} -
-      ${moment
-        .tz(multiData.endDateTime, this.timeZone)
-        .toDate()
-        .toDateString()}<br/>
-      ${moment
-        .tz(multiData.startDateTime, this.timeZone)
-        .format('HH:mm A')} - ${moment
-                        .tz(multiData.endDateTime, this.timeZone)
-                        .format('HH:mm A')}</p>
-      <b>${multiData.primaryContact?.name}</b><p>${
-                        multiData.primaryContact?.mobile
-                      }<span class="hyphen"> - </span>${
-                        multiData.primaryContact?.email
-                      }</p><small>${multiData.companyWebsite || ''}</small>`,
+                      title: title,
                       start: moment
                         .tz(multiData.startDateTime, this.timeZone)
                         .toDate(),
@@ -479,10 +516,11 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                   eventExhibitorMargin * eventExhibitorCount +
                   eventExhibitorDefaultMargin * eventExhibitorCount;
                 setTimeout(() => {
-                  items.push({
-                    id: `${exhibitorsData.id}_${uuidV4()}`,
-                    content: `${exhibitorsData.content || ''}<br/>`,
-                    title: `<b>${exhibitorsData.content}</b><p>${
+                  let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${exhibitorsData.content}</b><p>${
                       exhibitorsData.companyName
                     }<br/>
       ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(
@@ -497,7 +535,12 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                       exhibitorsData.primaryContact?.mobile
                     }<span class="hyphen"> - </span>${
                       exhibitorsData.primaryContact?.email
-                    }</p><small>${exhibitorsData.companyWebsite}</small>`,
+                    }</p><small>${exhibitorsData.companyWebsite}</small>`; 
+                  }
+                  items.push({
+                    id: `${exhibitorsData.id}_${uuidV4()}`,
+                    content: `${exhibitorsData.content || ''}<br/>`,
+                    title: title,
                     start: moment
                       .tz(exhibitorsData.startDateTime, this.timeZone)
                       .toDate(),
@@ -511,25 +554,31 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                 this.chdRef.detectChanges();
                 exhibitorsData?.data?.forEach((multiData) => {
                   setTimeout(() => {
+                    let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${multiData.content}</b><p>${
+                      multiData.companyName
+                    }<br/>
+    ${new Date(multiData.startDateTime).toDateString()} - ${new Date(
+                      multiData.endDateTime
+                    ).toDateString()}<br/>
+    ${moment
+      .tz(multiData.startDateTime, this.timeZone)
+      .format('HH:mm A')} - ${moment
+                      .tz(multiData.endDateTime, this.timeZone)
+                      .format('HH:mm A')}</p>
+    <b>${multiData.primaryContact?.name}</b><p>${
+                      multiData.primaryContact?.mobile
+                    }<span class="hyphen"> - </span>${
+                      multiData.primaryContact?.email
+                    }</p><small>${multiData.companyWebsite}</small>`; 
+                  }
                     items.push({
                       id: `${multiData.id}_${uuidV4()}`,
                       content: `${multiData.content || ''}<br/>`,
-                      title: `<b>${multiData.content}</b><p>${
-                        multiData.companyName
-                      }<br/>
-      ${new Date(multiData.startDateTime).toDateString()} - ${new Date(
-                        multiData.endDateTime
-                      ).toDateString()}<br/>
-      ${moment
-        .tz(multiData.startDateTime, this.timeZone)
-        .format('HH:mm A')} - ${moment
-                        .tz(multiData.endDateTime, this.timeZone)
-                        .format('HH:mm A')}</p>
-      <b>${multiData.primaryContact?.name}</b><p>${
-                        multiData.primaryContact?.mobile
-                      }<span class="hyphen"> - </span>${
-                        multiData.primaryContact?.email
-                      }</p><small>${multiData.companyWebsite}</small>`,
+                      title: title,
                       start: moment
                         .tz(multiData.startDateTime, this.timeZone)
                         .toDate(),
@@ -575,10 +624,11 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                   postServiceMargin * postServiceCount +
                   postDefaultMargin * postServiceCount;
                 setTimeout(() => {
-                  items.push({
-                    id: `${servicesData.id}_${uuidV4()}`,
-                    content: `${'BO'}<br/>`,
-                    title: `<b>${servicesData.content}</b><p>${
+                  let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${servicesData.content}</b><p>${
                       servicesData.companyName || servicesData.companyName
                     }<br/>
       ${moment
@@ -598,7 +648,12 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                       servicesData.primaryContact?.mobile
                     }<span class="hyphen"> - </span>${
                       servicesData.primaryContact?.email
-                    }</p><small>${servicesData.companyWebsite || ''}</small>`,
+                    }</p><small>${servicesData.companyWebsite || ''}</small>`; 
+                  }
+                  items.push({
+                    id: `${servicesData.id}_${uuidV4()}`,
+                    content: `${'BO'}<br/>`,
+                    title: title,
                     start: moment
                       .tz(servicesData.startDateTime, this.timeZone)
                       .toDate(),
@@ -612,30 +667,36 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                 this.chdRef.detectChanges();
                 servicesData?.data?.forEach((multiData) => {
                   setTimeout(() => {
+                    let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${multiData.content}</b><p>${
+                      multiData.companyName || multiData.companyName
+                    }<br/>
+    ${moment
+      .tz(multiData.startDateTime, this.timeZone)
+      .toDate()
+      .toDateString()} -
+    ${moment
+      .tz(multiData.endDateTime, this.timeZone)
+      .toDate()
+      .toDateString()}<br/>
+    ${moment
+      .tz(multiData.startDateTime, this.timeZone)
+      .format('HH:mm A')} - ${moment
+                      .tz(multiData.endDateTime, this.timeZone)
+                      .format('HH:mm A')}</p>
+    <b>${multiData.primaryContact?.name}</b><p>${
+                      multiData.primaryContact?.mobile
+                    }<span class="hyphen"> - </span>${
+                      multiData.primaryContact?.email
+                    }</p><small>${multiData.companyWebsite || ''}</small>`; 
+                  }
                     items.push({
                       id: `${multiData.id}_${uuidV4()}`,
                       content: `${'BO'}<br/>`,
-                      title: `<b>${multiData.content}</b><p>${
-                        multiData.companyName || multiData.companyName
-                      }<br/>
-      ${moment
-        .tz(multiData.startDateTime, this.timeZone)
-        .toDate()
-        .toDateString()} -
-      ${moment
-        .tz(multiData.endDateTime, this.timeZone)
-        .toDate()
-        .toDateString()}<br/>
-      ${moment
-        .tz(multiData.startDateTime, this.timeZone)
-        .format('HH:mm A')} - ${moment
-                        .tz(multiData.endDateTime, this.timeZone)
-                        .format('HH:mm A')}</p>
-      <b>${multiData.primaryContact?.name}</b><p>${
-                        multiData.primaryContact?.mobile
-                      }<span class="hyphen"> - </span>${
-                        multiData.primaryContact?.email
-                      }</p><small>${multiData.companyWebsite || ''}</small>`,
+                      title: title,
                       start: moment
                         .tz(multiData.startDateTime, this.timeZone)
                         .toDate(),
@@ -658,10 +719,11 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                   postExhibitorMargin * postExhibitorCount +
                   postExhibitorDefaultMargin * postExhibitorCount;
                 setTimeout(() => {
-                  items.push({
-                    id: `${exhibitorsData.id}_${uuidV4()}`,
-                    content: `${'BO'}<br/>`,
-                    title: `<b>${exhibitorsData.content}</b><p>${
+                  let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${exhibitorsData.content}</b><p>${
                       exhibitorsData.companyName || exhibitorsData.companyName
                     }<br/>
       ${moment
@@ -681,7 +743,12 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                       exhibitorsData.primaryContact?.mobile
                     }<span class="hyphen"> - </span>${
                       exhibitorsData.primaryContact?.email
-                    }</p><small>${exhibitorsData.companyWebsite || ''}</small>`,
+                    }</p><small>${exhibitorsData.companyWebsite || ''}</small>` ; 
+                  }
+                  items.push({
+                    id: `${exhibitorsData.id}_${uuidV4()}`,
+                    content: `${'BO'}<br/>`,
+                    title: title,
                     start: moment
                       .tz(exhibitorsData.startDateTime, this.timeZone)
                       .toDate(),
@@ -695,10 +762,11 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                 this.chdRef.detectChanges();
                 exhibitorsData?.data?.forEach((multiData) => {
                   setTimeout(() => {
-                    items.push({
-                      id: `${multiData.id}_${uuidV4()}`,
-                      content: `${'BO'}<br/>`,
-                      title: `<b>${multiData.content}</b><p>${
+                    let title = ""; 
+                    if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                      title = ""; 
+                    }else{
+                      title = `<b>${multiData.content}</b><p>${
                         multiData.companyName || multiData.companyName
                       }<br/>
       ${moment
@@ -718,7 +786,12 @@ export class EventGanttChartComponent implements OnInit, OnDestroy {
                         multiData.primaryContact?.mobile
                       }<span class="hyphen"> - </span>${
                         multiData.primaryContact?.email
-                      }</p><small>${multiData.companyWebsite || ''}</small>`,
+                      }</p><small>${multiData.companyWebsite || ''}</small>` ; 
+                    }
+                    items.push({
+                      id: `${multiData.id}_${uuidV4()}`,
+                      content: `${'BO'}<br/>`,
+                      title: title,
                       start: moment
                         .tz(multiData.startDateTime, this.timeZone)
                         .toDate(),

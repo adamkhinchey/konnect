@@ -14,6 +14,7 @@
                 #servicesGanttChart
                 [timelineGenTrigger]="timelineRenderSubject"
                 [timelineType]="timelineType"
+                [permissionObj]="permissionObj" 
               ></app-event-gantt-chart>
             </ng-template>
           </li>
@@ -24,6 +25,7 @@
               <app-event-gantt-chart
                 #exhibitorsGanttChart
                 [timelineGenTrigger]="timelineRenderSubject"
+                [permissionObj]="permissionObj" 
                 [timelineType]="timelineType">
               </app-event-gantt-chart>
             </ng-template>

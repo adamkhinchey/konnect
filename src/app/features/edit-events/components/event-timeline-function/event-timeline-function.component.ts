@@ -25,6 +25,7 @@ export class EventTimelineFunctionComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
   @Input() eventId: number | null = null;
+  @Input() permissionObj: any;
   @ViewChild('servicesGanttChart') servicesGanttChart:
     | EventGanttChartComponent
     | undefined;
