@@ -268,6 +268,7 @@ export class EventManagerFunctionComponent
       ClientAccessComponent,
       ngbModalOptions
     );
+    modalRef.componentInstance.accessPermission = this.eventData.eventData.eventManager.clientAccessPermission;
 
     modalRef.result
       .then((result: any) => {
