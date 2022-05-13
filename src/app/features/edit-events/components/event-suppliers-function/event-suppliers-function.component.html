@@ -135,11 +135,11 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})"
                                 *ngIf="isServiceEdit && serviceIndex == editServiceIndex">Save </button> -->
 
-                                <button [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)" class="ui button triggerEditableOptions ml-3" *ngIf="check() && service?.isViewPermission == 1"
+                                <button [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)" class="ui button triggerEditableOptions ml-3" *ngIf="check() && (service?.isViewPermission == 1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )"
                                 (click)="editServiceFn(serviceIndex)">Edit </button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal" [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)"
                                 (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})"
-                                *ngIf="(isServiceEdit && serviceIndex == editServiceIndex ) && service?.isViewPermission == 1">Save </button>
+                                *ngIf="(isServiceEdit && serviceIndex == editServiceIndex ) && (service?.isViewPermission == 1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1))  )">Save </button>
 
                                 
                             </div>
@@ -163,7 +163,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
                                 placeholder="Name" [readonly]="!isServiceEdit"> -->
                               <input
-                                *ngIf="(service?.isViewPermission == 1 || service?.isViewPermission == 2); else no_access"
+                                *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission == 1 || service?.isViewPermission == 2); else no_access"
                                 [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
                                 placeholder="Name" [readonly]="!isServiceEdit">
                               <ng-template #no_access>No access
@@ -178,7 +178,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             <!-- <div class="kcpCardContainer"
                               *ngIf="permissionObj.isClient || permissionObj.isEventManager  ||  (permissionObj.isCrew && service?.isViewPermission==1) || (service?.isViewPermission && permissionObj.isService); else no_access"> -->
                             <div class="kcpCardContainer"
-                              *ngIf="(service?.isViewPermission == 1 || service?.isViewPermission ==2); else no_access"> <!-- access only in full or readonly permission  -->
+                              *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission == 1 || service?.isViewPermission ==2); else no_access"> <!-- access only in full or readonly permission  -->
                               <div class="ui one column grid"
                                 *ngIf="venuesSuppCmpsMap.has(venueIndex) && venuesSuppCmpsMap.get(venueIndex)!.has(serviceIndex)">
                                 <div class="column">
@@ -224,7 +224,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         </div> -->
 
 
-                                        <div class="six wide column right aligned" *ngIf="isServiceEdit && service?.isViewPermission == 1">
+                                        <div class="six wide column right aligned" *ngIf="isServiceEdit && (service?.isViewPermission == 1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )">
                                           <div (click)="removeSelectedCompany(venueIndex,serviceIndex)"
                                             class="ui circular compact mini basic button confirmRemove hasModal"
                                             data-modal="removeModal"><i class="trash alternate icon"></i>Remove
@@ -287,7 +287,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               <!-- <app-time-windows
                                 *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  (permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access" -->
                                 <app-time-windows
-                                *ngIf="(service?.isViewPermission==1 || service?.isViewPermission==2); else no_access"
+                                *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission==1 || service?.isViewPermission==2); else no_access"
                                 [preEventTimesCount]="preEventTimesCount"
                                 [eventTimesCount]="eventTimesCount" [postEventTimesCount]="postEventTimesCount"
                                 [isPreEventTimesSameAsVenue]="isPreEventTimesSameAsVenue"
@@ -332,7 +332,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               [(ngModel)]="service.requirement" [config]="config"
                               (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
                             </angular-editor> -->
-                            <angular-editor *ngIf="(service?.isViewPermission==1 || service?.isViewPermission==2); else no_access"
+                            <angular-editor *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission==1 || service?.isViewPermission==2); else no_access"
                             [(ngModel)]="service.requirement" [config]="config"
                             (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
                           </angular-editor>
@@ -367,7 +367,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div> -->
 
-                                <div (click)="confirmRemove(service?.supplierId, 0)" *ngIf="!eventData.eventData.isDeleted && service?.isViewPermission==1"
+                                <div (click)="confirmRemove(service?.supplierId, 0)" *ngIf="!eventData.eventData.isDeleted && (service?.isViewPermission==1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )"
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
 
