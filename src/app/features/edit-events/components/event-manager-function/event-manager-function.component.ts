@@ -125,6 +125,7 @@ export class EventManagerFunctionComponent
       },
     ],
   };
+  accessPermission:any;
   constructor(
     public eventService: EventService,
     public aroute: ActivatedRoute,
@@ -174,6 +175,7 @@ export class EventManagerFunctionComponent
   }
 
   ngOnInit(): void {
+    this.accessPermission = this.eventData.eventData.eventManager.clientAccessPermission
     this.subs2 = this.eventService.isEditChange.subscribe((value) => {
       this.isEventEdit = value;
       this.editManager.emit(this.isEventEdit);
@@ -268,11 +270,12 @@ export class EventManagerFunctionComponent
       ClientAccessComponent,
       ngbModalOptions
     );
-    modalRef.componentInstance.accessPermission = this.eventData.eventData.eventManager.clientAccessPermission;
+    modalRef.componentInstance.accessPermission = this.accessPermission;
 
     modalRef.result
       .then((result: any) => {
         if (result && result.accessPermission) {
+          this.accessPermission = result.accessPermission;
           let data = {
             clientAccessPermission: result.accessPermission,
             eventId: this.eventData.eventData.eventId,
