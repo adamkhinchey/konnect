@@ -414,7 +414,7 @@ export class EventExhibitorsFunctionComponent
                   },err=>{
                     console.log(err);
                   })
-                }, 5000);
+                }, 10000);
               }
             },
             (err) => {
