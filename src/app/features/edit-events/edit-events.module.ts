@@ -29,6 +29,7 @@ import { EventGanttChartComponent } from './components/event-gantt-chart/event-g
 import { EventAssignCrewFunctionCmpComponent } from './components/event-assign-crew-function-cmp/event-assign-crew-function-cmp.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { TasksComponent } from './components/tasks/tasks.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     EventViewComponent,
     EventGanttChartComponent,
     EventAssignCrewFunctionCmpComponent,
+    TasksComponent,
   ],
   imports: [
     CommonModule,

@@ -56,6 +56,13 @@
         <ng-content select="[eventFiles]"></ng-content>
       </ng-template>
     </li>
+    <li [ngbNavItem]="8">
+      <a ngbNavLink class="item tabAdmin"><i class="map marker alternate icon"></i><span
+        class="hideMobile">TASKS</span></a>
+      <ng-template ngbNavContent>
+        <ng-content select="[tasks]"></ng-content>
+      </ng-template>
+    </li>
     <li [ngbNavItem]="7">
       <a ngbNavLink class="item tabAdmin"><i class="clock icon"></i><span
         class="hideMobile">TIMELINE</span></a>
@@ -122,6 +129,13 @@
       class="hideMobile">FILES</span></a>
     <ng-template ngbNavContent>
       <ng-content select="[eventFiles]"></ng-content>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="8">
+    <a ngbNavLink class="item tabAdmin"><i class="map marker alternate icon"></i><span
+      class="hideMobile">TASKS</span></a>
+    <ng-template ngbNavContent>
+      <ng-content select="[tasks]"></ng-content>
     </ng-template>
   </li>
   <li [ngbNavItem]="7">

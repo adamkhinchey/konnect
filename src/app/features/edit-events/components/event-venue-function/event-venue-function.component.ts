@@ -190,12 +190,18 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       this.isPast = param.isPast;
     });
   }
+  save(activeVenuePanel:any, shouldInvite:any){
+    this.isNotesEdit = false;
+    this.eventService.isNotesEdit = false;
+    this.saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:shouldInvite})
+  }
   editNotes() {
-    this.isNotesEdit = !this.isNotesEdit;
-    this.isVenueEdit = !this.isVenueEdit;
+    this.isNotesEdit = true;
+    this.eventService.isNotesEdit = true;
+    // this.isVenueEdit = !this.isVenueEdit;
   }
   changeConfig() {
-    if (!this.isVenueEdit && !this.isNotesEdit)  {
+    if (!this.isNotesEdit)  {
       this.config.editable = false;
       this.config.showToolbar = false;
     } else {
@@ -205,7 +211,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
   changeConfig1() {
-    if (!this.isVenueEdit && !this.isNotesEdit)  {
+    if (!this.isVenueEdit)  {
       this.config2.editable = false;
       this.config2.showToolbar = false;
     } else {
@@ -263,13 +269,14 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   ngOnChanges(changes: SimpleChanges) {
     this.isVenueEdit = this.eventService.isEdit;
     this.isVenueEditable = this.eventService.isEdit;
+    this.isNotesEdit = this.eventService.isNotesEdit;
   }
 
   editVenueFn() {
     this.eventService.isEdit = true;
     this.isVenueEdit = true;
     this.isVenueEditable = true;
-    this.isNotesEdit = true;
+    // this.isNotesEdit = true;
   }
 
   ngAfterViewInit(): void {

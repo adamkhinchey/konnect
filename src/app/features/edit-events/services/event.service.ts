@@ -26,8 +26,10 @@ export class EventService {
   public isDeleted: boolean = false;
   private _isSaveDisabled: boolean = false;
   private _isEdit: boolean = false;
+  private _isNotesEdit: boolean = false;
   isSaveDisabledChange = new Subject<boolean>();
   isEditChange = new Subject<boolean>();
+  isNotesEditChange = new Subject<boolean>();
 
   set isSaveDisabled(value: boolean) {
     this._isSaveDisabled = value;
@@ -43,6 +45,13 @@ export class EventService {
   }
   get isEdit() {
     return this._isEdit;
+  }
+  set isNotesEdit(value: boolean) {
+    this._isNotesEdit = value;
+    this.isNotesEditChange.next(this._isNotesEdit);
+  }
+  get isNotesEdit() {
+    return this._isNotesEdit;
   }
   private apiBaseUrl = environment.apiBaseURL;
 

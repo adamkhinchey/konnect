@@ -1,6 +1,6 @@
 <div class="ui container">
   <div class="ui grid">
-    <div class="width100"  [ngClass]="{'mat-elevation-z5' : true, 'fixedMenu active' : isSticky}" >
+    <div class="width100" [ngClass]="{'mat-elevation-z5' : true, 'fixedMenu active' : isSticky}">
       <div class="infoBar">
         <div class="ui container">
           <div class="ui grid">
@@ -41,8 +41,7 @@
             [eventToBeSaved]="eventToBeSaved" (saveAndInvite)="saveToDb($event)"
             (editClient)="isClientEditable = $event" [isOwnCompany]="data.eventData.client.isOwnCompany === 1">
             <ng-container assignFunctionCmp>
-              <app-event-assign-function-cmp [permissionObj]="permissionObj" 
-                [tabName]="'clientTab'"
+              <app-event-assign-function-cmp [permissionObj]="permissionObj" [tabName]="'clientTab'"
                 [isViewPermission]="data.eventData.client?.isViewPermission"
                 [isSelfIncludedInTab]="data.eventData.client?.isSelfIncludedInTab"
                 [isSelfIncludedInSection]="data.eventData.client?.isSelfIncludedInSection"
@@ -62,17 +61,16 @@
             (saveAndInvite)="saveToDb($event)" (editManager)="isManagerEditable = $event"
             [isOwnCompany]="data.eventData.eventManager.isOwnCompany === 1">
             <ng-container assignFunctionCmp>
-              <app-event-assign-function-cmp [permissionObj]="permissionObj" 
-                [tabName]="'eventManagerTab'"
-                [isViewPermission]="data.eventData.eventManager?.isViewPermission" 
-                [isSelfIncludedInTab]="data.eventData.eventManager?.isSelfIncludedInTab" 
-                [isSelfIncludedInSection]="data.eventData.eventManager?.isSelfIncludedInSection" 
-                [eventData]="data"
+              <app-event-assign-function-cmp [permissionObj]="permissionObj" [tabName]="'eventManagerTab'"
+                [isViewPermission]="data.eventData.eventManager?.isViewPermission"
+                [isSelfIncludedInTab]="data.eventData.eventManager?.isSelfIncludedInTab"
+                [isSelfIncludedInSection]="data.eventData.eventManager?.isSelfIncludedInSection" [eventData]="data"
                 [clientCmpBtnLabel]="'Add Event Management Company'"
                 [contactListLabel]="'Event Management Company Contacts'" [selectedCompany]="eventMgrCmp"
                 [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
                 (modalOpen)="setOpenedModalRef($event)" (contactRemove)="removeContact($event)"
-                [contactList]="eventMgrContactList" [isManagerEditable]="isManagerEditable" (isCrew)="setIsCrew($event)">
+                [contactList]="eventMgrContactList" [isManagerEditable]="isManagerEditable"
+                (isCrew)="setIsCrew($event)">
               </app-event-assign-function-cmp>
             </ng-container>
           </app-event-manager-function>
@@ -109,7 +107,12 @@
           </app-event-files-function>
         </ng-container>
         <ng-container timeline *ngIf="data.eventData && data.eventData.eventId">
-          <app-event-timeline-function [eventId]="data.eventData.eventId"  [permissionObj]="permissionObj" ></app-event-timeline-function>
+          <app-event-timeline-function [eventId]="data.eventData.eventId" [permissionObj]="permissionObj">
+          </app-event-timeline-function>
+        </ng-container>
+        <ng-container tasks *ngIf="data.eventData && data.eventData.eventId">
+          <app-tasks>
+          </app-tasks>
         </ng-container>
       </app-event-panel-nav>
     </div>

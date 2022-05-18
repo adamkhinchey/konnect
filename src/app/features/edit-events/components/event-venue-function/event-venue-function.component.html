@@ -11,7 +11,7 @@
               <!-- <button *ngIf="(permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ) && (eventToBeSaved.venues && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
               <button *ngIf="(permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ) && (eventToBeSaved.venues && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})">Save </button> -->
               <button *ngIf="( (permissionObj.isClient && permissionObj.clientAccessPermission == 1 ) || permissionObj.isEventManager || permissionObj.isVenue  ) && (eventToBeSaved.venues && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
-              <button *ngIf="( (permissionObj.isClient && permissionObj.clientAccessPermission == 1 )  || permissionObj.isEventManager || permissionObj.isVenue ) && (eventToBeSaved.venues && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})">Save </button>
+              <button *ngIf="( (permissionObj.isClient && permissionObj.clientAccessPermission == 1 )  || permissionObj.isEventManager || permissionObj.isVenue ) && (eventToBeSaved.venues && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="save(activeVenuePanel,true)">Save </button>
             </h3>
           </div>
 

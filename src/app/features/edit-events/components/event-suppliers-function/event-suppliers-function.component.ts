@@ -92,8 +92,8 @@ export class EventSuppliersFunctionComponent
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
     sanitize: false,
-    defaultFontSize:'2',
-    showToolbar:false,
+    defaultFontSize: '2',
+    showToolbar: false,
     toolbarHiddenButtons: [
       [
         'link',
@@ -131,8 +131,8 @@ export class EventSuppliersFunctionComponent
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
     sanitize: false,
-    defaultFontSize:'2',
-    showToolbar:false,
+    defaultFontSize: '2',
+    showToolbar: false,
     toolbarHiddenButtons: [
       [
         'link',
@@ -170,8 +170,8 @@ export class EventSuppliersFunctionComponent
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
     sanitize: false,
-    defaultFontSize:'2',
-    showToolbar:false,
+    defaultFontSize: '2',
+    showToolbar: false,
     toolbarHiddenButtons: [
       [
         'link',
@@ -335,14 +335,24 @@ export class EventSuppliersFunctionComponent
       this.postEventTimesCount = 1;
     }
   }
+  save(venueIndexLocal: any, serviceIndexLocal: any, shouldInvite: any) {
+    this.isNotesEdit = false;
+    this.eventService.isNotesEdit = false;
+    this.saveAndInvite.emit({
+      venueIndex: venueIndexLocal,
+      serviceIndex: serviceIndexLocal,
+      shouldInvite: shouldInvite,
+    });
+  }
 
   editNotes() {
     this.isNotesEdit = true;
+    this.eventService.isNotesEdit = true;
     // this.isServiceEdit = !this.isServiceEdit;
   }
 
   changeConfig() {
-    if (!this.isServiceEdit && !this.isNotesEdit)   {
+    if (!this.isNotesEdit) {
       this.config.editable = false;
       this.config.showToolbar = false;
     } else {
@@ -352,7 +362,7 @@ export class EventSuppliersFunctionComponent
     }
   }
   changeConfigPermission() {
-    if (!this.isServiceEdit)   {
+    if (!this.isServiceEdit) {
       this.config2.editable = false;
       this.config2.showToolbar = false;
     } else {
@@ -362,7 +372,7 @@ export class EventSuppliersFunctionComponent
     }
   }
   changeConfigPermission1() {
-    if (!this.isServiceEdit)   {
+    if (!this.isServiceEdit) {
       this.config1.editable = false;
       this.config1.showToolbar = false;
     } else {
@@ -405,7 +415,7 @@ export class EventSuppliersFunctionComponent
           this.eventService.importExport(data).subscribe(
             (res: any) => {
               console.log(res);
-              if(res.code==200){
+              if (res.code == 200) {
                 this.router.navigate(['/']);
               }
             },
@@ -426,14 +436,19 @@ export class EventSuppliersFunctionComponent
           this.eventService.importExport(data).subscribe(
             (res: any) => {
               console.log(res);
-              if(res.code==200){
+              if (res.code == 200) {
                 window.open(res.data.uploadRes.Location, '_blank');
                 setTimeout(() => {
-                  this.eventService.deleteBucketFile(res.data.uploadRes.key).subscribe((deleteRes:any)=>{
-                   console.log(deleteRes);
-                  },err=>{
-                    console.log(err);
-                  })
+                  this.eventService
+                    .deleteBucketFile(res.data.uploadRes.key)
+                    .subscribe(
+                      (deleteRes: any) => {
+                        console.log(deleteRes);
+                      },
+                      (err) => {
+                        console.log(err);
+                      }
+                    );
                 }, 10000);
               }
             },
@@ -449,17 +464,19 @@ export class EventSuppliersFunctionComponent
   ngOnChanges(changes: SimpleChanges) {
     this.isServiceEdit = this.eventService.isEdit;
     this.isServiceEditable = this.eventService.isEdit;
+    this.isNotesEdit = this.eventService.isNotesEdit;
   }
 
   editServiceFn(editServiceFn: number) {
     this.eventService.isEdit = !this.isServiceEdit;
     this.isServiceEdit = !this.isServiceEdit;
     this.isServiceEditable = !this.isServiceEditable;
-    this.isNotesEdit = true;
+    // this.isNotesEdit = true;
     this.editServiceIndex = editServiceFn;
   }
 
   ngOnInit(): void {
+    console.log('permission obj in init...', this.permissionObj);
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }

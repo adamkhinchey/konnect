@@ -14,3 +14,7 @@
 overflow: hidden;
 padding: 3px;
 }
+.custom-file-input:focus~.custom-file-label{
+box-shadow: none!important;
+border: 1px solid rgba(0,0,0,.2)!important;
+}

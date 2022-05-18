@@ -874,6 +874,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isExhibitorEditable = false;
     this.eventService.isEdit = false;
     this.eventService.isSaveDisabled = false;
+    this.eventService.isNotesEdit = false;
     this.getEventsById(changeEvent.nextId);
     this.active = changeEvent.nextId;
     // null means navigated to first time

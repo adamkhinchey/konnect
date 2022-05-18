@@ -32,7 +32,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                     <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 )  || permissionObj.isEventManager || permissionObj.isExhibitor) && (venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && !isNotesEdit)" (click)="editNotes()">
                       Edit
                     </button>
-                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 )  || permissionObj.isEventManager || permissionObj.isExhibitor) && (venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && isNotesEdit)" (click)="saveAndInvite.emit({venueIndex:venueIndexLocal, exhibitorIndex:exhibitorIndexLocal, shouldInvite:true})">
+                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 )  || permissionObj.isEventManager || permissionObj.isExhibitor) && (venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && isNotesEdit)" (click)="save(venueIndexLocal,exhibitorIndexLocal,true)">
                       Save
                     </button>
 

@@ -31,7 +31,10 @@ import { EventTimeWindowTypes } from '../../models/types';
 import { ViewEventService } from '../../services/view-event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
-import { ConfirmationDialogComponent, ImportExportComponent } from 'src/app/shared/components';
+import {
+  ConfirmationDialogComponent,
+  ImportExportComponent,
+} from 'src/app/shared/components';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
@@ -84,8 +87,8 @@ export class EventExhibitorsFunctionComponent
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
     sanitize: false,
-    defaultFontSize:'2',
-    showToolbar:false,
+    defaultFontSize: '2',
+    showToolbar: false,
     toolbarHiddenButtons: [
       [
         'link',
@@ -94,8 +97,8 @@ export class EventExhibitorsFunctionComponent
         'insertVideo',
         'insertHorizontalRule',
         'removeFormat',
-        'toggleEditorMode'
-      ]
+        'toggleEditorMode',
+      ],
     ],
     customClasses: [
       {
@@ -123,8 +126,8 @@ export class EventExhibitorsFunctionComponent
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
     sanitize: false,
-    defaultFontSize:'2',
-    showToolbar:false,
+    defaultFontSize: '2',
+    showToolbar: false,
     toolbarHiddenButtons: [
       [
         'link',
@@ -133,8 +136,8 @@ export class EventExhibitorsFunctionComponent
         'insertVideo',
         'insertHorizontalRule',
         'removeFormat',
-        'toggleEditorMode'
-      ]
+        'toggleEditorMode',
+      ],
     ],
     customClasses: [
       {
@@ -162,8 +165,8 @@ export class EventExhibitorsFunctionComponent
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
     sanitize: false,
-    defaultFontSize:'2',
-    showToolbar:false,
+    defaultFontSize: '2',
+    showToolbar: false,
     toolbarHiddenButtons: [
       [
         'link',
@@ -172,8 +175,8 @@ export class EventExhibitorsFunctionComponent
         'insertVideo',
         'insertHorizontalRule',
         'removeFormat',
-        'toggleEditorMode'
-      ]
+        'toggleEditorMode',
+      ],
     ],
     customClasses: [
       {
@@ -213,8 +216,19 @@ export class EventExhibitorsFunctionComponent
     });
   }
 
+  save(venueIndexLocal: any, exhibitorIndexLocal: any, shouldInvite: any) {
+    this.isNotesEdit = false;
+    this.eventService.isNotesEdit = false;
+    this.saveAndInvite.emit({
+      venueIndex: venueIndexLocal,
+      exhibitorIndex: exhibitorIndexLocal,
+      shouldInvite: shouldInvite,
+    });
+  }
+
   editNotes() {
-    this.isNotesEdit = !this.isNotesEdit;
+    this.isNotesEdit = true;
+    this.eventService.isNotesEdit = true;
     // this.isExhibitorEdit = !this.isExhibitorEdit;
   }
 
@@ -235,19 +249,19 @@ export class EventExhibitorsFunctionComponent
         this.eventToBeSaved!.venues!.list[
           venueIndex
         ].exhibitorList[0].timeWindowsToAll.bumpIn.timings;
-        for (
-          let i = 0;
-          i <
-          this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
-            exhibitorIndex
-          ].timeWindows.bumpIn.timings.length;
-          i++
-        ) {
-          this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
-            exhibitorIndex
-          ].timeWindows.bumpIn.timings[i].notes = '';
-        }
-
+      for (
+        let i = 0;
+        i <
+        this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0]
+          .exhibitors[exhibitorIndex].timeWindows.bumpIn.timings.length;
+        i++
+      ) {
+        this.eventToBeSaved!.venues!.list[
+          venueIndex
+        ].exhibitorList[0].exhibitors[
+          exhibitorIndex
+        ].timeWindows.bumpIn.timings[i].notes = '';
+      }
 
       this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
         exhibitorIndex
@@ -255,19 +269,19 @@ export class EventExhibitorsFunctionComponent
         this.eventToBeSaved!.venues!.list[
           venueIndex
         ].exhibitorList[0].timeWindowsToAll.bumpOut.timings;
-        for (
-          let i = 0;
-          i <
-          this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
-            exhibitorIndex
-          ].timeWindows.bumpOut.timings.length;
-          i++
-        ) {
-          this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
-            exhibitorIndex
-          ].timeWindows.bumpOut.timings[i].notes = '';
-        }
-
+      for (
+        let i = 0;
+        i <
+        this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0]
+          .exhibitors[exhibitorIndex].timeWindows.bumpOut.timings.length;
+        i++
+      ) {
+        this.eventToBeSaved!.venues!.list[
+          venueIndex
+        ].exhibitorList[0].exhibitors[
+          exhibitorIndex
+        ].timeWindows.bumpOut.timings[i].notes = '';
+      }
 
       this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
         exhibitorIndex
@@ -275,19 +289,19 @@ export class EventExhibitorsFunctionComponent
         this.eventToBeSaved!.venues!.list[
           venueIndex
         ].exhibitorList[0].timeWindowsToAll.eventTime.timings;
-        for (
-          let i = 0;
-          i <
-          this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
-            exhibitorIndex
-          ].timeWindows.eventTime.timings.length;
-          i++
-        ) {
-          this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0].exhibitors[
-            exhibitorIndex
-          ].timeWindows.eventTime.timings[i].notes = '';
-        }
-
+      for (
+        let i = 0;
+        i <
+        this.eventToBeSaved!.venues!.list[venueIndex].exhibitorList[0]
+          .exhibitors[exhibitorIndex].timeWindows.eventTime.timings.length;
+        i++
+      ) {
+        this.eventToBeSaved!.venues!.list[
+          venueIndex
+        ].exhibitorList[0].exhibitors[
+          exhibitorIndex
+        ].timeWindows.eventTime.timings[i].notes = '';
+      }
 
       this.preEventTimesCount =
         this.eventToBeSaved!.venues!.list[venueIndex].preEventAccessDateTimes
@@ -321,7 +335,7 @@ export class EventExhibitorsFunctionComponent
   }
 
   changeConfig() {
-    if (!this.isExhibitorEdit && !this.isNotesEdit)   {
+    if (!this.isNotesEdit) {
       this.config.editable = false;
       this.config.showToolbar = false;
     } else {
@@ -331,7 +345,7 @@ export class EventExhibitorsFunctionComponent
     }
   }
   changeConfig1() {
-    if (!this.isExhibitorEdit && !this.isNotesEdit)   {
+    if (!this.isExhibitorEdit) {
       this.config1.editable = false;
       this.config1.showToolbar = false;
     } else {
@@ -341,9 +355,7 @@ export class EventExhibitorsFunctionComponent
     }
   }
   changeConfigPermission() {
-    if (
-      (!this.isExhibitorEdit)
-    )   {
+    if (!this.isExhibitorEdit) {
       this.config2.editable = false;
       this.config2.showToolbar = false;
     } else {
@@ -361,7 +373,7 @@ export class EventExhibitorsFunctionComponent
     }
   }
 
-  importExport(venueIndex:any) {
+  importExport(venueIndex: any) {
     let ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
@@ -385,7 +397,7 @@ export class EventExhibitorsFunctionComponent
           this.eventService.importExport(data).subscribe(
             (res: any) => {
               console.log(res);
-              if(res.code==200){
+              if (res.code == 200) {
                 this.router.navigate(['/']);
               }
             },
@@ -406,14 +418,19 @@ export class EventExhibitorsFunctionComponent
           this.eventService.importExport(data).subscribe(
             (res: any) => {
               console.log(res);
-              if(res.code==200){
+              if (res.code == 200) {
                 window.open(res.data.uploadRes.Location, '_blank');
                 setTimeout(() => {
-                  this.eventService.deleteBucketFile(res.data.uploadRes.key).subscribe((deleteRes:any)=>{
-                   console.log(deleteRes);
-                  },err=>{
-                    console.log(err);
-                  })
+                  this.eventService
+                    .deleteBucketFile(res.data.uploadRes.key)
+                    .subscribe(
+                      (deleteRes: any) => {
+                        console.log(deleteRes);
+                      },
+                      (err) => {
+                        console.log(err);
+                      }
+                    );
                 }, 10000);
               }
             },
@@ -437,6 +454,7 @@ export class EventExhibitorsFunctionComponent
   ngOnChanges(changes: SimpleChanges) {
     this.isExhibitorEdit = this.eventService.isEdit;
     this.isExhibitorEditable = this.eventService.isEdit;
+    this.isNotesEdit = this.eventService.isNotesEdit;
   }
 
   ngOnInit(): void {
