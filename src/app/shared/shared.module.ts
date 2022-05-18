@@ -24,6 +24,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { ImportExportComponent } from './components/import-export/import-export.component';
 import { ClientAccessComponent } from './components/client-access/client-access.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AddTaskComponent } from './components/add-task/add-task.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ConfirmationDialogComponent,
     ImportExportComponent,
     ClientAccessComponent,
+    AddTaskComponent,
    ],
   imports: [
     CommonModule,
