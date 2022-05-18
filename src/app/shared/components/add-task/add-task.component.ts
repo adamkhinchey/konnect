@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-task',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddTaskComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private activeModal: NgbActiveModal
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  public dismiss() {
+    this.activeModal.dismiss();
   }
 
 }
