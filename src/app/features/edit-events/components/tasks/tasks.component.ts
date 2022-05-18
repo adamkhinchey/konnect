@@ -16,6 +16,7 @@ export class TasksComponent implements OnInit {
     let ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
+      size:'lg',
     };
     const modalRef = this.modalSrvc.open(AddTaskComponent, ngbModalOptions);
     modalRef.result
