@@ -1029,3 +1029,13 @@ select.ui.dropdown {
   max-height: 140px;
   overflow: auto;
 }
+.cdk-overlay-container {
+	z-index: 1051 !important;
+}
+// .cdk-overlay-pane.owl-dt-popup {
+// 	bottom: auto !important;
+// }
+
+.modal-open .cdk-overlay-pane.owl-dt-popup {
+	 bottom: auto !important; 
+}

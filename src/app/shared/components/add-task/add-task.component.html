@@ -54,7 +54,7 @@
 
                             <input type="text" class="form-control timeWindowDate" formControlName="dueDate" [owlDateTimeTrigger]="dt1" placeholder="" (dateTimeChange)="setDateTime($event)">
 
-                            <owl-date-time #dt1></owl-date-time>
+                            <owl-date-time #dt1 [pickerType]="'calendar'" ></owl-date-time>
                         </div>
                         <div class="ten wide column">
                             <a class="ui button basic circular compact mini trashIconOuter"><i
