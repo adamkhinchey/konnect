@@ -985,9 +985,9 @@ select.ui.dropdown {
 .angular-editor-textarea {
   margin-top: 0 !important;
 }
-.angular-editor .angular-editor-wrapper .angular-editor-textarea {
-  // border-top: none !important;
-}
+/* .angular-editor .angular-editor-wrapper .angular-editor-textarea {
+   border-top: none !important;
+ }*/
 .angular-editor-toolbar {
   background-color: #fff !important;
   border-bottom: none !important;
@@ -999,4 +999,25 @@ select.ui.dropdown {
 }
 .toolTipStyle .arrow::before {
   border-bottom-color: #fdd200 !important;
+}
+.multiselect-dropdown .dropdown-btn {
+	padding-right: 25px !important;
+  max-height: 60px;
+	overflow: auto;
+}
+.multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
+	height: 35px !important;
+	top: 1px !important;
+	right: 5px !important;
+}
+
+.assigntoData {
+  max-height: 180px;
+  overflow: auto;
+  width: 100%;
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 15px 0;
+  padding: 10px;
+  border-radius: 5px;
 }
