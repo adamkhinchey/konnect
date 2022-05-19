@@ -7,65 +7,101 @@
             </p>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-7">
-            <div class="form-group">
-                <label>Title</label>
-                <input type="text" placeholder="" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Description</label>
-                <textarea type="text" placeholder="" class="form-control"> </textarea>
-            </div>
-            <div class="form-group">
-                <label>Due Date</label>
+    <form [formGroup]="addTaskForm">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" placeholder="" class="form-control" formControlName="title">
+                    <div class="text-danger" *ngIf="
+                    f.title.hasError('required') &&
+                    (f.title.touched || submitted)
+                  ">
+                        Title is required &nbsp;
+                    </div>
+                    <div class="text-danger" *ngIf="
+                    f.title.hasError('whitespace') &&
+                    (f.title.touched || submitted) &&
+                    !f.title.hasError('required')
+                  ">
+                        Enter valid data &nbsp;
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea type="text" placeholder="" class="form-control" formControlName="description"> </textarea>
+                    <div class="text-danger" *ngIf="
+                    f.description.hasError('required') &&
+                    (f.description.touched || submitted)
+                  ">
+                        Description is required &nbsp;
+                    </div>
+                    <div class="text-danger" *ngIf="
+                    f.description.hasError('whitespace') &&
+                    (f.description.touched || submitted) &&
+                    !f.description.hasError('required')
+                  ">
+                        Enter valid data &nbsp;
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <div class="ui grid">
+                        <div class="six wide column">
+                            <!-- <input type="text" placeholder="" class="form-control" formControlName="dueDate"> -->
+                            <input #inp class="form-control shadow-input" formControlName="dueDate" [owlDateTime]="dt1" placeholder="Due Date"
+                                (dateTimeChange)="setDateTime($event)">
+
+                            <input type="text" class="form-control timeWindowDate" formControlName="dueDate" [owlDateTimeTrigger]="dt1" placeholder="" (dateTimeChange)="setDateTime($event)">
+
+                            <owl-date-time #dt1></owl-date-time>
+                        </div>
+                        <div class="ten wide column">
+                            <a class="ui button basic circular compact mini trashIconOuter"><i
+                                    class="m-0 trash alternate icon"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+
+
                 <div class="ui grid">
-                    <div class="six wide column">
-                        <input type="text" placeholder="" class="form-control">
+                    <div class="seven wide column">
+                        <div class="ui checkbox">
+                            <input type="checkbox" id="completed" class="hidden" tabindex="0"
+                                formControlName="isCompleted">
+                            <label for="completed">Completed</label>
+                        </div>
                     </div>
-                    <div class="ten wide column">
-                        <a class="ui button basic circular compact mini trashIconOuter"><i
-                                class="m-0 trash alternate icon"></i></a>
+                    <div class="nine wide column right aligned">
+                        <!-- only editable when have all permission or restricted permission to client  -->
+                        <div class="ui circular compact mini basic button confirmRemove hasModal">
+                            <i class="trash alternate icon"></i>Remove
+                        </div>
+
+                        <button class="ui button ml-2" (click)="saveUpdateTask()"> Save </button>
+
                     </div>
                 </div>
 
             </div>
-
-
-            <div class="ui grid">
-                <div class="seven wide column">
-                    <div class="ui checkbox">
-                        <input type="checkbox" class="hidden" tabindex="0">
-                        <label>Completed</label>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label class="w-100"> &nbsp; </label>
+                    <button class="ui button ml-2" (click)="assignTo()"> Assign to </button>
+                    <!-- <div>
+                        <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [settings]="dropdownSettings"
+                            [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)">
+                        </ng-multiselect-dropdown>
+                    </div> -->
+                    <div class="assigntoData">
+                        <p *ngFor="let item of selectedItems" class="mt-1 mb-2">functionRole, companyName</p>
+                        <p *ngFor="let item of selectedItems" class="mt-1 mb-2">functionRole, companyName</p>
                     </div>
+                    <!-- <p>functionRole, companyName</p>
+                    <p>functionRole, companyName</p> -->
                 </div>
-                <div class="nine wide column right aligned">
-                    <!-- only editable when have all permission or restricted permission to client  -->
-                    <div class="ui circular compact mini basic button confirmRemove hasModal">
-                        <i class="trash alternate icon"></i>Remove
-                    </div>
-
-                    <button class="ui button ml-2"> Save </button>
-
-                </div>
-            </div>
-
-        </div>
-        <div class="col-md-5">
-            <div class="form-group">
-                <label class="w-100"> &nbsp; </label>
-                <button class="ui button ml-2" (click)="assignTo()"> Assign to </button>
-                <!-- <div>
-                    <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [settings]="dropdownSettings"
-                        [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)">
-                    </ng-multiselect-dropdown>
-                </div> -->
-                <!-- <div class="assigntoData">
-                    <p *ngFor="let item of selectedItems" class="mt-1 mb-2">{{item.item_id}}, {{item.item_text}}</p>
-                </div> -->
-                <p>functionRole, companyName</p>
-                <p>functionRole, companyName</p>
             </div>
         </div>
-    </div>
+    </form>
 </div>

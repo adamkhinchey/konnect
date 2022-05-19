@@ -1,50 +1,55 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { OwlDateTimeComponent } from '@danielmoncada/angular-datetime-picker';
+import {
+  NgbActiveModal,
+  NgbModal,
+  NgbModalOptions,
+} from '@ng-bootstrap/ng-bootstrap';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { noWhiteSpace } from '../../validators';
 import { AssignToComponent } from '../assign-to/assign-to.component';
 
 @Component({
   selector: 'app-add-task',
   templateUrl: './add-task.component.html',
-  styleUrls: ['./add-task.component.scss']
+  styleUrls: ['./add-task.component.scss'],
 })
 export class AddTaskComponent implements OnInit {
+  @ViewChild('dt1') owlDateTime: OwlDateTimeComponent<any> | undefined;
+  @ViewChild('inp') dateTimeInput: ElementRef | undefined;
+  addTaskForm: FormGroup;
+  submitted: boolean = false;
+  dropdownList: any = [];
+  selectedItems: any = [];
+  dropdownSettings: IDropdownSettings = {};
 
-  dropdownList:any = [];
-  selectedItems:any = [];
-  dropdownSettings:IDropdownSettings = {};
-  
   constructor(
     private activeModal: NgbActiveModal,
-    public modalSrvc:NgbModal
-  ) {}
+    public modalSrvc: NgbModal,
+    public fb: FormBuilder
+  ) {
+    this.addTaskForm = this.fb.group({
+      eventId: [0],
+      taskId: [0],
+      assignToId: [''],
+      assignById: [''],
+      title: ['', [Validators.required, noWhiteSpace]],
+      description: ['', [Validators.required, noWhiteSpace]],
+      dueDate: [''],
+      isCompleted: [0],
+    });
+  }
 
+  get f() {
+    return this.addTaskForm.controls;
+  }
   ngOnInit(): void {
-    this.dropdownList = [
-      { item_id: 1, item_text: 'Mumbai' },
-      { item_id: 2, item_text: 'Bangaluru' },
-      { item_id: 3, item_text: 'Pune' },
-      { item_id: 4, item_text: 'Navsari' },
-      { item_id: 5, item_text: 'New Delhi' },
-      { item_id: 6, item_text: 'New Delhi' },
-      { item_id: 7, item_text: 'New Delhi' },
-      { item_id: 8, item_text: 'New Delhi' },
-      { item_id: 9, item_text: 'New Delhi' }
-    ];
-    this.selectedItems = [
-      { item_id: 3, item_text: 'Pune' },
-      { item_id: 4, item_text: 'Navsari' }
-    ];
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      // itemsShowLimit: false,
-      allowSearchFilter: true
-    };
-    
+
+  }
+
+  setDateTime(event: any): void {
+
   }
   onItemSelect(item: any) {
     console.log(item);
@@ -54,11 +59,11 @@ export class AddTaskComponent implements OnInit {
     this.activeModal.dismiss();
   }
 
-  assignTo(){
+  assignTo() {
     let ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
-      size:'lg',
+      size: 'lg',
     };
     const modalRef = this.modalSrvc.open(AssignToComponent, ngbModalOptions);
     modalRef.result
@@ -68,4 +73,7 @@ export class AddTaskComponent implements OnInit {
       });
   }
 
+  saveUpdateTask() {
+    this.submitted = true;
+  }
 }

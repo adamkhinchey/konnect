@@ -26,6 +26,7 @@ import { ClientAccessComponent } from './components/client-access/client-access.
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddTaskComponent } from './components/add-task/add-task.component';
 import { AssignToComponent } from './components/assign-to/assign-to.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,9 @@ import { AssignToComponent } from './components/assign-to/assign-to.component';
     ReactiveFormsModule,
     FormsModule,
     AngularEditorModule,
-    NgbModule
+    NgbModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   exports: [
     CompanySearchComponent,
