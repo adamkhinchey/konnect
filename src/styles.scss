@@ -1021,3 +1021,11 @@ select.ui.dropdown {
   padding: 10px;
   border-radius: 5px;
 }
+.assignToCheckBox { padding: 0px; }
+.assignToCheckBox li { padding: 0px; list-style: none; margin-bottom: 10px; }
+.assignToCheckBox li ul.assignToCheckBox {
+  padding-left: 25px;
+  margin-top: 5px;
+  max-height: 140px;
+  overflow: auto;
+}
