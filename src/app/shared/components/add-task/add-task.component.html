@@ -1,72 +1,70 @@
-<div class="addTaskModal" >
-    <div class="row" >
-        <div class="col-md-12 mb-3" >
-            <p> 
-                Owned by: functionRole, companyName  
-                <a href="javaScript:void()" (click)="dismiss()" > <i class="close icon" ></i> </a>
+<div class="addTaskModal">
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <p>
+                Owned by: functionRole, companyName
+                <a href="javaScript:void()" (click)="dismiss()"> <i class="close icon"></i> </a>
             </p>
         </div>
     </div>
-    <div class="row" >
-        <div class="col-md-7" >
-            <div class="form-group" >
+    <div class="row">
+        <div class="col-md-7">
+            <div class="form-group">
                 <label>Title</label>
-                <input type="text" placeholder="" class="form-control" >
+                <input type="text" placeholder="" class="form-control">
             </div>
-            <div class="form-group" >
+            <div class="form-group">
                 <label>Description</label>
-                <textarea type="text" placeholder="" class="form-control" > </textarea>
+                <textarea type="text" placeholder="" class="form-control"> </textarea>
             </div>
-            <div class="form-group" >
+            <div class="form-group">
                 <label>Due Date</label>
                 <div class="ui grid">
                     <div class="six wide column">
-                        <input type="text" placeholder="" class="form-control" > 
+                        <input type="text" placeholder="" class="form-control">
                     </div>
                     <div class="ten wide column">
-                        <a class="ui button basic circular compact mini trashIconOuter"><i class="m-0 trash alternate icon"></i></a>
+                        <a class="ui button basic circular compact mini trashIconOuter"><i
+                                class="m-0 trash alternate icon"></i></a>
                     </div>
                 </div>
-                
+
             </div>
-            
+
 
             <div class="ui grid">
                 <div class="seven wide column">
-                    <div class="ui checkbox" >
-                        <input type="checkbox" class="hidden" tabindex="0" >
+                    <div class="ui checkbox">
+                        <input type="checkbox" class="hidden" tabindex="0">
                         <label>Completed</label>
                     </div>
                 </div>
                 <div class="nine wide column right aligned">
-                  <!-- only editable when have all permission or restricted permission to client  -->
-                  <div class="ui circular compact mini basic button confirmRemove hasModal" >
-                    <i class="trash alternate icon"></i>Remove
-                  </div>
+                    <!-- only editable when have all permission or restricted permission to client  -->
+                    <div class="ui circular compact mini basic button confirmRemove hasModal">
+                        <i class="trash alternate icon"></i>Remove
+                    </div>
 
-                  <button class="ui button ml-2" > Save </button>
+                    <button class="ui button ml-2"> Save </button>
 
                 </div>
-              </div>
+            </div>
 
         </div>
-        <div class="col-md-5" >
-            <div class="form-group" >
-                <label class="w-100" > &nbsp; </label>
-                <div>
-                    <ng-multiselect-dropdown
-  [placeholder]="'custom placeholder'"
-  [settings]="dropdownSettings"
-  [data]="dropdownList"
-  [(ngModel)]="selectedItems"
-  (onSelect)="onItemSelect($event)"
->
-</ng-multiselect-dropdown>
-                </div>
-                <div class="assigntoData" >
-                    <p *ngFor="let item of selectedItems" class="mt-1 mb-2" >{{item.item_id}}, {{item.item_text}}</p>
-                </div>
-                <!-- <p>functionRole, companyName</p> -->
+        <div class="col-md-5">
+            <div class="form-group">
+                <label class="w-100"> &nbsp; </label>
+                <button class="ui button ml-2" (click)="assignTo()"> Assign to </button>
+                <!-- <div>
+                    <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [settings]="dropdownSettings"
+                        [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)">
+                    </ng-multiselect-dropdown>
+                </div> -->
+                <!-- <div class="assigntoData">
+                    <p *ngFor="let item of selectedItems" class="mt-1 mb-2">{{item.item_id}}, {{item.item_text}}</p>
+                </div> -->
+                <p>functionRole, companyName</p>
+                <p>functionRole, companyName</p>
             </div>
         </div>
     </div>

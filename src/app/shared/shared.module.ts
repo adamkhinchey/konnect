@@ -25,6 +25,7 @@ import { ImportExportComponent } from './components/import-export/import-export.
 import { ClientAccessComponent } from './components/client-access/client-access.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddTaskComponent } from './components/add-task/add-task.component';
+import { AssignToComponent } from './components/assign-to/assign-to.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { AddTaskComponent } from './components/add-task/add-task.component';
     ImportExportComponent,
     ClientAccessComponent,
     AddTaskComponent,
+    AssignToComponent,
    ],
   imports: [
     CommonModule,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { AssignToComponent } from '../assign-to/assign-to.component';
 
 @Component({
   selector: 'app-add-task',
@@ -14,7 +15,8 @@ export class AddTaskComponent implements OnInit {
   dropdownSettings:IDropdownSettings = {};
   
   constructor(
-    private activeModal: NgbActiveModal
+    private activeModal: NgbActiveModal,
+    public modalSrvc:NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +52,20 @@ export class AddTaskComponent implements OnInit {
 
   public dismiss() {
     this.activeModal.dismiss();
+  }
+
+  assignTo(){
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      size:'lg',
+    };
+    const modalRef = this.modalSrvc.open(AssignToComponent, ngbModalOptions);
+    modalRef.result
+      .then((result: any) => {})
+      .catch((result: any) => {
+        console.log('cancelling');
+      });
   }
 
 }
