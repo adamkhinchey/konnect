@@ -1,139 +1,79 @@
 <div class="assignToModal">
     <div class="row">
         <div class="col-md-12 mb-3">
-          
+
             <p>
                 <strong>Assigned To</strong>
                 <a href="javaScript:void()" (click)="dismiss()"> <i class="close icon"></i> </a>
             </p>
         </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="data && data.client">
         <div class="col-md-12">
 
-            <ul class="assignToCheckBox" >
+            <ul class="assignToCheckBox">
                 <li>
                     <div class="ui checkbox">
-                        <input type="checkbox" id="1" class="hidden" tabindex="0">
-                        <label for="1" >Client</label>
+                        <input type="checkbox" id="1" class="hidden" tabindex="0" [(ngModel)]="clientChecked" [value]="clientChecked" (change)="onClientChange($event)">
+                        <label for="1">{{data.client.companyName}}</label>
                     </div>
                 </li>
                 <li>
                     <div class="ui checkbox">
-                        <input type="checkbox" id="2" class="hidden" tabindex="0">
-                        <label for="2" >Event Manager</label>
+                        <input type="checkbox" id="2" class="hidden" tabindex="0" [(ngModel)]="evManagerChecked" [value]="evManagerChecked" (change)="onEvManagerChange($event)">
+                        <label for="2">{{data.eventManager.companyName}}</label>
                     </div>
                 </li>
-                <li>
+                <li *ngIf="data.venues && data.venues.length">
                     <div class="ui checkbox">
-                        <input type="checkbox" id="3" class="hidden" tabindex="0">
-                        <label for="3" >All Venues</label>
+                        <input type="checkbox" id="3" class="hidden" tabindex="0" [(ngModel)]="allVenues" [value]="allVenues" (change)="onAllVenuesChange($event)">
+                        <label for="3">All Venues</label>
                     </div>
-                    <ul class="assignToCheckBox" >
-                        <li>
+                    <ul class="assignToCheckBox">
+                        <li *ngFor="let venue of venues;let venueIndex=index;">
                             <div class="ui checkbox">
-                                <input type="checkbox" id="3-1" class="hidden" tabindex="0">
-                                <label for="3-1" >Venue 1</label>
+                                <input type="checkbox" id="3-{{venueIndex}}" class="hidden" tabindex="0"  [(ngModel)]="venue.isChecked" [value]="venue?.isChecked" [checked]="venue?.isChecked == 1" (change)="onVenueChange($event, venue.id)">
+                                <label for="3-{{venueIndex}}">{{venue.companyName}}</label>
                             </div>
                         </li>
-        
-                        <li>
-                            <div class="ui checkbox">
-                                <input type="checkbox" id="3-2" class="hidden" tabindex="0">
-                                <label for="3-2" >Venue 2</label>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="ui checkbox">
-                                <input type="checkbox" id="3-3" class="hidden" tabindex="0">
-                                <label for="3-3" >Venue 3</label>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="ui checkbox">
-                                <input type="checkbox" id="3-4" class="hidden" tabindex="0">
-                                <label for="3-4" >Venue 4</label>
-                            </div>
-                        </li>
-        
                     </ul>
                 </li>
-                <li>
+                <li *ngIf="data.services && data.services.length">
                     <div class="ui checkbox">
-                        <input type="checkbox" id="4" class="hidden" tabindex="0">
-                        <label for="4" >All Suppliers</label>
+                        <input type="checkbox" id="4" class="hidden" tabindex="0" [(ngModel)]="allSuppliers" [value]="allSuppliers" (change)="onAllSuppliersChange($event)">
+                        <label for="4">All Suppliers</label>
                     </div>
-                    <ul class="assignToCheckBox" >
-                        <li>
+                    <ul class="assignToCheckBox">
+                        <li *ngFor="let supplier of services;let supplierIndex=index;">
                             <div class="ui checkbox">
-                                <input type="checkbox" id="4-1" class="hidden" tabindex="0">
-                                <label for="4-1" >Supplier 1</label>
+                                <input type="checkbox" id="4-{{supplierIndex}}" class="hidden" tabindex="0" [(ngModel)]="supplier.isChecked" [value]="supplier?.isChecked" [checked]="supplier?.isChecked == 1" (change)="onSupplierChange($event, supplier.id)">
+                                <label for="4-{{supplierIndex}}">{{supplier.companyName}}</label>
                             </div>
                         </li>
-        
-                        <li>
-                            <div class="ui checkbox">
-                                <input type="checkbox" id="4-2" class="hidden" tabindex="0">
-                                <label for="4-2" >Supplier 2</label>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="ui checkbox">
-                                <input type="checkbox" id="4-3" class="hidden" tabindex="0">
-                                <label for="4-3" >Supplier 3</label>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="ui checkbox">
-                                <input type="checkbox" id="4-4" class="hidden" tabindex="0">
-                                <label for="4-4" >Supplier 4</label>
-                            </div>
-                        </li>
-        
                     </ul>
                 </li>
-                <li>
+                <li *ngIf="data.exhibitors && data.exhibitors.length">
                     <div class="ui checkbox">
-                        <input type="checkbox" id="5" class="hidden" tabindex="0">
-                        <label for="5" >All Exhibitors</label>
+                        <input type="checkbox" id="5" class="hidden" tabindex="0" [(ngModel)]="allExhibitors" [value]="allExhibitors" (change)="onAllExhibitorsChange($event)">
+                        <label for="5">All Exhibitors</label>
                     </div>
-                    <ul class="assignToCheckBox" >
-                        <li>
+                    <ul class="assignToCheckBox">
+                        <li *ngFor="let exhibitor of exhibitors;let exhibitorIndex=index;">
                             <div class="ui checkbox">
-                                <input type="checkbox" id="5-1" class="hidden" tabindex="0">
-                                <label for="5-1" >Exhibitor 1</label>
+                                <input type="checkbox" id="5-{{exhibitorIndex}}" class="hidden" tabindex="0" [(ngModel)]="exhibitor.isChecked" [value]="exhibitor?.isChecked" [checked]="exhibitor?.isChecked == 1" (change)="onExhibitorChange($event, exhibitor.id)">
+                                <label for="5-{{exhibitorIndex}}">{{exhibitor.companyName}}</label>
                             </div>
                         </li>
-        
-                        <li>
-                            <div class="ui checkbox">
-                                <input type="checkbox" id="5-2" class="hidden" tabindex="0">
-                                <label for="5-2" >Exhibitor 2</label>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="ui checkbox">
-                                <input type="checkbox" id="5-3" class="hidden" tabindex="0">
-                                <label for="5-3" >Exhibitor 3</label>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="ui checkbox">
-                                <input type="checkbox" id="5-4" class="hidden" tabindex="0">
-                                <label for="5-4" >Exhibitor 4</label>
-                            </div>
-                        </li>
-        
                     </ul>
                 </li>
             </ul>
 
 
-                <div class="twelve wide column" style="display: flex; justify-content: flex-end;">
+            <div class="twelve wide column" style="display: flex; justify-content: flex-end;">
 
-                    <button class="ui button ml-2"> Save </button>
+                <button class="ui button ml-2" (click)="assign()"> Save </button>
 
-                </div>
+            </div>
 
         </div>
     </div>

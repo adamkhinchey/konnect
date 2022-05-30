@@ -9,6 +9,12 @@ import {
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { noWhiteSpace } from '../../validators';
 import { AssignToComponent } from '../assign-to/assign-to.component';
+import * as moment from 'moment';
+import * as _ from 'lodash';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { EventService } from 'src/app/features/edit-events/services/event.service';
+import { ActivatedRoute } from '@angular/router';
+import { UserSettingsService } from '../../services';
 
 @Component({
   selector: 'app-add-task',
@@ -23,11 +29,77 @@ export class AddTaskComponent implements OnInit {
   dropdownList: any = [];
   selectedItems: any = [];
   dropdownSettings: IDropdownSettings = {};
-
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize: '2',
+    showToolbar: false,
+    toolbarHiddenButtons: [
+      [
+        // 'undo',
+        // 'redo',
+        // 'fontSize',
+        // 'textColor',
+        // 'backgroundColor',
+        // 'bold',
+        // 'italic',
+        // 'underline',
+        // 'strikeThrough',
+        'subscript',
+        'superscript',
+        // 'justifyLeft',
+        // 'justifyCenter',
+        // 'justifyRight',
+        'justifyFull',
+        // 'indent',
+        // 'outdent',
+        // 'insertUnorderedList',
+        // 'insertOrderedList',
+        'heading',
+        'fontName',
+      ],
+      [
+        'customClasses',
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode',
+      ],
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
+  assignToData: any = [];
   constructor(
     private activeModal: NgbActiveModal,
+    public aroute: ActivatedRoute,
     public modalSrvc: NgbModal,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    public eventSrvc: EventService,
+    private userSettingsService: UserSettingsService
   ) {
     this.addTaskForm = this.fb.group({
       eventId: [0],
@@ -45,11 +117,21 @@ export class AddTaskComponent implements OnInit {
     return this.addTaskForm.controls;
   }
   ngOnInit(): void {
-
+    this.userSettingsService.settings.subscribe((value) => {
+      console.log(value);
+      if (value) {
+        console.log('in if');
+        this.addTaskForm.get('assignById')?.setValue(value.defaultCompany.id);
+      }
+    });
+    this.aroute.queryParams.subscribe((param) => {
+      console.log('param...', param);
+      this.addTaskForm.get('eventId')?.setValue(param.eventId);
+    });
   }
 
   setDateTime(event: any): void {
-
+    this.f.dueDate.setValue(event.value);
   }
   onItemSelect(item: any) {
     console.log(item);
@@ -67,13 +149,93 @@ export class AddTaskComponent implements OnInit {
     };
     const modalRef = this.modalSrvc.open(AssignToComponent, ngbModalOptions);
     modalRef.result
-      .then((result: any) => {})
-      .catch((result: any) => {
+      .then((result: any) => {
+        // console.log('result...', result);
+        if (result && result.data) {
+          if (
+            result.data.client.isChecked == 1 ||
+            result.data.client.isChecked == true
+          ) {
+            this.assignToData = this.assignToData.concat({
+              id: result.data.client.id,
+              companyName: result.data.client.companyName,
+            });
+          }
+          if (
+            result.data.eventManager.isChecked == 1 ||
+            result.data.eventManager.isChecked == true
+          ) {
+            this.assignToData = this.assignToData.concat({
+              id: result.data.eventManager.id,
+              companyName: result.data.eventManager.companyName,
+            });
+          }
+          for (let i = 0; i < result.data.venues.length; i++) {
+            if (
+              result.data.venues[i].isChecked == 1 ||
+              result.data.venues[i].isChecked == true
+            ) {
+              this.assignToData = this.assignToData.concat({
+                id: result.data.venues[i].id,
+                companyName: result.data.venues[i].companyName,
+              });
+            }
+          }
+          for (let i = 0; i < result.data.services.length; i++) {
+            if (
+              result.data.services[i].isChecked == 1 ||
+              result.data.services[i].isChecked == true
+            ) {
+              this.assignToData = this.assignToData.concat({
+                id: result.data.services[i].id,
+                companyName: result.data.services[i].companyName,
+              });
+            }
+          }
+          for (let i = 0; i < result.data.exhibitors.length; i++) {
+            if (
+              result.data.exhibitors[i].isChecked == 1 ||
+              result.data.exhibitors[i].isChecked == true
+            ) {
+              this.assignToData = this.assignToData.concat({
+                id: result.data.exhibitors[i].id,
+                companyName: result.data.exhibitors[i].companyName,
+              });
+            }
+          }
+          console.log('assign to data...', this.assignToData);
+          this.addTaskForm.get('assignToId')?.setValue(this.assignToData);
+        }
+      })
+      .catch((err: any) => {
         console.log('cancelling');
       });
   }
 
   saveUpdateTask() {
     this.submitted = true;
+    console.log(this.addTaskForm);
+    console.log(this.addTaskForm.value);
+    if(this.addTaskForm.valid){
+      this.eventSrvc.addEventTask(this.addTaskForm.value).subscribe((res:any)=>{
+        if(res.code==200){
+          this.activeModal.close();
+        }
+      },err=>{
+        console.log(err);
+        console.log(err.error.message);
+      })
+    }
+  }
+
+  changeConfig() {
+    // if (!this.isNotesEdit)  {
+    //   this.config.editable = false;
+    //   this.config.showToolbar = false;
+    // } else {
+    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    this.config.editable = true;
+    this.config.showToolbar = true;
+    // }
   }
 }

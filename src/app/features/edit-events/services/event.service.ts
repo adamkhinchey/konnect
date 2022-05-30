@@ -9,18 +9,37 @@ import { HttpErrRespHandlerService } from '../../../shared/services';
 import { ApiResponseModelInterface } from '../../../shared/models';
 import { take, tap } from 'rxjs/operators';
 import { devLogger, hideSpinnerPostApiCall } from '../../../shared/utils';
-import { Company } from "../../users/models";
-import { InviteFnCmpCntInterface, InviteFnCmpInterface, VenueTimeChangedSubjectInterface } from "../models/interfaces";
+import { Company } from '../../users/models';
+import {
+  InviteFnCmpCntInterface,
+  InviteFnCmpInterface,
+  VenueTimeChangedSubjectInterface,
+} from '../models/interfaces';
 
+type FetchedVenueSrvcsCmp = {
+  company: Company;
+  venueIndex: number;
+  serviceIndex: number;
+};
+type FetchedVenueSrvcCmpCnts = {
+  contactList: InviteFnCmpCntInterface[];
+  venueIndex: number;
+  serviceIndex: number;
+};
 
-type FetchedVenueSrvcsCmp = { company: Company, venueIndex: number, serviceIndex: number };
-type FetchedVenueSrvcCmpCnts = { contactList: InviteFnCmpCntInterface[], venueIndex: number, serviceIndex: number };
-
-type FetchedVenueExCmp = { company: Company, venueIndex: number, exhibitorIndex: number };
-type FetchedVenueExCmpCnts = { contactList: InviteFnCmpCntInterface[], venueIndex: number, exhibitorIndex: number };
+type FetchedVenueExCmp = {
+  company: Company;
+  venueIndex: number;
+  exhibitorIndex: number;
+};
+type FetchedVenueExCmpCnts = {
+  contactList: InviteFnCmpCntInterface[];
+  venueIndex: number;
+  exhibitorIndex: number;
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventService {
   public isDeleted: boolean = false;
@@ -55,39 +74,50 @@ export class EventService {
   }
   private apiBaseUrl = environment.apiBaseURL;
 
-  private ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([
+  private ownCompanyStatusMap = new Map<
+    EventFunctionTypes,
+    null | boolean | boolean[]
+  >([
     [EventFunctionTypes.CLIENT, false],
-    [EventFunctionTypes.EVENT_MANAGER, null]
+    [EventFunctionTypes.EVENT_MANAGER, null],
   ]);
 
   public activeVenuePanelIndex: number | null = null;
-  public activeServicePanel: { venueIndex: number, serviceIndex: number } | null = null;
-  public activeExhibitorPanel: { venueIndex: number, exhibitorIndex: number } | null = null;
+  public activeServicePanel: {
+    venueIndex: number;
+    serviceIndex: number;
+  } | null = null;
+  public activeExhibitorPanel: {
+    venueIndex: number;
+    exhibitorIndex: number;
+  } | null = null;
 
-  setIsFnOwnCompany = new BehaviorSubject<Map<EventFunctionTypes, null | boolean | boolean[]>>(this.ownCompanyStatusMap);
+  setIsFnOwnCompany = new BehaviorSubject<
+    Map<EventFunctionTypes, null | boolean | boolean[]>
+  >(this.ownCompanyStatusMap);
 
   supplierCompanyAddSubject = new Subject<{
     venueIndex: number;
     serviceIndex: number;
-    supplierCompany: Company | InviteFnCmpInterface
+    supplierCompany: Company | InviteFnCmpInterface;
   }>();
 
   supplierCmpCntAddSubject = new Subject<{
     venueIndex: number;
     serviceIndex: number;
-    contactList: InviteFnCmpCntInterface[]
+    contactList: InviteFnCmpCntInterface[];
   }>();
 
   exhibitorCompanyAddSubject = new Subject<{
     venueIndex: number;
     exhibitorIndex: number;
-    exhibitorCompany: Company | InviteFnCmpInterface
+    exhibitorCompany: Company | InviteFnCmpInterface;
   }>();
 
   exhibitorCmpCntAddSubject = new Subject<{
     venueIndex: number;
     exhibitorIndex: number;
-    contactList: InviteFnCmpCntInterface[]
+    contactList: InviteFnCmpCntInterface[];
   }>();
 
   triggerSaveOnly = new Subject();
@@ -109,9 +139,11 @@ export class EventService {
   venueEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
   venuePostEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
 
-  exhibitionPreEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+  exhibitionPreEventTimeChange =
+    new Subject<VenueTimeChangedSubjectInterface>();
   exhibitionEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
-  exhibitionPostEventTimeChange = new Subject<VenueTimeChangedSubjectInterface>();
+  exhibitionPostEventTimeChange =
+    new Subject<VenueTimeChangedSubjectInterface>();
 
   private fetchedVenueSrvcsCmp: FetchedVenueSrvcsCmp[] = [];
   private fetchedVenueSrvcsCmpCnts: FetchedVenueSrvcCmpCnts[] = [];
@@ -125,9 +157,8 @@ export class EventService {
   constructor(
     private spinner: NgxSpinnerService,
     private http: HttpClient,
-    private httpErrorHandler: HttpErrRespHandlerService,
-  ) {
-  }
+    private httpErrorHandler: HttpErrRespHandlerService
+  ) {}
 
   resetVenueExhibitorData() {
     this.fetchedVenueExCmp = [];
@@ -140,9 +171,12 @@ export class EventService {
   }
 
   reset(): void {
-    this.ownCompanyStatusMap = new Map<EventFunctionTypes, null | boolean | boolean[]>([
+    this.ownCompanyStatusMap = new Map<
+      EventFunctionTypes,
+      null | boolean | boolean[]
+    >([
       [EventFunctionTypes.CLIENT, false],
-      [EventFunctionTypes.EVENT_MANAGER, null]
+      [EventFunctionTypes.EVENT_MANAGER, null],
     ]);
     this.setIsFnOwnCompany.next(this.ownCompanyStatusMap);
     this.activeVenuePanelIndex = null;
@@ -156,41 +190,53 @@ export class EventService {
   }
 
   supplierCompanyAdded(company: Company | InviteFnCmpInterface): void {
-    if (this.activeServicePanel?.venueIndex !== undefined && this.activeServicePanel?.serviceIndex !== undefined) {
+    if (
+      this.activeServicePanel?.venueIndex !== undefined &&
+      this.activeServicePanel?.serviceIndex !== undefined
+    ) {
       this.supplierCompanyAddSubject.next({
         venueIndex: this.activeServicePanel.venueIndex,
         serviceIndex: this.activeServicePanel.serviceIndex,
-        supplierCompany: company
+        supplierCompany: company,
       });
     }
   }
 
   supplierContactsAdded(contactList: InviteFnCmpCntInterface[]): void {
-    if (this.activeServicePanel?.venueIndex !== undefined && this.activeServicePanel?.serviceIndex !== undefined) {
+    if (
+      this.activeServicePanel?.venueIndex !== undefined &&
+      this.activeServicePanel?.serviceIndex !== undefined
+    ) {
       this.supplierCmpCntAddSubject.next({
         venueIndex: this.activeServicePanel.venueIndex,
         serviceIndex: this.activeServicePanel.serviceIndex,
-        contactList
+        contactList,
       });
     }
   }
 
   exhibitorCompanyAdded(company: Company | InviteFnCmpInterface): void {
-    if (this.activeExhibitorPanel?.venueIndex !== undefined && this.activeExhibitorPanel?.exhibitorIndex !== undefined) {
+    if (
+      this.activeExhibitorPanel?.venueIndex !== undefined &&
+      this.activeExhibitorPanel?.exhibitorIndex !== undefined
+    ) {
       this.exhibitorCompanyAddSubject.next({
         venueIndex: this.activeExhibitorPanel.venueIndex,
         exhibitorIndex: this.activeExhibitorPanel.exhibitorIndex,
-        exhibitorCompany: company
+        exhibitorCompany: company,
       });
     }
   }
 
   exhibitorContactsAdded(contactList: InviteFnCmpCntInterface[]): void {
-    if (this.activeExhibitorPanel?.venueIndex !== undefined && this.activeExhibitorPanel?.exhibitorIndex !== undefined) {
+    if (
+      this.activeExhibitorPanel?.venueIndex !== undefined &&
+      this.activeExhibitorPanel?.exhibitorIndex !== undefined
+    ) {
       this.exhibitorCmpCntAddSubject.next({
         venueIndex: this.activeExhibitorPanel.venueIndex,
         exhibitorIndex: this.activeExhibitorPanel.exhibitorIndex,
-        contactList
+        contactList,
       });
     }
   }
@@ -206,12 +252,10 @@ export class EventService {
   }
 
   getFetchedVenueSrvcsCmp(): FetchedVenueSrvcsCmp[] {
-
     return this.fetchedVenueSrvcsCmp;
   }
 
   addFetchedVenueSrvcCmpCnt(param: FetchedVenueSrvcCmpCnts): void {
-
     this.fetchedVenueSrvcsCmpCnts.push(param);
   }
 
@@ -239,9 +283,10 @@ export class EventService {
 
   saveToDb(event: SaveEventClass): Observable<any> {
     this.spinner.show();
-    return this.http.post<ApiResponseModelInterface>(
-      `${this.apiBaseUrl}/saveEvent`,
-      { event })
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/saveEvent`, {
+        event,
+      })
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),
@@ -251,9 +296,11 @@ export class EventService {
 
   updateToDb(event: SaveEventClass, eventId: any): Observable<any> {
     this.spinner.show();
-    return this.http.patch<ApiResponseModelInterface>(
-      `${this.apiBaseUrl}/updateEvent`,
-      { eventId, event })
+    return this.http
+      .patch<ApiResponseModelInterface>(`${this.apiBaseUrl}/updateEvent`, {
+        eventId,
+        event,
+      })
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),
@@ -263,8 +310,10 @@ export class EventService {
 
   fetchEventFiles(eventID: number): Observable<ApiResponseModelInterface> {
     this.spinner.show();
-    return this.http.get<ApiResponseModelInterface>(
-      `${this.apiBaseUrl}/event/${eventID}/files`)
+    return this.http
+      .get<ApiResponseModelInterface>(
+        `${this.apiBaseUrl}/event/${eventID}/files`
+      )
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),
@@ -274,9 +323,11 @@ export class EventService {
 
   importExport(data: any): Observable<any> {
     this.spinner.show();
-    return this.http.post<ApiResponseModelInterface>(
-      `${this.apiBaseUrl}/importExportServicesAndExhibitors`,
-       data )
+    return this.http
+      .post<ApiResponseModelInterface>(
+        `${this.apiBaseUrl}/importExportServicesAndExhibitors`,
+        data
+      )
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),
@@ -285,9 +336,11 @@ export class EventService {
   }
   deleteBucketFile(key: any): Observable<any> {
     // this.spinner.show();
-    return this.http.post<ApiResponseModelInterface>(
-      `${this.apiBaseUrl}/deleteBucketFileByKey`,
-      { key })
+    return this.http
+      .post<ApiResponseModelInterface>(
+        `${this.apiBaseUrl}/deleteBucketFileByKey`,
+        { key }
+      )
       .pipe(
         // hideSpinnerPostApiCall(this.spinner),
         take(1),
@@ -297,9 +350,11 @@ export class EventService {
 
   giveClientPermission(data: any): Observable<any> {
     this.spinner.show();
-    return this.http.post<ApiResponseModelInterface>(
-      `${this.apiBaseUrl}/saveClientAccessPermission`,
-       data )
+    return this.http
+      .post<ApiResponseModelInterface>(
+        `${this.apiBaseUrl}/saveClientAccessPermission`,
+        data
+      )
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),
@@ -307,4 +362,27 @@ export class EventService {
       );
   }
 
+  getAssignToList(eventId: any): Observable<any> {
+    this.spinner.show();
+    return this.http
+      .post<ApiResponseModelInterface>(
+        `${this.apiBaseUrl}/getTaskAssignToList`,
+        { eventId }
+      )
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
+  addEventTask(data: any): Observable<any> {
+    this.spinner.show();
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/addEventTask`, data)
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
 }

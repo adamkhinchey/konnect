@@ -63,14 +63,38 @@ export class EventClientFunctionComponent
     showToolbar:false,
     toolbarHiddenButtons: [
       [
+        // 'undo',
+        // 'redo',
+        // 'fontSize',
+        // 'textColor',
+        // 'backgroundColor',
+        // 'bold',
+        // 'italic',
+        // 'underline',
+        // 'strikeThrough',
+        'subscript',
+        'superscript',
+        // 'justifyLeft',
+        // 'justifyCenter',
+        // 'justifyRight',
+        'justifyFull',
+        // 'indent',
+        // 'outdent',
+        // 'insertUnorderedList',
+        // 'insertOrderedList',
+        'heading',
+        'fontName'
+      ],
+      [
+        'customClasses',
         'link',
         'unlink',
         'insertImage',
         'insertVideo',
         'insertHorizontalRule',
         'removeFormat',
-        'toggleEditorMode',
-      ],
+        'toggleEditorMode'
+      ]
     ],
     customClasses: [
       {
@@ -102,14 +126,38 @@ export class EventClientFunctionComponent
     showToolbar:false,
     toolbarHiddenButtons: [
       [
+        // 'undo',
+        // 'redo',
+        // 'fontSize',
+        // 'textColor',
+        // 'backgroundColor',
+        // 'bold',
+        // 'italic',
+        // 'underline',
+        // 'strikeThrough',
+        'subscript',
+        'superscript',
+        // 'justifyLeft',
+        // 'justifyCenter',
+        // 'justifyRight',
+        'justifyFull',
+        // 'indent',
+        // 'outdent',
+        // 'insertUnorderedList',
+        // 'insertOrderedList',
+        'heading',
+        'fontName'
+      ],
+      [
+        'customClasses',
         'link',
         'unlink',
         'insertImage',
         'insertVideo',
         'insertHorizontalRule',
         'removeFormat',
-        'toggleEditorMode',
-      ],
+        'toggleEditorMode'
+      ]
     ],
     customClasses: [
       {

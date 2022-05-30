@@ -29,7 +29,9 @@
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <textarea type="text" placeholder="" class="form-control" formControlName="description"> </textarea>
+                    <angular-editor formControlName="description" [config]="config" (focus)="changeConfig()">
+                    </angular-editor>
+                    <!-- <textarea type="text" placeholder="" class="form-control" formControlName="description"> </textarea> -->
                     <div class="text-danger" *ngIf="
                     f.description.hasError('required') &&
                     (f.description.touched || submitted)
@@ -49,12 +51,14 @@
                     <div class="ui grid">
                         <div class="six wide column">
                             <!-- <input type="text" placeholder="" class="form-control" formControlName="dueDate"> -->
-                            <input #inp class="form-control shadow-input" formControlName="dueDate" [owlDateTime]="dt1" placeholder="Due Date"
-                                (dateTimeChange)="setDateTime($event)">
+                            <input #inp class="form-control shadow-input" formControlName="dueDate" [owlDateTime]="dt1"
+                                placeholder="Due Date" (dateTimeChange)="setDateTime($event)">
 
-                            <input type="text" class="form-control timeWindowDate" formControlName="dueDate" [owlDateTimeTrigger]="dt1" placeholder="" (dateTimeChange)="setDateTime($event)">
+                            <input type="text" class="form-control timeWindowDate"
+                                [value]="f.dueDate.value | dateFilter: 'dd/MM/YYYY'" formControlName="dueDate"
+                                [owlDateTimeTrigger]="dt1" placeholder="" (dateTimeChange)="setDateTime($event)">
 
-                            <owl-date-time #dt1 [pickerType]="'calendar'" ></owl-date-time>
+                            <owl-date-time #dt1 [pickerType]="'calendar'"></owl-date-time>
                         </div>
                         <div class="ten wide column">
                             <a class="ui button basic circular compact mini trashIconOuter"><i
@@ -94,9 +98,14 @@
                             [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)">
                         </ng-multiselect-dropdown>
                     </div> -->
-                    <div class="assigntoData">
-                        <p class="mt-1 mb-2">functionRole, companyName</p>
-                        <p class="mt-1 mb-2">functionRole, companyName</p>
+                    <div class="assigntoData" *ngIf="assignToData && assignToData.length">
+                        <p class="mt-1 mb-2" *ngFor="let role of assignToData">{{role.companyName}}</p>
+                        <!-- <p class="mt-1 mb-2">functionRole, companyName</p> -->
+                    </div>
+                    <div style="padding-left: 7px; padding-top: 5px;" class="text-danger" *ngIf="
+                    !assignToData.length && submitted
+                  ">
+                        Select atleast one company &nbsp;
                     </div>
                     <!-- <p>functionRole, companyName</p>
                     <p>functionRole, companyName</p> -->
