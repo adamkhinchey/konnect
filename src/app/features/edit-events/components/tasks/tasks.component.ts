@@ -8,6 +8,7 @@ import { AddTaskComponent } from 'src/app/shared/components/add-task/add-task.co
   styleUrls: ['./tasks.component.scss'],
 })
 export class TasksComponent implements OnInit {
+  active: any = '1';
   @Input() eventData: any;
   constructor(public modalSrvc: NgbModal) {}
 
@@ -19,10 +20,11 @@ export class TasksComponent implements OnInit {
     let ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
-      size:'lg',
+      size: 'lg',
     };
     const modalRef = this.modalSrvc.open(AddTaskComponent, ngbModalOptions);
-    modalRef.componentInstance.ownedByText = this.eventData.eventData.ownedByText;
+    modalRef.componentInstance.ownedByText =
+      this.eventData.eventData.ownedByText;
     modalRef.result
       .then((result: any) => {})
       .catch((result: any) => {
