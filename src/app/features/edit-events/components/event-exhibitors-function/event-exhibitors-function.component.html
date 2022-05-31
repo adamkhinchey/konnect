@@ -118,13 +118,13 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
             
               <h3 id="servicesAnchor" class="ui dividing header">Exhibitors
 
-                <div class="float-right btnRightSec marT-m10" *ngIf="permissionObj.isEventManager" >
+                <div class="float-right btnRightSec marT-m10" *ngIf="!eventData.eventData.isDeleted && ((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 ) || permissionObj.isEventManager)" >
                   <div class="ui button compact addNewService mr-10px" (click)="importExport(venueIndex)">
                   <i class="upload icon"></i>
                   <span>Bulk Import/Export</span>
                 </div>
 
-                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager"
+                <div
                 class="ui button compact addNewService" (click)="addExhibitor(venue, venueIndex)">
                 <i class="plus circle icon"></i>
                 <span>Add Exhibitor</span>
@@ -155,7 +155,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                         *ngIf="venuesExhCmpsMap.get(venueIndex) && venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</span>
                     </button>
 
-                    <div class="flaot-right accordionCheckBox" *ngIf="!eventData.eventData.isDeleted && !checkPermission(exhibitor.isStaffOrAdmin)">
+                    <div class="flaot-right accordionCheckBox" *ngIf="!eventData.eventData.isDeleted && ((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 ) || permissionObj.isEventManager)">
                       <div class="ui checkbox">
                         <input [disabled]="!isNotesEdit" type="checkbox" class="hidden" [id]="'times-'+exhibitorIndex+'_venue_'+venueIndex"
                         (change)="listenTimeChange($event, venueIndex, exhibitorIndex)" tabindex="0">

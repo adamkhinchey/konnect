@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OwlDateTimeComponent } from '@danielmoncada/angular-datetime-picker';
 import {
@@ -24,6 +24,7 @@ import { UserSettingsService } from '../../services';
 export class AddTaskComponent implements OnInit {
   @ViewChild('dt1') owlDateTime: OwlDateTimeComponent<any> | undefined;
   @ViewChild('inp') dateTimeInput: ElementRef | undefined;
+  @Input() ownedByText:any='';
   addTaskForm: FormGroup;
   submitted: boolean = false;
   dropdownList: any = [];

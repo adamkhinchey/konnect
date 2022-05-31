@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { AddTaskComponent } from 'src/app/shared/components/add-task/add-task.component';
 
@@ -8,9 +8,12 @@ import { AddTaskComponent } from 'src/app/shared/components/add-task/add-task.co
   styleUrls: ['./tasks.component.scss'],
 })
 export class TasksComponent implements OnInit {
+  @Input() eventData: any;
   constructor(public modalSrvc: NgbModal) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('event data...', this.eventData);
+  }
 
   addTask() {
     let ngbModalOptions: NgbModalOptions = {
@@ -19,6 +22,7 @@ export class TasksComponent implements OnInit {
       size:'lg',
     };
     const modalRef = this.modalSrvc.open(AddTaskComponent, ngbModalOptions);
+    modalRef.componentInstance.ownedByText = this.eventData.eventData.ownedByText;
     modalRef.result
       .then((result: any) => {})
       .catch((result: any) => {

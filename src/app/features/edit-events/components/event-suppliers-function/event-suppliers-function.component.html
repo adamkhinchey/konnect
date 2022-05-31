@@ -53,7 +53,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
             <h3 id="servicesAnchor" class="ui dividing header">
               Services
-              <div class="float-right btnRightSec marT-m10" *ngIf="(permissionObj.isClient  && permissionObj.clientAccessPermission == 1 ) || permissionObj.isEventManager">
+              <div class="float-right btnRightSec marT-m10" *ngIf="!eventData.eventData.isDeleted && ((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 ) || permissionObj.isEventManager)">
                 <div class="ui button compact addNewService mr-10px" (click)="importExport(venueIndex)">
                 <i class="upload icon"></i>
                 <span>Bulk Import/Export</span>
@@ -89,7 +89,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                       Service {{serviceIndex + 1}}: <span>{{service?.name}} </span>
                     </button>
 
-                    <div class="flaot-right accordionCheckBox" *ngIf="(!eventData.eventData.isDeleted && !checkPermission(service.isStaffOrAdmin))">
+                    <div class="flaot-right accordionCheckBox" *ngIf="!eventData.eventData.isDeleted && ((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 ) || permissionObj.isEventManager)">
                       <div class="ui checkbox">
                         <input [disabled]="!isNotesEdit" type="checkbox" class="hidden" [id]="'times-'+serviceIndex+'_venue_'+venueIndex"
                         (change)="listenTimeChange($event, venueIndex, serviceIndex)" tabindex="0">

@@ -111,7 +111,7 @@
           </app-event-timeline-function>
         </ng-container>
         <ng-container tasks *ngIf="data.eventData && data.eventData.eventId">
-          <app-tasks>
+          <app-tasks [eventData]="data">
           </app-tasks>
         </ng-container>
       </app-event-panel-nav>
