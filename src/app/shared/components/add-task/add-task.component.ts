@@ -134,6 +134,9 @@ export class AddTaskComponent implements OnInit {
   setDateTime(event: any): void {
     this.f.dueDate.setValue(event.value);
   }
+  removeDate(){
+    this.f.dueDate.setValue(null);
+  }
   onItemSelect(item: any) {
     console.log(item);
   }
