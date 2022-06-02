@@ -40310,7 +40310,7 @@ body.pushable > .pusher {
 
 
 .accordian__boxpanel .card-header{ padding: 10px; position: relative; padding-right: 45px; min-height: 30px; background: #fff ; border-radius: 0 !important;}
-.accordian__boxpanel .card{ border-radius: 0; margin-bottom: 5px;}
+.accordian__boxpanel .card{ border-radius: 0; margin-bottom: 5px; padding: 0px;}
 .accordian__boxpanel .card-header .btn{ position: absolute; right: 10px; top: 50%; width: 30px; height: 30px; border:0; border-radius: 50px; background: #fff url('../img/down-svgrepo-com.svg') center no-repeat; background-size: 18px; z-index: 1; transform: translate(0, -50%); -webkit-transform: translate(0, -50%); font-size: 0; text-align: center;}
 
 .accordian__boxpanel .card-header .btn[aria-expanded="true"]{ transform:rotate(-180deg) translate(0, 50%); -webkit-transform: rotate(-180deg) translate(0, 50%); }

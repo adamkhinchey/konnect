@@ -968,7 +968,7 @@ select.ui.dropdown {
   float: right;
 }
 .parentAccordionVenue .card-header .btn.accordionBtnNew {
-  width: calc(100% - 220px);
+  width: 30px;
   padding: 15px !important;
 }
 .accordionCheckBox {
@@ -1044,6 +1044,12 @@ select.ui.dropdown {
 .modal-open .cdk-overlay-pane.owl-dt-popup {
 	 bottom: auto !important; 
 }
-.task-box{
-  
+
+.accordian__boxpanel .accordionCheckBox {
+	float: none;
+	padding: 3px 10px;
+}
+
+.assignToCheckBox .card-body {
+  padding: 0px;
 }
