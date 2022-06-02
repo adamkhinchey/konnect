@@ -15,8 +15,11 @@ export function noWhiteSpace(control: AbstractControl): ValidationErrors | null 
   if (control.errors && !control.errors.whitespace) {
       return;
   }
+  let value = control.value;
+  value = value.replaceAll(/(<([^>]+)>)/gi, '');
+  value = value.replaceAll(/&nbsp;/gi, '');
 
-  const isWhitespace = (control.value || '').trim().length === 0;
+  const isWhitespace = (value || '').trim().length === 0;
   const isValid = !isWhitespace;
   return isValid ? null : { 'whitespace': true };
 }

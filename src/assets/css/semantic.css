@@ -31256,7 +31256,7 @@ a.ui.card:hover,
 .ui.checkbox .box:before,
 .ui.checkbox label:before {
   position: absolute;
-  top: 0px;
+  top: 1px;
   left: 0px;
   width: 17px;
   height: 17px;
@@ -31278,7 +31278,7 @@ a.ui.card:hover,
 .ui.checkbox label:after {
   position: absolute;
   font-size: 14px;
-  top: 0px;
+  top: 1px;
   left: 0px;
   width: 17px;
   height: 17px;
@@ -40304,3 +40304,23 @@ body.pushable > .pusher {
 /*******************************
          Site Overrides
 *******************************/
+
+
+
+
+
+.accordian__boxpanel .card-header{ padding: 10px; position: relative; padding-right: 45px; min-height: 30px; background: #fff ; border-radius: 0 !important;}
+.accordian__boxpanel .card{ border-radius: 0; margin-bottom: 5px;}
+.accordian__boxpanel .card-header .btn{ position: absolute; right: 10px; top: 50%; width: 30px; height: 30px; border:0; border-radius: 50px; background: #fff url('../img/down-svgrepo-com.svg') center no-repeat; background-size: 18px; z-index: 1; transform: translate(0, -50%); -webkit-transform: translate(0, -50%); font-size: 0; text-align: center;}
+
+.accordian__boxpanel .card-header .btn[aria-expanded="true"]{ transform:rotate(-180deg) translate(0, 50%); -webkit-transform: rotate(-180deg) translate(0, 50%); }
+
+.accordian__boxpanel .accordionCheckBox{ float:none; padding:0;}
+.accordian__boxpanel .accordionCheckBox label{ margin-bottom: 0; }
+.accordian__boxpanel .card{ border-radius: 0; margin-bottom: 5px;}
+.accordian__boxpanel .assignToCheckBox{ padding-left: 18px; margin-bottom: 0;}
+.accordian__boxpanel .assignToCheckBox li:last-child{ margin-bottom: 0; }
+
+.dotsicon{ height: 26px; margin-right: 0; display:inline-block; min-width: 26px;}
+.flexparent{ display:flex !important; align-items: center; }
+.flexparent label{ margin-bottom: 0;}

@@ -397,6 +397,11 @@ img.ui.image.mini {
   margin: -1px 0 0 0 !important;
   padding: 14px;
 }
+.task-segment .innerTabCont.tab-content {
+  border: 1px solid #ddd;
+  margin: -1px 0 0 0 !important;
+  padding: 14px 14px 0px 14px!important;
+}
 .newFooter .actions {
   background: #f9fafb;
   padding: 1rem 1rem;
@@ -1038,4 +1043,7 @@ select.ui.dropdown {
 
 .modal-open .cdk-overlay-pane.owl-dt-popup {
 	 bottom: auto !important; 
+}
+.task-box{
+  
 }

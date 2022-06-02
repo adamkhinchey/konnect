@@ -362,12 +362,16 @@ export class EventService {
       );
   }
 
-  getAssignToList(eventId: any): Observable<any> {
+  getAssignToList(
+    eventId: any,
+    creatorFromCompanyId: any = 0,
+    taskId: any = 0
+  ): Observable<any> {
     this.spinner.show();
     return this.http
       .post<ApiResponseModelInterface>(
         `${this.apiBaseUrl}/getTaskAssignToList`,
-        { eventId }
+        { eventId, creatorFromCompanyId, taskId }
       )
       .pipe(
         hideSpinnerPostApiCall(this.spinner),

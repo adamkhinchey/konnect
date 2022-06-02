@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OwlDateTimeComponent } from '@danielmoncada/angular-datetime-picker';
+import { ToastrService } from 'ngx-toastr';
 import {
   NgbActiveModal,
   NgbModal,
@@ -96,6 +97,7 @@ export class AddTaskComponent implements OnInit {
   assignToData: any = [];
   constructor(
     private activeModal: NgbActiveModal,
+    private toaster: ToastrService,
     public aroute: ActivatedRoute,
     public modalSrvc: NgbModal,
     public fb: FormBuilder,
@@ -108,7 +110,7 @@ export class AddTaskComponent implements OnInit {
       assignToId: [''],
       assignById: [''],
       title: ['', [Validators.required, noWhiteSpace]],
-      description: ['', [Validators.required, noWhiteSpace]],
+      description: [''],
       dueDate: [''],
       isCompleted: [0],
     });
@@ -152,9 +154,10 @@ export class AddTaskComponent implements OnInit {
       size: 'lg',
     };
     const modalRef = this.modalSrvc.open(AssignToComponent, ngbModalOptions);
+    modalRef.componentInstance.creatorFromCompanyId = this.addTaskForm.get('assignById')?.value;
     modalRef.result
       .then((result: any) => {
-        // console.log('result...', result);
+         console.log('result...', result);
         if (result && result.data) {
           if (
             result.data.client.isChecked == 1 ||
@@ -162,6 +165,7 @@ export class AddTaskComponent implements OnInit {
           ) {
             this.assignToData = this.assignToData.concat({
               id: result.data.client.id,
+              tabType:'1',
               companyName: result.data.client.companyName,
             });
           }
@@ -171,6 +175,7 @@ export class AddTaskComponent implements OnInit {
           ) {
             this.assignToData = this.assignToData.concat({
               id: result.data.eventManager.id,
+              tabType:'2',
               companyName: result.data.eventManager.companyName,
             });
           }
@@ -181,6 +186,7 @@ export class AddTaskComponent implements OnInit {
             ) {
               this.assignToData = this.assignToData.concat({
                 id: result.data.venues[i].id,
+                tabType:'3',
                 companyName: result.data.venues[i].companyName,
               });
             }
@@ -192,6 +198,7 @@ export class AddTaskComponent implements OnInit {
             ) {
               this.assignToData = this.assignToData.concat({
                 id: result.data.services[i].id,
+                tabType:'4',
                 companyName: result.data.services[i].companyName,
               });
             }
@@ -203,6 +210,7 @@ export class AddTaskComponent implements OnInit {
             ) {
               this.assignToData = this.assignToData.concat({
                 id: result.data.exhibitors[i].id,
+                tabType:'5',
                 companyName: result.data.exhibitors[i].companyName,
               });
             }
@@ -224,6 +232,7 @@ export class AddTaskComponent implements OnInit {
       this.eventSrvc.addEventTask(this.addTaskForm.value).subscribe((res:any)=>{
         if(res.code==200){
           this.activeModal.close();
+          this.toaster.success('Task added successfully.');
         }
       },err=>{
         console.log(err);

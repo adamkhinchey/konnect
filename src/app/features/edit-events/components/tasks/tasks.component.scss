@@ -1,3 +1,15 @@
-.alignButton{
-    margin-top: -8px!important;
+.alignButton {
+  margin-top: -8px !important;
+}
+.row-col {
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+.task-box {
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }

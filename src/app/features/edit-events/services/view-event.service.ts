@@ -25,10 +25,10 @@ export class ViewEventService {
     private spinner: NgxSpinnerService) {
   }
 
-  getEventsByEventId(eventId: any, tabType: any): Observable<any> {
+  getEventsByEventId(eventId: any, tabType: any, loginCompanyId:any=''): Observable<any> {
     this.spinner.show();
     return this.http.get<ApiResponseModelInterface>(
-      `${this.apiBaseUrl}/getEvent?eventId=${eventId}&tabType=${tabType}`
+      `${this.apiBaseUrl}/getEvent?eventId=${eventId}&tabType=${tabType}&loginCompanyId=${loginCompanyId}`
     ).pipe(
       hideSpinnerPostApiCall(this.spinner),
       this.httpErrorHandler.processError(),
