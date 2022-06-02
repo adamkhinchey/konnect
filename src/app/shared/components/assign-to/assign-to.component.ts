@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventService } from 'src/app/features/edit-events/services/event.service';
@@ -9,6 +9,7 @@ import { EventService } from 'src/app/features/edit-events/services/event.servic
   styleUrls: ['./assign-to.component.scss'],
 })
 export class AssignToComponent implements OnInit {
+  @Input() creatorFromCompanyId: any;
   data: any;
   eventId: any;
   client: any;
@@ -31,7 +32,7 @@ export class AssignToComponent implements OnInit {
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
       this.eventId = param.eventId;
-      this.eventSrvc.getAssignToList(this.eventId).subscribe((res: any) => {
+      this.eventSrvc.getAssignToList(this.eventId, this.creatorFromCompanyId).subscribe((res: any) => {
         console.log(res);
         this.data = res.data;
         this.venues = this.data.venues || [];
@@ -46,11 +47,6 @@ export class AssignToComponent implements OnInit {
   }
 
   assign() {
-    // console.log('client...', this.data.client);
-    // console.log('ev manager...', this.data.eventManager);
-    // console.log('vanues...', this.venues);
-    // console.log('suppliers...', this.services);
-    // console.log('exhibitors...', this.exhibitors);
     this.activeModal.close({
       data: {
         client: this.data.client,
@@ -62,7 +58,7 @@ export class AssignToComponent implements OnInit {
     });
   }
   onClientChange(ev: any) {
-    console.log(this.clientChecked)
+    console.log(this.clientChecked);
     console.log(ev.target.value);
     if (ev) {
       if (ev.target.value == 'false') {
@@ -106,22 +102,20 @@ export class AssignToComponent implements OnInit {
       }
     }
   }
-  onVenueChange(ev: any, id:any) {
+  onVenueChange(ev: any, id: any) {
     console.log(ev.target.value);
     if (ev) {
       if (ev.target.value == 'false' || ev.target.value == 0) {
         console.log('in if');
         this.venues = this.data.venues.map((checked: any) => {
           console.log('checked...', checked);
-          if(checked.id == id)
-          checked.isChecked = 1;
+          if (checked.id == id) checked.isChecked = 1;
           return checked;
         });
       } else if (ev.target.value == 'true') {
         console.log('in else');
         this.venues = this.data.venues.map((checked: any) => {
-          if(checked.id == id)
-          checked.isChecked = 0;
+          if (checked.id == id) checked.isChecked = 0;
           return checked;
         });
       }
@@ -146,22 +140,20 @@ export class AssignToComponent implements OnInit {
       }
     }
   }
-  onSupplierChange(ev: any, id:any) {
+  onSupplierChange(ev: any, id: any) {
     console.log(ev.target.value);
     if (ev) {
       if (ev.target.value == 'false' || ev.target.value == 0) {
         console.log('in if');
         this.services = this.data.services.map((checked: any) => {
           console.log('checked...', checked);
-          if(checked.id==id)
-          checked.isChecked = 1;
+          if (checked.id == id) checked.isChecked = 1;
           return checked;
         });
       } else if (ev.target.value == 'true') {
         console.log('in else');
         this.services = this.data.services.map((checked: any) => {
-          if(checked.id==id)
-          checked.isChecked = 0;
+          if (checked.id == id) checked.isChecked = 0;
           return checked;
         });
       }
@@ -186,22 +178,20 @@ export class AssignToComponent implements OnInit {
       }
     }
   }
-  onExhibitorChange(ev: any, id:any) {
+  onExhibitorChange(ev: any, id: any) {
     // console.log(ev.target.value);
     if (ev) {
       if (ev.target.value == 'false' || ev.target.value == 0) {
         // console.log('in if');
         this.exhibitors = this.data.exhibitors.map((checked: any) => {
           // console.log('checked...', checked);
-          if(checked.id==id)
-          checked.isChecked = 1;
+          if (checked.id == id) checked.isChecked = 1;
           return checked;
         });
       } else if (ev.target.value == 'true') {
         // console.log('in else');
         this.exhibitors = this.data.exhibitors.map((checked: any) => {
-          if(checked.id==id)
-          checked.isChecked = 0;
+          if (checked.id == id) checked.isChecked = 0;
           return checked;
         });
       }
