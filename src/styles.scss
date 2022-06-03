@@ -968,7 +968,7 @@ select.ui.dropdown {
   float: right;
 }
 .parentAccordionVenue .card-header .btn.accordionBtnNew {
-  width: 30px;
+  width: calc(100% - 220px);
   padding: 15px !important;
 }
 .accordionCheckBox {
@@ -1027,7 +1027,7 @@ select.ui.dropdown {
   border-radius: 5px;
 }
 .assignToCheckBox { padding: 0px; }
-.assignToCheckBox li { padding: 0px; list-style: none; margin-bottom: 10px; }
+.assignToCheckBox li { padding: 0px; list-style: none; margin-bottom: 12px; }
 .assignToCheckBox li ul.assignToCheckBox {
   padding-left: 25px;
   margin-top: 5px;
@@ -1047,9 +1047,13 @@ select.ui.dropdown {
 
 .accordian__boxpanel .accordionCheckBox {
 	float: none;
-	padding: 3px 10px;
+	padding: 5px 10px;
 }
 
 .assignToCheckBox .card-body {
   padding: 0px;
+}
+ .parentAccordionVenue .accordian__boxpanel .card-header .btn.accordionBtnNew {
+  width: 30px;
+  padding: 15px !important;
 }
