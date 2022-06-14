@@ -98,6 +98,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   private userSettingsSub: Subscription | undefined;
   config: AngularEditorConfig = {
     editable: true,
+    showToolbar: false,
     spellcheck: true,
     // height: '15rem',
     minHeight: '5rem',
@@ -106,7 +107,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
     sanitize: false,
-    defaultFontSize:'2',
+    defaultFontSize: '2',
     toolbarHiddenButtons: [
       [
         // 'undo',
@@ -129,7 +130,7 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
         // 'insertUnorderedList',
         // 'insertOrderedList',
         'heading',
-        'fontName'
+        'fontName',
       ],
       [
         'customClasses',
@@ -139,8 +140,8 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
         'insertVideo',
         'insertHorizontalRule',
         'removeFormat',
-        'toggleEditorMode'
-      ]
+        'toggleEditorMode',
+      ],
     ],
     customClasses: [
       {
@@ -197,8 +198,14 @@ export class ManageCompanyComponent implements OnInit, OnDestroy {
   }
 
   changeConfig() {
-    if (this.isView) this.config.editable = false;
-    else this.config.editable = true;
+    if (this.isView) {
+      this.config.editable = false;
+      this.config.showToolbar = false;
+    } else {
+      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      this.config.editable = true;
+      this.config.showToolbar = true;
+    }
   }
 
   ngOnInit() {

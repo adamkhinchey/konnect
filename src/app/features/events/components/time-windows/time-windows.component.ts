@@ -83,6 +83,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
   private timeZone = moment.tz.guess();
   config: AngularEditorConfig = {
     editable: true,
+    showToolbar:false,
     spellcheck: true,
     // height: '15rem',
     minHeight: '5rem',

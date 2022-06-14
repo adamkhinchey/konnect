@@ -30,6 +30,7 @@ import { EventAssignCrewFunctionCmpComponent } from './components/event-assign-c
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { TasksComponent } from './components/tasks/tasks.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { TasksComponent } from './components/tasks/tasks.component';
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     FontAwesomeModule,
-    AngularEditorModule
+    AngularEditorModule,
+    DragDropModule
   ],
 })
 export class EditEventsModule {

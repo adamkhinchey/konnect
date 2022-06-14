@@ -14,3 +14,22 @@
   width: 100%;
   margin-bottom: 12px;
 }
+.completedLabel{
+  text-decoration: line-through;
+  color: rgba(34, 36, 38, 0.15)!important;
+}
+.checkboxlabel{
+  height: 18px!important;
+}
+
+
+.datedCheckBoxOuter .checkboxlabel{
+  height: 18px!important;
+  float: left;
+}
+.datedDateLabel {
+  display: inline-flex;
+  background: #ededed;
+  padding: 3px 5px;
+  border-radius: 9px;
+}

@@ -1,16 +1,23 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Company} from '../../../users/models';
-import {InviteFnCmpClass} from '../../models/classes';
-import {SaveEventClass} from '../../models/classes/saveEvent.class';
-import {Subscription} from 'rxjs';
-import {EventService} from '../../services/event.service';
-import {EventFunctionTypes} from '../../models/types';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { Company } from '../../../users/models';
+import { InviteFnCmpClass } from '../../models/classes';
+import { SaveEventClass } from '../../models/classes/saveEvent.class';
+import { Subscription } from 'rxjs';
+import { EventService } from '../../services/event.service';
+import { EventFunctionTypes } from '../../models/types';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-event-manager-function',
   templateUrl: './event-manager-function.component.html',
-  styleUrls: ['./event-manager-function.component.scss']
+  styleUrls: ['./event-manager-function.component.scss'],
 })
 export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
@@ -22,6 +29,7 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   private subs1: Subscription | undefined;
   config: AngularEditorConfig = {
     editable: true,
+    showToolbar: false,
     spellcheck: true,
     // height: '15rem',
     minHeight: '5rem',
@@ -30,7 +38,7 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Arial',
     sanitize: false,
-    defaultFontSize:'2',
+    defaultFontSize: '2',
     toolbarHiddenButtons: [
       [
         // 'undo',
@@ -53,7 +61,7 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
         // 'insertUnorderedList',
         // 'insertOrderedList',
         'heading',
-        'fontName'
+        'fontName',
       ],
       [
         'customClasses',
@@ -63,8 +71,8 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
         'insertVideo',
         'insertHorizontalRule',
         'removeFormat',
-        'toggleEditorMode'
-      ]
+        'toggleEditorMode',
+      ],
     ],
     customClasses: [
       {
@@ -82,18 +90,21 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
       },
     ],
   };
-  constructor(public eventService: EventService) {
-  }
+  constructor(public eventService: EventService) {}
 
   ngOnInit(): void {
-    this.subs1 = this.eventService.setIsFnOwnCompany.subscribe(status => {
+    this.subs1 = this.eventService.setIsFnOwnCompany.subscribe((status) => {
       this.isOwnCompany = !!status.get(EventFunctionTypes.EVENT_MANAGER);
     });
   }
 
-  openVerticallyCentered(content: any): void {
-
+  changeConfig(){
+    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    this.config.editable = true;
+    this.config.showToolbar = true;
   }
+
+  openVerticallyCentered(content: any): void {}
 
   getCompanyProfileImage(): string | null | undefined {
     if (this.selectedCompany instanceof InviteFnCmpClass) {
@@ -121,7 +132,10 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
 
   toggleEvMgrOwnCompany(): void {
     const tempMap = new Map(this.eventService.setIsFnOwnCompany.getValue());
-    tempMap.set(EventFunctionTypes.EVENT_MANAGER, !tempMap.get(EventFunctionTypes.EVENT_MANAGER));
+    tempMap.set(
+      EventFunctionTypes.EVENT_MANAGER,
+      !tempMap.get(EventFunctionTypes.EVENT_MANAGER)
+    );
     this.eventService.setIsFnOwnCompany.next(tempMap);
   }
 
@@ -137,12 +151,11 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
     }
   }
 
-  goToCompanyProfile(companyId:any) {
+  goToCompanyProfile(companyId: any) {
     if (companyId) {
       localStorage.setItem('companyId', JSON.stringify(companyId));
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
     }
   }
-
 }

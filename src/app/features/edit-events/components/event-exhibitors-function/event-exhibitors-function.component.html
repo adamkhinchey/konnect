@@ -29,10 +29,10 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                       Save
                     </button> -->
 
-                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 )  || permissionObj.isEventManager || permissionObj.isExhibitor) && (venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && !isNotesEdit)" (click)="editNotes()">
+                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 )  || permissionObj.isEventManager) && (venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && !isNotesEdit)" (click)="editNotes()">
                       Edit
                     </button>
-                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 )  || permissionObj.isEventManager || permissionObj.isExhibitor) && (venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && isNotesEdit)" (click)="save(venueIndexLocal,exhibitorIndexLocal,true)">
+                    <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 )  || permissionObj.isEventManager) && (venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && isNotesEdit)" (click)="save(venueIndexLocal,exhibitorIndexLocal,true)">
                       Save
                     </button>
 
@@ -52,7 +52,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 <!-- <div class="field"
                   *ngIf="permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"> -->
                 <div class="field"
-                  *ngIf="(permissionObj.isClient && ( permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0 ) ) ||  permissionObj.isEventManager || permissionObj.isExhibitor; else no_access">
+                  *ngIf="(permissionObj.isClient && ( permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0 ) ) ||  permissionObj.isEventManager; else no_access">
                   
                   <!-- <textarea rows="3" class="textarea"
                     *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
@@ -80,7 +80,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                     </div>
 
                     <!-- <ng-container  *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"> -->
-                  <ng-container  *ngIf="(permissionObj.isClient && ( permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0 ) ) ||  permissionObj.isEventManager || permissionObj.isExhibitor; else no_access">
+                  <ng-container  *ngIf="(permissionObj.isClient && ( permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0 ) ) ||  permissionObj.isEventManager; else no_access">
                     <p>Dates and times for the exhibition part of your event must be specified below</p>
 
                     <app-time-windows

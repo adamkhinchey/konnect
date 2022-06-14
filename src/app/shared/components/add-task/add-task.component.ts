@@ -25,7 +25,9 @@ import { UserSettingsService } from '../../services';
 export class AddTaskComponent implements OnInit {
   @ViewChild('dt1') owlDateTime: OwlDateTimeComponent<any> | undefined;
   @ViewChild('inp') dateTimeInput: ElementRef | undefined;
-  @Input() ownedByText:any='';
+  @Input() ownedByText: any = '';
+  @Input() taskData: any;
+  @Input() assignToDataFromPrevious: any = [];
   addTaskForm: FormGroup;
   submitted: boolean = false;
   dropdownList: any = [];
@@ -120,23 +122,40 @@ export class AddTaskComponent implements OnInit {
     return this.addTaskForm.controls;
   }
   ngOnInit(): void {
+    this.assignToData = this.assignToDataFromPrevious;
+    if(!this.taskData || this.taskData == undefined){
     this.userSettingsService.settings.subscribe((value) => {
       console.log(value);
       if (value) {
         console.log('in if');
         this.addTaskForm.get('assignById')?.setValue(value.defaultCompany.id);
+        this.addTaskForm.get('assignToId')?.setValue(this.assignToData);
       }
     });
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
       this.addTaskForm.get('eventId')?.setValue(param.eventId);
     });
+  }else{
+    this.populateFormValues();
+  }
+  }
+
+  populateFormValues(){
+    this.addTaskForm.get('taskId')?.setValue(this.taskData.taskId);
+    this.addTaskForm.get('assignById')?.setValue(this.taskData.assignById);
+    this.addTaskForm.get('eventId')?.setValue(this.taskData.eventId);
+    this.addTaskForm.get('assignToId')?.setValue(this.assignToData);
+    this.addTaskForm.get('title')?.setValue(this.taskData.title);
+    this.addTaskForm.get('description')?.setValue(this.taskData.desciption);
+    this.addTaskForm.get('dueDate')?.setValue(this.taskData.dueDate);
+    this.addTaskForm.get('isCompleted')?.setValue(this.taskData.status);
   }
 
   setDateTime(event: any): void {
     this.f.dueDate.setValue(event.value);
   }
-  removeDate(){
+  removeDate() {
     this.f.dueDate.setValue(null);
   }
   onItemSelect(item: any) {
@@ -154,18 +173,20 @@ export class AddTaskComponent implements OnInit {
       size: 'lg',
     };
     const modalRef = this.modalSrvc.open(AssignToComponent, ngbModalOptions);
-    modalRef.componentInstance.creatorFromCompanyId = this.addTaskForm.get('assignById')?.value;
+    modalRef.componentInstance.creatorFromCompanyId =
+      this.addTaskForm.get('assignById')?.value;
     modalRef.result
       .then((result: any) => {
-         console.log('result...', result);
+        console.log('result...', result);
         if (result && result.data) {
+          this.assignToData = [];
           if (
             result.data.client.isChecked == 1 ||
             result.data.client.isChecked == true
           ) {
             this.assignToData = this.assignToData.concat({
               id: result.data.client.id,
-              tabType:'1',
+              tabType: '1',
               companyName: result.data.client.companyName,
             });
           }
@@ -175,7 +196,7 @@ export class AddTaskComponent implements OnInit {
           ) {
             this.assignToData = this.assignToData.concat({
               id: result.data.eventManager.id,
-              tabType:'2',
+              tabType: '2',
               companyName: result.data.eventManager.companyName,
             });
           }
@@ -186,7 +207,7 @@ export class AddTaskComponent implements OnInit {
             ) {
               this.assignToData = this.assignToData.concat({
                 id: result.data.venues[i].id,
-                tabType:'3',
+                tabType: '3',
                 companyName: result.data.venues[i].companyName,
               });
             }
@@ -198,7 +219,7 @@ export class AddTaskComponent implements OnInit {
             ) {
               this.assignToData = this.assignToData.concat({
                 id: result.data.services[i].id,
-                tabType:'4',
+                tabType: '4',
                 companyName: result.data.services[i].companyName,
               });
             }
@@ -210,7 +231,7 @@ export class AddTaskComponent implements OnInit {
             ) {
               this.assignToData = this.assignToData.concat({
                 id: result.data.exhibitors[i].id,
-                tabType:'5',
+                tabType: '5',
                 companyName: result.data.exhibitors[i].companyName,
               });
             }
@@ -228,19 +249,21 @@ export class AddTaskComponent implements OnInit {
     this.submitted = true;
     console.log(this.addTaskForm);
     console.log(this.addTaskForm.value);
-    if(this.addTaskForm.valid){
-      this.eventSrvc.addEventTask(this.addTaskForm.value).subscribe((res:any)=>{
-        if(res.code==200){
-          this.activeModal.close();
-          this.toaster.success('Task added successfully.');
+    if (this.addTaskForm.valid) {
+      this.eventSrvc.addEventTask(this.addTaskForm.value).subscribe(
+        (res: any) => {
+          if (res.code == 200) {
+            this.activeModal.close();
+            this.toaster.success('Task added successfully.');
+          }
+        },
+        (err) => {
+          console.log(err);
+          console.log(err.error.message);
         }
-      },err=>{
-        console.log(err);
-        console.log(err.error.message);
-      })
+      );
     }
   }
-
   changeConfig() {
     // if (!this.isNotesEdit)  {
     //   this.config.editable = false;
@@ -250,5 +273,16 @@ export class AddTaskComponent implements OnInit {
     this.config.editable = true;
     this.config.showToolbar = true;
     // }
+  }
+  removeTask(){
+    if(this.addTaskForm.get('taskId')?.value > 0){
+    this.eventSrvc.removeTask(this.addTaskForm.get('taskId')?.value).subscribe((res:any)=>{
+      console.log(res);
+      this.addTaskForm.reset();
+      this.addTaskForm.get('assignToId')?.setValue(this.assignToData);
+    },err=>{
+      console.log(err);
+    })
+  }
   }
 }

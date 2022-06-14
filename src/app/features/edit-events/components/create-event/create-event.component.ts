@@ -833,6 +833,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           this.data.eventData = res.eventData;
           this.eventTimelineService.render.next();
         }
+        if (tabType === 8) {
+          this.data.eventData = res.eventData;
+          // this.eventTimelineService.render.next();
+        }
       }
 
       if (res && res.userPermission) {

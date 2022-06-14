@@ -389,4 +389,40 @@ export class EventService {
         this.httpErrorHandler.processError(true, true)
       );
   }
+  getEventTasks(data: any): Observable<any> {
+    this.spinner.show();
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/listEventTask`, {
+        ...data,
+      })
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
+  changeTaskStatus(data: any): Observable<any> {
+    this.spinner.show();
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/changeTaskStatus`, {
+        ...data,
+      })
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
+  removeTask(taskId:any): Observable<any> {
+    this.spinner.show();
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/deleteEventTask`, {
+       taskId
+      })
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
 }

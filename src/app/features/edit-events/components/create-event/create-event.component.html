@@ -110,7 +110,7 @@
           <app-event-timeline-function [eventId]="data.eventData.eventId" [permissionObj]="permissionObj">
           </app-event-timeline-function>
         </ng-container>
-        <ng-container tasks *ngIf="data.eventData && data.eventData.eventId">
+        <ng-container tasks *ngIf="active == 8 && data.eventData && !data.eventData.client && !data.eventData.eventManager">
           <app-tasks [eventData]="data">
           </app-tasks>
         </ng-container>

@@ -75,6 +75,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
   private selectedProfileImage: File | undefined;
   config: AngularEditorConfig = {
     editable: true,
+    showToolbar:false,
     spellcheck: true,
     // height: '15rem',
     minHeight: '5rem',
@@ -277,5 +278,11 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     this.selectedImageSrc = URL.createObjectURL(event);
     this.selectedProfileImage = event;
     devLogger('log', { FILEEEEE: event });
+  }
+  changeConfig() {
+    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    this.config.editable = true;
+    this.config.showToolbar = true;
+    // }
   }
 }

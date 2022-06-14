@@ -10,8 +10,8 @@
               <i class="map marker alternate icon"></i>
               <!-- <button *ngIf="(permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ) && (eventToBeSaved.venues && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
               <button *ngIf="(permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ) && (eventToBeSaved.venues && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="saveAndInvite.emit({venueIndex: activeVenuePanel, shouldInvite:true})">Save </button> -->
-              <button *ngIf="( (permissionObj.isClient && permissionObj.clientAccessPermission == 1 ) || permissionObj.isEventManager || permissionObj.isVenue  ) && (eventToBeSaved.venues && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
-              <button *ngIf="( (permissionObj.isClient && permissionObj.clientAccessPermission == 1 )  || permissionObj.isEventManager || permissionObj.isVenue ) && (eventToBeSaved.venues && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="save(activeVenuePanel,true)">Save </button>
+              <button *ngIf="( (permissionObj.isClient && permissionObj.clientAccessPermission == 1 ) || permissionObj.isEventManager) && (eventToBeSaved.venues && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
+              <button *ngIf="( (permissionObj.isClient && permissionObj.clientAccessPermission == 1 )  || permissionObj.isEventManager) && (eventToBeSaved.venues && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="save(activeVenuePanel,true)">Save </button>
             </h3>
           </div>
 
@@ -21,7 +21,7 @@
               *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ; else no_access"
               rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
               [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit"></textarea> -->
-              <angular-editor  *ngIf="permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1) || permissionObj.isVenue  ; else no_access"
+              <angular-editor  *ngIf="permissionObj.isEventManager || permissionObj.isClient == 1  ; else no_access"
               [(ngModel)]="eventToBeSaved.venues.notesToAll" [config]="config" (focus)="changeConfig()"
               [ngModelOptions]="{standalone: true}"></angular-editor>
             <ng-template #no_access>No access</ng-template>

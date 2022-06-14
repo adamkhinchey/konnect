@@ -12,7 +12,7 @@
             <!-- <textarea rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
               [ngModelOptions]="{standalone:true}"></textarea> -->
               <angular-editor
-              [(ngModel)]="eventToBeSaved.venues.notesToAll" [config]="config" [ngModelOptions]="{standalone: true}">
+              [(ngModel)]="eventToBeSaved.venues.notesToAll" [config]="config" (focus)="changeConfig()" [ngModelOptions]="{standalone: true}">
             </angular-editor>
           </div>
         </div>
@@ -151,7 +151,7 @@
                           [ngModelOptions]="{standalone:true}">
                         </textarea> -->
                         <angular-editor
-                        [(ngModel)]="eventToBeSaved.venues!.list[i].requirements" [config]="config" [ngModelOptions]="{standalone: true}">
+                        [(ngModel)]="eventToBeSaved.venues!.list[i].requirements" [config]="config1" (focus)="changeConfig1()" [ngModelOptions]="{standalone: true}">
                       </angular-editor>
                       </div>
 

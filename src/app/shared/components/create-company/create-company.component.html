@@ -110,7 +110,7 @@
               <label>Description</label>
               <!-- <textarea placeholder="Description" rows="5" formControlName="description"></textarea> -->
               <angular-editor
-              formControlName="description" [config]="config">
+              formControlName="description" [config]="config" (focus)="changeConfig()">
             </angular-editor>
               <p class="textRight marginT10 smallText">*compulsory fields</p>
             </div>

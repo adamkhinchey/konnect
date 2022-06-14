@@ -61,6 +61,70 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
   eventTimeWindowType = EventTimeWindowTypes.Supplier;
   config: AngularEditorConfig = {
     editable: true,
+    showToolbar:false,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize:'2',
+    toolbarHiddenButtons: [
+      [
+        // 'undo',
+        // 'redo',
+        // 'fontSize',
+        // 'textColor',
+        // 'backgroundColor',
+        // 'bold',
+        // 'italic',
+        // 'underline',
+        // 'strikeThrough',
+        'subscript',
+        'superscript',
+        // 'justifyLeft',
+        // 'justifyCenter',
+        // 'justifyRight',
+        'justifyFull',
+        // 'indent',
+        // 'outdent',
+        // 'insertUnorderedList',
+        // 'insertOrderedList',
+        'heading',
+        'fontName'
+      ],
+      [
+        'customClasses',
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
+  config1: AngularEditorConfig = {
+    editable: true,
+    showToolbar:false,
     spellcheck: true,
     // height: '15rem',
     minHeight: '5rem',
@@ -444,5 +508,15 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
       localStorage.setItem('isView', JSON.stringify(true));
       window.open('/home/company/manage-company?isView=' + true);
     }
+  }
+  changeConfig(){
+    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    this.config.editable = true;
+    this.config.showToolbar = true;
+  }
+  changeConfig1(){
+    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    this.config1.editable = true;
+    this.config1.showToolbar = true;
   }
 }

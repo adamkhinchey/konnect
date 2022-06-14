@@ -23,6 +23,7 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   private subs2: Subscription | undefined;
   config: AngularEditorConfig = {
     editable: true,
+    showToolbar:false,
     spellcheck: true,
     // height: '15rem',
     minHeight: '5rem',
@@ -88,7 +89,9 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   }
 
   changeConfig(){
-    this.config.editable = false;
+    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    this.config.editable = true;
+    this.config.showToolbar = true;
   }
 
   /*ngOnChanges(changes: SimpleChanges): void {
