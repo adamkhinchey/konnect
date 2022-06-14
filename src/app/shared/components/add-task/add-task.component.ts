@@ -254,7 +254,7 @@ export class AddTaskComponent implements OnInit {
         (res: any) => {
           if (res.code == 200) {
             this.activeModal.close();
-            this.toaster.success('Task added successfully.');
+            this.toaster.success(res.message);
           }
         },
         (err) => {
