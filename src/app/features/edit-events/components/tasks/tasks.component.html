@@ -1,5 +1,5 @@
 <div class="ui segment task-segment">
-    <button class="alignButton ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="addTask()">Add
+    <button class="alignButton ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="addTask()"><i class="plus circle icon"></i> Add
         Task </button>
     <ul ngbNav #taskNav="ngbNav" [activeId]="active" (navChange)="navChange($event)" class="nav-tabs supplierInnerCont"
         [destroyOnHide]="false">
@@ -14,7 +14,7 @@
                         <div class="twelve wide column">
                             <div class="twelve wide row">
                                 <div class="col-md-4 row-col">
-                                    <h3 class="text-start">Filter Assigend From</h3>
+                                    <h3 class="text-start mt-2 mb-3">Filter Assigend From</h3>
                                     <ul class="assignToCheckBox">
                                         <li>
                                             <div class="ui checkbox">
@@ -201,7 +201,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-md-4 row-col" cdkDropList (cdkDropListDropped)="dropUnCompletedUndated($event)">
-                                    <h3 class="text-start">Undated</h3>
+                                    <h3 class="text-start mt-2 mb-2">Undated</h3>
                                     <div class="task-box" *ngFor="let unctu of uncompletedTaskUndated; let i=index;" cdkDrag>
                                         <div class="ui checkbox flexparent" cdkDragHandle>
                                             <img src="./assets/img/dots.svg" alt="" class="dotsicon" />
@@ -211,7 +211,7 @@
                                         </div>
                                     </div>
                                     <div class="ui divider"></div>
-                                    <h3 class="text-start">Completed</h3>
+                                    <h3 class="text-start mt-2 mb-2">Completed</h3>
                                     <div class="task-box" *ngFor="let ctu of completedTaskUndated; let i=index;">
                                         <div class="ui checkbox flexparent dotsicon">
                                             <input type="checkbox" id="cmpundated-{{i}}" class="hidden" tabindex="0" checked (change)="onUndatedCompletedChange($event, ctu)">
@@ -221,7 +221,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 row-col">
-                                    <h3 class="text-start">Dated</h3>
+                                    <h3 class="text-start mt-2 mb-2">Dated</h3>
                                     <div class="task-box" *ngFor="let unctd of unCompletedTaskDated; let i=index;">
                                         <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
                                             <div class="datedCheckBoxOuter" >
@@ -233,7 +233,7 @@
                                         </div>
                                     </div>
                                     <div class="ui divider"></div>
-                                    <h3 class="text-start">Completed</h3>
+                                    <h3 class="text-start mt-2 mb-2">Completed</h3>
                                     <div class="task-box" *ngFor="let ctd of completedTaskDated; let i=index;">
                                         <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
                                             <div class="datedCheckBoxOuter" >
@@ -263,7 +263,7 @@
                         <div class="twelve wide column">
                             <div class="twelve wide row">
                                 <div class="col-md-4 row-col">
-                                    <h3 class="text-start">Filter Assigend To</h3>
+                                    <h3 class="text-start mt-2 mb-2">Filter Assigend To</h3>
                                     <ul class="assignToCheckBox">
                                         <li>
                                             <div class="ui checkbox">
@@ -450,7 +450,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-md-4 row-col" cdkDropList (cdkDropListDropped)="dropUnCompletedUndated($event)">
-                                    <h3 class="text-center">Undated</h3>
+                                    <h3 class="text-start mt-2 mb-2">Undated</h3>
                                     <div class="task-box" *ngFor="let unctu of uncompletedTaskUndated; let i=index;" cdkDrag>
                                         <div class="ui checkbox flexparent" cdkDragHandle>
                                             <img src="./assets/img/dots.svg" alt="" class="dotsicon" />
@@ -458,7 +458,7 @@
                                         </div>
                                     </div>
                                     <div class="ui divider"></div>
-                                    <h3 class="text-start">Completed</h3>
+                                    <h3 class="text-start mt-2 mb-2">Completed</h3>
                                     <div class="task-box" *ngFor="let ctu of completedTaskUndated; let i=index;">
                                         <div class="ui checkbox flexparent dotsicon">
                                             <span class="completedLabel" style="cursor: pointer;" (click)="editTask(ctu)">{{ctu.taskName}}</span>
@@ -466,7 +466,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 row-col">
-                                    <h3 class="text-start">Dated</h3>
+                                    <h3 class="text-start mt-2 mb-2">Dated</h3>
                                     <div class="task-box" *ngFor="let unctd of unCompletedTaskDated; let i=index;">
                                         <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
                                             <div class="datedCheckBoxOuter" >
@@ -476,7 +476,7 @@
                                         </div>
                                     </div>
                                     <div class="ui divider"></div>
-                                    <h3 class="text-start">Completed</h3>
+                                    <h3 class="text-start mt-2 mb-2">Completed</h3>
                                     <div class="task-box" *ngFor="let ctd of completedTaskDated; let i=index;">
                                         <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
                                             <div class="datedCheckBoxOuter" >
