@@ -226,7 +226,9 @@ export class TasksComponent implements OnInit {
           modalRef.componentInstance.assignToDataFromPrevious =
             this.assignToData;
           modalRef.result
-            .then((result: any) => {})
+            .then((result: any) => {
+              this.getAssingToList();
+            })
             .catch((result: any) => {
               console.log('cancelling');
             });
@@ -605,7 +607,9 @@ export class TasksComponent implements OnInit {
           modalRef.componentInstance.assignToDataFromPrevious =
             this.assignToData;
           modalRef.result
-            .then((result: any) => {})
+            .then((result: any) => {
+              this.getAssingToList();
+            })
             .catch((result: any) => {
               console.log('cancelling');
             });
