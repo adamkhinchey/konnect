@@ -1,5 +1,6 @@
 <div class="ui segment task-segment">
-    <button class="alignButton ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="addTask()"><i class="plus circle icon"></i> Add
+    <button class="alignButton ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="addTask()"><i
+            class="plus circle icon"></i> Add
         Task </button>
     <ul ngbNav #taskNav="ngbNav" [activeId]="active" (navChange)="navChange($event)" class="nav-tabs supplierInnerCont"
         [destroyOnHide]="false">
@@ -200,50 +201,80 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="col-md-4 row-col" cdkDropList (cdkDropListDropped)="dropUnCompletedUndated($event)">
+                                <div class="col-md-4 row-col" cdkDropList
+                                    (cdkDropListDropped)="dropUnCompletedUndated($event)">
                                     <h3 class="text-start mt-2 mb-2">Undated</h3>
-                                    <div class="task-box" *ngFor="let unctu of uncompletedTaskUndated; let i=index;" cdkDrag>
-                                        <div class="ui checkbox flexparent" cdkDragHandle>
-                                            <img src="./assets/img/dots.svg" alt="" class="dotsicon" />
-                                            <input type="checkbox" id="uncompundated-{{i}}" class="hidden" tabindex="0" (change)="onUndatedChange($event, unctu)">
-                                            <label class="checkboxlabel" for="uncompundated-{{i}}"></label>
-                                            <span style="cursor: pointer;" (click)="editTask(unctu)">{{unctu.taskName}}</span>
+                                    <ng-container
+                                        *ngIf="uncompletedTaskUndated && uncompletedTaskUndated.length; else noData">
+                                        <div class="task-box" *ngFor="let unctu of uncompletedTaskUndated; let i=index;"
+                                            cdkDrag>
+                                            <div class="ui checkbox flexparent" cdkDragHandle>
+                                                <img src="./assets/img/dots.svg" alt="" class="dotsicon" />
+                                                <input type="checkbox" id="uncompundated-{{i}}" class="hidden"
+                                                    tabindex="0" (change)="onUndatedChange($event, unctu)">
+                                                <label class="checkboxlabel" for="uncompundated-{{i}}"></label>
+                                                <span style="cursor: pointer;"
+                                                    (click)="editTask(unctu)">{{unctu.taskName}}</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
                                     <div class="ui divider"></div>
                                     <h3 class="text-start mt-1 mb-2">Completed</h3>
-                                    <div class="task-box" *ngFor="let ctu of completedTaskUndated; let i=index;">
-                                        <div class="ui checkbox flexparent dotsicon">
-                                            <input type="checkbox" id="cmpundated-{{i}}" class="hidden" tabindex="0" checked (change)="onUndatedCompletedChange($event, ctu)">
-                                            <label class="checkboxlabel" for="cmpundated-{{i}}"></label>
-                                            <span style="cursor: pointer;" class="completedLabel" (click)="editTask(ctu)">{{ctu.taskName}}</span>
+                                    <ng-container
+                                        *ngIf="completedTaskUndated && completedTaskUndated.length; else noData">
+                                        <div class="task-box" *ngFor="let ctu of completedTaskUndated; let i=index;">
+                                            <div class="ui checkbox flexparent dotsicon">
+                                                <input type="checkbox" id="cmpundated-{{i}}" class="hidden" tabindex="0"
+                                                    checked (change)="onUndatedCompletedChange($event, ctu)">
+                                                <label class="checkboxlabel" for="cmpundated-{{i}}"></label>
+                                                <span style="cursor: pointer;" class="completedLabel"
+                                                    (click)="editTask(ctu)">{{ctu.taskName}}</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
                                 </div>
                                 <div class="col-md-4 row-col">
                                     <h3 class="text-start mt-2 mb-2">Dated</h3>
-                                    <div class="task-box" *ngFor="let unctd of unCompletedTaskDated; let i=index;">
-                                        <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
-                                            <div class="datedCheckBoxOuter" >
-                                                <input type="checkbox" id="dated-{{i}}" class="hidden" tabindex="0" (change)="onUndatedChange($event, unctd)">
-                                                <label class="checkboxlabel" for="dated-{{i}}"></label>
-                                                <span style="cursor: pointer;" (click)="editTask(unctd)">{{unctd.taskName}}</span>
+                                    <ng-container
+                                        *ngIf="unCompletedTaskDated && unCompletedTaskDated.length; else noData">
+                                        <div class="task-box" *ngFor="let unctd of unCompletedTaskDated; let i=index;">
+                                            <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
+                                                <div class="datedCheckBoxOuter">
+                                                    <input type="checkbox" id="dated-{{i}}" class="hidden" tabindex="0"
+                                                        (change)="onUndatedChange($event, unctd)">
+                                                    <label class="checkboxlabel" for="dated-{{i}}"></label>
+                                                    <span style="cursor: pointer;"
+                                                        (click)="editTask(unctd)">{{unctd.taskName}}</span>
+                                                </div>
+                                                <span style="cursor: pointer;" class="datedDateLabel"
+                                                    (click)="editTask(unctd)">{{unctd.dueDate | date :
+                                                    'dd-MMM-YYYY'}}</span>
                                             </div>
-                                            <span style="cursor: pointer;" class="datedDateLabel" (click)="editTask(unctd)">{{unctd.dueDate | date : 'dd-MMM-YYYY'}}</span>
                                         </div>
-                                    </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
                                     <div class="ui divider"></div>
                                     <h3 class="text-start mt-1 mb-2">Completed</h3>
-                                    <div class="task-box" *ngFor="let ctd of completedTaskDated; let i=index;">
-                                        <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
-                                            <div class="datedCheckBoxOuter" >
-                                                <input type="checkbox" id="cmpdated-{{i}}" class="hidden" tabindex="0" checked (change)="onUndatedCompletedChange($event, ctd)">
-                                                <label class="checkboxlabel" for="cmpdated-{{i}}"></label>
-                                                <span style="cursor: pointer;" class="completedLabel" (click)="editTask(ctd)">{{ctd.taskName}}</span>
+                                    <ng-container *ngIf="completedTaskDated && completedTaskDated.length; else noData">
+                                        <div class="task-box" *ngFor="let ctd of completedTaskDated; let i=index;">
+                                            <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
+                                                <div class="datedCheckBoxOuter">
+                                                    <input type="checkbox" id="cmpdated-{{i}}" class="hidden"
+                                                        tabindex="0" checked
+                                                        (change)="onUndatedCompletedChange($event, ctd)">
+                                                    <label class="checkboxlabel" for="cmpdated-{{i}}"></label>
+                                                    <span style="cursor: pointer;" class="completedLabel"
+                                                        (click)="editTask(ctd)">{{ctd.taskName}}</span>
+                                                </div>
+                                                <span style="cursor: pointer;" class="datedDateLabel"
+                                                    (click)="editTask(ctd)">{{ctd.dueDate | date :
+                                                    'dd-MMM-YYYY'}}</span>
                                             </div>
-                                            <span style="cursor: pointer;" class="datedDateLabel" (click)="editTask(ctd)">{{ctd.dueDate | date : 'dd-MMM-YYYY'}}</span>
                                         </div>
-                                    </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
                                 </div>
                             </div>
                         </div>
@@ -267,21 +298,23 @@
                                     <ul class="assignToCheckBox">
                                         <li>
                                             <div class="ui checkbox">
-                                                <input type="checkbox" id="filter-client-1-section-two" class="hidden" tabindex="0"
-                                                    [(ngModel)]="data.client.isChecked"
+                                                <input type="checkbox" id="filter-client-1-section-two" class="hidden"
+                                                    tabindex="0" [(ngModel)]="data.client.isChecked"
                                                     [ngModelOptions]="{standalone: true}"
                                                     [value]="data.client.isChecked" (change)="onClientChange($event)">
-                                                <label for="filter-client-1-section-two">{{data.client.companyName}}</label>
+                                                <label
+                                                    for="filter-client-1-section-two">{{data.client.companyName}}</label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="ui checkbox">
-                                                <input type="checkbox" id="filter-ev-2-section-two" class="hidden" tabindex="0"
-                                                [(ngModel)]="data.eventManager.isChecked"
-                                                [ngModelOptions]="{standalone: true}"
-                                                [value]="data.eventManager.isChecked"
-                                                (change)="onEvManagerChange($event)">
-                                            <label for="filter-ev-2-section-two">{{data.eventManager.companyName}}</label>
+                                                <input type="checkbox" id="filter-ev-2-section-two" class="hidden"
+                                                    tabindex="0" [(ngModel)]="data.eventManager.isChecked"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    [value]="data.eventManager.isChecked"
+                                                    (change)="onEvManagerChange($event)">
+                                                <label
+                                                    for="filter-ev-2-section-two">{{data.eventManager.companyName}}</label>
                                             </div>
                                         </li>
                                         <li *ngIf="data.venues && data.venues.length">
@@ -300,12 +333,14 @@
 
                                                                 <div class="flaot-right accordionCheckBox">
                                                                     <div class="ui checkbox">
-                                                                        <input type="checkbox" id="filter-venue-3-section-two"
+                                                                        <input type="checkbox"
+                                                                            id="filter-venue-3-section-two"
                                                                             class="hidden" tabindex="0"
                                                                             [(ngModel)]="allVenues" [value]="allVenues"
                                                                             [ngModelOptions]="{standalone: true}"
                                                                             (change)="onAllVenuesChange($event)">
-                                                                        <label for="filter-venue-3-section-two">All Venues</label>
+                                                                        <label for="filter-venue-3-section-two">All
+                                                                            Venues</label>
                                                                     </div>
                                                                 </div>
 
@@ -353,7 +388,8 @@
 
                                                                 <div class="flaot-right accordionCheckBox">
                                                                     <div class="ui checkbox">
-                                                                        <input type="checkbox" id="filter-service-4-section-two"
+                                                                        <input type="checkbox"
+                                                                            id="filter-service-4-section-two"
                                                                             class="hidden" tabindex="0"
                                                                             [(ngModel)]="allSuppliers"
                                                                             [ngModelOptions]="{standalone: true}"
@@ -408,7 +444,8 @@
 
                                                                 <div class="flaot-right accordionCheckBox">
                                                                     <div class="ui checkbox">
-                                                                        <input type="checkbox" id="filter-exhibitor-5-section-two"
+                                                                        <input type="checkbox"
+                                                                            id="filter-exhibitor-5-section-two"
                                                                             class="hidden" tabindex="0"
                                                                             [(ngModel)]="allExhibitors"
                                                                             [ngModelOptions]="{standalone: true}"
@@ -449,42 +486,67 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="col-md-4 row-col" cdkDropList (cdkDropListDropped)="dropUnCompletedUndated($event)">
+                                <div class="col-md-4 row-col" cdkDropList
+                                    (cdkDropListDropped)="dropUnCompletedUndated($event)">
                                     <h3 class="text-start mt-2 mb-2">Undated</h3>
-                                    <div class="task-box" *ngFor="let unctu of uncompletedTaskUndated; let i=index;" cdkDrag>
-                                        <div class="ui checkbox flexparent" cdkDragHandle>
-                                            <img src="./assets/img/dots.svg" alt="" class="dotsicon" />
-                                            <span style="cursor: pointer;" (click)="editTask(unctu)">{{unctu.taskName}}</span>
+                                    <ng-container
+                                        *ngIf="uncompletedTaskUndated && uncompletedTaskUndated.length; else noData">
+                                        <div class="task-box" *ngFor="let unctu of uncompletedTaskUndated; let i=index;"
+                                            cdkDrag>
+                                            <div class="ui checkbox flexparent" cdkDragHandle>
+                                                <img src="./assets/img/dots.svg" alt="" class="dotsicon" />
+                                                <span style="cursor: pointer;"
+                                                    (click)="editTask(unctu)">{{unctu.taskName}}</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
                                     <div class="ui divider"></div>
                                     <h3 class="text-start mt-2 mb-2">Completed</h3>
-                                    <div class="task-box" *ngFor="let ctu of completedTaskUndated; let i=index;">
-                                        <div class="ui checkbox flexparent dotsicon">
-                                            <span class="completedLabel" style="cursor: pointer;" (click)="editTask(ctu)">{{ctu.taskName}}</span>
+                                    <ng-container
+                                        *ngIf="completedTaskUndated && completedTaskUndated.length; else noData">
+                                        <div class="task-box" *ngFor="let ctu of completedTaskUndated; let i=index;">
+                                            <div class="ui checkbox flexparent dotsicon">
+                                                <span class="completedLabel" style="cursor: pointer;"
+                                                    (click)="editTask(ctu)">{{ctu.taskName}}</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
                                 </div>
                                 <div class="col-md-4 row-col">
                                     <h3 class="text-start mt-2 mb-2">Dated</h3>
-                                    <div class="task-box" *ngFor="let unctd of unCompletedTaskDated; let i=index;">
-                                        <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
-                                            <div class="datedCheckBoxOuter" >
-                                                <span style="cursor: pointer;" (click)="editTask(unctd)">{{unctd.taskName}}</span>
+                                    <ng-container
+                                        *ngIf="unCompletedTaskDated && unCompletedTaskDated.length; else noData">
+                                        <div class="task-box" *ngFor="let unctd of unCompletedTaskDated; let i=index;">
+                                            <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
+                                                <div class="datedCheckBoxOuter">
+                                                    <span style="cursor: pointer;"
+                                                        (click)="editTask(unctd)">{{unctd.taskName}}</span>
+                                                </div>
+                                                <span class="datedDateLabel" style="cursor: pointer;"
+                                                    (click)="editTask(unctd)">{{unctd.dueDate | date :
+                                                    'dd-MMM-YYYY'}}</span>
                                             </div>
-                                            <span class="datedDateLabel" style="cursor: pointer;" (click)="editTask(unctd)">{{unctd.dueDate | date : 'dd-MMM-YYYY'}}</span>
                                         </div>
-                                    </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
                                     <div class="ui divider"></div>
                                     <h3 class="text-start mt-2 mb-2">Completed</h3>
-                                    <div class="task-box" *ngFor="let ctd of completedTaskDated; let i=index;">
-                                        <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
-                                            <div class="datedCheckBoxOuter" >
-                                                <span class="completedLabel" style="cursor: pointer;" (click)="editTask(ctd)">{{ctd.taskName}}</span>
+                                    <ng-container *ngIf="completedTaskDated && completedTaskDated.length; else noData">
+                                        <div class="task-box" *ngFor="let ctd of completedTaskDated; let i=index;">
+                                            <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
+                                                <div class="datedCheckBoxOuter">
+                                                    <span class="completedLabel" style="cursor: pointer;"
+                                                        (click)="editTask(ctd)">{{ctd.taskName}}</span>
+                                                </div>
+                                                <span class="datedDateLabel" style="cursor: pointer;"
+                                                    (click)="editTask(ctd)">{{ctd.dueDate | date :
+                                                    'dd-MMM-YYYY'}}</span>
                                             </div>
-                                            <span class="datedDateLabel" style="cursor: pointer;" (click)="editTask(ctd)">{{ctd.dueDate | date : 'dd-MMM-YYYY'}}</span>
                                         </div>
-                                    </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
                                 </div>
                             </div>
                         </div>

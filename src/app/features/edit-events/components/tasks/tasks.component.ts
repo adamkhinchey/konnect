@@ -44,11 +44,12 @@ export class TasksComponent implements OnInit {
     this.getAssingToList();
   }
 
-  ngOnInit(): void {
-    this.getAssingToList();
+  async ngOnInit() {
+   await this.getAssingToList();
+   await this.getEventTasks();
   }
 
-  getAssingToList() {
+  async getAssingToList() {
     this.eventSrvc.getAssignToList(this.eventData.eventData.eventId).subscribe(
       (res: any) => {
         console.log(res);
@@ -56,7 +57,7 @@ export class TasksComponent implements OnInit {
         this.venues = this.data.venues || [];
         this.services = this.data.services || [];
         this.exhibitors = this.data.exhibitors || [];
-        this.getEventTasks();
+        // this.getEventTasks();
       },
       (err) => {
         console.log(err);
@@ -64,8 +65,8 @@ export class TasksComponent implements OnInit {
     );
   }
 
-  getEventTasks() {
-    this.filterData = [];
+  async getEventTasks() {
+    // this.filterData = [];
     this.userSettingsService.settings.subscribe((value) => {
       console.log(value);
       if (value) {
@@ -227,7 +228,7 @@ export class TasksComponent implements OnInit {
             this.assignToData;
           modalRef.result
             .then((result: any) => {
-              this.getAssingToList();
+              this.getEventTasks();
             })
             .catch((result: any) => {
               console.log('cancelling');
@@ -246,6 +247,9 @@ export class TasksComponent implements OnInit {
         this.data.client.isChecked = 1;
       } else if (ev.target.value == 'true') {
         this.data.client.isChecked = 0;
+        this.filterData = this.filterData.filter((val:any)=>{
+          return val.tabType != '1'
+        })
       }
       this.getEventTasks();
       console.log('client check value...', this.data.client.isChecked);
@@ -258,6 +262,9 @@ export class TasksComponent implements OnInit {
         this.data.eventManager.isChecked = 1;
       } else if (ev.target.value == 'true') {
         this.data.eventManager.isChecked = 0;
+        this.filterData = this.filterData.filter((val:any)=>{
+          return val.tabType != '2'
+        })
       }
       this.getEventTasks();
       console.log(
@@ -282,6 +289,9 @@ export class TasksComponent implements OnInit {
           checked.isChecked = 0;
           return checked;
         });
+        this.filterData = this.filterData.filter((val:any)=>{
+          return val.tabType != '3'
+        })
       }
       this.getEventTasks();
     }
@@ -305,6 +315,9 @@ export class TasksComponent implements OnInit {
           }
           return checked;
         });
+        this.filterData = this.filterData.filter((val:any)=>{
+          return val.tabType != '3' && val.id != id
+        })
       }
       this.getEventTasks();
     }
@@ -325,6 +338,9 @@ export class TasksComponent implements OnInit {
           checked.isChecked = 0;
           return checked;
         });
+        this.filterData = this.filterData.filter((val:any)=>{
+          return val.tabType != '4'
+        })
       }
       this.getEventTasks();
     }
@@ -348,6 +364,9 @@ export class TasksComponent implements OnInit {
           }
           return checked;
         });
+        this.filterData = this.filterData.filter((val:any)=>{
+          return val.tabType != '4' && val.id != id
+        })
       }
       this.getEventTasks();
     }
@@ -368,6 +387,9 @@ export class TasksComponent implements OnInit {
           checked.isChecked = 0;
           return checked;
         });
+        this.filterData = this.filterData.filter((val:any)=>{
+          return val.tabType != '5'
+        })
       }
       this.getEventTasks();
     }
@@ -391,6 +413,9 @@ export class TasksComponent implements OnInit {
           }
           return checked;
         });
+        this.filterData = this.filterData.filter((val:any)=>{
+          return val.tabType != '5' && val.id != id
+        })
       }
       this.getEventTasks();
     }
@@ -444,7 +469,7 @@ export class TasksComponent implements OnInit {
                   (res: any) => {
                     console.log(res);
                     if (res.data.isUpdated == 1) {
-                      this.getAssingToList();
+                      this.getEventTasks();
                     }
                   },
                   (err) => {
@@ -505,7 +530,7 @@ export class TasksComponent implements OnInit {
                   (res: any) => {
                     console.log(res);
                     if (res.data.isUpdated == 1) {
-                      this.getAssingToList();
+                      this.getEventTasks();
                     }
                   },
                   (err) => {
@@ -608,7 +633,7 @@ export class TasksComponent implements OnInit {
             this.assignToData;
           modalRef.result
             .then((result: any) => {
-              this.getAssingToList();
+              this.getEventTasks();
             })
             .catch((result: any) => {
               console.log('cancelling');
