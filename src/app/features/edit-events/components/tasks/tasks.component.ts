@@ -626,6 +626,7 @@ export class TasksComponent implements OnInit {
             AddTaskComponent,
             ngbModalOptions
           );
+          res.data.taskData.eventId = data.eventId;
           modalRef.componentInstance.ownedByText =
             this.eventData.eventData.ownedByText;
           modalRef.componentInstance.taskData = res.data.taskData;

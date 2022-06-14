@@ -142,8 +142,9 @@ export class AddTaskComponent implements OnInit {
   }
 
   populateFormValues(){
-    this.addTaskForm.get('taskId')?.setValue(this.taskData.taskId);
-    this.addTaskForm.get('assignById')?.setValue(this.taskData.assignById);
+    console.log('task data...', this.taskData)
+    this.addTaskForm.get('taskId')?.setValue(this.taskData.id);
+    this.addTaskForm.get('assignById')?.setValue(this.taskData.owner_company);
     this.addTaskForm.get('eventId')?.setValue(this.taskData.eventId);
     this.addTaskForm.get('assignToId')?.setValue(this.assignToData);
     this.addTaskForm.get('title')?.setValue(this.taskData.title);
@@ -275,11 +276,13 @@ export class AddTaskComponent implements OnInit {
     // }
   }
   removeTask(){
+    console.log('task id...', this.addTaskForm.get('taskId')?.value);
     if(this.addTaskForm.get('taskId')?.value > 0){
     this.eventSrvc.removeTask(this.addTaskForm.get('taskId')?.value).subscribe((res:any)=>{
-      console.log(res);
+      console.log('remove response...', res);
       this.addTaskForm.reset();
       this.addTaskForm.get('assignToId')?.setValue(this.assignToData);
+      this.toaster.success(res.message);
     },err=>{
       console.log(err);
     })
