@@ -45,8 +45,8 @@ export class TasksComponent implements OnInit {
   }
 
   async ngOnInit() {
-   await this.getAssingToList();
-   await this.getEventTasks();
+    await this.getAssingToList();
+    await this.getEventTasks();
   }
 
   async getAssingToList() {
@@ -247,9 +247,9 @@ export class TasksComponent implements OnInit {
         this.data.client.isChecked = 1;
       } else if (ev.target.value == 'true') {
         this.data.client.isChecked = 0;
-        this.filterData = this.filterData.filter((val:any)=>{
-          return val.tabType != '1'
-        })
+        this.filterData = this.filterData.filter((val: any) => {
+          return val.tabType != '1';
+        });
       }
       this.getEventTasks();
       console.log('client check value...', this.data.client.isChecked);
@@ -262,9 +262,9 @@ export class TasksComponent implements OnInit {
         this.data.eventManager.isChecked = 1;
       } else if (ev.target.value == 'true') {
         this.data.eventManager.isChecked = 0;
-        this.filterData = this.filterData.filter((val:any)=>{
-          return val.tabType != '2'
-        })
+        this.filterData = this.filterData.filter((val: any) => {
+          return val.tabType != '2';
+        });
       }
       this.getEventTasks();
       console.log(
@@ -289,9 +289,9 @@ export class TasksComponent implements OnInit {
           checked.isChecked = 0;
           return checked;
         });
-        this.filterData = this.filterData.filter((val:any)=>{
-          return val.tabType != '3'
-        })
+        this.filterData = this.filterData.filter((val: any) => {
+          return val.tabType != '3';
+        });
       }
       this.getEventTasks();
     }
@@ -315,9 +315,9 @@ export class TasksComponent implements OnInit {
           }
           return checked;
         });
-        this.filterData = this.filterData.filter((val:any)=>{
-          return val.tabType != '3' && val.id != id
-        })
+        this.filterData = this.filterData.filter((val: any) => {
+          return val.tabType != '3' && val.id != id;
+        });
       }
       this.getEventTasks();
     }
@@ -338,9 +338,9 @@ export class TasksComponent implements OnInit {
           checked.isChecked = 0;
           return checked;
         });
-        this.filterData = this.filterData.filter((val:any)=>{
-          return val.tabType != '4'
-        })
+        this.filterData = this.filterData.filter((val: any) => {
+          return val.tabType != '4';
+        });
       }
       this.getEventTasks();
     }
@@ -364,9 +364,9 @@ export class TasksComponent implements OnInit {
           }
           return checked;
         });
-        this.filterData = this.filterData.filter((val:any)=>{
-          return val.tabType != '4' && val.id != id
-        })
+        this.filterData = this.filterData.filter((val: any) => {
+          return val.tabType != '4' && val.id != id;
+        });
       }
       this.getEventTasks();
     }
@@ -387,9 +387,9 @@ export class TasksComponent implements OnInit {
           checked.isChecked = 0;
           return checked;
         });
-        this.filterData = this.filterData.filter((val:any)=>{
-          return val.tabType != '5'
-        })
+        this.filterData = this.filterData.filter((val: any) => {
+          return val.tabType != '5';
+        });
       }
       this.getEventTasks();
     }
@@ -413,9 +413,9 @@ export class TasksComponent implements OnInit {
           }
           return checked;
         });
-        this.filterData = this.filterData.filter((val:any)=>{
-          return val.tabType != '5' && val.id != id
-        })
+        this.filterData = this.filterData.filter((val: any) => {
+          return val.tabType != '5' && val.id != id;
+        });
       }
       this.getEventTasks();
     }
@@ -428,6 +428,20 @@ export class TasksComponent implements OnInit {
       event.currentIndex
     );
     console.log('tasks after order change...', this.uncompletedTaskUndated);
+    let data = {
+      loginCompanyId: this.defaultCompanyId,
+      eventId: this.eventData.eventData.eventId,
+      tasks: this.uncompletedTaskUndated,
+    };
+    this.eventSrvc.updateTaskOrder(data).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.getEventTasks();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   onUndatedChange(ev: any, taskData: any) {

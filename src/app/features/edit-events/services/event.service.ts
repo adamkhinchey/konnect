@@ -413,12 +413,27 @@ export class EventService {
         this.httpErrorHandler.processError(true, true)
       );
   }
-  removeTask(taskId:any): Observable<any> {
+  removeTask(taskId: any): Observable<any> {
     this.spinner.show();
     return this.http
       .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/deleteEventTask`, {
-       taskId
+        taskId,
       })
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
+  updateTaskOrder(data: any): Observable<any> {
+    this.spinner.show();
+    return this.http
+      .post<ApiResponseModelInterface>(
+        `${this.apiBaseUrl}/updateUserTaskOrder`,
+        {
+          ...data,
+        }
+      )
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),
