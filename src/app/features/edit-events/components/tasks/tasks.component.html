@@ -14,7 +14,7 @@
                         <div class="twelve wide column">
                             <div class="twelve wide row">
                                 <div class="col-md-4 row-col">
-                                    <h3 class="text-start mt-2 mb-3">Filter Assigend From</h3>
+                                    <h3 class="text-start mt-2 mb-3">Filter Assigned From</h3>
                                     <ul class="assignToCheckBox">
                                         <li>
                                             <div class="ui checkbox">
@@ -211,7 +211,7 @@
                                         </div>
                                     </div>
                                     <div class="ui divider"></div>
-                                    <h3 class="text-start mt-2 mb-2">Completed</h3>
+                                    <h3 class="text-start mt-1 mb-2">Completed</h3>
                                     <div class="task-box" *ngFor="let ctu of completedTaskUndated; let i=index;">
                                         <div class="ui checkbox flexparent dotsicon">
                                             <input type="checkbox" id="cmpundated-{{i}}" class="hidden" tabindex="0" checked (change)="onUndatedCompletedChange($event, ctu)">
@@ -233,7 +233,7 @@
                                         </div>
                                     </div>
                                     <div class="ui divider"></div>
-                                    <h3 class="text-start mt-2 mb-2">Completed</h3>
+                                    <h3 class="text-start mt-1 mb-2">Completed</h3>
                                     <div class="task-box" *ngFor="let ctd of completedTaskDated; let i=index;">
                                         <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
                                             <div class="datedCheckBoxOuter" >
@@ -263,7 +263,7 @@
                         <div class="twelve wide column">
                             <div class="twelve wide row">
                                 <div class="col-md-4 row-col">
-                                    <h3 class="text-start mt-2 mb-2">Filter Assigend To</h3>
+                                    <h3 class="text-start mt-2 mb-2">Filter Assigned To</h3>
                                     <ul class="assignToCheckBox">
                                         <li>
                                             <div class="ui checkbox">
