@@ -57,7 +57,7 @@ export class TasksComponent implements OnInit {
         this.venues = this.data.venues || [];
         this.services = this.data.services || [];
         this.exhibitors = this.data.exhibitors || [];
-        // this.getEventTasks();
+        this.getEventTasks();
       },
       (err) => {
         console.log(err);
@@ -568,6 +568,7 @@ export class TasksComponent implements OnInit {
 
   editTask(data: any) {
     console.log(data);
+    this.assignToData = [];
     this.eventSrvc
       .getAssignToList(data.eventId, data.assignById, data.taskId)
       .subscribe(

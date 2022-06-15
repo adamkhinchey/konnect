@@ -10,6 +10,7 @@ import { EventService } from 'src/app/features/edit-events/services/event.servic
 })
 export class AssignToComponent implements OnInit {
   @Input() creatorFromCompanyId: any;
+  @Input() taskId: any = 0;
   data: any;
   eventId: any;
   client: any;
@@ -32,7 +33,7 @@ export class AssignToComponent implements OnInit {
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
       this.eventId = param.eventId;
-      this.eventSrvc.getAssignToList(this.eventId, this.creatorFromCompanyId).subscribe((res: any) => {
+      this.eventSrvc.getAssignToList(this.eventId, this.creatorFromCompanyId, this.taskId).subscribe((res: any) => {
         console.log(res);
         this.data = res.data;
         this.venues = this.data.venues || [];

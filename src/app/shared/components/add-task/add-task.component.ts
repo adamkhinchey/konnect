@@ -176,6 +176,7 @@ export class AddTaskComponent implements OnInit {
     const modalRef = this.modalSrvc.open(AssignToComponent, ngbModalOptions);
     modalRef.componentInstance.creatorFromCompanyId =
       this.addTaskForm.get('assignById')?.value;
+      modalRef.componentInstance.taskId = this.addTaskForm.get('taskId')?.value;
     modalRef.result
       .then((result: any) => {
         console.log('result...', result);
