@@ -79,6 +79,7 @@ export class TasksComponent implements OnInit {
             this.filterData = this.filterData.concat({
               id: this.data.client.id,
               tabType: '1',
+              utId:this.data.client.utId
             });
           }
           if (
@@ -88,6 +89,7 @@ export class TasksComponent implements OnInit {
             this.filterData = this.filterData.concat({
               id: this.data.eventManager.id,
               tabType: '2',
+              utId:this.data.eventManager.utId
             });
           }
           for (let i = 0; i < this.venues.length; i++) {
@@ -98,6 +100,7 @@ export class TasksComponent implements OnInit {
               this.filterData = this.filterData.concat({
                 id: this.venues[i].id,
                 tabType: '3',
+                utId:this.venues[i].utId
               });
             }
           }
@@ -109,6 +112,7 @@ export class TasksComponent implements OnInit {
               this.filterData = this.filterData.concat({
                 id: this.services[i].id,
                 tabType: '4',
+                utId:this.services[i].utId
               });
             }
           }
@@ -120,6 +124,7 @@ export class TasksComponent implements OnInit {
               this.filterData = this.filterData.concat({
                 id: this.exhibitors[i].id,
                 tabType: '5',
+                utId: this.exhibitors[i].utId
               });
             }
           }
@@ -164,6 +169,7 @@ export class TasksComponent implements OnInit {
                 id: res.data.client.id,
                 tabType: '1',
                 companyName: res.data.client.companyName,
+                utId:res.data.client.utId
               });
             }
             if (
@@ -174,6 +180,7 @@ export class TasksComponent implements OnInit {
                 id: res.data.eventManager.id,
                 tabType: '2',
                 companyName: res.data.eventManager.companyName,
+                utId:res.data.eventManager.utId
               });
             }
             for (let i = 0; i < res.data.venues.length; i++) {
@@ -185,6 +192,7 @@ export class TasksComponent implements OnInit {
                   id: res.data.venues[i].id,
                   tabType: '3',
                   companyName: res.data.venues[i].companyName,
+                  utId:res.data.venues[i].utId
                 });
               }
             }
@@ -197,6 +205,7 @@ export class TasksComponent implements OnInit {
                   id: res.data.services[i].id,
                   tabType: '4',
                   companyName: res.data.services[i].companyName,
+                  utId:res.data.services[i].utId
                 });
               }
             }
@@ -209,6 +218,7 @@ export class TasksComponent implements OnInit {
                   id: res.data.exhibitors[i].id,
                   tabType: '5',
                   companyName: res.data.exhibitors[i].companyName,
+                  utId:res.data.exhibitors[i].utId
                 });
               }
             }
@@ -583,6 +593,7 @@ export class TasksComponent implements OnInit {
                 id: res.data.client.id,
                 tabType: '1',
                 companyName: res.data.client.companyName,
+                utId:res.data.client.utId
               });
             }
             if (
@@ -593,6 +604,7 @@ export class TasksComponent implements OnInit {
                 id: res.data.eventManager.id,
                 tabType: '2',
                 companyName: res.data.eventManager.companyName,
+                utId:res.data.eventManager.utId
               });
             }
             for (let i = 0; i < res.data.venues.length; i++) {
@@ -604,6 +616,7 @@ export class TasksComponent implements OnInit {
                   id: res.data.venues[i].id,
                   tabType: '3',
                   companyName: res.data.venues[i].companyName,
+                  utId:res.data.venues[i].utId
                 });
               }
             }
@@ -616,6 +629,7 @@ export class TasksComponent implements OnInit {
                   id: res.data.services[i].id,
                   tabType: '4',
                   companyName: res.data.services[i].companyName,
+                  utId:res.data.services[i].utId
                 });
               }
             }
@@ -628,6 +642,7 @@ export class TasksComponent implements OnInit {
                   id: res.data.exhibitors[i].id,
                   tabType: '5',
                   companyName: res.data.exhibitors[i].companyName,
+                  utId:res.data.exhibitors[i].utId
                 });
               }
             }
