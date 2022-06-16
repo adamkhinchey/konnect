@@ -240,7 +240,7 @@
                                     <ng-container
                                         *ngIf="unCompletedTaskDated && unCompletedTaskDated.length; else noData">
                                         <div class="task-box" *ngFor="let unctd of unCompletedTaskDated; let i=index;">
-                                            <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
+                                            <div class="ui checkbox flexparent justify-content-between w-100">
                                                 <div class="datedCheckBoxOuter">
                                                     <input type="checkbox" id="dated-{{i}}" class="hidden" tabindex="0"
                                                         (change)="onUndatedChange($event, unctd)">
@@ -259,7 +259,7 @@
                                     <h3 class="text-start mt-1 mb-2">Completed</h3>
                                     <ng-container *ngIf="completedTaskDated && completedTaskDated.length; else noData">
                                         <div class="task-box" *ngFor="let ctd of completedTaskDated; let i=index;">
-                                            <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
+                                            <div class="ui checkbox flexparent justify-content-between w-100">
                                                 <div class="datedCheckBoxOuter">
                                                     <input type="checkbox" id="cmpdated-{{i}}" class="hidden"
                                                         tabindex="0" checked
@@ -519,7 +519,7 @@
                                     <ng-container
                                         *ngIf="unCompletedTaskDated && unCompletedTaskDated.length; else noData">
                                         <div class="task-box" *ngFor="let unctd of unCompletedTaskDated; let i=index;">
-                                            <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
+                                            <div class="ui checkbox flexparent justify-content-between w-100">
                                                 <div class="datedCheckBoxOuter">
                                                     <span style="cursor: pointer;"
                                                         (click)="editTask(unctd)">{{unctd.taskName}}</span>
@@ -535,7 +535,7 @@
                                     <h3 class="text-start mt-2 mb-2">Completed</h3>
                                     <ng-container *ngIf="completedTaskDated && completedTaskDated.length; else noData">
                                         <div class="task-box" *ngFor="let ctd of completedTaskDated; let i=index;">
-                                            <div class="ui checkbox flexparent dotsicon justify-content-between w-100">
+                                            <div class="ui checkbox flexparent justify-content-between w-100">
                                                 <div class="datedCheckBoxOuter">
                                                     <span class="completedLabel" style="cursor: pointer;"
                                                         (click)="editTask(ctd)">{{ctd.taskName}}</span>

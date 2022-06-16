@@ -32,4 +32,10 @@
   background: #ededed;
   padding: 3px 5px;
   border-radius: 9px;
+  white-space: nowrap;
+}
+
+.datedCheckBoxOuter {
+  align-items: center;
+  display: flex;
 }
