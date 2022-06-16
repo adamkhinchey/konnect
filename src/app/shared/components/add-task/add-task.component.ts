@@ -23,6 +23,7 @@ import { UserSettingsService } from '../../services';
   styleUrls: ['./add-task.component.scss'],
 })
 export class AddTaskComponent implements OnInit {
+  minimumDate:Date | undefined = moment().set('second', 0).set('millisecond', 0).toDate();
   @ViewChild('dt1') owlDateTime: OwlDateTimeComponent<any> | undefined;
   @ViewChild('inp') dateTimeInput: ElementRef | undefined;
   @Input() ownedByText: any = '';

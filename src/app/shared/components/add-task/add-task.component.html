@@ -38,7 +38,7 @@
                         <div class="six wide column">
                             <!-- <input type="text" placeholder="" class="form-control" formControlName="dueDate"> -->
                             <input #inp class="form-control shadow-input" formControlName="dueDate" [owlDateTime]="dt1"
-                                placeholder="Due Date" (dateTimeChange)="setDateTime($event)">
+                                placeholder="Due Date" [min]="minimumDate" (dateTimeChange)="setDateTime($event)">
 
                             <input type="text" class="form-control timeWindowDate"
                                 [value]="f.dueDate.value | dateFilter: 'dd/MM/YYYY'" formControlName="dueDate"
