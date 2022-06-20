@@ -198,6 +198,7 @@ export class AddTaskComponent implements OnInit {
     modalRef.componentInstance.creatorFromCompanyId =
       this.addTaskForm.get('assignById')?.value;
     modalRef.componentInstance.taskId = this.addTaskForm.get('taskId')?.value;
+    modalRef.componentInstance.assignTo = this.assignToData;
     modalRef.result
       .then((result: any) => {
         console.log('result...', result);

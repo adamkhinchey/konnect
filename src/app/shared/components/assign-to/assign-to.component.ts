@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventService } from 'src/app/features/edit-events/services/event.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-assign-to',
@@ -11,6 +12,7 @@ import { EventService } from 'src/app/features/edit-events/services/event.servic
 export class AssignToComponent implements OnInit {
   @Input() creatorFromCompanyId: any;
   @Input() taskId: any = 0;
+  @Input() assignTo: any = [];
   data: any;
   eventId: any;
   client: any;
@@ -33,13 +35,85 @@ export class AssignToComponent implements OnInit {
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
       this.eventId = param.eventId;
-      this.eventSrvc.getAssignToList(this.eventId, this.creatorFromCompanyId, this.taskId).subscribe((res: any) => {
-        console.log(res);
-        this.data = res.data;
-        this.venues = this.data.venues || [];
-        this.services = this.data.services || [];
-        this.exhibitors = this.data.exhibitors || [];
-      });
+      this.eventSrvc
+        .getAssignToList(this.eventId, this.creatorFromCompanyId, this.taskId)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.data = res.data;
+          this.venues = this.data.venues || [];
+          this.services = this.data.services || [];
+          this.exhibitors = this.data.exhibitors || [];
+          console.log('assign to...', this.assignTo);
+          if (this.assignTo && this.assignTo.length) {
+            var client = this.assignTo.filter((val: any) => {
+              return val.tabType == '1';
+            });
+            if (client && client.length) {
+              this.data.client.isChecked = 1;
+            } else {
+              this.data.client.isChecked = 0;
+            }
+            var ev = this.assignTo.filter((val: any) => {
+              return val.tabType == '2';
+            });
+            if (ev && ev.length) {
+              this.data.eventManager.isChecked = 1;
+            } else {
+              this.data.eventManager.isChecked = 0;
+            }
+            var venues = this.assignTo.filter((val: any) => {
+              return val.tabType == '3';
+            });
+            if (venues && venues.length) {
+              for (let i = 0; i < this.data.venues.length; i++) {
+                if (venues[i]?.id == this.data.venues[i].id) {
+                  this.venues[i].isChecked = 1;
+                } else {
+                  this.venues[i].isChecked = 0;
+                }
+              }
+            } else {
+              this.venues = this.data.venues.map((checked: any) => {
+                checked.isChecked = 0;
+                return checked;
+              });
+            }
+            var services = this.assignTo.filter((val: any) => {
+              return val.tabType == '4';
+            });
+            if (services && services.length) {
+              for (let i = 0; i < this.data.services.length; i++) {
+                if (services[i]?.id == this.data.services[i].id) {
+                  this.services[i].isChecked = 1;
+                } else {
+                  this.services[i].isChecked = 0;
+                }
+              }
+            } else {
+              this.services = this.data.services.map((checked: any) => {
+                checked.isChecked = 0;
+                return checked;
+              });
+            }
+            var exhibitors = this.assignTo.filter((val: any) => {
+              return val.tabType == '5';
+            });
+            if (exhibitors && exhibitors.length) {
+              for (let i = 0; i < this.data.exhibitors.length; i++) {
+                if (exhibitors[i]?.id == this.data.exhibitors[i].id) {
+                  this.exhibitors[i].isChecked = 1;
+                } else {
+                  this.exhibitors[i].isChecked = 0;
+                }
+              }
+            } else {
+              this.exhibitors = this.data.exhibitors.map((checked: any) => {
+                checked.isChecked = 0;
+                return checked;
+              });
+            }
+          }
+        });
     });
   }
 
