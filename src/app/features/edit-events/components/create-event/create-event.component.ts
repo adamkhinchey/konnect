@@ -220,7 +220,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getEventsById(tabType: any) {
-    this.viewEvSrvc.getEventsByEventId(this.eventId, tabType, this.eventToBeSaved.creatorFromCompanyId).subscribe((res: any) => {
+    this.viewEvSrvc.getEventsByEventId(this.eventId, tabType, this.defaultCompany.id).subscribe((res: any) => {
       console.log(res,'res tab type',tabType);
       if (res && res.eventData) {
         if (tabType === 1) {

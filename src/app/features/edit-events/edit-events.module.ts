@@ -54,7 +54,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     EventViewComponent,
     EventGanttChartComponent,
     EventAssignCrewFunctionCmpComponent,
-    TasksComponent,
+    TasksComponent
   ],
   imports: [
     CommonModule,

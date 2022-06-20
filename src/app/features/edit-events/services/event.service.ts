@@ -366,7 +366,8 @@ export class EventService {
     eventId: any,
     creatorFromCompanyId: any = 0,
     taskId: any = 0
-  ): Observable<any> {
+  ): Observable<any> | any {
+    if(eventId > 0){
     this.spinner.show();
     return this.http
       .post<ApiResponseModelInterface>(
@@ -378,6 +379,7 @@ export class EventService {
         take(1),
         this.httpErrorHandler.processError(true, true)
       );
+    }
   }
   addEventTask(data: any): Observable<any> {
     this.spinner.show();

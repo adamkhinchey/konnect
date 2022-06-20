@@ -37,7 +37,7 @@
                     <div class="ui grid">
                         <div class="six wide column">
                             <!-- <input type="text" placeholder="" class="form-control" formControlName="dueDate"> -->
-                            <input #inp class="form-control shadow-input" formControlName="dueDate" [owlDateTime]="dt1"
+                            <input #inptask class="form-control shadow-input" formControlName="dueDate" [owlDateTime]="dt1"
                                 placeholder="Due Date" [min]="minimumDate" (dateTimeChange)="setDateTime($event)">
 
                             <input type="text" class="form-control timeWindowDate"
@@ -46,7 +46,7 @@
 
                             <owl-date-time #dt1 [pickerType]="'calendar'"></owl-date-time>
                         </div>
-                        <div class="ten wide column" (click)="removeDate()">
+                        <div (click)="removeDate()">
                             <a class="ui button basic circular compact mini trashIconOuter"><i
                                     class="m-0 trash alternate icon"></i></a>
                         </div>

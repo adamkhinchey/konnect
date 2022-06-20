@@ -1,5 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {DatePipe} from '@angular/common';
+import * as moment from 'moment';
 
 @Pipe({
   name: 'dateFilter'
@@ -10,6 +11,8 @@ export class DateFilterPipe implements PipeTransform {
   }
 
   transform(value: any, format?: string): any {
+    console.log('value in date pipe...', value);
+    console.log('format...', format)
     if (!value) {
       return '';
     }
