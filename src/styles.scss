@@ -1082,3 +1082,7 @@ select.ui.dropdown {
     font-size: 0.9rem;
   }
 }
+
+.modal-open .actionBar .openMobileMenu {
+	z-index: 999;
+}
