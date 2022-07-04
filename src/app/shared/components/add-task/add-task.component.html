@@ -12,7 +12,7 @@
             <div class="col-md-7">
                 <div class="form-group">
                     <label>Title</label>
-                    <input type="text" placeholder="" class="form-control" formControlName="title">
+                    <input type="text" placeholder="" class="form-control" formControlName="title" [readonly]="f.taskId.value > 0 && taskData.isTaskOwner == 0">
                     <div class="text-danger" *ngIf="
                     f.title.hasError('required') &&
                     (f.title.touched || submitted)
@@ -44,9 +44,9 @@
                                 [value]="f.dueDate.value | dateFilter: 'dd/MM/YYYY'" formControlName="dueDate"
                                 [owlDateTimeTrigger]="dt1" placeholder="" (dateTimeChange)="setDateTime($event)">
 
-                            <owl-date-time #dt1 [pickerType]="'calendar'"></owl-date-time>
+                            <owl-date-time #dt1 [pickerType]="'calendar'" [disabled]="f.taskId.value > 0 && taskData.isTaskOwner == 0"></owl-date-time>
                         </div>
-                        <div (click)="removeDate()">
+                        <div (click)="removeDate()" *ngIf="f.taskId.value == 0 || taskData.isTaskOwner == 1">
                             <a class="ui button basic circular compact mini trashIconOuter"><i
                                     class="m-0 trash alternate icon"></i></a>
                         </div>
@@ -59,7 +59,7 @@
                     <div class="seven wide column">
                         <div class="ui checkbox">
                             <input type="checkbox" id="completed" class="hidden" tabindex="0"
-                                formControlName="isCompleted">
+                                formControlName="isCompleted" [attr.disabled]="f.taskId.value > 0 && taskData.isTaskOwner == 0">
                             <label for="completed">Completed</label>
                         </div>
                     </div>

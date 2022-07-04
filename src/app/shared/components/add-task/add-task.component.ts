@@ -302,14 +302,14 @@ export class AddTaskComponent implements OnInit {
     }
   }
   changeConfig() {
-    // if (!this.isNotesEdit)  {
-    //   this.config.editable = false;
-    //   this.config.showToolbar = false;
-    // } else {
-    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
-    this.config.editable = true;
-    this.config.showToolbar = true;
-    // }
+    if (this.f.taskId.value > 0 && this.taskData.isTaskOwner == 0) {
+      this.config.editable = false;
+      this.config.showToolbar = false;
+    } else {
+      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      this.config.editable = true;
+      this.config.showToolbar = true;
+    }
   }
   removeTask() {
     console.log('task id...', this.addTaskForm.get('taskId')?.value);
