@@ -1062,3 +1062,23 @@ select.ui.dropdown {
 .addTaskModal .ui.grid {
   margin-top: -5px;
 }
+.nav-tabs.supplierInnerCont.nav {
+  width: 100%;
+}
+
+@media screen and (max-width:767px) {
+  .triggerEditableOptions.marT-m15 {
+    margin-top: 0px !important;
+  }
+  .supplierInnerCont .nav-link {
+    padding: .5rem 0.6rem;
+  }
+  .companyContainer.marginB20 .field.checkboxOnHeader .ui.header, .companyContainer.marginB20 .field.checkboxOnHeader .ui.header h3 { margin-top: 0px !important; }
+  .infoBar {
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+  }
+  .ui.menu {
+    font-size: 0.9rem;
+  }
+}
