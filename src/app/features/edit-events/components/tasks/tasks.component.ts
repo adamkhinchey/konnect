@@ -5,6 +5,7 @@ import { UserSettingsService } from 'src/app/shared/services';
 import { EventService } from '../../services/event.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ConfirmationDialogComponent } from 'src/app/shared/components';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-tasks',
@@ -60,7 +61,7 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.exhibitors = this.data.exhibitors || [];
         this.getEventTasks();
       },
-      (err:any) => {
+      (err: any) => {
         console.log(err);
       }
     );
@@ -245,7 +246,7 @@ export class TasksComponent implements OnInit, OnDestroy {
               console.log('cancelling');
             });
         },
-        (err:any) => {
+        (err: any) => {
           console.log(err);
         }
       );
@@ -287,14 +288,14 @@ export class TasksComponent implements OnInit, OnDestroy {
   onAllVenuesChange(ev: any) {
     console.log(ev.target.value);
     if (ev) {
-      if (ev.target.value == 'false') {
+      if (ev.target.value == 'false' || ev.target.value == 0) {
         console.log('in if');
         this.venues = this.data.venues.map((checked: any) => {
           console.log('checked...', checked);
           checked.isChecked = 1;
           return checked;
         });
-      } else if (ev.target.value == 'true') {
+      } else if (ev.target.value == 'true' || ev.target.value == 1) {
         console.log('in else');
         this.venues = this.data.venues.map((checked: any) => {
           checked.isChecked = 0;
@@ -317,7 +318,7 @@ export class TasksComponent implements OnInit, OnDestroy {
           if (checked.id == id) checked.isChecked = 1;
           return checked;
         });
-      } else if (ev.target.value == 'true') {
+      } else if (ev.target.value == 'true' || ev.target.value == 1) {
         console.log('in else');
         this.venues = this.data.venues.map((checked: any) => {
           if (checked.id == id) {
@@ -330,20 +331,29 @@ export class TasksComponent implements OnInit, OnDestroy {
           return val.tabType != '3' && val.id != id;
         });
       }
+      let checkedData = this.venues.filter((val: any) => {
+        return val.isChecked == 1;
+      });
+      console.log('checked data...', checkedData);
+      if (this.venues.length == checkedData.length) {
+        this.allVenues = true;
+      } else {
+        this.allVenues = false;
+      }
       this.getEventTasks();
     }
   }
   onAllSuppliersChange(ev: any) {
     console.log(ev.target.value);
     if (ev) {
-      if (ev.target.value == 'false') {
+      if (ev.target.value == 'false' || ev.target.value == 0) {
         console.log('in if');
         this.services = this.data.services.map((checked: any) => {
           console.log('checked...', checked);
           checked.isChecked = 1;
           return checked;
         });
-      } else if (ev.target.value == 'true') {
+      } else if (ev.target.value == 'true' || ev.target.value == 1) {
         console.log('in else');
         this.services = this.data.services.map((checked: any) => {
           checked.isChecked = 0;
@@ -366,7 +376,7 @@ export class TasksComponent implements OnInit, OnDestroy {
           if (checked.id == id) checked.isChecked = 1;
           return checked;
         });
-      } else if (ev.target.value == 'true') {
+      } else if (ev.target.value == 'true' || ev.target.value == 1) {
         console.log('in else');
         this.services = this.data.services.map((checked: any) => {
           if (checked.id == id) {
@@ -379,20 +389,29 @@ export class TasksComponent implements OnInit, OnDestroy {
           return val.tabType != '4' && val.id != id;
         });
       }
+      let checkedData = this.services.filter((val: any) => {
+        return val.isChecked == 1;
+      });
+      console.log('checked data...', checkedData);
+      if (this.services.length == checkedData.length) {
+        this.allSuppliers = true;
+      } else {
+        this.allSuppliers = false;
+      }
       this.getEventTasks();
     }
   }
   onAllExhibitorsChange(ev: any) {
     console.log(ev.target.value);
     if (ev) {
-      if (ev.target.value == 'false') {
+      if (ev.target.value == 'false' || ev.target.value == 0) {
         console.log('in if');
         this.exhibitors = this.data.exhibitors.map((checked: any) => {
           console.log('checked...', checked);
           checked.isChecked = 1;
           return checked;
         });
-      } else if (ev.target.value == 'true') {
+      } else if (ev.target.value == 'true' || ev.target.value == 1) {
         console.log('in else');
         this.exhibitors = this.data.exhibitors.map((checked: any) => {
           checked.isChecked = 0;
@@ -415,7 +434,7 @@ export class TasksComponent implements OnInit, OnDestroy {
           if (checked.id == id) checked.isChecked = 1;
           return checked;
         });
-      } else if (ev.target.value == 'true') {
+      } else if (ev.target.value == 'true' || ev.target.value == 1) {
         // console.log('in else');
         this.exhibitors = this.data.exhibitors.map((checked: any) => {
           if (checked.id == id) {
@@ -427,6 +446,15 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.filterData = this.filterData.filter((val: any) => {
           return val.tabType != '5' && val.id != id;
         });
+      }
+      let checkedData = this.exhibitors.filter((val: any) => {
+        return val.isChecked == 1;
+      });
+      console.log('checked data...', checkedData);
+      if (this.exhibitors.length == checkedData.length) {
+        this.allExhibitors = true;
+      } else {
+        this.allExhibitors = false;
       }
       this.getEventTasks();
     }
@@ -590,35 +618,59 @@ export class TasksComponent implements OnInit, OnDestroy {
               res.data.client.isChecked == 1 ||
               res.data.client.isChecked == true
             ) {
-              this.assignToData = this.assignToData.concat({
-                id: res.data.client.id,
-                tabType: '1',
-                companyName: res.data.client.companyName,
-                utId: res.data.client.utId,
-              });
+              if (
+                !(
+                  res.data.taskData.isTaskOwner == 0 &&
+                  res.data.client.isMyCompany == 0
+                )
+              ) {
+                this.assignToData = this.assignToData.concat({
+                  id: res.data.client.id,
+                  tabType: '1',
+                  companyName: res.data.client.companyName,
+                  utId: res.data.client.utId,
+                  isCompleted: res.data.client.isCompleted,
+                });
+              }
             }
             if (
               res.data.eventManager.isChecked == 1 ||
               res.data.eventManager.isChecked == true
             ) {
-              this.assignToData = this.assignToData.concat({
-                id: res.data.eventManager.id,
-                tabType: '2',
-                companyName: res.data.eventManager.companyName,
-                utId: res.data.eventManager.utId,
-              });
+              if (
+                !(
+                  res.data.taskData.isTaskOwner == 0 &&
+                  res.data.eventManager.isMyCompany == 0
+                )
+              ) {
+                this.assignToData = this.assignToData.concat({
+                  id: res.data.eventManager.id,
+                  tabType: '2',
+                  companyName: res.data.eventManager.companyName,
+                  utId: res.data.eventManager.utId,
+                  isCompleted: res.data.eventManager.isCompleted,
+                });
+              }
             }
             for (let i = 0; i < res.data.venues.length; i++) {
               if (
                 res.data.venues[i].isChecked == 1 ||
                 res.data.venues[i].isChecked == true
               ) {
-                this.assignToData = this.assignToData.concat({
-                  id: res.data.venues[i].id,
-                  tabType: '3',
-                  companyName: res.data.venues[i].companyName,
-                  utId: res.data.venues[i].utId,
-                });
+                if (
+                  !(
+                    res.data.taskData.isTaskOwner == 0 &&
+                    res.data.venues[i].isMyCompany == 0
+                  )
+                ) {
+                  this.assignToData = this.assignToData.concat({
+                    id: res.data.venues[i].id,
+                    tabType: '3',
+                    companyName: res.data.venues[i].companyName,
+                    utId: res.data.venues[i].utId,
+                    isCompleted: res.data.venues[i].isCompleted,
+                  });
+                }
               }
             }
             for (let i = 0; i < res.data.services.length; i++) {
@@ -626,12 +678,20 @@ export class TasksComponent implements OnInit, OnDestroy {
                 res.data.services[i].isChecked == 1 ||
                 res.data.services[i].isChecked == true
               ) {
-                this.assignToData = this.assignToData.concat({
-                  id: res.data.services[i].id,
-                  tabType: '4',
-                  companyName: res.data.services[i].companyName,
-                  utId: res.data.services[i].utId,
-                });
+                if (
+                  !(
+                    res.data.taskData.isTaskOwner == 0 &&
+                    res.data.services[i].isMyCompany == 0
+                  )
+                ) {
+                  this.assignToData = this.assignToData.concat({
+                    id: res.data.services[i].id,
+                    tabType: '4',
+                    companyName: res.data.services[i].companyName,
+                    utId: res.data.services[i].utId,
+                    isCompleted: res.data.services[i].isCompleted,
+                  });
+                }
               }
             }
             for (let i = 0; i < res.data.exhibitors.length; i++) {
@@ -639,12 +699,20 @@ export class TasksComponent implements OnInit, OnDestroy {
                 res.data.exhibitors[i].isChecked == 1 ||
                 res.data.exhibitors[i].isChecked == true
               ) {
-                this.assignToData = this.assignToData.concat({
-                  id: res.data.exhibitors[i].id,
-                  tabType: '5',
-                  companyName: res.data.exhibitors[i].companyName,
-                  utId: res.data.exhibitors[i].utId,
-                });
+                if (
+                  !(
+                    res.data.taskData.isTaskOwner == 0 &&
+                    res.data.exhibitors[i].isMyCompany == 0
+                  )
+                ) {
+                  this.assignToData = this.assignToData.concat({
+                    id: res.data.exhibitors[i].id,
+                    tabType: '5',
+                    companyName: res.data.exhibitors[i].companyName,
+                    utId: res.data.exhibitors[i].utId,
+                    isCompleted: res.data.exhibitors[i].isCompleted,
+                  });
+                }
               }
             }
           }
@@ -659,7 +727,7 @@ export class TasksComponent implements OnInit, OnDestroy {
           );
           res.data.taskData.eventId = data.eventId;
           modalRef.componentInstance.ownedByText =
-            this.eventData.eventData.ownedByText;
+            res.data.taskData.ownedByText;
           modalRef.componentInstance.taskData = res.data.taskData;
           modalRef.componentInstance.assignToDataFromPrevious =
             this.assignToData;
@@ -671,7 +739,7 @@ export class TasksComponent implements OnInit, OnDestroy {
               console.log('cancelling');
             });
         },
-        (err:any) => {
+        (err: any) => {
           console.log(err);
         }
       );

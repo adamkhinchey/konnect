@@ -20,10 +20,13 @@ export class AssignToComponent implements OnInit {
   eventManager: any;
   evManagerChecked: boolean = false;
   allVenues: boolean = false;
+  allVenuesCompleted: boolean = false;
   venues: any;
   allSuppliers: boolean = false;
+  allSuppliersCompleted: boolean = false;
   services: any;
   allExhibitors: boolean = false;
+  allExhibitorsCompleted: boolean = false;
   exhibitors: any;
   constructor(
     private activeModal: NgbActiveModal,
@@ -38,11 +41,11 @@ export class AssignToComponent implements OnInit {
       this.eventSrvc
         .getAssignToList(this.eventId, this.creatorFromCompanyId, this.taskId)
         .subscribe((res: any) => {
-          console.log(res);
+          console.log(JSON.stringify(res));
           this.data = res.data;
-          this.venues = this.data.venues || [];
-          this.services = this.data.services || [];
-          this.exhibitors = this.data.exhibitors || [];
+          this.venues = res.data.venues || [];
+          this.services = res.data.services || [];
+          this.exhibitors = res.data.exhibitors || [];
           console.log('assign to...', this.assignTo);
           if (this.assignTo && this.assignTo.length) {
             var client = this.assignTo.filter((val: any) => {
@@ -65,12 +68,16 @@ export class AssignToComponent implements OnInit {
               return val.tabType == '3';
             });
             if (venues && venues.length) {
-              for (let i = 0; i < this.data.venues.length; i++) {
-                if (venues[i]?.id == this.data.venues[i].id) {
-                  this.venues[i].isChecked = 1;
-                } else {
-                  this.venues[i].isChecked = 0;
-                }
+              for (let i = 0; i < venues.length; i++) {
+                this.venues = this.data.venues.filter((val: any) => {
+                  if (val.id == venues[i].id) {
+                    val.isChecked = 1;
+                  } 
+                  // else {
+                  //   val.isChecked = 0;
+                  // }
+                  return val;
+                });
               }
             } else {
               this.venues = this.data.venues.map((checked: any) => {
@@ -82,12 +89,16 @@ export class AssignToComponent implements OnInit {
               return val.tabType == '4';
             });
             if (services && services.length) {
-              for (let i = 0; i < this.data.services.length; i++) {
-                if (services[i]?.id == this.data.services[i].id) {
-                  this.services[i].isChecked = 1;
-                } else {
-                  this.services[i].isChecked = 0;
-                }
+              for (let i = 0; i < services.length; i++) {
+                this.services = this.data.services.filter((val: any) => {
+                  if (val.id == services[i].id) {
+                    val.isChecked = 1;
+                  }
+                  //  else {
+                  //   val.isChecked = 0;
+                  // }
+                  return val;
+                });
               }
             } else {
               this.services = this.data.services.map((checked: any) => {
@@ -99,12 +110,16 @@ export class AssignToComponent implements OnInit {
               return val.tabType == '5';
             });
             if (exhibitors && exhibitors.length) {
-              for (let i = 0; i < this.data.exhibitors.length; i++) {
-                if (exhibitors[i]?.id == this.data.exhibitors[i].id) {
-                  this.exhibitors[i].isChecked = 1;
-                } else {
-                  this.exhibitors[i].isChecked = 0;
-                }
+              for (let i = 0; i < exhibitors.length; i++) {
+                this.exhibitors = this.data.exhibitors.filter((val: any) => {
+                  if (val.id == exhibitors[i].id) {
+                    val.isChecked = 1;
+                  }
+                  // else {
+                  //   val.isChecked = 0;
+                  // }
+                  return val;
+                });
               }
             } else {
               this.exhibitors = this.data.exhibitors.map((checked: any) => {
@@ -112,6 +127,59 @@ export class AssignToComponent implements OnInit {
                 return checked;
               });
             }
+          }
+          let checkedVenueData = this.venues.filter((val: any) => {
+            return val.isChecked == 1;
+          });
+          let completedVenueData = this.venues.filter((val: any) => {
+            return val.isCompleted == 1;
+          });
+          console.log('checked data...', checkedVenueData);
+          if (this.venues.length == checkedVenueData.length) {
+            this.allVenues = true;
+          } else {
+            this.allVenues = false;
+          }
+          if (this.venues.length == completedVenueData.length) {
+            this.allVenuesCompleted = true;
+          } else {
+            this.allVenuesCompleted = false;
+          }
+
+          let checkedSupplierData = this.services.filter((val: any) => {
+            return val.isChecked == 1;
+          });
+          let completedSupplierData = this.services.filter((val: any) => {
+            return val.isCompleted == 1;
+          });
+          console.log('checked supplier data...', checkedSupplierData);
+          if (this.services.length == checkedSupplierData.length) {
+            this.allSuppliers = true;
+          } else {
+            this.allSuppliers = false;
+          }
+          if (this.services.length == completedSupplierData.length) {
+            this.allSuppliersCompleted = true;
+          } else {
+            this.allSuppliersCompleted = false;
+          }
+
+          let checkedExhibitorData = this.exhibitors.filter((val: any) => {
+            return val.isChecked == 1;
+          });
+          let completedExhibitorData = this.exhibitors.filter((val: any) => {
+            return val.isCompleted == 1;
+          });
+          console.log('checked data...', checkedExhibitorData);
+          if (this.exhibitors.length == checkedExhibitorData.length) {
+            this.allExhibitors = true;
+          } else {
+            this.allExhibitors = false;
+          }
+          if (this.exhibitors.length == completedExhibitorData.length) {
+            this.allExhibitorsCompleted = true;
+          } else {
+            this.allExhibitorsCompleted = false;
           }
         });
     });
@@ -171,7 +239,9 @@ export class AssignToComponent implements OnInit {
       } else if (ev.target.value == 'true') {
         console.log('in else');
         this.venues = this.data.venues.map((checked: any) => {
+          if(checked.isCompleted != 1){
           checked.isChecked = 0;
+        }
           return checked;
         });
       }
@@ -194,6 +264,15 @@ export class AssignToComponent implements OnInit {
           return checked;
         });
       }
+      let checkedData = this.venues.filter((val: any) => {
+        return val.isChecked == 1;
+      });
+      console.log('checked data...', checkedData);
+      if (this.venues.length == checkedData.length) {
+        this.allVenues = true;
+      } else {
+        this.allVenues = false;
+      }
     }
   }
   onAllSuppliersChange(ev: any) {
@@ -209,7 +288,9 @@ export class AssignToComponent implements OnInit {
       } else if (ev.target.value == 'true') {
         console.log('in else');
         this.services = this.data.services.map((checked: any) => {
-          checked.isChecked = 0;
+          if(checked.isCompleted != 1){
+            checked.isChecked = 0;
+          }
           return checked;
         });
       }
@@ -232,6 +313,15 @@ export class AssignToComponent implements OnInit {
           return checked;
         });
       }
+      let checkedData = this.services.filter((val: any) => {
+        return val.isChecked == 1;
+      });
+      console.log('checked data...', checkedData);
+      if (this.services.length == checkedData.length) {
+        this.allSuppliers = true;
+      } else {
+        this.allSuppliers = false;
+      }
     }
   }
   onAllExhibitorsChange(ev: any) {
@@ -247,7 +337,9 @@ export class AssignToComponent implements OnInit {
       } else if (ev.target.value == 'true') {
         console.log('in else');
         this.exhibitors = this.data.exhibitors.map((checked: any) => {
-          checked.isChecked = 0;
+          if(checked.isCompleted != 1){
+            checked.isChecked = 0;
+          }
           return checked;
         });
       }
@@ -269,6 +361,15 @@ export class AssignToComponent implements OnInit {
           if (checked.id == id) checked.isChecked = 0;
           return checked;
         });
+      }
+      let checkedData = this.exhibitors.filter((val: any) => {
+        return val.isChecked == 1;
+      });
+      console.log('checked data...', checkedData);
+      if (this.exhibitors.length == checkedData.length) {
+        this.allExhibitors = true;
+      } else {
+        this.allExhibitors = false;
       }
     }
   }

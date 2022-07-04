@@ -17,6 +17,7 @@ import { EventService } from 'src/app/features/edit-events/services/event.servic
 import { ActivatedRoute } from '@angular/router';
 import { UserSettingsService } from '../../services';
 import { DatePipe } from '@angular/common';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-add-task',
@@ -157,7 +158,11 @@ export class AddTaskComponent implements OnInit {
     this.addTaskForm.get('title')?.setValue(this.taskData.title);
     this.addTaskForm.get('description')?.setValue(this.taskData.desciption);
     if (this.taskData.dueDate && this.taskData.dueDate != null) {
-      this.addTaskForm.get('dueDate')?.setValue(this.datePipe.transform(new Date(this.taskData.dueDate), 'dd/MM/YYYY'));
+      this.addTaskForm
+        .get('dueDate')
+        ?.setValue(
+          this.datePipe.transform(new Date(this.taskData.dueDate), 'dd/MM/YYYY')
+        );
     } else {
       this.addTaskForm.get('dueDate')?.setValue(null);
     }
@@ -309,20 +314,38 @@ export class AddTaskComponent implements OnInit {
   removeTask() {
     console.log('task id...', this.addTaskForm.get('taskId')?.value);
     if (this.addTaskForm.get('taskId')?.value > 0) {
-      this.eventSrvc
-        .removeTask(this.addTaskForm.get('taskId')?.value)
-        .subscribe(
-          (res: any) => {
-            console.log('remove response...', res);
-            this.addTaskForm.reset();
-            this.addTaskForm.get('assignToId')?.setValue(this.assignToData);
-            this.toaster.success(res.message);
-            this.activeModal.close();
-          },
-          (err) => {
-            console.log(err);
+      let ngbModalOptions: NgbModalOptions = {
+        backdrop: 'static',
+        keyboard: false,
+      };
+      const modalRef = this.modalSrvc.open(
+        ConfirmationDialogComponent,
+        ngbModalOptions
+      );
+      modalRef.componentInstance.message =
+        'Are you sure you want to delete this task?';
+      modalRef.result
+        .then((result: any) => {
+          if (result) {
+            this.eventSrvc
+              .removeTask(this.addTaskForm.get('taskId')?.value)
+              .subscribe(
+                (res: any) => {
+                  console.log('remove response...', res);
+                  this.addTaskForm.reset();
+                  this.addTaskForm
+                    .get('assignToId')
+                    ?.setValue(this.assignToData);
+                  this.toaster.success(res.message);
+                  this.activeModal.close();
+                },
+                (err) => {
+                  console.log(err);
+                }
+              );
           }
-        );
+        })
+        .catch((result: any) => {});
     }
   }
 }

@@ -10,14 +10,14 @@
                     My Company Tasks
                 </span></a>
             <ng-template ngbNavContent>
-                <div class="ui styled fluid accordion parentAccordion parentAccordionVenue" *ngIf="data && data.client">
+                <div class="ui styled fluid accordion parentAccordion parentAccordionVenue" *ngIf="data">
                     <form class="ui form visible" style="display: block !important;">
                         <div class="twelve wide column">
                             <div class="twelve wide row">
                                 <div class="col-md-4 row-col">
                                     <h3 class="text-start mt-2 mb-3">Filter Assigned From</h3>
                                     <ul class="assignToCheckBox">
-                                        <li>
+                                        <li *ngIf="data.client && data.client.id">
                                             <div class="ui checkbox">
                                                 <input type="checkbox" id="filter-client-1" class="hidden" tabindex="0"
                                                     [(ngModel)]="data.client.isChecked"
@@ -26,7 +26,7 @@
                                                 <label for="filter-client-1">{{data.client.companyName}}</label>
                                             </div>
                                         </li>
-                                        <li>
+                                        <li *ngIf="data.eventManager && data.eventManager.id">
                                             <div class="ui checkbox">
                                                 <input type="checkbox" id="filter-ev-2" class="hidden" tabindex="0"
                                                     [(ngModel)]="data.eventManager.isChecked"
@@ -289,14 +289,14 @@
                     Delegated Tasks
                 </span></a>
             <ng-template ngbNavContent>
-                <div class="ui styled fluid accordion parentAccordion parentAccordionVenue" *ngIf="data && data.client">
+                <div class="ui styled fluid accordion parentAccordion parentAccordionVenue" *ngIf="data">
                     <form class="ui form visible" style="display: block !important;">
                         <div class="twelve wide column">
                             <div class="twelve wide row">
                                 <div class="col-md-4 row-col">
                                     <h3 class="text-start mt-2 mb-2">Filter Assigned To</h3>
                                     <ul class="assignToCheckBox">
-                                        <li>
+                                        <li *ngIf="data.client && data.client.id">
                                             <div class="ui checkbox">
                                                 <input type="checkbox" id="filter-client-1-section-two" class="hidden"
                                                     tabindex="0" [(ngModel)]="data.client.isChecked"
@@ -306,7 +306,7 @@
                                                     for="filter-client-1-section-two">{{data.client.companyName}}</label>
                                             </div>
                                         </li>
-                                        <li>
+                                        <li *ngIf="data.eventManager && data.eventManager.id">
                                             <div class="ui checkbox">
                                                 <input type="checkbox" id="filter-ev-2-section-two" class="hidden"
                                                     tabindex="0" [(ngModel)]="data.eventManager.isChecked"

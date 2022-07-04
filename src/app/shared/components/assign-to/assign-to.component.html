@@ -8,23 +8,23 @@
             </p>
         </div>
     </div>
-    <div class="row" *ngIf="data && data.client">
+    <div class="row" *ngIf="data">
         <div class="col-md-12">
 
             <ul class="assignToCheckBox">
-                <li>
+                <li *ngIf="data.client && data.client.id">
                     <div class="ui checkbox">
                         <input type="checkbox" id="1" class="hidden" tabindex="0" [(ngModel)]="data.client.isChecked"
-                            [value]="data.client.isChecked" (change)="onClientChange($event)">
-                        <label for="1">{{data.client.companyName}}</label>
+                            [value]="data.client.isChecked" (change)="onClientChange($event)" [disabled]="data.client.isCompleted == 1">
+                        <label for="1" [ngClass]="data.client.isCompleted == 1 ? 'completedLabel' : ''">{{data.client.companyName}}</label>
                     </div>
                 </li>
-                <li>
+                <li  *ngIf="data.eventManager && data.eventManager.id">
                     <div class="ui checkbox">
                         <input type="checkbox" id="2" class="hidden" tabindex="0"
                             [(ngModel)]="data.eventManager.isChecked" [value]="data.eventManager.isChecked"
-                            (change)="onEvManagerChange($event)">
-                        <label for="2">{{data.eventManager.companyName}}</label>
+                            (change)="onEvManagerChange($event)" [disabled]="data.eventManager.isCompleted == 1">
+                        <label for="2" [ngClass]="data.eventManager.isCompleted == 1 ? 'completedLabel' : ''">{{data.eventManager.companyName}}</label>
                     </div>
                 </li>
                 <li *ngIf="data.venues && data.venues.length">
@@ -43,8 +43,8 @@
                                             <div class="ui checkbox">
                                                 <input type="checkbox" id="3" class="hidden" tabindex="0"
                                                     [(ngModel)]="allVenues" [value]="allVenues"
-                                                    (change)="onAllVenuesChange($event)">
-                                                <label for="3">All Venues</label>
+                                                    (change)="onAllVenuesChange($event)" [disabled]="allVenuesCompleted">
+                                                <label for="3" [ngClass]="allVenuesCompleted ? 'completedLabel' : ''">All Venues</label>
                                             </div>
                                         </div>
 
@@ -58,8 +58,8 @@
                                                     <input type="checkbox" id="3-{{venueIndex}}" class="hidden"
                                                         tabindex="0" [(ngModel)]="venue.isChecked"
                                                         [value]="venue?.isChecked" [checked]="venue?.isChecked == 1"
-                                                        (change)="onVenueChange($event, venue.id)">
-                                                    <label for="3-{{venueIndex}}">{{venue.companyName}}</label>
+                                                        (change)="onVenueChange($event, venue.id)" [disabled]="venue.isCompleted == 1">
+                                                    <label for="3-{{venueIndex}}" [ngClass]="venue.isCompleted == 1 ? 'completedLabel' : ''">{{venue.companyName}}</label>
                                                 </div>
                                             </li>
                                         </ul>
@@ -85,8 +85,8 @@
                                         <div class="flaot-right accordionCheckBox">
                                             <div class="ui checkbox">
                                                 <input type="checkbox" id="4" class="hidden" tabindex="0" [(ngModel)]="allSuppliers"
-                                                    [value]="allSuppliers" (change)="onAllSuppliersChange($event)">
-                                                <label for="4">All Suppliers</label>
+                                                    [value]="allSuppliers" (change)="onAllSuppliersChange($event)" [disabled]="allSuppliersCompleted">
+                                                <label for="4" [ngClass]="allSuppliersCompleted ? 'completedLabel' : ''">All Suppliers</label>
                                             </div>
                                         </div>
 
@@ -100,8 +100,8 @@
                                                     <input type="checkbox" id="4-{{supplierIndex}}" class="hidden" tabindex="0"
                                                         [(ngModel)]="supplier.isChecked" [value]="supplier?.isChecked"
                                                         [checked]="supplier?.isChecked == 1"
-                                                        (change)="onSupplierChange($event, supplier.id)">
-                                                    <label for="4-{{supplierIndex}}">{{supplier.companyName}}</label>
+                                                        (change)="onSupplierChange($event, supplier.id)" [disabled]="supplier.isCompleted == 1">
+                                                    <label for="4-{{supplierIndex}}" [ngClass]="supplier.isCompleted == 1 ? 'completedLabel' : ''">{{supplier.companyName}}</label>
                                                 </div>
                                             </li>
                                         </ul>
@@ -127,8 +127,8 @@
                                         <div class="flaot-right accordionCheckBox">
                                             <div class="ui checkbox">
                                                 <input type="checkbox" id="5" class="hidden" tabindex="0" [(ngModel)]="allExhibitors"
-                                                    [value]="allExhibitors" (change)="onAllExhibitorsChange($event)">
-                                                <label for="5">All Exhibitors</label>
+                                                    [value]="allExhibitors" (change)="onAllExhibitorsChange($event)" [disabled]="allExhibitorsCompleted">
+                                                <label for="5" [ngClass]="allExhibitorsCompleted ? 'completedLabel' : ''">All Exhibitors</label>
                                             </div>
                                         </div>
 
@@ -142,8 +142,8 @@
                                                     <input type="checkbox" id="5-{{exhibitorIndex}}" class="hidden" tabindex="0"
                                                         [(ngModel)]="exhibitor.isChecked" [value]="exhibitor?.isChecked"
                                                         [checked]="exhibitor?.isChecked == 1"
-                                                        (change)="onExhibitorChange($event, exhibitor.id)">
-                                                    <label for="5-{{exhibitorIndex}}">{{exhibitor.companyName}}</label>
+                                                        (change)="onExhibitorChange($event, exhibitor.id)" [disabled]="exhibitor.isCompleted == 1">
+                                                    <label for="5-{{exhibitorIndex}}" [ngClass]="exhibitor.isCompleted == 1 ? 'completedLabel' : ''">{{exhibitor.companyName}}</label>
                                                 </div>
                                             </li>
                                         </ul>

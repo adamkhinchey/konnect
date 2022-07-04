@@ -65,11 +65,11 @@
                     </div>
                     <div class="nine wide column right aligned">
                         <!-- only editable when have all permission or restricted permission to client  -->
-                        <div class="ui circular compact mini basic button confirmRemove hasModal" (click)="removeTask()">
+                        <div class="ui circular compact mini basic button confirmRemove hasModal" (click)="removeTask()" *ngIf="f.taskId.value > 0 && taskData.isTaskOwner == 1">
                             <i class="trash alternate icon"></i>Remove
                         </div>
 
-                        <button class="ui button ml-2" (click)="saveUpdateTask()"> Save </button>
+                        <button class="ui button ml-2" (click)="saveUpdateTask()"  *ngIf="f.taskId.value == 0 || taskData.isTaskOwner == 1"> Save </button>
 
                     </div>
                 </div>
@@ -77,15 +77,15 @@
             </div>
             <div class="col-md-5">
                 <div class="form-group">
-                    <label class="w-100"> &nbsp; </label>
-                    <button class="ui button ml-2" (click)="assignTo()"> Assigned to </button>
+                    <label class="w-100" *ngIf="f.taskId.value == 0 || taskData.isTaskOwner == 1"> &nbsp; </label>
+                    <button class="ui button ml-2" (click)="assignTo()" *ngIf="f.taskId.value == 0 || taskData.isTaskOwner == 1"> Assigned to </button>
                     <!-- <div>
                         <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [settings]="dropdownSettings"
                             [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)">
                         </ng-multiselect-dropdown>
                     </div> -->
                     <div class="assigntoData" *ngIf="assignToData && assignToData.length">
-                        <p class="mt-1 mb-2" *ngFor="let role of assignToData">{{role.companyName}}</p>
+                        <p class="mt-1 mb-2" [ngClass]="role.isCompleted == 1 ? 'completedLabel' : ''" *ngFor="let role of assignToData">{{role.companyName}}</p>
                         <!-- <p class="mt-1 mb-2">functionRole, companyName</p> -->
                     </div>
                     <div style="padding-left: 7px; padding-top: 5px;" class="text-danger" *ngIf="
