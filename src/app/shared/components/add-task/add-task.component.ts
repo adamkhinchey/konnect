@@ -104,6 +104,8 @@ export class AddTaskComponent implements OnInit {
     ],
   };
   assignToData: any = [];
+  initialValues: any;
+  hasChanges: boolean = false;
   constructor(
     private activeModal: NgbActiveModal,
     private toaster: ToastrService,
@@ -144,9 +146,11 @@ export class AddTaskComponent implements OnInit {
         console.log('param...', param);
         this.addTaskForm.get('eventId')?.setValue(param.eventId);
       });
+      this.initialValues = this.addTaskForm.value;
     } else {
       this.populateFormValues();
     }
+    this.checkValueChange();
   }
 
   populateFormValues() {
@@ -167,6 +171,7 @@ export class AddTaskComponent implements OnInit {
       this.addTaskForm.get('dueDate')?.setValue(null);
     }
     this.addTaskForm.get('isCompleted')?.setValue(this.taskData.status);
+    this.initialValues = this.addTaskForm.value;
   }
 
   getDate(date: any) {
@@ -190,7 +195,32 @@ export class AddTaskComponent implements OnInit {
   }
 
   public dismiss() {
-    this.activeModal.dismiss();
+    console.log('has changed...', this.hasChanges);
+    if (this.hasChanges) {
+      let ngbModalOptions: NgbModalOptions = {
+        backdrop: 'static',
+        keyboard: false,
+      };
+      const modalRef = this.modalSrvc.open(
+        ConfirmationDialogComponent,
+        ngbModalOptions
+      );
+      modalRef.componentInstance.message =
+        'There are unsaved changes';
+        modalRef.componentInstance.btnOkText = 'Save';
+        modalRef.componentInstance.btnCancelText = 'Discard changes';
+      modalRef.result
+        .then((result: any) => {
+          if (result) {
+            this.saveUpdateTask();
+          }else if(!result){
+            this.activeModal.dismiss();
+          }
+        })
+        .catch((result: any) => {});
+    } else {
+      this.activeModal.dismiss();
+    }
   }
 
   assignTo() {
@@ -280,12 +310,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   saveUpdateTask() {
-    console.log(this.f.dueDate.value);
-    // this.f.dueDate.setValue(moment(this.f.dueDate.value).format('YYYY-MM-DD'));
-    console.log(this.f.dueDate.value);
     this.submitted = true;
-    console.log(this.addTaskForm);
-    console.log(this.addTaskForm.value);
     if (this.f.title.valid && this.assignToData.length) {
       this.eventSrvc.addEventTask(this.addTaskForm.value).subscribe(
         (res: any) => {
@@ -347,5 +372,15 @@ export class AddTaskComponent implements OnInit {
         })
         .catch((result: any) => {});
     }
+  }
+
+  checkValueChange() {
+    console.log('in function');
+    this.addTaskForm.valueChanges.subscribe((value) => {
+      console.log('value...', value);
+      this.hasChanges = Object.keys(this.initialValues).some(
+        (key) => this.addTaskForm.value[key] != this.initialValues[key]
+      );
+    });
   }
 }

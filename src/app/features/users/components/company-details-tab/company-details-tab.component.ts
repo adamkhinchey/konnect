@@ -56,6 +56,7 @@ export class CompanyDetailsTabComponent
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.personalDetails?.currentValue) {
       this.domainName = this.getDomainName();
+      console.log('domain name...', this.domainName);
       if (this.domainName) {
         this.searchCompany(this.domainName);
       }
@@ -92,6 +93,7 @@ export class CompanyDetailsTabComponent
     searchKeyword: string | null = null
   ): void {
     domain = this.domainName;
+    console.log('domain...', domain);
     if (domain == null) {
       const domainNameStartIndex = this.authService
         .getUserInfo()
@@ -101,11 +103,12 @@ export class CompanyDetailsTabComponent
           .getUserInfo()
           .email.substring(domainNameStartIndex + 1)
           .trim()
-          .split('.')[0];
+          .split('@')[1];
       }
     } else {
       try {
-        domain = domain.split('.')[0];
+        // domain = domain.split('@')[1];
+        console.log('domain in else...', domain);
       } catch (err) {}
     }
     const param =

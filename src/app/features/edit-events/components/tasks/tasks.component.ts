@@ -40,7 +40,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   ) {}
 
   navChange(ev: any) {
-    console.log(ev);
+    console.log('nav change...',ev);
     this.active = ev.nextId;
     this.filterData = [];
     this.getAssingToList();
@@ -59,6 +59,30 @@ export class TasksComponent implements OnInit, OnDestroy {
         this.venues = this.data.venues || [];
         this.services = this.data.services || [];
         this.exhibitors = this.data.exhibitors || [];
+        let checkedVenueData = this.venues.filter((val: any) => {
+          return val.isChecked == 1;
+        });
+        if (this.venues.length == checkedVenueData.length) {
+          this.allVenues = true;
+        } else {
+          this.allVenues = false;
+        }
+        let checkedSupplierData = this.services.filter((val: any) => {
+          return val.isChecked == 1;
+        });
+        if (this.services.length == checkedSupplierData.length) {
+          this.allSuppliers = true;
+        } else {
+          this.allSuppliers = false;
+        }
+        let checkedExhibitorData = this.exhibitors.filter((val: any) => {
+          return val.isChecked == 1;
+        });
+        if (this.exhibitors.length == checkedExhibitorData.length) {
+          this.allExhibitors = true;
+        } else {
+          this.allExhibitors = false;
+        }
         this.getEventTasks();
       },
       (err: any) => {
@@ -309,7 +333,7 @@ export class TasksComponent implements OnInit, OnDestroy {
     }
   }
   onVenueChange(ev: any, id: any) {
-    console.log(ev.target.value);
+    console.log('venue change...', ev.target.value);
     if (ev) {
       if (ev.target.value == 'false' || ev.target.value == 0) {
         console.log('in if');
@@ -334,7 +358,6 @@ export class TasksComponent implements OnInit, OnDestroy {
       let checkedData = this.venues.filter((val: any) => {
         return val.isChecked == 1;
       });
-      console.log('checked data...', checkedData);
       if (this.venues.length == checkedData.length) {
         this.allVenues = true;
       } else {
@@ -392,7 +415,6 @@ export class TasksComponent implements OnInit, OnDestroy {
       let checkedData = this.services.filter((val: any) => {
         return val.isChecked == 1;
       });
-      console.log('checked data...', checkedData);
       if (this.services.length == checkedData.length) {
         this.allSuppliers = true;
       } else {
@@ -450,7 +472,6 @@ export class TasksComponent implements OnInit, OnDestroy {
       let checkedData = this.exhibitors.filter((val: any) => {
         return val.isChecked == 1;
       });
-      console.log('checked data...', checkedData);
       if (this.exhibitors.length == checkedData.length) {
         this.allExhibitors = true;
       } else {

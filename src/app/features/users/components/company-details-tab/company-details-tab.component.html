@@ -2,10 +2,11 @@
   <div class="ui stacked">
     <div class="ui grid">
       <div class="sixteen wide column text-center">
-        <p>To complete your profile, you need to be associated with a company.</p>
+        <p class="fonts-18pt">To complete your profile, you need to be associated with a company.</p><p></p>
         <p *ngIf="company && !searchForCompany" class="limitWidth">Good news! A company profile already exists for a company with your email
           domain. You can
           claim it below.</p>
+          <p></p>
         <h3 *ngIf="!company || searchForCompany ">Search for a company to join or create a new one below</h3>
       </div>
     </div>
@@ -46,10 +47,11 @@
         <div class="ui divider"></div>
       </div>
       <div class="sixteen wide column left aligned">
-        <p class="smallText">An associated company acts as an account holder for your profile. Your profile can be
+        <p class="fonts-14pt">Why this step?</p>
+        <p class="fonts-14pt">An associated company acts as an account holder for your profile. Your profile can be
           associated with multiple companies, but each personal profile must always be associated with at least one
           company.</p>
-        <p class="smallText">This is because events are "owned" by companies not individuals and access to events is
+        <p class="fonts-14pt">This is because events are "owned" by companies not individuals and access to events is
           controlled through company permissions.</p>
       </div>
     </div>
@@ -65,8 +67,9 @@
         <div class="ui divider"></div>
       </div>
       <div class="sixteen wide column left aligned">
-        <p class="smallText">An associated company acts as an account holder for your profile. Your profile can be associated with multiple companies, but each personal profile must always be associated with at least one company.</p>
-        <p class="smallText">This is because events are "owned" by companies not individuals and access to events is controlled through company permissions.</p>
+        <p class="fonts-14pt">Why this step?</p>
+        <p class="fonts-14pt">An associated company acts as an account holder for your profile. Your profile can be associated with multiple companies, but each personal profile must always be associated with at least one company.</p>
+        <p class="fonts-14pt">This is because events are "owned" by companies not individuals and access to events is controlled through company permissions.</p>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <div class="ui segment task-segment">
-    <button class="alignButton ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="addTask()"><i
+    <button *ngIf="data && data.isCrew != 1" class="alignButton ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="addTask()"><i
             class="plus circle icon"></i> Add
         Task </button>
     <ul ngbNav #taskNav="ngbNav" [activeId]="active" (navChange)="navChange($event)" class="nav-tabs supplierInnerCont"
@@ -22,7 +22,7 @@
                                                 <input type="checkbox" id="filter-client-1" class="hidden" tabindex="0"
                                                     [(ngModel)]="data.client.isChecked"
                                                     [ngModelOptions]="{standalone: true}"
-                                                    [value]="data.client.isChecked" (change)="onClientChange($event)">
+                                                    [value]="data.client.isChecked" (change)="onClientChange($event)" [disabled]="data.isCrew == 1">
                                                 <label for="filter-client-1">{{data.client.companyName}}</label>
                                             </div>
                                         </li>
@@ -32,7 +32,7 @@
                                                     [(ngModel)]="data.eventManager.isChecked"
                                                     [ngModelOptions]="{standalone: true}"
                                                     [value]="data.eventManager.isChecked"
-                                                    (change)="onEvManagerChange($event)">
+                                                    (change)="onEvManagerChange($event)" [disabled]="data.isCrew == 1">
                                                 <label for="filter-ev-2">{{data.eventManager.companyName}}</label>
                                             </div>
                                         </li>
@@ -301,7 +301,7 @@
                                                 <input type="checkbox" id="filter-client-1-section-two" class="hidden"
                                                     tabindex="0" [(ngModel)]="data.client.isChecked"
                                                     [ngModelOptions]="{standalone: true}"
-                                                    [value]="data.client.isChecked" (change)="onClientChange($event)">
+                                                    [value]="data.client.isChecked" (change)="onClientChange($event)" [disabled]="data.isCrew == 1">
                                                 <label
                                                     for="filter-client-1-section-two">{{data.client.companyName}}</label>
                                             </div>
@@ -312,7 +312,7 @@
                                                     tabindex="0" [(ngModel)]="data.eventManager.isChecked"
                                                     [ngModelOptions]="{standalone: true}"
                                                     [value]="data.eventManager.isChecked"
-                                                    (change)="onEvManagerChange($event)">
+                                                    (change)="onEvManagerChange($event)" [disabled]="data.isCrew == 1">
                                                 <label
                                                     for="filter-ev-2-section-two">{{data.eventManager.companyName}}</label>
                                             </div>

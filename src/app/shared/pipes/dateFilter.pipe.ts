@@ -11,8 +11,6 @@ export class DateFilterPipe implements PipeTransform {
   }
 
   transform(value: any, format?: string): any {
-    console.log('value in date pipe...', value);
-    console.log('format...', format)
     if (!value) {
       return '';
     }
