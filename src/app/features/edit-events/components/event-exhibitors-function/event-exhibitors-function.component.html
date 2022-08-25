@@ -422,7 +422,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   [readonly]="!isExhibitorEdit || !(permissionObj.isClient || permissionObj.isEventManager)"></textarea> -->
                                 <angular-editor *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
                                   [(ngModel)]="exhibitor.requirement" [config]="config2"
-                                  (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
+                                  (focus)="changeConfigPermission(exhibitor)" [ngModelOptions]="{standalone: true}">
                                 </angular-editor>
                                 <ng-template #no_access>No access
                                 </ng-template>

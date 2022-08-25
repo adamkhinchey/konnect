@@ -334,7 +334,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             </angular-editor> -->
                             <angular-editor *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission==1 || service?.isViewPermission==2); else no_access"
                             [(ngModel)]="service.requirement" [config]="config1"
-                            (focus)="changeConfigPermission1()" [ngModelOptions]="{standalone: true}">
+                            (focus)="changeConfigPermission1(service)" [ngModelOptions]="{standalone: true}">
                           </angular-editor>
                             <ng-template #no_access>No access
                             </ng-template>

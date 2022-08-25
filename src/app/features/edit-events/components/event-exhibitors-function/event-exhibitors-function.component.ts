@@ -426,8 +426,9 @@ export class EventExhibitorsFunctionComponent
       this.config1.showToolbar = true;
     }
   }
-  changeConfigPermission() {
-    if (!this.isExhibitorEdit) {
+  changeConfigPermission(exhibitor:any) {
+    if (!this.isExhibitorEdit ||
+      (exhibitor?.isViewPermission && this.permissionObj.isExhibitor)) {
       this.config2.editable = false;
       this.config2.showToolbar = false;
     } else {

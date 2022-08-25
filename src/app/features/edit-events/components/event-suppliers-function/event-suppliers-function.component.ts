@@ -443,8 +443,9 @@ export class EventSuppliersFunctionComponent
       this.config2.showToolbar = true;
     }
   }
-  changeConfigPermission1() {
-    if (!this.isServiceEdit) {
+  changeConfigPermission1(service:any) {
+    if (!this.isServiceEdit ||
+      (service?.isViewPermission && this.permissionObj.isService)) {
       this.config1.editable = false;
       this.config1.showToolbar = false;
     } else {
