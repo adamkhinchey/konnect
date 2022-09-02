@@ -36,6 +36,7 @@ import {
   ImportExportComponent,
 } from 'src/app/shared/components';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { UserInfoService, UserSettingsService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-event-exhibitors-function',
@@ -275,12 +276,14 @@ export class EventExhibitorsFunctionComponent
   postEventTimesCount = 1;
   venueIndexLocal = 0;
   exhibitorIndexLocal = 0;
+  userId:any;
   constructor(
     public eventService: EventService,
     private viewEventService: ViewEventService,
     private router: Router,
     public modalService: NgbModal,
-    public aroute: ActivatedRoute
+    public aroute: ActivatedRoute,
+    public userInfoService:UserInfoService
   ) {
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
@@ -466,6 +469,7 @@ export class EventExhibitorsFunctionComponent
             actionType: 'import',
             venueId: this.eventToBeSaved!.venues!.list[venueIndex].venueId,
             url: result.url,
+            userId:this.userId
           };
           this.eventService.importExport(data).subscribe(
             (res: any) => {
@@ -487,6 +491,7 @@ export class EventExhibitorsFunctionComponent
             actionType: 'export',
             venueId: this.eventToBeSaved!.venues!.list[venueIndex].venueId,
             url: '',
+            userId:this.userId
           };
           this.eventService.importExport(data).subscribe(
             (res: any) => {
@@ -530,7 +535,20 @@ export class EventExhibitorsFunctionComponent
     this.isNotesEdit = this.eventService.isNotesEdit;
   }
 
+  private fetchUserInfo(): void {
+    this.userInfoService.getInfo().subscribe(
+      (value) => {
+        console.log('value...', value)
+        this.userId = value.id;
+      },
+      (err) => {
+        devLogger('error', { err });
+      }
+    );
+  }
+
   ngOnInit(): void {
+    this.fetchUserInfo();
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
