@@ -186,6 +186,7 @@ export class EventClientFunctionComponent
   }
 
   changeConfig() {
+    console.log('is client edit...', this.isClientEdit);
     if (!this.isClientEdit){ 
       this.config.editable = false; 
       this.config.showToolbar = false;
@@ -202,7 +203,7 @@ export class EventClientFunctionComponent
       this.config1.showToolbar = false;
     }
     else{ 
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#ciNotes .angular-editor-textarea').css('border-top', 'none');
       this.config1.editable = true; 
       this.config1.showToolbar = true;
     }

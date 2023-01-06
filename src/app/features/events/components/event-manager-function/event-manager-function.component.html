@@ -84,7 +84,7 @@
         <div class="field">
           <!-- <textarea rows="3" *ngIf="eventToBeSaved.eventManager" class="textarea" [(ngModel)]="eventToBeSaved.eventManager!.requirements"
           [ngModelOptions]="{standalone:true}"></textarea> -->
-          <angular-editor *ngIf="eventToBeSaved.eventManager"
+          <angular-editor id="createemr" *ngIf="eventToBeSaved.eventManager"
           [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config" (focus)="changeConfig()"
           [ngModelOptions]="{standalone: true}">
         </angular-editor>

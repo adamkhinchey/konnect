@@ -189,7 +189,7 @@ export class EventManagerFunctionComponent
       this.config.editable = false;
       this.config.showToolbar = false;
     } else {
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#editemr .angular-editor-textarea').css('border-top', 'none');
       this.config.editable = true;
       this.config.showToolbar = true;
     }
@@ -200,7 +200,7 @@ export class EventManagerFunctionComponent
       this.config1.editable = false;
       this.config1.showToolbar = false;
     } else {
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#editemin .angular-editor-textarea').css('border-top', 'none');
       this.config1.editable = true;
       this.config1.showToolbar = true;
     }

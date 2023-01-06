@@ -289,13 +289,13 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit {
   }
 
   changeConfig(){
-    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    $('#createntav .angular-editor-textarea').css('border-top', 'none');
     this.config.editable = true;
     this.config.showToolbar = true;
   }
 
   changeConfig1(){
-    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    $('#createvr .angular-editor-textarea').css('border-top', 'none');
     this.config1.editable = true;
     this.config1.showToolbar = true;
   }

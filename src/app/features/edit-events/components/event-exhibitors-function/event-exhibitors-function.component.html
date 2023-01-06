@@ -58,7 +58,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                     *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
                     [(ngModel)]="venue.exhibitorList[0].notesToAll" [ngModelOptions]="{standalone:true}"
                     [readonly]="!isExhibitorEdit"></textarea> -->
-                  <angular-editor *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
+                  <angular-editor id="editntle" *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
                     [(ngModel)]="venue.exhibitorList[0].notesToAll" [config]="config" (focus)="changeConfig()"
                     [ngModelOptions]="{standalone: true}"></angular-editor>
 
@@ -420,7 +420,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 <!-- <textarea rows="3" class="textarea" [(ngModel)]="exhibitor.requirement"
                                   [ngModelOptions]="{standalone:true}"
                                   [readonly]="!isExhibitorEdit || !(permissionObj.isClient || permissionObj.isEventManager)"></textarea> -->
-                                <angular-editor *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
+                                <angular-editor id="editntse" *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"
                                   [(ngModel)]="exhibitor.requirement" [config]="config2"
                                   (focus)="changeConfigPermission(exhibitor)" [ngModelOptions]="{standalone: true}">
                                 </angular-editor>
@@ -446,7 +446,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                   [(ngModel)]="exhibitor.internalCmpNotes" [config]="config" (focus)="changeConfig()"
                                   [ngModelOptions]="{standalone: true}">
                                 </angular-editor> -->
-                                <angular-editor
+                                <angular-editor id="editein"
                                 *ngIf="(exhibitor?.isViewPermission==1  && exhibitor?.isSelfIncludedInSection == 1 ); else no_access"
                                 [(ngModel)]="exhibitor.internalCmpNotes" [config]="config1" (focus)="changeConfig1()"
                                 [ngModelOptions]="{standalone: true}">

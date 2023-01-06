@@ -331,7 +331,7 @@ export class AddTaskComponent implements OnInit {
       this.config.editable = false;
       this.config.showToolbar = false;
     } else {
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#addTaskDescription .angular-editor-textarea').css('border-top', 'none');
       this.config.editable = true;
       this.config.showToolbar = true;
     }

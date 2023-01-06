@@ -90,7 +90,7 @@
           <!-- <angular-editor *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access"
             [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config" (focus)="changeConfig()"
             [ngModelOptions]="{standalone: true}"></angular-editor> -->
-            <angular-editor *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 2 ||  eventData.eventData.eventManager?.isViewPermission == 3; else no_access"
+            <angular-editor id="editemr" *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 2 ||  eventData.eventData.eventManager?.isViewPermission == 3; else no_access"
             [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config" (focus)="changeConfig()"
             [ngModelOptions]="{standalone: true}"></angular-editor>
           <ng-template #no_access>No access
@@ -107,7 +107,7 @@
             [ngModelOptions]="{standalone: true}"></angular-editor> -->
 
             <!-- only event manager company will have access -->
-            <angular-editor *ngIf="(eventData.eventData.eventManager?.isViewPermission == 1 && eventData.eventData.eventManager?.isSelfIncludedInSection == 1); else no_access"
+            <angular-editor id="editemin" *ngIf="(eventData.eventData.eventManager?.isViewPermission == 1 && eventData.eventData.eventManager?.isSelfIncludedInSection == 1); else no_access"
             [(ngModel)]="eventToBeSaved.eventManager!.emInternalNotes" [config]="config1" (focus)="changeConfig1()"
             [ngModelOptions]="{standalone: true}"></angular-editor>
           <ng-template #no_access>No access

@@ -5,6 +5,7 @@ import eventContactLabels from './event-contact-label-list';
 
 const APIURL = 'https://yxraels57k.execute-api.ap-southeast-2.amazonaws.com/dev';
 const siteURL = 'http://dev-user-website.s3-website-ap-southeast-2.amazonaws.com';
+const importLambdaUrl = 'https://gds6ucmu4dyexvfrtynp3gw25q0nbckx.lambda-url.ap-southeast-2.on.aws/';
 
 export const environment = {
   production: false,
@@ -38,6 +39,7 @@ export const environment = {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   ],
   siteURL,
+  importLambdaUrl,
   eventContactLabels,
   headerName:'Konnect'
 };

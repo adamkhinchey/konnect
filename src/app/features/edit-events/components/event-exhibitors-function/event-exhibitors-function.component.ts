@@ -414,7 +414,7 @@ export class EventExhibitorsFunctionComponent
       this.config.editable = false;
       this.config.showToolbar = false;
     } else {
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#editntle .angular-editor-textarea').css('border-top', 'none');
       this.config.editable = true;
       this.config.showToolbar = true;
     }
@@ -424,18 +424,18 @@ export class EventExhibitorsFunctionComponent
       this.config1.editable = false;
       this.config1.showToolbar = false;
     } else {
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#editein .angular-editor-textarea').css('border-top', 'none');
       this.config1.editable = true;
       this.config1.showToolbar = true;
     }
   }
   changeConfigPermission(exhibitor:any) {
     if (!this.isExhibitorEdit ||
-      (exhibitor?.isViewPermission && this.permissionObj.isExhibitor)) {
+      (!exhibitor?.isViewPermission && !this.permissionObj.isExhibitor)) {
       this.config2.editable = false;
       this.config2.showToolbar = false;
     } else {
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#editntse .angular-editor-textarea').css('border-top', 'none');
       this.config2.editable = true;
       this.config2.showToolbar = true;
     }

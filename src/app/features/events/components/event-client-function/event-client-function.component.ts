@@ -89,7 +89,7 @@ export class EventClientFunctionComponent implements OnInit, OnDestroy {
   }
 
   changeConfig(){
-    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    $('#createed .angular-editor-textarea').css('border-top', 'none');
     this.config.editable = true;
     this.config.showToolbar = true;
   }

@@ -61,7 +61,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   public loginUserIsCrew =false;
   isPast:any
   config: AngularEditorConfig = {
-    editable: true,
+    editable: false,
     spellcheck: true,
     // height: '15rem',
     minHeight: '5rem',
@@ -124,7 +124,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     ],
   };
   config1: AngularEditorConfig = {
-    editable: true,
+    editable: false,
     spellcheck: true,
     // height: '15rem',
     minHeight: '5rem',
@@ -187,7 +187,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     ],
   };
   config2: AngularEditorConfig = {
-    editable: true,
+    editable: false,
     spellcheck: true,
     // height: '15rem',
     minHeight: '5rem',
@@ -277,7 +277,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       this.config.editable = false;
       this.config.showToolbar = false;
     } else {
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#editntav .angular-editor-textarea').css('border-top', 'none');
       this.config.editable = true;
       this.config.showToolbar = true;
     }
@@ -287,7 +287,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       this.config2.editable = false;
       this.config2.showToolbar = false;
     } else {
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#editvin .angular-editor-textarea').css('border-top', 'none');
       this.config2.editable = true;
       this.config2.showToolbar = true;
     }
@@ -295,12 +295,12 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   changeConfigPermission(panel: any) {
     if (
       !this.isVenueEdit ||
-      (panel?.isViewPermission && this.permissionObj.isVenue)
+      (!panel?.isViewPermission && !this.permissionObj.isVenue)
     )  {
       this.config1.editable = false;
       this.config1.showToolbar = false;
     } else {
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#editvr .angular-editor-textarea').css('border-top', 'none');
       this.config1.editable = true;
       this.config1.showToolbar = true;
     }

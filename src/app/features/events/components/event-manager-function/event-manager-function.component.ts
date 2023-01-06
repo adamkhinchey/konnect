@@ -99,7 +99,7 @@ export class EventManagerFunctionComponent implements OnInit, OnDestroy {
   }
 
   changeConfig(){
-    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    $('#createemr .angular-editor-textarea').css('border-top', 'none');
     this.config.editable = true;
     this.config.showToolbar = true;
   }

@@ -510,12 +510,12 @@ export class EventSuppliersFunctionComponent implements OnInit, OnDestroy {
     }
   }
   changeConfig(){
-    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    $('#createntas .angular-editor-textarea').css('border-top', 'none');
     this.config.editable = true;
     this.config.showToolbar = true;
   }
   changeConfig1(){
-    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    $('#createsr .angular-editor-textarea').css('border-top', 'none');
     this.config1.editable = true;
     this.config1.showToolbar = true;
   }

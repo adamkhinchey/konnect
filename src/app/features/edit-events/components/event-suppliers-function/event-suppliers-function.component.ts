@@ -39,6 +39,7 @@ import {
   ImportExportComponent,
 } from 'src/app/shared/components';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { UserInfoService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-event-suppliers-function',
@@ -280,19 +281,33 @@ export class EventSuppliersFunctionComponent
   postEventTimesCount = 1;
   venueIndexLocal = 1;
   serviceIndexLocal = 1;
+  userId:any;
   constructor(
     public eventService: EventService,
     private viewEventService: ViewEventService,
     private router: Router,
     public _cdr: ChangeDetectorRef,
     public modalService: NgbModal,
-    public aroute: ActivatedRoute
+    public aroute: ActivatedRoute,
+    public userInfoService:UserInfoService
   ) {
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
       this.isPast = param.isPast;
       console.log('is past...', this.isPast);
     });
+  }
+
+  private fetchUserInfo(): void {
+    this.userInfoService.getInfo().subscribe(
+      (value) => {
+        console.log('value...', value)
+        this.userId = value.id;
+      },
+      (err) => {
+        devLogger('error', { err });
+      }
+    );
   }
 
   listenTimeChange(event: Event, venueIndex: any, serviceIndex: any): void {
@@ -428,7 +443,7 @@ export class EventSuppliersFunctionComponent
       this.config.editable = false;
       this.config.showToolbar = false;
     } else {
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#editntas .angular-editor-textarea').css('border-top', 'none');
       this.config.editable = true;
       this.config.showToolbar = true;
     }
@@ -438,18 +453,18 @@ export class EventSuppliersFunctionComponent
       this.config2.editable = false;
       this.config2.showToolbar = false;
     } else {
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#editsin .angular-editor-textarea').css('border-top', 'none');
       this.config2.editable = true;
       this.config2.showToolbar = true;
     }
   }
   changeConfigPermission1(service:any) {
     if (!this.isServiceEdit ||
-      (service?.isViewPermission && this.permissionObj.isService)) {
+      (!service?.isViewPermission && !this.permissionObj.isService)) {
       this.config1.editable = false;
       this.config1.showToolbar = false;
     } else {
-      $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+      $('#editsr .angular-editor-textarea').css('border-top', 'none');
       this.config1.editable = true;
       this.config1.showToolbar = true;
     }
@@ -484,6 +499,7 @@ export class EventSuppliersFunctionComponent
             actionType: 'import',
             venueId: this.eventToBeSaved!.venues!.list[venueIndex].venueId,
             url: result.url,
+            userId:this.userId
           };
           this.eventService.importExport(data).subscribe(
             (res: any) => {
@@ -505,6 +521,7 @@ export class EventSuppliersFunctionComponent
             actionType: 'export',
             venueId: this.eventToBeSaved!.venues!.list[venueIndex].venueId,
             url: '',
+            userId:this.userId
           };
           this.eventService.importExport(data).subscribe(
             (res: any) => {
@@ -549,6 +566,7 @@ export class EventSuppliersFunctionComponent
   }
 
   ngOnInit(): void {
+    this.fetchUserInfo();
     console.log('permission obj in init...', this.permissionObj);
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;

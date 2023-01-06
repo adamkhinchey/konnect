@@ -321,11 +321,25 @@ export class EventService {
       );
   }
 
+  // importExport(data: any): Observable<any> {
+  //   this.spinner.show();
+  //   return this.http
+  //     .post<ApiResponseModelInterface>(
+  //       `${this.apiBaseUrl}/importExportServicesAndExhibitors`,
+  //       data
+  //     )
+  //     .pipe(
+  //       hideSpinnerPostApiCall(this.spinner),
+  //       take(1),
+  //       this.httpErrorHandler.processError(true, true)
+  //     );
+  // }
+
   importExport(data: any): Observable<any> {
     this.spinner.show();
     return this.http
       .post<ApiResponseModelInterface>(
-        `${this.apiBaseUrl}/importExportServicesAndExhibitors`,
+        `${environment.importLambdaUrl}`,
         data
       )
       .pipe(

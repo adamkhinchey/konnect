@@ -280,7 +280,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
     devLogger('log', { FILEEEEE: event });
   }
   changeConfig() {
-    $('#evDescription .angular-editor-textarea').css('border-top', 'none');
+    $('#createCompanyDescription .angular-editor-textarea').css('border-top', 'none');
     this.config.editable = true;
     this.config.showToolbar = true;
     // }

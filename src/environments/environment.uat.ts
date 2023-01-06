@@ -5,6 +5,7 @@ import eventContactLabels from './event-contact-label-list';
 
 const APIURL = 'https://zfyd7d1tbb.execute-api.ap-southeast-2.amazonaws.com/uat';
 const siteURL = 'http://uat-user-website.s3-website-ap-southeast-2.amazonaws.com';
+const importLambdaUrl = 'https://6fwultw46lxcz6vzrih5pf4qjq0sqhoy.lambda-url.ap-southeast-2.on.aws/';
 
 export const environment = {
   production: false,
@@ -38,6 +39,7 @@ export const environment = {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   ],
   siteURL,
+  importLambdaUrl,
   eventContactLabels,
   headerName:'Konnect UAT'
 };

@@ -26,7 +26,7 @@
                     [(ngModel)]="venue.suppliers[0].notesToAll"
                     [ngModelOptions]="{standalone:true}"
                   ></textarea> -->
-                  <angular-editor *ngIf="venue.suppliers && venue.suppliers[0]"
+                  <angular-editor id="createntas" *ngIf="venue.suppliers && venue.suppliers[0]"
                     [(ngModel)]="venue.suppliers[0].notesToAll" (focus)="changeConfig()" [config]="config" [ngModelOptions]="{standalone: true}">
                   </angular-editor>
                 </div>
@@ -181,7 +181,7 @@
                           <div class="field">
                             <!-- <textarea rows="3" [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}"
                                     class="textarea"></textarea> -->
-                            <angular-editor [(ngModel)]="service.requirement" [config]="config1" (focus)="changeConfig1()"
+                            <angular-editor id="createsr" [(ngModel)]="service.requirement" [config]="config1" (focus)="changeConfig1()"
                               [ngModelOptions]="{standalone: true}">
                             </angular-editor>
                           </div>

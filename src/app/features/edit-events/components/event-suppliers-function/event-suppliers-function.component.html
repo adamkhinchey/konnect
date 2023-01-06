@@ -29,7 +29,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   <!-- <textarea rows="3" class="textarea" *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
                     [(ngModel)]="venue.suppliers[0].notesToAll" [ngModelOptions]="{standalone:true}"
                     [readonly]="!isServiceEdit"></textarea> -->
-                    <angular-editor *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
+                    <angular-editor id="editntas" *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
                     [(ngModel)]="venue.suppliers[0].notesToAll" [config]="config" (focus)="changeConfig()"
                     [ngModelOptions]="{standalone: true}"></angular-editor>
 
@@ -332,7 +332,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               [(ngModel)]="service.requirement" [config]="config"
                               (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
                             </angular-editor> -->
-                            <angular-editor *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission==1 || service?.isViewPermission==2); else no_access"
+                            <angular-editor id="editsr" *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission==1 || service?.isViewPermission==2); else no_access"
                             [(ngModel)]="service.requirement" [config]="config1"
                             (focus)="changeConfigPermission1(service)" [ngModelOptions]="{standalone: true}">
                           </angular-editor>
@@ -350,7 +350,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             [(ngModel)]="service.internalCmpNotes" [config]="config"
                             (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
                             </angular-editor> -->
-                            <angular-editor *ngIf="service?.isViewPermission==1  && service?.isSelfIncludedInSection == 1 ; else no_access"
+                            <angular-editor id="editsin" *ngIf="service?.isViewPermission==1  && service?.isSelfIncludedInSection == 1 ; else no_access"
                             [(ngModel)]="service.internalCmpNotes" [config]="config2"
                             (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
                             </angular-editor>
