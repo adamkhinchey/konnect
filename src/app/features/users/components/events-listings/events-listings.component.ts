@@ -42,6 +42,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked ,OnDest
 
   ngOnInit(): void {
     this.eventsCopy = this.events;
+    console.log('this.eventsCopy',this.eventsCopy);
     this.fillSpecialDates();
     if (!this.isEventHistory) {
       this.noDataMsg = "Your associated companies currently have no scheduled events"
@@ -130,9 +131,68 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked ,OnDest
   }
 
   viewEvent(eventId: any) {
-    this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory} });
+      this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:1} });
+    // this.router.navigate([]).then((result) => {
+    //   window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${1}`, '_blank');
+    // });
+  }
+  viewEventNewTab(eventId: any) {
+    // this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:1} });
+  this.router.navigate([]).then((result) => {
+    window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${1}`, '_blank');
+  });
+}
+
+  viewEventManager(eventId: any) {
+  //  this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:2} });
+  this.router.navigate([]).then((result) => {
+      window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${2}`, '_blank');
+    });
+  }
+  viewVanue(eventId: any) {
+    // this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:3} });
+  this.router.navigate([],{skipLocationChange:true}).then((result) => {
+      window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${3}`, '_blank');
+    });
+  }
+  viewEventClient(eventId: any) {
+    // this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:1} });
+ this.router.navigate([]).then((result) => {
+      window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${1}`, '_blank');
+    });
   }
 
+  viewSuppliers(eventId: any) {
+   // this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:4} });
+ this.router.navigate([]).then((result) => {
+      window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${4}`, '_blank');
+    });
+  }
+
+  viewExhibitors(eventId: any) {
+    // this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:5} });
+ this.router.navigate([]).then((result) => {
+      window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${5}`, '_blank');
+    });
+  }
+  viewFiles(eventId: any) {
+    //this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:6} });
+  this.router.navigate([]).then((result) => {
+      window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${6}`, '_blank');
+    });
+  }
+  viewTasks(eventId: any) {
+    // this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:8} });
+ this.router.navigate([]).then((result) => {
+      window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${8}`, '_blank');
+    });
+  }
+  viewTimeline(eventId: any) {
+    // this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:7} });
+this.router.navigate([]).then((result) => {
+      window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${7}`, '_blank');
+    });
+  }
   eventHistory() {
     this.isEventHistory = true;
     this.eventListingSrvc.getEventsList(1).subscribe((res: any) => {

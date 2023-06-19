@@ -53,7 +53,9 @@ export class EventTimelineFunctionComponent
     private toaster: ToastrService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+ 
+  }
 
   ngAfterViewInit(): void {
     this.tlineRenderTrigrSubs = this.eventTimelineService.render.subscribe(
@@ -93,6 +95,7 @@ export class EventTimelineFunctionComponent
   }
 
   fetchVenuesData(callback: () => void): void {
+   
     if (this.fetchEventVenueSubs) {
       this.fetchEventVenueSubs.unsubscribe();
     }
@@ -101,7 +104,6 @@ export class EventTimelineFunctionComponent
         .fetchEventVenues(this.eventId)
         .subscribe(
           (value) => {
-            console.log('vanues...', value);
             this.venues = value;
             this.timelineType = EventTimelineType.SERVICES;
             if (Array.isArray(this.venues) && this.venues.length > 0) {

@@ -4,7 +4,7 @@
             <div class="eleven wide column middle aligned" *ngIf="data.commonData">
                 <div class="eventInfo"><b>{{data.commonData.title}}</b> for
                     <span>{{data.commonData.clientCompanyName}}</span> {{data.commonData.eventStartDate |
-                    date:'dd-MMMM-YYYY'}}</div>
+                    date:'dd-MMMM-yyyy'}}</div>
             </div>
             <div class="sixteen wide column maxWidth">
                 <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui"

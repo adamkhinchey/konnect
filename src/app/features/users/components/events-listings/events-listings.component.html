@@ -2,7 +2,8 @@
     <div class="ui container">
         <div class="ui grid">
             <div class="sixteen wide column">
-                <h2 id="toScheduledEvents" class="ui dividing header">{{!isEventHistory ? 'Scheduled Events' : 'Event History'}}</h2>
+                <h2 id="toScheduledEvents" class="ui dividing header">{{!isEventHistory ? 'Scheduled Events' : 'Event
+                    History'}}</h2>
                 <div class="visibleMobile">
                     <div class="ui grid">
                         <div class="eight wide column" (click)="eventHistory()">
@@ -15,7 +16,8 @@
                     </div>
                 </div>
                 <div class="createEvent hideMobile" *ngIf="(isApproved || !isViewPermission )">
-                    <div class="ui button compact basic blue" (click)="eventHistory()"><i class="undo icon"></i>Event History</div>
+                    <div class="ui button compact basic blue" (click)="eventHistory()"><i class="undo icon"></i>Event
+                        History</div>
                     <a (click)="createEvent()" class="ui button compact ml-1"><i class="plus circle icon"></i>Create
                         Event</a>
                 </div>
@@ -26,17 +28,21 @@
                                 <div class="ui grid stackable" id="september21">
                                     <div class="three wide column center aligned">
                                         <div class="ui statistic marginB0">
-                                            <div class="value" *ngIf="checkIsSame(event.eventStartDate, event.eventEndDate)">
+                                            <div class="value"
+                                                *ngIf="checkIsSame(event.eventStartDate, event.eventEndDate)">
                                                 {{event.eventStartDate | date:'dd'}}
                                             </div>
-                                            <div class="value" *ngIf="!checkIsSame(event.eventStartDate, event.eventEndDate)">
+                                            <div class="value"
+                                                *ngIf="!checkIsSame(event.eventStartDate, event.eventEndDate)">
                                                 {{event.eventStartDate | date:'dd'}} - {{event.eventEndDate |
                                                 date:'dd'}}
                                             </div>
-                                            <div class="label" *ngIf="checkIsSame(event.eventStartDate, event.eventEndDate)">
+                                            <div class="label"
+                                                *ngIf="checkIsSame(event.eventStartDate, event.eventEndDate)">
                                                 {{event.eventStartDate | date:'MMMM'}}
                                             </div>
-                                            <div class="label" *ngIf="!checkIsSame(event.eventStartDate, event.eventEndDate)">
+                                            <div class="label"
+                                                *ngIf="!checkIsSame(event.eventStartDate, event.eventEndDate)">
                                                 {{event.eventStartDate | date:'MMMM'}} {{event.eventEndDate ? '-' : ''}}
                                                 {{event.eventEndDate |
                                                 date:'MMMM'}}
@@ -44,15 +50,58 @@
                                         </div>
                                     </div>
                                     <div class="nine wide column">
-                                        <h2 class="marginT10" style="cursor: pointer;"><a (click)="viewEvent(event.eventId)">{{event.title}}</a></h2>
+                                        <h2 class="marginT10" style="cursor: pointer;"><a
+                                                (click)="viewEvent(event.eventId)">{{event.title}}</a>
+                                           <a  class="right_arrow_img" (click)="viewEventNewTab(event.eventId)"><img src="/assets/img/right_arrow_icon.png"></a>
+                                           
+                                            </h2>
                                         <h4>{{event.clientCompanyName}}</h4>
-                                        <h4>{{event.venues[0].venueCompanyName}}<span *ngIf="event.venues[0].streetAddress1 && event.venues[0].streetAddress1 != ''">, {{event.venues[0].streetAddress1}}</span><span *ngIf="event.venues[0].streetAddress2 && event.venues[0].streetAddress2 != ''">, {{event.venues[0].streetAddress2}}</span><span *ngIf="event.venues[0].venueState && event.venues[0].venueState != ''">, {{event.venues[0].venueState}}</span><span *ngIf="event.venues[0].venueCity && event.venues[0].venueCity != ''">, {{event.venues[0].venueCity}}</span></h4>
+                                        <h4>{{event.venues[0].venueCompanyName}}<span
+                                                *ngIf="event.venues[0].streetAddress1 && event.venues[0].streetAddress1 != ''">,
+                                                {{event.venues[0].streetAddress1}}</span><span
+                                                *ngIf="event.venues[0].streetAddress2 && event.venues[0].streetAddress2 != ''">,
+                                                {{event.venues[0].streetAddress2}}</span><span
+                                                *ngIf="event.venues[0].venueState && event.venues[0].venueState != ''">,
+                                                {{event.venues[0].venueState}}</span><span
+                                                *ngIf="event.venues[0].venueCity && event.venues[0].venueCity != ''">,
+                                                {{event.venues[0].venueCity}}</span></h4>
+                                        <p class="iconspace">
+
+                                            <a (click)="viewEventClient(event.eventId)"  style="cursor: pointer">
+                                                <img _ngcontent-qan-c453="" src="./assets/img/client-icon.png" width="20px">
+                                            </a>
+                                            <a  (click)="viewEventManager(event.eventId)" style="cursor: pointer">
+                                                <img _ngcontent-vtu-c453=""
+                                                    src="./assets/img/event-manager-icon.png" width="20px">
+                                            </a>
+
+                                            <a class="map marker alternate icon" (click)="viewVanue(event.eventId)" style="cursor: pointer">
+                                                <i _ngcontent-jnj-c453="" class="map marker alternate icon colorBlack"></i>
+                                            </a>
+                                            <a (click)="viewSuppliers(event.eventId)" style="cursor: pointer">
+                                                <i _ngcontent-fje-c453="" class="truck icon colorBlack"></i>
+                                            </a>
+                                            <a  (click)="viewExhibitors(event.eventId)"  style="cursor: pointer">
+                                                <i _ngcontent-oll-c453="" class="exhibitor icon colorBlack"></i>
+                                            </a>
+                                            <a (click)="viewFiles(event.eventId)"  style="cursor: pointer">
+                                                <i _ngcontent-oll-c453="" class="file alternate icon colorBlack"></i>
+                                            </a>
+                                            <a  (click)="viewTasks(event.eventId)"  style="cursor: pointer">
+                                                <i _ngcontent-oll-c453="" class="tasks alternate icon colorBlack"></i>
+                                            </a>
+                                            <a   (click)="viewTimeline(event.eventId)" style="cursor: pointer">
+                                                <i _ngcontent-oll-c453="" class="clock icon colorBlack"></i>
+                                            </a>
+                                        </p>
+
                                     </div>
                                     <div class="four wide column">
                                         <h4 class="columnTitle">My roles</h4>
                                         <p class="mb-0" *ngFor="let service of event.services">{{service.serviceName}}:
                                             {{service.roleName}}</p>
                                     </div>
+
                                 </div>
                                 <div class="ui divider specialDivider"></div>
                             </ng-container>
@@ -132,8 +181,8 @@
                                     </div>
                                 </div>
                                 <div class="hideMobile">
-                                    <div class="ui button basic blue compact clndr-today-button" (click)="changeToTodaysView()"><i
-                                            class="undo icon"></i>Today</div>
+                                    <div class="ui button basic blue compact clndr-today-button"
+                                        (click)="changeToTodaysView()"><i class="undo icon"></i>Today</div>
                                     <div class="ui calendar" id="button_calendar">
                                         <div class="ui popup calendar" tabindex="0">
                                             <table
@@ -171,7 +220,8 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div class="ui button compact" (click)="reset()"><i class="undo icon"></i>Reset</div>
+                                        <div class="ui button compact" (click)="reset()"><i class="undo icon"></i>Reset
+                                        </div>
                                     </div>
                                 </div>
                             </div>

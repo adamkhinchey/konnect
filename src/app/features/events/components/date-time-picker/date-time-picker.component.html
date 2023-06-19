@@ -10,6 +10,6 @@
 
 <input type="text" class="timeWindowDate" [owlDateTimeTrigger]="dt1" [max]="max" [readOnly]="true" [disabled]="true"
        placeholder="Date Time" (dateTimeChange)="setDateTime($event)"
-       [value]="eventDateTime | dateFilter: 'dd/MM/YYYY, h:mm a'" [ngClass]="{'opacity-35': freeze}">
+       [value]="eventDateTime | dateFilter: 'dd/MM/yyyy, h:mm a'" [ngClass]="{'opacity-35': freeze}">
 
 <owl-date-time #dt1 [disabled]="freeze"></owl-date-time>

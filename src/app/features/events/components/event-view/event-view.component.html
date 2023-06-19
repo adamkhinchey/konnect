@@ -17,7 +17,7 @@
     <div class="ui container">
         <div class="ui grid">
             <div class="eleven wide column middle aligned topinfoOuterMar" *ngIf="data.commonData">
-                <div class="eventInfo"><b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span> {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}</div>
+                <div class="eventInfo"><b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span> {{data.commonData.eventStartDate | date:'dd-MMMM-yyyy'}}</div>
             </div>
             <div class="sixteen wide column maxWidth">
                 <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui"
@@ -175,7 +175,7 @@
                                                             class="trash alternate icon"></i>Delete Event</div>
                                                     &nbsp;&nbsp;&nbsp;Event created by
                                                     {{data.eventData.creatorCompanyName}},
-                                                    {{data.eventData.eventCreatedDate | date:'dd-MM-YYYY'}}
+                                                    {{data.eventData.eventCreatedDate | date:'dd-MM-yyyy'}}
                                                     {{data.eventData.eventCreatedDate | date:'hh:mm'}}
                                                 </div>
                                                 <div class="six wide column right aligned hideMobile">

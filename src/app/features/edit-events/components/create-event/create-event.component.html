@@ -7,13 +7,13 @@
             <div class="eleven wide column middle aligned" *ngIf="data.commonData">
               <div *ngIf="!checkIsSame(data.commonData.eventStartDate, data.commonData.eventEndDate)" class="eventInfo">
                 <b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
-                {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}} - {{data.commonData.eventEndDate |
-                date:'dd-MMMM-YYYY'}}
+                {{data.commonData.eventStartDate | date:'dd-MMMM-yyyy'}} - {{data.commonData.eventEndDate |
+                date:'dd-MMMM-yyyy'}}
               </div>
 
               <div *ngIf="checkIsSame(data.commonData.eventStartDate, data.commonData.eventEndDate)" class="eventInfo">
                 <b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
-                {{data.commonData.eventStartDate | date:'dd-MMMM-YYYY'}}
+                {{data.commonData.eventStartDate | date:'dd-MMMM-yyyy'}}
               </div>
 
             </div>
@@ -104,11 +104,15 @@
         </ng-container>
         <ng-container eventFiles *ngIf="data.eventData && data.eventData.eventId">
           <app-event-files-function [permissionObj]="permissionObj" [eventID]="data.eventData.eventId">
+            
           </app-event-files-function>
+         
         </ng-container>
-        <ng-container timeline *ngIf="data.eventData && data.eventData.eventId">
+        <ng-container timeline *ngIf="active == 7 && data.eventData && data.eventData.eventId">
           <app-event-timeline-function [eventId]="data.eventData.eventId" [permissionObj]="permissionObj">
+           
           </app-event-timeline-function>
+          
         </ng-container>
         <ng-container tasks *ngIf="active == 8 && data.eventData && !data.eventData.client && !data.eventData.eventManager">
           <app-tasks [eventData]="data">

@@ -38,3 +38,43 @@ $custom-calendar-theme: igx-calendar-theme(
 :host ::ng-deep {
     @include igx-calendar($custom-calendar-theme);
 }
+
+.iconspace {margin: 5px 0;}
+.iconspace a{
+    margin-right: 6px !important;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    float: left;
+    align-items: center;
+    background: #fff;
+    padding: 5px;
+    border: 1px solid #dfdfdf;
+    border-radius: 50%;
+}
+
+
+.iconspace a img{
+   width: 12px;
+}
+.iconspace a i{
+   font-size: 12px; margin-right: 0px !important;
+ }
+
+ .iconspace i.icon{ height: 19px !important;}
+ .iconspace .exhibitor.icon{ height: 15px !important;}
+ .iconspace .exhibitor.icon::before {
+    width: 11px !important;
+}
+.scheduledEventsDDWidth { max-width: 234px; }
+.colorBlack { color: #000; }
+
+.right_arrow_img img
+{
+    width: 20px !important;
+    border: 1px solid #eee;
+    padding: 4px;
+    margin-left: 5px;
+    border-radius: 2px;
+}
+  

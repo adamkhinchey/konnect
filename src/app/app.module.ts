@@ -16,6 +16,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     SharedModule,
     CoreModule,
     EventsModule,
+    FormsModule,
     UsersModule,
     AppRoutingModule,
     FontAwesomeModule,

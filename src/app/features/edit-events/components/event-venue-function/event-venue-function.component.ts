@@ -293,9 +293,13 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     }
   }
   changeConfigPermission(panel: any) {
+
+    console.log('this.isVenueEdit',this.isVenueEdit);
+    console.log('panel?.isViewPermission',panel?.isViewPermission);
+    console.log('this.permissionObj.isVenue',this.permissionObj);
     if (
       !this.isVenueEdit ||
-      (!panel?.isViewPermission && !this.permissionObj.isVenue)
+      ( !panel?.isViewPermission || this.permissionObj.isVenue==true || (this.permissionObj.isVenue == false &&this.permissionObj.isClient == false &&this.permissionObj.isEventManager == false&&this.permissionObj.isExhibitor == false && this.permissionObj.isService == false && this.permissionObj.isCrew == false))
     )  {
       this.config1.editable = false;
       this.config1.showToolbar = false;
@@ -314,6 +318,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   }
 
   checkPermission(isViewPermission: any) {
+    console.log("isViewPermission1111",isViewPermission);
     if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
       return false
     } else {
@@ -322,6 +327,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
   }
 
   checkPermission1(isViewPermission: any) {
+    console.log('isViewPermission2222',isViewPermission);
     if (this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1 || isViewPermission == 1) {
       return true
     } else {
@@ -331,6 +337,7 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
 
 
   checkIsVenueEditable(isViewPermission: any) {
+    console.log('isViewPermission333',isViewPermission)
     if ((this.eventData.userPermission.isClient == 1 || this.eventData.userPermission.isEventManager == 1) && isViewPermission == 1) {
       return true
     } else {

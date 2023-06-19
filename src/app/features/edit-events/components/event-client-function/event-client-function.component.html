@@ -136,7 +136,7 @@
               (click)="deleteEvent(eventData.eventData.eventId)"><i class="trash alternate icon"></i>Delete Event</div>
             &nbsp;&nbsp;&nbsp;<span *ngIf="!eventData.eventData.isDeleted">Event created by
               {{eventToBeSaved.creatorCompanyName}},
-              {{eventToBeSaved.eventCreatedDate | date:'dd-MM-YYYY'}}
+              {{eventToBeSaved.eventCreatedDate | date:'dd-MM-yyyy'}}
               {{eventToBeSaved.eventCreatedDate | date:'HH:mm'}}</span>
           </div>
           <div class="six wide column right aligned"

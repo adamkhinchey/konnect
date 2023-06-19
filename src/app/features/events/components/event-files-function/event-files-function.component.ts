@@ -216,6 +216,7 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
   }
 
   showVenuesFilesSection(): boolean {
+    console.log('this.eventFiles?.data.files?.FFAV?.venuesFiles?.some(venueFile => venueFile.venueId)',this.eventFiles?.data.files?.FFAV?.venuesFiles?.some(venueFile => venueFile.venueId));
     return !!this.eventFiles?.data.files?.FFAV?.venuesFiles?.some(venueFile => venueFile.venueId);
   }
 

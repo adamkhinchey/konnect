@@ -7,7 +7,7 @@ const APIURL =
   'https://cbact74fu2.execute-api.ap-southeast-2.amazonaws.com/prod';
 const siteURL =
   'http://platform-user-website.s3-website-ap-southeast-2.amazonaws.com';
-
+  const importLambdaUrl = 'https://pvhe3yvqkulyyrpcsfdk7arwyi0ykiaf.lambda-url.ap-southeast-2.on.aws/';
 export const environment = {
   production: true,
   env: 'prod',
@@ -18,7 +18,7 @@ export const environment = {
   jwtKey: 'tkn',
   imageFileUploadSize: 5 * 1024 * 1024, // 5MB
   imageFileAllowedFormats: ['image/jpeg', 'image/png'],
-  eventFileAllowedSize: 100 * 1024 * 1024, // 100MB,
+  eventFileAllowedSize: 200 * 1024 * 1024, // 200MB,
   eventFileAllowedFormat: [
     'image/jpeg',
     'image/png',
@@ -40,6 +40,7 @@ export const environment = {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   ],
   siteURL,
+  importLambdaUrl,
   eventContactLabels,
   headerName:'Konnect'
 };

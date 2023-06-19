@@ -20,7 +20,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { EventService } from '../../services/event.service';
 import { EventAssignFunctionCmpComponent } from '../event-assign-function-cmp/event-assign-function-cmp.component';
 import { EventVenueFunctionComponent } from '../event-venue-function/event-venue-function.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { EventSuppliersFunctionComponent } from '../event-suppliers-function/event-suppliers-function.component';
 import { EventExhibitorsFunctionComponent } from '../event-exhibitors-function/event-exhibitors-function.component';
 import { EventTimelineService } from '../../services/event-timeline.service';
@@ -28,7 +28,7 @@ import { cloneDeep } from 'lodash-es';
 import { ViewEventService } from '../../services/view-event.service';
 import * as _ from 'lodash';
 import * as moment from 'moment'
-
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 export interface VenuueCompany extends Company {
   venueId?: number;
   supplierId?: number;
@@ -48,6 +48,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('suppliersFn') suppliersFn: EventSuppliersFunctionComponent | undefined;
   @ViewChild('exhibitorsFn') exhibitorsFn: EventExhibitorsFunctionComponent | undefined;
   active = 1;
+  isPast=false;
   disabled = true;
   modalReference: NgbModalRef | undefined;
   eventToBeSaved = new SaveEventClass();
@@ -81,7 +82,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   isEditEvents: boolean = false;
   isSaveDisable: boolean = false;
 
-  permissionObj = { isCrew: false,isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false, clientAccessPermission: false };
+  permissionObj = { isCrew: false, isClient: false, isEventManager: false, isService: false, isVenue: false, isExhibitor: false, clientAccessPermission: false };
   public isClientEditable = false;
   public isManagerEditable = false;
   public isVenueEditable = false;
@@ -92,7 +93,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   public exhibitorCount: number = 0;
   public emitedCrew: number = 0;
   isSticky: boolean = false;
-  isEmailVerified:boolean|undefined =false;
+  isEmailVerified: boolean | undefined = false;
 
   constructor(
     // public modalService: NgbModal,
@@ -101,11 +102,22 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     public authService: AuthService,
     public eventService: EventService,
     public router: Router,
+    public route: ActivatedRoute,
     public eventTimelineService: EventTimelineService,
     public viewEvSrvc: ViewEventService,
     public _cdr: ChangeDetectorRef,
+
   ) {
+    this.route.queryParams.subscribe(params => {
+      this.active = parseInt(params['action']);
+      if(parseInt(params['action'])==null){
+        console.log("parseInt(params['action'])",parseInt(params['action']))
+      }
+    });
+
+   
   }
+
 
   edit() {
     this.eventService.isEdit = true;
@@ -171,7 +183,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       this.isEditEvents = value;
     })
     this.eventService.isSaveDisabledChange.subscribe((value) => {
-      console.log('isSaveDisableValue: ', value)
       this.isSaveDisable = value;
     })
 
@@ -195,7 +206,32 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     //   }
     // });
     if (this.eventId) {
+      
       this.getEventsById(this.active);
+      if(this.active==1){
+        this.selectedFunction=this.active;
+      }
+      if(this.active==2){
+        this.selectedFunction=this.active;
+      }
+      if(this.active==3){
+        this.selectedFunction=this.active;
+      }
+      if(this.active==4){
+        this.selectedFunction=this.active;
+      }
+      if(this.active==5){
+        this.selectedFunction=this.active;
+      }
+      if (this.active == 7) {
+        this.selectedFunction=this.active;
+        this.getEventsById(this.active);
+      }
+      if (this.active == 6) {
+        this.selectedFunction=this.active;
+        this.getEventsById(this.active);
+      }
+
     }
   }
 
@@ -221,7 +257,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getEventsById(tabType: any) {
     this.viewEvSrvc.getEventsByEventId(this.eventId, tabType, this.defaultCompany.id).subscribe((res: any) => {
-      console.log(res,'res tab type',tabType);
+      console.log('res.eventData++++++',res.eventData);
       if (res && res.eventData) {
         if (tabType === 1) {
           this.data.eventData = res.eventData;
@@ -347,14 +383,15 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
         if (tabType === 3) {
-          this.venueCompanies=[];
-          this.venueContactLists=[];
+          this.venueCompanies = [];
+          this.venueContactLists = [];
           this.data.eventData = res.eventData;
           if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
             this.eventService.activeVenuePanelIndex = 0;
             this.eventToBeSaved.venues = {
               notesToAll: this.data.eventData.venues[0].venueNotesToAll,
               list: (this.data.eventData.venues.map((venue: any) => {
+                console.log('venue.preEventTime',venue.preEventTime);
                 return {
                   companyId: venue.venueCompanyId,
                   venueId: venue.venueId,
@@ -394,8 +431,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                   suppliers: [],
                   exhibitorList: []
                 };
+               
               }) as VenueListItemInterface[])
             };
+console.log('this.eventToBeSaved.venues 1',this.eventToBeSaved.venues);
+
 
             const venues = this.data.eventData.venues;
             for (let i = 0; i < venues.length; i++) {
@@ -537,7 +577,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                             isPrivate: contact.isPrivate || 0
                           };
                         });
-                        console.log('contacts: ', cloneDeep(contacts));
                         this.eventService.addFetchedVenueSrvcCmpCnt({ contactList: contacts, serviceIndex, venueIndex });
                         return {
                           name: service.serviceName,
@@ -575,11 +614,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 };
               }) as VenueListItemInterface[])
             };
+            console.log('this.eventToBeSaved.venues 2',this.eventToBeSaved.venues);
             const venues = this.data.eventData.venues;
             for (let i = 0; i < venues.length; i++) {
               let venueId: number = venues[i].venueId;
               let findVenueId = _.find(this.venueCompanies, { venueId });
-              console.log('find venue: ', findVenueId);
               if (!findVenueId && findVenueId == undefined) {
                 this.venueCompanies?.push(({
                   venueId: venues[i].venueId,
@@ -626,7 +665,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.venueContactLists.push(contacts);
               }
             }
-            console.log(this.eventToBeSaved);
             // if (venue.services.length - 1 === serviceIndex) {
             this.eventService.navigatesToSuppliers.next()
             // }
@@ -772,6 +810,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                 };
               }) as VenueListItemInterface[])
             };
+
+            console.log('this.eventToBeSaved.venues 3',this.eventToBeSaved.venues);
+
+           
             const venues = this.data.eventData.venues;
             for (let i = 0; i < venues.length; i++) {
               let venueId: number = venues[i].venueId;
@@ -835,14 +877,13 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         if (tabType === 8) {
           this.data.eventData = res.eventData;
-          // this.eventTimelineService.render.next();
         }
       }
 
       if (res && res.userPermission) {
-        if (this.isEmailVerified){
+        if (this.isEmailVerified) {
           this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
-          this.permissionObj.clientAccessPermission = res.userPermission.clientAccessPermission ;
+          this.permissionObj.clientAccessPermission = res.userPermission.clientAccessPermission;
           this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
           this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
           this.permissionObj.isService = res.userPermission.isService == 0 ? false : true;
@@ -887,13 +928,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       tempMap.set(this.selectedFunction, true);
       this.eventService.setIsFnOwnCompany.next(tempMap);
     }
-
     if (changeEvent.nextId === EventFunctionTypes.TIMELINE) {
       this.eventTimelineService.render.next();
     }
-
     if (changeEvent.nextId === EventFunctionTypes.TIMELINE || changeEvent.nextId === EventFunctionTypes.FILES) {
       this.eventService.hideInfoBar = true;
+
     } else {
       this.eventService.hideInfoBar = false;
     }
@@ -1012,6 +1052,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         };
         break;
       case EventFunctionTypes.VENUE:
+
         const activatedVenuePanelIndex = this.eventService.activeVenuePanelIndex;
         if (activatedVenuePanelIndex !== null && this.venueCompanies) {
           devLogger('log', activatedVenuePanelIndex);
@@ -1032,6 +1073,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           // @ts-ignore
           this.venueFn?.venueAssignCmp.get(activatedVenuePanelIndex).setSelectedCompany(company);
           this.setSelectedFnCompanyContacts([]);
+
           devLogger('log', { venueCompaniesContactList: this.venueContactLists[activatedVenuePanelIndex] });
         }
         break;
@@ -1056,7 +1098,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setIsCrew(event: any) {
-    console.log('is Crew on create event: ', event);
     this.emitedCrew = event;
   }
 
@@ -1119,12 +1160,14 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
                * then after loop venueContactLists=[[someVal, someVal],[someVal],[],[]]
                */
               this.venueContactLists.push([]);
+
             }
           }
           if (!this.venueContactLists[activatedVenuePanelIndex]) {
             this.venueContactLists[activatedVenuePanelIndex] = [];
           }
           this.venueContactLists[activatedVenuePanelIndex].push(...contactList);
+
           this.venueContactLists = [...this.venueContactLists];
           let venueAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
           let venueCrewAssignCmpCnt: EventAssignFunctionCmpComponent | undefined;
@@ -1263,14 +1306,11 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       case EventFunctionTypes.VENUE:
         if (typeof jIndex === 'number') {
-          console.log('before splice: ', cloneDeep(this.venueContactLists[index]));
           this.venueContactLists[index].splice(jIndex, 1);
-          console.log('after splice: ', cloneDeep(this.venueContactLists[index]));
           // @ts-ignore
           const venueAssignCmpCnt = this.venueFn?.venueAssignCmp.get(index);
           // @ts-ignore
           const venueCrewAssignCmpCnt = this.venueFn?.venueCrewAssignCmp.get(index);
-          console.log('Venue assign: ', venueAssignCmpCnt);
           if (venueAssignCmpCnt) {
             venueAssignCmpCnt.setContactList(this.venueContactLists[index]);
           }
@@ -1369,7 +1409,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
           // @ts-ignore
           if (!(this.venueCompanies[i] instanceof InviteFnCmpClass) && (this.venueCompanies[i] as Company).id) {
             const contactList = this.venueContactLists[i]?.map(cnt => {
-              console.log(cnt);
               return {
                 id: cnt.id,
                 email: cnt.email,
@@ -1473,9 +1512,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         devLogger('log', { beforeFilterVenExh: this.eventToBeSaved.venues?.list });
         for (const venuesList of this.eventToBeSaved.venues?.list) {
-          console.log('venues list...', venuesList)
-          if(cloneDeep(venuesList.exhibitorList[0] && venuesList.exhibitorList[0]!.notesToAll)){
-            console.log('in condition');
+          if (cloneDeep(venuesList.exhibitorList[0] && venuesList.exhibitorList[0]!.notesToAll)) {
             venuesList.notesToAllExGlobal = venuesList.exhibitorList[0]?.notesToAll;
             venuesList.timeWindowsToAllExGlobal = venuesList.exhibitorList[0]?.timeWindowsToAll;
           }
@@ -1515,8 +1552,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
       exhibitorIndex: null,
       shouldInvite: false
     }): void {
-
-    console.log(param);
+console.log('this.selectedFunction',this.selectedFunction);
 
     switch (this.selectedFunction) {
       case EventFunctionTypes.CLIENT:
@@ -1552,7 +1588,6 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         // });
         break;
       case EventFunctionTypes.VENUE:
-        console.log('contact list in venue: ', this.venueContactLists)
         // this.saveClient(false);
         // this.saveEvMgr(false);
         if (typeof param !== 'boolean') {
@@ -1646,6 +1681,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private isEventClientValid(): boolean {
+    console.log('Inside Create Event',this.clientCompany)
     if (!this.clientCompany) {
       this.toaster.error('Please select a client company');
       this.isEventClientInvalid = true;
@@ -1691,13 +1727,10 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
     this.venueCompanies = cloneDeep(this.venueCompanies);
     this.venueContactLists = cloneDeep(this.venueContactLists)
     if (this.venueCompanies && this.venueCompanies.length > 0) {
-      console.log(cloneDeep(this.venueCompanies));
-      console.log(cloneDeep(this.venueContactLists))
       /*
       * clean venue companies and there corresponding contacts
       * which are removed i.e venueCompany===null
        */
-      console.log(this.venueContactLists);
       for (let i = 0; i < this.venueCompanies.length; i++) {
         if (this.venueCompanies[i] === null) {
           this.venueContactLists.splice(i, 1);
@@ -1833,3 +1866,5 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 }
+
+

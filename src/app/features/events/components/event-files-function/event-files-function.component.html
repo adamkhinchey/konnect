@@ -136,7 +136,7 @@
           </div>
         </div>
       </div>
-      <div   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"   class="ui grid docsContainer">
+      <div   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue;  else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.FFAV">
             <a class="ui mini button basic"

@@ -430,8 +430,12 @@ export class EventExhibitorsFunctionComponent
     }
   }
   changeConfigPermission(exhibitor:any) {
+    
+    console.log('this.isExhibitorEdit',this.isExhibitorEdit);
+    console.log('exhibitor?.isViewPermission',exhibitor?.isViewPermission);
+    console.log('this.permissionObj.isExhibitor',this.permissionObj);
     if (!this.isExhibitorEdit ||
-      (!exhibitor?.isViewPermission && !this.permissionObj.isExhibitor)) {
+      !exhibitor?.isViewPermission || (this.permissionObj.isClient == false&&this.permissionObj.isExhibitor==true&& this.permissionObj.isEventManager==false) || (this.permissionObj.isVenue == false &&this.permissionObj.isClient == false &&this.permissionObj.isEventManager == false&&this.permissionObj.isExhibitor == false && this.permissionObj.isService == false && this.permissionObj.isCrew == false)) {
       this.config2.editable = false;
       this.config2.showToolbar = false;
     } else {

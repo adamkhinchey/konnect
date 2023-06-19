@@ -10,3 +10,4 @@ export * from './event-file-signed-uri-req.interface';
 export * from './event-file-to-db-req.interface';
 export * from './event-timeline-data.interface';
 export * from './venue-time-changed-subject.interface';
+export * from './event-url-to-db-req.interface';

@@ -18,7 +18,7 @@
                 <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[0]}}</span>
 
                 <span class="dateStartEndContainer" *ngFor="let dateTimes of preEventTimes; let timeIndex = index;">
-                  {{dateTimes.startDateTime | date:'dd/MM/YYYY'}}
+                  {{dateTimes.startDateTime | date:'dd/MM/yyyy'}}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} -
                   {{dateTimes.endDateTime | date:'h:mm a'}}</span>
 
@@ -121,7 +121,7 @@
                 <span class="titleMinWidth"><i class="dropdown icon"></i> {{windowLabels && windowLabels[1]}}</span>
 
                 <span class="dateStartEndContainer" *ngFor="let dateTimes of eventTimes; let timeIndex = index;">
-                  {{dateTimes.startDateTime | date:'dd/MM/YYYY'}}
+                  {{dateTimes.startDateTime | date:'dd/MM/yyyy'}}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} -
                   {{dateTimes.endDateTime | date:'h:mm a'}}</span>
               </div>
@@ -221,7 +221,7 @@
 
                 <span class="dateStartEndContainer"
                   *ngFor="let dateTimes of postEventTimes; let timeIndex = index;">{{dateTimes.startDateTime |
-                  date:'dd/MM/YYYY'}}
+                  date:'dd/MM/yyyy'}}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dateTimes.startDateTime | date:'h:mm a'}} -
                   {{dateTimes.endDateTime | date:'h:mm a'}}</span>
               </div>

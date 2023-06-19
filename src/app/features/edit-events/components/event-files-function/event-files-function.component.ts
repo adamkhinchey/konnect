@@ -6,7 +6,7 @@ import {Subscription} from 'rxjs';
 import {EventFiles} from '../../models/classes';
 import {EventFileTypes, ClientPermissionTypes} from '../../models/types';
 import {EventFilesSignedURLReq} from '../../models/interfaces';
-
+import { Clipboard } from '@angular/cdk/clipboard';
 @Component({
   selector: 'app-event-files-function',
   templateUrl: './event-files-function.component.html',
@@ -35,17 +35,24 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
     mimeType: string;
   }[] = [];
 
+  existingLinks: {
+    label: string;
+    URL: string;
+    fileId: number;
+  }[] = [];
+
   constructor(
     private modalService: NgbModal,
-    private eventService: EventService) {
+    private eventService: EventService,
+    private clipboard: Clipboard
+    ) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
   }
 
   ngOnInit(): void {
-      console.log('event id...', this.eventID);
-      console.log('permission obj...',  this.permissionObj)
+      
       if(!this.permissionObj){
         this.permissionObj= {isClient: true, isEventManager: true, isService: true, isVenue: true, isExhibitor: true}; 
 
@@ -64,13 +71,17 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
         this.eventFiles = new EventFiles(value.data.event);
         this.eventFilesSignedURLReqPayload.eventUid = this.eventFiles.data.eventUid;
         this.eventFilesSignedURLReqPayload.eventId = this.eventFiles.data.eventId;
-        console.log("this.eventFiles ", this.eventFiles.data.files); 
+        console.log("this.eventFiles adfasfasf", this.eventFiles.data.files); 
         devLogger('log', {eventFiles: this.eventFiles});
       }, (err) => {
         devLogger('error', {err});
       });
   }
-
+  public copyToClipboardWithParameter(value: HTMLElement): void {
+    const text: string = value.textContent || '';
+    console.log(text);
+    const successful = this.clipboard.copy(text);
+}
   contentUpload(
     content: any,
     fileType: EventFileTypes,
@@ -107,45 +118,61 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
   setExistingFiles(uploadingFileType: EventFileTypes, index?: number): void {
     switch (uploadingFileType) {
       case EventFileTypes.CLIENT_EVENT_MANAGER_SHARED_FILES:
+        this.existingLinks=this.eventFiles?.data?.files?.CEMSF?.linklist || [];
         this.existingFiles = this.eventFiles?.data?.files?.CEMSF?.list || [];
         return;
       case EventFileTypes.CLIENT_INTERNAL_FILES:
         this.existingFiles = this.eventFiles?.data?.files?.CIF?.list || [];
+        this.existingLinks = this.eventFiles?.data?.files?.CIF?.linklist || [];
         return;
       case EventFileTypes.EVENT_FILES:
         this.existingFiles = this.eventFiles?.data?.files?.EF?.list || [];
+        this.existingLinks = this.eventFiles?.data?.files?.EF?.linklist || [];
         return;
       case EventFileTypes.EVENT_MANAGEMENT_INTERNAL_FILES:
         this.existingFiles = this.eventFiles?.data?.files?.EMIF?.list || [];
+        this.existingLinks = this.eventFiles?.data?.files?.EMIF?.linklist || [];
         return;
       case EventFileTypes.FILES_FOR_ALL_VENUES:
         this.existingFiles = this.eventFiles?.data?.files?.FFAV?.list || [];
+        this.existingLinks = this.eventFiles?.data?.files?.FFAV?.linklist || [];
         return;
       case EventFileTypes.FILES_FOR_ALL_SUPPLIERS:
         this.existingFiles = this.eventFiles?.data?.files?.FFAS?.list || [];
+        this.existingLinks = this.eventFiles?.data?.files?.FFAS?.linklist || [];
         return;
       case EventFileTypes.FILES_FOR_ALL_EXHIBITORS:
         this.existingFiles = this.eventFiles?.data?.files?.FFAE?.list || [];
+        this.existingLinks = this.eventFiles?.data?.files?.FFAE?.linklist || [];
         return;
       case EventFileTypes.VENUE_FLOOR_PLAN: {
         const venuesFiles = this.eventFiles?.data?.files?.FFAV?.venuesFiles;
+
+        console.log('venuesFiles',venuesFiles)
         if (venuesFiles && typeof index === 'number' && venuesFiles[index]) {
           const venueFiles = venuesFiles[index];
+          console.log('venueFiles',venueFiles)
           const FLOOR_PLAN = venueFiles?.FLOOR_PLAN;
           this.existingFiles = FLOOR_PLAN?.list || [];
+          this.existingLinks= FLOOR_PLAN?.linklist || [];
         } else {
           this.existingFiles = [];
+          this.existingLinks = [];
         }
         return;
       }
       case EventFileTypes.VENUE_SHARED_FILES: {
         const venuesFiles = this.eventFiles?.data?.files?.FFAV?.venuesFiles;
+        console.log('venuesFiles',venuesFiles);
         if (venuesFiles && typeof index === 'number' && venuesFiles[index]) {
           const venueFiles = venuesFiles[index];
           const VSF = venueFiles?.VSF;
+          console.log('VSF',VSF);
           this.existingFiles = VSF?.list || [];
+          this.existingLinks = VSF?.linklist || [];
         } else {
           this.existingFiles = [];
+          this.existingLinks = [];
         }
         return;
       }
@@ -155,8 +182,11 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
           const venueFiles = venuesFiles[index];
           const VIF = venueFiles?.VIF;
           this.existingFiles = VIF?.list || [];
+          this.existingLinks = VIF?.linklist || [];
+
         } else {
           this.existingFiles = [];
+          this.existingLinks = [];
         }
         return;
       }
@@ -166,8 +196,10 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
           const supplierFiles = suppliersFiles[index];
           const SSF = supplierFiles?.SSF;
           this.existingFiles = SSF?.list || [];
+          this.existingLinks = SSF?.linklist || [];
         } else {
           this.existingFiles = [];
+          this.existingLinks = [];
         }
         return;
       }
@@ -177,8 +209,10 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
           const supplierFiles = suppliersFiles[index];
           const SIF = supplierFiles?.SIF;
           this.existingFiles = SIF?.list || [];
+          this.existingLinks = SIF?.linklist || [];
         } else {
           this.existingFiles = [];
+          this.existingLinks = [];
         }
         return;
       }
@@ -188,8 +222,10 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
           const exhibitorFiles = exhibitorsFiles[index];
           const EBSF = exhibitorFiles?.EBSF;
           this.existingFiles = EBSF?.list || [];
+          this.existingLinks = EBSF?.linklist || [];
         } else {
           this.existingFiles = [];
+          this.existingLinks = [];
         }
         return;
       }
@@ -199,8 +235,10 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
           const exhibitorFiles = exhibitorsFiles[index];
           const EBIF = exhibitorFiles?.EBIF;
           this.existingFiles = EBIF?.list || [];
+          this.existingLinks = EBIF?.linklist || [];
         } else {
           this.existingFiles = [];
+          this.existingLinks = [];
         }
         return;
       }

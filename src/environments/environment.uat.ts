@@ -17,7 +17,7 @@ export const environment = {
   jwtKey: 'tkn',
   imageFileUploadSize: 5 * 1024 * 1024, // 5MB
   imageFileAllowedFormats: ['image/jpeg', 'image/png'],
-  eventFileAllowedSize: 100 * 1024 * 1024, // 100MB,
+  eventFileAllowedSize: 200 * 1024 * 1024, // 200MB,
   eventFileAllowedFormat: [
     'image/jpeg',
     'image/png',

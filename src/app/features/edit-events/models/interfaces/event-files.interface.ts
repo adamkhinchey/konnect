@@ -19,9 +19,16 @@ interface FileListObject {
   mimeType: string;
 }
 
+interface FileLinkObject{
+  label:string;
+  URL:string;
+  fileId:number;
+}
+
 interface FilesData {
   key: string;
   list: FileListObject[];
+  linklist:FileLinkObject[];
   isViewPermission: number; 
   isSelfIncludedInTab: number; 
   isSelfIncludedInSection: number; 

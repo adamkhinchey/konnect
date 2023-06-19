@@ -96,9 +96,9 @@
                           <div *ngIf="selectedCompanies && selectedCompanies[i]" class="ui one column grid">
                             <div class="column">
                               <div class="ui fluid card">
-                                <!-- <div class="content"  *ngIf="permissionObj.isClient || permissionObj.isEventManager  || panel?.isViewPermission==1 ; else no_access"> -->
+                                <div class="content" >
                                   <!-- access for all permission or readonly/restricted permission -->
-                                <div class="content"  *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || panel?.isViewPermission==1 || panel?.isViewPermission==2 ||  panel?.isViewPermission==3; else no_access">
+                                <!-- <div class="content"  *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || panel?.isViewPermission==1 || panel?.isViewPermission==2 ||  panel?.isViewPermission==3; else no_access"> -->
                                   <span *ngIf="selectedCompanies[i]!.isPrivate && selectedCompanies[i]!.isSeed == 0"
                                     class="ui blue right corner label popupNotes adjustTri"
                                     data-content="Private Contact">
@@ -149,7 +149,7 @@
                       <app-event-assign-function-cmp #venueAssignCmp [selectedCompany]="getSelectedCompany(i)"
                         [tabName]="'venueTab'"
                         [contactList]="getVenueContacts(i)" [permissionObj]="permissionObj"
-                        [isViewPermission]="panel?.isViewPermission"
+                        [isViewPermission]="true"
                         [isSelfIncludedInTab]="panel?.isSelfIncludedInTab"
                         [isSelfIncludedInSection]="panel?.isSelfIncludedInSection"
                         [clientCmpBtnLabel]="'Add Venue'"

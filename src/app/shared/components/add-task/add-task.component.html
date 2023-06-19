@@ -37,11 +37,11 @@
                     <div class="ui grid">
                         <div class="six wide column">
                             <!-- <input type="text" placeholder="" class="form-control" formControlName="dueDate"> -->
-                            <input #inptask class="form-control shadow-input" formControlName="dueDate" [owlDateTime]="dt1"
-                                placeholder="Due Date" [min]="minimumDate" (dateTimeChange)="setDateTime($event)">
+                            <input #inptask class="form-control shadow-input" formControlName="dueDate" readonly [owlDateTime]="dt1"
+                                placeholder="Due Date" [min]="minimumDate"(dateTimeChange)="setDateTime($event)">
 
                             <input type="text" class="form-control timeWindowDate"
-                                [value]="f.dueDate.value | dateFilter: 'dd/MM/YYYY'" formControlName="dueDate"
+                                [value]="f.dueDate.value | dateFilter: 'dd/MM/yyyy'" readonly formControlName="dueDate"
                                 [owlDateTimeTrigger]="dt1" placeholder="" (dateTimeChange)="setDateTime($event)">
 
                             <owl-date-time #dt1 [pickerType]="'calendar'" [disabled]="f.taskId.value > 0 && taskData.isTaskOwner == 0"></owl-date-time>

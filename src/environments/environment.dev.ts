@@ -3,7 +3,8 @@ import countries from './countries';
 import companyCategories from './company-categories';
 import eventContactLabels from './event-contact-label-list';
 
-const APIURL = 'https://yxraels57k.execute-api.ap-southeast-2.amazonaws.com/dev';
+const APIURL = 'http://192.168.0.124:3005/uat';
+// const APIURL = 'https://yxraels57k.execute-api.ap-southeast-2.amazonaws.com/dev';
 const siteURL = 'http://dev-user-website.s3-website-ap-southeast-2.amazonaws.com';
 const importLambdaUrl = 'https://gds6ucmu4dyexvfrtynp3gw25q0nbckx.lambda-url.ap-southeast-2.on.aws/';
 
@@ -17,7 +18,7 @@ export const environment = {
   jwtKey: 'tkn',
   imageFileUploadSize: 5 * 1024 * 1024, // 5MB
   imageFileAllowedFormats: ['image/jpeg', 'image/png'],
-  eventFileAllowedSize: 100 * 1024 * 1024, // 100MB,
+  eventFileAllowedSize: 200 * 1024 * 1024, // 200MB,
   eventFileAllowedFormat: [
     'image/jpeg',
     'image/png',

@@ -10,7 +10,8 @@ import {HttpErrRespHandlerService} from '../../../shared/services';
 import {devLogger, hideSpinnerPostApiCall} from '../../../shared/utils';
 import {ApiResponseModelInterface} from '../../../shared/models';
 import {EventFileTypes} from '../models/types';
-import {EventFilesSignedURLReq, EventFileToDbReqInterface} from "../models/interfaces";
+import {EventFilesSignedURLReq, EventFileToDbReqInterface,EventurlToDbReqInterface} from "../models/interfaces";
+import { param } from 'jquery';
 
 interface SignedURLApiResponseModel extends ApiResponseModelInterface {
   data: {
@@ -89,6 +90,23 @@ export class EventFileUploadDeleteService {
       });
   }
 
+  UploadURL(param:any):Observable<any>  {
+    console.log('param++++ New ',param)
+    this.spinner.show();
+    return this.http.post<ApiResponseModelInterface>(
+  `${this.apiBaseUrl}/addEventURL`,
+  { ...param }
+  
+).pipe(
+  hideSpinnerPostApiCall(this.spinner),
+  
+  take(1),
+  this.httpErrHandler.processError(false),
+ 
+  map(response => response?.data || null)
+);
+  }
+
   private doUpload(fileIndex: number,
                    signedUploadUrl: string,
                    url: string,
@@ -162,8 +180,21 @@ export class EventFileUploadDeleteService {
   }
 
   deleteFile(param: { eventId: number | undefined; fileId: number }): Observable<ApiResponseModelInterface> {
+    console.log('this.apiBaseUrl In File',this.apiBaseUrl);
     this.spinner.show();
     return this.http.delete<ApiResponseModelInterface>(`${this.apiBaseUrl}/event/${param.eventId}/files/${param.fileId}`)
+      .pipe(
+        take(1),
+        hideSpinnerPostApiCall(this.spinner),
+        this.httpErrHandler.processError(false)
+      );
+
+  }
+
+  deleteLink(param: { eventId: number | undefined; fileId: number }): Observable<ApiResponseModelInterface> {
+    console.log('this.apiBaseUrl In File',this.apiBaseUrl);
+    this.spinner.show();
+    return this.http.delete<ApiResponseModelInterface>(`${this.apiBaseUrl}/event/${param.eventId}/file/${param.fileId}`)
       .pipe(
         take(1),
         hideSpinnerPostApiCall(this.spinner),

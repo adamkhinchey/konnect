@@ -80,6 +80,7 @@ export class EventViewComponent implements OnInit,OnDestroy {
       }
       if (res && res.userPermission) {
         if (this.isEmailVerified){
+          console.log('this.permissionObj.isVenue',this.permissionObj.isVenue);
           this.permissionObj.isClient = res.userPermission.isClient == 0 ? false : true;
           this.permissionObj.isEventManager = res.userPermission.isEventManager == 0 ? false : true;
           this.permissionObj.isVenue = res.userPermission.isVenue == 0 ? false : true;
