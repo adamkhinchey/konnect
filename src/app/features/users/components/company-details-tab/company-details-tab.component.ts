@@ -104,11 +104,49 @@ export class CompanyDetailsTabComponent
           .email.substring(domainNameStartIndex + 1)
           .trim()
           .split('@')[1];
+          console.log("domain data ++++",domain)
       }
     } else {
       try {
         // domain = domain.split('@')[1];
         console.log('domain in else...', domain);
+
+if(searchKeyword==null){
+
+
+  const param =
+  this.router.url === '/create-konnect-profile' ||
+  this.router.url.indexOf('create-konnect-profile') != -1
+    ? {  domain, includePrivate: 1 }
+    : {  domain };
+
+    // console.log("param for search+++",param);
+this.cmpSearchSubscription = this.companiesService.searchDomain(param).subscribe(
+  (
+    value:
+      | { company: Company | null; companyList: Company[] | null }
+      | null
+      | undefined
+  ) => {
+    devLogger('log', { value });
+    if (value) {
+      if (value.company) {
+        this.company = value.company;
+        console.log("this.company+++++",this.company);
+      } else {
+        this.searchForCompany = true;
+      }
+      if (value.companyList) {
+        this.companyList = value.companyList;
+      }
+    }
+  },
+  (error) => {
+    devLogger('error', error);
+  }
+);
+}
+
       } catch (err) {}
     }
     const param =
@@ -116,6 +154,8 @@ export class CompanyDetailsTabComponent
       this.router.url.indexOf('create-konnect-profile') != -1
         ? { searchKeyword, domain, includePrivate: 1 }
         : { searchKeyword, domain };
+
+        console.log("param for search+++",param);
     this.cmpSearchSubscription = this.companiesService.search(param).subscribe(
       (
         value:

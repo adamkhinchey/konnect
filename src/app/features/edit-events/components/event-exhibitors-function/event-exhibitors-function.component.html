@@ -17,10 +17,9 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <form class="ui form visible" style="display: block !important;">
             <div class="ui grid stackable">
 
-              <div class="sixteen wide column saveButtons paddingT0">
-                <div class="ui divider"></div>
+              <div class="sixteen wide column saveButtons paddingT0 paddingB0">
                 <div class="ui grid stackable">
-                  <div class="sixteen wide column right aligned">
+                  <div class="sixteen wide column right aligned paddingT0">
 
                     <!-- <button class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="(permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor) && (venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length && !isNotesEdit)" (click)="editNotes()">
                       Edit
@@ -38,10 +37,11 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                   </div>
                 </div>
+                <div class="ui divider"></div>
               </div>
 
               <div class="seven wide column" *ngIf="venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length">
-                <div class="ui dividing header">
+                <div class="ui dividing header mt-0">
                   <h3>Notes to All Exhibitors
                     <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
                     <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px"> </i>
@@ -71,7 +71,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                 <div class="field">
                   <div class="timeWindowsContainer">
-                    <div class="ui dividing header">
+                    <div class="ui dividing header mt-0">
                       <h3>Exhibition Time windows
                         <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
                         <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px"> </i>

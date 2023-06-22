@@ -9,7 +9,7 @@
           <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i></h3>
           </div>
           <div class="six wide column right aligned">
-            <div class="ui button compact mini basic circular addDocuments hasModal"
+            <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.CLIENT_EVENT_MANAGER_SHARED_FILES)">
               <i class="upload icon">
               </i>Upload
@@ -20,7 +20,7 @@
       <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.CEMSF">
-            <a class="ui mini button basic"
+            <a class="ui mini button primary-outlineBtn"
                *ngFor="let listItem of eventFiles!.data!.files!.CEMSF!.list"
                [href]="listItem.fileUrl"
                target="_blank">
@@ -40,7 +40,7 @@
             <h3>Client Internal Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i></h3>
           </div>
           <div class="six wide column right aligned">
-            <div class="ui button compact mini basic circular addDocuments hasModal"
+            <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.CLIENT_INTERNAL_FILES)"><i class="upload icon"></i>Upload
             </div>
           </div>
@@ -49,7 +49,7 @@
       <div  *ngIf="permissionObj.isClient; else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.CIF">
-            <a class="ui mini button basic"
+            <a class="ui mini button primary-outlineBtn"
                *ngFor="let listItem of eventFiles!.data!.files!.CIF!.list"
                [href]="listItem.fileUrl"
                target="_blank">
@@ -70,7 +70,7 @@
           </div>
 
           <div class="six wide column right aligned">
-            <div class="ui button compact mini basic circular addDocuments hasModal"
+            <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.EVENT_MANAGEMENT_INTERNAL_FILES)"><i class="upload icon"></i>Upload
             </div>
           </div>
@@ -79,7 +79,7 @@
       <div  *ngIf="permissionObj.isEventManager; else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.EMIF">
-            <a class="ui mini button basic"
+            <a class="ui mini button primary-outlineBtn"
                *ngFor="let listItem of eventFiles!.data!.files!.EMIF!.list"
                [href]="listItem.fileUrl"
                target="_blank">
@@ -99,7 +99,7 @@
             <h3>Event Files <i class="globe icon"></i></h3>
           </div>
           <div class="six wide column right aligned">
-            <div class="ui button compact mini basic circular addDocuments hasModal"
+            <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.EVENT_FILES)"><i class="upload icon"></i>Upload
             </div>
           </div>
@@ -108,7 +108,7 @@
       <div class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.EF">
-            <a class="ui mini button basic"
+            <a class="ui mini button primary-outlineBtn"
                *ngFor="let listItem of eventFiles!.data!.files!.EF!.list"
                [href]="listItem.fileUrl"
                target="_blank">
@@ -130,7 +130,7 @@
               class="map marker alternate icon"></i></h3>
           </div>
           <div class="six wide column right aligned">
-            <div class="ui button compact mini basic circular addDocuments hasModal"
+            <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_VENUES)"><i class="upload icon"></i>Upload
             </div>
           </div>
@@ -139,7 +139,7 @@
       <div   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue;  else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.FFAV">
-            <a class="ui mini button basic"
+            <a class="ui mini button primary-outlineBtn"
                *ngFor="let listItem of eventFiles!.data!.files!.FFAV!.list"
                [href]="listItem.fileUrl"
                target="_blank">
@@ -178,7 +178,7 @@
                         <h3>Floorplan <i class="globe icon"></i></h3>
                       </div>
                       <div class="six wide column right aligned">
-                        <div class="ui button compact mini basic circular addDocuments hasModal"
+                        <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_FLOOR_PLAN,{venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
                         </div>
@@ -188,7 +188,7 @@
                   <div class="ui grid docsContainer">
                     <div class="sixteen wide column">
                       <ng-container *ngIf="venueFileItem.FLOOR_PLAN">
-                        <a class="ui mini button basic"
+                        <a class="ui mini button primary-outlineBtn"
                            *ngFor="let listItem of venueFileItem.FLOOR_PLAN.list"
                            [href]="listItem.fileUrl"
                            target="_blank">
@@ -209,7 +209,7 @@
                           class="building icon"></i></h3>
                       </div>
                       <div class="six wide column right aligned">
-                        <div class="ui button compact mini basic circular addDocuments hasModal"
+                        <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_SHARED_FILES, {venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
                         </div>
@@ -219,7 +219,7 @@
                   <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || venueFileItem?.isViewPermisssion==1; else no_access"  class="ui grid docsContainer">
                     <div class="sixteen wide column">
                       <ng-container *ngIf="venueFileItem.VSF">
-                        <a class="ui mini button basic"
+                        <a class="ui mini button primary-outlineBtn"
                            *ngFor="let listItem of venueFileItem!.VSF!.list"
                            [href]="listItem.fileUrl"
                            target="_blank">
@@ -239,7 +239,7 @@
                         <h3>Venue Internal Files <i class="building icon"></i></h3>
                       </div>
                       <div class="six wide column right aligned">
-                        <div class="ui button compact mini basic circular addDocuments hasModal"
+                        <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_INTERNAL_FILES, {venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Upload
                         </div>
@@ -249,7 +249,7 @@
                   <div  *ngIf="venueFileItem?.isViewPermisssion == 1; else no_access"   class="ui grid docsContainer">
                     <div class="sixteen wide column">
                       <ng-container *ngIf="venueFileItem.VIF">
-                        <a class="ui mini button basic"
+                        <a class="ui mini button primary-outlineBtn"
                            *ngFor="let listItem of venueFileItem!.VIF!.list"
                            [href]="listItem.fileUrl"
                            target="_blank">
@@ -290,7 +290,7 @@
             </h3>
           </div>
           <div class="six wide column right aligned">
-            <div class="ui button compact mini basic circular addDocuments hasModal"
+            <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_SUPPLIERS)">
               <i class="upload icon"></i>Upload
             </div>
@@ -300,7 +300,7 @@
       <div   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isService; else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.FFAS">
-            <a class="ui mini button basic"
+            <a class="ui mini button primary-outlineBtn"
                *ngFor="let listItem of eventFiles!.data!.files!.FFAS!.list"
                [href]="listItem.fileUrl"
                target="_blank">
@@ -343,7 +343,7 @@
                             class="building icon"></i></h3>
                         </div>
                         <div class="six wide column right aligned">
-                          <div class="ui button compact mini basic circular addDocuments hasModal"
+                          <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_SHARED_FILES, {serviceId: supplierItem.serviceId},i)">
                             <i class="upload icon"></i>Upload
                           </div>
@@ -353,7 +353,7 @@
                     <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || supplierItem?.isViewPermisssion==1; else no_access"  class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="supplierItem?.SSF">
-                          <a class="ui mini button basic"
+                          <a class="ui mini button primary-outlineBtn"
                              *ngFor="let listItem of supplierItem!.SSF!.list"
                              [href]="listItem.fileUrl"
                              target="_blank">
@@ -373,7 +373,7 @@
                           <h3>Supplier Internal Files <i class="building icon"></i></h3>
                         </div>
                         <div class="six wide column right aligned">
-                          <div class="ui button compact mini basic circular addDocuments hasModal"
+                          <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_INTERNAL_FILES,{serviceId:supplierItem.serviceId},i)">
                             <i class="upload icon"></i>Upload
                           </div>
@@ -383,7 +383,7 @@
                     <div  *ngIf="supplierItem?.isViewPermisssion == 1; else no_access"   class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="supplierItem?.SIF">
-                          <a class="ui mini button basic"
+                          <a class="ui mini button primary-outlineBtn"
                              *ngFor="let listItem of supplierItem!.SIF!.list"
                              [href]="listItem.fileUrl"
                              target="_blank">
@@ -427,7 +427,7 @@
             </h3>
           </div>
           <div class="six wide column right aligned">
-            <div class="ui button compact mini basic circular addDocuments hasModal"
+            <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                  (click)="contentUpload(uploadFilesModal, fileType.FILES_FOR_ALL_EXHIBITORS)"><i class="upload icon"></i>Upload
             </div>
           </div>
@@ -436,7 +436,7 @@
       <div   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.FFAE">
-            <a class="ui mini button basic"
+            <a class="ui mini button primary-outlineBtn"
                *ngFor="let listItem of eventFiles!.data!.files!.FFAE!.list"
                [href]="listItem.fileUrl"
                target="_blank">
@@ -478,7 +478,7 @@
                             class="building icon"></i></h3>
                         </div>
                         <div class="six wide column right aligned">
-                          <div class="ui button compact mini basic circular addDocuments hasModal"
+                          <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_SHARED_FILES,{exhibitorId:exhibitorFileItem.exhibitorId},i)">
                             <i class="upload icon"></i>Upload
                           </div>
@@ -488,7 +488,7 @@
                     <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitorFileItem?.isViewPermisssion==1; else no_access"   class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="exhibitorFileItem?.EBSF">
-                          <a class="ui mini button basic"
+                          <a class="ui mini button primary-outlineBtn"
                              *ngFor="let listItem of exhibitorFileItem!.EBSF!.list"
                              [href]="listItem.fileUrl"
                              target="_blank">
@@ -508,7 +508,7 @@
                           <h3>Exhibitor Internal Files <i class="building icon"></i></h3>
                         </div>
                         <div class="six wide column right aligned">
-                          <div class="ui button compact mini basic circular addDocuments hasModal"
+                          <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_INTERNAL_FILES, {exhibitorId:exhibitorFileItem.exhibitorId},i)">
                             <i class="upload icon"></i>Upload
                           </div>
@@ -518,7 +518,7 @@
                     <div  *ngIf="exhibitorFileItem?.isViewPermisssion==1; else no_access"   class="ui grid docsContainer">
                       <div class="sixteen wide column">
                         <ng-container *ngIf="exhibitorFileItem?.EBIF">
-                          <a class="ui mini button basic"
+                          <a class="ui mini button primary-outlineBtn"
                              *ngFor="let listItem of exhibitorFileItem!.EBIF!.list"
                              [href]="listItem.fileUrl"
                              target="_blank">
