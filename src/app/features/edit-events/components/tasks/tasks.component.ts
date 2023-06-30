@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 export class TasksComponent implements OnInit, OnDestroy {
   active: any = '1';
   @Input() eventData: any;
+  
   defaultCompanyId: any;
   data: any;
   allVenues: boolean = false;
@@ -37,7 +38,9 @@ export class TasksComponent implements OnInit, OnDestroy {
     public modalSrvc: NgbModal,
     public eventSrvc: EventService,
     public userSettingsService: UserSettingsService
-  ) {}
+  ) {
+    console.log("eventData",this.eventData)
+  }
 
   navChange(ev: any) {
     console.log('nav change...',ev);

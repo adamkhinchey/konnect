@@ -1,0 +1,31 @@
+.accordion-heading{
+    padding: 10px;
+    cursor: pointer;
+    color: rgb(24, 22, 22);
+    border: 1px solid black;
+    font-weight: 600;
+    margin-top: 4px;
+    border-radius: 2px;
+}
+
+.accordion-content{
+    transition: 4s ease-in-out;
+    padding: 10px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    animation-name: slideDown;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    animation-timing-function: ease;
+    -webkit-animation-timing-function: ease;
+}
+
+.up-icon{
+    transition: 0.2s ease-out;
+}
+
+.icon{
+    animation-name: icon;
+    transform: rotate(180deg);
+    transition: 0.2 ease-out;
+}

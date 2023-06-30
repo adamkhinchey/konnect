@@ -876,6 +876,11 @@ console.log('this.eventToBeSaved.venues 1',this.eventToBeSaved.venues);
           this.eventTimelineService.render.next();
         }
         if (tabType === 8) {
+
+          this.data.eventData = res.eventData;
+        }
+        if (tabType === 9) {
+          
           this.data.eventData = res.eventData;
         }
       }

@@ -2,6 +2,15 @@
 
   <ul ngbNav #nav="ngbNav"  [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui"
       (navChange)="navChange($event)">
+      <li [ngbNavItem]="9">
+        <a ngbNavLink class="item tabAdmin">
+          <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="20px" > </i>
+          <span
+          class="hideMobile">OVERVIEW</span></a>
+        <ng-template ngbNavContent>
+          <ng-content select="[Overview]"></ng-content>
+        </ng-template>
+      </li>
     <li [ngbNavItem]="1">
       <a ngbNavLink class="item tabAdmin">
         <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="20px" > </i>
@@ -77,6 +86,15 @@
 
 <ul ngbNav #nav="ngbNav"  [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui"
     (navChange)="navChange($event)">
+    <li [ngbNavItem]="9">
+      <a ngbNavLink class="item tabAdmin">
+        <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="20px" > </i>
+        <span
+        class="hideMobile">OVERVIEW TAB</span></a>
+      <ng-template ngbNavContent>
+        <ng-content select="[Overview]"></ng-content>
+      </ng-template>
+    </li>
   <li [ngbNavItem]="1">
     <a ngbNavLink class="item tabAdmin">
       <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="20px" > </i>
