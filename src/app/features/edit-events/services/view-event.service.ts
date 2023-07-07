@@ -26,6 +26,7 @@ export class ViewEventService {
   }
 
   getEventsByEventId(eventId: any, tabType: any, loginCompanyId:any=''): Observable<any> {
+    
     this.spinner.show();
    
     return this.http.get<ApiResponseModelInterface>(
@@ -38,6 +39,7 @@ export class ViewEventService {
       })
     );
   }
+
   deleteEvent(eventId: any): Observable<any> {
     this.spinner.show();
     return this.http.get<ApiResponseModelInterface>(

@@ -131,15 +131,16 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked ,OnDest
   }
 
   viewEvent(eventId: any) {
-      this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:1} });
+      this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:9} });
     // this.router.navigate([]).then((result) => {
     //   window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${1}`, '_blank');
     // });
   }
+  
   viewEventNewTab(eventId: any) {
     // this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:1} });
   this.router.navigate([]).then((result) => {
-    window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${1}`, '_blank');
+    window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${9}`, '_blank');
   });
 }
 

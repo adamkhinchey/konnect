@@ -10,7 +10,6 @@
 
 .accordion-content{
     transition: 4s ease-in-out;
-    padding: 10px;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
     animation-name: slideDown;
@@ -28,4 +27,7 @@
     animation-name: icon;
     transform: rotate(180deg);
     transition: 0.2 ease-out;
+}
+.accoTabIconLineHeight {
+    line-height: 8px;
 }

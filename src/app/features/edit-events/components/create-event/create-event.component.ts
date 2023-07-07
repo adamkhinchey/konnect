@@ -227,11 +227,12 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectedFunction=this.active;
         this.getEventsById(this.active);
       }
+      
       if (this.active == 6) {
         this.selectedFunction=this.active;
         this.getEventsById(this.active);
       }
-
+    
     }
   }
 
@@ -257,7 +258,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getEventsById(tabType: any) {
     this.viewEvSrvc.getEventsByEventId(this.eventId, tabType, this.defaultCompany.id).subscribe((res: any) => {
-      console.log('res.eventData++++++',res.eventData);
+   
       if (res && res.eventData) {
         if (tabType === 1) {
           this.data.eventData = res.eventData;
@@ -878,6 +879,7 @@ console.log('this.eventToBeSaved.venues 1',this.eventToBeSaved.venues);
         if (tabType === 8) {
 
           this.data.eventData = res.eventData;
+
         }
         if (tabType === 9) {
           

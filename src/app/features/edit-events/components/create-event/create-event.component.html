@@ -118,8 +118,8 @@
           <app-tasks [eventData]="data">
           </app-tasks>
         </ng-container>
-        <ng-container Overview *ngIf="active == 9 && data.eventData && !data.eventData.client && !data.eventData.eventManager">
-          <app-overview>
+        <ng-container Overview *ngIf="active == 9 ">
+          <app-overview [eventId]="data.eventData.eventId" [BlankData]="data.commonData" [permissionObj]="permissionObj">
             </app-overview>
         </ng-container>
       </app-event-panel-nav>

@@ -94,8 +94,6 @@ export class EventViewComponent implements OnInit,OnDestroy {
         this.data.commonData = res.commonData;
       }
 
-
-
       if (tabType === 7) {
         this.eventTimelineSrvc.render.next();
       }

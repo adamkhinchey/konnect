@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { AddTaskComponent } from 'src/app/shared/components/add-task/add-task.component';
 import { UserSettingsService } from 'src/app/shared/services';
@@ -12,7 +12,7 @@ import * as _ from 'lodash';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss'],
 })
-export class TasksComponent implements OnInit, OnDestroy {
+export class TasksComponent implements OnInit, OnDestroy, OnChanges {
   active: any = '1';
   @Input() eventData: any;
   
@@ -34,14 +34,19 @@ export class TasksComponent implements OnInit, OnDestroy {
   datedcheck: boolean = false;
   datedcompletedcheck: boolean = false;
   assignToData: any = [];
+  childData: any;
   constructor(
     public modalSrvc: NgbModal,
     public eventSrvc: EventService,
     public userSettingsService: UserSettingsService
   ) {
-    console.log("eventData",this.eventData)
   }
-
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.parentData) {
+      this.childData = changes.parentData.currentValue;
+      console.log("this.childData++++++",this.childData);
+    }
+  }
   navChange(ev: any) {
     console.log('nav change...',ev);
     this.active = ev.nextId;
@@ -50,12 +55,19 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    await this.getAssingToList();
-    await this.getEventTasks();
+      console.log("this.eventData.eventData.eventId++++",this.eventData);
+      if(this.eventData){
+         this.getAssingToList();
+         this.getEventTasks();
+        }
+   
+   
+  
   }
 
   async getAssingToList() {
-    this.eventSrvc.getAssignToList(this.eventData.eventData.eventId).subscribe(
+
+    this.eventSrvc.getAssignToList(this.eventData?.eventData?.eventId).subscribe(
       (res: any) => {
         console.log(res);
         this.data = res.data;
@@ -92,6 +104,7 @@ export class TasksComponent implements OnInit, OnDestroy {
         console.log(err);
       }
     );
+
   }
 
   async getEventTasks() {

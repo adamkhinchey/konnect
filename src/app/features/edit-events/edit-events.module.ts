@@ -1,8 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {OwlDateTimeModule, OwlNativeDateTimeModule} from '@danielmoncada/angular-datetime-picker';
-
-
 import {EventsRoutingModule} from './events-routing.module';
 import {EventPanelComponent} from './components/event-panel/event-panel.component';
 import {CreateEventComponent} from './components/create-event/create-event.component';
@@ -33,6 +31,15 @@ import { TasksComponent } from './components/tasks/tasks.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { EventFilesOverviewComponent } from './components/event-files-function-overview/event-files-function-overview.component';
+import { EventClientoverviewComponent } from './components/event-client-overview/event-client-overview.component';
+import { EventManagerOverviewComponent } from './components/event-manager-overview/event-manager-overview.component';
+import { EventVenueOverviewComponent } from './components/event-venue-overview/event-venue-overview.component';
+import { EventSuppliersOverviewComponent } from './components/event-suppliers-overview/event-suppliers-overview.component';
+import { EventExhibitorsOverviewComponent } from './components/event-exhibitors-overview/event-exhibitors-overview.component';
+import { EventTimelineOverviewComponent } from './components/event-timeline-overview/event-timeline-overview.component';
+import { EventAssignCrewFunctionCmpOverviewComponent } from './components/event-assign-crew-function-overview-cmp/event-assign-crew-function-cmp-overview.component';
+import { EventAssignFunctionCmpOverviewComponent } from './components/event-assign-function-cmp-overview/event-assign-function-cmp-overview.component';
 
 @NgModule({
   declarations: [
@@ -42,12 +49,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     EventPanelNavComponent,
     EventClientFunctionComponent,
     EventManagerFunctionComponent,
+    EventManagerOverviewComponent,
     EventVenueFunctionComponent,
+    EventVenueOverviewComponent,
     EventSuppliersFunctionComponent,
+    EventSuppliersOverviewComponent,
     EventExhibitorsFunctionComponent,
+    EventExhibitorsOverviewComponent,
     EventFilesFunctionComponent,
     EventTimelineFunctionComponent,
+    EventTimelineOverviewComponent,
     EventAssignFunctionCmpComponent,
+    EventAssignFunctionCmpOverviewComponent,
     SearchOrInviteFunctionCmpComponent,
     SearchOrInviteFnCmpCntComponent,
     TimeWindowsComponent,
@@ -56,8 +69,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     EventViewComponent,
     EventGanttChartComponent,
     EventAssignCrewFunctionCmpComponent,
+    EventAssignCrewFunctionCmpOverviewComponent,
     TasksComponent,
-    OverviewComponent
+    OverviewComponent,
+    EventFilesOverviewComponent,
+    EventClientoverviewComponent
     
   ],
   imports: [

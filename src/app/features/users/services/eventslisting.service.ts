@@ -37,4 +37,20 @@ export class EventslistingService {
       })
     );
   }
+
+  getCurrentEventsList(Obj:any): Observable<any> {
+  // console.log("Obj+++++",Obj);
+    this.spinner.show();
+    return this.http.get<ApiResponseModelInterface>(
+      `${this.apiBaseUrl}/getCurrentEventsList?eventId=${Obj}`
+    ).pipe(
+      hideSpinnerPostApiCall(this.spinner),
+      this.httpErrorHandler.processError(),
+      map(response => {
+        return response;
+      })
+    );
+  }
+
+
 }

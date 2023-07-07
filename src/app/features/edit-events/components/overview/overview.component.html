@@ -1,36 +1,31 @@
 <div class="ui segment">
     <div class="activeEventsContainer">
-        <ng-container *ngIf="eventsCopy && eventsCopy.length;">
+        <ng-container *ngIf="eventsCopy && eventsCopy.length; ">
             <ng-container *ngFor="let event of eventsCopy;">
                 <div class="ui grid stackable" id="september21">
                     <div class="three wide column center aligned">
                         <div class="ui statistic marginB0">
-                            <div class="value"
-                                *ngIf="checkIsSame(event.eventStartDate, event.eventEndDate)">
+                            <div class="value" *ngIf="checkIsSame(event.eventStartDate, event.eventEndDate)">
                                 {{event.eventStartDate | date:'dd'}}
                             </div>
-                            <div class="value"
-                                *ngIf="!checkIsSame(event.eventStartDate, event.eventEndDate)">
+                            <div class="value" *ngIf="!checkIsSame(event.eventStartDate, event.eventEndDate)">
                                 {{event.eventStartDate | date:'dd'}} - {{event.eventEndDate |
                                 date:'dd'}}
                             </div>
-                            <div class="label"
-                                *ngIf="checkIsSame(event.eventStartDate, event.eventEndDate)">
+                            <div class="label" *ngIf="checkIsSame(event.eventStartDate, event.eventEndDate)">
                                 {{event.eventStartDate | date:'MMMM'}}
                             </div>
-                            <div class="label"
-                                *ngIf="!checkIsSame(event.eventStartDate, event.eventEndDate)">
+                            <div class="label" *ngIf="!checkIsSame(event.eventStartDate, event.eventEndDate)">
                                 {{event.eventStartDate | date:'MMMM'}} {{event.eventEndDate ? '-' : ''}}
                                 {{event.eventEndDate |
                                 date:'MMMM'}}
                             </div>
                         </div>
                     </div>
-                    <div class="nine wide column">
-                        <h2 class="marginT10" style="cursor: pointer;"><a
-                                >{{event.title}}</a>
-                         
-                            </h2>
+                    <div class="nine wide column" *ngIf="event.title!=null else  noVenues">
+                        <h2 class="marginT10"><a>{{event.title}}</a>
+
+                        </h2>
                         <h4>{{event.clientCompanyName}}</h4>
                         <h4>{{event.venues[0].venueCompanyName}}<span
                                 *ngIf="event.venues[0].streetAddress1 && event.venues[0].streetAddress1 != ''">,
@@ -41,36 +36,235 @@
                                 {{event.venues[0].venueState}}</span><span
                                 *ngIf="event.venues[0].venueCity && event.venues[0].venueCity != ''">,
                                 {{event.venues[0].venueCity}}</span></h4>
-                       
+
 
                     </div>
-                   
+                    <ng-template #noVenues> 
+                        <div class="nine wide column" >
+                        <h2 class="marginT10"><a>{{BlankData.title}}</a>
+
+                        </h2>
+                        <h4>{{BlankData.clientCompanyName}}</h4>
+                        <h4>{{BlankData.venues[0].venueCompanyName}}<span
+                                *ngIf="BlankData.venues[0].streetAddress1 && BlankData.venues[0].streetAddress1 != ''">,
+                                {{BlankData.venues[0].streetAddress1}}</span><span
+                                *ngIf="BlankData.venues[0].streetAddress2 && BlankData.venues[0].streetAddress2 != ''">,
+                                {{BlankData.venues[0].streetAddress2}}</span><span
+                                *ngIf="BlankData.venues[0].venueState && BlankData.venues[0].venueState != ''">,
+                                {{BlankData.venues[0].venueState}}</span><span
+                                *ngIf="BlankData.venues[0].venueCity && BlankData.venues[0].venueCity != ''">,
+                                {{BlankData.venues[0].venueCity}}</span></h4>
+                                </div>
+                      </ng-template>
+                    <!-- <div class="nine wide column" *ngIf="event.title==undefined">
+                        <h2 class="marginT10"><a>{{data.commonData.title}}</a>
+
+                        </h2>
+                        <h4>{{data.commonData.clientCompanyName}}</h4>
+                        <h4>{{data.commonData.venues[0].venueCompanyName}}<span
+                                *ngIf="data.commonData.venues[0].streetAddress1 && data.commonData.venues[0].streetAddress1 != ''">,
+                                {{data.commonData.venues[0].streetAddress1}}</span><span
+                                *ngIf="data.commonData.venues[0].streetAddress2 && data.commonData.venues[0].streetAddress2 != ''">,
+                                {{data.commonData.venues[0].streetAddress2}}</span><span
+                                *ngIf="data.commonData.venues[0].venueState && data.commonData.venues[0].venueState != ''">,
+                                {{data.commonData.venues[0].venueState}}</span><span
+                                *ngIf="data.commonData.venues[0].venueCity && data.commonData.venues[0].venueCity != ''">,
+                                {{data.commonData.venues[0].venueCity}}</span></h4>
+
+
+                    </div> -->
+
 
                 </div>
                 <div class="ui divider specialDivider"></div>
             </ng-container>
 
         </ng-container>
-    
-          <div class="container">
-<div class="accordion-heading"  (click)="aacordia('8')">TASKS
-<span class="pull-right up-icon">
-    <i class="fa fa-chevron-up" > 
 
-    </i>
-
-</span>
-</div>
-<div class="accordion-content" *ngIf="id=='8'" >
-    <app-tasks [eventData]="data">
-    </app-tasks>
-</div>
-
-          </div>
+        <div class="container">
+            <div class="accordion-heading" (click)="aacordiaTask('8')">TASKS
+                <span class="float-right up-icon accoTabIconLineHeight" >
+                    <i [class]="divClassTask"></i>
+                </span>
+            </div>
            
-          
-          
-<hr />
+        </div>
 
+        <div class="accordion-content">
+            <ng-container *ngIf="taskid == 8 && dataTask.eventData && !dataTask.eventData.client && !dataTask.eventData.eventManager">
+            <app-tasks [eventData]="dataTask"></app-tasks>
+            </ng-container>
+        </div>
+        <div class="container">
+            <div class="accordion-heading" (click)="aacordiaFiles('6')">FILES
+                <span class="float-right up-icon accoTabIconLineHeight">
+                    <i [class]="divClassFile"></i>
+                </span>
+            </div>
+           
+        </div>
+
+        <div class="accordion-content">
+            <ng-container  *ngIf="fileid==6 && dataFile.eventData && dataFile.eventData.eventId">
+                <app-event-overview-file [permissionObj]="permissionObj" [eventID]="dataFile.eventData.eventId">
+                  
+                </app-event-overview-file>
+               
+              </ng-container>
+        </div>
+        <div class="container">
+            <div class="accordion-heading" (click)="aacordiaClient('1')">CLIENT
+                <span class="float-right up-icon accoTabIconLineHeight">
+                    <i [class]="divClassClient"></i>
+                </span>
+            </div>
+           
+        </div>
+
+        <div class="accordion-content">
+            <ng-container  *ngIf="clientid==1 && dataClient.eventData && dataClient.eventData.client && !dataClient.eventData.venues">
+                <app-event-client-overview [eventData]="dataClient" [selectedCompany]="clientCompany"
+                [permissionObj]="permissionObj" (removeSelectedCompany)="unsetClientCompany()"
+                [eventToBeSaved]="eventToBeSavedClient" (saveAndInvite)="saveToDb($event)"
+                (editClient)="isClientEditable = $event" [isOwnCompany]="dataClient.eventData.client.isOwnCompany === 1">
+                <ng-container assignFunctionCmp>
+                  <app-event-assign-function-cmp [permissionObj]="permissionObj" [tabName]="'clientTab'"
+                    [isViewPermission]="dataClient.eventData.client?.isViewPermission"
+                    [isSelfIncludedInTab]="dataClient.eventData.client?.isSelfIncludedInTab"
+                    [isSelfIncludedInSection]="dataClient.eventData.client?.isSelfIncludedInSection"
+                    [clientCmpBtnLabel]="'Add Client'" [contactListLabel]="'Client Contacts'" [eventData]="dataClient"
+                    [selectedCompany]="clientCompany" [clientCompanyModal]="searchInviteCmpModal"
+                    [contactModal]="searchInviteFnCmpCntModal" (modalOpen)="setOpenedModalRef($event)"
+                    (contactRemove)="removeContact($event)" [contactList]="clientContactList"
+                    [isClientEditable]="isClientEditable" (isCrew)="setIsCrew($event)">
+                  </app-event-assign-function-cmp>
+                </ng-container>
+              </app-event-client-overview>
+              </ng-container>
+        </div>
+        <div class="container">
+            <div class="accordion-heading" (click)="aacordiaEvent('2')">EVENT MANAGER
+                <span class="float-right up-icon accoTabIconLineHeight">
+                    <i [class]="divClassEvent"></i>
+                </span>
+            </div>
+           
+        </div>
+
+        <div class="accordion-content">
+            <ng-container  *ngIf="evtmgrid == 2 && dataEventMgr.eventData && dataEventMgr.eventData.eventManager && !dataEventMgr.eventData.venues">
+                <app-event-manager-overview [eventData]="dataEventMgr" [selectedCompany]="eventMgrCmp" [permissionObj]="permissionObj"
+                  (removeSelectedCompany)="unsetEvMgrCmp()" [eventToBeSaved]="eventToBeSavedEvtMgr"
+                  (saveAndInvite)="saveToDb($event)" (editManager)="isManagerEditable = $event"
+                  [isOwnCompany]="dataEventMgr.eventData.eventManager.isOwnCompany === 1">
+                  <ng-container assignFunctionCmp>
+                    <app-event-assign-function-cmp [permissionObj]="permissionObj" [tabName]="'eventManagerTab'"
+                      [isViewPermission]="dataEventMgr.eventData.eventManager?.isViewPermission"
+                      [isSelfIncludedInTab]="dataEventMgr.eventData.eventManager?.isSelfIncludedInTab"
+                      [isSelfIncludedInSection]="dataEventMgr.eventData.eventManager?.isSelfIncludedInSection" [eventData]="dataEventMgr"
+                      [clientCmpBtnLabel]="'Add Event Management Company'"
+                      [contactListLabel]="'Event Management Company Contacts'" [selectedCompany]="eventMgrCmp"
+                      [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
+                      (modalOpen)="setOpenedModalRef($event)" (contactRemove)="removeContact($event)"
+                      [contactList]="eventMgrContactList" [isManagerEditable]="isManagerEditable"
+                      (isCrew)="setIsCrew($event)">
+                    </app-event-assign-function-cmp>
+                  </ng-container>
+                </app-event-manager-overview>
+              </ng-container>
+        </div>
+
+        <div class="container">
+            <div class="accordion-heading" (click)="aacordiavenue('3')">VENUE
+                <span class="float-right up-icon accoTabIconLineHeight">
+                    <i [class]="divClassVenue"></i>
+                </span>
+            </div>
+           
+        </div>
+
+        <div class="accordion-content">
+            <ng-container *ngIf="venueid == 3 && dataVenue.eventData?.venues && (dataVenue.eventData?.venues?.length || dataVenue.eventData?.venues?.length == 0)">
+                <app-event-venue-overview #venueFn [eventData]="dataVenue" [permissionObj]="permissionObj"
+                  [selectedCompanies]="venueCompanies" [venueContactLists]="venueContactLists"
+                  (removeSelectedCompany)="unsetVenueCmp($event)" [eventToBeSaved]="eventToBeSavedVenue"
+                  (saveAndInvite)="saveToDb($event)" [searchInviteCmpModal]="searchInviteCmpModal"
+                  [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal" [setOpenedModalRef]="setOpenedModalRef.bind(this)"
+                  [removeContact]="removeContact.bind(this)" [setIsCrew]="setIsCrew.bind(this)">
+                </app-event-venue-overview>
+              </ng-container>
+        </div>
+        <div class="container">
+            <div class="accordion-heading" (click)="aacordiaSupplier('4')">SUPPLIERS
+                <span class="float-right up-icon accoTabIconLineHeight">
+                    <i [class]="divClassSupplier"></i>
+                </span>
+            </div>
+           
+        </div>
+
+        <div class="accordion-content">
+            <ng-container *ngIf="supplierid == 4 && dataSupplier.eventData.venues && (dataSupplier.eventData?.venues?.length || dataSupplier.eventData?.venues?.length == 0)">
+            <app-event-suppliers-overview #suppliersFn [eventData]="dataSupplier" [venueCompanies]="venueCompanies"
+              [eventToBeSaved]="eventToBeSavedSupplier" (saveAndInvite)="saveToDb($event)"
+              [searchInviteCmpModal]="searchInviteCmpModal" [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+              [setOpenedModalRef]="setOpenedModalRef.bind(this)" [permissionObj]="permissionObj"
+              [setIsCrew]="setIsCrew.bind(this)">
+            </app-event-suppliers-overview>
+          </ng-container>
+        </div>
+
+        <div class="container">
+            <div class="accordion-heading" (click)="aacordiaExihibitor('5')">EXHIBITORS
+                <span class="float-right up-icon accoTabIconLineHeight">
+                    <i [class]="divClassExihibitor"></i>
+                </span>
+            </div>
+           
+        </div>
+
+        <div class="accordion-content">
+            <ng-container 
+            *ngIf="exhibitorid==5 && dataExihibitor.eventData.venues && (dataExihibitor.eventData?.venues?.length || dataExihibitor.eventData?.venues?.length == 0)">
+            <app-event-exhibitors-overview #exhibitorsFn [eventData]="dataExihibitor" [venueCompanies]="venueCompanies"
+              [permissionObj]="permissionObj" [eventToBeSaved]="eventToBeSavedExhibitor" (saveAndInvite)="saveToDb($event)"
+              [searchInviteCmpModal]="searchInviteCmpModal" [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+              [setOpenedModalRef]="setOpenedModalRef.bind(this)" [setIsCrew]="setIsCrew.bind(this)">
+            </app-event-exhibitors-overview>
+          </ng-container>
+        </div>
+
+        <div class="container">
+            <div class="accordion-heading" (click)="aacordiaLogistics('7')">LOGISTICS
+                <span class="float-right up-icon accoTabIconLineHeight">
+                    <i [class]="divClassLogistics"></i>
+                </span>
+            </div>
+           
+        </div>
+
+        <div class="accordion-content">
+            <ng-container *ngIf="logisticsid==7 && dataLogistic.eventData && dataLogistic.eventData.eventId">
+                <app-event-timeline-overview [eventId]="dataLogistic.eventData.eventId" [permissionObj]="permissionObj">
+                 
+                </app-event-timeline-overview>
+                
+              </ng-container>
+        </div>
+
+        <hr />
+
+        <ng-template #searchInviteCmpModal let-modal>
+            <app-search-or-invite-function-cmp (existingCompanySelected)="setSelectedCompany($event)"
+              (newCompanyInvited)="setSelectedCompany($event)" (closed)="searchInviteCompanyClosed()">
+            </app-search-or-invite-function-cmp>
+          </ng-template>
+        
+          <ng-template #searchInviteFnCmpCntModal let-modal>
+            <app-search-or-invite-fn-cmp-cnt (closed)="searchInviteContactModalClosed()" [companyId]="getCompanyId()"
+              [isCrew]="emitedCrew" (addedContactList)="setSelectedFnCompanyContacts($event)"
+              [alreadyInContactList]="getFnContactList()">
+            </app-search-or-invite-fn-cmp-cnt>
+          </ng-template>
     </div>
 </div>

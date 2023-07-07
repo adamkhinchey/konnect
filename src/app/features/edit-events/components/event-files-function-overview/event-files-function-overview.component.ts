@@ -8,11 +8,11 @@ import {EventFileTypes, ClientPermissionTypes} from '../../models/types';
 import {EventFilesSignedURLReq} from '../../models/interfaces';
 import { Clipboard } from '@angular/cdk/clipboard';
 @Component({
-  selector: 'app-event-files-function',
-  templateUrl: './event-files-function.component.html',
-  styleUrls: ['./event-files-function.component.scss']
+  selector: 'app-event-overview-file',
+  templateUrl: './event-files-function-overview.component.html',
+  styleUrls: ['./event-files-function-overview.component.scss']
 })
-export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges {
+export class EventFilesOverviewComponent implements OnInit, OnDestroy, OnChanges {
 
   @ViewChild('uploadFilesModal') uploadFilesModal: TemplateRef<any> | undefined;
   @Input() eventID: any ;
@@ -56,10 +56,11 @@ export class EventFilesFunctionComponent implements OnInit, OnDestroy, OnChanges
         this.permissionObj= {isClient: true, isEventManager: true, isService: true, isVenue: true, isExhibitor: true}; 
 
       }
-    
+     console.log("eventID+++++",this.eventID);
+     this.fetchEventFiles(this.eventID);
       this.fetchEventFilesTrigger = this.eventService.fetchEventFilesSubject.subscribe(eventID => {
           this.eventID = eventID;
-          this.fetchEventFiles(this.eventID);
+         
         });
       
   }

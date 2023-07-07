@@ -66,7 +66,9 @@
                                                 *ngIf="event.venues[0].venueCity && event.venues[0].venueCity != ''">,
                                                 {{event.venues[0].venueCity}}</span></h4>
                                         <p class="iconspace">
-
+                                            <a   (click)="viewOverViewTab(event.eventId)" style="cursor: pointer">
+                                                <i _ngcontent-oll-c453="" class="info circle icon colorBlack"></i>
+                                            </a>
                                             <a (click)="viewEventClient(event.eventId)"  style="cursor: pointer">
                                                 <img _ngcontent-qan-c453="" src="./assets/img/client-icon.png" width="20px">
                                             </a>
@@ -93,9 +95,7 @@
                                             <a   (click)="viewTimeline(event.eventId)" style="cursor: pointer">
                                                 <i _ngcontent-oll-c453="" class="clock icon colorBlack"></i>
                                             </a>
-                                            <a   (click)="viewOverViewTab(event.eventId)" style="cursor: pointer">
-                                                <i _ngcontent-oll-c453="" class="bi bi-info-circle"></i>
-                                            </a>
+                                         
                                         </p>
 
                                     </div>

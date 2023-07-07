@@ -1,0 +1,117 @@
+<div class="ui segment">
+  <form class="ui form">
+    <div class="ui grid stackable">
+
+    
+
+      <div class="seven wide column">
+        <div class="companyContainer marginB20">
+          <div class="field checkboxOnHeader">
+            <div class="ui dividing header">
+              <h3>Event Management Company <i class="icon globe"></i></h3>
+            </div>
+            <div class="ui checkbox" (click)="toggleEvMgrOwnCompany()">
+              <input type="checkbox" class="hidden" tabindex="0" [(ngModel)]="isOwnCompany"
+                [ngModelOptions]="{standalone:true}">
+              <label>My company</label>
+            </div>
+          </div>
+          <div class="kcpCardContainer">
+            <div *ngIf="selectedCompany" class="ui one column grid">
+              <div class="column">
+                <div class="ui fluid card">
+                  <div class="content">
+                    <span *ngIf="selectedCompany.isPrivate && selectedCompany.isSeed==0"
+                      class="ui blue right corner label popupNotes adjustTri" data-content="Private Contact">
+                      <!--<i class="address card outline icon"></i>-->
+                      <fa-icon [icon]="addressCardIcon"></fa-icon>
+                    </span>
+                    <img class="right floated mini ui image"
+                      [src]="getCompanyProfileImage() || 'assets/img/default_konnect_img.png'" appImageFallback
+                      fallbackImage="assets/img/default_konnect_img.png"
+                      onerror="src='assets/img/default_konnect_img.png'">
+                    <div class="header">
+                      <a (click)="goToCompanyProfile(getCompanyId())">{{selectedCompany.companyName}}</a>
+                    </div>
+                    <div class="meta">
+                      <a *ngIf="getCompanyWebsite()" [href]="getCompanyWebsite()" target="_blank">
+                        {{getCompanyWebsite()}}</a>
+                      <span *ngIf="getCompanyWebsite()">|</span>
+                      <span class="m-0">
+                        <i class="map marker alternate icon"></i>{{selectedCompany.city}}</span>
+                      <span>|</span>
+                      <i class="phone icon"></i>{{getCompanyPhone() || ''}}
+                    </div>
+                  </div>
+                  <div class="extra content" [ngClass]="{'editableObject':false}">
+                    <div class="ui grid">
+                      <div class="ten wide column">
+
+                      </div>
+                      <div class="six wide column right aligned">
+                        <!-- only editable when have all permission or restricted permission to client  -->
+                        <div (click)="removeSelectedCompany.emit()" *ngIf="isEventEdit && (eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 3)"
+                          class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal">
+                          <i class="trash alternate icon"></i>Remove
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-content select="[assignFunctionCmp]"></ng-content>
+      </div>
+      <div class="nine wide column">
+        <div class="ui dividing header" *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 2 ||  eventData.eventData.eventManager?.isViewPermission == 3;">
+          <h3>Event Management Requirements <i class="icon globe"></i></h3>
+        </div>
+        <div class="field" *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 2 ||  eventData.eventData.eventManager?.isViewPermission == 3;">
+          <!-- <textarea rows="3" *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access" class="textarea" [readonly]="!isEventEdit" [(ngModel)]="eventToBeSaved.eventManager!.requirements"
+          [ngModelOptions]="{standalone:true}"></textarea> -->
+          <!-- <angular-editor *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access"
+            [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config" (focus)="changeConfig()"
+            [ngModelOptions]="{standalone: true}"></angular-editor> -->
+            <angular-editor id="editemr" *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 2 ||  eventData.eventData.eventManager?.isViewPermission == 3; "
+            [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config" (focus)="changeConfig()"
+            [ngModelOptions]="{standalone: true}"></angular-editor>
+         
+        </div>
+        <div class="ui dividing header" *ngIf="(eventData.eventData.eventManager?.isViewPermission == 1 && eventData.eventData.eventManager?.isSelfIncludedInSection == 1); ">
+          <h3>Event Management Internal Notes <i class="building icon"></i></h3>
+        </div>
+        <div class="field" *ngIf="(eventData.eventData.eventManager?.isViewPermission == 1 && eventData.eventData.eventManager?.isSelfIncludedInSection == 1); ">
+          <!-- <textarea *ngIf="permissionObj.isEventManager; else no_access" rows="3" class="textarea" [readonly]="!isEventEdit" [(ngModel)]="eventToBeSaved.eventManager!.emInternalNotes"
+          [ngModelOptions]="{standalone:true}"></textarea> -->
+          <!-- <angular-editor *ngIf="permissionObj.isEventManager; else no_access"
+            [(ngModel)]="eventToBeSaved.eventManager!.emInternalNotes" [config]="config" (focus)="changeConfig()"
+            [ngModelOptions]="{standalone: true}"></angular-editor> -->
+
+            <!-- only event manager company will have access -->
+            <angular-editor id="editemin" *ngIf="(eventData.eventData.eventManager?.isViewPermission == 1 && eventData.eventData.eventManager?.isSelfIncludedInSection == 1); else no_access"
+            [(ngModel)]="eventToBeSaved.eventManager!.emInternalNotes" [config]="config1" (focus)="changeConfig1()"
+            [ngModelOptions]="{standalone: true}"></angular-editor>
+          <ng-template #no_access>No access
+          </ng-template>
+        </div>
+      </div>
+      <!-- <div class="sixteen wide column saveButtons paddingT0">
+        <div class="ui divider"></div>
+        <div class="ui grid stackable">
+          <div class="sixteen wide column right aligned" *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)">
+            
+            <button [disabled]="eventData.eventData.isDeleted" class="ui button triggerEditableOptions halfWidth ml-3" *ngIf="!isEventEdit" (click)="editEventManager()">
+              Edit
+            </button>
+            <button class="ui button hasModal ml-3" (click)="this.saveAndInvite.emit(true)" *ngIf="isEventEdit">Save 
+            </button>
+          </div>
+        </div>
+      </div> -->
+
+
+    </div>
+  </form>
+</div>

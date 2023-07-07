@@ -28,11 +28,11 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 
 @Component({
-  selector: 'app-event-venue-function',
-  templateUrl: './event-venue-function.component.html',
-  styleUrls: ['./event-venue-function.component.scss']
+  selector: 'app-event-venue-overview',
+  templateUrl: './event-venue-overview.component.html',
+  styleUrls: ['./event-venue-overview.component.scss']
 })
-export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnChanges {
+export class EventVenueOverviewComponent implements OnInit, AfterViewInit, OnChanges {
   addressCardIcon = faAddressCard;
   @ViewChildren('venueAssignCmp') venueAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
   @ViewChildren('venueCrewAssignCmp') venueCrewAssignCmp: QueryList<EventAssignFunctionCmpComponent> | undefined;
@@ -346,6 +346,8 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
     this.isVenueEdit = this.eventService.isEdit;
     this.isVenueEditable = this.eventService.isEdit;
     this.isNotesEdit = this.eventService.isNotesEdit;
+    
+    console.log("eventToBeSaved++++",this.eventToBeSaved);
   }
 
   editVenueFn() {
@@ -357,12 +359,14 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
 
   ngAfterViewInit(): void {
 
+    console.log("eventToBeSaved++++",this.eventToBeSaved);
   }
 
   ngOnInit(): void {
     if (this.eventData?.eventData?.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
+
   }
 
 

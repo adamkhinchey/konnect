@@ -1,0 +1,159 @@
+<!-- <ng-container *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission"> -->
+  <!-- 1 for full access and 2 for readable access -->
+  <!-- <ng-container *ngIf="isViewPermission == 1 ||  isViewPermission == 2 ||   (isViewPermission == 3 && (tabName == 'clientTab' || tabName == 'eventManagerTab' ))">  -->
+    <ng-container> 
+
+  <div class="ui grid center aligned"
+    *ngIf="!selectedCompany && (isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((isViewPermission == 1 ||  isViewPermission == 3) || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)))"> <!-- editable only in case of full access or restricted access in case of cleint -->
+    <div class="sixteen wide column">
+      <div class="ui button basic blue fluid addClient hasModal" (click)="openVerticallyCentered(clientCompanyModal)">
+        <i class="plus circle icon"></i>{{clientCmpBtnLabel}}
+      </div>
+    </div>
+  </div>
+</ng-container>
+<div class="contactsContainer">
+  <div class="ui dividing header" *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 2 ||  (isViewPermission == 3 && (tabName == 'clientTab' || tabName == 'eventManagerTab' ) && !(tabName == 'venueTab' || tabName == 'supplierTab' || tabName == 'exhibitorTab' ))); ">
+    <h3>{{contactListLabel}} <span
+        *ngIf="contactListLabel != 'Supplier Contacts' && contactListLabel != 'Exhibitors Contacts'"><i
+          class="globe icon"></i> </span>
+      <span *ngIf="contactListLabel == 'Supplier Contacts' || contactListLabel == 'Exhibitors Contacts'">
+        <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+        <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px"> </i><i
+          class="building icon"></i>
+      </span>
+    </h3>
+  </div>
+  <!-- <div class="kipCardContainer" *ngIf="checkViewPermission(contactListLabel); else no_access"> -->
+    <!-- visible only in case of full access or read or restricted permission (on client and event manager tab)   to client -->
+    <div class="kipCardContainer" *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 2 ||  (isViewPermission == 3 && (tabName == 'clientTab' || tabName == 'eventManagerTab' ) && !(tabName == 'venueTab' || tabName == 'supplierTab' || tabName == 'exhibitorTab' ))); ">
+    <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
+      <div class="column test" *ngFor="let contact of contactList; let i=index" [class.display-none] = "contact.isCrew == 1">
+        <ng-container *ngIf="!contact.isCrew || contact.isCrew == 0">
+          <div class="contactRole">{{contactLabels.get(contact.contactLabelId) || '(Contact Label Not Assigned)'}}
+            
+            <!-- <div
+              *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable"
+              class="hidden ui circular compact mini basic icon button editProfileBtn hasModal"
+              (click)="editContactLabelModal(editContactDetail,i)">
+              <i class="pencil alternate icon"></i>
+            </div> -->
+            <!-- editable only in case of full access and restricted access of client  -->
+            <div
+              *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((isViewPermission == 1 ||  isViewPermission == 3) || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )"
+              class="hidden ui circular compact mini basic icon button editProfileBtn hasModal"
+              (click)="editContactLabelModal(editContactDetail,i)">
+              <i class="pencil alternate icon"></i>
+            </div>
+          </div>
+          <div class="ui fluid card">
+            <div class="content">
+              <span *ngIf="contact.isPrivate" class="ui blue right corner label popupNotes adjustTri"
+                data-content="Private Contact">
+                <!--<i class="address card outline icon"></i>-->
+                <fa-icon [icon]="addressCardIcon"></fa-icon>
+              </span>
+              <img class="right floated mini ui image" [src]="contact.profileImage" appImageFallback
+                fallbackImage="assets/img/default_konnect_individual_img.png">
+              <div class="header">
+                <a (click)="goToUserProfile(contact.id, contact.isPrivate)">{{contact.firstName + ' '+ (contact.lastName
+                  || '')}}</a>
+              </div>
+              <div class="meta">
+                {{contact.contactPosition}}
+              </div>
+              <div class="description">
+                {{contact.email}}<br>
+                {{contact.mobile}}
+              </div>
+            </div>
+            <div class="extra content">
+              <div class="ui grid">
+                <div class="eight wide column">
+
+                </div>
+                <div class="eight wide column right aligned">
+                   <!-- editable only in case of full access or restricted access in case of client -->
+                  <div class="ui circular compact mini basic button confirmRemove hasModal"
+                    (click)="removeContactFromList(i)"
+                    *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((isViewPermission == 1 ||  isViewPermission == 3) || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1))  )"
+                    data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <!-- <ng-container *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission"> -->
+    <ng-container *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3)"> <!-- add contact button only visible when full permission  -->
+    <!-- <div class="ui grid center aligned"
+      *ngIf="isClientEditable || isManagerEditable || isVenueEditable || (isServiceEditable && editServiceIndex == serviceIndex)|| isExhibitorEditable"> -->
+      <!-- editable only in case of full access or restricted access in case of client -->
+      <div class="ui grid center aligned"
+      *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3))">
+
+      <div class="sixteen wide column">
+        <div class="ui basic button blue fluid addContacts hasModal" (click)="openVerticallyCentered(contactModal)"
+          data-modal="contacts" [ngClass]="{disabled: disableAddContacts }">
+          <i class="plus circle icon"></i>Add Contact
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+
+  <ng-template #editContactDetail let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Search for Contact</h4>
+      <button type="button" class="close" aria-label="Close" (click)="closeAndChangeContactLabelId(false)">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <div class="content">
+        <div class="ui grid stackable">
+          <div class="sixteen wide column">
+            <form class="ui form">
+              <div class="field">
+                <label>Contact Label</label>
+                <div class="field">
+                  <div class="CusSelectArrow" tabindex="0">
+                    <select *ngIf="editingContactLabelIndex!==-1"
+                      [ngModel]="contactList[editingContactLabelIndex]?.contactLabelId || 5"
+                      (ngModelChange)="onContactLabelSelected($event)" [ngModelOptions]="{standalone:true}">
+                      <option class="item" [value]="5">Primary Contact</option>
+                      <option class="item" [value]="6">Secondary Contact</option>
+                      <option class="item" [value]="7">Technical Director</option>
+                      <option class="item" [value]="8">Technical Contact</option>
+                      <option class="item" [value]="9">Onsite Contact</option>
+                      <option class="item" [value]="10">IT Contact</option>
+                      <option class="item" [value]="11">Access Contact</option>
+                      <option class="item" [value]="12">Legal Contact</option>
+                      <option class="item" [value]="13">Finance Contact</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="newFooter">
+      <div class="actions">
+        <div class="ui grid">
+          <div class="sixteen wide column right aligned">
+            <div class="ui button fluid positive" (click)="closeAndChangeContactLabelId()">Save</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+</div>
