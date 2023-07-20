@@ -128,7 +128,7 @@
                 [eventToBeSaved]="eventToBeSavedClient" (saveAndInvite)="saveToDb($event)"
                 (editClient)="isClientEditable = $event" [isOwnCompany]="dataClient.eventData.client.isOwnCompany === 1">
                 <ng-container assignFunctionCmp>
-                  <app-event-assign-function-cmp [permissionObj]="permissionObj" [tabName]="'clientTab'"
+                  <app-event-assign-function-cmp-overview [permissionObj]="permissionObj" [tabName]="'clientTab'"
                     [isViewPermission]="dataClient.eventData.client?.isViewPermission"
                     [isSelfIncludedInTab]="dataClient.eventData.client?.isSelfIncludedInTab"
                     [isSelfIncludedInSection]="dataClient.eventData.client?.isSelfIncludedInSection"
@@ -137,7 +137,7 @@
                     [contactModal]="searchInviteFnCmpCntModal" (modalOpen)="setOpenedModalRef($event)"
                     (contactRemove)="removeContact($event)" [contactList]="clientContactList"
                     [isClientEditable]="isClientEditable" (isCrew)="setIsCrew($event)">
-                  </app-event-assign-function-cmp>
+                  </app-event-assign-function-cmp-overview>
                 </ng-container>
               </app-event-client-overview>
               </ng-container>
@@ -158,7 +158,7 @@
                   (saveAndInvite)="saveToDb($event)" (editManager)="isManagerEditable = $event"
                   [isOwnCompany]="dataEventMgr.eventData.eventManager.isOwnCompany === 1">
                   <ng-container assignFunctionCmp>
-                    <app-event-assign-function-cmp [permissionObj]="permissionObj" [tabName]="'eventManagerTab'"
+                    <app-event-assign-function-cmp-overview [permissionObj]="permissionObj" [tabName]="'eventManagerTab'"
                       [isViewPermission]="dataEventMgr.eventData.eventManager?.isViewPermission"
                       [isSelfIncludedInTab]="dataEventMgr.eventData.eventManager?.isSelfIncludedInTab"
                       [isSelfIncludedInSection]="dataEventMgr.eventData.eventManager?.isSelfIncludedInSection" [eventData]="dataEventMgr"
@@ -168,7 +168,7 @@
                       (modalOpen)="setOpenedModalRef($event)" (contactRemove)="removeContact($event)"
                       [contactList]="eventMgrContactList" [isManagerEditable]="isManagerEditable"
                       (isCrew)="setIsCrew($event)">
-                    </app-event-assign-function-cmp>
+                    </app-event-assign-function-cmp-overview>
                   </ng-container>
                 </app-event-manager-overview>
               </ng-container>

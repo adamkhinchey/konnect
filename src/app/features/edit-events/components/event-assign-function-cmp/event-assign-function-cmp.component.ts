@@ -228,7 +228,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     this.dateHistory=[];
    this.eventSrvc.GetSendHistory(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType).subscribe(
       (res: any) => {
-      
+        this.dateHistory=[];
       res.data.map((item:any)=>{
         const formattedDate = this.datePipe.transform(item.send_date, 'dd-MM-yyyy HH:mm');
 
