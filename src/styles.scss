@@ -1106,3 +1106,15 @@ select.ui.dropdown {
   background: #fff !important;
   border-color: #efefef !important;
 }
+
+.supplierAccordianBtnWidth .card-header .btn.accordionBtnNew {
+  width: calc(100% - 350px);
+  min-width: 200px;
+}
+.selectAllCheckSupp { width: 150px; text-align: left; } 
+
+.exhibitorAccordianBtnWidth .card-header .btn.accordionBtnNew {
+  width: calc(100% - 370px);
+  min-width: 200px;
+}
+.exhibitorAccordianBtnWidth .selectAllCheckSupp { width: 155px; text-align: left; } 

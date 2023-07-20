@@ -147,7 +147,7 @@
                         </div>
                       </div>
                       <app-event-assign-function-cmp #venueAssignCmp [selectedCompany]="getSelectedCompany(i)"
-                        [tabName]="'venueTab'"
+                        [tabName]="'venueTab'"  [eventData]="eventData"
                         [contactList]="getVenueContacts(i)" [permissionObj]="permissionObj"
                         [isViewPermission]="true"
                         [isSelfIncludedInTab]="panel?.isSelfIncludedInTab"
@@ -160,7 +160,7 @@
                       </app-event-assign-function-cmp>
                       <!--  [isViewPermission]="(panel?.isViewPermission && permissionObj.isVenue) || checkVenueViewPermission(i)"   <- this condition is removed from below -->
                       <app-event-assign-crew-function-cmp #venueCrewAssignCmp [contactList]="getVenueContacts(i)"
-                        [tabName]="'venueTab'"
+                        [tabName]="'venueTab'"  [eventData]="eventData" [selectedCompany]="getSelectedCompany(i)"
                         [permissionObj]="permissionObj" 
                         [isViewPermission]="panel?.isViewPermission"
                         [isSelfIncludedInTab]="panel?.isSelfIncludedInTab"

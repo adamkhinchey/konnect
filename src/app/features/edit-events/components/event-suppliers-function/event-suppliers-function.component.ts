@@ -40,6 +40,9 @@ import {
 } from 'src/app/shared/components';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { UserInfoService } from 'src/app/shared/services';
+import { entries } from 'lodash-es';
+import { ToastrService } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-suppliers-function',
@@ -48,8 +51,7 @@ import { UserInfoService } from 'src/app/shared/services';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class EventSuppliersFunctionComponent
-  implements OnInit, OnDestroy, OnChanges, AfterViewChecked
-{
+  implements OnInit, OnDestroy, OnChanges, AfterViewChecked {
   addressCardIcon = faAddressCard;
   // @ts-ignore
   @ViewChild('ngbAccordion') ngbAccordion: NgbAccordion;
@@ -281,15 +283,25 @@ export class EventSuppliersFunctionComponent
   postEventTimesCount = 1;
   venueIndexLocal = 1;
   serviceIndexLocal = 1;
-  userId:any;
+  userId: any;
+  isSelectAll: any = false;
+  isSelectAllSend: boolean = false;
+  SendCheck:any;
+ contactType:string="servicesTab";
+ currentDateTimeStamp: any ;
+ dateHistory:any=[];
+
   constructor(
     public eventService: EventService,
     private viewEventService: ViewEventService,
     private router: Router,
     public _cdr: ChangeDetectorRef,
+    public eventSrvc: EventService,
+    private toaster: ToastrService,
     public modalService: NgbModal,
     public aroute: ActivatedRoute,
-    public userInfoService:UserInfoService
+    public userInfoService: UserInfoService,
+    private datePipe: DatePipe
   ) {
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
@@ -310,11 +322,16 @@ export class EventSuppliersFunctionComponent
     );
   }
 
+
+  checkbox: any = null;
   listenTimeChange(event: Event, venueIndex: any, serviceIndex: any): void {
+    // console.log('event...', event)
+
     this.venueIndexLocal = venueIndex;
     this.serviceIndexLocal = serviceIndex;
     const target = event.target as HTMLInputElement;
     const { checked } = target;
+    // console.log("checked+++++", checked);
     if (checked) {
       this.isUseVenueTime = true;
       this.isPreEventTimesSameAsVenue = true;
@@ -459,13 +476,13 @@ export class EventSuppliersFunctionComponent
     }
   }
 
-  changeConfigPermission1(service:any) {
-    console.log('this.isServiceEdit',this.isServiceEdit);
-    console.log('service?.isViewPermission',service?.isViewPermission);
-    console.log('this.permissionObj.isService',this.permissionObj);
-   
+  changeConfigPermission1(service: any) {
+    console.log('this.isServiceEdit', this.isServiceEdit);
+    console.log('service?.isViewPermission', service?.isViewPermission);
+    console.log('this.permissionObj.isService', this.permissionObj);
+
     if (!this.isServiceEdit ||
-      !service?.isViewPermission || (this.permissionObj.isClient == false&&this.permissionObj.isService==true&& this.permissionObj.isEventManager==false) || (this.permissionObj.isVenue == false &&this.permissionObj.isClient == false &&this.permissionObj.isEventManager == false&&this.permissionObj.isExhibitor == false && this.permissionObj.isService == false && this.permissionObj.isCrew == false)) {
+      !service?.isViewPermission || (this.permissionObj.isClient == false && this.permissionObj.isService == true && this.permissionObj.isEventManager == false) || (this.permissionObj.isVenue == false && this.permissionObj.isClient == false && this.permissionObj.isEventManager == false && this.permissionObj.isExhibitor == false && this.permissionObj.isService == false && this.permissionObj.isCrew == false)) {
       this.config1.editable = false;
       this.config1.showToolbar = false;
     } else {
@@ -504,7 +521,7 @@ export class EventSuppliersFunctionComponent
             actionType: 'import',
             venueId: this.eventToBeSaved!.venues!.list[venueIndex].venueId,
             url: result.url,
-            userId:this.userId
+            userId: this.userId
           };
           this.eventService.importExport(data).subscribe(
             (res: any) => {
@@ -526,7 +543,7 @@ export class EventSuppliersFunctionComponent
             actionType: 'export',
             venueId: this.eventToBeSaved!.venues!.list[venueIndex].venueId,
             url: '',
-            userId:this.userId
+            userId: this.userId
           };
           this.eventService.importExport(data).subscribe(
             (res: any) => {
@@ -553,7 +570,7 @@ export class EventSuppliersFunctionComponent
           );
         }
       })
-      .catch((result) => {});
+      .catch((result) => { });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -573,6 +590,7 @@ export class EventSuppliersFunctionComponent
   ngOnInit(): void {
     this.fetchUserInfo();
     console.log('permission obj in init...', this.permissionObj);
+
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
@@ -656,6 +674,49 @@ export class EventSuppliersFunctionComponent
     });
 
     this.eventService.navigatesToSuppliers.next();
+    this.eventSrvc.letestDate.next(null);
+  
+  }
+
+
+
+  checkseldct: any;
+  checkseldctSend: any;
+  selectAllCheckboxes(event: Event, venues: any, venuesdsIndex: any): void {
+
+    this.checkseldct = document.getElementById('selectall' + venuesdsIndex);
+
+    if (this.checkseldct.checked == true) {
+      this.isSelectAll = true;
+    }
+    else {
+      this.isSelectAll = false;
+    }
+
+    for (const [serviceIndex, venucxe] of venues.suppliers[0].services.entries()) {
+      venucxe.isCheck = this.isSelectAll;
+      venucxe.isCheckDirect = this.isSelectAll;
+      if (document.getElementById('times-' + serviceIndex + '_venue_' + venuesdsIndex)) {
+        this.listenTimeChange(event, venuesdsIndex, serviceIndex)
+      }
+
+    }
+  }
+
+  selectAllForSendConfrm(event: any, venues: any, venuesdsIndex: any): void {
+
+    this.checkseldctSend = document.getElementById('selectallForSend' + venuesdsIndex);
+    if (this.checkseldctSend.checked == true) {
+      this.isSelectAllSend = true;
+    }
+    else {
+      this.isSelectAllSend = false;
+
+    }
+    for (const [serviceIndex, venucxe] of venues.suppliers[0].services.entries()) {
+      venucxe.isCheckSend = this.isSelectAllSend;
+      venucxe.isCheckDirectSend = this.isSelectAllSend;
+    }
   }
 
   private setContacts(value: {
@@ -665,7 +726,7 @@ export class EventSuppliersFunctionComponent
   }): void {
     const service =
       this.eventToBeSaved.venues?.list[value.venueIndex].suppliers[0]?.services[
-        value.serviceIndex
+      value.serviceIndex
       ];
     if (service) {
       if (service.contacts) {
@@ -676,13 +737,14 @@ export class EventSuppliersFunctionComponent
     }
   }
 
-  openVerticallyCentered(content: any): void {}
+  openVerticallyCentered(content: any): void { }
 
-  panelChange($event: NgbPanelChangeEvent): void {}
+  panelChange($event: NgbPanelChangeEvent): void { }
 
   addService(venue: VenueListItemInterface, venueIndex: number): void {
     this.isServiceEdit = true;
     this.isServiceEditable = true;
+    // this.eventService.addsupplier.next(true);
     if (!venue.suppliers[0]) {
       const timeWindows: SuppExhTimeWindowFormatInterface = {
         bumpIn: { sameAsVenue: null, timings: [] },
@@ -741,7 +803,7 @@ export class EventSuppliersFunctionComponent
   ): void {
     const service =
       this.eventToBeSaved.venues?.list[venueIndex].suppliers[0]?.services[
-        serviceIndex
+      serviceIndex
       ];
     if (service && service.contacts) {
       service.contacts.splice(event, 1);
@@ -790,12 +852,13 @@ export class EventSuppliersFunctionComponent
   ngOnDestroy(): void {
     this.supplierCompanyAddedSub?.unsubscribe();
     this.supplierCmpCntAddedSub?.unsubscribe();
+    this.eventSrvc.letestDate.next(null);
   }
 
   removeSelectedCompany(venueIndex: number, serviceIndex: number): void {
     const service =
       this.eventToBeSaved.venues?.list[venueIndex].suppliers[0].services[
-        serviceIndex
+      serviceIndex
       ];
 
     if (service) {
@@ -839,7 +902,7 @@ export class EventSuppliersFunctionComponent
           this.removeDeclineService(supplierId, isAccept);
         }
       })
-      .catch((result) => {});
+      .catch((result) => { });
   }
 
   acceptDeclineService(tab: any, isAccept: any) {
@@ -852,7 +915,7 @@ export class EventSuppliersFunctionComponent
       };
 
       this.viewEventService.removeDecline(payload).subscribe(
-        (res: any) => {},
+        (res: any) => { },
         (err) => {
           devLogger('err', err);
         }
@@ -928,4 +991,72 @@ export class EventSuppliersFunctionComponent
       return true;
     }
   }
+
+  ched:any;
+  SendType : any ="contact";
+  SendAllConfirmation( venues: any, venuesdsIndex: any){
+    const currentDate = new Date();
+    let messagecheck="";
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = currentDate.getFullYear().toString();
+
+    const hours = currentDate.getHours().toString().padStart(2, '0');
+    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+
+    const formattedDate = `${day}-${month}-${year}`;
+    const formattedTime = `${hours}:${minutes}`;
+
+    this.currentDateTimeStamp = `${formattedDate}, ${formattedTime}`;
+
+    for (const [serviceIndex, venucxe] of venues.suppliers[0].services.entries()) {
+      this.SendCheck=document.getElementById('send-' + serviceIndex + '_venue_' + venuesdsIndex);
+      venucxe.isCheckSend=this.SendCheck.checked;
+      if(venucxe.isCheckSend==true){
+       
+        this.eventSrvc.SaveConfirmationDate(venucxe.contacts, this.contactType, this.currentDateTimeStamp, venucxe, this.eventData.eventData.eventId,this.SendType).subscribe(
+          (res: any) => {
+            this.getLatestDate(this.contactType, venucxe, this.eventData.eventData.eventId,this.SendType);
+              this.toaster.success("Confirmation Sent Successfully");
+              this.ched= document.getElementById('selectallForSend'+venuesdsIndex);
+              this.ched.checked=false;
+              venucxe.isCheckSend=false;
+              this.eventSrvc.letestDate.next("Send");
+              messagecheck="succesfull";
+          },
+          (err) => {
+            console.log(err.error.message);
+            messagecheck="error";
+          }
+        );
+      
+      }
+       
+      }
+  }
+
+  getLatestDate(tabName: any, selectedCompany: any, eventId: any,SendType:any) {
+    this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId,SendType).subscribe(
+      (res: any) => {
+        if (res.data[0].latest_date == null) {
+
+          this.currentDateTimeStamp = "None sent";
+
+        }
+        else {
+          const formattedDate = this.datePipe.transform(res.data[0].latest_date, 'dd-MM-yyyy HH:mm');
+
+          this.currentDateTimeStamp = formattedDate;
+
+        }
+
+      },
+      (err) => {
+        console.log(err.error.message);
+      }
+    );
+  }
+
+ 
+
 }

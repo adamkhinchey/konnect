@@ -37,6 +37,8 @@ import {
 } from 'src/app/shared/components';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { UserInfoService, UserSettingsService } from 'src/app/shared/services';
+import { ToastrService } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-exhibitors-function',
@@ -61,9 +63,11 @@ export class EventExhibitorsFunctionComponent
   @Input() content: any;
   @Input() permissionObj: any;
   @Input() venueCompanies:
+  
     | Array<Company | InviteFnCmpInterface | null>
     | undefined
     | null = [];
+    private toasterDisplayed = false;
   activeExhibitorPanel = 0;
   private exhCompanyAddedSub: Subscription | undefined;
   private exhCmpCntAddedSub: Subscription | undefined;
@@ -277,13 +281,24 @@ export class EventExhibitorsFunctionComponent
   venueIndexLocal = 0;
   exhibitorIndexLocal = 0;
   userId:any;
+  isSelectAll: any = false;
+  isSelectAllSend: boolean = false;
+  SendCheck:any;
+  contactType:string="exhibitorTab";
+  currentDateTimeStamp: any ;
+  dateHistory:any=[];
+  SendType : any ="contact";
+
   constructor(
     public eventService: EventService,
     private viewEventService: ViewEventService,
     private router: Router,
     public modalService: NgbModal,
     public aroute: ActivatedRoute,
-    public userInfoService:UserInfoService
+    private datePipe: DatePipe,
+    public userInfoService:UserInfoService,
+    public eventSrvc: EventService,
+    private toaster: ToastrService
   ) {
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
@@ -888,6 +903,68 @@ export class EventExhibitorsFunctionComponent
       return (company as Company)?.id;
     }
   }
+  ched:any;
+  SendAllConfirmation( venues: any, venuesdsIndex: any){
+    const currentDate = new Date();
+  
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = currentDate.getFullYear().toString();
+
+    const hours = currentDate.getHours().toString().padStart(2, '0');
+    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+
+    const formattedDate = `${day}-${month}-${year}`;
+    const formattedTime = `${hours}:${minutes}`;
+
+    this.currentDateTimeStamp = `${formattedDate}, ${formattedTime}`;
+    
+    for (const [exhibitorIndex, venucxe] of venues.exhibitorList[0].exhibitors.entries()) {
+      this.SendCheck=document.getElementById('send-' + exhibitorIndex + '_venue_' + venuesdsIndex);
+      venucxe.isCheckSend=this.SendCheck.checked;
+      if(venucxe.isCheckSend==true){
+       
+        this.eventSrvc.SaveConfirmationDate(venucxe.contacts, this.contactType, this.currentDateTimeStamp, venucxe, this.eventData.eventData.eventId,this.SendType).subscribe(
+          (res: any) => {
+            this.getLatestDate(this.contactType, venucxe, this.eventData.eventData.eventId,this.SendType);
+            this.toaster.success("Confirmation Sent Successfully");
+            venucxe.isCheckSend=false;
+            this.eventSrvc.letestDate.next("Send");
+            this.ched=   document.getElementById('selectallForSend'+venuesdsIndex);
+            this.ched.checked=false;
+          },
+          (err) => {
+            console.log(err.error.message);
+          }
+        );
+      
+      }
+       
+      }
+  }
+
+  getLatestDate(tabName: any, selectedCompany: any, eventId: any,SendType:any) {
+    this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId,SendType).subscribe(
+      (res: any) => {
+        if (res.data[0].latest_date == null) {
+
+          this.currentDateTimeStamp = "None sent";
+
+        }
+        else {
+          const formattedDate = this.datePipe.transform(res.data[0].latest_date, 'dd-MM-yyyy HH:mm');
+
+          this.currentDateTimeStamp = formattedDate;
+
+        }
+
+      },
+      (err) => {
+        console.log(err.error.message);
+      }
+    );
+  }
+
 
   getIsPrivate(company: Company | InviteFnCmpClass | undefined): any {
     if (!company) {
@@ -946,4 +1023,46 @@ export class EventExhibitorsFunctionComponent
       return true;
     }
   }
+
+  
+  checkseldct: any;
+  checkseldctSend: any;
+  selectAllCheckboxes(event: Event, venues: any, venuesdsIndex: any): void {
+
+    this.checkseldct = document.getElementById('selectall' + venuesdsIndex);
+
+    if (this.checkseldct.checked == true) {
+      this.isSelectAll = true;
+    }
+    else {
+      this.isSelectAll = false;
+    }
+
+    for (const [exhibitorIndex, venucxe] of venues.exhibitorList[0].exhibitors.entries()) {
+      venucxe.isCheck = this.isSelectAll;
+      venucxe.isCheckDirect = this.isSelectAll;
+      if (document.getElementById('times-' + exhibitorIndex + '_venue_' + venuesdsIndex)) {
+        this.listenTimeChange(event, venuesdsIndex, exhibitorIndex)
+      }
+
+    }
+  }
+
+  selectAllForSendConfrm(event: any, venues: any, venuesdsIndex: any): void {
+
+
+    this.checkseldctSend = document.getElementById('selectallForSend' + venuesdsIndex);
+    if (this.checkseldctSend.checked == true) {
+      this.isSelectAllSend = true;
+    }
+    else {
+      this.isSelectAllSend = false;
+
+    }
+    for (const [serviceIndex, venucxe] of venues.exhibitorList[0].exhibitors.entries()) {
+      venucxe.isCheckSend = this.isSelectAllSend;
+      venucxe.isCheckDirectSend = this.isSelectAllSend;
+    }
+  }
+  
 }

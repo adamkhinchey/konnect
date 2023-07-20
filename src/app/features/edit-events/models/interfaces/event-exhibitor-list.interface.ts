@@ -18,6 +18,10 @@ export interface ExhibitorInterface {
   isSelfIncludedInSection?: any;
   status?: number | null;
   isStaffOrAdmin?: number | null;
+  isCheck?: null | boolean,
+  isCheckDirect?: null | boolean,
+  isCheckSend?: null | boolean,
+  isCheckDirectSend?: null | boolean
 }
 
 

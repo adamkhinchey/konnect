@@ -49,7 +49,7 @@ export class EventService {
   isSaveDisabledChange = new Subject<boolean>();
   isEditChange = new Subject<boolean>();
   isNotesEditChange = new Subject<boolean>();
-
+  // addsupplier = new Subject<boolean>();
   set isSaveDisabled(value: boolean) {
     this._isSaveDisabled = value;
     this.isSaveDisabledChange.next(this._isSaveDisabled);
@@ -95,6 +95,9 @@ export class EventService {
   setIsFnOwnCompany = new BehaviorSubject<
     Map<EventFunctionTypes, null | boolean | boolean[]>
   >(this.ownCompanyStatusMap);
+
+  public editDetails:any="";
+  letestDate = new BehaviorSubject(this.editDetails);
 
   supplierCompanyAddSubject = new Subject<{
     venueIndex: number;
@@ -405,6 +408,65 @@ export class EventService {
         this.httpErrorHandler.processError(true, true)
       );
   }
+
+  SaveConfirmationDate(data: any,type:any,date:any,selectedCompany:any,eventId:any,sendtype:any): Observable<any> {
+    
+    this.spinner.show();
+   
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/addConfirmationDate`, {data,type,date,selectedCompany,eventId,sendtype})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+
+
+     
+  }
+
+  SaveCrerwConfirmationDate(data: any,type:any,date:any,selectedCompany:any,eventId:any,sendtype:any): Observable<any> {
+    
+    this.spinner.show();
+   
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/addCrewConfirmationDate`, {data,type,date,selectedCompany,eventId,sendtype})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+
+
+     
+  }
+
+
+  GetLatestDate(type:any,selectedCompany:any,eventId:any,SendType:any): Observable<any> {
+    
+    this.spinner.show();
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/getLetestDate`, {type,selectedCompany,eventId,SendType})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
+
+  GetSendHistory(type:any,selectedCompany:any,eventId:any,SendType:any): Observable<any> {
+    
+    this.spinner.show();
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/getSendHistory`, {type,selectedCompany,eventId,SendType})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+
+  }
+
   getEventTasks(data: any): Observable<any> {
     this.spinner.show();
     return this.http

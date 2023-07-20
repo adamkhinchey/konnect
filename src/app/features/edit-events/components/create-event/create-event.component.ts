@@ -492,6 +492,7 @@ console.log('this.eventToBeSaved.venues 1',this.eventToBeSaved.venues);
           }
         }
         if (tabType === 4) {
+          
           this.eventService.resetVenueSupplierData();
           this.data.eventData = res.eventData;
           if (this.data && this.data.eventData && this.data.eventData.venues && this.data.eventData.venues.length) {
@@ -616,6 +617,7 @@ console.log('this.eventToBeSaved.venues 1',this.eventToBeSaved.venues);
               }) as VenueListItemInterface[])
             };
             console.log('this.eventToBeSaved.venues 2',this.eventToBeSaved.venues);
+            // this.eventService.addsupplier.next(false);
             const venues = this.data.eventData.venues;
             for (let i = 0; i < venues.length; i++) {
               let venueId: number = venues[i].venueId;

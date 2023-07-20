@@ -18,7 +18,10 @@ export interface EventSuppliersInterface {
     isSelfIncludedInSection?: any,
     supplierId?: any,
     isStaffOrAdmin?: number | null,
-    status?: number | null
-
+    status?: number | null,
+    isCheck?: null | boolean,
+    isCheckDirect?: null | boolean,
+    isCheckSend?: null | boolean,
+    isCheckDirectSend?: null | boolean
   }[];
 }

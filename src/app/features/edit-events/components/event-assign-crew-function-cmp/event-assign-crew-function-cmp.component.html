@@ -55,8 +55,32 @@
                             </div>
                         </div>
                     </div>
-                </ng-container>
+                </ng-container>  
+                 
             </div>
+         
+            <ng-container *ngFor="let contact of contactList;let firstIndex = index">
+                <ng-container  *ngIf="contact.isCrew === 1 && isFirstCrewMatch(firstIndex); else skipData">
+                    <div class="column justify-content-between" >
+                    <div class="ui button triggerEditableOptions mt-3 marT-m15" *ngIf="!(isVenueEditable || isExhibitorEditable || isServiceEditable) && (isViewPermission == 1 && isSelfIncludedInSection == 1) "
+                  (click)="getCurrentDateTime()"
+                  >
+                    Send Confirmation
+                  </div>
+                  <p class="p-0 float-right" (mouseenter)="GetSendHistory()" *ngIf="!(isVenueEditable || isExhibitorEditable || isServiceEditable) && (isViewPermission == 1 && isSelfIncludedInSection == 1) ">Last confirmation sent :  {{ currentDateTimeStamp }}</p>
+</div>
+<div class="column text-right" *ngIf="!(isVenueEditable || isExhibitorEditable || isServiceEditable) && (isViewPermission == 1 && isSelfIncludedInSection == 1) ">
+    <ng-container *ngIf="dateHistory.length>0">
+        <p class="column text-right" *ngFor="let history of dateHistory;">
+            Confirmation sent : {{history}}
+        </p>
+        </ng-container>
+</div>
+                   
+                </ng-container>
+                <ng-template #skipData></ng-template>
+              </ng-container>
+            
         </div>
     </div>
     <ng-template #no_access>No access
