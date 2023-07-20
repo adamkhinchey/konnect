@@ -49,7 +49,10 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angul
    ],
   imports: [
     CommonModule,
-    ToastrModule.forRoot({timeOut: 3000}),
+    ToastrModule.forRoot({timeOut: 3000,
+      preventDuplicates: true
+    
+    }),
     NgMultiSelectDropDownModule,
     SharedRoutingModule,
     HttpClientModule,

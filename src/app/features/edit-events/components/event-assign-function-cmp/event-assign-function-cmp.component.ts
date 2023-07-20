@@ -10,6 +10,7 @@ import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 import { EventService } from '../../services/event.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-event-assign-function-cmp',
@@ -50,11 +51,14 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() tabName: any;
   currentDateTimeStamp: any="";
   SendType : any ="contact";
+  private notificationShown = false;
+
   constructor(
     private modalService: NgbModal,
     public eventSrvc: EventService,
     private toaster: ToastrService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private spinner: NgxSpinnerService
   ) {
   }
 
@@ -64,7 +68,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     } else if (changes && changes.selectedCompany && !changes.selectedCompany.currentValue) {
       this.disableAddContacts = true;
     }
-    // this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId);
   }
 
 
@@ -77,6 +80,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
           this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType);
         }
       });
+      this.resetNotificationState();
     }
 
   }
@@ -184,12 +188,16 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     const formattedTime = `${hours}:${minutes}`;
 
     this.currentDateTimeStamp = `${formattedDate}, ${formattedTime}`;
-   
+    this.spinner.show();
   this.eventSrvc.SaveConfirmationDate(this.contactList, this.tabName, this.currentDateTimeStamp, this.selectedCompany, this.eventData.eventData.eventId,this.SendType).subscribe(
       (res: any) => {
+        this.spinner.hide();
         this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType);
+        if (!this.notificationShown) {
         this.toaster.success("Confirmation Sent Successfully");
-
+        this.notificationShown = true;
+        }
+        
       },
       (err) => {
         console.log(err.error.message);
@@ -199,8 +207,10 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   getLatestDate(tabName: any, selectedCompany: any, eventId: any,SendType:any) {
+    this.spinner.show();
   this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId,SendType).subscribe(
       (res: any) => {
+        this.spinner.hide();
         if (res.data[0].latest_date == null) {
 
           this.currentDateTimeStamp = "None sent";
@@ -220,15 +230,15 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     );
   }
 
-  // onMouseLeave()
-  // {
-  //   this.dateHistory=[];
-  // }
+
   GetSendHistory(){
     this.dateHistory=[];
+    this.resetNotificationState();
+    this.spinner.show();
    this.eventSrvc.GetSendHistory(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType).subscribe(
       (res: any) => {
         this.dateHistory=[];
+        this.spinner.hide();
       res.data.map((item:any)=>{
         const formattedDate = this.datePipe.transform(item.send_date, 'dd-MM-yyyy HH:mm');
 
@@ -241,6 +251,10 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
       }
     );
     
+  }
+
+  resetNotificationState() {
+    this.notificationShown = false;
   }
 
 }
