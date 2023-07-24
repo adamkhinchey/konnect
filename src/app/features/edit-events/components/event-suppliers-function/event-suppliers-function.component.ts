@@ -72,6 +72,8 @@ export class EventSuppliersFunctionComponent
   @Input() permissionObj: any;
   @Input() content: any;
   activeServicePanel = 0;
+  isToggled:any=false;
+  
   private supplierCompanyAddedSub: Subscription | undefined;
   private supplierCmpCntAddedSub: Subscription | undefined;
   venuesSuppCmpsMap = new Map<
@@ -442,6 +444,7 @@ export class EventSuppliersFunctionComponent
   save(venueIndexLocal: any, serviceIndexLocal: any, shouldInvite: any) {
     this.isNotesEdit = false;
     this.eventService.isNotesEdit = false;
+    this.isToggled=false;
     this.saveAndInvite.emit({
       venueIndex: venueIndexLocal,
       serviceIndex: serviceIndexLocal,
@@ -583,7 +586,7 @@ export class EventSuppliersFunctionComponent
     this.eventService.isEdit = !this.isServiceEdit;
     this.isServiceEdit = !this.isServiceEdit;
     this.isServiceEditable = !this.isServiceEditable;
-    // this.isNotesEdit = true;
+   // this.isNotesEdit = true;
     this.editServiceIndex = editServiceFn;
   }
 
@@ -994,7 +997,10 @@ export class EventSuppliersFunctionComponent
 
   ched:any;
   SendType : any ="contact";
+  checkkddata:any=false;
   SendAllConfirmation( venues: any, venuesdsIndex: any){
+
+    this.checkkddata=false;
     const currentDate = new Date();
     let messagecheck="";
     const day = currentDate.getDate().toString().padStart(2, '0');
@@ -1011,9 +1017,11 @@ export class EventSuppliersFunctionComponent
 
     for (const [serviceIndex, venucxe] of venues.suppliers[0].services.entries()) {
       this.SendCheck=document.getElementById('send-' + serviceIndex + '_venue_' + venuesdsIndex);
+     
       venucxe.isCheckSend=this.SendCheck.checked;
+  
       if(venucxe.isCheckSend==true){
-       
+       this.checkkddata=true;
         this.eventSrvc.SaveConfirmationDate(venucxe.contacts, this.contactType, this.currentDateTimeStamp, venucxe, this.eventData.eventData.eventId,this.SendType).subscribe(
           (res: any) => {
             this.getLatestDate(this.contactType, venucxe, this.eventData.eventData.eventId,this.SendType);
@@ -1030,6 +1038,10 @@ export class EventSuppliersFunctionComponent
           }
         );
       
+      }
+
+      if(this.checkkddata==false){
+        this.toaster.error("error");
       }
        
       }

@@ -40,6 +40,10 @@ import { EventExhibitorsOverviewComponent } from './components/event-exhibitors-
 import { EventTimelineOverviewComponent } from './components/event-timeline-overview/event-timeline-overview.component';
 import { EventAssignCrewFunctionCmpOverviewComponent } from './components/event-assign-crew-function-overview-cmp/event-assign-crew-function-cmp-overview.component';
 import { EventAssignFunctionCmpOverviewComponent } from './components/event-assign-function-cmp-overview/event-assign-function-cmp-overview.component';
+import { ViewexhibitorToggle } from './components/view-exhibitor-toggle/view-exhibitor-toggle.component';
+import { ViewExhibitorsComponent } from './components/view-exhibitors.component.html/view-exhibitors.component';
+import { EventAssignFunctionCmpViewExhibitorComponent } from './components/event-assign-function-cmp-viewexhibitor/event-assign-function-cmp-viewexhibitor.component';
+import { TimeWindowsviewexhibitorComponent } from './components/time-windows-viewexhibitor/time-windows-viewexhibitor.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +57,8 @@ import { EventAssignFunctionCmpOverviewComponent } from './components/event-assi
     EventVenueFunctionComponent,
     EventVenueOverviewComponent,
     EventSuppliersFunctionComponent,
+    ViewExhibitorsComponent,
+    ViewexhibitorToggle,
     EventSuppliersOverviewComponent,
     EventExhibitorsFunctionComponent,
     EventExhibitorsOverviewComponent,
@@ -61,9 +67,11 @@ import { EventAssignFunctionCmpOverviewComponent } from './components/event-assi
     EventTimelineOverviewComponent,
     EventAssignFunctionCmpComponent,
     EventAssignFunctionCmpOverviewComponent,
+    EventAssignFunctionCmpViewExhibitorComponent,
     SearchOrInviteFunctionCmpComponent,
     SearchOrInviteFnCmpCntComponent,
     TimeWindowsComponent,
+    TimeWindowsviewexhibitorComponent,
     DateTimePickerComponent,
     EventFilesUploadModalComponent,
     EventViewComponent,

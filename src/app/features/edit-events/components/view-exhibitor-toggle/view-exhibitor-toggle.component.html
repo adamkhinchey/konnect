@@ -1,0 +1,22 @@
+
+<label class="switch">
+  <input type="checkbox" [checked]="isToggled" (change)="toggle()" />
+  <span class="slider round"></span> 
+</label> View Exhibitors
+
+
+
+<ng-container 
+*ngIf="isToggled==true && dataExihibitor.eventData?.venues && (dataExihibitor.eventData?.venues?.length || dataExihibitor.eventData?.venues?.length == 0)">
+<app-view-exhibitors #exhibitorsFn [eventData]="dataExihibitor" [venueCompanies]="venueCompanies"
+  [permissionObj]="permissionObj" [eventToBeSaved]="eventToBeSavedExhibitor" (saveAndInvite)="saveToDb($event)"
+  [searchInviteCmpModal]="searchInviteCmpModal" [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+  [setOpenedModalRef]="setOpenedModalRef.bind(this)" [setIsCrew]="setIsCrew.bind(this)">
+</app-view-exhibitors>
+</ng-container> 
+<ng-template #searchInviteFnCmpCntModal let-modal>
+  
+</ng-template>
+<ng-template #searchInviteCmpModal let-modal>
+ 
+</ng-template>

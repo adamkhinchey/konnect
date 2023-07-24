@@ -168,6 +168,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
 
   isFirstCrewMatch(index: number): boolean {
     let dataList = this.contactList;
+    
     return dataList.slice(0, index).every(data => data.isCrew !== 0);
   }
 
