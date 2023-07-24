@@ -7,16 +7,13 @@ import { devLogger } from '../../../../shared/utils';
 import { environment } from '../../../../../environments/environment';
 import { cloneDeep } from 'lodash-es';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
-import { EventService } from '../../services/event.service';
-import { ToastrService } from 'ngx-toastr';
-import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-event-assign-function-cmp',
-  templateUrl: './event-assign-function-cmp.component.html',
-  styleUrls: ['./event-assign-function-cmp.component.scss']
+  selector: 'app-event-assign-function-cmp-viewexhibitor',
+  templateUrl: './event-assign-function-cmp-viewexhibitor.component.html',
+  styleUrls: ['./event-assign-function-cmp-viewexhibitor.component.scss']
 })
-export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
+export class EventAssignFunctionCmpViewExhibitorComponent implements OnInit, OnChanges {
   addressCardIcon = faAddressCard;
   @Input() eventData: any;
   @Input() clientCmpBtnLabel = '';
@@ -33,7 +30,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   editContactLabelModalReference: NgbModalRef | undefined;
   disableAddContacts = true;
   contactLabels = environment.eventContactLabels;
-  dateHistory:any=[];
   @Input() contactList: FnCmpCntInterface[] = [];
   editingContactLabelIndex = -1;
   currentContactLabelIdSelected: number | null = null;
@@ -43,19 +39,13 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() isServiceEditable: boolean = false;
   @Input() isExhibitorEditable: boolean = false;
   @Input() permissionObj: any;
-  @Input() editServiceIndex: number = 0;
-  @Input() serviceIndex: number = 0;
+  @Input() editServiceIndex:number =0;
+  @Input() serviceIndex:number =0;
   @Output() isCrew = new EventEmitter<any>();
 
   @Input() tabName: any;
-  currentDateTimeStamp: any="";
-  SendType : any ="contact";
-  constructor(
-    private modalService: NgbModal,
-    public eventSrvc: EventService,
-    private toaster: ToastrService,
-    private datePipe: DatePipe
-  ) {
+
+  constructor(private modalService: NgbModal) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -64,25 +54,9 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     } else if (changes && changes.selectedCompany && !changes.selectedCompany.currentValue) {
       this.disableAddContacts = true;
     }
-    // this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId);
   }
-
 
   ngOnInit(): void {
-   if(this.selectedCompany!==undefined && this.selectedCompany!==null)
-    {
-      this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType);
-      this.eventSrvc.letestDate.subscribe(message=>{
-        if(message=="Send"){
-          this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType);
-        }
-      });
-    }
-
-  }
-
-  ngOnDestroy(){
-    this.eventSrvc.letestDate.next(null);
   }
 
   openVerticallyCentered(content: any): void {
@@ -104,7 +78,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
       keyboard: false
     });
     this.editingContactLabelIndex = i;
-    this.currentContactLabelIdSelected = this.contactList[i].contactLabelId ? this.contactList[i].contactLabelId : 5;
+    this.currentContactLabelIdSelected = this.contactList[i].contactLabelId?this.contactList[i].contactLabelId:5;
   }
 
 
@@ -152,97 +126,14 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   checkViewPermission(listLabel: any) {
-    if (listLabel == 'Add Venue') {
+    if(listLabel == 'Add Venue'){
       return true;
     }
-    else if (this.permissionObj.isClient || this.permissionObj.isEventManager || this.isViewPermission) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  isFirstCrewMatch(index: number): boolean {
-    let dataList = this.contactList;
-    
-    return dataList.slice(0, index).every(data => data.isCrew !== 0);
-  }
-
-
-
-  getCurrentDateTime() {
-
-    const currentDate = new Date();
-
-    const day = currentDate.getDate().toString().padStart(2, '0');
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = currentDate.getFullYear().toString();
-
-    const hours = currentDate.getHours().toString().padStart(2, '0');
-    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
-
-    const formattedDate = `${day}-${month}-${year}`;
-    const formattedTime = `${hours}:${minutes}`;
-
-    this.currentDateTimeStamp = `${formattedDate}, ${formattedTime}`;
-   
-  this.eventSrvc.SaveConfirmationDate(this.contactList, this.tabName, this.currentDateTimeStamp, this.selectedCompany, this.eventData.eventData.eventId,this.SendType).subscribe(
-      (res: any) => {
-        this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType);
-        this.toaster.success("Confirmation Sent Successfully");
-
-      },
-      (err) => {
-        console.log(err.error.message);
+      else if (this.permissionObj.isClient || this.permissionObj.isEventManager || this.isViewPermission) {
+        return true;
+      } else {
+        return false;
       }
-    );
-
-  }
-
-  getLatestDate(tabName: any, selectedCompany: any, eventId: any,SendType:any) {
-  this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId,SendType).subscribe(
-      (res: any) => {
-        if (res.data[0].latest_date == null) {
-
-          this.currentDateTimeStamp = "None sent";
-
-        }
-        else {
-          const formattedDate = this.datePipe.transform(res.data[0].latest_date, 'dd-MM-yyyy HH:mm');
-
-          this.currentDateTimeStamp = formattedDate;
-
-        }
-
-      },
-      (err) => {
-        console.log(err.error.message);
-      }
-    );
-  }
-
-  // onMouseLeave()
-  // {
-  //   this.dateHistory=[];
-  // }
-  GetSendHistory(){
-    this.dateHistory=[];
-   this.eventSrvc.GetSendHistory(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType).subscribe(
-      (res: any) => {
-        this.dateHistory=[];
-      res.data.map((item:any)=>{
-        const formattedDate = this.datePipe.transform(item.send_date, 'dd-MM-yyyy HH:mm');
-
-        this.dateHistory.push(formattedDate);
-      });
-
-      },
-      (err) => {
-        console.log(err.error.message);
-      }
-    );
-    
   }
 
 }
-
