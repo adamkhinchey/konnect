@@ -72,7 +72,7 @@ export class EventSuppliersFunctionComponent
   @Input() permissionObj: any;
   @Input() content: any;
   activeServicePanel = 0;
-  isToggled:any=false;
+  isToggled:any;
   
   private supplierCompanyAddedSub: Subscription | undefined;
   private supplierCmpCntAddedSub: Subscription | undefined;
@@ -444,7 +444,6 @@ export class EventSuppliersFunctionComponent
   save(venueIndexLocal: any, serviceIndexLocal: any, shouldInvite: any) {
     this.isNotesEdit = false;
     this.eventService.isNotesEdit = false;
-    this.isToggled=false;
     this.saveAndInvite.emit({
       venueIndex: venueIndexLocal,
       serviceIndex: serviceIndexLocal,
@@ -589,11 +588,30 @@ export class EventSuppliersFunctionComponent
    // this.isNotesEdit = true;
     this.editServiceIndex = editServiceFn;
   }
-
+  checkseldcffft:any;
   ngOnInit(): void {
     this.fetchUserInfo();
+
+
     console.log('permission obj in init...', this.permissionObj);
 
+    this.eventSrvc.GetViewExhibitor( this.eventToBeSaved.venues, this.eventData.eventData.eventId).subscribe(
+      (res: any) => {
+      
+        res.data.map((item:any)=>{
+          if(item!==null){
+            console.log("res opf get vuiew service_id++++",item);
+            console.log("res opf get vuiew venue_id++++",item.venue_id);
+            this.isToggled=item.status ? true: false;
+            console.log("toggle send************",this.isToggled);
+          }
+         
+        })
+        },
+      (err) => {
+        console.log(err.error.message);
+      }
+    );
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
@@ -678,6 +696,12 @@ export class EventSuppliersFunctionComponent
 
     this.eventService.navigatesToSuppliers.next();
     this.eventSrvc.letestDate.next(null);
+    
+    console.log("eventData+++++",this.eventData);
+    console.log("eventToBeSaved+++++",this.eventToBeSaved);
+   
+     
+    
   
   }
 
@@ -1040,10 +1064,14 @@ export class EventSuppliersFunctionComponent
       
       }
 
-      if(this.checkkddata==false){
-        this.toaster.error("error");
-      }
+    
        
+      }
+
+      if(this.checkkddata==false){
+
+        this.toaster.error("error");
+        
       }
   }
 

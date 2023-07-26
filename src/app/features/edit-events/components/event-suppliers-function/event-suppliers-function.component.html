@@ -153,21 +153,21 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                       <div class="ui grid stackable">
 
                         <div class="sixteen wide column saveButtons paddingT0">
-                          <div class="ui divider"></div>
                           <div class="ui grid stackable">
                             <!-- <div class="ten wide column middle aligned">
                               <div (click)="confirmRemove(service?.supplierId, 0)" *ngIf="!eventData.eventData.isDeleted && !checkPermission(service.isStaffOrAdmin)"
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div> -->
-                            <div *ngIf="(permissionObj.isEventManager)" class="sixteen wide column">
-                              <app-view-exhibitor-toggle [isToggled]="isToggled" [eventData]="eventData"    [permissionObj]="permissionObj" ></app-view-exhibitor-toggle>
+                            <div *ngIf="(permissionObj.isEventManager) || service?.isViewPermission==1  && service?.isSelfIncludedInSection == 1 ; else no_access" class="sixteen wide column">
+                              <app-view-exhibitor-toggle [isToggled]="isToggled" [isToggledId]="'toggle-'+service.supplierId+'_venue_'+venue.venueId"  [id]="'toggle-'+service.supplierId+'_venue_'+venue.venueId" [eventData]="eventData"  [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"   [permissionObj]="permissionObj" ></app-view-exhibitor-toggle>
+                            {{venue.venueId}}
                             </div>
 
                             <ng-template #no_access>No access
                             </ng-template>
 
-                            <div class="sixteen wide column right aligned">
+                            <div class="sixteen wide column right aligned" style="position: absolute;right: 0; width: 100px !important;">
                               <!-- <button [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)" class="ui button triggerEditableOptions ml-3" *ngIf="check()"
                                 (click)="editServiceFn(serviceIndex)">Edit </button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal" [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)"
@@ -183,6 +183,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 
                             </div>
                           </div>
+                          <div class="ui divider"></div>
+                          
                         </div>
 
                         <div class="seven wide column">

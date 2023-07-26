@@ -1,6 +1,6 @@
 <div *ngIf="eventToBeSaved.venues &&
 eventToBeSaved.venues.list &&
-eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
+eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment lightBoxBg">
   <ul ngbNav #venueNav="ngbNav" [activeId]="eventService?.activeExhibitorPanel?.venueIndex || 0"
     class="nav-tabs supplierInnerCont" [destroyOnHide]="false">
     <li ngbNavItem [ngbNavItem]="venueIndex" *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
@@ -11,7 +11,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           1)}}</span></a>
       <ng-template ngbNavContent>
 
-        <div class="ui styled fluid accordion parentAccordion parentAccordionVenue exhibitorAccordianBtnWidth">
+        <div class="ui styled fluid accordion parentAccordion parentAccordionVenue exhibitorAccordianBtnWidth " style="padding:10px;">
 
 
           <form class="ui form visible" style="display: block !important;">

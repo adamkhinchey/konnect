@@ -1,8 +1,11 @@
 
+
 <label class="switch">
-  <input type="checkbox" [checked]="isToggled" (change)="toggle()" />
+  <input type="checkbox" [id]="isToggledId" [checked]="isToggled"  (change)="toggle('child')"/>
   <span class="slider round"></span> 
 </label> View Exhibitors
+{{isToggled}}{{isToggledId}}
+
 
 
 
@@ -20,3 +23,5 @@
 <ng-template #searchInviteCmpModal let-modal>
  
 </ng-template>
+
+

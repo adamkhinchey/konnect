@@ -425,6 +425,39 @@ export class EventService {
      
   }
 
+  
+  SaveViewExhibitorDetails(selectedCompany:any,eventId:any): Observable<any> {
+    
+    this.spinner.show();
+   
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/saveViewExhibitor`, {selectedCompany,eventId})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+
+
+     
+  }
+
+  UpdateViewExhibitorDetails(selectedCompany:any,eventId:any): Observable<any> {
+    
+    this.spinner.show();
+   
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/updateViewExhibitor`, {selectedCompany,eventId})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+
+
+     
+  }
+
   SaveCrerwConfirmationDate(data: any,type:any,date:any,selectedCompany:any,eventId:any,sendtype:any): Observable<any> {
     
     this.spinner.show();
@@ -459,6 +492,19 @@ export class EventService {
     this.spinner.show();
     return this.http
       .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/getSendHistory`, {type,selectedCompany,eventId,SendType})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+
+  }
+
+  GetViewExhibitor(selectedCompany:any,eventId:any): Observable<any> {
+    
+    this.spinner.show();
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/getViewExhibitor`, {selectedCompany,eventId})
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),
