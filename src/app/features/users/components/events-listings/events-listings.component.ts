@@ -42,7 +42,7 @@ export class EventsListingsComponent implements OnInit, AfterViewChecked ,OnDest
 
   ngOnInit(): void {
     this.eventsCopy = this.events;
-    console.log('this.eventsCopy',this.eventsCopy);
+    console.log('this.eventsCopy.services[0].servicesId+++++',this.eventsCopy);
     this.fillSpecialDates();
     if (!this.isEventHistory) {
       this.noDataMsg = "Your associated companies currently have no scheduled events"

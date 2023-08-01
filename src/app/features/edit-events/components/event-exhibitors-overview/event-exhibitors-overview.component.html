@@ -231,7 +231,6 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         *ngIf="venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.isPrivate && venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.isSeed == 0"
                                         class="ui blue right corner label popupNotes adjustTri"
                                         data-content="Private Contact">
-                                        <!--<i class="address card outline icon"></i>-->
                                         <fa-icon [icon]="addressCardIcon"></fa-icon>
                                       </span>
                                       <img class="right floated mini ui image"
@@ -265,23 +264,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         <div class="ten wide column">
 
                                         </div>
-                                        <!-- <div class="six wide column right aligned" *ngIf="isExhibitorEdit">
-                                          <div (click)="removeSelectedCompany(venueIndex,exhibitorIndex)"
-                                            class="ui circular compact mini basic button confirmRemove hasModal"
-                                            data-modal="removeModal"><i class="trash alternate icon"></i>Remove
-                                          </div>
-                                        </div> -->
-
-                                        <!-- <div class="six wide column right aligned" *ngIf="isExhibitorEdit && (exhibitor?.isViewPermission==1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )">
-                                          <div (click)="removeSelectedCompany(venueIndex,exhibitorIndex)"
-                                            class="ui circular compact mini basic button confirmRemove hasModal"
-                                            data-modal="removeModal"><i class="trash alternate icon"></i>Remove
-                                          </div>
-                                        </div> -->
-
-
-                                        
-
+                                 
                                       </div>
                                     </div>
                                   </div>

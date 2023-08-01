@@ -68,7 +68,6 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log("this.selectedCompany+++",this.selectedCompany)
     if(this.selectedCompany!==undefined && this.selectedCompany!==null){
       this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType);
     }

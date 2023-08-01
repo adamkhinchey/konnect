@@ -4,7 +4,7 @@
     <ng-container> 
 
   <div class="ui grid center aligned"
-    *ngIf="!selectedCompany && (isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((isViewPermission == 1 ||  isViewPermission == 3) || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)))"> <!-- editable only in case of full access or restricted access in case of cleint -->
+    *ngIf="!selectedCompany && (isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) "> <!-- editable only in case of full access or restricted access in case of cleint -->
     <div class="sixteen wide column">
       <div class="ui button basic blue fluid addClient hasModal" (click)="openVerticallyCentered(clientCompanyModal)">
         <i class="plus circle icon"></i>{{clientCmpBtnLabel}}
@@ -13,7 +13,7 @@
   </div>
 </ng-container>
 <div class="contactsContainer">
-  <div class="ui dividing header" *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 2 ||  (isViewPermission == 3 && (tabName == 'clientTab' || tabName == 'eventManagerTab' ) && !(tabName == 'venueTab' || tabName == 'supplierTab' || tabName == 'exhibitorTab' ))); ">
+  <div class="ui dividing header" >
     <h3>{{contactListLabel}} <span
         *ngIf="contactListLabel != 'Supplier Contacts' && contactListLabel != 'Exhibitors Contacts'"><i
           class="globe icon"></i> </span>
@@ -26,7 +26,7 @@
   </div>
   <!-- <div class="kipCardContainer" *ngIf="checkViewPermission(contactListLabel); else no_access"> -->
     <!-- visible only in case of full access or read or restricted permission (on client and event manager tab)   to client -->
-    <div class="kipCardContainer" *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 2 ||  (isViewPermission == 3 && (tabName == 'clientTab' || tabName == 'eventManagerTab' ) && !(tabName == 'venueTab' || tabName == 'supplierTab' || tabName == 'exhibitorTab' ))); ">
+    <div class="kipCardContainer">
     <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
       <div class="column test" *ngFor="let contact of contactList; let i=index" [class.display-none] = "contact.isCrew == 1">
         <ng-container *ngIf="!contact.isCrew || contact.isCrew == 0">

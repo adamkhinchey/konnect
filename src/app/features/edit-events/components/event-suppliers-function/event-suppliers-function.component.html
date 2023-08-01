@@ -124,7 +124,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                     <div class="flaot-right accordionCheckBox" *ngIf="!eventData.eventData.isDeleted && ((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 ) || permissionObj.isEventManager)">
                       <div class="ui checkbox">
                         <input [disabled]="!isNotesEdit" type="checkbox" class="hidden" [id]="'send-'+serviceIndex+'_venue_'+venueIndex"
-                        [checked]="service.isCheckSend" 
+                        [checked]="service.isCheckSend" [(ngModel)]="service.isCheckSend"
                         tabindex="0">
                       <label [for]="'send-'+serviceIndex+'_venue_'+venueIndex">Send confirmation</label>
                       </div>
@@ -152,22 +152,29 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                       <div class="ui grid stackable">
 
-                        <div class="sixteen wide column saveButtons paddingT0">
+                        <div class="sixteen wide column saveButtons pb-0">
                           <div class="ui grid stackable">
                             <!-- <div class="ten wide column middle aligned">
                               <div (click)="confirmRemove(service?.supplierId, 0)" *ngIf="!eventData.eventData.isDeleted && !checkPermission(service.isStaffOrAdmin)"
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div> -->
-                            <div *ngIf="(permissionObj.isEventManager) || service?.isViewPermission==1  && service?.isSelfIncludedInSection == 1 ; else no_access" class="sixteen wide column">
-                              <app-view-exhibitor-toggle [isToggled]="isToggled" [isToggledId]="'toggle-'+service.supplierId+'_venue_'+venue.venueId"  [id]="'toggle-'+service.supplierId+'_venue_'+venue.venueId" [eventData]="eventData"  [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"   [permissionObj]="permissionObj" ></app-view-exhibitor-toggle>
-                            {{venue.venueId}}
-                            </div>
+                            <div class="eight wide column pb-0">
+                              <div *ngIf="(permissionObj.isEventManager) || service?.isViewPermission==1  && service?.isSelfIncludedInSection == 1 ; else no_access">
+                              <!-- <app-view-exhibitor-toggle [isToggled]="isToggled" [isToggledId]="'toggle-'+service.supplierId+'_venue_'+venue.venueId"  [id]="'toggle-'+service.supplierId+'_venue_'+venue.venueId" [eventData]="eventData"  [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"   [permissionObj]="permissionObj" ></app-view-exhibitor-toggle> -->
+           <div *ngIf="(permissionObj.isEventManager) && service?.contacts && !isServiceEdit">
+            <label class="switch" >
+              <input type="checkbox" [id]="'toggle-'+service.supplierId+'_venue_'+venue.venueId" [checked]="service?.isToggleChecked"  (change)="toggle($event,service.supplierId)"/>
+              <span class="slider round"></span> 
+            </label> View Exhibitors 
+           </div>             
+           </div>
+          </div>
 
                             <ng-template #no_access>No access
                             </ng-template>
-
-                            <div class="sixteen wide column right aligned" style="position: absolute;right: 0; width: 100px !important;">
+ <!-- style="position: absolute;right: 0; width: 100px !important;" -->
+                            <div class="eight wide column right aligned">
                               <!-- <button [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)" class="ui button triggerEditableOptions ml-3" *ngIf="check()"
                                 (click)="editServiceFn(serviceIndex)">Edit </button>
                               <button class="ui button hasModal ml-3" data-modal="inviteModal" [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)"

@@ -555,6 +555,7 @@ export class ViewExhibitorsComponent
     }
     this.exhCompanyAddedSub =
       this.eventService.exhibitorCompanyAddSubject.subscribe((value) => {
+     console.log("datatattat")
         devLogger('log', 'exhCompanyAddedSub');
         devLogger('log', value);
         const isInvited = value.exhibitorCompany instanceof InviteFnCmpClass;
@@ -574,6 +575,9 @@ export class ViewExhibitorsComponent
             this.venuesExhCmpsMap
               .get(value.venueIndex)
               ?.set(value.exhibitorIndex, value.exhibitorCompany);
+              console.log("behaviour subject value+++++", this.venuesExhCmpsMap
+              .get(value.venueIndex)
+              ?.set(value.exhibitorIndex, value.exhibitorCompany));
           } else {
             const exhibitorCmpMap = new Map([
               [value.exhibitorIndex, value.exhibitorCompany],
@@ -589,40 +593,41 @@ export class ViewExhibitorsComponent
       this.eventService.exhibitorCmpCntAddSubject.subscribe((value) => {
         this.setContacts(value);
       });
-    this.eventService.navigatesToExhibitors.subscribe(() => {
-      this.eventService.getFetchedVenueExCmp().forEach((param, index) => {
-        this.eventService.activeExhibitorPanel = {
-          venueIndex: param.venueIndex,
-          exhibitorIndex: param.exhibitorIndex,
-        };
-        if (param.company) {
-          this.eventService.exhibitorCompanyAdded(param.company);
-        }
-
-        if (index === this.eventService.getFetchedVenueExCmp().length - 1) {
+      this.eventService.navigatesToExhibitors.subscribe(() => {
+       
+        this.eventService.getFetchedVenueExCmp().forEach((param, index) => {
           this.eventService.activeExhibitorPanel = {
-            venueIndex: 0,
-            exhibitorIndex: 0,
+            venueIndex: param.venueIndex,
+            exhibitorIndex: param.exhibitorIndex,
           };
-        }
-      });
-
-      this.eventService.getFetchedVenueExCmpCnts().forEach((param, index) => {
-        this.eventService.activeExhibitorPanel = {
-          venueIndex: param.venueIndex,
-          exhibitorIndex: param.exhibitorIndex,
-        };
-        if (param.contactList) {
-          this.eventService.exhibitorContactsAdded(param.contactList);
-        }
-        if (index === this.eventService.getFetchedVenueExCmpCnts().length - 1) {
+          if (param.company) {
+            this.eventService.exhibitorCompanyAdded(param.company);
+          }
+  
+          if (index === this.eventService.getFetchedVenueExCmp().length - 1) {
+            this.eventService.activeExhibitorPanel = {
+              venueIndex: 0,
+              exhibitorIndex: 0,
+            };
+          }
+        });
+  
+        this.eventService.getFetchedVenueExCmpCnts().forEach((param, index) => {
           this.eventService.activeExhibitorPanel = {
-            venueIndex: 0,
-            exhibitorIndex: 0,
+            venueIndex: param.venueIndex,
+            exhibitorIndex: param.exhibitorIndex,
           };
-        }
+          if (param.contactList) {
+            this.eventService.exhibitorContactsAdded(param.contactList);
+          }
+          if (index === this.eventService.getFetchedVenueExCmpCnts().length - 1) {
+            this.eventService.activeExhibitorPanel = {
+              venueIndex: 0,
+              exhibitorIndex: 0,
+            };
+          }
+        });
       });
-    });
 
     this.eventService.navigatesToExhibitors.next();
   }

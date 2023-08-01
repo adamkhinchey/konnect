@@ -577,6 +577,11 @@ export class EventExhibitorsOverviewComponent
             this.venuesExhCmpsMap
               .get(value.venueIndex)
               ?.set(value.exhibitorIndex, value.exhibitorCompany);
+
+              console.log("behaviour subject value in exhibitor+++++", this.venuesExhCmpsMap
+              .get(value.venueIndex)
+              ?.set(value.exhibitorIndex, value.exhibitorCompany));
+
           } else {
             const exhibitorCmpMap = new Map([
               [value.exhibitorIndex, value.exhibitorCompany],

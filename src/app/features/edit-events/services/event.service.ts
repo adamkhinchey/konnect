@@ -500,11 +500,37 @@ export class EventService {
 
   }
 
-  GetViewExhibitor(selectedCompany:any,eventId:any): Observable<any> {
+  GetViewExhibitor(eventId:any): Observable<any> {
     
     this.spinner.show();
     return this.http
-      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/getViewExhibitor`, {selectedCompany,eventId})
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/getViewExhibitor`, {eventId})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+
+  }
+
+  GetViewExhibitorDetails(serviceId:any): Observable<any> {
+    
+    this.spinner.show();
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/getViewExhibitorDetails`, {serviceId})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+
+  }
+
+  GetViewExhibtr(eventId:any): Observable<any> {
+    
+    this.spinner.show();
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/getViewExhibtr`, {eventId})
       .pipe(
         hideSpinnerPostApiCall(this.spinner),
         take(1),

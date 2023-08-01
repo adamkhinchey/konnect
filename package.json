@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev:build:upload": "ng build --output-hashing=all -c dev && aws --profile konnect s3 cp ./dist s3://dev-user-website --recursive --acl public-read",
-    "uat:build:upload": "ng build --output-hashing=all -c uat && aws --profile konnect s3 cp ./dist s3://uat-user-website --recursive --acl public-read",
+    "uat:build:upload": "ng build --output-hashing=all -c uat && aws --profile default s3 cp ./dist s3://uat-user-website --recursive --acl public-read",
     "platform:build:upload": "ng build --output-hashing=all -c platform && aws --profile konnect s3 cp ./dist s3://platform-user-website --recursive --acl public-read"
   },
   "private": true,

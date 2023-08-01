@@ -43,6 +43,15 @@ import { UserInfoService } from 'src/app/shared/services';
 import { entries } from 'lodash-es';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
+import { UserSettingsService } from 'src/app/shared/services';
+import { UserSettingsInterface } from 'src/app/shared/models';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { EventFunctionTypes } from '../../models/types';
+import { FnCmpCntInterface } from '../../models/interfaces';
+import { VenuueCompany } from '../create-event/create-event.component';
+import * as _ from 'lodash';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-event-suppliers-function',
@@ -72,8 +81,8 @@ export class EventSuppliersFunctionComponent
   @Input() permissionObj: any;
   @Input() content: any;
   activeServicePanel = 0;
-  isToggled:any;
-  
+
+
   private supplierCompanyAddedSub: Subscription | undefined;
   private supplierCmpCntAddedSub: Subscription | undefined;
   venuesSuppCmpsMap = new Map<
@@ -288,10 +297,11 @@ export class EventSuppliersFunctionComponent
   userId: any;
   isSelectAll: any = false;
   isSelectAllSend: boolean = false;
-  SendCheck:any;
- contactType:string="servicesTab";
- currentDateTimeStamp: any ;
- dateHistory:any=[];
+  SendCheck: any;
+  contactType: string = "servicesTab";
+  currentDateTimeStamp: any;
+  dateHistory: any = [];
+
 
   constructor(
     public eventService: EventService,
@@ -303,7 +313,10 @@ export class EventSuppliersFunctionComponent
     public modalService: NgbModal,
     public aroute: ActivatedRoute,
     public userInfoService: UserInfoService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public viewEvSrvc: ViewEventService,
+    public userSettings: UserSettingsService,
+    public authService: AuthService
   ) {
     this.aroute.queryParams.subscribe((param) => {
       console.log('param...', param);
@@ -585,39 +598,23 @@ export class EventSuppliersFunctionComponent
     this.eventService.isEdit = !this.isServiceEdit;
     this.isServiceEdit = !this.isServiceEdit;
     this.isServiceEditable = !this.isServiceEditable;
-   // this.isNotesEdit = true;
+    // this.isNotesEdit = true;
     this.editServiceIndex = editServiceFn;
   }
-  checkseldcffft:any;
+  checkseldcffft: any;
   ngOnInit(): void {
     this.fetchUserInfo();
 
-
     console.log('permission obj in init...', this.permissionObj);
 
-    this.eventSrvc.GetViewExhibitor( this.eventToBeSaved.venues, this.eventData.eventData.eventId).subscribe(
-      (res: any) => {
-      
-        res.data.map((item:any)=>{
-          if(item!==null){
-            console.log("res opf get vuiew service_id++++",item);
-            console.log("res opf get vuiew venue_id++++",item.venue_id);
-            this.isToggled=item.status ? true: false;
-            console.log("toggle send************",this.isToggled);
-          }
-         
-        })
-        },
-      (err) => {
-        console.log(err.error.message);
-      }
-    );
+
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
     }
     this.supplierCompanyAddedSub =
       this.eventService.supplierCompanyAddSubject.subscribe(
         (value) => {
+
           devLogger('log', 'supplierCompanyAddedSub');
           devLogger('log', value);
           const isInvited = value.supplierCompany instanceof InviteFnCmpClass;
@@ -658,6 +655,7 @@ export class EventSuppliersFunctionComponent
       });
 
     this.eventService.navigatesToSuppliers.subscribe(() => {
+      this.getToggleDetails();
       this.eventService.getFetchedVenueSrvcsCmp().forEach((param, index) => {
         this.eventService.activeServicePanel = {
           venueIndex: param.venueIndex,
@@ -696,15 +694,13 @@ export class EventSuppliersFunctionComponent
 
     this.eventService.navigatesToSuppliers.next();
     this.eventSrvc.letestDate.next(null);
-    
-    console.log("eventData+++++",this.eventData);
-    console.log("eventToBeSaved+++++",this.eventToBeSaved);
-   
-     
-    
-  
-  }
 
+
+    this.userId = localStorage.getItem('userId');
+
+
+
+  }
 
 
   checkseldct: any;
@@ -1019,14 +1015,14 @@ export class EventSuppliersFunctionComponent
     }
   }
 
-  ched:any;
-  SendType : any ="contact";
-  checkkddata:any=false;
-  SendAllConfirmation( venues: any, venuesdsIndex: any){
+  ched: any;
+  SendType: any = "contact";
+  checkkddata: any = false;
+  SendAllConfirmation(venues: any, venuesdsIndex: any) {
 
-    this.checkkddata=false;
+    this.checkkddata = false;
     const currentDate = new Date();
-    let messagecheck="";
+    let messagecheck = "";
     const day = currentDate.getDate().toString().padStart(2, '0');
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
     const year = currentDate.getFullYear().toString();
@@ -1038,45 +1034,56 @@ export class EventSuppliersFunctionComponent
     const formattedTime = `${hours}:${minutes}`;
 
     this.currentDateTimeStamp = `${formattedDate}, ${formattedTime}`;
+    console.log("venucxe+++++", venues.suppliers[0].services);
+    var checkedValues;
+    checkedValues = venues.suppliers[0].services.filter((checked: any) => {
+      console.log('checked...', checked.isCheckSend)
+      return checked.isCheckSend === true;
+    });
+    console.log('cheked values...', checkedValues)
+    for (const [serviceIndex, venucxe] of checkedValues.entries()) {
+      console.log("serviceindex",serviceIndex);
+      console.log("checked value ....", checkedValues.length)
+      let count: number = 0;
+      this.SendCheck = document.getElementById('send-' + serviceIndex + '_venue_' + venuesdsIndex);
 
-    for (const [serviceIndex, venucxe] of venues.suppliers[0].services.entries()) {
-      this.SendCheck=document.getElementById('send-' + serviceIndex + '_venue_' + venuesdsIndex);
-     
-      venucxe.isCheckSend=this.SendCheck.checked;
-  
-      if(venucxe.isCheckSend==true){
-       this.checkkddata=true;
-        this.eventSrvc.SaveConfirmationDate(venucxe.contacts, this.contactType, this.currentDateTimeStamp, venucxe, this.eventData.eventData.eventId,this.SendType).subscribe(
+      // venucxe.isCheckSend = this.SendCheck.checked;
+      if (venucxe.isCheckSend && venucxe.isCheckSend == true) {
+
+        this.checkkddata = true;
+        this.eventSrvc.SaveConfirmationDate(venucxe.contacts, this.contactType, this.currentDateTimeStamp, venucxe, this.eventData.eventData.eventId, this.SendType).subscribe(
           (res: any) => {
-            this.getLatestDate(this.contactType, venucxe, this.eventData.eventData.eventId,this.SendType);
+            this.getLatestDate(this.contactType, venucxe, this.eventData.eventData.eventId, this.SendType);
+            if ((serviceIndex == checkedValues.length - 1) && res.code == 200) {
               this.toaster.success("Confirmation Sent Successfully");
-              this.ched= document.getElementById('selectallForSend'+venuesdsIndex);
-              this.ched.checked=false;
-              venucxe.isCheckSend=false;
-              this.eventSrvc.letestDate.next("Send");
-              messagecheck="succesfull";
+            }
+            this.ched = document.getElementById('selectallForSend' + venuesdsIndex);
+            this.ched.checked = false;
+            venucxe.isCheckSend = false;
+            this.eventSrvc.letestDate.next("Send");
+            messagecheck = "succesfull";
           },
           (err) => {
             console.log(err.error.message);
-            messagecheck="error";
+            messagecheck = "error";
           }
         );
-      
+
       }
 
-    
-       
-      }
 
-      if(this.checkkddata==false){
 
-        this.toaster.error("error");
-        
-      }
+    }
+
+    if (this.checkkddata == false) {
+
+      this.toaster.error("Please select Supplier");
+
+    }
   }
 
-  getLatestDate(tabName: any, selectedCompany: any, eventId: any,SendType:any) {
-    this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId,SendType).subscribe(
+  getLatestDate(tabName: any, selectedCompany: any, eventId: any, SendType: any) {
+    this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId, SendType).subscribe(
       (res: any) => {
         if (res.data[0].latest_date == null) {
 
@@ -1097,6 +1104,85 @@ export class EventSuppliersFunctionComponent
     );
   }
 
- 
+
+
+  toggle(event: any, supplierId: any,) {
+    const target = event.target as HTMLInputElement;
+    const { checked } = target;
+
+    this.eventToBeSaved?.venues?.list.map((venueRes: any, index: any) => {
+      venueRes.suppliers[0].services.map((supplierRes: any, index: any) => {
+
+        if (supplierRes.supplierId == supplierId) {
+          supplierRes.isToggleChecked = !supplierRes.isToggleChecked;
+
+        }
+
+      })
+    })
+
+    if (checked) {
+      this.eventService.SaveViewExhibitorDetails(supplierId, this.eventData.eventData.eventId).subscribe((res: any) => {
+
+      },
+        (err) => {
+          console.log(err.error.message);
+        }
+      );
+    }
+    else {
+      this.eventService.UpdateViewExhibitorDetails(supplierId, this.eventData.eventData.eventId).subscribe(
+        (res: any) => {
+
+        },
+        (err) => {
+          console.log(err.error.message);
+        }
+      );
+    }
+
+
+
+  }
+
+  getToggleDetails() {
+    console.log("data goes on", this.eventData.eventData.eventId)
+
+    this.eventSrvc.GetViewExhibtr(this.eventData.eventData.eventId).subscribe(
+      (res: any) => {
+        if (res.data != null && res.data != undefined) {
+          res.data[0].map((item: any) => {
+
+            if (item !== null) {
+              this.eventToBeSaved?.venues?.list?.map((item1) => {
+                for (const venucxe of item1.suppliers[0]?.services) {
+                  if (venucxe.supplierId == item.service_id) {
+
+                    venucxe.isToggleChecked = item.status ? true : false;;
+                  }
+
+                }
+
+              })
+
+            }
+
+          })
+        }
+
+      },
+      (err) => {
+        console.log(err.error.message);
+      }
+    );
+  }
+
+
+
+
+
+
+
+
 
 }

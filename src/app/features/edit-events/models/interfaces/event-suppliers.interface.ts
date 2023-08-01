@@ -22,6 +22,7 @@ export interface EventSuppliersInterface {
     isCheck?: null | boolean,
     isCheckDirect?: null | boolean,
     isCheckSend?: null | boolean,
-    isCheckDirectSend?: null | boolean
+    isCheckDirectSend?: null | boolean,
+    isToggleChecked?: null | boolean
   }[];
 }

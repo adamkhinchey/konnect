@@ -225,13 +225,22 @@
 
         <div class="accordion-content">
             <ng-container 
-            *ngIf="exhibitorid==5 && dataExihibitor.eventData.venues && (dataExihibitor.eventData?.venues?.length || dataExihibitor.eventData?.venues?.length == 0)">
+            *ngIf="exhibitorid==5 && !exhibibitorView && dataExihibitor.eventData.venues && (dataExihibitor.eventData?.venues?.length || dataExihibitor.eventData?.venues?.length == 0)">
             <app-event-exhibitors-overview #exhibitorsFn [eventData]="dataExihibitor" [venueCompanies]="venueCompanies"
               [permissionObj]="permissionObj" [eventToBeSaved]="eventToBeSavedExhibitor" (saveAndInvite)="saveToDb($event)"
               [searchInviteCmpModal]="searchInviteCmpModal" [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
               [setOpenedModalRef]="setOpenedModalRef.bind(this)" [setIsCrew]="setIsCrew.bind(this)">
             </app-event-exhibitors-overview>
           </ng-container>
+          <ng-container 
+          *ngIf="exhibitorid==5  && exhibibitorView && dataExihibitor.eventData.venues && (dataExihibitor.eventData?.venues?.length || dataExihibitor.eventData?.venues?.length == 0)">
+        
+          <app-view-exhibitors #exhibitorsFn [eventData]="dataExihibitor" [venueCompanies]="venueCompanies"
+          [permissionObj]="permissionObj" [eventToBeSaved]="eventToBeSavedExhibitor" (saveAndInvite)="saveToDb($event)"
+          [searchInviteCmpModal]="searchInviteCmpModal" [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+          [setOpenedModalRef]="setOpenedModalRef.bind(this)" [setIsCrew]="setIsCrew.bind(this)">
+        </app-view-exhibitors>
+    </ng-container>
         </div>
 
         <div class="container">

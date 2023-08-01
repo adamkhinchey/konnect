@@ -50,6 +50,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
   active = 1;
   isPast=false;
   disabled = true;
+  exhibibitorView = false;
   modalReference: NgbModalRef | undefined;
   eventToBeSaved = new SaveEventClass();
   // TODO remove this hard coded saved eventId
@@ -134,6 +135,7 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   ngOnInit(): void {
+    this.exhibibitorView=false;
     this.eventService.reset();
     this.userSettingsSub = this.userSettings.settings.subscribe((value: UserSettingsInterface) => {
       this.defaultCompany = value.defaultCompany;
@@ -232,9 +234,52 @@ export class CreateEventComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectedFunction=this.active;
         this.getEventsById(this.active);
       }
+
+     
     
     }
+
+    this.toggleStatus(this.eventId);
+    
   }
+
+  
+  toggleStatus(eventData:any) {
+    this.eventService.GetViewExhibitor(eventData).subscribe(
+      (res: any) => {
+if(res.data !== null){
+  this.eventService.GetViewExhibitorDetails(res.data.serviceId).subscribe(
+    (res: any) => {
+  console.log("serviceId ++++",res);
+  if(res.data!== null){
+    
+if(res.data.status){
+  this.exhibibitorView=true;
+}
+else{
+  this.exhibibitorView=false;
+}
+   
+
+  }
+  
+    
+    },
+    (err) => {
+      console.log(err.error.message);
+    }
+  );
+}
+
+
+      
+      },
+      (err) => {
+        console.log(err.error.message);
+      }
+    );
+  }
+
 
   onlySave() {
     switch (this.selectedFunction) {
@@ -867,6 +912,7 @@ console.log('this.eventToBeSaved.venues 1',this.eventToBeSaved.venues);
                 this.venueContactLists.push(contacts);
               }
             }
+            console.log("goeas")
             this.eventService.navigatesToExhibitors.next()
           }
         }

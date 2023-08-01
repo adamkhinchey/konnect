@@ -57,6 +57,7 @@ export class EventAssignFunctionCmpViewExhibitorComponent implements OnInit, OnC
   }
 
   ngOnInit(): void {
+    console.log("contactList+++++",this.contactList)
   }
 
   openVerticallyCentered(content: any): void {
@@ -97,7 +98,9 @@ export class EventAssignFunctionCmpViewExhibitorComponent implements OnInit, OnC
   }
 
   setContactList(contactList: FnCmpCntInterface[]): void {
+    console.log("contactList before ++++",contactList);
     this.contactList = cloneDeep(contactList);
+    console.log("contactList After ++++",this.contactList);
   }
 
   removeContactList(): void {

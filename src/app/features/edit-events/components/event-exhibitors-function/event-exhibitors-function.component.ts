@@ -573,6 +573,7 @@ export class EventExhibitorsFunctionComponent
     }
     this.exhCompanyAddedSub =
       this.eventService.exhibitorCompanyAddSubject.subscribe((value) => {
+        console.log("this has data ")
         devLogger('log', 'exhCompanyAddedSub');
         devLogger('log', value);
         const isInvited = value.exhibitorCompany instanceof InviteFnCmpClass;
@@ -614,6 +615,7 @@ export class EventExhibitorsFunctionComponent
           exhibitorIndex: param.exhibitorIndex,
         };
         if (param.company) {
+          console.log("param.company event++++++",param.company);
           this.eventService.exhibitorCompanyAdded(param.company);
         }
 

@@ -109,6 +109,7 @@ export class OverviewComponent implements OnInit {
 
   public isClientEditable = false;
   public isManagerEditable = false;
+  exhibibitorView = false;
   public isVenueEditable = false;
   public isServiceEditable = false;
   public isExhibitorEditable = false;
@@ -181,6 +182,8 @@ export class OverviewComponent implements OnInit {
       }
     });
      this.getEvents();
+
+     this.toggleStatus(this.eventId);
   }
   getData(tabType: any): any {
     if (tabType == 5 && this.data.eventData?.venues && this.data.eventData?.venues.length) {
@@ -188,6 +191,7 @@ export class OverviewComponent implements OnInit {
     }
     return this.data;
   }
+
 
   
   private setFnCompanyToSelf(defaultCompany: any): void {
@@ -2116,4 +2120,42 @@ console.log('this.selectedFunction',this.selectedFunction);
   searchInviteCompanyClosed(): void {
     this.modalReference?.close();
   }
+
+  
+  toggleStatus(eventData:any) {
+    this.eventService.GetViewExhibitor(eventData).subscribe(
+      (res: any) => {
+if(res.data !== null){
+  this.eventService.GetViewExhibitorDetails(res.data.serviceId).subscribe(
+    (res: any) => {
+  console.log("serviceId ++++",res);
+  if(res.data!== null){
+    
+if(res.data.status){
+  this.exhibibitorView=true;
+}
+else{
+  this.exhibibitorView=false;
+}
+   
+
+  }
+  
+    
+    },
+    (err) => {
+      console.log(err.error.message);
+    }
+  );
+}
+
+
+      
+      },
+      (err) => {
+        console.log(err.error.message);
+      }
+    );
+  }
+
 }
