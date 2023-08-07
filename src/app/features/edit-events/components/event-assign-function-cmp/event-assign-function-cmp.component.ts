@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, TemplateRef, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef,ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Company } from '../../../users/models';
 import { FnCmpCntInterface, InviteFnCmpInterface } from '../../models/interfaces';
 import { InviteFnCmpClass } from '../../models/classes';
@@ -11,6 +11,7 @@ import { EventService } from '../../services/event.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { log } from 'console';
 
 @Component({
   selector: 'app-event-assign-function-cmp',
@@ -34,7 +35,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   editContactLabelModalReference: NgbModalRef | undefined;
   disableAddContacts = true;
   contactLabels = environment.eventContactLabels;
-  dateHistory:any=[];
+  dateHistory: any;
   @Input() contactList: FnCmpCntInterface[] = [];
   editingContactLabelIndex = -1;
   currentContactLabelIdSelected: number | null = null;
@@ -47,12 +48,14 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() editServiceIndex: number = 0;
   @Input() serviceIndex: number = 0;
   @Output() isCrew = new EventEmitter<any>();
+  tooltipVisible = false;
+  dataLoaded = false;
 
   @Input() tabName: any;
-  currentDateTimeStamp: any="";
-  SendType : any ="contact";
+  currentDateTimeStamp: any = "";
+  SendType: any = "contact";
   private notificationShown = false;
-
+ 
   constructor(
     private modalService: NgbModal,
     public eventSrvc: EventService,
@@ -72,20 +75,21 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
 
 
   ngOnInit(): void {
-   if(this.selectedCompany!==undefined && this.selectedCompany!==null)
-    {
-      this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType);
-      this.eventSrvc.letestDate.subscribe(message=>{
-        if(message=="Send"){
-          this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType);
+    if (this.selectedCompany !== undefined && this.selectedCompany !== null) {
+      this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId, this.SendType);
+      this.eventSrvc.letestDate.subscribe(message => {
+        if (message == "Send") {
+          this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId, this.SendType);
         }
       });
       this.resetNotificationState();
     }
-
+    
   }
 
-  ngOnDestroy(){
+  
+
+  ngOnDestroy() {
     this.eventSrvc.letestDate.next(null);
   }
 
@@ -166,9 +170,11 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     }
   }
 
+ 
+
   isFirstCrewMatch(index: number): boolean {
     let dataList = this.contactList;
-    
+
     return dataList.slice(0, index).every(data => data.isCrew !== 0);
   }
 
@@ -176,29 +182,28 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
 
   getCurrentDateTime() {
 
+
     const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const hours = String(currentDate.getHours()).padStart(2, '0');
+    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+    const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+    
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-    const day = currentDate.getDate().toString().padStart(2, '0');
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = currentDate.getFullYear().toString();
 
-    const hours = currentDate.getHours().toString().padStart(2, '0');
-    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
-
-    const formattedDate = `${day}-${month}-${year}`;
-    const formattedTime = `${hours}:${minutes}`;
-
-    this.currentDateTimeStamp = `${formattedDate}, ${formattedTime}`;
     this.spinner.show();
-  this.eventSrvc.SaveConfirmationDate(this.contactList, this.tabName, this.currentDateTimeStamp, this.selectedCompany, this.eventData.eventData.eventId,this.SendType).subscribe(
+    this.eventSrvc.SaveConfirmationDate(this.contactList, this.tabName, formattedDate, this.selectedCompany, this.eventData.eventData.eventId, this.SendType).subscribe(
       (res: any) => {
         this.spinner.hide();
-        this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType);
+        this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId, this.SendType);
         if (!this.notificationShown) {
-        this.toaster.success("Confirmation Sent Successfully");
-        this.notificationShown = true;
+          this.toaster.success("Confirmation Sent Successfully");
+          this.notificationShown = true;
         }
-        
+
       },
       (err) => {
         console.log(err.error.message);
@@ -207,9 +212,9 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
 
   }
 
-  getLatestDate(tabName: any, selectedCompany: any, eventId: any,SendType:any) {
+  getLatestDate(tabName: any, selectedCompany: any, eventId: any, SendType: any) {
     this.spinner.show();
-  this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId,SendType).subscribe(
+    this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId, SendType).subscribe(
       (res: any) => {
         this.spinner.hide();
         if (res.data[0].latest_date == null) {
@@ -231,27 +236,44 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     );
   }
 
+ 
 
-  GetSendHistory(){
-    this.dateHistory=[];
+  GetSendHistory() {
     this.resetNotificationState();
-    this.spinner.show();
-   this.eventSrvc.GetSendHistory(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType).subscribe(
+    // this.spinner.show();
+    this.eventSrvc.GetSendHistory(this.tabName, this.selectedCompany, this.eventData.eventData.eventId, this.SendType).subscribe(
       (res: any) => {
-        this.dateHistory=[];
-        this.spinner.hide();
-      res.data.map((item:any)=>{
-        const formattedDate = this.datePipe.transform(item.send_date, 'dd-MM-yyyy HH:mm');
-
-        this.dateHistory.push(formattedDate);
-      });
-
+        // this.spinner.hide();
+        this.dateHistory=res.data;
+        this.dataLoaded = true;
+        this.tooltipVisible = true;
       },
       (err) => {
         console.log(err.error.message);
       }
     );
-    
+  }
+
+  title = 'appBootstrap';
+  
+  closeResult: any;
+  
+  open(content:any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 
   resetNotificationState() {

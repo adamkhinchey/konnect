@@ -1,10 +1,11 @@
 <!-- <ng-container *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission"> -->
-  <!-- 1 for full access and 2 for readable access -->
-  <!-- <ng-container *ngIf="isViewPermission == 1 ||  isViewPermission == 2 ||   (isViewPermission == 3 && (tabName == 'clientTab' || tabName == 'eventManagerTab' ))">  -->
-    <ng-container> 
+<!-- 1 for full access and 2 for readable access -->
+<!-- <ng-container *ngIf="isViewPermission == 1 ||  isViewPermission == 2 ||   (isViewPermission == 3 && (tabName == 'clientTab' || tabName == 'eventManagerTab' ))">  -->
+<ng-container>
 
   <div class="ui grid center aligned"
-    *ngIf="!selectedCompany && (isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((isViewPermission == 1 ||  isViewPermission == 3) || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)))"> <!-- editable only in case of full access or restricted access in case of cleint -->
+    *ngIf="!selectedCompany && (isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((isViewPermission == 1 ||  isViewPermission == 3) || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)))">
+    <!-- editable only in case of full access or restricted access in case of cleint -->
     <div class="sixteen wide column">
       <div class="ui button basic blue fluid addClient hasModal" (click)="openVerticallyCentered(clientCompanyModal)">
         <i class="plus circle icon"></i>{{clientCmpBtnLabel}}
@@ -25,13 +26,15 @@
     </h3>
   </div>
   <!-- <div class="kipCardContainer" *ngIf="checkViewPermission(contactListLabel); else no_access"> -->
-    <!-- visible only in case of full access or read or restricted permission (on client and event manager tab)   to client -->
-    <div class="kipCardContainer" *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 2 ||  (isViewPermission == 3 && (tabName == 'clientTab' || tabName == 'eventManagerTab' ) && !(tabName == 'venueTab' || tabName == 'supplierTab' || tabName == 'exhibitorTab' ))); else no_access">
+  <!-- visible only in case of full access or read or restricted permission (on client and event manager tab)   to client -->
+  <div class="kipCardContainer"
+    *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 2 ||  (isViewPermission == 3 && (tabName == 'clientTab' || tabName == 'eventManagerTab' ) && !(tabName == 'venueTab' || tabName == 'supplierTab' || tabName == 'exhibitorTab' ))); else no_access">
     <div *ngIf="contactList && contactList.length>0" class="ui one column grid stackable">
-      <div class="column test" *ngFor="let contact of contactList; let i=index" [class.display-none] = "contact.isCrew == 1">
+      <div class="column test" *ngFor="let contact of contactList; let i=index"
+        [class.display-none]="contact.isCrew == 1">
         <ng-container *ngIf="!contact.isCrew || contact.isCrew == 0">
           <div class="contactRole">{{contactLabels.get(contact.contactLabelId) || '(Contact Label Not Assigned)'}}
-            
+
             <!-- <div
               *ngIf="isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable"
               class="hidden ui circular compact mini basic icon button editProfileBtn hasModal"
@@ -73,7 +76,7 @@
 
                 </div>
                 <div class="eight wide column right aligned">
-                   <!-- editable only in case of full access or restricted access in case of client -->
+                  <!-- editable only in case of full access or restricted access in case of client -->
                   <div class="ui circular compact mini basic button confirmRemove hasModal"
                     (click)="removeContactFromList(i)"
                     *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((isViewPermission == 1 ||  isViewPermission == 3) || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1))  )"
@@ -86,39 +89,44 @@
       </div>
 
 
-          
+      <ng-container *ngIf="(isViewPermission == 1 && isSelfIncludedInSection == 1) || permissionObj.isEventManager">
         <ng-container *ngFor="let contact of contactList;let firstIndex = index">
-          <ng-container  *ngIf="contact.isCrew == 0 && isFirstCrewMatch(firstIndex); else skipData">
-           <div class="column justify-content-between" >
-             <div class="ui button triggerEditableOptions mt-3 marT-m15" *ngIf="!(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3))" 
-             (click)="getCurrentDateTime()" 
-             >
-               Send Confirmation
-             </div>
-             <p class="p-0 float-right" (mouseenter)="GetSendHistory()"  *ngIf="!(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3))">Last confirmation sent :  {{ currentDateTimeStamp }}</p>
-           </div>
-<div  class="column text-right" *ngIf="!(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3))">
-  <ng-container *ngIf="dateHistory.length>0">
-    <p class="column text-right" *ngFor="let history of dateHistory;">
-      Confirmation sent : {{history}}
-    </p>
-    </ng-container>
-</div>
-         
+          <ng-container *ngIf="contact.isCrew == 0 && isFirstCrewMatch(firstIndex); else skipData">
+            <div class="column justify-content-between">
+              <div class="ui button triggerEditableOptions mt-3 marT-m15"
+                *ngIf="!(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3))"
+                (click)="getCurrentDateTime()">
+                Send Confirmation
+              </div>
+              <span class="d-inline-block" tabindex="0" data-toggle="tooltip"  (mouseenter)="GetSendHistory()"
+                
+                *ngIf="!(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3))">
+                <div class="d-inline-block"  tabindex="0" data-toggle="tooltip" [title]="dateHistory">
+                  Last confirmation sent : {{ currentDateTimeStamp }}
+                </div>
+                <!-- <div class="container" mat-too  (mouseleave)="hideTooltip()" *ngIf="tooltipVisible && dataLoaded" style="pointer-events: none;">{{ dateHistory }}</div> -->
+              </span>
+            </div>
+
+
           </ng-container>
           <ng-template #skipData></ng-template>
         </ng-container>
+      </ng-container>
+
 
     </div>
   </div>
   <ng-template #no_access>No access
   </ng-template>
   <!-- <ng-container *ngIf="permissionObj.isClient || permissionObj.isEventManager || isViewPermission"> -->
-    <ng-container *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3)"> <!-- add contact button only visible when full permission  -->
+  <ng-container
+    *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3)">
+    <!-- add contact button only visible when full permission  -->
     <!-- <div class="ui grid center aligned"
       *ngIf="isClientEditable || isManagerEditable || isVenueEditable || (isServiceEditable && editServiceIndex == serviceIndex)|| isExhibitorEditable"> -->
-      <!-- editable only in case of full access or restricted access in case of client -->
-      <div class="ui grid center aligned"
+    <!-- editable only in case of full access or restricted access in case of client -->
+    <div class="ui grid center aligned"
       *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3))">
 
       <div class="sixteen wide column">

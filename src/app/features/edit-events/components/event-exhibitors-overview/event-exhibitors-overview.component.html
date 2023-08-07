@@ -129,7 +129,9 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
           <ngb-accordion (panelChange)="panelChange($event)" #ngbAccordion [destroyOnHide]="false">
 
             <ng-container *ngIf="venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length">
-              <ngb-panel *ngFor="let exhibitor of venue.exhibitorList[0].exhibitors; let exhibitorIndex=index"
+              <ng-container *ngFor="let exhibitor of venue.exhibitorList[0].exhibitors; let exhibitorIndex=index">
+                <ng-container *ngIf="exhibitor?.isViewPermission">
+              <ngb-panel
                 [id]="'exhibitorListIndex-'+exhibitorIndex"
                 (shown)="exhibitorPanelActivated(venueIndex,exhibitorIndex)">
 
@@ -460,6 +462,8 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                   </div>
                 </ng-template>
               </ngb-panel>
+            </ng-container>
+          </ng-container>
             </ng-container>
           </ngb-accordion>
 

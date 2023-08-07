@@ -299,7 +299,7 @@ export class EventSuppliersFunctionComponent
   isSelectAllSend: boolean = false;
   SendCheck: any;
   contactType: string = "servicesTab";
-  currentDateTimeStamp: any;
+  currentDateTimeStamp: any="";
   dateHistory: any = [];
 
 
@@ -1021,37 +1021,30 @@ export class EventSuppliersFunctionComponent
   SendAllConfirmation(venues: any, venuesdsIndex: any) {
 
     this.checkkddata = false;
-    const currentDate = new Date();
     let messagecheck = "";
-    const day = currentDate.getDate().toString().padStart(2, '0');
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = currentDate.getFullYear().toString();
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const hours = String(currentDate.getHours()).padStart(2, '0');
+    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+    const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+    
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
-    const hours = currentDate.getHours().toString().padStart(2, '0');
-    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
-
-    const formattedDate = `${day}-${month}-${year}`;
-    const formattedTime = `${hours}:${minutes}`;
-
-    this.currentDateTimeStamp = `${formattedDate}, ${formattedTime}`;
-    console.log("venucxe+++++", venues.suppliers[0].services);
     var checkedValues;
     checkedValues = venues.suppliers[0].services.filter((checked: any) => {
-      console.log('checked...', checked.isCheckSend)
+     
       return checked.isCheckSend === true;
     });
-    console.log('cheked values...', checkedValues)
     for (const [serviceIndex, venucxe] of checkedValues.entries()) {
-      console.log("serviceindex",serviceIndex);
-      console.log("checked value ....", checkedValues.length)
       let count: number = 0;
       this.SendCheck = document.getElementById('send-' + serviceIndex + '_venue_' + venuesdsIndex);
 
-      // venucxe.isCheckSend = this.SendCheck.checked;
       if (venucxe.isCheckSend && venucxe.isCheckSend == true) {
 
         this.checkkddata = true;
-        this.eventSrvc.SaveConfirmationDate(venucxe.contacts, this.contactType, this.currentDateTimeStamp, venucxe, this.eventData.eventData.eventId, this.SendType).subscribe(
+        this.eventSrvc.SaveConfirmationDate(venucxe.contacts, this.contactType, formattedDate, venucxe, this.eventData.eventData.eventId, this.SendType).subscribe(
           (res: any) => {
             this.getLatestDate(this.contactType, venucxe, this.eventData.eventData.eventId, this.SendType);
             if ((serviceIndex == checkedValues.length - 1) && res.code == 200) {

@@ -236,9 +236,10 @@
       <ngb-accordion
       *ngIf="eventFiles?.data?.files?.FFAV?.venuesFiles && eventFiles?.data?.files?.FFAV?.venuesFiles!.length>0">
 
-
+      <ng-container *ngFor="let venueFileItem of eventFiles!.data!.files!.FFAV!.venuesFiles!; let i=index">
+        <ng-container *ngIf="venueFileItem?.isViewPermission">
       <ngb-panel [id]="'venueId_' + venueFileItem.venueId"
-                 *ngFor="let venueFileItem of eventFiles!.data!.files!.FFAV!.venuesFiles!; let i=index">
+                >
         <ng-template ngbPanelTitle>
           <i class="dropdown icon"></i>Venue {{i+1}}: {{venueFileItem.name}}
         </ng-template>
@@ -398,7 +399,8 @@
           </div>
         </ng-template>
       </ngb-panel>
-
+     </ng-container>
+    </ng-container>
     </ngb-accordion>
   </div>
   <div class="ui grid docsContainer">
@@ -455,9 +457,10 @@
       <ngb-accordion
       *ngIf="eventFiles?.data?.files?.FFAS?.supplierFiles && eventFiles?.data?.files?.FFAS?.supplierFiles!.length>0">
 
-
+      <ng-container *ngFor="let supplierItem of eventFiles!.data!.files!.FFAS!.supplierFiles!; let i =index">
+        <ng-container *ngIf="supplierItem?.isViewPermission">
       <ngb-panel [id]="'serviceId_' + supplierItem.serviceId"
-                 *ngFor="let supplierItem of eventFiles!.data!.files!.FFAS!.supplierFiles!; let i =index">
+                 >
         <ng-template ngbPanelTitle>
           <i class="dropdown icon"></i>Supplier {{i+1}}: {{supplierItem.name}}
         </ng-template>
@@ -564,7 +567,8 @@
           </div>
         </ng-template>
       </ngb-panel>
-
+    </ng-container>
+  </ng-container>
     </ngb-accordion>
   </div>
 
@@ -623,9 +627,10 @@
       <ngb-accordion
       *ngIf="eventFiles?.data?.files?.FFAE?.exhibitorFiles && eventFiles?.data?.files?.FFAE?.exhibitorFiles!.length>0">
 
-
+      <ng-container *ngFor="let exhibitorFileItem of eventFiles!.data!.files!.FFAE!.exhibitorFiles!; let i=index">
+        <ng-container *ngIf="exhibitorFileItem?.isViewPermission">
       <ngb-panel [id]="'exhibitorId_' + exhibitorFileItem.exhibitorId"
-                 *ngFor="let exhibitorFileItem of eventFiles!.data!.files!.FFAE!.exhibitorFiles!; let i=index">
+                 >
         <ng-template ngbPanelTitle>
           <i class="dropdown icon"></i>Exhibitor {{i+1}}: {{exhibitorFileItem.name}}
         </ng-template>
@@ -732,7 +737,8 @@
           </div>
         </ng-template>
       </ngb-panel>
-
+    </ng-container>
+  </ng-container>
     </ngb-accordion>
   </div>
 

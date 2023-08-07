@@ -488,8 +488,7 @@ export class EventService {
   }
 
   GetSendHistory(type:any,selectedCompany:any,eventId:any,SendType:any): Observable<any> {
-    
-    this.spinner.show();
+    // this.spinner.show();
     return this.http
       .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/getSendHistory`, {type,selectedCompany,eventId,SendType})
       .pipe(
