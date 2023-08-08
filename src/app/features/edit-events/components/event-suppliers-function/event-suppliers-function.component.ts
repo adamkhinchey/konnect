@@ -1078,18 +1078,12 @@ export class EventSuppliersFunctionComponent
   getLatestDate(tabName: any, selectedCompany: any, eventId: any, SendType: any) {
     this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId, SendType).subscribe(
       (res: any) => {
-        if (res.data[0].latest_date == null) {
-
-          this.currentDateTimeStamp = "None sent";
-
+        if(res.data[0]==null){
+          this.currentDateTimeStamp="None sent";
         }
-        else {
-          const formattedDate = this.datePipe.transform(res.data[0].latest_date, 'dd-MM-yyyy HH:mm');
-
-          this.currentDateTimeStamp = formattedDate;
-
+        else{
+          this.currentDateTimeStamp=res.data[0];
         }
-
       },
       (err) => {
         console.log(err.error.message);

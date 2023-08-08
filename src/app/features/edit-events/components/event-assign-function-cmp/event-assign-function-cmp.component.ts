@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, Output, TemplateRef, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { NgbModal, NgbModalRef,ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnInit, Output, TemplateRef, EventEmitter, OnChanges, SimpleChanges, Inject, LOCALE_ID } from '@angular/core';
+import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Company } from '../../../users/models';
 import { FnCmpCntInterface, InviteFnCmpInterface } from '../../models/interfaces';
 import { InviteFnCmpClass } from '../../models/classes';
@@ -55,13 +55,13 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   currentDateTimeStamp: any = "";
   SendType: any = "contact";
   private notificationShown = false;
- 
+
   constructor(
     private modalService: NgbModal,
     public eventSrvc: EventService,
     private toaster: ToastrService,
-    private datePipe: DatePipe,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    @Inject(LOCALE_ID) private locale: string
   ) {
   }
 
@@ -84,10 +84,10 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
       });
       this.resetNotificationState();
     }
-    
+
   }
 
-  
+
 
   ngOnDestroy() {
     this.eventSrvc.letestDate.next(null);
@@ -170,7 +170,10 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     }
   }
 
- 
+  hideTooltip(firstIndex?: any) {
+    this.tooltipVisible = false;
+    this.contactListItereration(firstIndex, false)
+  }
 
   isFirstCrewMatch(index: number): boolean {
     let dataList = this.contactList;
@@ -190,7 +193,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     const hours = String(currentDate.getHours()).padStart(2, '0');
     const minutes = String(currentDate.getMinutes()).padStart(2, '0');
     const seconds = String(currentDate.getSeconds()).padStart(2, '0');
-    
+
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
 
@@ -217,18 +220,12 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId, SendType).subscribe(
       (res: any) => {
         this.spinner.hide();
-        if (res.data[0].latest_date == null) {
-
-          this.currentDateTimeStamp = "None sent";
-
+        if(res.data[0]==null){
+          this.currentDateTimeStamp="None sent";
         }
-        else {
-          const formattedDate = this.datePipe.transform(res.data[0].latest_date, 'dd-MM-yyyy HH:mm');
-
-          this.currentDateTimeStamp = formattedDate;
-
+        else{
+          this.currentDateTimeStamp=res.data[0];
         }
-
       },
       (err) => {
         console.log(err.error.message);
@@ -236,15 +233,28 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     );
   }
 
- 
+  convertDateFormat(inputDate: string | null): string {
+    if (!inputDate) {
+      return ''; // Or any other default value you prefer when inputDate is null
+    }
 
-  GetSendHistory() {
+    const dateObj = new Date(inputDate);
+    const datePipe = new DatePipe(this.locale);
+    return datePipe.transform(dateObj, 'dd-MM-yyyy HH:mm') || '';
+  }
+
+  padZero(num: number): string {
+    return num < 10 ? `0${num}` : `${num}`;
+  }
+
+
+  GetSendHistory(firstIndex?: any) {
     this.resetNotificationState();
-    // this.spinner.show();
+    this.contactListItereration(firstIndex, true);
     this.eventSrvc.GetSendHistory(this.tabName, this.selectedCompany, this.eventData.eventData.eventId, this.SendType).subscribe(
       (res: any) => {
-        // this.spinner.hide();
-        this.dateHistory=res.data;
+        console.log("res.data+++++", res.data)
+        this.dateHistory = res.data;
         this.dataLoaded = true;
         this.tooltipVisible = true;
       },
@@ -254,25 +264,33 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     );
   }
 
+  contactListItereration(firstIndex: any, status: boolean) {
+    this.contactList.map((res: any, index: any) => {
+      if (firstIndex == index) {
+        res.isVisible = status;
+      }
+    })
+  }
+
   title = 'appBootstrap';
-  
+
   closeResult: any;
-  
-  open(content:any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+
+  open(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
-  
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
 

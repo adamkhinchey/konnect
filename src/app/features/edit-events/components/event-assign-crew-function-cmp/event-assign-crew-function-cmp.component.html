@@ -61,21 +61,20 @@
          
             <ng-container *ngFor="let contact of contactList;let firstIndex = index">
                 <ng-container  *ngIf="contact.isCrew === 1 && isFirstCrewMatch(firstIndex); else skipData">
-                    <div class="column justify-content-between" >
-                    <div class="ui button triggerEditableOptions mt-3 marT-m15" *ngIf="!(isVenueEditable || isExhibitorEditable || isServiceEditable) && (isViewPermission == 1 && isSelfIncludedInSection == 1) "
-                  (click)="getCurrentDateTime()"
-                  >
-                    Send Confirmation
-                  </div>
-                  <p class="p-0 float-right" (mouseenter)="GetSendHistory()" *ngIf="!(isVenueEditable || isExhibitorEditable || isServiceEditable) && (isViewPermission == 1 && isSelfIncludedInSection == 1) ">Last confirmation sent :  {{ currentDateTimeStamp }}</p>
+             
+<div class="ui button triggerEditableOptions mt-3 me-2 marT-m15"
+*ngIf="!(isVenueEditable || isExhibitorEditable || isServiceEditable) && (isViewPermission == 1 && isSelfIncludedInSection == 1) "
+(click)="getCurrentDateTime()">
+Send Confirmation
 </div>
-<div class="column text-right" *ngIf="!(isVenueEditable || isExhibitorEditable || isServiceEditable) && (isViewPermission == 1 && isSelfIncludedInSection == 1) ">
-    <ng-container *ngIf="dateHistory.length>0">
-        <p class="column text-right" *ngFor="let history of dateHistory;">
-            Confirmation sent : {{history}}
-        </p>
-        </ng-container>
-</div>
+<p class="d-inline-block ml-1" tabindex="0" data-toggle="tooltip"   (mouseleave)="hideTooltip(firstIndex)" (mouseenter)="GetSendHistory(firstIndex)"
+  
+*ngIf="!(isVenueEditable || isExhibitorEditable || isServiceEditable) && (isViewPermission == 1 && isSelfIncludedInSection == 1) ">
+<!-- <div class="d-inline-block"  tabindex="0" data-toggle="tooltip" [title]="dateHistory"> -->
+Last confirmation sent : {{ currentDateTimeStamp }}
+<!-- </div> -->
+</p>
+<pre class="column justify-content-between ng-star-inserted aling-right" mat-too  *ngIf="dataLoaded && contact?.isVisible" style="pointer-events: none;">{{ dateHistory }}</pre>
                    
                 </ng-container>
                 <ng-template #skipData></ng-template>

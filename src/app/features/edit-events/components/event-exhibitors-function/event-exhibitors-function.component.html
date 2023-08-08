@@ -188,7 +188,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                     <div class="flaot-right accordionCheckBox" *ngIf="!eventData.eventData.isDeleted && ((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 ) || permissionObj.isEventManager)">
                       <div class="ui checkbox">
                         <input [disabled]="!isNotesEdit" type="checkbox" class="hidden" [id]="'send-'+exhibitorIndex+'_venue_'+venueIndex"
-                        (change)="listenTimeChange($event, venueIndex, exhibitorIndex)" tabindex="0" [checked]="exhibitor.isCheckSend">
+                        (change)="listenTimeChange($event, venueIndex, exhibitorIndex)" tabindex="0" [(ngModel)]="exhibitor.isCheckSend" [checked]="exhibitor.isCheckSend">
                       <label [for]="'send-'+exhibitorIndex+'_venue_'+venueIndex">Send confirmation</label>
                       </div>
                     </div>

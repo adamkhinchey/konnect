@@ -908,28 +908,33 @@ export class EventExhibitorsFunctionComponent
   ched:any;
   SendAllConfirmation( venues: any, venuesdsIndex: any){
     const currentDate = new Date();
-  
-    const day = currentDate.getDate().toString().padStart(2, '0');
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = currentDate.getFullYear().toString();
-
-    const hours = currentDate.getHours().toString().padStart(2, '0');
-    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
-
-    const formattedDate = `${day}-${month}-${year}`;
-    const formattedTime = `${hours}:${minutes}`;
-
-    this.currentDateTimeStamp = `${formattedDate}, ${formattedTime}`;
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const hours = String(currentDate.getHours()).padStart(2, '0');
+    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+    const seconds = String(currentDate.getSeconds()).padStart(2, '0');
     
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+    
+    var checkedValues;
+    checkedValues = venues.exhibitorList[0].exhibitors.filter((checked: any) => {
+     
+      return checked.isCheckSend === true;
+    });
+
     for (const [exhibitorIndex, venucxe] of venues.exhibitorList[0].exhibitors.entries()) {
       this.SendCheck=document.getElementById('send-' + exhibitorIndex + '_venue_' + venuesdsIndex);
-      venucxe.isCheckSend=this.SendCheck.checked;
+     
       if(venucxe.isCheckSend==true){
        
-        this.eventSrvc.SaveConfirmationDate(venucxe.contacts, this.contactType, this.currentDateTimeStamp, venucxe, this.eventData.eventData.eventId,this.SendType).subscribe(
+        this.eventSrvc.SaveConfirmationDate(venucxe.contacts, this.contactType, formattedDate, venucxe, this.eventData.eventData.eventId,this.SendType).subscribe(
           (res: any) => {
             this.getLatestDate(this.contactType, venucxe, this.eventData.eventData.eventId,this.SendType);
-            this.toaster.success("Confirmation Sent Successfully");
+            if ((exhibitorIndex == checkedValues.length - 1) && res.code == 200) {
+              this.toaster.success("Confirmation Sent Successfully");
+            }
             venucxe.isCheckSend=false;
             this.eventSrvc.letestDate.next("Send");
             this.ched=   document.getElementById('selectallForSend'+venuesdsIndex);
@@ -948,18 +953,12 @@ export class EventExhibitorsFunctionComponent
   getLatestDate(tabName: any, selectedCompany: any, eventId: any,SendType:any) {
     this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId,SendType).subscribe(
       (res: any) => {
-        if (res.data[0].latest_date == null) {
-
-          this.currentDateTimeStamp = "None sent";
-
+        if(res.data[0]==null){
+          this.currentDateTimeStamp="None sent";
         }
-        else {
-          const formattedDate = this.datePipe.transform(res.data[0].latest_date, 'dd-MM-yyyy HH:mm');
-
-          this.currentDateTimeStamp = formattedDate;
-
+        else{
+          this.currentDateTimeStamp=res.data[0];
         }
-
       },
       (err) => {
         console.log(err.error.message);

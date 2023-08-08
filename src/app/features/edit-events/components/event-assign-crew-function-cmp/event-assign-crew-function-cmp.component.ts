@@ -49,6 +49,8 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   dateHistory:any=[];
   currentDateTimeStamp: any="";
   SendType : any ="crew";
+  tooltipVisible = false;
+  dataLoaded = false;
 
   constructor(
     private modalService: NgbModal,
@@ -175,17 +177,14 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   getLatestDate(tabName: any, selectedCompany: any, eventId: any,SendType:any) {
     this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId,SendType).subscribe(
         (res: any) => {
-          if (res.data[0].latest_date == null) {
-  
-            this.currentDateTimeStamp = "None sent";
-  
+          console.log("res.data[0]+++++",res.data[0]);
+          if(res.data[0]==null){
+            this.currentDateTimeStamp="None sent";
           }
-          else {
-            const formattedDate = this.datePipe.transform(res.data[0].latest_date, 'dd-MM-yyyy HH:mm');
-  
-            this.currentDateTimeStamp = formattedDate;
-  
+          else{
+            this.currentDateTimeStamp=res.data[0];
           }
+         
   
         },
         (err) => {
@@ -195,7 +194,10 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
     }
 
 
-    GetSendHistory(){
+    GetSendHistory(firstIndex:any){
+      
+    this.contactListItereration(firstIndex, true);
+
       this.dateHistory=[];
      this.eventSrvc.GetSendHistory(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType).subscribe(
         (res: any) => {
@@ -212,6 +214,19 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
         }
       );
       
+    }
+
+    contactListItereration(firstIndex: any, status: boolean) {
+      this.contactList.map((res: any, index: any) => {
+        if (firstIndex == index) {
+          res.isVisible = status;
+        }
+      })
+    }
+
+    hideTooltip(firstIndex?: any) {
+      this.tooltipVisible = false;
+      this.contactListItereration(firstIndex, false)
     }
   
 }
