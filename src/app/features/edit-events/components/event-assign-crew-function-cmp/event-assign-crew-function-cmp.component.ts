@@ -177,7 +177,7 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   getLatestDate(tabName: any, selectedCompany: any, eventId: any,SendType:any) {
     this.eventSrvc.GetLatestDate(tabName, selectedCompany, eventId,SendType).subscribe(
         (res: any) => {
-          console.log("res.data[0]+++++",res.data[0]);
+          // console.log("res.data[0]+++++",res.data[0]);
           if(res.data[0]==null){
             this.currentDateTimeStamp="None sent";
           }
@@ -194,25 +194,21 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
     }
 
 
-    GetSendHistory(firstIndex:any){
+    GetSendHistory(firstIndex?:any){
       
     this.contactListItereration(firstIndex, true);
 
-      this.dateHistory=[];
-     this.eventSrvc.GetSendHistory(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType).subscribe(
-        (res: any) => {
-        
-        res.data.map((item:any)=>{
-          const formattedDate = this.datePipe.transform(item.send_date, 'dd-MM-yyyy HH:mm');
-  
-          this.dateHistory.push(formattedDate);
-        });
-  
-        },
-        (err) => {
-          console.log(err.error.message);
-        }
-      );
+    this.eventSrvc.GetSendHistory(this.tabName, this.selectedCompany, this.eventData.eventData.eventId, this.SendType).subscribe(
+      (res: any) => {
+        console.log("res.data+++++", res.data)
+        this.dateHistory = res.data;
+        this.dataLoaded = true;
+        this.tooltipVisible = true;
+      },
+      (err) => {
+        console.log(err.error.message);
+      }
+    );
       
     }
 

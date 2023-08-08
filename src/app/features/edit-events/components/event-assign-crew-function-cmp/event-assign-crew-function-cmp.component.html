@@ -61,7 +61,7 @@
          
             <ng-container *ngFor="let contact of contactList;let firstIndex = index">
                 <ng-container  *ngIf="contact.isCrew === 1 && isFirstCrewMatch(firstIndex); else skipData">
-             
+                    <div class="column justify-content-between mt-2">
 <div class="ui button triggerEditableOptions mt-3 me-2 marT-m15"
 *ngIf="!(isVenueEditable || isExhibitorEditable || isServiceEditable) && (isViewPermission == 1 && isSelfIncludedInSection == 1) "
 (click)="getCurrentDateTime()">
@@ -75,7 +75,7 @@ Last confirmation sent : {{ currentDateTimeStamp }}
 <!-- </div> -->
 </p>
 <pre class="column justify-content-between ng-star-inserted aling-right" mat-too  *ngIf="dataLoaded && contact?.isVisible" style="pointer-events: none;">{{ dateHistory }}</pre>
-                   
+</div>       
                 </ng-container>
                 <ng-template #skipData></ng-template>
               </ng-container>
