@@ -51,7 +51,7 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   SendType : any ="crew";
   tooltipVisible = false;
   dataLoaded = false;
-
+  checkIsCrew :any=0;
   constructor(
     private modalService: NgbModal,
     public eventSrvc: EventService,
@@ -72,8 +72,30 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     if(this.selectedCompany!==undefined && this.selectedCompany!==null){
       this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId,this.SendType);
+
+      this.checkCrewLogin(this.tabName,this.selectedCompany,this.eventData.eventData.eventId);
     }
-     
+
+  }
+
+  checkCrewLogin(tabName:any,selectedCompany:any,eventId:any){
+ 
+    this.eventSrvc.checkCrewLogin(tabName, selectedCompany, eventId).subscribe(
+      (res: any) => {
+
+        if(res.data!=null && res.data.length>0){
+       
+          res.data.map((item:any)=>{
+         this.checkIsCrew=item.is_crew;
+          })
+        }
+
+      
+      },
+      (err) => {
+        console.log(err.error.message);
+      }
+    );
   }
 
   openVerticallyCentered(content: any, isCrew: number): void {
@@ -200,7 +222,6 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
 
     this.eventSrvc.GetSendHistory(this.tabName, this.selectedCompany, this.eventData.eventData.eventId, this.SendType).subscribe(
       (res: any) => {
-        console.log("res.data+++++", res.data)
         this.dateHistory = res.data;
         this.dataLoaded = true;
         this.tooltipVisible = true;

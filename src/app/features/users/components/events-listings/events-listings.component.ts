@@ -194,12 +194,7 @@ this.router.navigate([]).then((result) => {
       window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${7}`, '_blank');
     });
   }
-  viewOverViewTab(eventId: any) {
-    // this.router.navigate(['/home/edit-event'], { queryParams: { eventId: eventId, isPast: this.isEventHistory,action:7} });
-this.router.navigate([]).then((result) => {
-      window.open('/home/edit-event?eventId=' + eventId + `&isPast=${this.isEventHistory}`+`&action=${9}`, '_blank');
-    });
-  }
+
   eventHistory() {
     this.isEventHistory = true;
     this.eventListingSrvc.getEventsList(1).subscribe((res: any) => {

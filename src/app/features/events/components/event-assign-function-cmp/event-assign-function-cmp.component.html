@@ -20,8 +20,8 @@
         </div>
         <div class="ui fluid card">
           <div class="content">
-            <img class="right floated mini ui image" [src]="contact.profileImage || 'assets/img/profile.png'"
-                 appImageFallback fallbackImage="assets/img/profile.png">
+            <img class="right floated mini ui image" [src]="contact.profileImage || 'assets/img/profile.jpg'"
+                 appImageFallback fallbackImage="assets/img/profile.jpg">
             <div class="header">
               <a  (click)="goToUserProfile(contact.id)">{{contact.firstName + ' '+ (contact.lastName || '')}}</a>
             </div>

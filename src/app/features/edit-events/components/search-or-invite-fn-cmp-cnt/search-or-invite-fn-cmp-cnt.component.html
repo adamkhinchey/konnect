@@ -33,7 +33,7 @@
                 <a class="result" *ngFor="let contact of cntSearchList" (click)="selectCrewCnt(contact)">
                   <div class="image">
                     <img alt="user profile pic" [src]="contact.profileImage" appImageFallback
-                      fallbackImage="assets/img/profile.png" />
+                      fallbackImage="assets/img/profile.jpg" />
                   </div>
                   <div class="content">
                     <div class="title">{{contact.firstName + ' ' + contact.lastName}}</div>

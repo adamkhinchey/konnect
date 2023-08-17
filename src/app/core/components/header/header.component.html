@@ -7,7 +7,7 @@
   <!-- uncover visible -->
   <div class="profileMobileDisplay">
       <div class="imgContainer">
-          <img [src]="(userSettingsService.settings | async)!.profileImage! || '../../assets/img/profile.png'" alt="" >
+          <img [src]="(userSettingsService.settings | async)!.profileImage! || '../../assets/img/profile.jpg'" alt="" >
           <div class="ui button mini circular icon showProfileMenu" (click)="clickEvent()">
             <i class="cog icon ng-tns-c53-1" ></i>
             </div>
@@ -149,7 +149,7 @@
         </div>
         <div class="four wide column">
           <div class="profileInfo">
-            <img [src]="(userSettingsService.settings | async)!.profileImage! || '../../assets/img/profile.png'" alt=""
+            <img [src]="(userSettingsService.settings | async)!.profileImage! || '../../assets/img/profile.jpg'" alt=""
               class="ui fluid image circular">
             <div class="headerCompanySelector">
               <span class="userName">{{(userSettingsService.settings | async)!.firstName!}} {{(userSettingsService.settings | async)!.lastName!}}</span>

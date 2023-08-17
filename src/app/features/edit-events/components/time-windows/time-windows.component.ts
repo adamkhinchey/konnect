@@ -160,7 +160,6 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
   // }
 
   ngOnInit(): void {
-
   }
 
   removePreTime(i: any) {

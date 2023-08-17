@@ -55,7 +55,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   currentDateTimeStamp: any = "";
   SendType: any = "contact";
   private notificationShown = false;
-
+  checkIsCrew :any=0;
   constructor(
     private modalService: NgbModal,
     public eventSrvc: EventService,
@@ -76,6 +76,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (this.selectedCompany !== undefined && this.selectedCompany !== null) {
+      this.checkCrewLogin(this.tabName,this.selectedCompany,this.eventData.eventData.eventId);
       this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId, this.SendType);
       this.eventSrvc.letestDate.subscribe(message => {
         if (message == "Send") {
@@ -87,7 +88,25 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
 
   }
 
+checkCrewLogin(tabName:any,selectedCompany:any,eventId:any){
+ 
+    this.eventSrvc.checkCrewLogin(tabName, selectedCompany, eventId).subscribe(
+      (res: any) => {
 
+        if(res.data!=null && res.data.length>0){
+       
+          res.data.map((item:any)=>{
+         this.checkIsCrew=item.is_crew;
+          });
+        }
+
+      
+      },
+      (err) => {
+        console.log(err.error.message);
+      }
+    );
+  }
 
   ngOnDestroy() {
     this.eventSrvc.letestDate.next(null);
@@ -253,7 +272,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
     this.contactListItereration(firstIndex, true);
     this.eventSrvc.GetSendHistory(this.tabName, this.selectedCompany, this.eventData.eventData.eventId, this.SendType).subscribe(
       (res: any) => {
-        console.log("res.data+++++", res.data)
+        console.log("res.data+++++", res)
         this.dateHistory = res.data;
         this.dataLoaded = true;
         this.tooltipVisible = true;

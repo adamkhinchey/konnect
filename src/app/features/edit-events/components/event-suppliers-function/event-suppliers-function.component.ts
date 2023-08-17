@@ -492,9 +492,6 @@ export class EventSuppliersFunctionComponent
   }
 
   changeConfigPermission1(service: any) {
-    console.log('this.isServiceEdit', this.isServiceEdit);
-    console.log('service?.isViewPermission', service?.isViewPermission);
-    console.log('this.permissionObj.isService', this.permissionObj);
 
     if (!this.isServiceEdit ||
       !service?.isViewPermission || (this.permissionObj.isClient == false && this.permissionObj.isService == true && this.permissionObj.isEventManager == false) || (this.permissionObj.isVenue == false && this.permissionObj.isClient == false && this.permissionObj.isEventManager == false && this.permissionObj.isExhibitor == false && this.permissionObj.isService == false && this.permissionObj.isCrew == false)) {

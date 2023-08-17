@@ -41,7 +41,7 @@
                           <fa-icon [icon]="addressCardIcon"></fa-icon>
                         </span>
                         <img class="right floated mini ui image circular"
-                             [src]="admin.profileImage ||'../../assets/img/default_konnect_img.png'">
+                             [src]="admin.profileImage ||'../../assets/img/default_konnect_img.jpg'">
                         <div class="header" (click)="goToUserProfile(admin.userId, admin.isPrivate)">
                           <a target="_blank">{{admin.firstName + ' ' + admin.lastName}}</a>
                         </div>
@@ -96,7 +96,7 @@
                           <fa-icon [icon]="addressCardIcon"></fa-icon>
                         </span>
                         <img class="right floated mini ui image circular"
-                             [src]="colleague.profileImage || '../../assets/img/default_konnect_img.png'">
+                             [src]="colleague.profileImage || '../../assets/img/default_konnect_img.jpg'">
                         <div class="header" (click)="goToUserProfile(colleague.userId, colleague.isPrivate)">
                           <a>{{colleague.firstName + ' ' + colleague.lastName}}</a>
                         </div>
@@ -217,7 +217,7 @@
                           <fa-icon [icon]="addressCardIcon"></fa-icon>
                         </span>
                         <img class="right floated mini ui image circular"
-                             [src]="request.profileImage || ' ../../assets/img/default_konnect_img.png'">
+                             [src]="request.profileImage || ' ../../assets/img/default_konnect_img.jpg'">
                         <div class="header" (click)="goToUserProfile(request.userId, request.isPrivate)">
                           <a>{{request.firstName + ' ' + request.lastName}}</a>
                         </div>
@@ -255,7 +255,7 @@
                           <fa-icon [icon]="addressCardIcon"></fa-icon>
                         </span>
                         <img class="right floated mini ui image circular"
-                             [src]="pendingInvite.profileImage || '../../assets/img/default_konnect_img.png'">
+                             [src]="pendingInvite.profileImage || '../../assets/img/default_konnect_img.jpg'">
                         <div class="header">
                           <a>{{pendingInvite.firstName + ' ' + pendingInvite.lastName}}</a>
                         </div>

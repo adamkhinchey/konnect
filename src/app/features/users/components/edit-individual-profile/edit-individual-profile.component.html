@@ -17,7 +17,7 @@
                     <div class="ten wide column marginB10 marginT10">
                       <img [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): userInfo?.profileImage" alt=""
                         class="ui medium fluid image marginB10 userleftImgUpdate" appImageFallback
-                        fallbackImage="../../assets/img/profile.png">
+                        fallbackImage="../../assets/img/profile.jpg">
                       <div class="ui button basic small compact blue fluid" *ngIf="!isView" appFileUploadTrigger
                         [fileUploadComponentRef]="fileUploadComponent">Replace profile image
                       </div>
@@ -161,9 +161,9 @@
                         <div class="ui fluid card">
                           <div class="content">
                             <img class="right floated mini ui image circular"
-                              [src]="company.companyProfileImage || '../../assets/img/default_konnect_img.png'"
-                              appImageFallback fallbackImage="../../assets/img/default_konnect_img.png"
-                              onerror="src='../../assets/img/default_konnect_img.png'">
+                              [src]="company.companyProfileImage || '../../assets/img/default_konnect_img.jpg'"
+                              appImageFallback fallbackImage="../../assets/img/default_konnect_img.jpg"
+                              onerror="src='../../assets/img/default_konnect_img.jpg'">
                             <div class="header">
                               <a (click)="goToCompanyProfile(company.id, company.isPrivate)">{{company.companyName}}</a>
                             </div>

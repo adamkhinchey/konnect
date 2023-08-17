@@ -21,7 +21,7 @@
               <a class="result" *ngFor="let company of companyList" (click)="selectCompany(company)">
                 <div class="image">
                   <img alt="company profile pic" [src]="company.companyProfileImage"
-                       appImageFallback fallbackImage="assets/img/default_konnect_img.png" onerror="src='assets/img/default_konnect_img.png'"/>
+                       appImageFallback fallbackImage="assets/img/default_konnect_img.jpg" onerror="src='assets/img/default_konnect_img.jpg'"/>
                 </div>
                 <div class="content">
                   <div class="title">{{company.companyName}}</div>

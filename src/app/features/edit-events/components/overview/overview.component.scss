@@ -33,9 +33,15 @@
 }
 
 
+// .activeEventsContainer.overViewContainer {
+//     overflow-y: scroll;
+//     height: 460px;
+//     position: relative;
+//     min-height: calc(100vh - 310px);
+// }
 .activeEventsContainer.overViewContainer {
-    overflow-y: scroll;
-    height: 460px;
+    overflow-y: auto;
+    height: auto;
     position: relative;
-    min-height: calc(100vh - 310px);
+    min-height: auto;
 }

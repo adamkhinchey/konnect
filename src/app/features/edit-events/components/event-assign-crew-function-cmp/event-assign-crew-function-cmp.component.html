@@ -29,7 +29,7 @@
                                 <fa-icon [icon]="addressCardIcon"></fa-icon>
                             </span>
                             <img class="right floated mini ui image" [src]="contact.profileImage" appImageFallback
-                                fallbackImage="assets/img/default_konnect_individual_img.png">
+                                fallbackImage="assets/img/default_konnect_individual_img.jpg">
                             <div class="header">
                                 <a>{{contact.firstName + ' '+ (contact.lastName || '')}}</a>
                             </div>
@@ -58,15 +58,16 @@
                 </ng-container>  
                  
             </div>
-         
+         <ng-container *ngIf="!checkIsCrew">
             <ng-container *ngFor="let contact of contactList;let firstIndex = index">
                 <ng-container  *ngIf="contact.isCrew === 1 && isFirstCrewMatch(firstIndex); else skipData">
                     <div class="column justify-content-between mt-2">
-<div class="ui button triggerEditableOptions mt-3 me-2 marT-m15"
+<div  style="float: left;" class="ui button triggerEditableOptions mt-3 me-2 marT-m15"
 *ngIf="!(isVenueEditable || isExhibitorEditable || isServiceEditable) && (isViewPermission == 1 && isSelfIncludedInSection == 1) "
 (click)="getCurrentDateTime()">
 Send Confirmation
 </div>
+<div style="position: relative; float: left; margin: -6px 0 0 5px;"> 
 <p class="d-inline-block ml-1" tabindex="0" data-toggle="tooltip"   (mouseleave)="hideTooltip(firstIndex)" (mouseenter)="GetSendHistory(firstIndex)"
   
 *ngIf="!(isVenueEditable || isExhibitorEditable || isServiceEditable) && (isViewPermission == 1 && isSelfIncludedInSection == 1) ">
@@ -74,11 +75,15 @@ Send Confirmation
 Last confirmation sent : {{ currentDateTimeStamp }}
 <!-- </div> -->
 </p>
-<pre class="column justify-content-between ng-star-inserted aling-right" mat-too  *ngIf="dataLoaded && contact?.isVisible" style="pointer-events: none;">{{ dateHistory }}</pre>
+<pre  mat-too  *ngIf="dataLoaded && contact?.isVisible" style="pointer-events: none; font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;">{{ dateHistory }}</pre>
+</div>
+
 </div>       
                 </ng-container>
                 <ng-template #skipData></ng-template>
               </ng-container>
+            </ng-container>
+
             
         </div>
     </div>

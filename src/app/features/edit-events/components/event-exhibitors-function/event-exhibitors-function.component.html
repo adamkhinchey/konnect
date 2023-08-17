@@ -278,9 +278,9 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         <fa-icon [icon]="addressCardIcon"></fa-icon>
                                       </span>
                                       <img class="right floated mini ui image"
-                                        [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.png'"
-                                        appImageFallback fallbackImage="assets/img/default_konnect_img.png"
-                                        onerror="src='assets/img/default_konnect_img.png'">
+                                        [src]="getCompanyProfileImage(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)) || 'assets/img/default_konnect_img.jpg'"
+                                        appImageFallback fallbackImage="assets/img/default_konnect_img.jpg"
+                                        onerror="src='assets/img/default_konnect_img.jpg'">
                                       <div class="header">
                                         <a
                                           (click)="goToCompanyProfile(getCompanyId(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)), getIsPrivate(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)), getIsSeed(venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)))">{{venuesExhCmpsMap.get(venueIndex)!.get(exhibitorIndex)!.companyName}}</a>

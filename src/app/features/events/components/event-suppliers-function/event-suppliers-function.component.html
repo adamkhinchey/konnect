@@ -117,9 +117,9 @@
                                   <div class="ui fluid card">
                                     <div class="content">
                                       <img class="right floated mini ui image"
-                                        [src]="getCompanyProfileImage(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || 'assets/img/default_konnect_img.png'"
-                                        appImageFallback fallbackImage="assets/img/default_konnect_img.png"
-                                        onerror="src='assets/img/default_konnect_img.png'">
+                                        [src]="getCompanyProfileImage(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || 'assets/img/default_konnect_img.jpg'"
+                                        appImageFallback fallbackImage="assets/img/default_konnect_img.jpg"
+                                        onerror="src='assets/img/default_konnect_img.jpg'">
                                       <div class="header">
                                         <a
                                           (click)="goToCompanyProfile(getCompanyId(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)))">{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>

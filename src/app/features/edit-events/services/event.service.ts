@@ -487,6 +487,18 @@ export class EventService {
       );
   }
 
+  checkCrewLogin(type:any,selectedCompany:any,eventId:any): Observable<any> {
+    
+    this.spinner.show();
+    return this.http
+      .post<ApiResponseModelInterface>(`${this.apiBaseUrl}/checkCrewLogin`, {type,selectedCompany,eventId})
+      .pipe(
+        hideSpinnerPostApiCall(this.spinner),
+        take(1),
+        this.httpErrorHandler.processError(true, true)
+      );
+  }
+
   GetSendHistory(type:any,selectedCompany:any,eventId:any,SendType:any): Observable<any> {
     // this.spinner.show();
     return this.http

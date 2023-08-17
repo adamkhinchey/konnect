@@ -115,8 +115,8 @@
                                                                     <fa-icon [icon]="addressCardIcon"></fa-icon>
                                                                 </span> -->
                                                                 <img class="right floated mini ui image circular"
-                                                                    [src]="userConn.profileImage || './assets/img/default_konnect_img.png' "
-                                                                    appImageFallback="./assets/img/default_konnect_img.png">
+                                                                    [src]="userConn.profileImage || './assets/img/default_konnect_img.jpg' "
+                                                                    appImageFallback="./assets/img/default_konnect_img.jpg">
                                                                 <div class="header"
                                                                     (click)="goToUserProfile(userConn.userId,userConn.isPrivate)">
                                                                     <a>{{userConn.firstName + ' ' +
@@ -187,8 +187,8 @@
                                                                     <fa-icon [icon]="addressCardIcon"></fa-icon>
                                                                 </span> -->
                                                                 <img class="right floated mini ui image circular"
-                                                                    [src]="cmpConn?.companyProfileImage ||'./assets/img/default_konnect_img.png'"
-                                                                    appImageFallback="./assets/img/default_konnect_img.png" onerror="src='./assets/img/default_konnect_img.png'">
+                                                                    [src]="cmpConn?.companyProfileImage ||'./assets/img/default_konnect_img.jpg'"
+                                                                    appImageFallback="./assets/img/default_konnect_img.jpg" onerror="src='./assets/img/default_konnect_img.jpg'">
                                                                 <div class="header">
                                                                     <a
                                                                         (click)="goToCompanyProfile(cmpConn.id, cmpConn.isPrivate, cmpConn.isSeed)">{{cmpConn?.companyName}}</a>
