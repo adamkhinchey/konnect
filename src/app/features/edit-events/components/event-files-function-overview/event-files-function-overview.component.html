@@ -237,7 +237,7 @@
       *ngIf="eventFiles?.data?.files?.FFAV?.venuesFiles && eventFiles?.data?.files?.FFAV?.venuesFiles!.length>0">
 
       <ng-container *ngFor="let venueFileItem of eventFiles!.data!.files!.FFAV!.venuesFiles!; let i=index">
-        <ng-container *ngIf="venueFileItem?.isViewPermission">
+        <ng-container >
       <ngb-panel [id]="'venueId_' + venueFileItem.venueId"
                 >
         <ng-template ngbPanelTitle>
