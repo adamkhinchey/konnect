@@ -31,8 +31,7 @@ import { map } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
-const WEBSITE_REGEX =
-  /^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,}(\/\S*)?$/;
+const WEBSITE_REGEX =/^(https?|ftp):\/\/(www\.)[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
 
 @Component({
   selector: 'app-create-company',
@@ -159,7 +158,7 @@ export class CreateCompanyComponent implements OnInit, OnDestroy {
       countryId: ['', [Validators.required]],
       city: [null, [Validators.required]],
       categoryIds: [null, [Validators.required]],
-      website: [null, [Validators.pattern(WEBSITE_REGEX)]],
+      website: [null, [ Validators.pattern(WEBSITE_REGEX)]],
       description: [null],
       companyType: [null, [Validators.required]],
     });
