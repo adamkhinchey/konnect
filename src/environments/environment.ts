@@ -3,13 +3,14 @@ import countries from './countries';
 import companyCategories from './company-categories';
 import eventContactLabels from './event-contact-label-list';
 
-const APIURL = 'https://zfyd7d1tbb.execute-api.ap-southeast-2.amazonaws.com/uat';
-const siteURL = 'http://uat-user-website.s3-website-ap-southeast-2.amazonaws.com';
-const importLambdaUrl = 'https://6fwultw46lxcz6vzrih5pf4qjq0sqhoy.lambda-url.ap-southeast-2.on.aws/';
-
+const APIURL =
+  'https://cbact74fu2.execute-api.ap-southeast-2.amazonaws.com/prod';
+const siteURL =
+  'http://platform-user-website.s3-website-ap-southeast-2.amazonaws.com';
+  const importLambdaUrl = 'https://pvhe3yvqkulyyrpcsfdk7arwyi0ykiaf.lambda-url.ap-southeast-2.on.aws/';
 export const environment = {
-  production: false,
-  env: 'uat',
+  production: true,
+  env: 'prod',
   timeZones,
   countries,
   companyCategories,
@@ -33,7 +34,7 @@ export const environment = {
     'application/vnd.openxmlformats-officedocument.presentationml.presentation',
     'application/vnd.oasis.opendocument.presentation',
     'application/vnd.oasis.opendocument.spreadsheet',
-    'application/vnd.oasis.opendocument.text'
+    'application/vnd.oasis.opendocument.text',
   ],
   eventXLSXAllowedFormat: [
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -41,5 +42,5 @@ export const environment = {
   siteURL,
   importLambdaUrl,
   eventContactLabels,
-  headerName:'Konnect UAT'
+  headerName:'Konnect'
 };
