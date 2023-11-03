@@ -132,7 +132,7 @@
                                     <!-- <div class="six wide column right aligned"
                                       *ngIf="isVenueEdit && (checkPermission1(panel.isViewPermission))"> -->
                                       <div class="six wide column right aligned"
-                                      *ngIf="isVenueEdit && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || panel?.isViewPermission==1)">
+                                      *ngIf="isVenueEdit && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || panel?.isbtnVisible==1)">
                                       
                                       <div (click)="removeSelectedCompany.emit(i)"
                                         class="ui circular compact mini basic button confirmRemove hasModal"
@@ -251,7 +251,7 @@
                           <i class="trash alternate icon"></i>Remove</div> -->
 
                           <div (click)="confirmRemove(panel?.venueId, 0)"
-                          *ngIf="!eventData.eventData.isDeleted && (panel?.isViewPermission==1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)))"
+                          *ngIf="!eventData.eventData.isDeleted && (panel?.isbtnVisible==1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)))"
                           class="ui circular compact mini basic button confirmRemove hasModal" data-modal="removeModal">
                           <i class="trash alternate icon"></i>Remove</div>
 

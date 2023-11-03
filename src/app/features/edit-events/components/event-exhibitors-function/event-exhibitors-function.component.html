@@ -310,7 +310,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                         </div>
                                     
 
-                                        <div class="six wide column right aligned" *ngIf="isExhibitorEdit && (exhibitor?.isViewPermission==1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )">
+                                        <div class="six wide column right aligned" *ngIf="isExhibitorEdit && (exhibitor?.isbtnVisible == 1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )">
                                           <div (click)="removeSelectedCompany(venueIndex,exhibitorIndex)"
                                             class="ui circular compact mini basic button confirmRemove hasModal"
                                             data-modal="removeModal"><i class="trash alternate icon"></i>Remove
@@ -495,7 +495,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                             <div class="ten wide column middle aligned">
                               <div (click)="confirmRemove(exhibitor?.exhibitorId, 0)"
-                                *ngIf="!eventData.eventData.isDeleted && (exhibitor?.isViewPermission==1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )"
+                                *ngIf="!eventData.eventData.isDeleted && (exhibitor?.isbtnVisible == 1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )"
                                 class="ui circular compact mini basic button confirmRemove hasModal"
                                 data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                             </div>
