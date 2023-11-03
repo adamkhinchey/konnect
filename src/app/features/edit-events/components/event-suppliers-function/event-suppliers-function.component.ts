@@ -467,7 +467,6 @@ export class EventSuppliersFunctionComponent
   editNotes() {
     this.isNotesEdit = true;
     this.eventService.isNotesEdit = true;
-    // this.isServiceEdit = !this.isServiceEdit;
   }
 
   changeConfig() {
@@ -591,6 +590,8 @@ export class EventSuppliersFunctionComponent
     this.isNotesEdit = this.eventService.isNotesEdit;
   }
 
+
+
   editServiceFn(editServiceFn: number) {
     this.eventService.isEdit = !this.isServiceEdit;
     this.isServiceEdit = !this.isServiceEdit;
@@ -599,11 +600,12 @@ export class EventSuppliersFunctionComponent
     this.editServiceIndex = editServiceFn;
   }
   checkseldcffft: any;
+  datahidebutton :any;
+
   ngOnInit(): void {
     this.fetchUserInfo();
 
-    console.log('permission obj in init...', this.permissionObj);
-
+  
 
     if (this.eventData.eventData.isDeleted == 1) {
       this.eventService.isDeleted = true;
@@ -618,8 +620,9 @@ export class EventSuppliersFunctionComponent
           const service =
             this.eventToBeSaved.venues?.list[value.venueIndex].suppliers[0]
               ?.services[value.serviceIndex];
-
+             
           if (service) {
+          
             service.companyId = isInvited
               ? null
               : (value.supplierCompany as Company).id;
@@ -628,6 +631,7 @@ export class EventSuppliersFunctionComponent
               : null;
             service.contacts = isInvited ? null : [];
             if (this.venuesSuppCmpsMap.has(value.venueIndex)) {
+
               this.venuesSuppCmpsMap
                 .get(value.venueIndex)
                 ?.set(value.serviceIndex, value.supplierCompany);
@@ -695,9 +699,16 @@ export class EventSuppliersFunctionComponent
 
     this.userId = localStorage.getItem('userId');
 
+  
+    // this.datahidebutton=this.eventToBeSaved;
+    // console.log("datahidebutton"+this.datahidebutton.venues.list.length);
+    // for (const [serviceIndex, venucxe] of this.datahidebutton.entries()) {
+    // console.log("venucxe++",venucxe)
 
-
+    // }
   }
+
+  
 
 
   checkseldct: any;

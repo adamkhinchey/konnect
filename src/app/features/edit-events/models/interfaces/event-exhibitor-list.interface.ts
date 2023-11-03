@@ -21,7 +21,8 @@ export interface ExhibitorInterface {
   isCheck?: null | boolean,
   isCheckDirect?: null | boolean,
   isCheckSend?: null | boolean,
-  isCheckDirectSend?: null | boolean
+  isCheckDirectSend?: null | boolean,
+  isbtnVisible?:  number | null
 }
 
 

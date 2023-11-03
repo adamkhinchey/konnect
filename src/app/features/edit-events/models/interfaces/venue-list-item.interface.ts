@@ -28,4 +28,5 @@ export interface VenueListItemInterface {
   streetAddress2?: null | string;
   state?: null | string;
   venueId?: null | number;
+  isbtnVisible?:  null | number;
 }

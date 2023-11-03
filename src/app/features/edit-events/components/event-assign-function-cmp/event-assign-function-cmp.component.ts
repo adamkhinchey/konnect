@@ -89,7 +89,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   }
 
 checkCrewLogin(tabName:any,selectedCompany:any,eventId:any){
- 
+ console.log("In CHeck Cre++++++++++ ", this.selectedCompany)
     this.eventSrvc.checkCrewLogin(tabName, selectedCompany, eventId).subscribe(
       (res: any) => {
 

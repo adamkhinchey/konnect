@@ -21,7 +21,7 @@
               *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ; else no_access"
               rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"
               [ngModelOptions]="{standalone:true}" [readonly]="!isVenueEdit"></textarea> -->
-              <angular-editor id="editntav"  *ngIf="permissionObj.isEventManager || permissionObj.isClient == 1  ; else no_access"
+              <angular-editor id="editntav"  *ngIf="permissionObj.isEventManager || permissionObj.isClient == 1  || permissionObj.isVenue; else no_access"
               [(ngModel)]="eventToBeSaved.venues.notesToAll" [config]="config" (focus)="changeConfig()"
               [ngModelOptions]="{standalone: true}"></angular-editor>
             <ng-template #no_access>No access</ng-template>
@@ -64,8 +64,8 @@
 
                     <!-- <div class="sixteen wide column saveButtons paddingT0"
                     *ngIf="(eventData && eventData.userPermission)"> -->
-                    <div class="sixteen wide column saveButtons paddingT0"
-                    *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || panel?.isViewPermission==1">
+                    <div class="sixteen wide column saveButtons paddingT0"  
+                    *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || panel?.isbtnVisible==1">
                     
                     <div class="ui divider"></div>
                     <div class="ui grid stackable">

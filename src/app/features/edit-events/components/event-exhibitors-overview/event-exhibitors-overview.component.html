@@ -36,7 +36,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
               </div>
 
               <div class="seven wide column" *ngIf="venue.exhibitorList[0] && venue.exhibitorList[0].exhibitors.length">
-                <div class="ui dividing header mt-0" *ngIf="(permissionObj.isClient && ( permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0 ) ) ||  permissionObj.isEventManager; ">
+                <div class="ui dividing header mt-0" *ngIf="(permissionObj.isClient && ( permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0 ) ) ||  permissionObj.isEventManager ||  permissionObj.isExhibitor; ">
                   <h3>Notes to All Exhibitors
                     <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
                     <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px"> </i>
@@ -65,7 +65,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
                 <div class="field">
                   <div class="timeWindowsContainer">
-                    <div class="ui dividing header mt-0" *ngIf="(permissionObj.isClient && ( permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0 ) ) ||  permissionObj.isEventManager; ">
+                    <div class="ui dividing header mt-0" *ngIf="(permissionObj.isClient && ( permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0 ) ) ||  permissionObj.isEventManager || permissionObj.isExhibitor; ">
                       <h3>Exhibition Time windows
                         <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
                         <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px"> </i>
@@ -74,7 +74,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                     </div>
 
                     <!-- <ng-container  *ngIf="permissionObj.isClient  || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"> -->
-                  <ng-container  *ngIf="(permissionObj.isClient && ( permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0 ) ) ||  permissionObj.isEventManager; ">
+                  <ng-container  *ngIf="(permissionObj.isClient && ( permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0 ) ) ||  permissionObj.isEventManager || permissionObj.isExhibitor; ">
                     <p>Dates and times for the exhibition part of your event must be specified below</p>
 
                     <app-time-windows

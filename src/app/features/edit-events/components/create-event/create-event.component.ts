@@ -444,6 +444,7 @@ else{
                   status: venue.status,
                   isStaffOrAdmin: venue.isStaffOrAdmin,
                   isViewPermission: venue.isViewPermission,
+                  isbtnVisible : venue.isViewPermissionBtn,
                   isSelfIncludedInTab: venue.isSelfIncludedInTab,
                   isSelfIncludedInSection: venue.isSelfIncludedInSection,
                   isPrivate: venue.isPrivate || 0,
@@ -590,6 +591,7 @@ console.log('this.eventToBeSaved.venues 1',this.eventToBeSaved.venues);
                           state: service.companyState || null,
                           website: service.companyWebsite,
                           isViewPermission: service.isViewPermission,
+                          isbtnVisible : service.isViewPermissionBtn,
                           isSelfIncludedInTab: service.isSelfIncludedInTab,
                           isSelfIncludedInSection: service.isSelfIncludedInSection,
                           companyTaxNumber: '',
@@ -633,6 +635,7 @@ console.log('this.eventToBeSaved.venues 1',this.eventToBeSaved.venues);
                           companyId: service.serviceCompanyId,
                           supplierId: service.serviceId,
                           isViewPermission: service.isViewPermission,
+                          isbtnVisible : service.isViewPermissionBtn,
                           isSelfIncludedInTab: service.isSelfIncludedInTab,
                           isSelfIncludedInSection: service.isSelfIncludedInSection,
                           status: service.status,
@@ -776,6 +779,8 @@ console.log('this.eventToBeSaved.venues 1',this.eventToBeSaved.venues);
                       },
                       exhibitors:
                         venue?.exhibitorData?.exhibitors?.map((exhibitor: any, exhibitorIndex: number) => {
+                        console.log("check wheather coming or not++++",exhibitor.isViewPermissionBtn)
+                        
                           const exhibitorCompany = ({
                             exhibitorId: exhibitor.exhibitorId,
                             id: exhibitor.exhibitorCompanyId,
@@ -786,6 +791,7 @@ console.log('this.eventToBeSaved.venues 1',this.eventToBeSaved.venues);
                             state: exhibitor.companyState || null,
                             website: exhibitor.companyWebsite,
                             isViewPermission: exhibitor.isViewPermission,
+                            isbtnVisible : exhibitor.isViewPermissionBtn,
                             isSelfIncludedInTab: exhibitor.isSelfIncludedInTab,
                             isSelfIncludedInSection: exhibitor.isSelfIncludedInSection,
                             companyTaxNumber: '',
@@ -829,6 +835,7 @@ console.log('this.eventToBeSaved.venues 1',this.eventToBeSaved.venues);
                             companyId: exhibitor.exhibitorCompanyId,
                             standNumber: exhibitor.standNumber,
                             isViewPermission: exhibitor.isViewPermission,
+                            isbtnVisible : exhibitor.isViewPermissionBtn,
                             isSelfIncludedInTab: exhibitor.isSelfIncludedInTab,
                             isSelfIncludedInSection: exhibitor.isSelfIncludedInSection,
                             contacts,
