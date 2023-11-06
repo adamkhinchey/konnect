@@ -249,6 +249,70 @@ export class EventVenueFunctionComponent implements OnInit, AfterViewInit, OnCha
       },
     ],
   };
+
+  config4: AngularEditorConfig = {
+    editable: false,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize: '2',
+    showToolbar:false,
+    toolbarHiddenButtons: [
+      [
+        // 'undo',
+        // 'redo',
+        // 'fontSize',
+        // 'textColor',
+        // 'backgroundColor',
+        // 'bold',
+        // 'italic',
+        // 'underline',
+        // 'strikeThrough',
+        'subscript',
+        'superscript',
+        // 'justifyLeft',
+        // 'justifyCenter',
+        // 'justifyRight',
+        'justifyFull',
+        // 'indent',
+        // 'outdent',
+        // 'insertUnorderedList',
+        // 'insertOrderedList',
+        'heading',
+        'fontName'
+      ],
+      [
+        'customClasses',
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
   constructor(
     private eventService: EventService,
     private viewEventService: ViewEventService,

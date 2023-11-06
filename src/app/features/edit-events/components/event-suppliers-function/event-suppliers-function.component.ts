@@ -285,6 +285,71 @@ export class EventSuppliersFunctionComponent
       },
     ],
   };
+
+  config4: AngularEditorConfig = {
+    editable: false,
+    spellcheck: true,
+    // height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+    sanitize: false,
+    defaultFontSize: '2',
+    showToolbar: false,
+    toolbarHiddenButtons: [
+      [
+        // 'undo',
+        // 'redo',
+        // 'fontSize',
+        // 'textColor',
+        // 'backgroundColor',
+        // 'bold',
+        // 'italic',
+        // 'underline',
+        // 'strikeThrough',
+        'subscript',
+        'superscript',
+        // 'justifyLeft',
+        // 'justifyCenter',
+        // 'justifyRight',
+        'justifyFull',
+        // 'indent',
+        // 'outdent',
+        // 'insertUnorderedList',
+        // 'insertOrderedList',
+        'heading',
+        'fontName'
+      ],
+      [
+        'customClasses',
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
+    ],
+    customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText',
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+  };
+
   isUseVenueTime: boolean = false;
   isPreEventTimesSameAsVenue: boolean = false;
   isEventTimesSameAsVenue: boolean = false;
@@ -479,8 +544,11 @@ export class EventSuppliersFunctionComponent
       this.config.showToolbar = true;
     }
   }
-  changeConfigPermission() {
-    if (!this.isServiceEdit) {
+  
+
+  changeConfigPermission( service: any,) {
+  
+    if (!this.isServiceEdit ) {
       this.config2.editable = false;
       this.config2.showToolbar = false;
     } else {
@@ -488,6 +556,7 @@ export class EventSuppliersFunctionComponent
       this.config2.editable = true;
       this.config2.showToolbar = true;
     }
+   
   }
 
   changeConfigPermission1(service: any) {
@@ -588,6 +657,7 @@ export class EventSuppliersFunctionComponent
     this.isServiceEdit = this.eventService.isEdit;
     this.isServiceEditable = this.eventService.isEdit;
     this.isNotesEdit = this.eventService.isNotesEdit;
+   
   }
 
 

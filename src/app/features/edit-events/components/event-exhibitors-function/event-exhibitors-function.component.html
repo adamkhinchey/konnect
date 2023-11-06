@@ -332,6 +332,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           </div>
                           <app-event-assign-function-cmp #exhibitorsAssignCmp [permissionObj]="permissionObj"
                             [tabName]="'exhibitorTab'"  [eventData]="eventData"
+                            [isViewBtnPermission]="exhibitor?.isbtnVisible"
                             [isViewPermission]="exhibitor?.isViewPermission"
                             [isSelfIncludedInTab]="exhibitor?.isSelfIncludedInTab"
                             [isSelfIncludedInSection]="exhibitor?.isSelfIncludedInSection"
@@ -347,6 +348,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <app-event-assign-crew-function-cmp #exhibitorsCrewAssignCmp [permissionObj]="permissionObj"
                             [tabName]="'exhibitorTab'"  [eventData]="eventData" 
                             [isViewPermission]="exhibitor?.isViewPermission"
+                            [isViewBtnPermission]="exhibitor?.isbtnVisible"
                             [isSelfIncludedInTab]="exhibitor?.isSelfIncludedInTab"
                             [isSelfIncludedInSection]="exhibitor?.isSelfIncludedInSection"
                             [selectedCompany]="venuesExhCmpsMap.get(venueIndex)?.get(exhibitorIndex)"
@@ -376,7 +378,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (exhibitor?.isViewPermission==1 || exhibitor?.isViewPermission==2); else no_access"> <!-- access only for full permission or readable permission -->
                                 <input type="text" [(ngModel)]="exhibitor.standNumber"
                                   [ngModelOptions]="{standalone:true}" placeholder="Stand Number"
-                                  [readonly]="!isExhibitorEdit">
+                                  [readonly]="!isExhibitorEdit || (exhibitor?.isbtnVisible==0 || exhibitor?.isbtnVisible==2)">
                                 <ng-template #no_access>No access
                                 </ng-template>
                               </div>
@@ -411,6 +413,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 [exhibitorForAllEventTimes]="eventToBeSaved.venues.list[venueIndex].exhibitorList[0].timeWindowsToAll.eventTime.timings"
                                 [exhibitorForAllPostEventTimes]="eventToBeSaved.venues.list[venueIndex].exhibitorList[0].timeWindowsToAll.bumpOut.timings"
                                 [venueIndex]="venueIndex" [index]="exhibitorIndex"
+                                [isViewBtnPermission]="exhibitor?.isbtnVisible"
                                 [windowLabels]="['Bump In', 'Event Time', 'Bump Out']" [isVenueDependent]="true"
                                 [preEventTimes]="exhibitor.timeWindows.bumpIn.timings"
                                 [postEventTimes]="exhibitor.timeWindows.bumpOut.timings"
@@ -472,7 +475,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 </angular-editor> -->
                                 <angular-editor id="editein"
                                 *ngIf="(exhibitor?.isViewPermission==1  && exhibitor?.isSelfIncludedInSection == 1 ); else no_access"
-                                [(ngModel)]="exhibitor.internalCmpNotes" [config]="config1" (focus)="changeConfig1()"
+                                [(ngModel)]="exhibitor.internalCmpNotes" [config]="(exhibitor.isbtnVisible==1 || exhibitor.isbtnVisible==3)?config1:config4" (focus)="changeConfig1()"
                                 [ngModelOptions]="{standalone: true}">
                               </angular-editor>
                                 <ng-template #no_access>No access

@@ -25,6 +25,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   @Input() isVenueDependent = false;
   @Input() isEdit: boolean = false;
+  @Input() isViewBtnPermission :any;
   @Input() windowLabels: string[] | undefined;
 
   Arr = Array;
@@ -160,6 +161,7 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
   // }
 
   ngOnInit(): void {
+   
   }
 
   removePreTime(i: any) {
@@ -174,7 +176,6 @@ export class TimeWindowsComponent implements OnInit, OnDestroy {
 
   removePostTime(i: any) {
     this.postEventTimes.splice(i, 1);
-
   }
 
   getMinimumPreEventStartDateTime(i: number): Date {

@@ -150,6 +150,7 @@
                         [tabName]="'venueTab'"  [eventData]="eventData"
                         [contactList]="getVenueContacts(i)" [permissionObj]="permissionObj"
                         [isViewPermission]="true"
+                        [isViewBtnPermission]="panel?.isbtnVisible"
                         [isSelfIncludedInTab]="panel?.isSelfIncludedInTab"
                         [isSelfIncludedInSection]="panel?.isSelfIncludedInSection"
                         [clientCmpBtnLabel]="'Add Venue'"
@@ -162,6 +163,7 @@
                       <app-event-assign-crew-function-cmp #venueCrewAssignCmp [contactList]="getVenueContacts(i)"
                         [tabName]="'venueTab'"  [eventData]="eventData" [selectedCompany]="getSelectedCompany(i)"
                         [permissionObj]="permissionObj" 
+                        [isViewBtnPermission]="panel?.isbtnVisible"
                         [isViewPermission]="panel?.isViewPermission"
                         [isSelfIncludedInTab]="panel?.isSelfIncludedInTab"
                         [isSelfIncludedInSection]="panel?.isSelfIncludedInSection"
@@ -179,6 +181,7 @@
                           </div>
                           <app-time-windows [windowLabels]="['Pre Event Access', 'Event Time', 'Post Event Access']"
                             [index]="i" [preEventTimes]="panel.preEventAccessDateTimes"
+                            [isViewBtnPermission]="panel?.isbtnVisible"
                             [postEventTimes]="panel.postEventAccessDateTimes" [eventTimes]="panel.eventAccessDateTimes"
                             [preEventTimesCount]="panel?.preEventAccessDateTimes?.length || 1"
                             [eventTimesCount]="panel?.eventAccessDateTimes?.length || 1"
@@ -227,7 +230,7 @@
                           (focus)="changeConfig()" [ngModelOptions]="{standalone: true}">
                         </angular-editor> -->
                       <angular-editor id="editvin" *ngIf="(checkVenueViewPermission(i) || panel?.isViewPermission == 1) && panel?.isSelfIncludedInSection == 1 ; else no_access"
-                        [(ngModel)]="panel!.internalCmpNotes" [config]="config2"
+                        [(ngModel)]="panel!.internalCmpNotes" [config]="(panel.isbtnVisible==1 || panel.isbtnVisible==3)?config2:config4"
                         (focus)="changeConfig1()" [ngModelOptions]="{standalone: true}">
                       </angular-editor>
                         <ng-template #no_access>No access

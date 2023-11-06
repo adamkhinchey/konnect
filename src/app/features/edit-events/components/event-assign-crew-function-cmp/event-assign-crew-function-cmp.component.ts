@@ -21,6 +21,7 @@ export class EventAssignCrewFunctionCmpComponent implements OnInit, OnChanges {
   @Input() clientCmpBtnLabel = '';
   runNgFor = true;
   @Input() contactListLabel = '';
+  @Input() isViewBtnPermission :any;
   @Input() selectedCompany: Company | InviteFnCmpClass | undefined | null;
   @Input() clientCompanyModal: TemplateRef<any> | undefined;
   @Input() contactModal: TemplateRef<any> | undefined;

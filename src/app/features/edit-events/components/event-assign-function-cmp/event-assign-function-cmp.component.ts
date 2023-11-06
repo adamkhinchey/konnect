@@ -28,6 +28,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() contactModal: TemplateRef<any> | undefined;
   @Output() modalOpen = new EventEmitter<NgbModalRef>();
   @Input() isViewPermission: any;
+  @Input() isViewBtnPermission: any;
   @Input() isSelfIncludedInTab: any;
   @Input() isSelfIncludedInSection: any;
   @Output() contactRemove = new EventEmitter<number>();
@@ -45,7 +46,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   @Input() isServiceEditable: boolean = false;
   @Input() isExhibitorEditable: boolean = false;
   @Input() permissionObj: any;
-  @Input() editServiceIndex: number = 0;
+  @Input() editServiceIndex: any;
   @Input() serviceIndex: number = 0;
   @Output() isCrew = new EventEmitter<any>();
   tooltipVisible = false;
@@ -75,6 +76,7 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
 
 
   ngOnInit(): void {
+   
     if (this.selectedCompany !== undefined && this.selectedCompany !== null) {
       this.checkCrewLogin(this.tabName,this.selectedCompany,this.eventData.eventData.eventId);
       this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId, this.SendType);

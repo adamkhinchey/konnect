@@ -24,6 +24,7 @@ export interface EventSuppliersInterface {
     isCheckSend?: null | boolean,
     isCheckDirectSend?: null | boolean,
     isToggleChecked?: null | boolean,
-    isbtnVisible?:  number | null
+    isbtnVisible?:  number | null,
+    istextEditable?:  number | 0
   }[];
 }

@@ -210,7 +210,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                               <input
                                 *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission == 1 || service?.isViewPermission == 2); else no_access"
                                 [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
-                                placeholder="Name" [readonly]="!isServiceEdit">
+                                placeholder="Name" [readonly]="!isServiceEdit || (service?.isbtnVisible == 0  || service?.isbtnVisible == 2)">
                               <ng-template #no_access>No access
                               </ng-template>
                             </div>
@@ -292,6 +292,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             [clientCmpBtnLabel]="'Add Supplier'" [eventData]="eventData"   [contactListLabel]="'Supplier Contacts'"
                             [permissionObj]="permissionObj"
                             [isViewPermission]="service?.isViewPermission"
+                            [isViewBtnPermission]="service?.isbtnVisible"
                             [isSelfIncludedInTab]="service?.isSelfIncludedInTab"
                             [isSelfIncludedInSection]="service?.isSelfIncludedInSection"
                             [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
@@ -306,6 +307,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                           <app-event-assign-crew-function-cmp #suppliersCrewAssignCmp [permissionObj]="permissionObj"
                             [tabName]="'servicesTab'" [eventData]="eventData" 
                             [isViewPermission]="service?.isViewPermission"
+                            [isViewBtnPermission]="service?.isbtnVisible"
                             [isSelfIncludedInTab]="service?.isSelfIncludedInTab"
                             [isSelfIncludedInSection]="service?.isSelfIncludedInSection"
                             [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"
@@ -340,6 +342,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                                 [isPostEventTimesSameAsVenue]="isPostEventTimesSameAsVenue"
                                 [useVenueTimes]="isUseVenueTime" 
                                 [timeWindowFor]="eventTimeWindowType"
+                                [isViewBtnPermission]="service?.isbtnVisible"
                                 [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
                                 [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
                                 [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
@@ -395,9 +398,9 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                             [(ngModel)]="service.internalCmpNotes" [config]="config"
                             (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
                             </angular-editor> -->
-                            <angular-editor id="editsin" *ngIf="service?.isViewPermission==1  && service?.isSelfIncludedInSection == 1 ; else no_access"
-                            [(ngModel)]="service.internalCmpNotes" [config]="config2"
-                            (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
+                            <angular-editor  id="editsin"  *ngIf="service?.isViewPermission==1  && service?.isSelfIncludedInSection == 1 ; else no_access"
+                            [(ngModel)]="service.internalCmpNotes"  [config]="(service.isbtnVisible==1 || service.isbtnVisible==3)?config2:config4"
+                            (focus)="changeConfigPermission(service)" [ngModelOptions]="{standalone: true}">
                             </angular-editor>
                             <ng-template #no_access>No access
                             </ng-template>

@@ -43,7 +43,7 @@
             </div> -->
             <!-- editable only in case of full access and restricted access of client  -->
             <div
-              *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((isViewPermission == 1 ||  isViewPermission == 3) || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )"
+              *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((isViewBtnPermission == 1 ||  isViewBtnPermission == 3) || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )"
               class="hidden ui circular compact mini basic icon button editProfileBtn hasModal"
               (click)="editContactLabelModal(editContactDetail,i)">
               <i class="pencil alternate icon"></i>
@@ -79,7 +79,7 @@
                   <!-- editable only in case of full access or restricted access in case of client -->
                   <div class="ui circular compact mini basic button confirmRemove hasModal"
                     (click)="removeContactFromList(i)"
-                    *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((isViewPermission == 1 ||  isViewPermission == 3) || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1))  )"
+                    *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((isViewBtnPermission == 1 ||  isViewBtnPermission == 3) || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1))  )"
                     data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
                 </div>
               </div>
@@ -132,7 +132,7 @@
       *ngIf="isClientEditable || isManagerEditable || isVenueEditable || (isServiceEditable && editServiceIndex == serviceIndex)|| isExhibitorEditable"> -->
     <!-- editable only in case of full access or restricted access in case of client -->
     <div class="ui grid center aligned"
-      *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3))">
+      *ngIf="(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewBtnPermission == 1 ||  isViewBtnPermission == 3))">
 
       <div class="sixteen wide column">
         <div class="ui basic button blue fluid addContacts hasModal" (click)="openVerticallyCentered(contactModal)"
