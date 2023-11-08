@@ -15,7 +15,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
 
             <div class="sixteen wide column">
               <div class="companyContainer marginB20"
-                *ngIf=" (permissionObj.isClient == 1 && (permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0) ) ||  permissionObj.isEventManager; ">
+                *ngIf=" (permissionObj.isClient == 1 && (permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0) ) ||  permissionObj.isEventManager || permissionObj.isService; ">
                 <div class="ui dividing header">
                   <h3>Notes to All Suppliers<i class="icon"> <img src="../../../../../assets/img/client-icon.png"
                         width="15px"> </i>

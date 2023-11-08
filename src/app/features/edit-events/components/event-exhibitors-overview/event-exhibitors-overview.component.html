@@ -47,7 +47,7 @@ eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
                 <!-- <div class="field"
                   *ngIf="permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"> -->
                 <div class="field"
-                  *ngIf="(permissionObj.isClient && ( permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0 ) ) ||  permissionObj.isEventManager; ">
+                  *ngIf="(permissionObj.isClient && ( permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0 ) ) ||  permissionObj.isEventManager  ||  permissionObj.isExhibitor; ">
                   
                   <!-- <textarea rows="3" class="textarea"
                     *ngIf="venue.exhibitorList && venue.exhibitorList[0].exhibitors.length"

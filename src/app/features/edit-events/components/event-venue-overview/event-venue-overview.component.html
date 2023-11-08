@@ -1,8 +1,8 @@
 <div class="ui segment">
   <form class="ui form">
     <div class="ui grid">
-      <div class="sixteen wide column">
-        <div class="companyContainer marginB20" *ngIf="eventToBeSaved.venues; ">
+      <div class="sixteen wide column"  *ngIf="eventToBeSaved.venues; ">
+        <div class="companyContainer marginB20" *ngIf="permissionObj.isEventManager || permissionObj.isClient == 1  || permissionObj.isVenue;">
           <div class="ui dividing header">
             <h3>Notes to All Venues
               <i class="icon"> <img src="../../../../../assets/img/client-icon.png" width="15px"> </i>
@@ -14,7 +14,7 @@
           </div>
 
 
-          <div class="field" *ngIf="eventToBeSaved.venues; ">
+          <div class="field">
             <!-- <textarea
               *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue || loginUserIsCrew ; else no_access"
               rows="3" class="textarea" [(ngModel)]="eventToBeSaved.venues.notesToAll"

@@ -8,7 +8,7 @@
           <!-- <div class="sixteen wide column right aligned"
             *ngIf="(eventData && eventData.userPermission) && (eventData.userPermission.isClient == 1 || eventData.userPermission.isEventManager == 1)"> -->
             <div class="sixteen wide column right aligned"
-            *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 2 ||  eventData.eventData.eventManager?.isViewPermission == 3"> <!-- requirement will be saved in readoly for client , and all fields in restricted mode  -->
+            *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || (eventData.eventData.eventManager?.isViewPermission == 2 && eventData.eventData.eventManager?.isViewPermissionBtn != 7) ||  eventData.eventData.eventManager?.isViewPermission == 3"> <!-- requirement will be saved in readoly for client , and all fields in restricted mode  -->
 
             <button [disabled]="eventData.eventData.isDeleted" class="ui button triggerEditableOptions halfWidth ml-3"
               *ngIf="check()" (click)="editEventManager()">

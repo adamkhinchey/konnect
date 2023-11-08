@@ -186,7 +186,7 @@
 
   <div class="sixteen wide column" *ngIf="showVenuesFilesSection()" >
     <div class="field">
-      <div class="ui dividing header" *ngIf="eventFiles?.data?.files?.FFAV?.isViewPermission == 1; " >
+      <div class="ui dividing header" *ngIf="eventFiles?.data?.files?.FFAV?.isViewPermission == 1 || permissionObj.isVenue; " >
         <div class="ui grid">
           <div class="ten wide column middle aligned">
             <h3>Files for All Venues <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
@@ -198,7 +198,7 @@
         </div>
       </div>
       <!-- <div   *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"   class="ui grid docsContainer"> -->
-      <div   *ngIf="eventFiles?.data?.files?.FFAV?.isViewPermission == 1; "   class="ui grid docsContainer">
+      <div   *ngIf="eventFiles?.data?.files?.FFAV?.isViewPermission == 1 || permissionObj.isVenue; "   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.FFAV">
             <a class="ui mini button primary-outlineBtn"
@@ -408,7 +408,7 @@
   </div>
   <div class="sixteen wide column" *ngIf="showSuppliersFilesSection()">
     <div class="field">
-      <div class="ui dividing header"  *ngIf="eventFiles?.data?.files?.FFAS?.isViewPermission == 1; " >
+      <div class="ui dividing header"  *ngIf="eventFiles?.data?.files?.FFAS?.isViewPermission == 1 || permissionObj.isService; " >
         <div class="ui grid">
           <div class="ten wide column middle aligned">
             <h3>Files for All Suppliers <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
@@ -420,7 +420,7 @@
         </div>
       </div>
       <!-- <div   *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isService; else no_access"   class="ui grid docsContainer"> -->
-    <div   *ngIf="eventFiles?.data?.files?.FFAS?.isViewPermission == 1; "   class="ui grid docsContainer">
+    <div   *ngIf="eventFiles?.data?.files?.FFAS?.isViewPermission == 1 || permissionObj.isService;  "   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.FFAS">
             <a class="ui mini button primary-outlineBtn"
@@ -578,7 +578,7 @@
   </div>
   <div class="sixteen wide column" *ngIf="showExhibitorsFilesSection()">
     <div class="field">
-      <div class="ui dividing header"   *ngIf="eventFiles?.data?.files?.FFAE?.isViewPermission == 1; " >
+      <div class="ui dividing header"   *ngIf="eventFiles?.data?.files?.FFAE?.isViewPermission == 1 || permissionObj.isExhibitor; " >
         <div class="ui grid">
           <div class="ten wide column middle aligned">
             <h3>Files for All Exhibitors <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
@@ -590,7 +590,7 @@
         </div>
       </div>
       <!-- <div   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"   class="ui grid docsContainer"> -->
-      <div   *ngIf="eventFiles?.data?.files?.FFAE?.isViewPermission == 1; "   class="ui grid docsContainer">
+      <div   *ngIf="eventFiles?.data?.files?.FFAE?.isViewPermission == 1 || permissionObj.isExhibitor; "   class="ui grid docsContainer">
         <div class="sixteen wide column">
           <ng-container *ngIf="eventFiles?.data?.files?.FFAE">
             <a class="ui mini button primary-outlineBtn"
