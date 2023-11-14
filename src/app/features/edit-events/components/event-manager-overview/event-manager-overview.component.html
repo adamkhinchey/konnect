@@ -64,7 +64,7 @@
         </div>
         <ng-content select="[assignFunctionCmp]"></ng-content>
       </div>
-      <div class="nine wide column">
+      <div class="nine wide column" *ngIf="(eventData.eventData.eventManager?.isViewPermission == 2 && eventData.eventData.eventManager?.isViewPermissionBtn != 7)">
         <div class="ui dividing header" *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 2 ||  eventData.eventData.eventManager?.isViewPermission == 3;">
           <h3>Event Management Requirements <i class="icon globe"></i></h3>
         </div>
@@ -74,7 +74,7 @@
           <!-- <angular-editor *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access"
             [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config" (focus)="changeConfig()"
             [ngModelOptions]="{standalone: true}"></angular-editor> -->
-            <angular-editor id="editemr" *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 2 ||  eventData.eventData.eventManager?.isViewPermission == 3; "
+            <angular-editor id="editemr" *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || (eventData.eventData.eventManager?.isViewPermission == 2 && eventData.eventData.eventManager?.isViewPermissionBtn != 7) ||  eventData.eventData.eventManager?.isViewPermission == 3; "
             [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config" (focus)="changeConfig()"
             [ngModelOptions]="{standalone: true}"></angular-editor>
          

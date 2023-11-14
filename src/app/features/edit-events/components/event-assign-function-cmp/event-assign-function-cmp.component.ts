@@ -78,7 +78,6 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
   ngOnInit(): void {
    
     if (this.selectedCompany !== undefined && this.selectedCompany !== null) {
-      this.checkCrewLogin(this.tabName,this.selectedCompany,this.eventData.eventData.eventId);
       this.getLatestDate(this.tabName, this.selectedCompany, this.eventData.eventData.eventId, this.SendType);
       this.eventSrvc.letestDate.subscribe(message => {
         if (message == "Send") {
@@ -90,25 +89,25 @@ export class EventAssignFunctionCmpComponent implements OnInit, OnChanges {
 
   }
 
-checkCrewLogin(tabName:any,selectedCompany:any,eventId:any){
- console.log("In CHeck Cre++++++++++ ", this.selectedCompany)
-    this.eventSrvc.checkCrewLogin(tabName, selectedCompany, eventId).subscribe(
-      (res: any) => {
+// checkCrewLogin(tabName:any,selectedCompany:any,eventId:any){
+//  console.log("In CHeck Cre++++++++++ ", this.selectedCompany)
+//     this.eventSrvc.checkCrewLogin(tabName, selectedCompany, eventId).subscribe(
+//       (res: any) => {
 
-        if(res.data!=null && res.data.length>0){
+//         if(res.data!=null && res.data.length>0){
        
-          res.data.map((item:any)=>{
-         this.checkIsCrew=item.is_crew;
-          });
-        }
+//           res.data.map((item:any)=>{
+//          this.checkIsCrew=item.is_crew;
+//           });
+//         }
 
       
-      },
-      (err) => {
-        console.log(err.error.message);
-      }
-    );
-  }
+//       },
+//       (err) => {
+//         console.log(err.error.message);
+//       }
+//     );
+//   }
 
   ngOnDestroy() {
     this.eventSrvc.letestDate.next(null);

@@ -90,7 +90,7 @@
           <!-- <angular-editor *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access"
             [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config" (focus)="changeConfig()"
             [ngModelOptions]="{standalone: true}"></angular-editor> -->
-            <angular-editor id="editemr" *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || eventData.eventData.eventManager?.isViewPermission == 2 ||  eventData.eventData.eventManager?.isViewPermission == 3; else no_access"
+            <angular-editor id="editemr" *ngIf="eventData.eventData.eventManager?.isViewPermission == 1 || (eventData.eventData.eventManager?.isViewPermission == 2 && eventData.eventData.eventManager?.isViewPermissionBtn != 7) ||  eventData.eventData.eventManager?.isViewPermission == 3; else no_access"
             [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config" (focus)="changeConfig()"
             [ngModelOptions]="{standalone: true}"></angular-editor>
           <ng-template #no_access>No access

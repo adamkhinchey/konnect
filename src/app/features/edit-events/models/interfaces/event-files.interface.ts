@@ -37,6 +37,7 @@ interface FilesData {
 interface VenueFile {
   name: string;
   isViewPermission: number; 
+  isViewBtnPermission : number;
   isSelfIncludedInTab: number; 
   isSelfIncludedInSection: number; 
   venueId: number;
@@ -51,6 +52,7 @@ interface FilesForAllVenues extends FilesData {
 
 interface SupplierFile {
   name: string;
+  isViewBtnPermission : number,
   isViewPermission: number; 
   isSelfIncludedInTab: number; 
   isSelfIncludedInSection: number; 
@@ -65,6 +67,7 @@ interface FilesForAllSuppliers extends FilesData {
 
 interface ExhibitorFile {
   name: string;
+  isViewBtnPermission : number,
   isViewPermission: number;
   isSelfIncludedInTab: number; 
   isSelfIncludedInSection: number; 

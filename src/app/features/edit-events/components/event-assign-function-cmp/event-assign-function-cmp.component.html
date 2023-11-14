@@ -88,21 +88,21 @@
         </ng-container>
       </div>
 
-<ng-container *ngIf="!checkIsCrew">
+<ng-container>
 
-      <ng-container *ngIf="(isViewPermission == 1 && isSelfIncludedInSection == 1) || permissionObj.isEventManager">
+      <ng-container *ngIf="(isViewBtnPermission == 1 && isSelfIncludedInSection == 1) || permissionObj.isEventManager">
         <ng-container *ngFor="let contact of contactList;let firstIndex = index">
           <ng-container *ngIf="contact.isCrew == 0 && isFirstCrewMatch(firstIndex); else skipData">
             <div class="column justify-content-between mt-2">
               <div style="float: left;" class="ui button triggerEditableOptions mt-3 me-2 marT-m15"
-                *ngIf="!(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3))"
+                *ngIf="!(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || isViewBtnPermission == 1 ||  isViewBtnPermission == 3)"
                 (click)="getCurrentDateTime()">
                 Send Confirmation
               </div>
               <div style="position: relative; float: left; margin: -6px 0 0 5px;"> 
                  <p class="d-inline-block" tabindex="0" data-toggle="tooltip"   (mouseleave)="hideTooltip(firstIndex)" (mouseenter)="GetSendHistory(firstIndex)"
                   
-                *ngIf="!(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (isViewPermission == 1 ||  isViewPermission == 3))">
+                *ngIf="!(isClientEditable || isManagerEditable || isVenueEditable || isServiceEditable || isExhibitorEditable) && ((permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || isViewBtnPermission == 1 ||  isViewBtnPermission == 3)">
                 <!-- <div class="d-inline-block"  tabindex="0" data-toggle="tooltip" [title]="dateHistory"> -->
                   Last confirmation sent : {{ currentDateTimeStamp }}
                 <!-- </div> -->

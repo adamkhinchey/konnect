@@ -280,7 +280,7 @@
                       <div class="ten wide column middle aligned">
                         <h3>Floorplan <i class="globe icon"></i></h3>
                       </div>
-                      <div class="six wide column right aligned"   *ngIf="venueFileItem?.isViewPermission==1" >
+                      <div class="six wide column right aligned"   *ngIf="venueFileItem?.isViewBtnPermission==1" >
                         <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_FLOOR_PLAN,{venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Manage
@@ -334,7 +334,7 @@
                           class="building icon"></i></h3>
                       </div>
                       <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isVenue  && venueFileItem?.isViewPermission==1)" > -->
-                    <div class="six wide column right aligned"  *ngIf="venueFileItem?.isViewPermission==1" >
+                    <div class="six wide column right aligned"  *ngIf="venueFileItem?.isViewBtnPermission==1" >
                         <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_SHARED_FILES, {venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Manage
@@ -395,7 +395,7 @@
                         <h3>Venue Internal Files <i class="building icon"></i></h3>
                       </div>
                       <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isVenue && venueFileItem?.isViewPermission == 1"  > -->
-                      <div class="six wide column right aligned"  *ngIf="venueFileItem?.isViewPermission==1 && venueFileItem?.isSelfIncludedInSection==1"  >
+                      <div class="six wide column right aligned"  *ngIf="venueFileItem?.isViewBtnPermission==1 && venueFileItem?.isSelfIncludedInSection==1"  >
                         <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                              (click)="contentUpload(uploadFilesModal, fileType.VENUE_INTERNAL_FILES, {venueId:venueFileItem.venueId},i)">
                           <i class="upload icon"></i>Manage
@@ -527,7 +527,7 @@
                             class="building icon"></i></h3>
                         </div>
                         <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isService && supplierItem?.isViewPermission==1)"> -->
-                      <div class="six wide column right aligned"  *ngIf="supplierItem?.isViewPermission==1">
+                      <div class="six wide column right aligned"  *ngIf="supplierItem?.isViewBtnPermission==1">
                           <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_SHARED_FILES, {serviceId: supplierItem.serviceId},i)">
                             <i class="upload icon"></i>Manage
@@ -578,7 +578,7 @@
                           <h3>Supplier Internal Files <i class="building icon"></i></h3>
                         </div>
                         <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isService && supplierItem?.isViewPermission == 1" > -->
-                      <div class="six wide column right aligned"  *ngIf="supplierItem?.isViewPermission == 1 && supplierItem?.isSelfIncludedInSection == 1" >
+                      <div class="six wide column right aligned"  *ngIf="supplierItem?.isViewBtnPermission == 1 && supplierItem?.isSelfIncludedInSection == 1" >
                           <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.SUPPLIER_INTERNAL_FILES,{serviceId:supplierItem.serviceId},i)">
                             <i class="upload icon"></i>Manage
@@ -712,7 +712,7 @@
                             class="building icon"></i></h3>
                         </div>
                         <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1)" > -->
-                      <div class="six wide column right aligned"  *ngIf="exhibitorFileItem?.isViewPermission==1" >
+                      <div class="six wide column right aligned"  *ngIf="exhibitorFileItem?.isViewBtnPermission==1" >
                           <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_SHARED_FILES,{exhibitorId:exhibitorFileItem.exhibitorId},i)">
                             <i class="upload icon"></i>Manage
@@ -763,7 +763,7 @@
                           <h3>Exhibitor Internal Files <i class="building icon"></i></h3>
                         </div>
                         <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1"  > -->
-                        <div class="six wide column right aligned"  *ngIf="exhibitorFileItem?.isViewPermission==1 && exhibitorFileItem?.isSelfIncludedInSection==1"  >
+                        <div class="six wide column right aligned"  *ngIf="exhibitorFileItem?.isViewBtnPermission==1 && exhibitorFileItem?.isSelfIncludedInSection==1"  >
                           <div class="ui button compact mini primary-outlineBtn circular addDocuments hasModal"
                                (click)="contentUpload(uploadFilesModal, fileType.EXHIBITOR_INTERNAL_FILES, {exhibitorId:exhibitorFileItem.exhibitorId},i)">
                             <i class="upload icon"></i>Manage
