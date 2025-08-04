@@ -1,0 +1,16 @@
+export default [
+  {val: 'AF', name: 'Afghanistan '},
+  {val: 'AX', name: 'Åland Islands'},
+  {val: 'AL', name: 'Albania'},
+  {val: 'DZ', name: 'Algeria'},
+  {val: 'AS', name: 'American Samoa'},
+  {val: 'AD', name: 'Andorra'},
+  {val: 'AO', name: 'Angola'},
+  {val: 'AI', name: 'Anguilla'},
+  {val: 'AQ', name: 'Antarctica'},
+  {val: 'AG', name: 'Antigua and Barbuda'},
+  {val: 'AR', name: 'Argentina'},
+  {val: 'AM', name: 'Armenia'},
+  {val: 'AW', name: 'Aruba'},
+  {val: 'AU', name: 'Australia'},
+];

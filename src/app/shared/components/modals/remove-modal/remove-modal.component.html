@@ -1,0 +1,23 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Remove</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click') && cancel.emit(toRemove)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="content">
+      <form class="ui form">
+        <div class="content">
+          <p>{{modalInfoContent}}</p>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="sixteen wide column right aligned">
+      <div class="ui button basic blue negative" (click)="cancel.emit(toRemove)">Cancel</div>
+      <div class="ui button positive ml-2" (click)="confirm.emit(toRemove)">Confirm</div>
+    </div>
+  </div>
+</ng-template>

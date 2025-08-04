@@ -1,0 +1,833 @@
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { Timeline, TimelineOptions } from 'vis-timeline';
+import * as vis from 'vis-timeline';
+import { DataSet } from 'vis-data';
+import { DOCUMENT } from '@angular/common';
+import {
+  EventTimelineDataInterface,
+  mockTimeLineData,
+} from '../../models/interfaces';
+import { EventTimelineService } from '../../services/event-timeline.service';
+import { devLogger } from '../../../../shared/utils';
+import { EventTimelineType } from '../../../../shared/models';
+import { Subject, Subscription } from 'rxjs';
+import { v4 as uuidV4 } from 'uuid';
+import { isEmpty } from 'lodash-es';
+import * as moment from 'moment-timezone';
+
+@Component({
+  selector: 'app-event-gantt-chart',
+  templateUrl: './event-gantt-chart.component.html',
+  styleUrls: ['./event-gantt-chart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
+})
+export class EventGanttChartComponent implements OnInit, OnDestroy {
+  @ViewChild('timeline') timelineContainer: ElementRef | undefined;
+  @Input() timelineID: any = 'timelineContainer';
+  @Input() permissionObj: any;
+  @Input() timelineType: EventTimelineType | undefined;
+  @Input() timelineGenTrigger:
+    | Subject<{
+        elem: HTMLElement;
+        data: EventTimelineDataInterface | undefined;
+      }>
+    | undefined;
+  timelineData: EventTimelineDataInterface | undefined;
+
+  private pageDocument;
+  timeline: Timeline | undefined;
+  groups: DataSet<any> | undefined;
+  items: DataSet<any> | undefined;
+  options: TimelineOptions | undefined;
+  private timelineGenTriggerSubs: Subscription | undefined;
+  private timeZone = moment.tz.guess();
+
+  constructor(
+    @Inject(DOCUMENT) document: Document,
+    private eventTimelineService: EventTimelineService,
+    private chdRef: ChangeDetectorRef
+  ) {
+    this.pageDocument = document;
+  }
+
+  ngOnInit(): void {
+    this.timelineGenTriggerSubs = this.timelineGenTrigger?.subscribe(
+      (value) => {
+        if (value.elem) {
+          this.render(value.elem, value.data);
+        }
+      }
+    );
+  }
+
+  render(
+    nativeElement: HTMLElement,
+    timelineData: EventTimelineDataInterface | undefined
+  ): void {
+    setTimeout(() => {
+      this.timelineData = timelineData;
+      this.chdRef.detectChanges();
+      console.log('timeline data on render...', this.timelineData);
+      if (this.timeline) {
+        this.timeline?.destroy();
+        console.log('timeline after destroyed...', this.timeline);
+        this.chdRef.detectChanges();
+      }
+
+      devLogger('log', { timelineData: this.timelineData });
+
+      if (this.timelineData && !isEmpty(this.timelineData)) {
+        let serviceExhibitorLength: any = 0;
+        for (let i = 0; i < this.timelineData.groups.length; i++) {
+          if (this.timelineData.groups[i].data.preTime[0].services) {
+            //@ts-ignore
+            serviceExhibitorLength =
+              serviceExhibitorLength +
+              this.timelineData.groups[i].data.preTime[0].services?.length;
+          } else if (this.timelineData.groups[i].data.preTime[0].exhibitors) {
+            //@ts-ignore
+            serviceExhibitorLength =
+              serviceExhibitorLength +
+              this.timelineData.groups[i].data.preTime[0].exhibitors?.length;
+          }
+        }
+
+        this.groups = new DataSet<any>(
+          this.timelineData.groups.map((group) => ({ id: group.date }))
+        );
+
+        devLogger('log', 'Rendering timeline');
+        const that = this;
+        this.options = {
+          width: '100%',
+          zoomable: true,
+          autoResize: true,
+          stack: false,
+          align: 'left',
+          start: moment
+            .tz(this.timelineData.startDateTime, this.timeZone)
+            .toDate(),
+          min: moment
+            .tz(this.timelineData.minimumDateTime, this.timeZone)
+            .hours(0)
+            .minutes(0)
+            .seconds(0)
+            .toDate(),
+          end: moment.tz(this.timelineData.maxDateTime, this.timeZone).toDate(),
+          max: moment
+            .tz(this.timelineData.maxDateTime, this.timeZone)
+            .hours(23)
+            .minutes(59)
+            .seconds(59)
+            .toDate(),
+          margin: {
+            item: {
+              vertical: 0,
+            },
+            axis: 40 * serviceExhibitorLength + 50,
+          },
+          timeAxis: {
+            scale: 'hour',
+            step: 1,
+          },
+          orientation: {
+            axis: 'both',
+            item: 'top',
+          },
+          format: {
+            minorLabels: {
+              hour: 'HH',
+            },
+          },
+        };
+
+        const items: vis.DataItemCollectionType = [];
+        let preServiceCount = 0;
+        let preServiceMargin = 15;
+        let preDefaultMargin = 0;
+
+        let preExhibitorCount = 0;
+        let preExhibitorMargin = 15;
+        let preExhibitorDefaultMargin = 0;
+
+        let eventServiceCount = 0;
+        let eventServiceMargin = 15;
+        let eventDefaultMargin = 0;
+
+        let eventExhibitorCount = 0;
+        let eventExhibitorMargin = 15;
+        let eventExhibitorDefaultMargin = 0;
+
+        let postServiceCount = 0;
+        let postServiceMargin = 15;
+        let postDefaultMargin = 0;
+
+        let postExhibitorCount = 0;
+        let postExhibitorMargin = 15;
+        let postExhibitorDefaultMargin = 0;
+        this.timelineData.groups.forEach((groupData) => {
+          console.log('group data...', groupData);
+          groupData.data.preTime.forEach((preTimeData) => {
+            console.log('pretime data...', preTimeData);
+            setTimeout(() => {
+              items.push({
+                id: `${preTimeData.id}_${uuidV4()}`,
+                content: `Pre Event Access:<br/>${moment
+                  .tz(preTimeData.startDateTime, this.timeZone)
+                  .format('HH:mm')} - ${moment
+                  .tz(preTimeData.endDateTime, this.timeZone)
+                  .format('HH:mm')}`,
+                start: moment
+                  .tz(preTimeData.startDateTime, this.timeZone)
+                  .toDate(),
+                end: moment.tz(preTimeData.endDateTime, this.timeZone).toDate(),
+                type: 'background',
+                className: 'bumpIn',
+              });
+            }, 300);
+            this.chdRef.detectChanges();
+            if (this.timelineType === EventTimelineType.SERVICES) {
+              preTimeData.services?.forEach((servicesData) => {
+                console.log('service data...', servicesData);
+                // if (preServiceCount)
+                preDefaultMargin = 18;
+                preServiceCount++;
+                let preServiceMarginFinal =
+                  preServiceMargin * preServiceCount +
+                  preDefaultMargin * preServiceCount;
+                setTimeout(() => {
+                  let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${servicesData.content}</b><p>${
+                      servicesData.companyName || servicesData.companyName
+                    }<br/>
+      ${moment
+        .tz(servicesData.startDateTime, this.timeZone)
+        .toDate()
+        .toDateString()} -
+      ${moment
+        .tz(servicesData.endDateTime, this.timeZone)
+        .toDate()
+        .toDateString()}<br/>
+      ${moment
+        .tz(servicesData.startDateTime, this.timeZone)
+        .format('HH:mm A')} - ${moment
+                      .tz(servicesData.endDateTime, this.timeZone)
+                      .format('HH:mm A')}</p>
+      <b>${servicesData.primaryContact?.name}</b><p>${
+                      servicesData.primaryContact?.mobile
+                    }<span class="hyphen"> - </span>${
+                      servicesData.primaryContact?.email
+                    }</p><small>${servicesData.companyWebsite || ''}</small>`; 
+                  }
+                  items.push({
+                    id: `${servicesData.id}_${uuidV4()}`,
+                    content: `${'BI'}<br/>`,
+                    title: title,
+                    start: moment
+                      .tz(servicesData.startDateTime, this.timeZone)
+                      .toDate(),
+                    end: moment
+                      .tz(servicesData.endDateTime, this.timeZone)
+                      .toDate(),
+                    group: servicesData.group,
+                    style: 'margin-top:' + preServiceMarginFinal + 'px',
+                  });
+                }, 300);
+                console.log('item after push...', items);
+                this.chdRef.detectChanges();
+                servicesData?.data?.forEach((multiData) => {
+                  setTimeout(() => {
+                    let title = ""; 
+                    if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                      title = ""; 
+                    }else{
+                      title = `<b>${multiData.content}</b><p>${
+                        multiData.companyName || multiData.companyName
+                      }<br/>
+      ${moment
+        .tz(multiData.startDateTime, this.timeZone)
+        .toDate()
+        .toDateString()} -
+      ${moment
+        .tz(multiData.endDateTime, this.timeZone)
+        .toDate()
+        .toDateString()}<br/>
+      ${moment
+        .tz(multiData.startDateTime, this.timeZone)
+        .format('HH:mm A')} - ${moment
+                        .tz(multiData.endDateTime, this.timeZone)
+                        .format('HH:mm A')}</p>
+      <b>${multiData.primaryContact?.name}</b><p>${
+                        multiData.primaryContact?.mobile
+                      }<span class="hyphen"> - </span>${
+                        multiData.primaryContact?.email
+                      }</p><small>${multiData.companyWebsite || ''}</small>`; 
+                    }
+                    items.push({
+                      id: `${multiData.id}_${uuidV4()}`,
+                      content: `${'BI'}<br/>`,
+                      title: title,
+                      start: moment
+                        .tz(multiData.startDateTime, this.timeZone)
+                        .toDate(),
+                      end: moment
+                        .tz(multiData.endDateTime, this.timeZone)
+                        .toDate(),
+                      group: multiData.group,
+                      style: 'margin-top:' + preServiceMarginFinal + 'px',
+                    });
+                  }, 300);
+                  this.chdRef.detectChanges();
+                });
+              });
+              // preServiceMargin = 15;
+            } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
+              preTimeData.exhibitors?.forEach((exhibitorsData) => {
+                // if (preExhibitorCount)
+                preExhibitorDefaultMargin = 18;
+                preExhibitorCount++;
+                let preExhibitorMarginFinal =
+                  preExhibitorMargin * preExhibitorCount +
+                  preExhibitorDefaultMargin * preExhibitorCount;
+                setTimeout(() => {
+                  let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${exhibitorsData.content}</b><p>${
+                      exhibitorsData.companyName || exhibitorsData.companyName
+                    }<br/>
+      ${moment
+        .tz(exhibitorsData.startDateTime, this.timeZone)
+        .toDate()
+        .toDateString()} -
+      ${moment
+        .tz(exhibitorsData.endDateTime, this.timeZone)
+        .toDate()
+        .toDateString()}<br/>
+      ${moment
+        .tz(exhibitorsData.startDateTime, this.timeZone)
+        .format('HH:mm A')} - ${moment
+                      .tz(exhibitorsData.endDateTime, this.timeZone)
+                      .format('HH:mm A')}</p>
+      <b>${exhibitorsData.primaryContact?.name}</b><p>${
+                      exhibitorsData.primaryContact?.mobile
+                    }<span class="hyphen"> - </span>${
+                      exhibitorsData.primaryContact?.email
+                    }</p><small>${exhibitorsData.companyWebsite || ''}</small>`; 
+                  }
+                  items.push({
+                    id: `${exhibitorsData.id}_${uuidV4()}`,
+                    content: `${'BI'}<br/>`,
+                    title: title,
+                    start: moment
+                      .tz(exhibitorsData.startDateTime, this.timeZone)
+                      .toDate(),
+                    end: moment
+                      .tz(exhibitorsData.endDateTime, this.timeZone)
+                      .toDate(),
+                    group: exhibitorsData.group,
+                    style: 'margin-top:' + preExhibitorMarginFinal + 'px',
+                  });
+                }, 300);
+                this.chdRef.detectChanges();
+                exhibitorsData?.data?.forEach((multiData) => {
+                  setTimeout(() => {
+                    let title = ""; 
+                    if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                      title = ""; 
+                    }else{
+                      title =  `<b>${multiData.content}</b><p>${
+                        multiData.companyName || multiData.companyName
+                      }<br/>
+      ${moment
+        .tz(multiData.startDateTime, this.timeZone)
+        .toDate()
+        .toDateString()} -
+      ${moment
+        .tz(multiData.endDateTime, this.timeZone)
+        .toDate()
+        .toDateString()}<br/>
+      ${moment
+        .tz(multiData.startDateTime, this.timeZone)
+        .format('HH:mm A')} - ${moment
+                        .tz(multiData.endDateTime, this.timeZone)
+                        .format('HH:mm A')}</p>
+      <b>${multiData.primaryContact?.name}</b><p>${
+                        multiData.primaryContact?.mobile
+                      }<span class="hyphen"> - </span>${
+                        multiData.primaryContact?.email
+                      }</p><small>${multiData.companyWebsite || ''}</small>`; 
+                    }
+                    items.push({
+                      id: `${multiData.id}_${uuidV4()}`,
+                      content: `${'BI'}<br/>`,
+                      title: title,
+                      start: moment
+                        .tz(multiData.startDateTime, this.timeZone)
+                        .toDate(),
+                      end: moment
+                        .tz(multiData.endDateTime, this.timeZone)
+                        .toDate(),
+                      group: multiData.group,
+                      style: 'margin-top:' + preExhibitorMarginFinal + 'px',
+                    });
+                  }, 300);
+                  this.chdRef.detectChanges();
+                });
+              });
+            }
+          });
+
+          groupData.data.eventTime.forEach((eventTimeData) => {
+            setTimeout(() => {
+              items.push({
+                id: `${eventTimeData.id}_${uuidV4()}`,
+                content: `Event:<br/>${moment
+                  .tz(eventTimeData.startDateTime, this.timeZone)
+                  .format('HH:mm')} - ${moment
+                  .tz(eventTimeData.endDateTime, this.timeZone)
+                  .format('HH:mm')}`,
+                start: moment
+                  .tz(eventTimeData.startDateTime, this.timeZone)
+                  .toDate(),
+                end: moment
+                  .tz(eventTimeData.endDateTime, this.timeZone)
+                  .toDate(),
+                type: 'background',
+                className: 'eventTimes',
+              });
+            }, 300);
+            this.chdRef.detectChanges();
+            if (this.timelineType === EventTimelineType.SERVICES) {
+              eventTimeData.services?.forEach((servicesData) => {
+                // if (eventServiceCount)
+                eventDefaultMargin = 18;
+                eventServiceCount++;
+                let eventServiceMarginFinal =
+                  eventServiceMargin * eventServiceCount +
+                  eventDefaultMargin * eventServiceCount;
+                setTimeout(() => {
+                  let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${servicesData.content}</b><p>${
+                      servicesData.companyName || servicesData.companyName
+                    }<br/>
+      ${moment
+        .tz(servicesData.startDateTime, this.timeZone)
+        .toDate()
+        .toDateString()} -
+      ${moment
+        .tz(servicesData.endDateTime, this.timeZone)
+        .toDate()
+        .toDateString()}<br/>
+      ${moment
+        .tz(servicesData.startDateTime, this.timeZone)
+        .format('HH:mm A')} - ${moment
+                      .tz(servicesData.endDateTime, this.timeZone)
+                      .format('HH:mm A')}</p>
+      <b>${servicesData.primaryContact?.name}</b><p>${
+                      servicesData.primaryContact?.mobile
+                    }<span class="hyphen"> - </span>${
+                      servicesData.primaryContact?.email
+                    }</p><small>${servicesData.companyWebsite || ''}</small>`; 
+                  }
+                  items.push({
+                    id: `${servicesData.id}_${uuidV4()}`,
+                    content: `${servicesData.content || ''}<br/>`,
+                    title: title,
+                    start: moment
+                      .tz(servicesData.startDateTime, this.timeZone)
+                      .toDate(),
+                    end: moment
+                      .tz(servicesData.endDateTime, this.timeZone)
+                      .toDate(),
+                    group: servicesData.group,
+                    style: 'margin-top:' + eventServiceMarginFinal + 'px',
+                  });
+                }, 300);
+                this.chdRef.detectChanges();
+                servicesData?.data?.forEach((multiData) => {
+                  setTimeout(() => {
+                    let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${multiData.content}</b><p>${
+                      multiData.companyName || multiData.companyName
+                    }<br/>
+    ${moment
+      .tz(multiData.startDateTime, this.timeZone)
+      .toDate()
+      .toDateString()} -
+    ${moment
+      .tz(multiData.endDateTime, this.timeZone)
+      .toDate()
+      .toDateString()}<br/>
+    ${moment
+      .tz(multiData.startDateTime, this.timeZone)
+      .format('HH:mm A')} - ${moment
+                      .tz(multiData.endDateTime, this.timeZone)
+                      .format('HH:mm A')}</p>
+    <b>${multiData.primaryContact?.name}</b><p>${
+                      multiData.primaryContact?.mobile
+                    }<span class="hyphen"> - </span>${
+                      multiData.primaryContact?.email
+                    }</p><small>${multiData.companyWebsite || ''}</small>`; 
+                  }
+                    items.push({
+                      id: `${multiData.id}_${uuidV4()}`,
+                      content: `${multiData.content || ''}<br/>`,
+                      title: title,
+                      start: moment
+                        .tz(multiData.startDateTime, this.timeZone)
+                        .toDate(),
+                      end: moment
+                        .tz(multiData.endDateTime, this.timeZone)
+                        .toDate(),
+                      group: multiData.group,
+                      style: 'margin-top:' + eventServiceMarginFinal + 'px',
+                    });
+                  }, 300);
+                  this.chdRef.detectChanges();
+                });
+              });
+            } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
+              eventTimeData.exhibitors?.forEach((exhibitorsData) => {
+                // if (eventExhibitorCount)
+                eventExhibitorDefaultMargin = 18;
+                eventExhibitorCount++;
+                let eventExhibitorMarginFinal =
+                  eventExhibitorMargin * eventExhibitorCount +
+                  eventExhibitorDefaultMargin * eventExhibitorCount;
+                setTimeout(() => {
+                  let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${exhibitorsData.content}</b><p>${
+                      exhibitorsData.companyName
+                    }<br/>
+      ${new Date(exhibitorsData.startDateTime).toDateString()} - ${new Date(
+                      exhibitorsData.endDateTime
+                    ).toDateString()}<br/>
+      ${moment
+        .tz(exhibitorsData.startDateTime, this.timeZone)
+        .format('HH:mm A')} - ${moment
+                      .tz(exhibitorsData.endDateTime, this.timeZone)
+                      .format('HH:mm A')}</p>
+      <b>${exhibitorsData.primaryContact?.name}</b><p>${
+                      exhibitorsData.primaryContact?.mobile
+                    }<span class="hyphen"> - </span>${
+                      exhibitorsData.primaryContact?.email
+                    }</p><small>${exhibitorsData.companyWebsite}</small>`; 
+                  }
+                  items.push({
+                    id: `${exhibitorsData.id}_${uuidV4()}`,
+                    content: `${exhibitorsData.content || ''}<br/>`,
+                    title: title,
+                    start: moment
+                      .tz(exhibitorsData.startDateTime, this.timeZone)
+                      .toDate(),
+                    end: moment
+                      .tz(exhibitorsData.endDateTime, this.timeZone)
+                      .toDate(),
+                    group: exhibitorsData.group,
+                    style: 'margin-top:' + eventExhibitorMarginFinal + 'px',
+                  });
+                }, 300);
+                this.chdRef.detectChanges();
+                exhibitorsData?.data?.forEach((multiData) => {
+                  setTimeout(() => {
+                    let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${multiData.content}</b><p>${
+                      multiData.companyName
+                    }<br/>
+    ${new Date(multiData.startDateTime).toDateString()} - ${new Date(
+                      multiData.endDateTime
+                    ).toDateString()}<br/>
+    ${moment
+      .tz(multiData.startDateTime, this.timeZone)
+      .format('HH:mm A')} - ${moment
+                      .tz(multiData.endDateTime, this.timeZone)
+                      .format('HH:mm A')}</p>
+    <b>${multiData.primaryContact?.name}</b><p>${
+                      multiData.primaryContact?.mobile
+                    }<span class="hyphen"> - </span>${
+                      multiData.primaryContact?.email
+                    }</p><small>${multiData.companyWebsite}</small>`; 
+                  }
+                    items.push({
+                      id: `${multiData.id}_${uuidV4()}`,
+                      content: `${multiData.content || ''}<br/>`,
+                      title: title,
+                      start: moment
+                        .tz(multiData.startDateTime, this.timeZone)
+                        .toDate(),
+                      end: moment
+                        .tz(multiData.endDateTime, this.timeZone)
+                        .toDate(),
+                      group: multiData.group,
+                      style: 'margin-top:' + eventExhibitorMarginFinal + 'px',
+                    });
+                  }, 300);
+                  this.chdRef.detectChanges();
+                });
+              });
+            }
+          });
+
+          groupData.data.postTime.forEach((postTimeData) => {
+            setTimeout(() => {
+              items.push({
+                id: `${postTimeData.id}_${uuidV4()}`,
+                content: `Post Event Access:<br/>${moment
+                  .tz(postTimeData.startDateTime, this.timeZone)
+                  .format('HH:mm')} - ${moment
+                  .tz(postTimeData.endDateTime, this.timeZone)
+                  .format('HH:mm')}`,
+                start: moment
+                  .tz(postTimeData.startDateTime, this.timeZone)
+                  .toDate(),
+                end: moment
+                  .tz(postTimeData.endDateTime, this.timeZone)
+                  .toDate(),
+                type: 'background',
+                className: 'bumpOut',
+              });
+            }, 300);
+            this.chdRef.detectChanges();
+            if (this.timelineType === EventTimelineType.SERVICES) {
+              postTimeData.services?.forEach((servicesData) => {
+                // if (postServiceCount)
+                postDefaultMargin = 18;
+                postServiceCount++;
+                let postServiceMarginFinal =
+                  postServiceMargin * postServiceCount +
+                  postDefaultMargin * postServiceCount;
+                setTimeout(() => {
+                  let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${servicesData.content}</b><p>${
+                      servicesData.companyName || servicesData.companyName
+                    }<br/>
+      ${moment
+        .tz(servicesData.startDateTime, this.timeZone)
+        .toDate()
+        .toDateString()} -
+      ${moment
+        .tz(servicesData.endDateTime, this.timeZone)
+        .toDate()
+        .toDateString()}<br/>
+      ${moment
+        .tz(servicesData.startDateTime, this.timeZone)
+        .format('HH:mm A')} - ${moment
+                      .tz(servicesData.endDateTime, this.timeZone)
+                      .format('HH:mm A')}</p>
+      <b>${servicesData.primaryContact?.name}</b><p>${
+                      servicesData.primaryContact?.mobile
+                    }<span class="hyphen"> - </span>${
+                      servicesData.primaryContact?.email
+                    }</p><small>${servicesData.companyWebsite || ''}</small>`; 
+                  }
+                  items.push({
+                    id: `${servicesData.id}_${uuidV4()}`,
+                    content: `${'BO'}<br/>`,
+                    title: title,
+                    start: moment
+                      .tz(servicesData.startDateTime, this.timeZone)
+                      .toDate(),
+                    end: moment
+                      .tz(servicesData.endDateTime, this.timeZone)
+                      .toDate(),
+                    group: servicesData.group,
+                    style: 'margin-top:' + postServiceMarginFinal + 'px',
+                  });
+                }, 300);
+                this.chdRef.detectChanges();
+                servicesData?.data?.forEach((multiData) => {
+                  setTimeout(() => {
+                    let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${multiData.content}</b><p>${
+                      multiData.companyName || multiData.companyName
+                    }<br/>
+    ${moment
+      .tz(multiData.startDateTime, this.timeZone)
+      .toDate()
+      .toDateString()} -
+    ${moment
+      .tz(multiData.endDateTime, this.timeZone)
+      .toDate()
+      .toDateString()}<br/>
+    ${moment
+      .tz(multiData.startDateTime, this.timeZone)
+      .format('HH:mm A')} - ${moment
+                      .tz(multiData.endDateTime, this.timeZone)
+                      .format('HH:mm A')}</p>
+    <b>${multiData.primaryContact?.name}</b><p>${
+                      multiData.primaryContact?.mobile
+                    }<span class="hyphen"> - </span>${
+                      multiData.primaryContact?.email
+                    }</p><small>${multiData.companyWebsite || ''}</small>`; 
+                  }
+                    items.push({
+                      id: `${multiData.id}_${uuidV4()}`,
+                      content: `${'BO'}<br/>`,
+                      title: title,
+                      start: moment
+                        .tz(multiData.startDateTime, this.timeZone)
+                        .toDate(),
+                      end: moment
+                        .tz(multiData.endDateTime, this.timeZone)
+                        .toDate(),
+                      group: multiData.group,
+                      style: 'margin-top:' + postServiceMarginFinal + 'px',
+                    });
+                  }, 300);
+                  this.chdRef.detectChanges();
+                });
+              });
+            } else if (this.timelineType === EventTimelineType.EXHIBITORS) {
+              postTimeData.exhibitors?.forEach((exhibitorsData) => {
+                // if (postExhibitorCount)
+                postExhibitorDefaultMargin = 18;
+                postExhibitorCount++;
+                let postExhibitorMarginFinal =
+                  postExhibitorMargin * postExhibitorCount +
+                  postExhibitorDefaultMargin * postExhibitorCount;
+                setTimeout(() => {
+                  let title = ""; 
+                  if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                    title = ""; 
+                  }else{
+                    title = `<b>${exhibitorsData.content}</b><p>${
+                      exhibitorsData.companyName || exhibitorsData.companyName
+                    }<br/>
+      ${moment
+        .tz(exhibitorsData.startDateTime, this.timeZone)
+        .toDate()
+        .toDateString()} -
+      ${moment
+        .tz(exhibitorsData.endDateTime, this.timeZone)
+        .toDate()
+        .toDateString()}<br/>
+      ${moment
+        .tz(exhibitorsData.startDateTime, this.timeZone)
+        .format('HH:mm A')} - ${moment
+                      .tz(exhibitorsData.endDateTime, this.timeZone)
+                      .format('HH:mm A')}</p>
+      <b>${exhibitorsData.primaryContact?.name}</b><p>${
+                      exhibitorsData.primaryContact?.mobile
+                    }<span class="hyphen"> - </span>${
+                      exhibitorsData.primaryContact?.email
+                    }</p><small>${exhibitorsData.companyWebsite || ''}</small>` ; 
+                  }
+                  items.push({
+                    id: `${exhibitorsData.id}_${uuidV4()}`,
+                    content: `${'BO'}<br/>`,
+                    title: title,
+                    start: moment
+                      .tz(exhibitorsData.startDateTime, this.timeZone)
+                      .toDate(),
+                    end: moment
+                      .tz(exhibitorsData.endDateTime, this.timeZone)
+                      .toDate(),
+                    group: exhibitorsData.group,
+                    style: 'margin-top:' + postExhibitorMarginFinal + 'px',
+                  });
+                }, 300);
+                this.chdRef.detectChanges();
+                exhibitorsData?.data?.forEach((multiData) => {
+                  setTimeout(() => {
+                    let title = ""; 
+                    if((this.permissionObj.isClient == 1 && this.permissionObj.clientAccessPermission == 2)){
+                      title = ""; 
+                    }else{
+                      title = `<b>${multiData.content}</b><p>${
+                        multiData.companyName || multiData.companyName
+                      }<br/>
+      ${moment
+        .tz(multiData.startDateTime, this.timeZone)
+        .toDate()
+        .toDateString()} -
+      ${moment
+        .tz(multiData.endDateTime, this.timeZone)
+        .toDate()
+        .toDateString()}<br/>
+      ${moment
+        .tz(multiData.startDateTime, this.timeZone)
+        .format('HH:mm A')} - ${moment
+                        .tz(multiData.endDateTime, this.timeZone)
+                        .format('HH:mm A')}</p>
+      <b>${multiData.primaryContact?.name}</b><p>${
+                        multiData.primaryContact?.mobile
+                      }<span class="hyphen"> - </span>${
+                        multiData.primaryContact?.email
+                      }</p><small>${multiData.companyWebsite || ''}</small>` ; 
+                    }
+                    items.push({
+                      id: `${multiData.id}_${uuidV4()}`,
+                      content: `${'BO'}<br/>`,
+                      title: title,
+                      start: moment
+                        .tz(multiData.startDateTime, this.timeZone)
+                        .toDate(),
+                      end: moment
+                        .tz(multiData.endDateTime, this.timeZone)
+                        .toDate(),
+                      group: multiData.group,
+                      style: 'margin-top:' + postExhibitorMarginFinal + 'px',
+                    });
+                  }, 300);
+                  this.chdRef.detectChanges();
+                });
+              });
+            }
+          });
+        });
+
+        console.log('itmes...', items);
+        devLogger('log', { items });
+        setTimeout(() => {
+          this.items = new DataSet<any>(items);
+
+          this.timeline = new Timeline(
+            nativeElement,
+            this.items,
+            //this.groups,
+            this.options
+          );
+        }, 400);
+
+        this.chdRef.detectChanges();
+      }
+    }, 1300);
+  }
+
+  ngOnDestroy(): void {
+    this.timelineGenTriggerSubs?.unsubscribe();
+  }
+}

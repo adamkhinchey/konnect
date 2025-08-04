@@ -1,0 +1,413 @@
+<div *ngIf="eventToBeSaved.venues &&
+eventToBeSaved.venues.list &&
+eventToBeSaved.venues.list.length>0; else noVenues" class="ui segment">
+  <ul ngbNav #venueNav="ngbNav" [activeId]="eventService?.activeServicePanel?.venueIndex || 0"
+    class="nav-tabs supplierInnerCont" [destroyOnHide]="false">
+    <li ngbNavItem [ngbNavItem]="venueIndex" *ngFor="let venue of eventToBeSaved.venues.list; let venueIndex=index">
+      <a ngbNavLink><i class="map marker alternate icon"></i>
+        <span class="hideMobile">
+          {{venueCompanies && venueCompanies.length>0 && venueCompanies[venueIndex]?
+          venueCompanies[venueIndex]!.companyName+', '+venueCompanies[venueIndex]!.city:'Venue-'+(venueIndex +
+          1)}}</span></a>
+      <ng-template ngbNavContent>
+        <form class="ui form">
+          <div class="ui grid stackable">
+
+            <div class="sixteen wide column">
+              <div class="companyContainer marginB20"
+                *ngIf=" (permissionObj.isClient == 1 && (permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0) ) ||  permissionObj.isEventManager || permissionObj.isService; ">
+                <div class="ui dividing header">
+                  <h3>Notes to All Suppliers<i class="icon"> <img src="../../../../../assets/img/client-icon.png"
+                        width="15px"> </i>
+                    <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png" width="15px"> </i><i
+                      class="truck icon"></i>
+                    <!-- <button *ngIf="(permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager ||  permissionObj.isService) && (venue.suppliers[0] && venue.suppliers[0].services.length && !isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="editNotes()">Edit </button>
+                      <button *ngIf="(permissionObj.isClient || permissionObj.isCrew || permissionObj.isEventManager ||  permissionObj.isService) && (venue.suppliers[0] && venue.suppliers[0].services.length && isNotesEdit)" class="ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="saveAndInvite.emit({venueIndex:venueIndexLocal, serviceIndex:serviceIndexLocal, shouldInvite:true})">Save </button> -->
+                  </h3>
+                </div>
+                <div class="field"
+                  *ngIf=" (permissionObj.isClient == 1 && (permissionObj.clientAccessPermission == 1 || permissionObj.clientAccessPermission == 0) ) ||  permissionObj.isEventManager || permissionObj.isService; ">
+                  <!-- <textarea rows="3" class="textarea" *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
+                    [(ngModel)]="venue.suppliers[0].notesToAll" [ngModelOptions]="{standalone:true}"
+                    [readonly]="!isServiceEdit"></textarea> -->
+                  <angular-editor id="editntas" *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length"
+                    [(ngModel)]="venue.suppliers[0].notesToAll" [config]="config" (focus)="changeConfig()"
+                    [ngModelOptions]="{standalone: true}"></angular-editor>
+
+                </div>
+
+              </div>
+            </div>
+
+
+
+
+          </div>
+        </form>
+
+        <div class="ui grid">
+          <div class="sixteen wide column">
+            <div class="marginT10"></div>
+            <!-- <div *ngIf="(isServiceEdit) || (venue.suppliers[0] && !venue.suppliers[0].services.length)" -->
+
+
+            <h3 id="servicesAnchor" class="ui dividing header">
+              Services
+
+
+            </h3>
+          </div>
+        </div>
+        <div class="marginT10"></div>
+        <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
+
+
+          <!-- <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event)" #ngbAccordion
+            [activeIds]="'serviceListIndex-'+activeServicePanel" [destroyOnHide]="false"> -->
+
+          <ngb-accordion (panelChange)="panelChange($event)" #ngbAccordion [destroyOnHide]="false">
+
+            <ng-container *ngIf="venue.suppliers[0] && venue.suppliers[0].services.length">
+              <ng-container *ngFor="let service of venue.suppliers[0].services; let serviceIndex=index">
+                <ng-container *ngIf="service?.isViewPermission">
+                  <ngb-panel [id]="'serviceListIndex-'+serviceIndex"
+                    (shown)="servicePanelActivated(venueIndex,serviceIndex)">
+
+
+                    <ng-template ngbPanelHeader let-opened="opened">
+                      <div class="accordion-button custom-header" [class.collapsed]="!opened">
+                        <button ngbPanelToggle class="p-0 btn btn-link container-fluid text-start ps-0 accordionBtnNew">
+                          <i class="dropdown icon"></i>
+                          Service {{serviceIndex + 1}}: <span>{{service?.name}}</span>
+                        </button>
+
+                        <div class="flaot-right accordionCheckBox"
+                          *ngIf="!eventData.eventData.isDeleted && ((permissionObj.isClient  && permissionObj.clientAccessPermission == 1 ) || permissionObj.isEventManager)">
+                          <div class="ui checkbox">
+                            <input [disabled]="!isNotesEdit" type="checkbox" class="hidden"
+                              [id]="'times-'+serviceIndex+'_venue_'+venueIndex"
+                              (change)="listenTimeChange($event, venueIndex, serviceIndex)" tabindex="0">
+                            <label [for]="'times-'+serviceIndex+'_venue_'+venueIndex">Use Venue Times</label>
+                          </div>
+                        </div>
+
+                      </div>
+                    </ng-template>
+                    <!-- <ng-template ngbPanelTitle>
+                  <i class="dropdown icon"></i>Service {{serviceIndex + 1}}: <span>{{service?.name}}</span>
+
+                  <div class="flaot-right" >
+                    <div class="ui checkbox">
+                      <input type="checkbox" class="hidden" tabindex="0">
+                      <label>Use Venue Times</label>
+                    </div>
+                  </div>
+
+                </ng-template> -->
+
+                    <ng-template ngbPanelContent>
+                      <div class="content active">
+                        <form class="ui form visible" style="display: block !important;">
+
+
+                          <div class="ui grid stackable">
+
+                            <div class="sixteen wide column saveButtons paddingT0">
+                              <div class="ui divider"></div>
+                              <div class="ui grid stackable">
+                                <!-- <div class="ten wide column middle aligned">
+                              <div (click)="confirmRemove(service?.supplierId, 0)" *ngIf="!eventData.eventData.isDeleted && !checkPermission(service.isStaffOrAdmin)"
+                                class="ui circular compact mini basic button confirmRemove hasModal"
+                                data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div>
+                            </div> -->
+
+                                <div class="sixteen wide column right aligned">
+                                  <!-- <button [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)" class="ui button triggerEditableOptions ml-3" *ngIf="check()"
+                                (click)="editServiceFn(serviceIndex)">Edit </button>
+                              <button class="ui button hasModal ml-3" data-modal="inviteModal" [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)"
+                                (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})"
+                                *ngIf="isServiceEdit && serviceIndex == editServiceIndex">Save </button> -->
+
+
+
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="seven wide column">
+                              <div class="companyContainer marginB20">
+
+
+
+
+                                <div class="ui dividing header"
+                                  *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission == 1 || service?.isViewPermission == 2); ">
+                                  <h3>Service Name <i class="icon"> <img src="../../../../../assets/img/client-icon.png"
+                                        width="15px"> </i>
+                                    <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png"
+                                        width="15px"> </i><i class="building icon"></i>
+                                  </h3>
+                                </div>
+                                <div class="field">
+                                  <!-- <input
+                                *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isCrew && service?.isViewPermission==1) || (service?.isViewPermission && permissionObj.isService); else no_access"
+                                [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
+                                placeholder="Name" [readonly]="!isServiceEdit"> -->
+                                  <input
+                                    *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission == 1 || service?.isViewPermission == 2); "
+                                    [(ngModel)]="service.name" [ngModelOptions]="{standalone:true}" type="text"
+                                    placeholder="Name" [readonly]="!isServiceEdit">
+
+                                </div>
+                                <div class="ui dividing header"
+                                  *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission == 1 || service?.isViewPermission ==2); ">
+                                  <h3>Supplier Company<i class="icon"> <img
+                                        src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+                                    <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png"
+                                        width="15px"> </i><i class="building icon"></i>
+                                  </h3>
+                                </div>
+                                <!-- <div class="kcpCardContainer"
+                              *ngIf="permissionObj.isClient || permissionObj.isEventManager  ||  (permissionObj.isCrew && service?.isViewPermission==1) || (service?.isViewPermission && permissionObj.isService); else no_access"> -->
+                                <div class="kcpCardContainer"
+                                  *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission == 1 || service?.isViewPermission ==2); ">
+                                  <!-- access only in full or readonly permission  -->
+                                  <div class="ui one column grid"
+                                    *ngIf="venuesSuppCmpsMap.has(venueIndex) && venuesSuppCmpsMap.get(venueIndex)!.has(serviceIndex)">
+                                    <div class="column">
+                                      <div class="ui fluid card">
+                                        <div class="content">
+                                          <span
+                                            *ngIf="venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.isPrivate && venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.isSeed == 0"
+                                            class="ui blue right corner label popupNotes adjustTri"
+                                            data-content="Private Contact">
+
+                                            <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                          </span>
+                                          <img class="right floated mini ui image"
+                                            [src]="getCompanyProfileImage(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)) || 'assets/img/default_konnect_img.jpg'"
+                                            appImageFallback fallbackImage="assets/img/default_konnect_img.jpg"
+                                            onerror="src='assets/img/default_konnect_img.jpg'">
+                                          <div class="header">
+                                            <a
+                                              (click)="goToCompanyProfile(getCompanyId(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)), getIsPrivate(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)), getIsSeed(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)))">{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.companyName}}</a>
+                                          </div>
+                                          <div class="meta">
+                                            <a *ngIf="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))"
+                                              [href]="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))"
+                                              target="_blank">
+                                              {{getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))}}</a>
+                                            <span
+                                              *ngIf="getCompanyWebsite(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))">|</span>
+                                            <span class="m-0">
+                                              <i
+                                                class="map marker alternate icon"></i>{{venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex)!.city}}
+                                            </span>
+                                            <span>|</span>
+                                            <i
+                                              class="phone icon"></i>{{getCompanyPhone(venuesSuppCmpsMap.get(venueIndex)!.get(serviceIndex))
+                                            || ''}}
+                                          </div>
+                                        </div>
+                                        <div class="extra content" [ngClass]="{'editableObject':false}">
+                                          <div class="ui grid">
+                                            <div class="ten wide column">
+
+                                            </div>
+                                            <!-- <div class="six wide column right aligned" *ngIf="isServiceEdit">
+                                          <div (click)="removeSelectedCompany(venueIndex,serviceIndex)"
+                                            class="ui circular compact mini basic button confirmRemove hasModal"
+                                            data-modal="removeModal"><i class="trash alternate icon"></i>Remove
+                                          </div>
+                                        </div> -->
+
+
+                                            <!-- <div class="six wide column right aligned" *ngIf="isServiceEdit && (service?.isViewPermission == 1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )">
+                                          <div (click)="removeSelectedCompany(venueIndex,serviceIndex)"
+                                            class="ui circular compact mini basic button confirmRemove hasModal"
+                                            data-modal="removeModal"><i class="trash alternate icon"></i>Remove
+                                          </div>
+                                        </div> -->
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                              </div>
+                              <app-event-assign-function-cmp-overview #suppliersAssignCmp [tabName]="'servicesTab'"
+                                [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"
+                                [clientCmpBtnLabel]="'Add Supplier'" [contactListLabel]="'Supplier Contacts'"
+                                [permissionObj]="permissionObj" [isViewPermission]="service?.isViewPermission"
+                                [isSelfIncludedInTab]="service?.isSelfIncludedInTab"
+                                [isSelfIncludedInSection]="service?.isSelfIncludedInSection"
+                                [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
+                                (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)"
+                                [contactList]="service.contacts?service.contacts:[]"
+                                (contactRemove)="removeServiceContact(venueIndex,serviceIndex,$event)"
+                                [editServiceIndex]="editServiceIndex" [serviceIndex]="serviceIndex"
+                                [isServiceEditable]="isServiceEditable">
+                              </app-event-assign-function-cmp-overview>
+
+                              <app-event-assign-crew-function-cmp-overview #suppliersCrewAssignCmp
+                                [permissionObj]="permissionObj" [tabName]="'servicesTab'"
+                                [isViewPermission]="service?.isViewPermission"
+                                [isSelfIncludedInTab]="service?.isSelfIncludedInTab"
+                                [isSelfIncludedInSection]="service?.isSelfIncludedInSection"
+                                [selectedCompany]="venuesSuppCmpsMap.get(venueIndex)?.get(serviceIndex)"
+                                [clientCmpBtnLabel]="'Add Crew'" [contactListLabel]="'Assigned Crew'"
+                                [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
+                                (modalOpen)="setOpenedModalRef($event)" (isCrew)="setIsCrew($event)"
+                                [contactList]="service.contacts?service.contacts:[]"
+                                (crewRemove)="removeServiceContact(venueIndex,serviceIndex,$event)"
+                                [editServiceIndex]="editServiceIndex" [serviceIndex]="serviceIndex"
+                                [isServiceEditable]="isServiceEditable">
+                              </app-event-assign-crew-function-cmp-overview>
+                            </div>
+
+                            <div class="nine wide column">
+                              <div class="field">
+                                <div class="timeWindowsContainer"
+                                  *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission==1 || service?.isViewPermission==2); ">
+                                  <div class="ui dividing header">
+                                    <h3>Supplier Time Windows <i class="icon"> <img
+                                          src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+                                      <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png"
+                                          width="15px"> </i><i class="building icon"></i>
+                                    </h3>
+                                  </div>
+
+                                  <!-- <app-time-windows
+                                *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  (permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access" -->
+                                  <app-time-windows
+                                    *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission==1 || service?.isViewPermission==2); "
+                                    [preEventTimesCount]="preEventTimesCount" [eventTimesCount]="eventTimesCount"
+                                    [postEventTimesCount]="postEventTimesCount"
+                                    [isPreEventTimesSameAsVenue]="isPreEventTimesSameAsVenue"
+                                    [isEventTimesSameAsVenue]="isEventTimesSameAsVenue"
+                                    [isPostEventTimesSameAsVenue]="isPostEventTimesSameAsVenue"
+                                    [useVenueTimes]="isUseVenueTime" [timeWindowFor]="eventTimeWindowType"
+                                    [venuePreEventTimes]="eventToBeSaved.venues.list[venueIndex].preEventAccessDateTimes"
+                                    [venueEventTimes]="eventToBeSaved.venues.list[venueIndex].eventAccessDateTimes"
+                                    [venuePostEventTimes]="eventToBeSaved.venues.list[venueIndex].postEventAccessDateTimes"
+                                    [venueIndex]="venueIndex" [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
+                                    [isVenueDependent]="true" [index]="serviceIndex"
+                                    [preEventTimes]="service.timeWindows.bumpIn.timings"
+                                    [postEventTimes]="service.timeWindows.bumpOut.timings"
+                                    [eventTimes]="service.timeWindows.eventTime.timings" [isEdit]="isServiceEdit"
+                                    [preEventTimesCount]="service.timeWindows.bumpIn.timings?.length || 1"
+                                    [eventTimesCount]="service.timeWindows.eventTime.timings?.length || 1"
+                                    [postEventTimesCount]="service.timeWindows.bumpOut.timings?.length || 1"
+                                    [preEventNotes]="service.timeWindows.bumpIn.timings[0]?.notes || ''"
+                                    [eventNotes]="service.timeWindows.eventTime.timings[0]?.notes || ''"
+                                    [postEventNotes]="service.timeWindows.bumpOut.timings[0]?.notes || ''">
+                                  </app-time-windows>
+
+
+
+
+                                </div>
+                              </div>
+
+                              <div class="ui dividing header"
+                                *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission==1 || service?.isViewPermission==2); ">
+                                <h3>Service Requirements <i class="icon"> <img
+                                      src="../../../../../assets/img/client-icon.png" width="15px"> </i>
+                                  <i class="icon"> <img src="../../../../../assets/img/event-manager-icon.png"
+                                      width="15px"> </i><i class="building icon"></i>
+                                </h3>
+                              </div>
+                              <div class="field"
+                                *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission==1 || service?.isViewPermission==2); ">
+                                <!-- <textarea
+                              *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  (permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access"
+                              [(ngModel)]="service.requirement" [ngModelOptions]="{standalone:true}" rows="3"
+                              class="textarea" [readonly]="!isServiceEdit || !(permissionObj.isClient || permissionObj.isEventManager)"></textarea> -->
+                                <!-- <angular-editor *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  (permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access"
+                              [(ngModel)]="service.requirement" [config]="config"
+                              (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
+                            </angular-editor> -->
+                                <angular-editor id="editsr"
+                                  *ngIf="(permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) || (service?.isViewPermission==1 || service?.isViewPermission==2); "
+                                  [(ngModel)]="service.requirement" [config]="config1"
+                                  (focus)="changeConfigPermission1(service)" [ngModelOptions]="{standalone: true}">
+                                </angular-editor>
+
+                              </div>
+
+                              <div class="ui dividing header"
+                                *ngIf="service?.isViewPermission==1  && service?.isSelfIncludedInSection == 1 ; ">
+                                <h3>Supplier Internal Notes <i class="building icon"></i></h3>
+                              </div>
+                              <div class="field"
+                                *ngIf="service?.isViewPermission==1  && service?.isSelfIncludedInSection == 1 ; ">
+                                <!-- <textarea *ngIf="(permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access" rows="3" class="textarea" [readonly]="!isServiceEdit" [(ngModel)]="service.internalCmpNotes"
+                            [ngModelOptions]="{standalone:true}"></textarea> -->
+                                <!-- <angular-editor *ngIf="(permissionObj.isCrew && service?.isViewPermission==1) || (permissionObj.isService && service?.isViewPermission==1); else no_access"
+                            [(ngModel)]="service.internalCmpNotes" [config]="config"
+                            (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
+                            </angular-editor> -->
+                                <angular-editor id="editsin"
+                                  *ngIf="service?.isViewPermission==1  && service?.isSelfIncludedInSection == 1 ; "
+                                  [(ngModel)]="service.internalCmpNotes" [config]="config2"
+                                  (focus)="changeConfigPermission()" [ngModelOptions]="{standalone: true}">
+                                </angular-editor>
+
+                              </div>
+                            </div>
+                            <div class="sixteen wide column saveButtons paddingT0">
+                              <div class="ui divider"></div>
+                              <div class="ui grid stackable">
+                                <div class="ten wide column middle aligned">
+                                  <!-- <div (click)="confirmRemove(service?.supplierId, 0)" *ngIf="!eventData.eventData.isDeleted && !checkPermission(service.isStaffOrAdmin)"
+                                class="ui circular compact mini basic button confirmRemove hasModal"
+                                data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div> -->
+
+                                  <!-- <div (click)="confirmRemove(service?.supplierId, 0)" *ngIf="!eventData.eventData.isDeleted && (service?.isViewPermission==1 || (permissionObj.isEventManager || (permissionObj.isClient == 1 && permissionObj.clientAccessPermission == 1)) )"
+                                class="ui circular compact mini basic button confirmRemove hasModal"
+                                data-modal="removeModal"><i class="trash alternate icon"></i>Remove</div> -->
+
+                                </div>
+
+                                <!-- <div class="six wide column right aligned">
+                              <button [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)" class="ui button triggerEditableOptions ml-3" *ngIf="!isServiceEdit"
+                                (click)="editServiceFn(serviceIndex)">Edit </button>
+                              <button class="ui button hasModal ml-3" data-modal="inviteModal" [disabled]="eventData.eventData.isDeleted || checkPermission(service.isStaffOrAdmin)"
+                                (click)="saveAndInvite.emit({venueIndex:venueIndex, serviceIndex:serviceIndex, shouldInvite:true})"
+                                *ngIf="isServiceEdit && serviceIndex == editServiceIndex">Save </button>
+                            </div> -->
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </ng-template>
+                  </ngb-panel>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+
+          </ngb-accordion>
+
+
+        </div>
+
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="venueNav" class="mt-2 innerTabCont"></div>
+
+  <!-- <div class="sixteen wide column mb-4" >
+    <a href="https://konnectevents.freshdesk.com/support/solutions/articles/51000289445-how-to-use-supplier-tab" target="_blank" class="btn btn-warning warningThemeBtn" > <i class="icon info"></i> How to use this page </a>
+  </div> -->
+
+</div>
+
+<ng-template #noVenues>
+  <div class="ui segment">
+    <h2>Services are not present for this event</h2>
+  </div>
+</ng-template>

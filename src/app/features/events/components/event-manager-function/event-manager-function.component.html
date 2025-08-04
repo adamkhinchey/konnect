@@ -1,0 +1,110 @@
+<div class="ui segment">
+  <form class="ui form">
+    <div class="ui grid stackable">
+      <div class="seven wide column">
+        <div class="companyContainer marginB20">
+          <div class="field checkboxOnHeader">
+            <div class="ui dividing header">
+              <h3>Event Management Company <i class="icon globe"></i></h3>
+            </div>
+            <div class="ui checkbox" (click)="toggleEvMgrOwnCompany()">
+              <input type="checkbox" class="hidden" tabindex="0" [(ngModel)]="isOwnCompany"
+                     [ngModelOptions]="{standalone:true}">
+              <label>My company</label>
+            </div>
+          </div>
+          <div class="kcpCardContainer">
+            <div *ngIf="selectedCompany" class="ui one column grid">
+              <div class="column">
+                <div class="ui fluid card">
+                  <div class="content">
+                    <img class="right floated mini ui image"
+                         [src]="getCompanyProfileImage() || 'assets/img/default_konnect_img.jpg'"
+                         appImageFallback fallbackImage="assets/img/default_konnect_img.jpg" onerror="src='assets/img/default_konnect_img.jpg'">
+                    <div class="header">
+                      <a (click)="goToCompanyProfile(getCompanyId())">{{selectedCompany.companyName}}</a>
+                    </div>
+                    <div class="meta">
+                      <a *ngIf="getCompanyWebsite()" [href]="getCompanyWebsite()"
+                         target="_blank"> {{getCompanyWebsite()}}</a>
+                      <span *ngIf="getCompanyWebsite()">|</span>
+                      <span class="m-0">
+                        <i class="map marker alternate icon"></i>{{selectedCompany.city}}</span>
+                      <span>|</span>
+                      <i class="phone icon"></i>{{getCompanyPhone() || ''}}
+                    </div>
+                  </div>
+                  <div class="extra content" [ngClass]="{'editableObject':false}">
+                    <div class="ui grid">
+                      <div class="ten wide column">
+
+                      </div>
+                      <div class="six wide column right aligned">
+                        <div (click)="removeSelectedCompany.emit()"
+                             class="ui circular compact mini basic button confirmRemove hasModal"
+                             data-modal="removeModal"><i class="trash alternate icon"></i>Remove
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-content select="[assignFunctionCmp]"></ng-content>
+          <!--<div class="ui grid center aligned">
+            <div class="sixteen wide column">
+              <div class="ui button basic blue fluid addClient hasModal"
+                   (click)="openVerticallyCentered(content)">
+                <i class="plus circle icon"></i>Add Management Company
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contactsContainer">
+          <div class="ui dividing header">
+            <h3>Event Management Contacts <i class="icon globe"></i></h3>
+          </div>
+          <div class="kipCardContainer"></div>
+          <div class="ui grid center aligned">
+            <div class="sixteen wide column">
+              <div class="ui basic button blue fluid addContacts hasModal disabled"
+                   data-modal="contacts">
+                <i class="plus circle icon"></i>Add Contact
+              </div>
+            </div>
+          </div>
+        </div>-->
+      </div>
+      <div class="nine wide column">
+        <div class="ui dividing header">
+          <h3>Event Management Requirements <i class="icon globe"></i></h3>
+        </div>
+        <div class="field">
+          <!-- <textarea rows="3" *ngIf="eventToBeSaved.eventManager" class="textarea" [(ngModel)]="eventToBeSaved.eventManager!.requirements"
+          [ngModelOptions]="{standalone:true}"></textarea> -->
+          <angular-editor id="createemr" *ngIf="eventToBeSaved.eventManager"
+          [(ngModel)]="eventToBeSaved.eventManager!.requirements" [config]="config" (focus)="changeConfig()"
+          [ngModelOptions]="{standalone: true}">
+        </angular-editor>
+        </div>
+      </div>
+      <div class="sixteen wide column saveButtons paddingT0">
+        <div class="ui divider"></div>
+        <div class="ui grid stackable">
+          <div class="sixteen wide column right aligned">
+            <div class="ui button hasModal" (click)="this.saveAndInvite.emit(true)">Save 
+              <!-- &amp; Invite -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sixteen wide column mb-4" >
+        <a href="https://konnectevents.freshdesk.com/support/solutions/articles/51000289443-how-to-use-event-manager-tab" target="_blank" class="btn btn-warning warningThemeBtn" > <i class="icon info"></i> How to use this page </a>
+      </div>
+
+    </div>
+  </form>
+</div>

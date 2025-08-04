@@ -1,0 +1,159 @@
+<div class="ui container">
+  <div class="ui grid">
+    <div class="width100" [ngClass]="{'mat-elevation-z5' : true, 'fixedMenu active' : isSticky}">
+      <div class="infoBar">
+        <div class="ui container">
+          <div class="ui grid">
+            <div class="eleven wide column middle aligned" *ngIf="data.commonData">
+              <div *ngIf="!checkIsSame(data.commonData.eventStartDate, data.commonData.eventEndDate)" class="eventInfo">
+                <b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
+                {{data.commonData.eventStartDate | date:'dd-MMMM-yyyy'}} - {{data.commonData.eventEndDate |
+                date:'dd-MMMM-yyyy'}}
+              </div>
+
+              <div *ngIf="checkIsSame(data.commonData.eventStartDate, data.commonData.eventEndDate)" class="eventInfo">
+                <b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span>
+                {{data.commonData.eventStartDate | date:'dd-MMMM-yyyy'}}
+              </div>
+
+            </div>
+            <!-- <div class="five wide column right aligned saveButtons hideMobile" *ngIf="data.userPermission && data.userPermission.isClient && (active != 3 && active !=4 && active != 5 && active != 6 && active !=7) || (active == 1 && (data.userPermission.isClient == 1 || data.userPermission.isEventManager == 1)) || (active == 2 && (data.userPermission.isClient == 1 || data.userPermission.isEventManager == 1))">
+              <button *ngIf="!isEditEvents" [disabled]="eventService.isDeleted" class="ui button triggerEditableOptions"
+                (click)="edit()">Edit</button>
+              <button *ngIf="isEditEvents" class="ui button triggerEditableOptions" (click)="onlySave()">Save</button>
+            </div>
+            <div class="five wide column right aligned saveButtons visibleMobile" *ngIf="data.userPermission && data.userPermission.isClient && (active != 3 && active !=4 && active != 5 && active != 6 && active !=7) || (active == 1 && (data.userPermission.isClient == 1 || data.userPermission.isEventManager == 1)) || (active == 2 && (data.userPermission.isClient == 1 || data.userPermission.isEventManager == 1))">
+              <button *ngIf="!isEditEvents" [disabled]="eventService.isDeleted"
+                class="ui button triggerEditableOptions icon" (click)="edit()"><i
+                  class="pencil alternate icon"></i></button>
+              <button *ngIf="isEditEvents" class="ui button triggerEditableOptions icon" (click)="onlySave()"><i
+                  class="save icon"></i></button>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sixteen wide column maxWidth">
+      <app-event-panel-nav [active]="active" [navChange]="onNavChange.bind(this)" [eventToBeSaved]="eventToBeSaved">
+        <ng-container client *ngIf="data.eventData && data.eventData.client && !data.eventData.venues">
+          <app-event-client-function [eventData]="data" [selectedCompany]="clientCompany"
+            [permissionObj]="permissionObj" (removeSelectedCompany)="unsetClientCompany()"
+            [eventToBeSaved]="eventToBeSaved" (saveAndInvite)="saveToDb($event)"
+            (editClient)="isClientEditable = $event" [isOwnCompany]="data.eventData.client.isOwnCompany === 1">
+            <ng-container assignFunctionCmp>
+              <app-event-assign-function-cmp [permissionObj]="permissionObj" [tabName]="'clientTab'"
+                [isViewPermission]="data.eventData.client?.isViewPermission"
+                [isSelfIncludedInTab]="data.eventData.client?.isSelfIncludedInTab"
+                [isSelfIncludedInSection]="data.eventData.client?.isSelfIncludedInSection"
+                [clientCmpBtnLabel]="'Add Client'" [contactListLabel]="'Client Contacts'" [eventData]="data"
+                [selectedCompany]="clientCompany" [clientCompanyModal]="searchInviteCmpModal"
+                [contactModal]="searchInviteFnCmpCntModal" (modalOpen)="setOpenedModalRef($event)"
+                (contactRemove)="removeContact($event)" [contactList]="clientContactList"
+                [isClientEditable]="isClientEditable" (isCrew)="setIsCrew($event)">
+              </app-event-assign-function-cmp>
+            </ng-container>
+          </app-event-client-function>
+        </ng-container>
+
+        <ng-container eventManager *ngIf="data.eventData && data.eventData.eventManager && !data.eventData.venues">
+          <app-event-manager-function [eventData]="data" [selectedCompany]="eventMgrCmp" [permissionObj]="permissionObj"
+            (removeSelectedCompany)="unsetEvMgrCmp()" [eventToBeSaved]="eventToBeSaved"
+            (saveAndInvite)="saveToDb($event)" (editManager)="isManagerEditable = $event"
+            [isOwnCompany]="data.eventData.eventManager.isOwnCompany === 1">
+            <ng-container assignFunctionCmp>
+              <app-event-assign-function-cmp [permissionObj]="permissionObj" [tabName]="'eventManagerTab'"
+                [isViewPermission]="data.eventData.eventManager?.isViewPermission"
+                [isSelfIncludedInTab]="data.eventData.eventManager?.isSelfIncludedInTab"
+                [isSelfIncludedInSection]="data.eventData.eventManager?.isSelfIncludedInSection" [eventData]="data"
+                [clientCmpBtnLabel]="'Add Event Management Company'"
+                [contactListLabel]="'Event Management Company Contacts'" [selectedCompany]="eventMgrCmp"
+                [clientCompanyModal]="searchInviteCmpModal" [contactModal]="searchInviteFnCmpCntModal"
+                (modalOpen)="setOpenedModalRef($event)" (contactRemove)="removeContact($event)"
+                [contactList]="eventMgrContactList" [isManagerEditable]="isManagerEditable"
+                (isCrew)="setIsCrew($event)">
+              </app-event-assign-function-cmp>
+            </ng-container>
+          </app-event-manager-function>
+        </ng-container>
+
+        <ng-container venues>
+          <app-event-venue-function #venueFn [eventData]="data" [permissionObj]="permissionObj"
+            [selectedCompanies]="venueCompanies" [venueContactLists]="venueContactLists"
+            (removeSelectedCompany)="unsetVenueCmp($event)" [eventToBeSaved]="eventToBeSaved"
+            (saveAndInvite)="saveToDb($event)" [searchInviteCmpModal]="searchInviteCmpModal"
+            [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal" [setOpenedModalRef]="setOpenedModalRef.bind(this)"
+            [removeContact]="removeContact.bind(this)" [setIsCrew]="setIsCrew.bind(this)">
+          </app-event-venue-function>
+        </ng-container>
+        <ng-container suppliers
+          *ngIf="active == 4 && data.eventData.venues && (data.eventData?.venues?.length || data.eventData?.venues?.length == 0)">
+          <app-event-suppliers-function #suppliersFn [eventData]="data" [venueCompanies]="venueCompanies"
+            [eventToBeSaved]="eventToBeSaved" (saveAndInvite)="saveToDb($event)"
+            [searchInviteCmpModal]="searchInviteCmpModal" [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+            [setOpenedModalRef]="setOpenedModalRef.bind(this)" [permissionObj]="permissionObj"
+            [setIsCrew]="setIsCrew.bind(this)">
+          </app-event-suppliers-function>
+        </ng-container>
+        <ng-container exhibitors
+          *ngIf="active == 5 && !exhibibitorView && data.eventData.venues && (data.eventData?.venues?.length || data.eventData?.venues?.length == 0);">
+      
+          <app-event-exhibitors-function #exhibitorsFn [eventData]="data" [venueCompanies]="venueCompanies"
+          [permissionObj]="permissionObj" [eventToBeSaved]="eventToBeSaved" (saveAndInvite)="saveToDb($event)"
+          [searchInviteCmpModal]="searchInviteCmpModal" [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+          [setOpenedModalRef]="setOpenedModalRef.bind(this)" [setIsCrew]="setIsCrew.bind(this)">
+        </app-event-exhibitors-function>
+         
+        </ng-container>
+
+        
+        <ng-container exhibitors
+        *ngIf="active == 5 && exhibibitorView && data.eventData.venues && (data.eventData?.venues?.length || data.eventData?.venues?.length == 0);"
+        >
+
+          <app-view-exhibitors #exhibitorsFn [eventData]="data" [venueCompanies]="venueCompanies"
+          [permissionObj]="permissionObj" [eventToBeSaved]="eventToBeSaved" (saveAndInvite)="saveToDb($event)"
+          [searchInviteCmpModal]="searchInviteCmpModal" [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+          [setOpenedModalRef]="setOpenedModalRef.bind(this)" [setIsCrew]="setIsCrew.bind(this)">
+        </app-view-exhibitors>
+        </ng-container>
+      
+        <ng-container eventFiles *ngIf="data.eventData && data.eventData.eventId">
+          <app-event-files-function [permissionObj]="permissionObj" [eventID]="data.eventData.eventId">
+            
+          </app-event-files-function>
+         
+        </ng-container>
+        <ng-container timeline *ngIf="active == 7 && data.eventData && data.eventData.eventId">
+          <app-event-timeline-function [eventId]="data.eventData.eventId" [permissionObj]="permissionObj">
+           
+          </app-event-timeline-function>
+          
+        </ng-container>
+        <ng-container tasks *ngIf="active == 8 && data.eventData && !data.eventData.client && !data.eventData.eventManager">
+          <app-tasks [eventData]="data">
+          </app-tasks>
+        </ng-container>
+        <ng-container Overview *ngIf="active == 9 && data.eventData && data.eventData.eventId">
+          <app-overview [eventId]="data.eventData.eventId" [BlankData]="data.commonData" [permissionObj]="permissionObj">
+            </app-overview>
+        </ng-container>
+      </app-event-panel-nav>
+    </div>
+  </div>
+
+
+  <ng-template #searchInviteCmpModal let-modal>
+    <app-search-or-invite-function-cmp (existingCompanySelected)="setSelectedCompany($event)"
+      (newCompanyInvited)="setSelectedCompany($event)" (closed)="searchInviteCompanyClosed()">
+    </app-search-or-invite-function-cmp>
+  </ng-template>
+
+  <ng-template #searchInviteFnCmpCntModal let-modal>
+    <app-search-or-invite-fn-cmp-cnt (closed)="searchInviteContactModalClosed()" [companyId]="getCompanyId()"
+      [isCrew]="emitedCrew" (addedContactList)="setSelectedFnCompanyContacts($event)"
+      [alreadyInContactList]="getFnContactList()">
+    </app-search-or-invite-fn-cmp-cnt>
+  </ng-template>
+
+
+</div>

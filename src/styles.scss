@@ -1,0 +1,1120 @@
+@import "https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap";
+@import "~ng-wizard/themes/ng_wizard.min.css";
+@import "~ng-wizard/themes/ng_wizard_theme_arrows.min.css";
+
+@import "~igniteui-angular/lib/core/styles/themes/index";
+@include igx-core();
+@include igx-theme($default-palette, $legacy-support: true);
+
+/* Importing Bootstrap SCSS file. */
+/*@import '~bootstrap/scss/bootstrap'*/
+/*@import '~ngx-toastr/toastr';
+@import '~ngx-toastr/toastr-bs4-alert';*/
+
+@import "~ngx-toastr/toastr";
+
+@import "~@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
+
+a,
+a:hover {
+  color: #0091e6;
+}
+
+.minheight100vh {
+  min-height: 100vh;
+}
+.minContainer {
+  margin-top: 30px;
+}
+
+.stepMargin {
+  margin-top: 0px !important;
+  margin-bottom: 15px !important;
+}
+
+.ng-wizard-theme-arrows > ul.step-anchor > li.active > a::after {
+  border-left: 8px solid #f5f5fa !important;
+}
+.ng-wizard-theme-arrows > ul.step-anchor > li > a::after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 30px solid #f5f5f5;
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  left: 100%;
+  z-index: 2;
+}
+.nav-tabs .nav-item {
+  margin-bottom: -1px;
+  border-right: 1px solid #ddd !important;
+  flex: auto;
+}
+.nav-tabs .nav-item:last-child {
+  border: none !important;
+}
+.ng-wizard-theme-arrows > ul.step-anchor > li > a::before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 9px solid #ddd;
+  position: absolute;
+  top: 50%;
+  margin-top: -9px;
+  margin-left: 1px;
+  left: 100%;
+  z-index: 1;
+}
+
+.nav-item {
+  position: relative;
+}
+ng-wizard .nav-item::before {
+  content: "\f007";
+  font-size: 18px !important;
+  margin-right: 10px !important;
+  display: inline-block;
+  opacity: 1;
+  margin: 0em 0.25rem 0em 0em;
+  width: 1.18em;
+  height: 1em;
+  font-family: "Icons";
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  text-align: center;
+  speak: none;
+  font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute;
+  z-index: 9;
+  left: 15%;
+  top: 7px;
+}
+
+.ng-wizard-theme-arrows > ul.step-anchor > li.done > a::after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid #fff;
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  left: 100%;
+  z-index: 2;
+}
+.ng-wizard-theme-arrows > ul.step-anchor > li.done > a::before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 9px solid #ddd;
+  position: absolute;
+  top: 50%;
+  margin-top: -9px;
+  margin-left: 1px;
+  left: 100%;
+  z-index: 1;
+}
+
+.ng-wizard-theme-arrows > ul.step-anchor > li.done > a {
+  border-color: #ddd !important;
+  color: #000 !important;
+  background: #fff !important;
+}
+
+ng-wizard .nav-item:last-child:before {
+  content: "\f1ad";
+  font-size: 18px !important;
+}
+.nav-item:before {
+  color: #3f4a59;
+  opacity: 0.5;
+}
+.nav-item.active:before,
+.nav-item.done:before {
+  color: #3f4a59;
+  opacity: 1;
+}
+.ng-wizard-theme-arrows > ul.step-anchor > li > a {
+  padding: 10px 40px !important;
+}
+.ng-wizard-theme-arrows > ul.step-anchor > li.active > a {
+  border-color: #f5f5fa !important;
+  color: rgba(0, 0, 0, 0.87) !important;
+  background: #f5f5fa !important;
+}
+.ng-wizard-main.ng-wizard-theme-arrows {
+  margin: 0 -14px;
+  border: none;
+}
+.ng-wizard-theme-arrows > ul.step-anchor > li > a,
+.ng-wizard-theme-arrows > ul.step-anchor > li > a:hover {
+  background: #fff;
+}
+.ui.grid.stackable .row {
+  margin: 0px !important;
+}
+.uploadImage {
+  text-align: center;
+}
+.ng-wizard-theme-arrows > .ng-wizard-container {
+  margin-top: 14px;
+}
+.itemMenu a,
+.actionBar header .subMenu li a:hover {
+  color: #fdd200;
+  text-decoration: none;
+}
+.subMenu.show {
+  display: block !important;
+}
+
+/** Calendar Dashboard UI **/
+.igx-calendar__label {
+  height: 2.5em;
+  color: rgba(255, 255, 255, 1);
+  border-radius: 0;
+  background: #0091e6;
+}
+.igx-calendar {
+  border: none;
+  margin-top: 0px;
+  box-shadow: none !important;
+}
+igx-days-view.igx-calendar {
+  border: 1px solid rgb(0, 145, 230);
+  margin-top: 0px;
+  border-radius: 0px;
+  margin: 0 2px 0 0 !important;
+}
+.igx-calendar__body-row:first-of-type,
+.igx-calendar__body-row--wrap:first-of-type {
+  margin: 0px !important;
+}
+.igx-calendar__body {
+  padding: 0px !important;
+}
+.igx-calendar-picker {
+  height: 2.5em;
+}
+.igx-calendar__date-content {
+  border-radius: 0px !important;
+}
+.igx-calendar__date--selected,
+.igx-calendar__date--selected .igx-calendar__date-content {
+  background: #eaeaf4 !important;
+}
+/****/
+
+.ui.form .field.disabled > label,
+.ui.form .fields.disabled > label,
+.ui.form .disabled.fields .field,
+.ui.form .disabled.field,
+.ui.form .field :disabled {
+  opacity: 1 !important;
+}
+
+.ui.form input[disabled].shadow-input {
+  position: absolute;
+  opacity: 0 !important;
+  pointer-events: none;
+  top: 22px;
+  width: 0px;
+  height: 0px;
+  border: none;
+}
+
+.image {
+  width: auto;
+  max-height: none;
+}
+.menu.show {
+  display: block !important;
+}
+.mainContent > .container {
+  padding: 0;
+}
+
+/** tab Nav  **/
+ul.secondary.menu {
+  width: 100%;
+  padding: 0;
+}
+.secondary.menu li {
+  display: inline-block;
+  border-left: none !important;
+  border-right: none !important;
+  flex: none;
+  margin-bottom: 0px;
+}
+.infoBar .ui.container {
+  padding: 0px !important;
+  // margin: 0px !important;
+}
+.ui.divider {
+  margin: 1rem 0rem;
+}
+.actions.modal-footer {
+  background: #f9fafb;
+  padding: 1rem 1rem;
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  text-align: right;
+}
+/****/
+
+@media screen and (min-width: 991px) {
+  .nav-item::before {
+    left: 22%;
+  }
+}
+
+.mainContent .container {
+  margin-top: 1rem;
+}
+
+.manageMenuOuter li {
+  width: 50%;
+}
+.manageMenuOuter li a {
+  width: 100%;
+  display: inline-block !important;
+  text-align: center;
+}
+
+.ui.styled.accordion,
+.ui.styled.accordion .accordion {
+  box-shadow: none !important;
+}
+.parentAccordionVenue .card-header {
+  padding: 0px;
+  background: #fff;
+}
+.parentAccordionVenue .card-header .btn {
+  padding: 1rem;
+  color: #000;
+  width: 100%;
+  text-align: left;
+  font-weight: 600;
+}
+.parentAccordionVenue .card-header .btn:hover,
+.parentAccordionVenue .card-header .btn:focus {
+  box-shadow: none !important;
+  outline: none;
+  text-decoration: none;
+}
+.btn.btn-link i.icon {
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  width: auto;
+  height: auto;
+  margin-right: 5px;
+}
+.collapsed.btn.btn-link i.icon {
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+.parentAccordion .content {
+  border-top: none;
+  padding: 0em !important;
+}
+.timeWindowsContainer .card-header .btn {
+  padding: 0.6rem;
+  color: #000;
+  width: 100%;
+  text-align: left;
+  font-weight: 600;
+}
+
+.ui.checkbox input[type="radio"] + label::before {
+  border-radius: 50px;
+}
+.ui.checkbox input[type="radio"]:checked ~ .box::after,
+.ui.checkbox input[type="radio"]:checked ~ label::after {
+  font-size: 10px;
+}
+
+.actionBar header .profileInfo img {
+  display: inline-block !important;
+  width: 65px !important;
+  margin-right: 5px;
+  vertical-align: bottom;
+  height: 65px !important;
+  object-fit: cover;
+}
+.actionBar header .profileInfo .headerCompanySelector {
+  position: relative;
+  display: inline-block !important;
+  width: calc(100% - 90px);
+}
+.actionBar header .profileInfo .headerCompanySelector .dropdownChangeCompany {
+  width: 100%;
+}
+.actionBar header .profileInfo .displaySettings {
+  background-color: #0091e6 !important;
+}
+.headerCompanySelector .dropdownChangeCompany .text {
+  max-width: calc(100% - 20px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+.userleftImgUpdate {
+  height: 168px !important;
+  object-fit: cover;
+}
+img.ui.image.mini {
+  height: 70px;
+  object-fit: cover;
+}
+
+.supplierInnerCont li.nav-item {
+  flex: none !important;
+  border-right: none !important;
+}
+.supplierInnerCont li.nav-item a.active {
+  color: #000;
+  font-weight: 600;
+}
+.innerTabCont.tab-content {
+  border: 1px solid #ddd;
+  margin: -1px 0 0 0 !important;
+  padding: 14px;
+}
+.task-segment .innerTabCont.tab-content {
+  border: 1px solid #ddd;
+  margin: -1px 0 0 0 !important;
+  padding: 14px 14px 0px 14px!important;
+}
+.newFooter .actions {
+  background: #f9fafb;
+  padding: 1rem 1rem;
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  text-align: right;
+}
+*:focus,
+button:focus {
+  outline: none !important;
+}
+.exhibitor.icon::before {
+  width: 22px;
+}
+
+app-create-event-info-bar + .mainContent .topinfoOuterMar {
+  margin-top: -50px;
+}
+@media screen and (max-width: 768px) {
+  .pushable .ui.sidebar {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-transition: -webkit-transform 500ms ease;
+    transition: -webkit-transform 500ms ease;
+    transition: transform 500ms ease;
+    transition: transform 500ms ease, -webkit-transform 500ms ease;
+  }
+  .pushable .ui.sidebar,
+  .ui.right.visible.sidebar {
+    -webkit-box-shadow: 0px 0px 20px rgba(34, 36, 38, 0.15);
+    box-shadow: 0px 0px 20px rgba(34, 36, 38, 0.15);
+  }
+  .pushable .fixed,
+  .pushable .pusher {
+    -webkit-transform: translate3d(260px, 0, 0);
+    transform: translate3d(260px, 0, 0);
+  }
+  .pushable .pusher::after {
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 1 !important;
+  }
+  .pushable .pusher::after {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    content: "";
+    background-color: rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    opacity: 0;
+    -webkit-transition: opacity 500ms;
+    transition: opacity 500ms;
+    will-change: opacity;
+    z-index: 1000;
+  }
+  .pushable .sidebar {
+    visibility: visible;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  .pushable .pusher {
+    position: relative;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    // overflow: hidden;
+    overflow: visible;
+    min-height: 100%;
+    -webkit-transition: -webkit-transform 500ms ease;
+    /* transition: -webkit-transform 500ms ease; */
+    /* transition: transform 500ms ease; */
+    transition: transform 500ms ease, -webkit-transform 500ms ease;
+    z-index: 2;
+  }
+  .pushable .ui.sidebar,
+  .ui.right.visible.sidebar {
+    box-shadow: 0px 0px 20px rgba(34, 36, 38, 0.15);
+    transform: translate3d(-260px, 0, 0);
+  }
+  .sidebarContent .profileMobileDisplay img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+  }
+  .profileMenu.show {
+    display: block;
+  }
+  .ui.dropdown.dropdownChangeCompany {
+    margin-bottom: 15px;
+  }
+  .visibleMobile .button.compact {
+    margin: 0px !important;
+  }
+  .igx-calendar__body {
+    font-size: 0.6rem;
+  }
+  .sidebarContent .profileMobileDisplay {
+    padding-top: 3rem;
+  }
+  .ui.compact.buttons .button,
+  .ui.compact.button {
+    padding: 0.58928571em 0.925em 0.58928571em;
+  }
+  .ui.container.visibleMobile {
+    margin: 0px !important;
+  }
+  .ui.grid.regionOptions > * {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .companyContainer.marginB20 h3 {
+    margin-top: 15px;
+  }
+  .infoBar .container {
+    margin: 0 auto !important;
+  }
+  app-create-event-info-bar + .mainContent .topinfoOuterMar {
+    margin-top: -80px;
+  }
+  .sidebarContent .imgContainer .showProfileMenu {
+    background-color: #0091e6 !important;
+  }
+
+  .mainContent .manageMenuOuter .ui.secondary.pointing.menu .item {
+    width: auto !important;
+  }
+}
+
+.pushable .actionBar .openMobileMenu {
+  position: fixed;
+  top: 1.7rem;
+  z-index: 99999;
+}
+.mainContent {
+  min-height: calc(100vh - 248px);
+}
+
+/** 11-05-2021 **/
+.parentAccordion.parentAccordionVenue .selection.dropdown {
+  position: absolute;
+  right: 10px;
+  top: 6px;
+}
+.parentAccordion.parentAccordionVenue .popupNotes {
+  position: absolute;
+  right: 5px;
+  top: 8px;
+}
+.parentAccordion.parentAccordionVenue .popupNotes i.icon {
+  transform: rotate(0deg);
+}
+.docsContainer a.ui.button.basic {
+  margin-right: 5px !important;
+}
+.timelineMenu li {
+  width: 50%;
+}
+.timelineMenu li a {
+  text-align: center !important;
+  display: inline-block !important;
+  width: 100%;
+}
+
+.parentAccordionVenue .card-header .btn {
+  // width: calc(100% - 200px);
+  width: 100%;
+}
+.card-header .addToPanel.addNewService {
+  top: 0.6em;
+}
+
+.igx-calendar__date {
+  cursor: pointer;
+}
+igx-days-view.igx-calendar {
+  border: 1px solid #414a59 !important;
+  margin-top: 0px !important;
+  border-radius: 0px !important;
+  margin: 0 0px 0 0 !important;
+}
+.igx-calendar__label {
+  height: 2.5em;
+  color: rgb(255, 255, 255) !important;
+  border-radius: 0;
+}
+.igx-calendar__body-row:first-of-type,
+.igx-calendar__body-row--wrap:first-of-type {
+  margin: 0px !important;
+  background: #414a59;
+}
+.igx-calendar__label {
+  background: #414a59;
+}
+
+.igx-calendar__body-row,
+.igx-calendar__body-row--wrap {
+  margin: 0 !important;
+  padding: 0;
+}
+.igx-calendar__date--single,
+.igx-calendar__date--selected.igx-calendar__date--first.igx-calendar__date--last {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.igx-calendar__date-content {
+  width: 100% !important;
+}
+.igx-calendar__date,
+.igx-calendar__date--inactive {
+  padding: 0px !important;
+}
+.igx-calendar__date-content::after {
+  position: absolute;
+  content: "";
+  width: 100% !important;
+  height: 100% !important;
+  top: 0px !important;
+  left: 0px !important;
+  border-radius: inherit;
+  z-index: -1;
+}
+
+.dateStartEndContainer {
+  margin-left: 180px;
+}
+.igx-calendar__date--special .igx-calendar__date-content {
+  background: #0a95e7 !important;
+  color: #000 !important;
+}
+.igx-calendar__date--special.igx-calendar__date--current
+  .igx-calendar__date-content {
+  background: #fdd200 !important;
+  border: 4px solid #0a95e7;
+}
+#timelineContainer .vis-range {
+  border-color: #bfbfbf;
+  min-width: 30px;
+}
+
+.vis-panel.vis-bottom,
+.vis-panel.vis-center,
+.vis-panel.vis-top {
+  // overflow-y: scroll !important;
+}
+
+#timelineContainer .vis-background .bumpIn {
+  min-height: 250px !important;
+}
+
+#timelineContainer .vis-background .eventTimes {
+  min-height: 250px !important;
+}
+
+#timelineContainer .vis-background .bumpOut {
+  min-height: 250px !important;
+}
+
+.addNewService.insideSelect {
+  max-width: 130px;
+}
+.multiselect-dropdown .dropdown-btn .selected-item {
+  max-width: none !important;
+  margin-bottom: 3px !important;
+}
+.multiselect-dropdown .dropdown-btn {
+  max-height: 140px;
+  overflow: auto;
+}
+
+.calendar-wrapper .igx-calendar__header {
+  background: #414a59 !important;
+}
+.calendar-wrapper .igx-calendar-picker__date {
+  color: #000 !important;
+}
+.calendar-wrapper .igx-calendar-picker__prev,
+.calendar-wrapper .igx-calendar-picker__next {
+  color: #000 !important;
+}
+
+.igx-calendar__body .igx-calendar__date--selected,
+.igx-calendar__body .igx-calendar__date--selected .igx-calendar__date-content {
+  background: #0a95e7 !important;
+  color: #000 !important;
+}
+
+.multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
+  right: 15px !important;
+}
+.mainContent .container {
+  padding: 0;
+}
+
+.addNewService.insideSelect {
+  max-width: 120px;
+  margin: -8px 0 0 0;
+}
+
+.addNewService.insideSelect select {
+  padding: 6px;
+}
+.popupNotes.ui.corner.label {
+  text-align: right;
+  padding-top: 6px;
+  padding-right: 10px;
+}
+.actionBar header ul.mainMenu li.itemMenu a,
+.actionBar header ul.mainMenu li.itemMenu span {
+  min-height: 100%;
+}
+.saveButtons.visibleMobile .downloadPDF {
+  max-width: 50px;
+}
+
+.parentAccordion.parentAccordionVenue .popupNotes {
+  z-index: 9;
+}
+
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter {
+  display: none;
+  position: absolute;
+  z-index: 9;
+  right: 2.3rem;
+  top: -20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 230px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-weight: normal;
+  box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.1);
+  min-height: 60px;
+}
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter p {
+  font-size: 12px;
+  line-height: 18px;
+}
+.timeWindowsContainer .card {
+  overflow: visible;
+}
+
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:after,
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:before {
+  left: 100%;
+  top: 30px;
+  border: solid transparent;
+  content: "";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-left-color: #fff;
+  border-width: 10px;
+  margin-top: -10px;
+}
+.parentAccordion.parentAccordionVenue .popupNotes .tooltipOuter:before {
+  border-color: rgba(221, 221, 221, 0);
+  border-left-color: #ddd;
+  border-width: 11px;
+  margin-top: -11px;
+}
+.parentAccordion.parentAccordionVenue .popupNotes:hover .tooltipOuter {
+  display: block;
+}
+custom-select-option {
+  padding-left: 30px !important;
+  position: relative;
+}
+
+custom-select-option[key="1"]::before {
+  background: #f2711c;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  content: "";
+  left: 10px;
+  top: 14px;
+  border-radius: 10px;
+}
+
+custom-select-option[key="2"]::before {
+  background: #21ba45 !important;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  content: "";
+  left: 10px;
+  top: 14px;
+  border-radius: 10px;
+}
+
+custom-select-option[key="3"]::before {
+  background: #db2828 !important;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  content: "";
+  left: 10px;
+  top: 14px;
+  border-radius: 10px;
+}
+
+.addNewService.insideSelect p b {
+  font-size: 14px;
+}
+.addNewService.insideSelect p {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1px 3px 4px 3px;
+  font-size: 16px;
+}
+.sidebarContent .imgContainer .showProfileMenu {
+  background-color: #0091e6 !important;
+}
+
+.igx-calendar__date--selected {
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+.display-none {
+  display: none !important;
+}
+
+@media screen and (max-width: 640px) {
+  .igx-calendar__body section + section {
+    width: 100%;
+    display: inline-block !important;
+  }
+  .ui.secondary.pointing.menu .item {
+    padding: 0.85714286em 1.043em;
+  }
+  .mainContent .ui.secondary.pointing.menu .item i {
+    margin-left: -10px;
+  }
+  .ui.grid > .column:not(.row),
+  .ui.grid > .row > .column {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .parentAccordionVenue .ui.form {
+    font-size: 0.8rem;
+  }
+  .ui.segment {
+    padding: 0.5em 0.5em;
+  }
+  .ui.grid {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+  .card-body {
+    padding: 0.45rem;
+  }
+  .infoBar .ui.container {
+    padding: 0px 0.5em !important;
+  }
+  .innerTabCont.tab-content {
+    padding: 20px 10px;
+  }
+
+  .igx-calendar__body {
+    font-size: 0.9rem;
+  }
+
+  .igx-calendar-picker__dates {
+    width: 100% !important;
+  }
+  .igx-calendar-picker__dates + .igx-calendar-picker__dates {
+    width: 100% !important;
+    position: absolute;
+    top: 290px;
+  }
+  .igx-calendar-picker__dates
+    + .igx-calendar-picker__dates
+    + .igx-calendar-picker__dates {
+    width: 100% !important;
+    position: absolute;
+    top: 560px;
+  }
+  igx-days-view.igx-calendar {
+    margin: 0 0px 40px 0 !important;
+  }
+}
+
+select.ui.dropdown {
+  padding-right: 25px !important;
+}
+.width100 {
+  width: 100%;
+}
+
+.vis-timeline .vis-panel.vis-background.vis-horizontal,
+.vis-panel.vis-center .vis-content {
+  min-height: 250px;
+}
+
+.kcpCardContainer .meta span.m-0 {
+  margin: 0 !important;
+}
+
+.content .meta span.m-0 {
+  margin: 0 !important;
+}
+
+.fixedMenu .ui.secondary.pointing.menu {
+  max-width: 1127px;
+  margin: auto;
+}
+
+.fixedMenu {
+  box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.1);
+}
+.fixedMenu.active.tabmenufixedOuter {
+  top: 63px;
+}
+
+.popupNotes.ui.corner.label.adjustTri {
+  top: -5px !important;
+  right: -2px !important;
+  line-height: 20px !important;
+}
+
+// .trashIconOuter { background: #db2828; width: 20px; height: 20px; border-radius: 50px; text-align: center; font-size: 13px; }
+.posrel {
+  position: relative;
+}
+.trashIconOuter {
+  padding: 6px !important;
+  position: absolute;
+  right: 5px;
+  top: 40px;
+}
+
+.searchCompany a.result {
+  position: relative;
+}
+
+.actionBar .openMobileMenu {
+  z-index: 9999;
+}
+.pushable .pusher,
+.sidebar.sidebarContent,
+.pusher {
+  transition: -webkit-transform 150ms ease;
+  transition: transform 150ms ease;
+  transition: transform 150ms ease;
+}
+
+.warningThemeBtn {
+  background-color: #fdd200;
+}
+.warningThemeBtn i.icon {
+  height: 22px;
+  width: 22px;
+  background: #0091e6;
+  border-radius: 30px;
+  color: #fff;
+}
+
+.flaot-right {
+  float: right;
+}
+.parentAccordionVenue .card-header .btn.accordionBtnNew {
+  width: calc(100% - 220px);
+  padding: 15px !important;
+}
+.accordionCheckBox {
+  padding: 15px;
+}
+.marT-m15 {
+  margin-top: -15px !important;
+}
+.marT-m10 {
+  margin-top: -10px !important;
+}
+.ui.button.mr-10px {
+  margin-right: 10px !important;
+}
+
+.angular-editor-textarea > * {
+  line-height: normal !important;
+}
+.angular-editor-textarea {
+  margin-top: 0 !important;
+}
+/* .angular-editor .angular-editor-wrapper .angular-editor-textarea {
+   border-top: none !important;
+ }*/
+.angular-editor-toolbar {
+  background-color: #fff !important;
+  border-bottom: none !important;
+}
+.toolTipStyle .tooltip-inner {
+  background: #fdd200 !important;
+  color: #000 !important;
+  font-size: 14px!important;
+}
+.toolTipStyle .arrow::before {
+  border-bottom-color: #fdd200 !important;
+}
+.multiselect-dropdown .dropdown-btn {
+	padding-right: 25px !important;
+  max-height: 60px;
+	overflow: auto;
+}
+.multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
+	height: 35px !important;
+	top: 1px !important;
+	right: 5px !important;
+}
+
+.assigntoData {
+  max-height: 180px;
+  overflow: auto;
+  width: 100%;
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 15px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+.assignToCheckBox { padding: 0px; }
+.assignToCheckBox li { padding: 0px; list-style: none; margin-bottom: 12px; }
+.assignToCheckBox li ul.assignToCheckBox {
+  padding-left: 25px;
+  margin-top: 5px;
+  max-height: 140px;
+  overflow: auto;
+}
+.cdk-overlay-container {
+	z-index: 1051 !important;
+}
+// .cdk-overlay-pane.owl-dt-popup {
+// 	bottom: auto !important;
+// }
+
+.modal-open .cdk-overlay-pane.owl-dt-popup {
+	 bottom: auto !important; 
+}
+
+.accordian__boxpanel .accordionCheckBox {
+	float: none;
+	padding: 5px 10px;
+}
+
+.assignToCheckBox .card-body {
+  padding: 0px;
+}
+ .parentAccordionVenue .accordian__boxpanel .card-header .btn.accordionBtnNew {
+  width: 30px;
+  padding: 15px !important;
+}
+
+
+.addTaskModal .ui.grid {
+  margin-top: -5px;
+}
+.nav-tabs.supplierInnerCont.nav {
+  width: 100%;
+}
+
+@media screen and (max-width:767px) {
+  .triggerEditableOptions.marT-m15 {
+    margin-top: 0px !important;
+  }
+  .supplierInnerCont .nav-link {
+    padding: .5rem 0.6rem;
+  }
+  .companyContainer.marginB20 .field.checkboxOnHeader .ui.header, .companyContainer.marginB20 .field.checkboxOnHeader .ui.header h3 { margin-top: 0px !important; }
+  .infoBar {
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+  }
+  .ui.menu {
+    font-size: 0.9rem;
+  }
+}
+
+.modal-open .actionBar .openMobileMenu {
+	z-index: 999;
+}
+
+.fonts-18pt{
+  font-size: 18pt!important;
+}
+.fonts-14pt{
+  font-size: 14pt!important;
+}
+
+.igx-calendar__date--inactive, .igx-calendar__date--inactive.igx-calendar__date--special span.igx-calendar__date-content, .igx-calendar__date--inactive.igx-calendar__date--selected span.igx-calendar__date-content {
+  pointer-events: none !important;
+  color: rgba(0, 0, 0, 0.5) !important;
+  background: #fff !important;
+  border-color: #efefef !important;
+}
+
+.igx-calendar__date--inactive.igx-calendar__date--current .igx-calendar__date-content {
+  color: rgba(0, 0, 0, 0.5) !important;
+  background: #fff !important;
+  border-color: #efefef !important;
+}
+
+.supplierAccordianBtnWidth .card-header .btn.accordionBtnNew {
+  width: calc(100% - 350px);
+  min-width: 200px;
+}
+.selectAllCheckSupp { width: 150px; text-align: left; } 
+
+.exhibitorAccordianBtnWidth .card-header .btn.accordionBtnNew {
+  width: calc(100% - 370px);
+  min-width: 200px;
+}
+.exhibitorAccordianBtnWidth .selectAllCheckSupp { width: 155px; text-align: left; } 

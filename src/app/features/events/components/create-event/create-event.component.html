@@ -1,0 +1,127 @@
+<div class="ui container">
+  <div class="ui grid">
+    <div class="sixteen wide column maxWidth">
+      <app-event-panel-nav [active]="active" [navChange]="onNavChange.bind(this)" [eventToBeSaved]="eventToBeSaved">
+        <ng-container client>
+          <app-event-client-function
+            [selectedCompany]="clientCompany"
+            (removeSelectedCompany)="unsetClientCompany()"
+            [eventToBeSaved]="eventToBeSaved"
+            (saveAndInvite)="saveToDb($event)"
+          >
+            <ng-container assignFunctionCmp>
+              <app-event-assign-function-cmp
+                [clientCmpBtnLabel]="'Add Client'"
+                [contactListLabel]="'Client Contacts'"
+                [selectedCompany]="clientCompany"
+                [clientCompanyModal]="searchInviteCmpModal"
+                [contactModal]="searchInviteFnCmpCntModal"
+                (modalOpen)="setOpenedModalRef($event)"
+                (contactRemove)="removeContact($event)"
+                [contactList]="clientContactList"
+              ></app-event-assign-function-cmp>
+            </ng-container>
+          </app-event-client-function>
+        </ng-container>
+
+        <ng-container eventManager>
+          <app-event-manager-function
+            [selectedCompany]="eventMgrCmp"
+            (removeSelectedCompany)="unsetEvMgrCmp()"
+            [eventToBeSaved]="eventToBeSaved"
+            (saveAndInvite)="saveToDb($event)"
+          >
+            <ng-container assignFunctionCmp>
+              <app-event-assign-function-cmp
+                [clientCmpBtnLabel]="'Add Event Management Company'"
+                [contactListLabel]="'Event Management Company Contacts'"
+                [selectedCompany]="eventMgrCmp"
+                [clientCompanyModal]="searchInviteCmpModal"
+                [contactModal]="searchInviteFnCmpCntModal"
+                (modalOpen)="setOpenedModalRef($event)"
+                (contactRemove)="removeContact($event)"
+                [contactList]="eventMgrContactList"
+              ></app-event-assign-function-cmp>
+            </ng-container>
+          </app-event-manager-function>
+        </ng-container>
+
+        <ng-container venues>
+          <app-event-venue-function #venueFn
+                                    [selectedCompanies]="venueCompanies"
+                                    (removeSelectedCompany)="unsetVenueCmp($event)"
+                                    [eventToBeSaved]="eventToBeSaved"
+                                    (saveAndInvite)="saveToDb($event)"
+                                    [searchInviteCmpModal]="searchInviteCmpModal"
+                                    [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+                                    [setOpenedModalRef]="setOpenedModalRef.bind(this)"
+                                    [removeContact]="removeContact.bind(this)"
+          >
+            <!--<ng-container assignFunctionCmp>
+              <app-event-assign-function-cmp #venueAssignCmp
+                [clientCompanyModal]="searchInviteCmpModal"
+                [contactModal]="searchInviteFnCmpCntModal"
+                (modalOpen)="setOpenedModalRef($event)"
+                (contactRemove)="removeContact($event)"
+              >
+              </app-event-assign-function-cmp>
+            </ng-container>-->
+          </app-event-venue-function>
+        </ng-container>
+        <ng-container suppliers>
+          <app-event-suppliers-function #suppliersFn
+                                        [venueCompanies]="venueCompanies"
+                                        [eventToBeSaved]="eventToBeSaved"
+                                        (saveAndInvite)="saveToDb($event)"
+                                        [searchInviteCmpModal]="searchInviteCmpModal"
+                                        [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+                                        [setOpenedModalRef]="setOpenedModalRef.bind(this)"
+          >
+          </app-event-suppliers-function>
+        </ng-container>
+        <ng-container exhibitors>
+          <app-event-exhibitors-function #exhibitorsFn
+                                         [venueCompanies]="venueCompanies"
+                                         [eventToBeSaved]="eventToBeSaved"
+                                         (saveAndInvite)="saveToDb($event)"
+                                         [searchInviteCmpModal]="searchInviteCmpModal"
+                                         [searchInviteFnCmpCntModal]="searchInviteFnCmpCntModal"
+                                         [setOpenedModalRef]="setOpenedModalRef.bind(this)">
+
+          </app-event-exhibitors-function>
+        </ng-container>
+        <ng-container eventFiles>
+          <app-event-files-function [eventID]="savedEventId"></app-event-files-function>
+        </ng-container>
+        <ng-container timeline>
+          <app-event-timeline-function></app-event-timeline-function>
+        </ng-container>
+      </app-event-panel-nav>
+
+      <!--<div [ngbNavOutlet]="eventPanelNav.navRef" class="mt-2"></div>-->
+    </div>
+  </div>
+
+
+  <ng-template #searchInviteCmpModal let-modal>
+    <app-search-or-invite-function-cmp
+      (existingCompanySelected)="setSelectedCompany($event)"
+      (newCompanyInvited)="setSelectedCompany($event)"
+      (closed)="searchInviteCompanyClosed()">
+    </app-search-or-invite-function-cmp>
+  </ng-template>
+
+  <ng-template #searchInviteFnCmpCntModal let-modal>
+    <app-search-or-invite-fn-cmp-cnt
+      (closed)="searchInviteContactModalClosed()"
+      [companyId]="getCompanyId()"
+      [isSeedCompany]="isSeedCompany"
+      (addedContactList)="setSelectedFnCompanyContacts($event)"
+      [alreadyInContactList]="getFnContactList()"
+      [myAssociatedCompanies]="myAssociatedCompanies"
+    >
+    </app-search-or-invite-fn-cmp-cnt>
+  </ng-template>
+
+
+</div>

@@ -1,0 +1,756 @@
+<div class="ui segment">
+  <div class="sixteen wide column">
+    <div class="field">
+      <div class="ui dividing header"  *ngIf="eventFiles?.data?.files?.CEMSF?.isViewPermission == 1; ">
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Client/Event Manager Shared Files
+              <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i></h3>
+          </div>
+          <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager" > -->
+          
+        </div>
+      </div>
+      <!-- <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager; else no_access"   class="ui grid docsContainer"> -->
+      <div  *ngIf="eventFiles?.data?.files?.CEMSF?.isViewPermission == 1; "   class="ui grid docsContainer">
+        <div class="sixteen wide column">
+          <ng-container *ngIf="eventFiles?.data?.files?.CEMSF">
+            <a class="ui mini button primary-outlineBtn"
+               *ngFor="let listItem of eventFiles!.data!.files!.CEMSF!.list"
+               [href]="listItem.fileUrl"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+              <ng-container *ngFor="let listItem of eventFiles!.data!.files!.CEMSF!.linklist">
+          
+                <a 
+                class="ui mini button primary-outlineBtn"
+                [href]="listItem.URL" 
+                target="_blank" >
+             
+                <p #myURL [hidden]="true"
+                >{{listItem.URL}}</p>
+                <i class="attach icon"></i>
+               <u >{{listItem.label}}</u>
+            
+             </a>
+             
+             
+            <a  class="copy_icon_img"  style="cursor: pointer;" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                 
+              </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sixteen wide column">
+    <div class="field" *ngIf="eventFiles?.data?.files?.CIF?.isViewPermission == 1 && eventFiles?.data?.files?.CIF?.isSelfIncludedInSection == 1; " >
+      <div class="ui dividing header">
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Client Internal Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i></h3>
+
+          </div>
+          <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient"  > -->
+            <!-- only client can view -->
+         
+        </div>
+      </div>
+      <!-- <div  *ngIf="permissionObj.isClient; else no_access"   class="ui grid docsContainer"> -->
+      <div    class="ui grid docsContainer">
+        <div class="sixteen wide column">
+          <ng-container *ngIf="eventFiles?.data?.files?.CIF">
+            <a class="ui mini button primary-outlineBtn"
+               *ngFor="let listItem of eventFiles!.data!.files!.CIF!.list"
+               [href]="listItem.fileUrl"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+           <br>
+              <ng-container *ngFor="let listItem of eventFiles!.data!.files!.CIF!.linklist">
+          
+                <a 
+                class="ui mini button primary-outlineBtn"
+                [href]="listItem.URL" 
+                target="_blank" >
+             
+                <p #myURL [hidden]="true"
+                >{{listItem.URL}}</p>
+                <i class="attach icon"></i>
+               <u >{{listItem.label}}</u>
+            
+             </a>
+             
+             
+            <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                 
+              </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sixteen wide column">
+    <div class="field" *ngIf="eventFiles?.data?.files?.EMIF?.isViewPermission == 1 && eventFiles?.data?.files?.EMIF?.isSelfIncludedInSection == 1;">
+      <div class="ui dividing header">
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Event Management Internal Files <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i></h3>
+          </div>
+
+          <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isEventManager" > -->
+          
+        </div>
+      </div>
+      <!-- <div  *ngIf="permissionObj.isEventManager; else no_access"   class="ui grid docsContainer"> -->
+      <div     class="ui grid docsContainer">
+        <div class="sixteen wide column">
+          <ng-container *ngIf="eventFiles?.data?.files?.EMIF">
+            <a class="ui mini button primary-outlineBtn"
+               *ngFor="let listItem of eventFiles!.data!.files!.EMIF!.list"
+               [href]="listItem.fileUrl"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+          <br>
+              <ng-container *ngFor="let listItem of eventFiles!.data!.files!.EMIF!.linklist">
+          
+                <a 
+                class="ui mini button primary-outlineBtn"
+                [href]="listItem.URL" 
+                target="_blank" >
+             
+                <p #myURL [hidden]="true"
+                >{{listItem.URL}}</p>
+                <i class="attach icon"></i>
+               <u >{{listItem.label}}</u>
+            
+             </a>
+             
+             
+            <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                 
+              </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sixteen wide column">
+    <div class="field">
+      <div class="ui dividing header"  *ngIf="eventFiles?.data?.files?.EF?.isViewPermission == 1; " >
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Event Files <i class="globe icon"></i></h3>
+          </div>
+          <!-- <div class="six wide column right aligned"> -->
+      
+        </div>
+      </div>
+      <!-- <div class="ui grid docsContainer"> -->
+      <div class="ui grid docsContainer"   *ngIf="eventFiles?.data?.files?.EF?.isViewPermission == 1; " >
+        <div class="sixteen wide column">
+          <ng-container *ngIf="eventFiles?.data?.files?.EF">
+            <a class="ui mini button primary-outlineBtn"
+               *ngFor="let listItem of eventFiles!.data!.files!.EF!.list"
+               [href]="listItem.fileUrl"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+            <br>
+                            <ng-container *ngFor="let listItem of eventFiles!.data!.files!.EF!.linklist">
+                        
+                              <a 
+                              class="ui mini button primary-outlineBtn"
+                              [href]="listItem.URL" 
+                              target="_blank" >
+                           
+                              <p #myURL [hidden]="true"
+                              >{{listItem.URL}}</p>
+                              <i class="attach icon"></i>
+                             <u >{{listItem.label}}</u>
+                          
+                           </a>
+                           
+                           
+                          <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                               
+                            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sixteen wide column" *ngIf="showVenuesFilesSection()" >
+    <div class="field">
+      <div class="ui dividing header" *ngIf="eventFiles?.data?.files?.FFAV?.isViewPermission == 1 || permissionObj.isVenue; " >
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Files for All Venues <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+              class="map marker alternate icon"></i></h3>
+          </div>
+          <!-- <div class="six wide column right aligned"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue"  > -->
+          
+        </div>
+      </div>
+      <!-- <div   *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"   class="ui grid docsContainer"> -->
+      <div   *ngIf="eventFiles?.data?.files?.FFAV?.isViewPermission == 1 || permissionObj.isVenue; "   class="ui grid docsContainer">
+        <div class="sixteen wide column">
+          <ng-container *ngIf="eventFiles?.data?.files?.FFAV">
+            <a class="ui mini button primary-outlineBtn"
+               *ngFor="let listItem of eventFiles!.data!.files!.FFAV!.list"
+               [href]="listItem.fileUrl"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+          <br>
+              <ng-container *ngFor="let listItem of eventFiles!.data!.files!.FFAV!.linklist">
+          
+                <a 
+                class="ui mini button primary-outlineBtn"
+                [href]="listItem.URL" 
+                target="_blank" >
+             
+                <p #myURL [hidden]="true"
+                >{{listItem.URL}}</p>
+                <i class="attach icon"></i>
+               <u>{{listItem.label}}</u>
+            
+             </a>
+             
+             
+            <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                 
+              </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
+      <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAV?.venuesFiles && eventFiles?.data?.files?.FFAV?.venuesFiles!.length>0">
+
+      <ng-container *ngFor="let venueFileItem of eventFiles!.data!.files!.FFAV!.venuesFiles!; let i=index">
+        <ng-container >
+      <ngb-panel [id]="'venueId_' + venueFileItem.venueId"
+                >
+        <ng-template ngbPanelTitle>
+          <i class="dropdown icon"></i>Venue {{i+1}}: {{venueFileItem.name}}
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div class="content active">
+
+            <div class="ui grid stackable visible" style="display: flex !important;">
+              <div class="sixteen wide column">
+                <div class="field">
+                  <div class="ui dividing header" *ngIf="venueFileItem.FLOOR_PLAN">
+                    <div class="ui grid">
+                      <div class="ten wide column middle aligned">
+                        <h3>Floorplan <i class="globe icon"></i></h3>
+                      </div>
+                     
+                    </div>
+                  </div>
+                  <!-- <div class="ui grid docsContainer"   *ngIf="venueFileItem?.isViewPermission==1; else no_access" > -->
+                    <div class="ui grid docsContainer" >
+
+                    <div class="sixteen wide column">
+                      <ng-container *ngIf="venueFileItem.FLOOR_PLAN">
+                        <a class="ui mini button primary-outlineBtn"
+                           *ngFor="let listItem of venueFileItem.FLOOR_PLAN.list"
+                           [href]="listItem.fileUrl"
+                           target="_blank">
+                          <i class="file icon"></i>{{listItem.displayName}}
+                        </a>
+                        <br>
+                            <ng-container *ngFor="let listItem of venueFileItem.FLOOR_PLAN.linklist">
+                        
+                              <a 
+                              class="ui mini button primary-outlineBtn"
+                              [href]="listItem.URL" 
+                              target="_blank" >
+                           
+                              <p #myURL [hidden]="true"
+                              >{{listItem.URL}}</p>
+                              <i class="attach icon"></i>
+                             <u >{{listItem.label}}</u>
+                          
+                           </a>
+                           
+                           
+                          <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                               
+                            </ng-container>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="eight wide column">
+                <div class="field">
+                  <div class="ui dividing header"  *ngIf="venueFileItem?.isViewPermission==1; " >
+                    <div class="ui grid">
+                      <div class="ten wide column middle aligned">
+                        <h3>Venue Shared Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                          class="building icon"></i></h3>
+                      </div>
+                      <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isVenue  && venueFileItem?.isViewPermission==1)" > -->
+                  
+                    </div>
+                  </div>
+                  <!-- <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || ((permissionObj.isVenue || permissionObj.isCrew) && venueFileItem?.isViewPermission==1); else no_access"  class="ui grid docsContainer"> -->
+                <div  *ngIf="venueFileItem?.isViewPermission==1; "  class="ui grid docsContainer">
+                    <div class="sixteen wide column">
+                      <ng-container *ngIf="venueFileItem.VSF">
+                        <ng-container *ngFor="let listItem of venueFileItem!.VSF!.list">
+                      
+                          <a class="ui mini button primary-outlineBtn"
+                           
+                          [href]="listItem.fileUrl"
+                          target="_blank">
+                       
+                         <i class="file icon"></i>{{listItem.displayName}}
+                      
+                       </a>
+                      
+                     
+                        </ng-container>
+                      <br>
+                     
+                        <ng-container *ngFor="let listItem of venueFileItem!.VSF!.linklist">
+                    
+                          <a 
+                          class="ui mini button primary-outlineBtn"
+                          [href]="listItem.URL" 
+                          target="_blank" >
+                       
+                          <p #myURL [hidden]="true"
+                          >{{listItem.URL}}</p>
+                          <i class="attach icon"></i>
+                         <u >{{listItem.label}}</u>
+                      
+                       </a>
+                       
+                       
+                      <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                           
+                        </ng-container>
+                       
+                    
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="eight wide column">
+                <div class="field" *ngIf="venueFileItem?.isViewPermission==1 && venueFileItem?.isSelfIncludedInSection==1; " >
+                  <div class="ui dividing header">
+                    <div class="ui grid">
+                      <div class="ten wide column middle aligned">
+                        <h3>Venue Internal Files <i class="building icon"></i></h3>
+                      </div>
+                      <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isVenue && venueFileItem?.isViewPermission == 1"  > -->
+                  
+                    </div>
+                  </div>
+                  <!-- <div  *ngIf="(permissionObj.isCrew || permissionObj.isVenue ) && venueFileItem?.isViewPermission == 1; else no_access"   class="ui grid docsContainer"> -->
+                  <div    class="ui grid docsContainer">
+                    <div class="sixteen wide column">
+                      <ng-container *ngIf="venueFileItem.VIF">
+                        <a class="ui mini button primary-outlineBtn"
+                           *ngFor="let listItem of venueFileItem!.VIF!.list"
+                           [href]="listItem.fileUrl"
+                           target="_blank">
+                          <i class="file icon"></i>{{listItem.displayName}}
+                        </a>
+                     <br>
+                          <ng-container *ngFor="let listItem of venueFileItem!.VIF!.linklist">
+                      
+                            <a 
+                            class="ui mini button primary-outlineBtn"
+                            [href]="listItem.URL" 
+                            target="_blank" >
+                         
+                            <p #myURL [hidden]="true"
+                            >{{listItem.URL}}</p>
+                            <i class="attach icon"></i>
+                           <u >{{listItem.label}}</u>
+                        
+                         </a>
+                         
+                         
+                        <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                             
+                          </ng-container>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </ng-template>
+      </ngb-panel>
+     </ng-container>
+    </ng-container>
+    </ngb-accordion>
+  </div>
+  <div class="ui grid docsContainer">
+    <div class="sixteen wide column"></div>
+  </div>
+  <div class="sixteen wide column" *ngIf="showSuppliersFilesSection()">
+    <div class="field">
+      <div class="ui dividing header"  *ngIf="eventFiles?.data?.files?.FFAS?.isViewPermission == 1 || permissionObj.isService; " >
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Files for All Suppliers <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i class="truck icon"></i>
+            </h3>
+          </div>
+          <!-- <div class="six wide column right aligned"   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isService"  > -->
+          
+        </div>
+      </div>
+      <!-- <div   *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isService; else no_access"   class="ui grid docsContainer"> -->
+    <div   *ngIf="eventFiles?.data?.files?.FFAS?.isViewPermission == 1 || permissionObj.isService;  "   class="ui grid docsContainer">
+        <div class="sixteen wide column">
+          <ng-container *ngIf="eventFiles?.data?.files?.FFAS">
+            <a class="ui mini button primary-outlineBtn"
+               *ngFor="let listItem of eventFiles!.data!.files!.FFAS!.list"
+               [href]="listItem.fileUrl"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+        <br>
+                            <ng-container *ngFor="let listItem of eventFiles!.data!.files!.FFAS!.linklist">
+                        
+                              <a 
+                              class="ui mini button primary-outlineBtn"
+                              [href]="listItem.URL" 
+                              target="_blank" >
+                           
+                              <p #myURL [hidden]="true"
+                              >{{listItem.URL}}</p>
+                              <i class="attach icon"></i>
+                             <u >{{listItem.label}}</u>
+                          
+                           </a>
+                           
+                           
+                          <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                               
+                            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
+      <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAS?.supplierFiles && eventFiles?.data?.files?.FFAS?.supplierFiles!.length>0">
+
+      <ng-container *ngFor="let supplierItem of eventFiles!.data!.files!.FFAS!.supplierFiles!; let i =index">
+        <ng-container *ngIf="supplierItem?.isViewPermission">
+      <ngb-panel [id]="'serviceId_' + supplierItem.serviceId"
+                 >
+        <ng-template ngbPanelTitle>
+          <i class="dropdown icon"></i>Supplier {{i+1}}: {{supplierItem.name}}
+        </ng-template>
+        <ng-template ngbPanelContent>
+
+          <div class="content active">
+            <form class="ui form visible" style="display: block !important;">
+              <div class="ui grid stackable">
+                <div class="eight wide column">
+                  <div class="field">
+                    <div class="ui dividing header" *ngIf="supplierItem?.isViewPermission==1; " >
+                      <div class="ui grid">
+                        <div class="ten wide column middle aligned">
+                          <h3>Supplier Shared Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                            class="building icon"></i></h3>
+                        </div>
+                        <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isService && supplierItem?.isViewPermission==1)"> -->
+                     
+                      </div>
+                    </div>
+                    <!-- <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isService && supplierItem?.isViewPermission==1) || (supplierItem?.isViewPermission==1 && permissionObj.isCrew ) ; else no_access"  class="ui grid docsContainer"> -->
+                  <div  *ngIf="supplierItem?.isViewPermission==1; "  class="ui grid docsContainer">
+                      <div class="sixteen wide column">
+                        <ng-container *ngIf="supplierItem?.SSF">
+                          <a class="ui mini button primary-outlineBtn"
+                             *ngFor="let listItem of supplierItem!.SSF!.list"
+                             [href]="listItem.fileUrl"
+                             target="_blank">
+                            <i class="file icon"></i>{{listItem.displayName}}
+                          </a>
+                      <br>
+                            <ng-container *ngFor="let listItem of supplierItem!.SSF!.linklist">
+                        
+                              <a 
+                              class="ui mini button primary-outlineBtn"
+                              [href]="listItem.URL" 
+                              target="_blank" >
+                           
+                              <p #myURL [hidden]="true"
+                              >{{listItem.URL}}</p>
+                              <i class="attach icon"></i>
+                             <u >{{listItem.label}}</u>
+                          
+                           </a>
+                           
+                           
+                          <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                               
+                            </ng-container>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide column" *ngIf="supplierItem?.isViewPermission == 1 && supplierItem?.isSelfIncludedInSection == 1; " >
+                  <div class="field">
+                    <div class="ui dividing header">
+                      <div class="ui grid">
+                        <div class="ten wide column middle aligned">
+                          <h3>Supplier Internal Files <i class="building icon"></i></h3>
+                        </div>
+                        <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isService && supplierItem?.isViewPermission == 1" > -->
+                   
+                      </div>
+                    </div>
+                    <!-- <div  *ngIf="(permissionObj.isCrew && supplierItem?.isViewPermission ) || (permissionObj.isService && supplierItem?.isViewPermission == 1); else no_access"   class="ui grid docsContainer"> -->
+                  <div     class="ui grid docsContainer">
+                      <div class="sixteen wide column">
+                        <ng-container *ngIf="supplierItem?.SIF">
+                          <a class="ui mini button primary-outlineBtn"
+                             *ngFor="let listItem of supplierItem!.SIF!.list"
+                             [href]="listItem.fileUrl"
+                             target="_blank">
+                            <i class="file icon"></i>{{listItem.displayName}}
+                          </a>
+                        <br>
+                            <ng-container *ngFor="let listItem of supplierItem!.SIF!.linklist">
+                        
+                              <a 
+                              class="ui mini button primary-outlineBtn"
+                              [href]="listItem.URL" 
+                              target="_blank" >
+                           
+                              <p #myURL [hidden]="true"
+                              >{{listItem.URL}}</p>
+                              <i class="attach icon"></i>
+                             <u class="attach icon">{{listItem.label}}</u>
+                          
+                           </a>
+                           
+                           
+                          <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                               
+                            </ng-container>
+                        </ng-container>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ng-container>
+  </ng-container>
+    </ngb-accordion>
+  </div>
+
+
+  <div class="ui grid docsContainer">
+    <div class="sixteen wide column"></div>
+  </div>
+  <div class="sixteen wide column" *ngIf="showExhibitorsFilesSection()">
+    <div class="field">
+      <div class="ui dividing header"   *ngIf="eventFiles?.data?.files?.FFAE?.isViewPermission == 1 || permissionObj.isExhibitor; " >
+        <div class="ui grid">
+          <div class="ten wide column middle aligned">
+            <h3>Files for All Exhibitors <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i class="exhibitor icon"></i>
+            </h3>
+          </div>
+          <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor"  > -->
+        
+        </div>
+      </div>
+      <!-- <div   *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"   class="ui grid docsContainer"> -->
+      <div   *ngIf="eventFiles?.data?.files?.FFAE?.isViewPermission == 1 || permissionObj.isExhibitor; "   class="ui grid docsContainer">
+        <div class="sixteen wide column">
+          <ng-container *ngIf="eventFiles?.data?.files?.FFAE">
+            <a class="ui mini button primary-outlineBtn"
+               *ngFor="let listItem of eventFiles!.data!.files!.FFAE!.list"
+               [href]="listItem.fileUrl"
+               target="_blank">
+              <i class="file icon"></i>{{listItem.displayName}}
+            </a>
+          <br>
+              <ng-container *ngFor="let listItem of eventFiles!.data!.files!.FFAE!.linklist">
+          
+                <a 
+                class="ui mini button primary-outlineBtn"
+                [href]="listItem.URL" 
+                target="_blank" >
+             
+                <p #myURL [hidden]="true"
+                >{{listItem.URL}}</p>
+                <i class="attach icon"></i>
+               <u >{{listItem.label}}</u>
+            
+             </a>
+             
+             
+            <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                 
+              </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
+      <ngb-accordion
+      *ngIf="eventFiles?.data?.files?.FFAE?.exhibitorFiles && eventFiles?.data?.files?.FFAE?.exhibitorFiles!.length>0">
+
+      <ng-container *ngFor="let exhibitorFileItem of eventFiles!.data!.files!.FFAE!.exhibitorFiles!; let i=index">
+        <ng-container *ngIf="exhibitorFileItem?.isViewPermission">
+      <ngb-panel [id]="'exhibitorId_' + exhibitorFileItem.exhibitorId"
+                 >
+        <ng-template ngbPanelTitle>
+          <i class="dropdown icon"></i>Exhibitor {{i+1}}: {{exhibitorFileItem.name}}
+        </ng-template>
+        <ng-template ngbPanelContent>
+
+          <div class="content active">
+            <form class="ui form visible" style="display: block !important;">
+              <div class="ui grid stackable">
+                <div class="eight wide column">
+                  <div class="field">
+                    <div class="ui dividing header"  *ngIf="exhibitorFileItem?.isViewPermission==1; " >
+                      <div class="ui grid">
+                        <div class="ten wide column middle aligned">
+                          <h3>Exhibitor Shared Files <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                            class="building icon"></i></h3>
+                        </div>
+                        <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isClient || permissionObj.isEventManager || (permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1)" > -->
+                    
+                      </div>
+                    </div>
+                    <!-- <div  *ngIf="permissionObj.isClient || permissionObj.isEventManager || ((permissionObj.isExhibitor || permissionObj.isCrew) && exhibitorFileItem?.isViewPermission==1); else no_access"   class="ui grid docsContainer"> -->
+                    <div  *ngIf="exhibitorFileItem?.isViewPermission==1; "   class="ui grid docsContainer">
+                      <div class="sixteen wide column">
+                        <ng-container *ngIf="exhibitorFileItem?.EBSF">
+                          <a class="ui mini button primary-outlineBtn"
+                             *ngFor="let listItem of exhibitorFileItem!.EBSF!.list"
+                             [href]="listItem.fileUrl"
+                             target="_blank">
+                            <i class="file icon"></i>{{listItem.displayName}}
+                          </a>
+<br>
+                            <ng-container *ngFor="let listItem of exhibitorFileItem!.EBSF!.linklist">
+                        
+                              <a 
+                              class="ui mini button primary-outlineBtn"
+                              [href]="listItem.URL" 
+                              target="_blank" >
+                           
+                              <p #myURL [hidden]="true"
+                              >{{listItem.URL}}</p>
+                              <i class="attach icon"></i>
+                             <u >{{listItem.label}}</u>
+                          
+                           </a>
+                           
+                           
+                          <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                               
+                            </ng-container>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="eight wide column">
+                  <div class="field" *ngIf="exhibitorFileItem?.isViewPermission==1 && exhibitorFileItem?.isSelfIncludedInSection==1; ">
+                    <div class="ui dividing header">
+                      <div class="ui grid">
+                        <div class="ten wide column middle aligned">
+                          <h3>Exhibitor Internal Files <i class="building icon"></i></h3>
+                        </div>
+                        <!-- <div class="six wide column right aligned"  *ngIf="permissionObj.isExhibitor && exhibitorFileItem?.isViewPermission==1"  > -->
+                        
+                      </div>
+                    </div>
+                    <!-- <div  *ngIf="(permissionObj.isCrew || permissionObj.isExhibitor) && exhibitorFileItem?.isViewPermission==1; else no_access"   class="ui grid docsContainer"> -->
+                <div     class="ui grid docsContainer">
+                      <div class="sixteen wide column">
+                        <ng-container *ngIf="exhibitorFileItem?.EBIF">
+                          <a class="ui mini button primary-outlineBtn"
+                             *ngFor="let listItem of exhibitorFileItem!.EBIF!.list"
+                             [href]="listItem.fileUrl"
+                             target="_blank">
+                            <i class="file icon"></i>{{listItem.displayName}}
+                          </a>
+                         <br>
+                            <ng-container *ngFor="let listItem of exhibitorFileItem!.EBIF!.linklist">
+                        
+                              <a 
+                              class="ui mini button primary-outlineBtn"
+                              [href]="listItem.URL" 
+                              target="_blank" >
+                           
+                              <p #myURL [hidden]="true"
+                              >{{listItem.URL}}</p>
+                              <i class="attach icon"></i>
+                             <u >{{listItem.label}}</u>
+                          
+                           </a>
+                           
+                           
+                          <a  class="copy_icon_img"  style="cursor: pointer" (click)="copyToClipboardWithParameter(myURL)"><img src="/assets/img/copy_icons.png"></a>
+                                               
+                            </ng-container>
+                        </ng-container>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ng-container>
+  </ng-container>
+    </ngb-accordion>
+  </div>
+
+
+
+</div>
+
+<ng-template #uploadFilesModal let-modal>
+  <app-event-files-upload-modal
+    [existingFiles]="existingFiles"
+    [existingLinks]="existingLinks"
+    [eventFileType]="uploadingFileType"
+    [eventFileSignedURLReq]="eventFilesSignedURLReqPayload"
+    (closed)="closeFileUploadModal(modal)"></app-event-files-upload-modal>
+</ng-template>

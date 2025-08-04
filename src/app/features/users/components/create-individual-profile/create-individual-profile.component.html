@@ -1,0 +1,31 @@
+<div class="ui middle aligned center aligned grid minheight100vh">
+  <div class="column minContainer">
+    <h2 class="segmentTitle special">
+      Create Konnect Profile
+    </h2>
+    <ng-wizard [config]="config" (stepChanged)="stepChanged($event)">
+      <ng-wizard-step [title]="'Personal Details'">
+        <app-personal-details-tab
+          (moveToCompanyDetailsTab)="showNextStep($event)"
+          (profileImageChangeEvent)="profileImage=$event"
+          [personalDetails]="getPersonalDetails()"
+        ></app-personal-details-tab>
+      </ng-wizard-step>
+      <ng-wizard-step [title]="'Company Details'">
+        <app-company-details-tab
+          *ngIf="createCompanyMode.status===false"
+          [personalDetails]="personalDetails"
+          [user]="user"
+          (createCompanyMode)="createCompanyMode=$event"
+        ></app-company-details-tab>
+        <app-create-company
+          [navigateToPostCreate]="'home'"
+          *ngIf="createCompanyMode.status===true"
+          [user]="user"
+          [createCompanyMode]="createCompanyMode"
+        >
+        </app-create-company>
+      </ng-wizard-step>
+    </ng-wizard>
+  </div>
+</div>

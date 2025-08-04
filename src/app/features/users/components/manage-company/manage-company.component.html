@@ -1,0 +1,244 @@
+<div class="mainContent" *ngIf="companyInfo && companyInfo.company">
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="sixteen wide column">
+                <div class="ui grid">
+                    <div class="sixteen wide column">
+                        <h2>Konnect Profile</h2>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <form class="ui form marginB20" [formGroup]="editCompanyForm">
+                        <div class="ui grid stackable">
+                            <div class="nine wide column">
+                                <h3 class="ui dividing header">Company Details</h3>
+                                <div class="two fields">
+                                    <div class="field">
+                                        <div class="ui grid centered">
+                                            <div class="ten wide column marginT10">
+                                                <span *ngIf="companyInfo?.company.isPrivate == 1 && companyInfo?.company.isSeed == 0" class="ui blue right corner label popupNotes"
+                                                    data-content="Private Contact">
+                                                    <!--<i class="address card outline icon"></i>-->
+                                                    <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                                </span>
+                                                <img [src]="selectedImageSrc?(selectedImageSrc |safeUrlPipe): companyInfo?.company.companyProfileImage"
+                                                    alt="" class="ui medium fluid image marginB10 userleftImgUpdate"
+                                                    appImageFallback
+                                                    fallbackImage="../../assets/img/default_konnect_img.jpg" onerror="src='../../assets/img/default_konnect_img.jpg'">
+                                                <div class="ui button basic small compact blue fluid" *ngIf="!isView"
+                                                    appFileUploadTrigger [fileUploadComponentRef]="fileUploadComponent">
+                                                    Replace company image
+                                                </div>
+                                                <app-file-upload #fileUploadComponent [config]="profileImageConfig"
+                                                    (fileChange)="setSelectedImage($event)"></app-file-upload>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field hideMobile">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field required">
+                                        <label>Company Name</label>
+                                        <input [readonly]="isView" id="edit-company-profile-company-name" type="text"
+                                            placeholder="Company Name" formControlName="companyName">
+                                        <span *ngIf="editCompanyForm!.get('companyName')?.touched
+                              && editCompanyForm!.get('companyName')?.errors?.required" class="text-danger">Company
+                                            Name is
+                                            Required</span>
+                                    </div>
+                                    <div class="field ">
+                                        <label>Company/Tax Number</label>
+                                        <input [readonly]="isView" id="edit-company-profile-tax-number" type="text"
+                                            placeholder="Company/Tax Number" formControlName="companyTaxNumber">
+                                        <!-- <span *ngIf="editCompanyForm!.get('companyTaxNumber')?.touched
+                                        && editCompanyForm!.get('companyTaxNumber')?.errors?.required"
+                                            class="text-danger">Company/Tax Number is
+                                            Required</span> -->
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field ">
+                                        <label>Street Address 1</label>
+                                        <input [readonly]="isView" id="edit-company-profile-street-address-1"
+                                            type="text" placeholder="Street Address 1" formControlName="streetAddress1">
+                                        <!-- <span *ngIf="editCompanyForm!.get('streetAddress1')?.touched
+                                        && editCompanyForm!.get('streetAddress1')?.errors?.required"
+                                            class="text-danger">Street Address 1 is
+                                            Required</span> -->
+                                    </div>
+                                    <div class="field ">
+                                        <label>Street Address 2</label>
+                                        <input [readonly]="isView" id="edit-company-profile-street-address-2"
+                                            type="text" placeholder="Street Address 2" formControlName="streetAddress2">
+                                        <!-- <span *ngIf="editCompanyForm!.get('streetAddress2')?.touched
+                                        && editCompanyForm!.get('streetAddress2')?.errors?.required"
+                                            class="text-danger">Street Address 2 is
+                                            Required</span> -->
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field required">
+                                        <label>City</label>
+                                        <input [readonly]="isView" id="edit-company-profile-city" type="text"
+                                            placeholder="City" formControlName="city">
+                                        <span *ngIf="editCompanyForm!.get('city')?.touched
+                              && (
+                              editCompanyForm!.get('city')?.hasError('required')
+                              )" class="text-danger">City is required</span>
+                                    </div>
+                                    <div class="field ">
+                                        <label>State/Province/Region</label>
+                                        <input [readonly]="isView" id="edit-company-profile-state" type="text"
+                                            placeholder="State" formControlName="state">
+                                        <!-- <span *ngIf="editCompanyForm!.get('state')?.touched
+                                        && (
+                                        editCompanyForm!.get('state')?.hasError('required')
+                                        )" class="text-danger">State is required</span> -->
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>ZIP/Postcode</label>
+                                        <input [readonly]="isView" id="edit-company-profile-post-code" maxlength="6"
+                                            type="tel" placeholder="ZIP/Postcode" formControlName="postCode">
+                                        <span *ngIf="(editCompanyForm!.get('postCode')?.dirty || editCompanyForm!.get('postCode')?.touched)
+                                        && (
+                                        editCompanyForm!.get('postCode')?.hasError('pattern')
+                                        )" class="text-danger">Post code allow only numbers</span>
+                                    </div>
+                                    <div class="field required">
+                                        <label>Country</label>
+                                        <div class="ui fluid selection" tabindex="0">
+                                            <select [attr.disabled]="isView" formControlName="countryId" required>
+                                                <option *ngFor="let cntr of countries" [ngValue]="cntr.val"
+                                                    [disabled]="!cntr.val">{{ cntr.name }}</option>
+                                            </select>
+                                        </div>
+                                        <span *ngIf="editCompanyForm!.get('countryId')?.touched
+                                        && (
+                                        editCompanyForm!.get('countryId')?.hasError('required')
+                                        )" class="text-danger">Country is required</span>
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field">
+                                        <label>Phone</label>
+                                        <input [readonly]="isView" id="edit-company-profile-phone" type="text"
+                                            placeholder="Phone" formControlName="phone">
+                                        <!-- <span *ngIf="editCompanyForm!.get('phone')?.touched
+                                        && (
+                                        editCompanyForm!.get('phone')?.hasError('required')
+                                        )" class="text-danger">Phone is required</span> -->
+                                        <!-- <span *ngIf="(editCompanyForm!.get('phone')?.dirty || editCompanyForm!.get('phone')?.touched)
+                                        && (
+                                        editCompanyForm!.get('phone')?.hasError('pattern')
+                                        )" class="text-danger">Please provide phone number in format:
+                                            +611234567890</span> -->
+                                    </div>
+                                    <div class="field" [ngClass]="{required: companyInfo?.company.companyType != 'sole_trader'}">
+                                        <label>Website</label>
+                                        <input [readonly]="isView" id="edit-company-profile-website" type="text"
+                                            placeholder="Website" formControlName="website">
+                                        <span *ngIf="editCompanyForm!.get('website')?.touched
+                                        && (
+                                        editCompanyForm!.get('website')?.hasError('required')
+                                        )" class="text-danger">Website is required</span>
+                                        <span *ngIf="editCompanyForm!.get('website')?.touched
+                                        && (
+                                        editCompanyForm!.get('website')?.hasError('pattern')
+                                        )" class="text-danger">Invalid website url</span>
+                                    </div>
+                                </div>
+                                <div class="field required">
+                                    <label>Category</label>
+                                    <div class="ui fluid selection" tabindex="0" (click)="markCategoryTouched()">
+                                        <ng-multiselect-dropdown [disabled]="isView"
+                                            [ngModelOptions]="{standalone:true}"
+                                            [placeholder]="'Select one or more category'" [settings]="dropdownSettings"
+                                            [data]="categories" [(ngModel)]="selectedCategory"
+                                            (ngModelChange)="onCategoryChange($event)"></ng-multiselect-dropdown>
+                                        <span *ngIf="editCompanyForm!.get('category')?.touched &&
+                                    (editCompanyForm!.get('category')?.hasError('required'))" class="text-danger">At
+                                            least one category has to be selected</span>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label>Description</label>
+                                    <!-- <textarea [readonly]="isView" rows="3" class="textarea"
+                                        id="edit-company-profile-description" placeholder="Description"
+                                        formControlName="description"></textarea> -->
+                                        <angular-editor id="edit-company-profile-description"
+                                        formControlName="description" [config]="config" (focus)="changeConfig()">
+                                      </angular-editor>
+                                    <!-- <span *ngIf="editCompanyForm!.get('description')?.touched
+                                    && (
+                                    editCompanyForm!.get('description')?.hasError('required')
+                                    )" class="text-danger">Description is required</span> -->
+                                </div>
+                                <div class="sixteen wide column marginT10 marginB20">
+                                    <p class="textRight marginT10 smallText">*compulsory fields</p>
+                                </div>
+                                <div class="sixteen wide column paddingT0">
+                                    <div class="ui divider"></div>
+                                </div>
+                                <div class="ui grid">
+                                    <div class="sixteen wide column right aligned"
+                                        *ngIf="!isView && companyInfo.isCompanyAdmin == 1">
+                                        <button class="ui button hideMobile"
+                                            (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)">
+                                            Save</button>
+                                        <button class="ui button fluid visibleMobile"
+                                            (click)="checkValidityOfForm($event) && uploadImageAndUpdateProfile($event)">Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="seven wide column">
+                                <div class="contactsContainer">
+                                    <div class="field">
+                                        <h3 class="ui dividing header">Staff</h3>
+                                    </div>
+                                    <div class="kipCardContainer containerOverFlow"
+                                        *ngIf="companyInfo && companyInfo.staff && companyInfo.staff.length">
+                                        <div class="ui one column grid stackable">
+                                            <div class="column" *ngFor="let staff of companyInfo.staff; let i=index;">
+                                                <div class="ui fluid card">
+                                                    <div class="content">
+                                                        <span *ngIf="staff.isPrivate" class="ui blue right corner label popupNotes"
+                                                            data-content="Private Contact">
+                                                            <!--<i class="address card outline icon"></i>-->
+                                                            <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                                        </span>
+                                                        <img class="right floated mini ui image circular"
+                                                            [src]="staff.profileImage" appImageFallback
+                                                            fallbackImage="assets/img/default_konnect_individual_img.jpg">
+                                                        <div class="header"
+                                                            (click)="goToUserProfile(staff.userId, staff.isPrivate)">
+                                                            <a target="_blank">{{staff.firstName}}
+                                                                {{staff.lastName}}</a>
+                                                        </div>
+                                                        <div class="meta">{{staff.position}}</div>
+                                                        <div class="description">
+                                                            {{staff.email}}<br>
+                                                            {{staff.mobile}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="marginT30"></div>
+                                <a href="IC-01.html" routerLink="/home/company/manage-colleagues" *ngIf="!isView"
+                                    routerLinkActive="router-link-active" class="ui button fluid">Manage Colleagues</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

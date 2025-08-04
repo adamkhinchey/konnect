@@ -1,0 +1,260 @@
+<div class="mainContent">
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="sixteen wide column maxWidth">
+                <div class="ui grid">
+                    <div class="sixteen wide column left aligned">
+                        <h2>Platform Search</h2>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <form class="ui form">
+                        <div class="ui grid">
+                            <div class="sixteen wide column left aligned">
+                                <h3 class="ui dividing header">Region</h3>
+                                <div class="ui four column grid regionOptions" *ngIf="regions && regions.length">
+                                    <div class="column" *ngFor="let region of regions; let regionId = index;">
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input id="{{region.name + region.id}}" type="checkbox" class="hidden"
+                                                    tabindex="0" [value]="region.id" (change)="onRegionChange($event)">
+                                                <label for="{{region.name + region.id}}">{{region.name}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="column">
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input id="asia" type="checkbox" class="hidden" tabindex="0">
+                                                <label for="asia">Asia</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input id="europe" type="checkbox" class="hidden" tabindex="0">
+                                                <label for="europe">Europe</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input id="mena" type="checkbox" class="hidden" tabindex="0">
+                                                <label for="mena" >MENA</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input id="northAmerica" type="checkbox" class="hidden" tabindex="0">
+                                                <label for="northAmerica" >North America</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input id="centralAmerica" type="checkbox" class="hidden" tabindex="0">
+                                                <label for="centralAmerica" >Central America &amp; Caribbean</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input id="southAmerica" type="checkbox" class="hidden" tabindex="0">
+                                                <label for="southAmerica" >South America</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input id="subSaharanAfrica" type="checkbox" class="hidden" tabindex="0">
+                                                <label for="subSaharanAfrica" >Sub-Saharan Africa</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field">
+                                            <div class="ui checkbox">
+                                                <input id="global" type="checkbox" class="hidden" tabindex="0">
+                                                <label for="global" >Global</label>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+
+                                <ul ngbNav #nav="ngbNav" [(activeId)]="active"
+                                    class="nav-tabs ui pointing secondary menu ui manageMenuOuter"
+                                    (navChange)="onNavChange($event)">
+                                    <li [ngbNavItem]="1">
+                                        <a ngbNavLink class="item tabAdmin"><span>People</span></a>
+                                        <ng-template ngbNavContent>
+                                            <div class="">
+                                                <div class="ui search searchPeople marginT20 marginB20">
+                                                    <div class="ui fluid icon input">
+                                                        <input class="prompt" type="text" placeholder="Search"
+                                                            autocomplete="off" [(ngModel)]="keyword"
+                                                            (ngModelChange)="doConnectionSearch($event)"
+                                                            [ngModelOptions]="{standalone:true}">
+                                                        <i class="search icon"></i>
+                                                    </div>
+                                                    <div class="results"></div>
+                                                </div>
+                                                <div class="ui three column grid stackable">
+                                                    <div class="column" *ngFor="let userConn of userConnections">
+                                                        <div class="ui fluid card">
+                                                            <div class="content">
+                                                                <!-- <span *ngIf="userConn.isPrivate"
+                                                                    class="ui blue right corner label popupNotes"
+                                                                    data-content="Private Contact">
+                                                                    <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                                                </span> -->
+                                                                <img class="right floated mini ui image circular"
+                                                                    [src]="userConn.profileImage || './assets/img/default_konnect_img.jpg' "
+                                                                    appImageFallback="./assets/img/default_konnect_img.jpg">
+                                                                <div class="header"
+                                                                    (click)="goToUserProfile(userConn.userId,userConn.isPrivate)">
+                                                                    <a>{{userConn.firstName + ' ' +
+                                                                        userConn.lastName}}</a>
+                                                                </div>
+                                                                <div class="meta">
+                                                                    {{userConn.headline || ''}}
+                                                                </div>
+                                                                <div class="description">
+                                                                    {{userConn.email}}<br>
+                                                                    {{userConn.mobile}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="extra content">
+                                                                <div class="ui grid">
+                                                                    <div class="ten wide column">
+                                                                        <div *ngIf="!userConn.isConnected && isExternal===1"
+                                                                            class="ui circular compact mini basic button confirmRemove hasModal active"
+                                                                            data-modal="removeModal"
+                                                                            (click)="addToConnections(userConn?.userId)">
+                                                                            <i class="star icon"></i>Add to
+                                                                            connections
+                                                                        </div>
+                                                                        <div *ngIf="userConn.isConnected && isExternal===0"
+                                                                            class="ui circular compact mini basic button confirmRemove hasModal active"
+                                                                            data-modal="removeModal"
+                                                                            (click)="openRemoveConfirmationBox(userConn?.userId)">
+                                                                            <i class="star icon"></i>Remove from
+                                                                            connections
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="six wide column right aligned"
+                                                                        *ngIf="userConn?.isPrivate && userConn.creatorCompanyId===defaultCompany.id">
+                                                                        <div
+                                                                            class="ui circular compact mini basic icon button editProfileBtn">
+                                                                            <i class="pencil alternate icon"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </li>
+                                    <li [ngbNavItem]="2">
+                                        <a ngbNavLink class="item tabAdmin"><span >Companies</span></a>
+                                        <ng-template ngbNavContent>
+                                            <div class="">
+                                                <div class="ui search searchCompany marginT20 marginB20">
+                                                    <div class="ui fluid icon input">
+                                                        <input class="prompt" type="text" placeholder="Search"
+                                                            autocomplete="off" [(ngModel)]="keyword"
+                                                            (ngModelChange)="doConnectionSearch($event)"
+                                                            [ngModelOptions]="{standalone:true}">
+                                                        <i class="search icon"></i>
+                                                    </div>
+                                                    <div class="results"></div>
+                                                </div>
+                                                <div class="ui three column grid stackable">
+                                                    <div class="column" *ngFor="let cmpConn of companyConnections">
+                                                        <div class="ui fluid card">
+                                                            <div class="content">
+                                                                <!-- <span *ngIf="cmpConn?.isPrivate"
+                                                                    class="ui blue right corner label popupNotes"
+                                                                    data-content="Private Contact">
+                                                                    <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                                                </span> -->
+                                                                <img class="right floated mini ui image circular"
+                                                                    [src]="cmpConn?.companyProfileImage ||'./assets/img/default_konnect_img.jpg'"
+                                                                    appImageFallback="./assets/img/default_konnect_img.jpg" onerror="src='./assets/img/default_konnect_img.jpg'">
+                                                                <div class="header">
+                                                                    <a
+                                                                        (click)="goToCompanyProfile(cmpConn.id, cmpConn.isPrivate, cmpConn.isSeed)">{{cmpConn?.companyName}}</a>
+                                                                </div>
+                                                                <div class="meta">
+                                                                    <a *ngIf="cmpConn?.website" target="_blank"
+                                                                        [href]="cmpConn?.website">
+                                                                        {{cmpConn?.website}}
+                                                                    </a>
+                                                                    <span *ngIf="cmpConn?.website">|</span>
+                                                                    <span class="m-0"><i
+                                                                            class="map marker alternate icon"></i>{{cmpConn?.city}}</span><span>
+                                                                        |</span><i
+                                                                        class="phone icon"></i>{{cmpConn?.phone}}
+                                                                </div>
+                                                                <div class="description">{{cmpConn?.description}}</div>
+                                                            </div>
+                                                            <div class="extra content">
+                                                                <div class="ui grid">
+                                                                    <div class="ten wide column">
+                                                                        <div *ngIf="!cmpConn.isConnected && isExternal===1"
+                                                                            class="ui circular compact mini basic button confirmRemove hasModal active"
+                                                                            data-modal="removeModal"
+                                                                            (click)="addToConnections(cmpConn?.companyId)">
+                                                                            <i class="star icon"></i>Add to connections
+                                                                        </div>
+                                                                        <div *ngIf="cmpConn.isConnected && isExternal===0"
+                                                                            class="ui circular compact mini basic button confirmRemove hasModal active"
+                                                                            data-modal="removeModal"
+                                                                            (click)="openRemoveConfirmationBox(cmpConn?.id)">
+                                                                            <i class="star icon"></i>Remove from
+                                                                            connections
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="six wide column right aligned"
+                                                                        *ngIf="cmpConn?.isPrivate && cmpConn?.creatorCompanyId===defaultCompany.id">
+                                                                        <div
+                                                                            class="ui circular compact mini basic icon button editProfileBtn">
+                                                                            <i class="pencil alternate icon"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </li>
+
+                                </ul>
+
+                                <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

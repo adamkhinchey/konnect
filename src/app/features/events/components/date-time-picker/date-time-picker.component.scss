@@ -1,0 +1,30 @@
+.owl-dt-trigger-disabled{
+  opacity: 1 !important;
+}
+
+input.timeWindowDate::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: black !important;
+  opacity: 1 !important;/* Firefox */
+}
+
+input.timeWindowDate:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: black !important;
+}
+
+input.timeWindowDate::-ms-input-placeholder { /* Microsoft Edge */
+  color: black !important;
+}
+
+.opacity-35{
+  opacity: 0.35 !important;
+}
+
+.shadow-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  top: 22px;
+  width: 0px;
+  height: 0px;
+  border: none;
+}

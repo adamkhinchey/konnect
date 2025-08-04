@@ -1,0 +1,168 @@
+<div class="d-none" [ngClass]="{'tabmenufixedOuter' : true, 'fixedMenu active d-block' : isSticky}" >
+
+  <ul ngbNav #nav="ngbNav"  [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui"
+      (navChange)="navChange($event)">
+      <li [ngbNavItem]="9">
+        <a ngbNavLink class="item tabAdmin">
+          <i  class="info circle icon colorBlack">  </i>
+          <span
+          class="hideMobile">OVERVIEW</span></a>
+        <ng-template ngbNavContent>
+          <ng-content select="[Overview]"></ng-content>
+        </ng-template>
+      </li>
+    <li [ngbNavItem]="1">
+      <a ngbNavLink class="item tabAdmin">
+        <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="20px" > </i>
+        <span
+        class="hideMobile">CLIENT</span></a>
+      <ng-template ngbNavContent>
+        <ng-content select="[client]"></ng-content>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink class="item tabAdmin">
+        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="20px" > </i>
+        <span class="hideMobile">EVENT MANAGER</span></a>
+      <ng-template ngbNavContent>
+        <ng-content select="[eventManager]"></ng-content>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <a ngbNavLink class="item tabAdmin"><i class="map marker alternate icon"></i><span
+        class="hideMobile">VENUE</span></a>
+      <ng-template ngbNavContent>
+        <ng-content select="[venues]"></ng-content>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4">
+      <a ngbNavLink class="item tabAdmin">
+        <i class="truck icon"></i>
+        <span class="hideMobile">SUPPLIERS</span>
+      </a>
+      <ng-template ngbNavContent>
+        <ng-content select="[suppliers]"></ng-content>
+      </ng-template>
+    </li>
+    <!-- <li [ngbNavItem]="5" [disabled]="!eventToBeSaved!.hasExhibitors">
+      <a ngbNavLink class="item tabAdmin"><i class="exhibitor icon" [ngClass]="{disabled:!eventToBeSaved!.hasExhibitors}"></i><span
+        class="hideMobile">EXHIBITORS</span></a>
+      <ng-template ngbNavContent>
+      <ng-content select="[exhibitors]"></ng-content>
+      </ng-template>
+    </li> -->
+    <li [ngbNavItem]="5">
+      <a ngbNavLink class="item tabAdmin"><i class="exhibitor icon"></i><span
+        class="hideMobile">EXHIBITORS</span></a>
+      <ng-template ngbNavContent>
+      <ng-content select="[exhibitors]"></ng-content>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="6">
+      <a ngbNavLink class="item tabAdmin"><i class="file alternate icon"></i><span
+        class="hideMobile">FILES</span></a>
+      <ng-template ngbNavContent>
+        <ng-content select="[eventFiles]"></ng-content>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="8">
+      <a ngbNavLink class="item tabAdmin"><i class="tasks alternate icon"></i><span
+        class="hideMobile">TASKS</span></a>
+      <ng-template ngbNavContent>
+        <ng-content select="[tasks]"></ng-content>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="7">
+      <a ngbNavLink class="item tabAdmin"><i class="clock icon"></i><span
+        class="hideMobile">LOGISTICS</span></a>
+      <ng-template ngbNavContent>
+        <ng-content select="[timeline]"></ng-content>
+      </ng-template>
+    </li>
+  </ul>
+    
+  </div>
+
+
+<ul ngbNav #nav="ngbNav"  [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui"
+    (navChange)="navChange($event)">
+    <li [ngbNavItem]="9">
+      <a ngbNavLink class="item tabAdmin">
+        <i class="info circle icon colorBlack">  </i>
+        <span
+        class="hideMobile">OVERVIEW</span></a>
+      <ng-template ngbNavContent>
+        <ng-content select="[Overview]"></ng-content>
+      </ng-template>
+    </li>
+  <li [ngbNavItem]="1">
+    <a ngbNavLink class="item tabAdmin">
+      <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="20px" > </i>
+      <span
+      class="hideMobile">CLIENT</span></a>
+    <ng-template ngbNavContent>
+      <ng-content select="[client]"></ng-content>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="2">
+    <a ngbNavLink class="item tabAdmin">
+      <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="20px" > </i>
+      <span class="hideMobile">EVENT MANAGER</span></a>
+    <ng-template ngbNavContent>
+      <ng-content select="[eventManager]"></ng-content>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="3">
+    <a ngbNavLink class="item tabAdmin"><i class="map marker alternate icon"></i><span
+      class="hideMobile">VENUE</span></a>
+    <ng-template ngbNavContent>
+      <ng-content select="[venues]"></ng-content>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="4">
+    <a ngbNavLink class="item tabAdmin">
+      <i class="truck icon"></i>
+      <span class="hideMobile">SUPPLIERS</span>
+    </a>
+    <ng-template ngbNavContent>
+      <ng-content select="[suppliers]"></ng-content>
+    </ng-template>
+  </li>
+  <!-- <li [ngbNavItem]="5" [disabled]="!eventToBeSaved!.hasExhibitors">
+    <a ngbNavLink class="item tabAdmin"><i class="exhibitor icon" [ngClass]="{disabled:!eventToBeSaved!.hasExhibitors}"></i><span
+      class="hideMobile">EXHIBITORS</span></a>
+    <ng-template ngbNavContent>
+    <ng-content select="[exhibitors]"></ng-content>
+    </ng-template>
+  </li> -->
+  <li [ngbNavItem]="5">
+    <a ngbNavLink class="item tabAdmin"><i class="exhibitor icon"></i><span
+      class="hideMobile">EXHIBITORS</span></a>
+    <ng-template ngbNavContent>
+    <ng-content select="[exhibitors]"></ng-content>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="6">
+    <a ngbNavLink class="item tabAdmin"><i class="file alternate icon"></i><span
+      class="hideMobile">FILES</span></a>
+    <ng-template ngbNavContent>
+      <ng-content select="[eventFiles]"></ng-content>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="8">
+    <a ngbNavLink class="item tabAdmin"><i class="tasks alternate icon"></i><span
+      class="hideMobile">TASKS</span></a>
+    <ng-template ngbNavContent>
+      <ng-content select="[tasks]"></ng-content>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="7">
+    <a ngbNavLink class="item tabAdmin"><i class="clock icon"></i><span
+      class="hideMobile">LOGISTICS</span></a>
+    <ng-template ngbNavContent>
+      <ng-content select="[timeline]"></ng-content>
+    </ng-template>
+  </li>
+</ul>
+
+<div [ngbNavOutlet]="nav" class="mt-2"></div>

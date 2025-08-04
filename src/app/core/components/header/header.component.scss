@@ -1,0 +1,15 @@
+a.disabled {
+  color: gray;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.aligned-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

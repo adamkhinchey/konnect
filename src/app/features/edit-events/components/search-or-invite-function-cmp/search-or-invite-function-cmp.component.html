@@ -1,0 +1,137 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Search for Company</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closed.emit()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="content">
+
+    <div class="ui grid">
+      <div class="sixteen wide column">
+        <div class="field">
+          <div class="ui search searchCompany">
+            <div class="ui fluid icon input">
+              <input class="prompt" type="text" placeholder="Search" autocomplete="off"
+                     [(ngModel)]="searchKeyWord" (ngModelChange)="searchForCompany()">
+              <i class="search icon"></i>
+            </div>
+            <div [ngClass]="companyList.length>0?'results transition visible':'results transition hidden'"
+                 [style.display]="listDisplayCss" [style.overflowY]="listDisplayOverFlow" [style.maxHeight]="'1300%'">
+              <a class="result" *ngFor="let company of companyList" (click)="selectCompany(company)">
+                <div class="image">
+                  <span *ngIf="company.isVerified == 0 && company.isSeed == 0"
+                                    class="ui blue right corner label popupNotes adjustTri"
+                                    data-content="Private Contact">
+                                    <fa-icon [icon]="addressCardIcon"></fa-icon>
+                                  </span>
+                  <img alt="company profile pic" [src]="company.companyProfileImage"
+                       appImageFallback fallbackImage="assets/img/default_konnect_img.jpg" onerror="src='assets/img/default_konnect_img.jpg'"/>
+                </div>
+                <div class="content">
+                  <div class="title">{{company.companyName}} </div>
+                  <div class="description">{{company.city}}</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sixteen wide column center aligned">
+        <div class="field">
+          <button class="ui button" (click)="emitSelectedAndClose()">Add Selected</button>
+        </div>
+      </div>
+      <div class="sixteen wide column">
+        <p>If you cannot find the company you are searching for they probably do not have a company
+          profile in
+          Konnect. You can create an address book card with details you can use in the event now,
+          and invite them
+          to create a profile by filling out the details below.</p>
+      </div>
+      <div class="sixteen wide column">
+        <h3>Invite New Company</h3>
+        <form class="ui form" [formGroup]="inviteFnCmpForm">
+          <div class="field required">
+            <label>Name</label>
+            <input
+                   type="text"
+                   placeholder="Company Name"
+                   formControlName="companyName"
+                   required>
+            <span
+              *ngIf="inviteFnCmpForm!.get('companyName')?.touched
+          && inviteFnCmpForm!.get('companyName')?.errors?.required"
+              class="text-danger"
+            >Company Name is Required</span>
+          </div>
+          <div class="two fields">
+            <div class="field required">
+              <label>Country</label>
+              <select id="select-profile-country"
+                      formControlName="countryId" required>
+                <option *ngFor="let cntr of countries$ | async" [ngValue]="cntr.val" [disabled]="!cntr.val">
+                  {{ cntr.name }}
+                </option>
+              </select>
+              <span
+                *ngIf="inviteFnCmpForm!.get('countryId')?.touched
+          && (
+          inviteFnCmpForm!.get('countryId')?.hasError('required')
+          )"
+                class="text-danger"
+              >Country is required</span>
+            </div>
+            <div class="field required">
+              <label>City</label>
+              <input type="text" placeholder="City" formControlName="city">
+              <span
+                *ngIf="inviteFnCmpForm!.get('city')?.touched && (
+          inviteFnCmpForm!.get('city')?.hasError('required')
+          )" class="text-danger">City is required</span>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field required">
+              <label>Contact Name</label>
+              <input
+                     type="text"
+                     placeholder="Contact Name"
+                     formControlName="contactName"
+                     required>
+              <span
+                *ngIf="inviteFnCmpForm!.get('contactName')?.touched
+          && inviteFnCmpForm!.get('contactName')?.errors?.required"
+                class="text-danger"
+              >Contact Name is Required</span>
+            </div>
+            <div class="field required">
+              <label>Contact email</label>
+              <input
+                     type="email"
+                     placeholder="Contact Email "
+                     formControlName="contactEmail"
+                     required>
+              <span
+                *ngIf="inviteFnCmpForm!.get('contactEmail')?.touched && (
+          inviteFnCmpForm!.get('contactEmail')?.errors?.required ||
+          inviteFnCmpForm!.get('contactEmail')?.errors?.pattern
+          )"
+                class="text-danger"
+              >A valid contact email is required</span>
+            </div>
+          </div>
+          <div class="ui grid">
+            <div class="sixteen wide column right aligned">
+              <span class="smallText">*compulsory fields</span>
+            </div>
+            <div class="sixteen wide column center aligned paddingT0">
+              <div class="ui button" (click)="validateForm() && emitInvitedAndClose()">Add Company and invite</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>

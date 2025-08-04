@@ -1,0 +1,50 @@
+.alignButton {
+  margin-top: -8px !important;
+}
+.row-col {
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+.task-box {
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 12px;
+}
+.completedLabel{
+  text-decoration: line-through;
+  color: rgba(34, 36, 38, 0.15)!important;
+}
+.checkboxlabel{
+  height: 18px!important;
+}
+
+
+.datedCheckBoxOuter .checkboxlabel{
+  height: 18px!important;
+  float: left;
+}
+.datedDateLabel {
+  display: inline-flex;
+  background: #ededed;
+  padding: 3px 5px;
+  border-radius: 9px;
+  white-space: nowrap;
+}
+
+.datedCheckBoxOuter {
+  align-items: center;
+  display: flex;
+}
+
+@media screen and (max-width:767px) {
+  .triggerEditableOptions.marT-m15 {
+    margin-top: 0px !important;
+  }
+  .supplierInnerCont .nav-link {
+    padding: .5rem 0.6rem;
+  }
+}

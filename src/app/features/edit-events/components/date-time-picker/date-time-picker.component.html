@@ -1,0 +1,12 @@
+<!-- <input #inp class="timeWindowDate" [owlDateTime]="dt1" [min]="minimumDate" [owlDateTimeTrigger]="dt1" [readOnly]="true"
+       [disabled]="true" placeholder="Date Time" (dateTimeChange)="setDateTime($event)" [value]="eventDateTime"
+       [ngClass]="{'opacity-35': freeze}"> -->
+
+<input #inp class="shadow-input" [(ngModel)]="eventDateTime" [owlDateTime]="dt1" [max]="max" [min]="minimumDate" [readOnly]="true" [disabled]="true"
+       placeholder="Date Time" (dateTimeChange)="setDateTime($event)">
+       
+<input type="text"class="timeWindowDate" [owlDateTimeTrigger]="dt1" [readOnly]="true" [disabled]="true"
+       placeholder="Date Time" (dateTimeChange)="setDateTime($event)"
+       [value]="eventDateTime | dateFilter: 'dd/MM/yyyy, h:mm a'" [ngClass]="{'opacity-35': freeze}">
+
+<owl-date-time #dt1 [disabled]="freeze || !isEdit"></owl-date-time>

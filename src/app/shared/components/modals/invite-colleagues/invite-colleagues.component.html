@@ -1,0 +1,72 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Invite Colleague</h4>
+    <button type="button" class="close" aria-label="Close" (click)="onCancel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="content">
+      <form class="ui form" [formGroup]="inviteColleagueForm!">
+        <div class="ui grid">
+          <div class="sixteen wide column">
+            <div class="two fields">
+              <div class="field required">
+                <label>Name</label>
+                <input type="text" placeholder="Name" formControlName="name">
+                <span class="text-danger" *ngIf="inviteColleagueForm?.get('name')?.touched &&
+                inviteColleagueForm?.get('name')?.errors?.required">
+                  Name is required
+                </span>
+              </div>
+              <div class="field required">
+                <label>Email</label>
+                <input type="text" placeholder="Email" formControlName="email">
+                <span class="text-danger" *ngIf="inviteColleagueForm?.get('email')?.touched &&
+                (inviteColleagueForm?.get('email')?.errors?.email || inviteColleagueForm?.get('email')?.errors?.required)">
+                  A valid email address is required
+                </span>
+                <span *ngIf="inviteColleagueForm!.get('email')?.touched
+                && (
+                  inviteColleagueForm!.get('email')?.hasError('pattern')
+                )" class="text-danger">Invalid email</span>
+              </div>
+            </div>
+            <div class="field required">
+              <label>Position</label>
+              <input type="text" placeholder="Position" formControlName="position">
+              <span class="text-danger" *ngIf="inviteColleagueForm?.get('position')?.touched &&
+              inviteColleagueForm?.get('position')?.errors?.required">
+                  Position is required
+                </span>
+            </div>
+            <div class="field">
+              <label>Message</label>
+              <div class="editableArea">
+                <p>Hi {{inviteColleagueForm?.get('name')?.valueChanges | async}},</p>
+                <p>{{inviterName}} would like to invite you to join the company, {{companyName}} on the Konnect Platform to
+                  assist manage and deliver events.</p>
+                <p>To accept the invite and create a profile use the URL below:</p>
+                <p><a disabled>{{siteUrl}}/create-konnect-profile/{{inviteUID}}</a>
+                </p>
+                <p>Regards<br>Konnect</p>
+              </div>
+            </div>
+            <div class="field">
+              <p>People that you invite as colleagues will be able to see, access and edit any
+                event related to this company.</p>
+              <p>If you want to add an external person to assist with a specific event you can
+                do so by adding them as crew during the event set up process.</p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="sixteen wide column right aligned">
+      <div class="ui button basic blue negative" (click)="onCancel()">Cancel</div>
+      <div class="ui button positive ml-2" (click)="checkValidity() && onConfirm()">Send</div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,1658 @@
+<!-- <div class="infoBar">
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="eleven wide column middle aligned">
+
+            </div>
+            <div class="five wide column right aligned saveButtons hideMobile">
+                <a href="CE-08.html" class="ui button">Save</a>
+            </div>
+            <div class="five wide column right aligned saveButtons visibleMobile">
+                <a href="CE-08.html" class="ui button icon"><i class="save icon"></i></a>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="mainContent">
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="eleven wide column middle aligned topinfoOuterMar" *ngIf="data.commonData">
+                <div class="eventInfo"><b>{{data.commonData.title}}</b> for <span>{{data.commonData.clientCompanyName}}</span> {{data.commonData.eventStartDate | date:'dd-MMMM-yyyy'}}</div>
+            </div>
+            <div class="sixteen wide column maxWidth">
+                <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs ui pointing secondary menu ui"
+                    (navChange)="onNavChange($event)">
+                    <li [ngbNavItem]="1">
+                        <a ngbNavLink class="item tabAdmin"><i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="18px" > </i><span
+                                class="hideMobile">CLIENT</span></a>
+                        <ng-template ngbNavContent>
+                            <div class="ui segment" *ngIf="data.eventData && data.eventData.client && active == 1">
+                                <form class="ui form">
+                                    <div class="ui grid stackable">
+                                        <div class="seven wide column">
+                                            <div class="companyContainer marginB20">
+                                                <div class="field checkboxOnHeader">
+                                                    <div class="ui dividing header">
+                                                        <h3>Client Company <i class="globe icon"></i></h3>
+                                                    </div>
+                                                    <div class="ui checkbox">
+                                                        <input type="checkbox" class="hidden"
+                                                            [checked]="data.eventData.client.isOwnCompany"
+                                                            tabindex="0">
+                                                        <label>My company</label>
+                                                    </div>
+                                                </div>
+                                                <div class="kcpCardContainer">
+                                                    <div class="ui one column grid">
+                                                        <div class="column">
+                                                            <div class="ui fluid card">
+                                                                <div class="content">
+                                                                    <img class="right floated mini ui image"
+                                                                        [src]="data.eventData.client.clientCompanyProfileImage"
+                                                                        appImageFallback
+                                                                        fallbackImage="../../assets/img/default_konnect_img.jpg">
+                                                                    <div class="header">
+                                                                        <a href="/VCP.html"
+                                                                            target="_blank">{{data.eventData.client.clientCompanyName}}</a>
+                                                                    </div>
+                                                                    <div class="meta">
+                                                                        <a href="https://goo.gl/maps/n4DPECjGtgno53FL9"
+                                                                            target="_blank"><i
+                                                                                class="map marker alternate icon"></i>{{data.eventData.client.clientCompanyCity}}</a><span>|</span><i
+                                                                            class="phone icon"></i>{{data.eventData.client.clientCompanyPhone}}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="extra content editableObject"
+                                                                    *ngIf="isClientEdit">
+                                                                    <div class="ui grid">
+                                                                        <div class="eight wide column">
+
+                                                                        </div>
+                                                                        <div class="eight wide column right aligned">
+                                                                            <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                data-modal="removeModal"><i
+                                                                                    class="trash alternate icon"></i>Remove
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="contactsContainer">
+                                                <div class="ui dividing header">
+                                                    <h3>Client Contacts <i class="globe icon"></i></h3>
+                                                </div>
+                                                <div class="kipCardContainer">
+                                                    <div class="ui one column grid stackable">
+                                                        <div class="column"
+                                                            *ngFor="let contact of data.eventData.client.contacts">
+                                                            <div class="contactRole">{{contact.contactRole}} <div
+                                                                    class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive hasModal"
+                                                                    data-modal="editProfile"><i
+                                                                        class="pencil alternate icon"></i></div>
+                                                            </div>
+                                                            <div class="ui fluid card">
+                                                                <div class="content">
+                                                                    <img class="right floated mini ui image"
+                                                                        [src]="contact.profileImage" appImageFallback
+                                                                        fallbackImage="../../assets/img/default_konnect_individual_img.jpg">
+                                                                    <div class="header">
+                                                                        <a href="/VPP.html"
+                                                                            target="_blank">{{contact.firstName}}</a>
+                                                                    </div>
+                                                                    <div class="meta">
+                                                                        {{contact.contactPosition}}
+                                                                    </div>
+                                                                    <div class="description">
+                                                                        {{contact.email}}<br>
+                                                                        {{contact.mobile}}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="extra content editableObject"
+                                                                    *ngIf="isClientEdit">
+                                                                    <div class="ui grid">
+                                                                        <div class="eight wide column">
+
+                                                                        </div>
+                                                                        <div class="eight wide column right aligned">
+                                                                            <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                data-modal="removeModal"><i
+                                                                                    class="trash alternate icon"></i>Remove
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="ui grid stackable center aligned" *ngIf="isClientEdit">
+                                                    <div class="sixteen wide column">
+                                                        <div class="ui basic button blue fluid hasModal editableObject"
+                                                            data-modal="contacts" (click)="addContactModal(searchInviteFnCmpCntModal)">
+                                                            <i class="plus circle icon"></i>Add Contact
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="nine wide column">
+                                            <div class="ui dividing header">
+                                                <h3>Event Details <i class="globe icon"></i></h3>
+                                            </div>
+                                            <div class="field required">
+                                                <label>Event Title</label>
+                                                <div class="field editable">
+                                                    <input type="text" [readonly]="!isClientEdit"
+                                                        value="{{data.eventData.title}}">
+                                                </div>
+                                            </div>
+                                            <div class="field editable">
+                                                <label>Event Description</label>
+                                                <textarea type="text" rows="3" class="textarea"
+                                                    [readonly]="!isClientEdit">
+                                                    {{data.eventData.description}}
+                                                </textarea>
+                                            </div>
+                                            <div class="field">
+                                                <div class="ui toggle checkbox toggleOnColumn">
+                                                    <input type="checkbox" class="hidden" tabindex="0" id="toggle1"
+                                                        [checked]="data.eventData.hasExhibitors">
+                                                    <label for="toggle1">Event has exhibitors</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="sixteen wide column saveButtons paddingT0">
+                                            <div class="ui divider"></div>
+                                            <div class="ui grid stackable">
+                                                <div class="ten wide column middle aligned">
+                                                    <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                        data-modal="removeModal"
+                                                        (click)="deleteEvent(data.eventData.eventId)"><i
+                                                            class="trash alternate icon"></i>Delete Event</div>
+                                                    &nbsp;&nbsp;&nbsp;Event created by
+                                                    {{data.eventData.creatorCompanyName}},
+                                                    {{data.eventData.eventCreatedDate | date:'dd-MM-yyyy'}}
+                                                    {{data.eventData.eventCreatedDate | date:'hh:mm'}}
+                                                </div>
+                                                <div class="six wide column right aligned hideMobile">
+                                                    <!-- <div class="ui button basic blue icon"><i class="file pdf icon"></i>
+                                                    </div> -->
+                                                    <div *ngIf="!isClientEdit"
+                                                        class="ui button triggerEditableOptions ml-3"
+                                                        (click)="editClientEvent()">Edit</div>
+                                                    <div class="ui button hasModal saveActions ml-3"
+                                                        data-modal="inviteModal" *ngIf="isClientEdit">Save &amp; Invite
+                                                    </div>
+                                                </div>
+                                                <div class="six wide column right aligned visibleMobile">
+                                                    <!-- <div class="ui button basic blue icon downloadPDF halfWidth"><i
+                                                            class="file pdf icon"></i></div> -->
+                                                    <div *ngIf="!isClientEdit"
+                                                        class="ui button triggerEditableOptions halfWidth ml-3"
+                                                        (click)="editClientEvent()">Edit
+                                                    </div>
+                                                    <div class="ui button hasModal saveActions halfWidth ml-3"
+                                                        data-modal="inviteModal" *ngIf="isClientEdit">Save &amp; Invite
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2">
+                        <a ngbNavLink class="item tabAdmin"><i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="18px" > </i><span class="hideMobile">EVENT
+                                MANAGER</span></a>
+                        <ng-template ngbNavContent>
+                            <div class="ui segment" *ngIf="data.eventData && data.eventData.eventManager && active == 2">
+                                <form class="ui form">
+                                    <div class="ui grid stackable">
+                                        <div class="seven wide column">
+                                            <div class="companyContainer marginB20">
+                                                <div class="field checkboxOnHeader">
+                                                    <div class="ui dividing header">
+                                                        <h3>Event Management Company <i class="icon globe"></i></h3>
+                                                    </div>
+                                                    <div class="ui checkbox">
+                                                        <input type="checkbox" class="hidden" tabindex="0"
+                                                            [checked]="data.eventData.eventManager.isOwnCompany">
+                                                        <label>My company</label>
+                                                    </div>
+                                                </div>
+                                                <div class="kcpCardContainer">
+                                                    <div class="ui one column grid">
+                                                        <div class="column">
+                                                            <div class="ui fluid card">
+                                                                <div class="content">
+                                                                    <img class="right floated mini ui image"
+                                                                        [src]="data.eventData.eventManager.emCompanyProfileImage"
+                                                                        appImageFallback
+                                                                        fallbackImage="../../assets/img/default_konnect_img.jpg">
+                                                                    <div class="header">
+                                                                        <a href="/VCP.html"
+                                                                            target="_blank">{{data.eventData.eventManager.emCompanyName}}</a>
+                                                                    </div>
+                                                                    <div class="meta">
+                                                                        <a href="https://goo.gl/maps/n4DPECjGtgno53FL9"
+                                                                            target="_blank"><i
+                                                                                class="map marker alternate icon"></i>{{data.eventData.eventManager.emCompanyCity}}</a><span>|</span><i
+                                                                            class="phone icon"></i>{{data.eventData.eventManager.emCompanyPhone}}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="extra content editableObject"
+                                                                    *ngIf="isEventEdit">
+                                                                    <div class="ui grid">
+                                                                        <div class="eight wide column">
+
+                                                                        </div>
+                                                                        <div class="eight wide column right aligned">
+                                                                            <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                data-modal="removeModal"><i
+                                                                                    class="trash alternate icon"></i>Remove
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="contactsContainer">
+                                                <div class="ui dividing header">
+                                                    <h3>Event Management Contacts <i class="icon globe"></i></h3>
+                                                </div>
+                                                <div class="kipCardContainer">
+                                                    <div class="ui one column grid stackable">
+                                                        <div class="column"
+                                                            *ngFor="let contactManager of data.eventData.eventManager.contacts">
+                                                            <div class="contactRole">{{contactManager.contactRole}} <div
+                                                                    class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive hasModal"
+                                                                    data-modal="editProfile"><i
+                                                                        class="pencil alternate icon"></i></div>
+                                                            </div>
+                                                            <div class="ui fluid card">
+                                                                <div class="content">
+                                                                    <img class="right floated mini ui image"
+                                                                        [src]="contactManager.profileImage"
+                                                                        appImageFallback
+                                                                        fallbackImage="../../assets/img/default_konnect_individual_img.jpg">
+                                                                    <div class="header">
+                                                                        <a href="/VPP.html"
+                                                                            target="_blank">{{contactManager.firstName}}</a>
+                                                                    </div>
+                                                                    <div class="meta">
+                                                                        {{contactManager.contactPosition}}
+                                                                    </div>
+                                                                    <div class="description">
+                                                                        {{contactManager.email}}<br>
+                                                                        {{contactManager.mobile}}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="extra content editableObject"
+                                                                    *ngIf="isEventEdit">
+                                                                    <div class="ui grid">
+                                                                        <div class="eight wide column">
+
+                                                                        </div>
+                                                                        <div class="eight wide column right aligned">
+                                                                            <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                data-modal="removeModal"><i
+                                                                                    class="trash alternate icon"></i>Remove
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="ui grid stackable center aligned" *ngIf="isEventEdit">
+                                                    <div class="sixteen wide column">
+                                                        <div class="ui basic button blue fluid hasModal editableObject"
+                                                            data-modal="contacts">
+                                                            <i class="plus circle icon"></i>Add Contact
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="nine wide column">
+                                            <div class="ui dividing header">
+                                                <h3>Event Management Requirements <i class="icon globe"></i></h3>
+                                            </div>
+                                            <div class="field disabled">
+                                                <div class="textarea" contenteditable="">
+                                                    {{data.eventData.eventManager?.requirements}}
+                                                </div>
+                                            </div>
+                                            <div class="ui dividing header">
+                                                <h3>Event Management Internal Notes <i class="building icon"></i></h3>
+                                            </div>
+                                            <div class="field disabled editable">
+                                                <div class="textarea" contenteditable="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="sixteen wide column saveButtons paddingT0">
+                                            <div class="ui divider"></div>
+                                            <div class="ui grid stackable">
+                                                <div class="sixteen wide column right aligned hideMobile">
+                                                    <!-- <div class="ui button basic blue icon"><i class="file pdf icon"></i>
+                                                    </div> -->
+                                                    <div class="ui button triggerEditableOptions ml-3"
+                                                        *ngIf="!isEventEdit" (click)="editEventManager()">Edit</div>
+                                                    <div class="ui button hasModal saveActions ml-3"
+                                                        data-modal="inviteModal" *ngIf="isEventEdit">Save &amp; Invite
+                                                    </div>
+                                                </div>
+                                                <div class="six wide column right aligned visibleMobile">
+                                                    <!-- <div class="ui button basic blue icon downloadPDF halfWidth"><i
+                                                            class="file pdf icon"></i></div> -->
+                                                    <div class="ui button triggerEditableOptions halfWidth ml-3"
+                                                        *ngIf="!isEventEdit" (click)="editEventManager()">Edit
+                                                    </div>
+                                                    <div class="ui button hasModal saveActions halfWidth ml-3"
+                                                        *ngIf="isEventEdit" data-modal="inviteModal">Save &amp; Invite
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3">
+                        <a ngbNavLink class="item tabAdmin"><i class="map marker alternate icon"></i><span
+                                class="hideMobile">VENUE</span></a>
+                        <ng-template ngbNavContent>
+                            <div class="ui segment"
+                                *ngIf="data.eventData && data.eventData.venues && data.eventData.venues.length && !isExhibitorEdit && active == 3; else noVenue;">
+                                <form class="ui form">
+                                    <div class="ui grid">
+                                        <div class="sixteen wide column">
+                                            <div class="companyContainer marginB20">
+                                                <div class="ui dividing header">
+                                                    <h3>Notes to All Venues <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                            class="map marker alternate icon"></i></h3>
+                                                </div>
+                                                <div class="field">
+                                                    <div *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
+                                                        class="textarea" contenteditable="">
+                                                        {{data.eventData?.venues[0]?.venueNotesToAll}}
+                                                    </div>
+                                                    <ng-template #no_access>No access</ng-template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="ui grid">
+                                    <div class="sixteen wide column">
+                                        <div class="marginT10"></div>
+
+                                        <h3 id="venuesAnchor" class="ui dividing header">Venues </h3>
+                                        <div class="ui styled fluid accordion parentAccordion parentAccordionVenue"
+                                            *ngFor="let venue of data.eventData.venues; let idx=index;">
+
+
+                                            <ngb-accordion [closeOthers]="true" activeIds="static-1">
+
+
+                                                <ngb-panel id="static-1">
+                                                    <ng-template ngbPanelTitle>
+                                                        <i class="dropdown icon"></i>Venue {{idx+1}}
+                                                        <div class="ui selection dropdown float-right" tabindex="0">
+                                                            <div class="text"><i class="ui icon circle yellow"></i>None
+                                                                Allocated</div>
+                                                            <div class="menu" tabindex="-1"></div>
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template ngbPanelContent>
+                                                        <div class="content active">
+                                                            <form class="ui form visible"
+                                                                style="display: block !important;">
+                                                                <div class="ui grid stackable">
+                                                                    <div class="seven wide column">
+                                                                        <div class="companyContainer marginB20">
+                                                                            <div class="ui dividing header">
+                                                                                <h3>Venue Company <i
+                                                                                        class="globe icon"></i></h3>
+                                                                            </div>
+                                                                            <div class="kcpCardContainer">
+                                                                                <div class="ui one column grid">
+                                                                                    <div class="column">
+                                                                                        <div class="ui fluid card">
+                                                                                            <div class="content">
+                                                                                                <img class="right floated mini ui image"
+                                                                                                    [src]="venue.companyProfileImage"
+                                                                                                    appImageFallback
+                                                                                                    fallbackImage="../../assets/img/default_konnect_img.jpg" onerror="src='../../assets/img/default_konnect_img.jpg'">
+                                                                                                <div class="header">
+                                                                                                    <a href="/VCP.html"
+                                                                                                        target="_blank">{{venue.venueCompanyName}}</a>
+                                                                                                </div>
+                                                                                                <div class="meta">
+                                                                                                    <a href="https://goo.gl/maps/n4DPECjGtgno53FL9"
+                                                                                                        target="_blank"><i
+                                                                                                            class="map marker alternate icon"></i>{{venue.companyCity}}</a><span>|</span><i
+                                                                                                        class="phone icon"></i>{{venue.companyPhone}}
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="extra content editableObject"
+                                                                                                *ngIf="isVenueEdit">
+                                                                                                <div class="ui grid">
+                                                                                                    <div
+                                                                                                        class="ten wide column">
+
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="six wide column right aligned">
+                                                                                                        <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                                            data-modal="removeModal">
+                                                                                                            <i
+                                                                                                                class="trash alternate icon"></i>Remove
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="contactsContainer">
+                                                                            <div class="ui dividing header">
+                                                                                <h3>Venue Contacts<i
+                                                                                        class="globe icon"></i></h3>
+                                                                            </div>
+                                                                            <div class="kipCardContainer">
+                                                                                <div
+                                                                                    class="ui one column grid stackable">
+                                                                                    <div class="column"
+                                                                                        *ngFor="let contact of venue.contacts">
+                                                                                        <div class="contactRole">
+                                                                                            {{contact.contactRole}} <div
+                                                                                                class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive hasModal"
+                                                                                                data-modal="editProfile">
+                                                                                                <i
+                                                                                                    class="pencil alternate icon"></i>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="ui fluid card">
+                                                                                            <div class="content">
+                                                                                                <img class="right floated mini ui image"
+                                                                                                    [src]="contact.profileImage"
+                                                                                                    appImageFallback
+                                                                                                    fallbackImage="../../assets/img/default_konnect_individual_img.jpg">
+                                                                                                <div class="header">
+                                                                                                    <a href="/VPP.html"
+                                                                                                        target="_blank">{{contact.firstName}}</a>
+                                                                                                </div>
+                                                                                                <div class="meta">
+                                                                                                    {{contact.contactPosition}}
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    class="description">
+                                                                                                    {{contact.email}}<br>
+                                                                                                    {{contact.mobile}}
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="extra content editableObject"
+                                                                                                *ngIf="isVenueEdit">
+                                                                                                <div class="ui grid">
+                                                                                                    <div
+                                                                                                        class="eight wide column">
+
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="eight wide column right aligned">
+                                                                                                        <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                                            data-modal="removeModal">
+                                                                                                            <i
+                                                                                                                class="trash alternate icon"></i>Remove
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="ui grid stackable center aligned"
+                                                                                *ngIf="isVenueEdit">
+                                                                                <div class="sixteen wide column">
+                                                                                    <div class="ui basic button blue fluid hasModal editableObject"
+                                                                                        data-modal="contacts">
+                                                                                        <i
+                                                                                            class="plus circle icon"></i>Add
+                                                                                        Contact
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="nine wide column">
+                                                                        <div class="field">
+                                                                            <div class="timeWindowsContainer">
+                                                                                <div class="ui dividing header">
+                                                                                    <h3>Venue Time Windows <i
+                                                                                            class="globe icon"></i></h3>
+                                                                                </div>
+                                                                                <app-time-windows
+                                                                                    [windowLabels]="['Pre Event Access', 'Event Time', 'Post Event Access']"
+                                                                                    [index]="idx"
+                                                                                    [preEventTimes]="venue.preEventTime"
+                                                                                    [postEventTimes]="venue.postEventTime"
+                                                                                    [eventTimes]="venue.eventTime"
+                                                                                    [preEventTimesCount]="venue?.preEventTime?.length || 1"
+                                                                                    [eventTimesCount]="venue?.eventTime?.length || 1"
+                                                                                    [postEventTimesCount]="venue?.postEventTime?.length || 1"
+                                                                                    [eventView]="true"
+                                                                                    [preEventNotes]="venue.preEventTime[idx]?.notes"
+                                                                                    [eventNotes]="venue.eventTime[idx]?.notes"
+                                                                                    [postEventNotes]="venue.postEventTime[idx]?.notes">
+                                                                                </app-time-windows>
+
+
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="ui dividing header">
+                                                                            <h3>Venue Requirements <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                    class="map marker alternate icon"></i>
+                                                                            </h3>
+                                                                        </div>
+                                                                        <div class="field">
+                                                                            <div *ngIf="permissionObj.isCrew || permissionObj.isClient || permissionObj.isEventManager || permissionObj.isVenue; else no_access"
+                                                                                class="textarea" contenteditable="">
+                                                                                {{venue.venueRequirements}}
+                                                                            </div>
+                                                                            <ng-template #no_access>No access
+                                                                            </ng-template>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div
+                                                                        class="sixteen wide column saveButtons paddingT0">
+                                                                        <div class="ui divider"></div>
+                                                                        <div class="ui grid stackable">
+                                                                            <div class="ten wide column middle aligned">
+                                                                                <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                    data-modal="removeModal"><i
+                                                                                        class="trash alternate icon"></i>Remove
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="six wide column right aligned hideMobile">
+                                                                                <!-- <div class="ui button basic blue icon">
+                                                                                    <i class="file pdf icon"></i>
+                                                                                </div> -->
+                                                                                <div *ngIf="!isVenueEdit"
+                                                                                    class="ui button triggerEditableOptions ml-3"
+                                                                                    (click)="editVenue()">Edit
+                                                                                </div>
+                                                                                <div class="ui button hasModal saveActions ml-3"
+                                                                                    data-modal="inviteModal"
+                                                                                    *ngIf="isVenueEdit">Save &amp;
+                                                                                    Invite
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="six wide column right aligned visibleMobile">
+                                                                                <!-- <div
+                                                                                    class="ui button basic blue icon downloadPDF halfWidth">
+                                                                                    <i class="file pdf icon"></i>
+                                                                                </div> -->
+                                                                                <div *ngIf="!isVenueEdit"
+                                                                                    class="ui button triggerEditableOptions halfWidth ml-3"
+                                                                                    (click)="editVenue()">Edit
+                                                                                </div>
+                                                                                <div class="ui button hasModal saveActions halfWidth ml-3"
+                                                                                    data-modal="inviteModal"
+                                                                                    *ngIf="isVenueEdit">Save &amp;
+                                                                                    Invite
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </ng-template>
+                                                </ngb-panel>
+
+
+                                            </ngb-accordion>
+
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-template #noVenue>
+                                Venues are not persent for this event
+                            </ng-template>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="4">
+                        <a ngbNavLink class="item tabAdmin"><i class="truck icon"></i><span
+                                class="hideMobile">SUPPLIERS</span></a>
+
+                        <ng-template ngbNavContent>
+                            <div class="ui segment"
+                                *ngIf="data.eventData && data.eventData.venues && data.eventData.venues.length && (data.eventData.venues[0].services && active == 4); else noServices;">
+                                <ul ngbNav #nav="ngbNav" class="nav-tabs supplierInnerCont">
+                                    <li ngbNavItem *ngFor="let venueSrvice of data.eventData.venues">
+                                        <a ngbNavLink><i class="map marker alternate icon"></i>
+                                            {{venueSrvice.venueCompanyName}}, {{venueSrvice.companyCity}}</a>
+                                        <ng-template ngbNavContent>
+                                            <form class="ui form">
+                                                <div class="ui grid stackable">
+                                                    <div class="sixteen wide column">
+                                                        <div class="companyContainer marginB20">
+                                                            <div class="ui dividing header">
+                                                                <h3>Notes to All Suppliers <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                        class="truck icon"></i></h3>
+                                                            </div>
+                                                            <div class="field">
+                                                                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  permissionObj.isService; else no_access"
+                                                                    class="textarea" contenteditable="">
+                                                                    {{venueSrvice.services[0]?.notes}}
+                                                                </div>
+                                                                <ng-template #no_access>No access</ng-template>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            <div class="ui grid">
+                                                <div class="sixteen wide column">
+                                                    <div class="marginT10"></div>
+
+                                                    <h3 id="servicesAnchor" class="ui dividing header">Services</h3>
+                                                </div>
+                                            </div>
+                                            <div class="marginT10"></div>
+                                            <div class="ui styled fluid accordion parentAccordion parentAccordionVenue"
+                                                *ngFor="let service of venueSrvice.services; let idx=index;">
+
+
+                                                <ngb-accordion [closeOthers]="true" activeIds="static-1">
+
+
+                                                    <ngb-panel id="static-1">
+                                                        <ng-template ngbPanelTitle>
+                                                            <i class="dropdown icon"></i>Service {{idx+1}}
+                                                            <div class="ui selection dropdown" tabindex="0">
+                                                                <div class="text"><i
+                                                                        class="ui icon circle green"></i>Confirmed</div>
+                                                                <div class="menu" tabindex="-1"></div>
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template ngbPanelContent>
+                                                            <div class="content active">
+                                                                <form class="ui form visible"
+                                                                    style="display: block !important;">
+                                                                    <div class="ui grid stackable">
+
+                                                                        <div class="seven wide column">
+                                                                            <div class="companyContainer marginB20">
+                                                                                <div class="ui dividing header">
+                                                                                    <h3>Service Name <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                            class="building icon"></i>
+                                                                                    </h3>
+                                                                                </div>
+                                                                                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || service.isViewPermisssion == 1; else no_access"
+                                                                                    class="field disabled editable">
+                                                                                    <input type="text"
+                                                                                        value="{{service.serviceName}}">
+                                                                                </div>
+                                                                                <ng-template #no_access>No access
+                                                                                </ng-template>
+                                                                                <div class="ui dividing header">
+                                                                                    <h3>Supplier Company <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                            class="building icon"></i>
+                                                                                    </h3>
+                                                                                </div>
+                                                                                <div class="kcpCardContainer">
+                                                                                    <div class="ui one column grid">
+                                                                                        <div class="column">
+                                                                                            <div *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service.isViewPermisssion==1; else no_access"
+                                                                                                class="ui fluid card">
+                                                                                                <div class="content">
+                                                                                                    <img class="right floated mini ui image"
+                                                                                                        [src]="service.companyProfileImage"
+                                                                                                        appImageFallback
+                                                                                                        fallbackImage="../../assets/img/default_konnect_img.jpg" onerror="src='../../assets/img/default_konnect_img.jpg'">
+                                                                                                    <div class="header">
+                                                                                                        <a href="/VCP.html"
+                                                                                                            target="_blank">{{service.serviceCompanyName}}</a>
+                                                                                                    </div>
+                                                                                                    <div class="meta">
+                                                                                                        <a href="https://goo.gl/maps/n4DPECjGtgno53FL9"
+                                                                                                            target="_blank"><i
+                                                                                                                class="map marker alternate icon"></i>{{service.companyCity}}</a><span>|</span><i
+                                                                                                            class="phone icon"></i>{{service.companyPhone}}
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="extra content editableObject"
+                                                                                                    *ngIf="isSupplierEdit">
+                                                                                                    <div
+                                                                                                        class="ui grid">
+                                                                                                        <div
+                                                                                                            class="eight wide column">
+
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="eight wide column right aligned">
+                                                                                                            <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                                                data-modal="removeModal">
+                                                                                                                <i
+                                                                                                                    class="trash alternate icon"></i>Remove
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <ng-template #no_access>No
+                                                                                                access</ng-template>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="contactsContainer">
+                                                                                <div class="ui dividing header">
+                                                                                    <h3>Supplier Contacts <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                            class="building icon"></i>
+                                                                                    </h3>
+                                                                                </div>
+                                                                                <div class="kipCardContainer">
+                                                                                    <div *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service.isViewPermisssion==1; else no_access"
+                                                                                        class="ui one column grid stackable">
+                                                                                        <div class="column"
+                                                                                            *ngFor="let contact of service.contacts">
+                                                                                            <div
+                                                                                                class="sixteen wide column">
+                                                                                                {{contact.contactRole}}<button
+                                                                                                    class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive"><i
+                                                                                                        class="pencil alternate icon"></i></button>
+                                                                                            </div>
+                                                                                            <div class="ui fluid card">
+                                                                                                <div class="content">
+                                                                                                    <img class="right floated mini ui image"
+                                                                                                        [src]="contact.profileImage"
+                                                                                                        appImageFallback
+                                                                                                        fallbackImage="../../assets/img/default_konnect_individual_img.jpg">
+                                                                                                    <div class="header">
+                                                                                                        <a href="/VPP.html"
+                                                                                                            target="_blank">{{contact.firstName}}</a>
+                                                                                                    </div>
+                                                                                                    <div class="meta">
+                                                                                                        {{contact.contactPosition}}
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                        class="description">
+                                                                                                        {{contact.email}}<br>
+                                                                                                        {{contact.mobile}}
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="extra content editableObject"
+                                                                                                    *ngIf="isSupplierEdit">
+                                                                                                    <div
+                                                                                                        class="ui grid">
+                                                                                                        <div
+                                                                                                            class="eight wide column">
+
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="eight wide column right aligned">
+                                                                                                            <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                                                data-modal="removeModal">
+                                                                                                                <i
+                                                                                                                    class="trash alternate icon"></i>Remove
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                    <ng-template #no_access>No access
+                                                                                    </ng-template>
+                                                                                </div>
+                                                                                <div class="ui grid stackable center aligned"
+                                                                                    *ngIf="isSupplierEdit">
+                                                                                    <div class="sixteen wide column">
+                                                                                        <div class="ui basic button blue fluid hasModal editableObject"
+                                                                                            data-modal="contacts">
+                                                                                            <i
+                                                                                                class="plus circle icon"></i>Add
+                                                                                            Contact
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="nine wide column">
+                                                                            <div class="field">
+                                                                                <div class="timeWindowsContainer">
+                                                                            <div class="ui dividing header">
+                                                                                <h3>Service Requirements <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                        class="building icon"></i></h3>
+                                                                            </div>
+                                                                            <div class="field">
+                                                                                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service.isViewPermisssion==1; else no_access"
+                                                                                    class="textarea" contenteditable="">
+                                                                                    {{service.serviceRequirements}}
+                                                                                </div>
+                                                                                <ng-template #no_access>No access
+                                                                                </ng-template>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                            <div class="field">
+                                                                                <div class="timeWindowsContainer">
+                                                                                    <div class="ui dividing header">
+                                                                                        <h3>Supplier Time Windows <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                                class="building icon"></i>
+                                                                                        </h3>
+                                                                                    </div>
+
+                                                                                    <app-time-windows
+                                                                                        *ngIf="permissionObj.isClient || permissionObj.isEventManager ||  service.isViewPermisssion==1; else no_access"
+                                                                                        [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
+                                                                                        [index]="idx"
+                                                                                        [preEventTimes]="service.preEventTime"
+                                                                                        [postEventTimes]="service.postEventTime"
+                                                                                        [eventTimes]="service.eventTime"
+                                                                                        [preEventTimesCount]="service?.preEventTime?.length || 1"
+                                                                                        [eventTimesCount]="service?.eventTime?.length || 1"
+                                                                                        [postEventTimesCount]="service?.postEventTime?.length || 1"
+                                                                                        [eventView]="true"
+                                                                                        [preEventNotes]="service.preEventTime[idx]?.notes"
+                                                                                        [eventNotes]="service.eventTime[idx]?.notes"
+                                                                                        [postEventNotes]="service.postEventTime[idx]?.notes">
+                                                                                    </app-time-windows>
+
+                                                                                    <ng-template #no_access>No access
+                                                                                    </ng-template>
+ </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div
+                                                                        class="sixteen wide column saveButtons paddingT0">
+                                                                        <div class="ui divider"></div>
+                                                                        <div class="ui grid stackable">
+                                                                            <div class="ten wide column middle aligned">
+                                                                                <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                    data-modal="removeModal"><i
+                                                                                        class="trash alternate icon"></i>Remove
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="six wide column right aligned hideMobile">
+                                                                                <!-- <div class="ui button basic blue icon">
+                                                                                    <i class="file pdf icon"></i>
+                                                                                </div> -->
+                                                                                <div *ngIf="!isSupplierEdit"
+                                                                                    class="ui button triggerEditableOptions ml-3"
+                                                                                    (click)="editSupplier()">Edit
+                                                                                </div>
+                                                                                <div class="ui button hasModal saveActions ml-3"
+                                                                                    data-modal="inviteModal"
+                                                                                    *ngIf="isSupplierEdit">Save &amp;
+                                                                                    Invite
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="six wide column right aligned visibleMobile">
+                                                                                <!-- <div
+                                                                                    class="ui button basic blue icon downloadPDF halfWidth">
+                                                                                    <i class="file pdf icon"></i>
+                                                                                </div> -->
+                                                                                <div *ngIf="!isSupplierEdit"
+                                                                                    class="ui button triggerEditableOptions halfWidth ml-3"
+                                                                                    (click)="editSupplier()">Edit
+                                                                                </div>
+                                                                                <div class="ui button hasModal saveActions halfWidth ml-3"
+                                                                                    data-modal="inviteModal"
+                                                                                    *ngIf="isSupplierEdit">Save &amp;
+                                                                                    Invite
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-panel>
+
+                                                </ngb-accordion>
+
+
+
+
+
+
+
+                                            </div>
+
+                                        </ng-template>
+                                    </li>
+                                </ul>
+                                <div [ngbNavOutlet]="nav" class="mt-2 innerTabCont"></div>
+                            </div>
+                            <ng-template #noServices>
+                                Services are not persent for this event
+                            </ng-template>
+                        </ng-template>
+
+                    </li>
+                    <li [ngbNavItem]="5">
+                        <a ngbNavLink class="item tabAdmin"><i class="exhibitor icon"></i><span
+                                class="hideMobile">EXHIBITORS</span></a>
+                        <ng-template ngbNavContent>
+                            <div class="ui segment"
+                                *ngIf="data.eventData && data.eventData.venues && data.eventData.venues.length && data.eventData.venues[0].exhibitorData && data.eventData.venues[0].exhibitorData.exhibitors.length && active == 5; else noExhibitors;">
+                                <ul ngbNav #nav="ngbNav" class="nav-tabs supplierInnerCont">
+                                    <li ngbNavItem *ngFor="let venueSrvice of data.eventData.venues">
+                                        <a ngbNavLink><i class="map marker alternate icon"></i>
+                                            {{venueSrvice.venueCompanyName}}, {{venueSrvice.companyCity}}</a>
+                                        <ng-template ngbNavContent>
+
+                                            <div class="ui styled fluid accordion parentAccordion parentAccordionVenue">
+
+
+                                                <form class="ui form visible" style="display: block !important;">
+                                                    <div class="ui grid stackable">
+
+                                                        <div class="seven wide column">
+                                                            <div class="ui dividing header">
+                                                                <h3>Notes to All Exhibitors <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                    <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                        class="exhibitor icon"></i></h3>
+                                                            </div>
+                                                            <div class="field">
+                                                                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"
+                                                                    class="textarea" contenteditable="">
+                                                                    {{venueSrvice.exhibitorData.exhibitors[0]?.notes}}
+                                                                </div>
+                                                                <ng-template #no_access>No access</ng-template>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="nine wide column">
+
+                                                            <div class="field">
+                                                                <div class="timeWindowsContainer">
+                                                                    <div class="ui dividing header">
+                                                                        <h3>Exhibition Time windows <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                class="exhibitor icon"></i></h3>
+                                                                    </div>
+
+                                                                    <app-time-windows
+                                                                        *ngIf="permissionObj.isClient || permissionObj.isEventManager || permissionObj.isExhibitor; else no_access"
+                                                                        [windowLabels]="['Bump In', 'Exhibition', 'Bump Out']"
+                                                                        [preEventTimes]="venueSrvice.exhibitorData.timeWindowsToAll.preEventTime"
+                                                                        [postEventTimes]="venueSrvice.exhibitorData.timeWindowsToAll.postEventTime"
+                                                                        [eventTimes]="venueSrvice.exhibitorData.timeWindowsToAll.eventTime"
+                                                                        [preEventTimesCount]="venueSrvice?.preEventTime?.length || 1"
+                                                                        [eventTimesCount]="venueSrvice?.eventTime?.length || 1"
+                                                                        [postEventTimesCount]="venueSrvice?.postEventTime?.length || 1"
+                                                                        [eventView]="true"
+                                                                        [preEventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.preEventTime?.notes"
+                                                                        [eventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.eventTime?.notes"
+                                                                        [postEventNotes]="venueSrvice.exhibitorData.timeWindowsToAll.postEventTime?.notes">
+                                                                    </app-time-windows>
+
+                                                                    <ng-template #no_access>No access</ng-template>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </form>
+                                                <div class="ui grid" *ngIf="isExhibitorEdit">
+                                                    <div class="sixteen wide column">
+                                                        <div class="marginT10"></div>
+                                                        <div class="ui button compact addNewService addToPanel"><i
+                                                                class="plus circle icon"></i><span>Add Exhibitor</span>
+                                                        </div>
+                                                        <h3 id="servicesAnchor" class="ui dividing header">Exhibitors
+                                                        </h3>
+                                                        <div class="marginT10"></div>
+                                                    </div>
+                                                </div>
+
+                                                <ngb-accordion [closeOthers]="true" activeIds="static-1">
+
+                                                    <ng-container
+                                                        *ngFor="let exhibitor of venueSrvice.exhibitorData.exhibitors; let idx=index;">
+                                                        <ngb-panel id="static-1">
+                                                            <ng-template ngbPanelTitle>
+                                                                <i class="dropdown icon"></i>Exhibitor {{idx+1}}
+                                                                <div class="ui selection dropdown" tabindex="0">
+                                                                    <div class="text"><i
+                                                                            class="ui icon circle green"></i>Confirmed
+                                                                    </div>
+                                                                    <div class="menu" tabindex="-1"></div>
+                                                                </div>
+                                                            </ng-template>
+                                                            <ng-template ngbPanelContent>
+                                                                <div class="content active">
+                                                                    <form class="ui form visible"
+                                                                        style="display: block !important;">
+                                                                        <div class="ui grid stackable">
+
+                                                                            <div class="seven wide column">
+                                                                                <div class="companyContainer marginB20">
+                                                                                    <div class="ui dividing header">
+                                                                                        <h3>Exhibitor Company <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                                class="building icon"></i>
+                                                                                        </h3>
+                                                                                    </div>
+                                                                                    <div class="kcpCardContainer">
+                                                                                        <div class="ui one column grid">
+                                                                                            <div class="column">
+                                                                                                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor.isViewPermisssion==1; else no_access"
+                                                                                                    class="ui fluid card">
+                                                                                                    <div
+                                                                                                        class="content">
+                                                                                                        <img class="right floated mini ui image"
+                                                                                                            [src]="exhibitor.companyProfileImage"
+                                                                                                            appImageFallback
+                                                                                                            fallbackImage="../../assets/img/default_konnect_img.jpg" onerror="src='../../assets/img/default_konnect_img.jpg'">
+                                                                                                        <div
+                                                                                                            class="header">
+                                                                                                            <a href="/VCP.html"
+                                                                                                                target="_blank">{{exhibitor.exhibitorCompanyName}}</a>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="meta">
+                                                                                                            <a href="https://goo.gl/maps/n4DPECjGtgno53FL9"
+                                                                                                                target="_blank"><i
+                                                                                                                    class="map marker alternate icon"></i>{{exhibitor.companyCity}}</a><span>|</span><i
+                                                                                                                class="phone icon"></i>{{exhibitor.companyPhone}}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="extra content editableObject"
+                                                                                                        *ngIf="isExhibitorEdit">
+                                                                                                        <div
+                                                                                                            class="ui grid">
+                                                                                                            <div
+                                                                                                                class="eight wide column">
+
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                class="eight wide column right aligned">
+                                                                                                                <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                                                    data-modal="removeModal">
+                                                                                                                    <i
+                                                                                                                        class="trash alternate icon"></i>Remove
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <ng-template #no_access>
+                                                                                                    No access
+                                                                                                </ng-template>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="contactsContainer">
+                                                                                    <div class="ui dividing header">
+                                                                                        <h3>Exhibitor Contacts <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                            <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                                class="building icon"></i>
+                                                                                        </h3>
+                                                                                    </div>
+                                                                                    <div class="kipCardContainer">
+                                                                                        <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor.isViewPermisssion==1; else no_access"
+                                                                                            class="ui one column grid stackable">
+                                                                                            <div class="column"
+                                                                                                *ngFor="let contact of exhibitor.contacts">
+                                                                                                <div
+                                                                                                    class="sixteen wide column">
+                                                                                                    {{contact.contactRole}}<button
+                                                                                                        class="ui circular compact mini basic icon button editProfileBtn editableObjectHidden inactive"><i
+                                                                                                            class="pencil alternate icon"></i></button>
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    class="ui fluid card">
+                                                                                                    <div
+                                                                                                        class="content">
+                                                                                                        <img class="right floated mini ui image"
+                                                                                                            [src]="contact.profileImage"
+                                                                                                            appImageFallback
+                                                                                                            fallbackImage="../../assets/img/default_konnect_individual_img.jpg">
+                                                                                                        <div
+                                                                                                            class="header">
+                                                                                                            <a href="/VPP.html"
+                                                                                                                target="_blank">{{contact.firstName}}</a>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="meta">
+                                                                                                            {{contact.contactPosition}}
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="description">
+                                                                                                            {{contact.email}}<br>
+                                                                                                            {{contact.mobile}}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="extra content editableObject"
+                                                                                                        *ngIf="isExhibitorEdit">
+                                                                                                        <div
+                                                                                                            class="ui grid">
+                                                                                                            <div
+                                                                                                                class="eight wide column">
+
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                class="eight wide column right aligned">
+                                                                                                                <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                                                    data-modal="removeModal">
+                                                                                                                    <i
+                                                                                                                        class="trash alternate icon"></i>Remove
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        <ng-template #no_access>No
+                                                                                            access</ng-template>
+                                                                                    </div>
+                                                                                    <div class="ui grid stackable center aligned"
+                                                                                        *ngIf="isExhibitorEdit">
+                                                                                        <div
+                                                                                            class="sixteen wide column">
+                                                                                            <div class="ui basic button blue fluid hasModal editableObject"
+                                                                                                data-modal="contacts">
+                                                                                                <i
+                                                                                                    class="plus circle icon"></i>Add
+                                                                                                Contact
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="nine wide column">
+                                                                                <div class="ui dividing header">
+                                                                                    <h3>Stand Number <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                            class="building icon"></i>
+                                                                                    </h3>
+                                                                                </div>
+                                                                                <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor.isViewPermisssion==1; else no_access"
+                                                                                    class="field">
+                                                                                    <input type="text"
+                                                                                        placeholder="Stand Number"
+                                                                                        [value]="exhibitor.standNumber">
+                                                                                </div>
+                                                                                <ng-template #no_access>No access
+                                                                                </ng-template>
+                                                                                <div class="ui dividing header">
+                                                                                    <h3>Notes to Specific Exhibitor <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                        <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                            class="building icon"></i>
+                                                                                    </h3>
+                                                                                </div>
+                                                                                <div class="field">
+                                                                                    <div *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor.isViewPermisssion==1; else no_access"
+                                                                                        class="textarea"
+                                                                                        contenteditable=""></div>
+                                                                                    <ng-template #no_access>No access
+                                                                                    </ng-template>
+                                                                                </div>
+                                                                                <div class="field">
+                                                                                    <div class="timeWindowsContainer">
+                                                                                        <div class="ui dividing header">
+                                                                                            <h3>Exhibitor Specific Time
+                                                                                                windows <i class="icon" > <img src="../../../../../assets/img/client-icon.png" width="15px" > </i>
+                                                                                                <i class="icon" > <img src="../../../../../assets/img/event-manager-icon.png" width="15px" > </i><i
+                                                                                                    class="building icon"></i>
+                                                                                            </h3>
+                                                                                        </div>
+
+                                                                                        <app-time-windows
+                                                                                            *ngIf="permissionObj.isClient || permissionObj.isEventManager || exhibitor.isViewPermisssion==1; else no_access"
+                                                                                            [windowLabels]="['Bump In', 'Event Time', 'Bump Out']"
+                                                                                            [index]="idx"
+                                                                                            [preEventTimes]="exhibitor.preEventTime"
+                                                                                            [postEventTimes]="exhibitor.postEventTime"
+                                                                                            [eventTimes]="exhibitor.eventTime"
+                                                                                            [preEventTimesCount]="exhibitor?.preEventTime?.length || 1"
+                                                                                            [eventTimesCount]="exhibitor?.eventTime?.length || 1"
+                                                                                            [postEventTimesCount]="exhibitor?.postEventTime?.length || 1"
+                                                                                            [eventView]="true"
+                                                                                            [preEventNotes]="exhibitor.preEventTime[idx]?.notes"
+                                                                                            [eventNotes]="exhibitor.eventTime[idx]?.notes"
+                                                                                            [postEventNotes]="exhibitor.postEventTime[idx]?.notes">
+                                                                                        </app-time-windows>
+
+
+                                                                                        <ng-template #no_access>No
+                                                                                            access</ng-template>
+
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div
+                                                                                class="sixteen wide column saveButtons paddingT0">
+                                                                                <div class="ui divider"></div>
+                                                                                <div class="ui grid stackable">
+                                                                                    <div
+                                                                                        class="ten wide column middle aligned">
+                                                                                        <div class="ui circular compact mini basic button confirmRemove hasModal"
+                                                                                            data-modal="removeModal"><i
+                                                                                                class="trash alternate icon"></i>Remove
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="six wide column right aligned hideMobile">
+                                                                                        <!-- <div
+                                                                                            class="ui button basic blue icon">
+                                                                                            <i
+                                                                                                class="file pdf icon"></i>
+                                                                                        </div> -->
+                                                                                        <div *ngIf="!isExhibitorEdit"
+                                                                                            class="ui button triggerEditableOptions ml-3"
+                                                                                            (click)="editExhibitor()">
+                                                                                            Edit
+                                                                                        </div>
+                                                                                        <div class="ui button hasModal saveActions ml-3"
+                                                                                            data-modal="inviteModal"
+                                                                                            *ngIf="isExhibitorEdit">Save
+                                                                                            &amp;
+                                                                                            Invite
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="six wide column right aligned visibleMobile">
+                                                                                        <!-- <div
+                                                                                            class="ui button basic blue icon downloadPDF halfWidth">
+                                                                                            <i
+                                                                                                class="file pdf icon"></i>
+                                                                                        </div> -->
+                                                                                        <div *ngIf="!isExhibitorEdit"
+                                                                                            class="ui button triggerEditableOptions halfWidth ml-3"
+                                                                                            (click)="editExhibitor()">
+                                                                                            Edit
+                                                                                        </div>
+                                                                                        <div class="ui button hasModal saveActions halfWidth ml-3"
+                                                                                            data-modal="inviteModal"
+                                                                                            *ngIf="isExhibitorEdit">Save
+                                                                                            &amp;
+                                                                                            Invite
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </ng-template>
+                                                        </ngb-panel>
+                                                    </ng-container>
+
+                                                </ngb-accordion>
+
+
+                                            </div>
+
+                                        </ng-template>
+                                    </li>
+                                </ul>
+                                <div [ngbNavOutlet]="nav" class="mt-2 innerTabCont"></div>
+                            </div>
+                            <ng-template #noExhibitors>
+                                Exhibitors are not persent for this event
+                            </ng-template>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="6">
+                        <a ngbNavLink class="item tabAdmin"><i class="file alternate icon"></i><span
+                                class="hideMobile">FILES</span></a>
+                        <ng-template ngbNavContent>
+                            <app-event-files-function [permissionObj]="permissionObj"
+                                [eventID]="data.eventData.eventId"></app-event-files-function>
+
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="7">
+                        <a ngbNavLink class="item tabAdmin"><i class="clock icon"></i><span
+                                class="hideMobile">LOGISTICS</span></a>
+                        <ng-template ngbNavContent>
+                            <app-event-timeline-function [eventId]="data.eventData.eventId">
+                            </app-event-timeline-function>
+
+                        </ng-template>
+                    </li>
+                </ul>
+
+                <div [ngbNavOutlet]="nav" class="mt-2"></div>
+            </div>
+        </div>
+
+
+
+        <ng-template #content let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Search for Company</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content">
+
+                    <div class="ui grid">
+                        <div class="sixteen wide column">
+                            <div class="field">
+                                <div class="ui search searchCompany">
+                                    <div class="ui fluid icon input">
+                                        <input class="prompt" type="text" placeholder="Search" autocomplete="off">
+                                        <i class="search icon"></i>
+                                    </div>
+                                    <div class="results"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sixteen wide column center aligned">
+                            <div class="field">
+                                <button class="ui button">Add Selected</button>
+                            </div>
+                        </div>
+                        <div class="sixteen wide column">
+                            <p>If you cannot find the company you are searching for they probably do not have a company
+                                profile in
+                                Konnect. You can create an address book card with details you can use in the event now,
+                                and invite them
+                                to create a profile by filling out the details below.</p>
+                        </div>
+                        <div class="sixteen wide column">
+                            <h3>Invite New Company</h3>
+                            <form class="ui form">
+                                <div class="field required">
+                                    <label>Name</label>
+                                    <input type="text" placeholder="Name">
+                                </div>
+                                <div class="two fields">
+                                    <div class="field required">
+                                        <label>Country</label>
+                                        <div class="ui fluid dropdown selection" tabindex="0"><select class="">
+                                                <option value="">Select Country</option>
+                                                <option value="AF">Afghanistan</option>
+                                                <option value="AX">Åland Islands</option>
+                                                <option value="AL">Albania</option>
+                                                <option value="DZ">Algeria</option>
+                                                <option value="AS">American Samoa</option>
+                                                <option value="AD">Andorra</option>
+                                                <option value="AO">Angola</option>
+                                                <option value="AI">Anguilla</option>
+                                                <option value="AQ">Antarctica</option>
+                                                <option value="AG">Antigua and Barbuda</option>
+                                                <option value="AR">Argentina</option>
+                                                <option value="AM">Armenia</option>
+                                                <option value="AW">Aruba</option>
+                                                <option value="AU">Australia</option>
+                                                <option value="AT">...</option>
+                                            </select><i class="dropdown icon"></i>
+                                            <div class="text">Antarctica</div>
+                                            <div class="menu transition hidden" tabindex="-1">
+                                                <div class="item" data-value="AF">Afghanistan</div>
+                                                <div class="item" data-value="AX">Åland Islands</div>
+                                                <div class="item" data-value="AL">Albania</div>
+                                                <div class="item" data-value="DZ">Algeria</div>
+                                                <div class="item" data-value="AS">American Samoa</div>
+                                                <div class="item" data-value="AD">Andorra</div>
+                                                <div class="item" data-value="AO">Angola</div>
+                                                <div class="item" data-value="AI">Anguilla</div>
+                                                <div class="item active selected" data-value="AQ">Antarctica</div>
+                                                <div class="item" data-value="AG">Antigua and Barbuda</div>
+                                                <div class="item" data-value="AR">Argentina</div>
+                                                <div class="item" data-value="AM">Armenia</div>
+                                                <div class="item" data-value="AW">Aruba</div>
+                                                <div class="item" data-value="AU">Australia</div>
+                                                <div class="item" data-value="AT">...</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field required">
+                                        <label>City</label>
+                                        <input type="text" placeholder="City">
+                                    </div>
+                                </div>
+                                <div class="two fields">
+                                    <div class="field required">
+                                        <label>Contact Name</label>
+                                        <input type="text" placeholder="Name">
+                                    </div>
+                                    <div class="field required">
+                                        <label>Contact email</label>
+                                        <input type="email" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="ui grid">
+                                    <div class="sixteen wide column right aligned">
+                                        <span class="smallText">*compulsory fields</span>
+                                    </div>
+                                    <div class="sixteen wide column center aligned paddingT0">
+                                        <div class="ui button">Add Company and invite</div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+            </div>
+        </ng-template>
+
+
+
+        <ng-template #contentNew let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Upload Files</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <span style="font-size: 14px;padding: 14px;">Limit of 8 files in this section, 100MB per file</span>
+            <div class="modal-body">
+                <div class="content uploadDocuments">
+                    <form class="ui form">
+                        <div class="ui grid">
+                            <div class="sixteen wide column">
+                                <div class="field">
+                                    <p>ADocument.pfd</p>
+                                    <input type="text" placeholder="Display Name">
+                                    <a href="#" class="removeDocument"><i class="trash alternate icon"></i>Remove</a>
+                                </div>
+                                <div class="field">
+                                    <p>ADocument.docx</p>
+                                    <input type="text" placeholder="Display Name">
+                                    <a href="#" class="removeDocument"><i class="trash alternate icon"></i>Remove</a>
+                                </div>
+                                <div class="field">
+                                    <p>AnImage.jpg</p>
+                                    <input type="text" placeholder="Display Name">
+                                    <a href="#" class="removeDocument"><i class="trash alternate icon"></i>Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="newFooter">
+                <div class="actions">
+                    <div class="ui grid">
+                        <div class="eight wide column left aligned">
+                            <div class="ui button positive">Browse and Add</div>
+                        </div>
+                        <div class="eight wide column right aligned">
+                            <div class="ui button positive">Save and Upload</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+
+        <ng-template #contentNewContact let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Search for Contact</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="content uploadDocuments">
+                    <div class="ui grid stackable">
+                        <div class="eleven wide column">
+                            <h3>Search within company contacts</h3>
+                            <form class="ui form">
+                                <div class="field">
+                                    <div class="ui search searchPeople focus">
+                                        <div class="ui fluid icon input">
+                                            <input class="prompt" type="text" placeholder="Search" autocomplete="off">
+                                            <i class="search icon"></i>
+                                        </div>
+                                        <div class="results"></div>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="ui selection dropdown" tabindex="0">
+                                        <input type="hidden" class="noselection">
+                                        <i class="dropdown icon"></i>
+                                        <div class="default text">Select Contact Label</div>
+                                        <div class="menu hidden transition" tabindex="-1">
+                                            <div class="item" data-value="1">Primary Contact</div>
+                                            <div class="item" data-value="2">Secondary Contact</div>
+                                            <div class="item" data-value="3">Technical Director</div>
+                                            <div class="item" data-value="4">Technical Contact</div>
+                                            <div class="item" data-value="5">Onsite Contact</div>
+                                            <div class="item" data-value="6">IT Contact</div>
+                                            <div class="item" data-value="7">Access Contact</div>
+                                            <div class="item" data-value="8">Legal Contact</div>
+                                            <div class="item" data-value="9">Finance Contact</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui grid">
+                                    <div class="sixteen wide column right aligned">
+                                        <div class="ui button addTotheList">Add to the contact list</div>
+                                    </div>
+                                    <div class="sixteen wide column">
+                                        <p>If you cannot find the contact you are searching for they probably do not
+                                            have a profile in Konnect. You can create an address book card with details
+                                            you can use in the event now, and invite them to create a
+                                            profile by filling
+                                            out the details below.</p>
+                                    </div>
+                                    <div class="sixteen wide column">
+                                        <h3>Add New Contact Details</h3>
+
+                                        <div class="two fields">
+                                            <div class="field required">
+                                                <label>Name</label>
+                                                <input type="text" placeholder="Name">
+                                            </div>
+                                            <div class="field required">
+                                                <label>Email</label>
+                                                <input type="email" placeholder="Email">
+                                            </div>
+                                        </div>
+                                        <div class="ui grid">
+                                            <div class="sixteen wide column right aligned">
+                                                <span class="smallText">*compulsory fields</span>
+                                            </div>
+                                            <div class="sixteen wide column center aligned paddingT0 right aligned">
+                                                <div class="ui button addTotheList">Add to the contact list</div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="five wide column">
+                            <h3>Contact list</h3>
+                            <div class="contactListContainer">
+                                <div class="ui grid contactList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="newFooter">
+                <div class="actions">
+                    <div class="ui grid">
+                        <div class="sixteen wide column right aligned">
+                            <div class="ui button positive">Finish and save</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+
+
+    </div>
+</div>
+
+<ng-template #searchInviteFnCmpCntModal let-modal>
+    <app-search-or-invite-fn-cmp-cnt
+    (closed)="searchInviteContactModalClosed()"
+    [companyId]="getCompanyId()"
+    (addedContactList)="setSelectedFnCompanyContacts($event)"
+    [alreadyInContactList]="getFnContactList()"
+    >
+  </app-search-or-invite-fn-cmp-cnt>
+  </ng-template>

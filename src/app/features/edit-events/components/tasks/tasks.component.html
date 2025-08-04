@@ -1,0 +1,561 @@
+<div class="ui segment task-segment">
+    <button *ngIf="data && data.isCrew != 1" class="alignButton ui button triggerEditableOptions ml-3 right float-right marT-m15" (click)="addTask()"><i
+            class="plus circle icon"></i> Add
+        Task </button>
+    <ul ngbNav #taskNav="ngbNav" [activeId]="active" (navChange)="navChange($event)" class="nav-tabs supplierInnerCont"
+        [destroyOnHide]="false">
+        <li ngbNavItem ngbNavItem="1">
+            <a ngbNavLink>
+                <span>
+                    My Company Tasks
+                </span></a>
+            <ng-template ngbNavContent>
+                <div class="ui styled fluid accordion parentAccordion parentAccordionVenue" *ngIf="data">
+                    <form class="ui form visible" style="display: block !important;">
+                        <div class="twelve wide column">
+                            <div class="twelve wide row">
+                                <div class="col-md-4 row-col">
+                                    <h3 class="text-start mt-2 mb-3">Filter Assigned From</h3>
+                                    <ul class="assignToCheckBox">
+                                        <li *ngIf="data.client && data.client.id">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" id="filter-client-1" class="hidden" tabindex="0"
+                                                    [(ngModel)]="data.client.isChecked"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    [value]="data.client.isChecked" (change)="onClientChange($event)" [disabled]="data.isCrew == 1">
+                                                <label for="filter-client-1">{{data.client.companyName}}</label>
+                                            </div>
+                                        </li>
+                                        <li *ngIf="data.eventManager && data.eventManager.id">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" id="filter-ev-2" class="hidden" tabindex="0"
+                                                    [(ngModel)]="data.eventManager.isChecked"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    [value]="data.eventManager.isChecked"
+                                                    (change)="onEvManagerChange($event)" [disabled]="data.isCrew == 1">
+                                                <label for="filter-ev-2">{{data.eventManager.companyName}}</label>
+                                            </div>
+                                        </li>
+                                        <li *ngIf="data.venues && data.venues.length">
+                                            <ngb-accordion #ngbAccordion [destroyOnHide]="false"
+                                                class="accordian__boxpanel">
+                                                <ng-container>
+                                                    <ngb-panel>
+                                                        <ng-template ngbPanelHeader let-opened="opened">
+                                                            <div class="accordion-button custom-header"
+                                                                [class.collapsed]="!opened">
+                                                                <button ngbPanelToggle
+                                                                    class="p-0 btn btn-link container-fluid text-start ps-0 accordionBtnNew">
+                                                                    <i class="dropdown icon"></i>
+
+                                                                </button>
+
+                                                                <div class="flaot-right accordionCheckBox">
+                                                                    <div class="ui checkbox">
+                                                                        <input type="checkbox" id="filter-venue-3"
+                                                                            class="hidden" tabindex="0"
+                                                                            [(ngModel)]="allVenues" [value]="allVenues"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            (change)="onAllVenuesChange($event)">
+                                                                        <label for="filter-venue-3">All Venues</label>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template ngbPanelContent>
+                                                            <div class="content active">
+                                                                <ul class="assignToCheckBox">
+                                                                    <li
+                                                                        *ngFor="let venue of venues;let venueIndex=index;">
+                                                                        <div class="ui checkbox">
+                                                                            <input type="checkbox"
+                                                                                id="filter-venue-3-{{venueIndex}}"
+                                                                                class="hidden" tabindex="0"
+                                                                                [(ngModel)]="venue.isChecked"
+                                                                                [ngModelOptions]="{standalone: true}"
+                                                                                [value]="venue?.isChecked"
+                                                                                [checked]="venue?.isChecked == 1"
+                                                                                (change)="onVenueChange($event, venue.id)">
+                                                                            <label
+                                                                                for="filter-venue-3-{{venueIndex}}">{{venue.companyName}}</label>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-panel>
+                                                </ng-container>
+
+                                            </ngb-accordion>
+                                        </li>
+                                        <li *ngIf="data.services && data.services.length">
+                                            <ngb-accordion #ngbAccordion [destroyOnHide]="false"
+                                                class="accordian__boxpanel">
+                                                <ng-container>
+                                                    <ngb-panel>
+                                                        <ng-template ngbPanelHeader let-opened="opened">
+                                                            <div class="accordion-button custom-header"
+                                                                [class.collapsed]="!opened">
+                                                                <button ngbPanelToggle
+                                                                    class="p-0 btn btn-link container-fluid text-start ps-0 accordionBtnNew">
+                                                                    <i class="dropdown icon"></i>
+
+                                                                </button>
+
+                                                                <div class="flaot-right accordionCheckBox">
+                                                                    <div class="ui checkbox">
+                                                                        <input type="checkbox" id="filter-service-4"
+                                                                            class="hidden" tabindex="0"
+                                                                            [(ngModel)]="allSuppliers"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            [value]="allSuppliers"
+                                                                            (change)="onAllSuppliersChange($event)">
+                                                                        <label for="filter-service-4">All
+                                                                            Suppliers</label>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template ngbPanelContent>
+                                                            <div class="content active">
+                                                                <ul class="assignToCheckBox">
+                                                                    <li
+                                                                        *ngFor="let supplier of services;let supplierIndex=index;">
+                                                                        <div class="ui checkbox">
+                                                                            <input type="checkbox"
+                                                                                id="filter-service-4-{{supplierIndex}}"
+                                                                                class="hidden" tabindex="0"
+                                                                                [(ngModel)]="supplier.isChecked"
+                                                                                [ngModelOptions]="{standalone: true}"
+                                                                                [value]="supplier?.isChecked"
+                                                                                [checked]="supplier?.isChecked == 1"
+                                                                                (change)="onSupplierChange($event, supplier.id)">
+                                                                            <label
+                                                                                for="filter-service-4-{{supplierIndex}}">{{supplier.companyName}}</label>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-panel>
+                                                </ng-container>
+
+                                            </ngb-accordion>
+                                        </li>
+                                        <li *ngIf="data.exhibitors && data.exhibitors.length">
+                                            <ngb-accordion #ngbAccordion [destroyOnHide]="false"
+                                                class="accordian__boxpanel">
+                                                <ng-container>
+                                                    <ngb-panel>
+                                                        <ng-template ngbPanelHeader let-opened="opened">
+                                                            <div class="accordion-button custom-header"
+                                                                [class.collapsed]="!opened">
+                                                                <button ngbPanelToggle
+                                                                    class="p-0 btn btn-link container-fluid text-start ps-0 accordionBtnNew">
+                                                                    <i class="dropdown icon"></i>
+
+                                                                </button>
+
+                                                                <div class="flaot-right accordionCheckBox">
+                                                                    <div class="ui checkbox">
+                                                                        <input type="checkbox" id="filter-exhibitor-5"
+                                                                            class="hidden" tabindex="0"
+                                                                            [(ngModel)]="allExhibitors"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            [value]="allExhibitors"
+                                                                            (change)="onAllExhibitorsChange($event)">
+                                                                        <label for="filter-exhibitor-5">All
+                                                                            Exhibitors</label>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template ngbPanelContent>
+                                                            <div class="content active">
+                                                                <ul class="assignToCheckBox">
+                                                                    <li
+                                                                        *ngFor="let exhibitor of exhibitors;let exhibitorIndex=index;">
+                                                                        <div class="ui checkbox">
+                                                                            <input type="checkbox"
+                                                                                id="filter-exhibitor-5-{{exhibitorIndex}}"
+                                                                                class="hidden" tabindex="0"
+                                                                                [(ngModel)]="exhibitor.isChecked"
+                                                                                [ngModelOptions]="{standalone: true}"
+                                                                                [value]="exhibitor?.isChecked"
+                                                                                [checked]="exhibitor?.isChecked == 1"
+                                                                                (change)="onExhibitorChange($event, exhibitor.id)">
+                                                                            <label
+                                                                                for="filter-exhibitor-5-{{exhibitorIndex}}">{{exhibitor.companyName}}</label>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-panel>
+                                                </ng-container>
+
+                                            </ngb-accordion>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 row-col" cdkDropList
+                                    (cdkDropListDropped)="dropUnCompletedUndated($event)">
+                                    <h3 class="text-start mt-2 mb-2">Undated</h3>
+                                    <ng-container
+                                        *ngIf="uncompletedTaskUndated && uncompletedTaskUndated.length; else noData">
+                                        <div class="task-box" *ngFor="let unctu of uncompletedTaskUndated; let i=index;"
+                                            cdkDrag>
+                                            <div class="ui checkbox flexparent" cdkDragHandle>
+                                                <img src="./assets/img/dots.svg" alt="" class="dotsicon" />
+                                                <input type="checkbox" id="uncompundated-{{i}}" class="hidden"
+                                                    tabindex="0" (change)="onUndatedChange($event, unctu)">
+                                                <label class="checkboxlabel" for="uncompundated-{{i}}"></label>
+                                                <span style="cursor: pointer;"
+                                                    (click)="editTask(unctu)">{{unctu.taskName}}</span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
+                                    <div class="ui divider"></div>
+                                    <h3 class="text-start mt-1 mb-2">Completed</h3>
+                                    <ng-container
+                                        *ngIf="completedTaskUndated && completedTaskUndated.length; else noData">
+                                        <div class="task-box" *ngFor="let ctu of completedTaskUndated; let i=index;">
+                                            <div class="ui checkbox flexparent dotsicon">
+                                                <input type="checkbox" id="cmpundated-{{i}}" class="hidden" tabindex="0"
+                                                    checked (change)="onUndatedCompletedChange($event, ctu)">
+                                                <label class="checkboxlabel" for="cmpundated-{{i}}"></label>
+                                                <span style="cursor: pointer;" class="completedLabel"
+                                                    (click)="editTask(ctu)">{{ctu.taskName}}</span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
+                                </div>
+                                <div class="col-md-4 row-col">
+                                    <h3 class="text-start mt-2 mb-2">Dated</h3>
+                                    <ng-container
+                                        *ngIf="unCompletedTaskDated && unCompletedTaskDated.length; else noData">
+                                        <div class="task-box" *ngFor="let unctd of unCompletedTaskDated; let i=index;">
+                                            <div class="ui checkbox flexparent justify-content-between w-100">
+                                                <div class="datedCheckBoxOuter">
+                                                    <input type="checkbox" id="dated-{{i}}" class="hidden" tabindex="0"
+                                                        (change)="onUndatedChange($event, unctd)">
+                                                    <label class="checkboxlabel" for="dated-{{i}}"></label>
+                                                    <span style="cursor: pointer;"
+                                                        (click)="editTask(unctd)">{{unctd.taskName}}</span>
+                                                </div>
+                                                <span style="cursor: pointer;" class="datedDateLabel"
+                                                    (click)="editTask(unctd)">{{unctd.dueDate | date :
+                                                    'dd-MMM-yyyy'}}</span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
+                                    <div class="ui divider"></div>
+                                    <h3 class="text-start mt-1 mb-2">Completed</h3>
+                                    <ng-container *ngIf="completedTaskDated && completedTaskDated.length; else noData">
+                                        <div class="task-box" *ngFor="let ctd of completedTaskDated; let i=index;">
+                                            <div class="ui checkbox flexparent justify-content-between w-100">
+                                                <div class="datedCheckBoxOuter">
+                                                    <input type="checkbox" id="cmpdated-{{i}}" class="hidden"
+                                                        tabindex="0" checked
+                                                        (change)="onUndatedCompletedChange($event, ctd)">
+                                                    <label class="checkboxlabel" for="cmpdated-{{i}}"></label>
+                                                    <span style="cursor: pointer;" class="completedLabel"
+                                                        (click)="editTask(ctd)">{{ctd.taskName}}</span>
+                                                </div>
+                                                <span style="cursor: pointer;" class="datedDateLabel"
+                                                    (click)="editTask(ctd)">{{ctd.dueDate | date :
+                                                    'dd-MMM-yyyy'}}</span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </ng-template>
+        </li>
+        <li ngbNavItem ngbNavItem="2">
+            <a ngbNavLink>
+                <span>
+                    Delegated Tasks
+                </span></a>
+            <ng-template ngbNavContent>
+                <div class="ui styled fluid accordion parentAccordion parentAccordionVenue" *ngIf="data">
+                    <form class="ui form visible" style="display: block !important;">
+                        <div class="twelve wide column">
+                            <div class="twelve wide row">
+                                <div class="col-md-4 row-col">
+                                    <h3 class="text-start mt-2 mb-2">Filter Assigned To</h3>
+                                    <ul class="assignToCheckBox">
+                                        <li *ngIf="data.client && data.client.id">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" id="filter-client-1-section-two" class="hidden"
+                                                    tabindex="0" [(ngModel)]="data.client.isChecked"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    [value]="data.client.isChecked" (change)="onClientChange($event)" [disabled]="data.isCrew == 1">
+                                                <label
+                                                    for="filter-client-1-section-two">{{data.client.companyName}}</label>
+                                            </div>
+                                        </li>
+                                        <li *ngIf="data.eventManager && data.eventManager.id">
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" id="filter-ev-2-section-two" class="hidden"
+                                                    tabindex="0" [(ngModel)]="data.eventManager.isChecked"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    [value]="data.eventManager.isChecked"
+                                                    (change)="onEvManagerChange($event)" [disabled]="data.isCrew == 1">
+                                                <label
+                                                    for="filter-ev-2-section-two">{{data.eventManager.companyName}}</label>
+                                            </div>
+                                        </li>
+                                        <li *ngIf="data.venues && data.venues.length">
+                                            <ngb-accordion #ngbAccordion [destroyOnHide]="false"
+                                                class="accordian__boxpanel">
+                                                <ng-container>
+                                                    <ngb-panel>
+                                                        <ng-template ngbPanelHeader let-opened="opened">
+                                                            <div class="accordion-button custom-header"
+                                                                [class.collapsed]="!opened">
+                                                                <button ngbPanelToggle
+                                                                    class="p-0 btn btn-link container-fluid text-start ps-0 accordionBtnNew">
+                                                                    <i class="dropdown icon"></i>
+
+                                                                </button>
+
+                                                                <div class="flaot-right accordionCheckBox">
+                                                                    <div class="ui checkbox">
+                                                                        <input type="checkbox"
+                                                                            id="filter-venue-3-section-two"
+                                                                            class="hidden" tabindex="0"
+                                                                            [(ngModel)]="allVenues" [value]="allVenues"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            (change)="onAllVenuesChange($event)">
+                                                                        <label for="filter-venue-3-section-two">All
+                                                                            Venues</label>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template ngbPanelContent>
+                                                            <div class="content active">
+                                                                <ul class="assignToCheckBox">
+                                                                    <li
+                                                                        *ngFor="let venue of venues;let venueIndex=index;">
+                                                                        <div class="ui checkbox">
+                                                                            <input type="checkbox"
+                                                                                id="filter-venue-3-{{venueIndex}}-section-two"
+                                                                                class="hidden" tabindex="0"
+                                                                                [(ngModel)]="venue.isChecked"
+                                                                                [ngModelOptions]="{standalone: true}"
+                                                                                [value]="venue?.isChecked"
+                                                                                [checked]="venue?.isChecked == 1"
+                                                                                (change)="onVenueChange($event, venue.id)">
+                                                                            <label
+                                                                                for="filter-venue-3-{{venueIndex}}-section-two">{{venue.companyName}}</label>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-panel>
+                                                </ng-container>
+
+                                            </ngb-accordion>
+                                        </li>
+                                        <li *ngIf="data.services && data.services.length">
+                                            <ngb-accordion #ngbAccordion [destroyOnHide]="false"
+                                                class="accordian__boxpanel">
+                                                <ng-container>
+                                                    <ngb-panel>
+                                                        <ng-template ngbPanelHeader let-opened="opened">
+                                                            <div class="accordion-button custom-header"
+                                                                [class.collapsed]="!opened">
+                                                                <button ngbPanelToggle
+                                                                    class="p-0 btn btn-link container-fluid text-start ps-0 accordionBtnNew">
+                                                                    <i class="dropdown icon"></i>
+
+                                                                </button>
+
+                                                                <div class="flaot-right accordionCheckBox">
+                                                                    <div class="ui checkbox">
+                                                                        <input type="checkbox"
+                                                                            id="filter-service-4-section-two"
+                                                                            class="hidden" tabindex="0"
+                                                                            [(ngModel)]="allSuppliers"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            [value]="allSuppliers"
+                                                                            (change)="onAllSuppliersChange($event)">
+                                                                        <label for="filter-service-4-section-two">All
+                                                                            Suppliers</label>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template ngbPanelContent>
+                                                            <div class="content active">
+                                                                <ul class="assignToCheckBox">
+                                                                    <li
+                                                                        *ngFor="let supplier of services;let supplierIndex=index;">
+                                                                        <div class="ui checkbox">
+                                                                            <input type="checkbox"
+                                                                                id="filter-service-4-{{supplierIndex}}-section-two"
+                                                                                class="hidden" tabindex="0"
+                                                                                [(ngModel)]="supplier.isChecked"
+                                                                                [ngModelOptions]="{standalone: true}"
+                                                                                [value]="supplier?.isChecked"
+                                                                                [checked]="supplier?.isChecked == 1"
+                                                                                (change)="onSupplierChange($event, supplier.id)">
+                                                                            <label
+                                                                                for="filter-service-4-{{supplierIndex}}-section-two">{{supplier.companyName}}</label>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-panel>
+                                                </ng-container>
+
+                                            </ngb-accordion>
+                                        </li>
+                                        <li *ngIf="data.exhibitors && data.exhibitors.length">
+                                            <ngb-accordion #ngbAccordion [destroyOnHide]="false"
+                                                class="accordian__boxpanel">
+                                                <ng-container>
+                                                    <ngb-panel>
+                                                        <ng-template ngbPanelHeader let-opened="opened">
+                                                            <div class="accordion-button custom-header"
+                                                                [class.collapsed]="!opened">
+                                                                <button ngbPanelToggle
+                                                                    class="p-0 btn btn-link container-fluid text-start ps-0 accordionBtnNew">
+                                                                    <i class="dropdown icon"></i>
+
+                                                                </button>
+
+                                                                <div class="flaot-right accordionCheckBox">
+                                                                    <div class="ui checkbox">
+                                                                        <input type="checkbox"
+                                                                            id="filter-exhibitor-5-section-two"
+                                                                            class="hidden" tabindex="0"
+                                                                            [(ngModel)]="allExhibitors"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            [value]="allExhibitors"
+                                                                            (change)="onAllExhibitorsChange($event)">
+                                                                        <label for="filter-exhibitor-5-section-two">All
+                                                                            Exhibitors</label>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template ngbPanelContent>
+                                                            <div class="content active">
+                                                                <ul class="assignToCheckBox">
+                                                                    <li
+                                                                        *ngFor="let exhibitor of exhibitors;let exhibitorIndex=index;">
+                                                                        <div class="ui checkbox">
+                                                                            <input type="checkbox"
+                                                                                id="filter-exhibitor-5-{{exhibitorIndex}}-section-two"
+                                                                                class="hidden" tabindex="0"
+                                                                                [(ngModel)]="exhibitor.isChecked"
+                                                                                [ngModelOptions]="{standalone: true}"
+                                                                                [value]="exhibitor?.isChecked"
+                                                                                [checked]="exhibitor?.isChecked == 1"
+                                                                                (change)="onExhibitorChange($event, exhibitor.id)">
+                                                                            <label
+                                                                                for="filter-exhibitor-5-{{exhibitorIndex}}-section-two">{{exhibitor.companyName}}</label>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-panel>
+                                                </ng-container>
+
+                                            </ngb-accordion>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 row-col" cdkDropList
+                                    (cdkDropListDropped)="dropUnCompletedUndated($event)">
+                                    <h3 class="text-start mt-2 mb-2">Undated</h3>
+                                    <ng-container
+                                        *ngIf="uncompletedTaskUndated && uncompletedTaskUndated.length; else noData">
+                                        <div class="task-box" *ngFor="let unctu of uncompletedTaskUndated; let i=index;"
+                                            cdkDrag>
+                                            <div class="ui checkbox flexparent" cdkDragHandle>
+                                                <img src="./assets/img/dots.svg" alt="" class="dotsicon" />
+                                                <span style="cursor: pointer;"
+                                                    (click)="editTask(unctu)">{{unctu.taskName}}</span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
+                                    <div class="ui divider"></div>
+                                    <h3 class="text-start mt-2 mb-2">Completed</h3>
+                                    <ng-container
+                                        *ngIf="completedTaskUndated && completedTaskUndated.length; else noData">
+                                        <div class="task-box" *ngFor="let ctu of completedTaskUndated; let i=index;">
+                                            <div class="ui checkbox flexparent dotsicon">
+                                                <span class="completedLabel" style="cursor: pointer;"
+                                                    (click)="editTask(ctu)">{{ctu.taskName}}</span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
+                                </div>
+                                <div class="col-md-4 row-col">
+                                    <h3 class="text-start mt-2 mb-2">Dated</h3>
+                                    <ng-container
+                                        *ngIf="unCompletedTaskDated && unCompletedTaskDated.length; else noData">
+                                        <div class="task-box" *ngFor="let unctd of unCompletedTaskDated; let i=index;">
+                                            <div class="ui checkbox flexparent justify-content-between w-100">
+                                                <div class="datedCheckBoxOuter">
+                                                    <span style="cursor: pointer;"
+                                                        (click)="editTask(unctd)">{{unctd.taskName}}</span>
+                                                </div>
+                                                <span class="datedDateLabel" style="cursor: pointer;"
+                                                    (click)="editTask(unctd)">{{unctd.dueDate | date :
+                                                    'dd-MMM-yyyy'}}</span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
+                                    <div class="ui divider"></div>
+                                    <h3 class="text-start mt-2 mb-2">Completed</h3>
+                                    <ng-container *ngIf="completedTaskDated && completedTaskDated.length; else noData">
+                                        <div class="task-box" *ngFor="let ctd of completedTaskDated; let i=index;">
+                                            <div class="ui checkbox flexparent justify-content-between w-100">
+                                                <div class="datedCheckBoxOuter">
+                                                    <span class="completedLabel" style="cursor: pointer;"
+                                                        (click)="editTask(ctd)">{{ctd.taskName}}</span>
+                                                </div>
+                                                <span class="datedDateLabel" style="cursor: pointer;"
+                                                    (click)="editTask(ctd)">{{ctd.dueDate | date :
+                                                    'dd-MMM-yyyy'}}</span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #noData>No data found</ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </ng-template>
+        </li>
+    </ul>
+    <div [ngbNavOutlet]="taskNav" class="mt-2 innerTabCont"></div>
+
+</div>

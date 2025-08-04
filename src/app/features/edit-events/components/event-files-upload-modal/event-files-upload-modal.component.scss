@@ -1,0 +1,26 @@
+div.adjustableHeightColumn{
+  overflow-y: auto
+}
+
+.inputBox {
+  border: 1px solid #eee;
+  padding: 9px 12px;
+  border-radius: 5px;
+  width: calc(100% - 16px);
+  margin-right: 10px;
+}
+
+.linkInputBox{ 
+  display: flex;
+  width: 100% !important; margin-top: 8px;
+}
+
+
+.fullBox{ width:100%; display: inline-block; margin-bottom: 10px;}
+
+
+@media screen {
+  div.adjustableHeightColumn {
+    max-height: 80vh;
+  }
+}

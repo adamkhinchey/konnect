@@ -1,0 +1,250 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Upload Files</h4>
+
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="checkUploading() && this.closed.emit()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<span style="font-size: 14px; padding: 14px"
+  >Limit of 8 files in this section, 200MB per file</span
+>
+<div class="modal-body">
+  <div class="content uploadDocuments">
+    <form class="ui form">
+      <div class="ui grid">
+        <div class="sixteen wide column adjustableHeightColumn" #fileContainer>
+          <div
+            class="field"
+            *ngFor="let existingFile of existingFiles; let i = index"
+          >
+            <div>
+              <p [style.display]="'inline-block'">
+                {{ existingFile.displayName }}
+              </p>
+              <span [style.marginLeft.px]="20" class="ui tiny green header"
+                >Saved</span
+              >
+            </div>
+            <a
+              *ngIf="!uploadTriggered"
+              [style.cursor]="'pointer'"
+              (click)="deleteFile(existingFile, i)"
+              class="removeDocument"
+            >
+              <i class="trash alternate icon"></i>
+              Delete
+            </a>
+            <div
+              *ngIf="i <= existingFiles.length - 2"
+              class="ui fitted divider"
+            ></div>
+          </div>
+          <div
+            *ngIf="existingFiles.length > 0 && selectedFileList.length > 0"
+            class="ui horizontal divider"
+          >
+            New Files
+          </div>
+          <div
+            class="field"
+            *ngFor="let listItem of selectedFileList; let i = index"
+          >
+            <div>
+              <p [style.display]="'inline-block'">{{ listItem.file.name }}</p>
+              <div
+                [style.marginLeft.px]="20"
+                *ngIf="
+                  eventFileUploadDeleteService.fileUploadStatus.get(i)
+                    ?.uploading
+                "
+                class="ui active inline loader"
+              ></div>
+              <i
+                [style.marginLeft.px]="20"
+                *ngIf="
+                  eventFileUploadDeleteService.fileUploadStatus.get(i)?.uploaded
+                "
+                class="check icon"
+              ></i>
+              <span
+                [style.marginLeft.px]="20"
+                *ngIf="
+                  eventFileUploadDeleteService.fileUploadStatus.get(i)?.failed
+                "
+                class="ui tiny red header"
+                >Failed</span
+              >
+            </div>
+            <input
+              [(ngModel)]="listItem.displayName"
+              [ngModelOptions]="{ standalone: true }"
+              type="text"
+              placeholder="Display Name"
+              [disabled]="uploadTriggered"
+            />
+            <a
+              *ngIf="!uploadTriggered"
+              [style.cursor]="'pointer'"
+              (click)="removeFile(i)"
+              class="removeDocument"
+              [ngClass]="{
+                disabled:
+                  eventFileUploadDeleteService.fileUploadStatus.get(i)
+                    ?.uploading
+              }"
+            >
+              <i class="trash alternate icon"></i>
+              Remove
+            </a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="newFooter">
+  <div class="actions">
+    <div class="ui grid">
+      <div class="eight wide column left aligned">
+        <div
+          *ngIf="existingFiles.length < 8"
+          appFileUploadTrigger
+          [fileUploadComponentRef]="fileUploadComponent"
+          class="ui button positive"
+          [ngClass]="{
+            disabled: selectedFileList.length >= 8 || uploadTriggered
+          }"
+        >
+          Browse and Add
+        </div>
+        <app-file-upload
+          #fileUploadComponent
+          [config]="fileConfig"
+          [showValidFileTypeList]="false"
+          (fileChange)="fileSelected($event)"
+        ></app-file-upload>
+      </div>
+      <div
+        *ngIf="existingFiles.length < 8"
+        class="eight wide column right aligned"
+      >
+        <div
+          class="ui button positive"
+          [ngClass]="{
+            disabled: selectedFileList.length === 0 || uploadTriggered
+          }"
+          (click)="uploadSelectedFiles()"
+        >
+          Save and Upload
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <form [formGroup]="FileLinkGroup">
+  <div class="newFooter">
+    <div class="actions" style="text-align: left;">
+      <div class="ui">
+        <div class="eight wide column left aligned">
+          <div class="fullBox">Links 
+          <button  (click)="ShowNewURL()"class="ui button positive"
+          style="text-align: right; float: right;;">Add Link</button>
+          </div>
+      
+          <div class="field -w-100"
+            *ngFor="let existingLink of existingLinks; let i = index"
+          >
+            <div>
+              <p [style.display]="'inline-block'">
+                Label : {{ existingLink.label }}
+              </p>
+              <span [style.marginLeft.px]="20" class="ui tiny green header"
+              >Saved</span>
+              <a
+              [style.cursor]="'pointer'"
+              (click)="deleteLink(existingLink, i) "
+              class="removeDocument " *ngIf="existingLink.fileId !=null" style="text-align:right; float: right;"
+            >
+              <i class="trash alternate icon"></i>
+              Delete
+            </a>
+            </div>
+            <p  [style.display]="'inline-block'">
+             URL : {{ existingLink.URL }}
+            </p>
+            <div
+              *ngIf="i <= existingLinks.length - 2"
+              class="ui fitted divider"
+            ></div>
+          </div>
+        </div>  
+<br>
+      </div>
+      <div  *ngIf="existingLinks.length< 8">
+
+    
+      <ng-container formArrayName="fileLinks" >
+        <ng-container
+          *ngFor="let data of fileLinks.controls; index as i;">
+        <ng-container [formGroupName]="i">
+          <div>
+            <div>
+              <div class="eight wide column right aligned linkInputBox">
+                <input
+                  type="text"
+                  formControlName="label"
+                  size="60"
+                  placeholder="Label"
+                  class="inputBox"
+                />
+                <a [style.cursor]="'pointer'" class="removeDocument"   (click)="remove(i)">
+                  <i class="trash alternate icon"></i>
+                </a>
+              </div>
+            </div>
+            <div>
+              <div class="eight wide column left aligned linkInputBox mb-2">
+                <input
+                  type="text"
+                  formControlName="URL"
+                  size="60"
+                  placeholder="URL"
+                  class="inputBox"
+                />
+                
+              </div>
+              <div >
+                <span
+          *ngIf="data!.get('URL')?.touched
+          && (
+            data!.get('URL')?.errors?.required ||
+            data!.get('URL')?.errors?.pattern
+          )"
+          class="text-danger"
+        >Please add complete URL eg. https://www.example.com</span>
+               
+              </div>
+             <div >
+              
+            </div> 
+              
+             
+             </div></div
+        ></ng-container>
+        
+      </ng-container>
+      </ng-container>
+      
+      
+      <div class="text-right mt-5 pt-5" >
+        <button type="button" style="text-align:right;" class="ui button positive " (click)="saveFileLinks()">Save</button>
+      </div>
+    </div>
+  </div>
+  </div>
+</form> 
